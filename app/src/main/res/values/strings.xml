@@ -1,7 +1,26 @@
 <resources>
     <string name="app_name">Caronae</string>
-    <string name="title_activity_main">MainActivity</string>
 
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+
+    <string name="nome_tv">Nome</string>
+    <string name="perfil_tv">Perfil</string>
+    <string name="curso_tv">Curso/Cargo/Departamento</string>
+    <string name="unidade_tv">Unidade que mais frequenta</string>
+    <string name="zona_tv">Zona</string>
+    <string name="bairro_tv">Bairro</string>
+    <string name="modelo_tv">Modelo</string>
+    <string name="cor_tv">Cor</string>
+    <string name="placa_tv">Placa</string>
+    <string name="title_activity_teste">Teste</string>
+
+    <string name="title_section1">Section 1</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section3">Section 3</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_example">Example action</string>
+    <string name="temCarro_tv">Tem carro?</string>
 </resources>

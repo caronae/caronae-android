@@ -1,0 +1,144 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="br.ufrj.caronae.PerfilFragment">
+
+    <ImageView
+        android:id="@+id/foto_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/nome_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/foto_iv"
+        android:text="@string/nome_tv" />
+
+    <EditText
+        android:id="@+id/nome_et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/nome_tv"/>
+
+    <TextView
+        android:id="@+id/perfil_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/nome_et"
+        android:text="@string/perfil_tv" />
+
+    <EditText
+        android:id="@+id/perfil_et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/perfil_tv" />
+
+    <TextView
+        android:id="@+id/curso_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/perfil_et"
+        android:text="@string/curso_tv" />
+
+    <EditText
+        android:id="@+id/curso_et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/curso_tv" />
+
+    <TextView
+        android:id="@+id/unidade_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/curso_et"
+        android:text="@string/unidade_tv" />
+
+    <EditText
+        android:id="@+id/unidade_et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/unidade_tv" />
+
+    <TextView
+        android:id="@+id/zona_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/unidade_et"
+        android:text="@string/zona_tv" />
+
+    <EditText
+        android:id="@+id/zona_et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/zona_tv"/>
+
+    <TextView
+        android:id="@+id/bairro_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/zona_et"
+        android:text="@string/bairro_tv" />
+
+    <EditText
+        android:id="@+id/bairro_et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bairro_tv" />
+
+    <CheckBox
+        android:id="@+id/temCarro_cb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/bairro_et" />
+
+    <TextView
+        android:id="@+id/temCarro_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/temCarro_cb"
+        android:layout_toRightOf="@+id/temCarro_cb"
+        android:text="@string/temCarro_tv" />
+
+    <TextView
+        android:id="@+id/modelo_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/temCarro_cb"
+        android:text="@string/modelo_tv" />
+
+    <EditText
+        android:id="@+id/modelo_et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/modelo_tv" />
+
+    <TextView
+        android:id="@+id/cor_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/modelo_et"
+        android:text="@string/cor_tv" />
+
+    <EditText
+        android:id="@+id/cor_et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/cor_tv" />
+
+    <TextView
+        android:id="@+id/placa_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/cor_et"
+        android:text="@string/placa_tv" />
+
+    <EditText
+        android:id="@+id/placa_et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/placa_tv" />
+
+
+</RelativeLayout>
