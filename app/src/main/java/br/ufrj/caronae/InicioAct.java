@@ -10,14 +10,7 @@ public class InicioAct extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Usuario usuario = new Usuario();
-        usuario.setNome("Leonardo");
-        usuario.setPerfil("Aluno");
-        usuario.setCurso("Bacharelado em Ciência da Computação");
-        usuario.setUnidade("CCMN");
-        usuario.setZona("Norte");
-        usuario.setBairro("Jardim Guanabara");
-        usuario.save();
+        //new Delete().from(Usuario.class).execute();
 
         if (App.inst().isUsuarioLogado())
             startActivity(new Intent(this, PrincipalAct.class));

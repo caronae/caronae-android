@@ -20,7 +20,7 @@
         android:id="@+id/nome_et"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/nome_tv"/>
+        android:layout_below="@+id/nome_tv" />
 
     <TextView
         android:id="@+id/perfil_tv"
@@ -72,7 +72,7 @@
         android:id="@+id/zona_et"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/zona_tv"/>
+        android:layout_below="@+id/zona_tv" />
 
     <TextView
         android:id="@+id/bairro_tv"
@@ -91,7 +91,8 @@
         android:id="@+id/temCarro_cb"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/bairro_et" />
+        android:layout_below="@id/bairro_et"
+        android:checked="true" />
 
     <TextView
         android:id="@+id/temCarro_tv"

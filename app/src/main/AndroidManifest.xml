@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="br.ufrj.caronae" >
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".App"
         android:allowBackup="true"
@@ -21,7 +23,7 @@
         </activity>
         <activity
             android:name=".PrincipalAct"
-            android:label="@string/title_activity_tela_principal" >
+            android:label="@string/title_activity_principal" >
         </activity>
         <activity
             android:name=".LoginAct"

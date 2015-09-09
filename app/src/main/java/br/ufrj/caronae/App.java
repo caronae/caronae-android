@@ -1,9 +1,8 @@
 package br.ufrj.caronae;
 
-import com.activeandroid.query.Select;
-
 public class App extends com.activeandroid.app.Application {
 
+    public static final String LOGTAG = "caronae";
     private static App inst;
 
     public App() {
