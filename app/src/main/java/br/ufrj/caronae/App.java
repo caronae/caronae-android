@@ -15,7 +15,7 @@ public class App extends com.activeandroid.app.Application {
     }
 
     Usuario getUsuario() {
-        return new Select().from(Usuario.class).executeSingle();
+        return DaggerComponenteUsuario.create().proverUsuario();
     }
 
     public boolean isUsuarioLogado() {
