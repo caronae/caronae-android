@@ -23,4 +23,8 @@
 
     <string name="action_example">Example action</string>
     <string name="temCarro_tv">Tem carro?</string>
+    <string name="title_activity_tela_principal">TelaPrincipalAct</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_login">LoginAct</string>
 </resources>

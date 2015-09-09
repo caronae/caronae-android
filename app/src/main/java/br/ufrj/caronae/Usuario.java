@@ -7,19 +7,67 @@ import com.activeandroid.annotation.Table;
 @Table(name = "Usuario")
 public class Usuario extends Model {
     @Column
-    String nome;
+    private String nome;
     @Column
-    String perfil;
+    private String perfil;
     @Column
-    String curso;
+    private String curso;
     @Column
-    String unidade;
+    private String unidade;
     @Column
-    String zona;
+    private String zona;
     @Column
-    String bairro;
+    private String bairro;
 
     public Usuario() {
         super();
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getPerfil() {
+        return perfil;
+    }
+
+    public void setPerfil(String perfil) {
+        this.perfil = perfil;
+    }
+
+    public String getCurso() {
+        return curso;
+    }
+
+    public void setCurso(String curso) {
+        this.curso = curso;
+    }
+
+    public String getUnidade() {
+        return unidade;
+    }
+
+    public void setUnidade(String unidade) {
+        this.unidade = unidade;
+    }
+
+    public String getZona() {
+        return zona;
+    }
+
+    public void setZona(String zona) {
+        this.zona = zona;
+    }
+
+    public String getBairro() {
+        return bairro;
+    }
+
+    public void setBairro(String bairro) {
+        this.bairro = bairro;
     }
 }

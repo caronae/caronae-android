@@ -1,6 +1,5 @@
 package br.ufrj.caronae;
 
-import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,8 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-
-import com.activeandroid.query.Select;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -87,14 +84,14 @@ public class PerfilFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_perfil, container, false);
         ButterKnife.bind(this, view);
 
-        Usuario usuario = new Select().from(Usuario.class).where("zona = ?", "Norte").executeSingle();
+        Usuario usuario = App.inst().getUsuario();
         if (usuario != null) {
-            nome_et.setText(usuario.nome);
-            perfil_et.setText(usuario.perfil);
-            curso_et.setText(usuario.curso);
-            unidade_et.setText(usuario.unidade);
-            zona_et.setText(usuario.zona);
-            bairro_et.setText(usuario.bairro);
+            nome_et.setText(usuario.getNome());
+            perfil_et.setText(usuario.getPerfil());
+            curso_et.setText(usuario.getCurso());
+            unidade_et.setText(usuario.getUnidade());
+            zona_et.setText(usuario.getZona());
+            bairro_et.setText(usuario.getBairro());
         }
 
         return view;
