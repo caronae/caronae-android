@@ -9,8 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
-import javax.inject.Inject;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -18,12 +16,12 @@ import butterknife.ButterKnife;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link PerfilFragment.OnFragmentInteractionListener} interface
+ * {@link ProfileFrag.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link PerfilFragment#newInstance} factory method to
+ * Use the {@link ProfileFrag#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class PerfilFragment extends Fragment {
+public class ProfileFrag extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -35,18 +33,18 @@ public class PerfilFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    @Bind(R.id.nome_et)
-    EditText nome_et;
-    @Bind(R.id.perfil_et)
-    EditText perfil_et;
-    @Bind(R.id.curso_et)
-    EditText curso_et;
-    @Bind(R.id.unidade_et)
-    EditText unidade_et;
-    @Bind(R.id.zona_et)
-    EditText zona_et;
-    @Bind(R.id.bairro_et)
-    EditText bairro_et;
+    @Bind(R.id.name_et)
+    EditText name_et;
+    @Bind(R.id.profile_et)
+    EditText profile_et;
+    @Bind(R.id.course_et)
+    EditText course_et;
+    @Bind(R.id.unit_et)
+    EditText unit_et;
+    @Bind(R.id.zone_et)
+    EditText zone_et;
+    @Bind(R.id.neighborhood_et)
+    EditText neighborhood_et;
 
     /**
      * Use this factory method to create a new instance of
@@ -54,11 +52,11 @@ public class PerfilFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment PerfilFragment.
+     * @return A new instance of fragment ProfileFrag.
      */
     // TODO: Rename and change types and number of parameters
-    public static PerfilFragment newInstance(String param1, String param2) {
-        PerfilFragment fragment = new PerfilFragment();
+    public static ProfileFrag newInstance(String param1, String param2) {
+        ProfileFrag fragment = new ProfileFrag();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -66,7 +64,7 @@ public class PerfilFragment extends Fragment {
         return fragment;
     }
 
-    public PerfilFragment() {
+    public ProfileFrag() {
         // Required empty public constructor
     }
 
@@ -83,17 +81,17 @@ public class PerfilFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_perfil, container, false);
+        View view = inflater.inflate(R.layout.fragment_profile, container, false);
         ButterKnife.bind(this, view);
 
-        Usuario usuario = App.inst().getUsuario();
-        if (usuario != null) {
-            nome_et.setText(usuario.getNome());
-            perfil_et.setText(usuario.getPerfil());
-            curso_et.setText(usuario.getCurso());
-            unidade_et.setText(usuario.getUnidade());
-            zona_et.setText(usuario.getZona());
-            bairro_et.setText(usuario.getBairro());
+        User user = App.inst().getUser();
+        if (user != null) {
+            name_et.setText(user.getName());
+            profile_et.setText(user.getProfile());
+            course_et.setText(user.getCourse());
+            unit_et.setText(user.getUnit());
+            zone_et.setText(user.getZone());
+            neighborhood_et.setText(user.getNeighborhood());
         }
 
         return view;

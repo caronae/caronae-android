@@ -4,16 +4,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-public class InicioAct extends AppCompatActivity {
+public class StartAct extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //new Delete().from(Usuario.class).execute();
+        //new Delete().from(User.class).execute();
 
-        if (App.inst().isUsuarioLogado())
-            startActivity(new Intent(this, PrincipalAct.class));
+        if (App.inst().isUserLoggedIn())
+            startActivity(new Intent(this, MainAct.class));
         else
             startActivity(new Intent(this, LoginAct.class));
 

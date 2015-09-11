@@ -6,13 +6,13 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="br.ufrj.caronae.PrincipalAct">
+    tools:context="br.ufrj.caronae.MainAct">
 
     <fragment
         android:id="@+id/perfilFrag"
-        android:name="br.ufrj.caronae.PerfilFragment"
+        android:name="br.ufrj.caronae.ProfileFrag"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:layout="@layout/fragment_perfil" />
+        tools:layout="@layout/fragment_profile" />
 
 </ScrollView>

@@ -20,7 +20,7 @@ public class LoginAct extends AppCompatActivity {
     @Bind(R.id.token_et)
     EditText token_et;
 
-    @Bind(R.id.enviar_bt)
+    @Bind(R.id.send_bt)
     Button enviar_bt;
 
     @Override
@@ -30,18 +30,19 @@ public class LoginAct extends AppCompatActivity {
         ButterKnife.bind(this);
     }
 
-    @OnClick(R.id.enviar_bt)
+    @OnClick(R.id.send_bt)
     public void enviarBt() {
         RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint("http://private-5b9ed6-caronae.apiary-mock.com")
                 .build();
         ApiaryService service = restAdapter.create(ApiaryService.class);
 
-        service.enviarToken(token_et.getText().toString(), new Callback<Usuario>() {
+        service.sendToken(token_et.getText().toString(), new Callback<User>() {
             @Override
-            public void success(Usuario usuario, Response response) {
-                usuario.save();
-                chamarPrincipalAct();
+            public void success(User user, Response response) {
+                user.save();
+                startActivity(new Intent(LoginAct.this, MainAct.class));
+                LoginAct.this.finish();
             }
 
             @Override
@@ -49,10 +50,5 @@ public class LoginAct extends AppCompatActivity {
                 Log.i(App.LOGTAG, retrofitError.getMessage());
             }
         });
-    }
-
-    public void chamarPrincipalAct() {
-        startActivity(new Intent(this, PrincipalAct.class));
-        finish();
     }
 }

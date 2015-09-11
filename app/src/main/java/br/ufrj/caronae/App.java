@@ -3,6 +3,7 @@ package br.ufrj.caronae;
 public class App extends com.activeandroid.app.Application {
 
     public static final String LOGTAG = "caronae";
+
     private static App inst;
 
     public App() {
@@ -13,11 +14,11 @@ public class App extends com.activeandroid.app.Application {
         return inst;
     }
 
-    Usuario getUsuario() {
-        return DaggerComponenteUsuario.create().proverUsuario();
+    User getUser() {
+        return DaggerUserComponent.create().provideUser();
     }
 
-    public boolean isUsuarioLogado() {
-        return getUsuario() != null;
+    public boolean isUserLoggedIn() {
+        return getUser() != null;
     }
 }

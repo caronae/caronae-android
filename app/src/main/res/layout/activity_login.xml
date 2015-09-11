@@ -18,10 +18,10 @@
         android:hint="@string/tokenHint_et" />
 
     <Button
-        android:id="@+id/enviar_bt"
+        android:id="@+id/send_bt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/token_et"
         android:layout_centerHorizontal="true"
-        android:text="@string/enviar_bt" />
+        android:text="@string/send_bt" />
 </RelativeLayout>

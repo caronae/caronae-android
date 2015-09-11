@@ -14,7 +14,7 @@
             android:name="AA_MODELS"
             android:value="br.ufrj.caronae.Usuario" />
 
-        <activity android:name=".InicioAct" >
+        <activity android:name=".StartAct" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -22,7 +22,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".PrincipalAct"
+            android:name=".MainAct"
             android:label="@string/title_activity_principal" >
         </activity>
         <activity

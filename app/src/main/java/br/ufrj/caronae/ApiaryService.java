@@ -6,5 +6,5 @@ import retrofit.http.POST;
 
 public interface ApiaryService {
     @POST("/auth")
-    void enviarToken(@Body String token, Callback<Usuario> cb);
+    void sendToken(@Body String token, Callback<User> cb);
 }

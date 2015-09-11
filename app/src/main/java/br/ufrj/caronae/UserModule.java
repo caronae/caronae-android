@@ -10,11 +10,11 @@ import dagger.Module;
 import dagger.Provides;
 
 @Module
-public class ModuloUsuario {
+public class UserModule {
     @Provides
     @Singleton
     @Nullable
-    Usuario proverUsuarioLogado() {
-        return new Select().from(Usuario.class).executeSingle();
+    User provideLoggedInUser() {
+        return new Select().from(User.class).executeSingle();
     }
 }

@@ -2,144 +2,143 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="br.ufrj.caronae.PerfilFragment">
+    tools:context="br.ufrj.caronae.ProfileFrag">
 
     <ImageView
-        android:id="@+id/foto_iv"
+        android:id="@+id/photo_iv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <TextView
-        android:id="@+id/nome_tv"
+        android:id="@+id/name_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/foto_iv"
+        android:layout_below="@+id/photo_iv"
         android:text="@string/nome_tv" />
 
     <EditText
-        android:id="@+id/nome_et"
+        android:id="@+id/name_et"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/nome_tv" />
+        android:layout_below="@+id/name_tv" />
 
     <TextView
-        android:id="@+id/perfil_tv"
+        android:id="@+id/profile_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/nome_et"
+        android:layout_below="@+id/name_et"
         android:text="@string/perfil_tv" />
 
     <EditText
-        android:id="@+id/perfil_et"
+        android:id="@+id/profile_et"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/perfil_tv" />
+        android:layout_below="@+id/profile_tv" />
 
     <TextView
-        android:id="@+id/curso_tv"
+        android:id="@+id/course_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/perfil_et"
+        android:layout_below="@id/profile_et"
         android:text="@string/curso_tv" />
 
     <EditText
-        android:id="@+id/curso_et"
+        android:id="@+id/course_et"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/curso_tv" />
+        android:layout_below="@+id/course_tv" />
 
     <TextView
-        android:id="@+id/unidade_tv"
+        android:id="@+id/unit_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/curso_et"
+        android:layout_below="@id/course_et"
         android:text="@string/unidade_tv" />
 
     <EditText
-        android:id="@+id/unidade_et"
+        android:id="@+id/unit_et"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/unidade_tv" />
+        android:layout_below="@+id/unit_tv" />
 
     <TextView
-        android:id="@+id/zona_tv"
+        android:id="@+id/zone_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/unidade_et"
+        android:layout_below="@id/unit_et"
         android:text="@string/zona_tv" />
 
     <EditText
-        android:id="@+id/zona_et"
+        android:id="@+id/zone_et"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/zona_tv" />
+        android:layout_below="@+id/zone_tv" />
 
     <TextView
-        android:id="@+id/bairro_tv"
+        android:id="@+id/neighborhood_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/zona_et"
+        android:layout_below="@id/zone_et"
         android:text="@string/bairro_tv" />
 
     <EditText
-        android:id="@+id/bairro_et"
+        android:id="@+id/neighborhood_et"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/bairro_tv" />
+        android:layout_below="@+id/neighborhood_tv" />
 
     <CheckBox
-        android:id="@+id/temCarro_cb"
+        android:id="@+id/hasCar_cb"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/bairro_et"
+        android:layout_below="@id/neighborhood_et"
         android:checked="true" />
 
     <TextView
-        android:id="@+id/temCarro_tv"
+        android:id="@+id/hasCar_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/temCarro_cb"
-        android:layout_toRightOf="@+id/temCarro_cb"
+        android:layout_alignBottom="@+id/hasCar_cb"
+        android:layout_toRightOf="@+id/hasCar_cb"
         android:text="@string/temCarro_tv" />
 
     <TextView
-        android:id="@+id/modelo_tv"
+        android:id="@+id/carModel_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/temCarro_cb"
+        android:layout_below="@id/hasCar_cb"
         android:text="@string/modelo_tv" />
 
     <EditText
-        android:id="@+id/modelo_et"
+        android:id="@+id/carModel_et"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/modelo_tv" />
+        android:layout_below="@+id/carModel_tv" />
 
     <TextView
-        android:id="@+id/cor_tv"
+        android:id="@+id/carColor_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/modelo_et"
+        android:layout_below="@id/carModel_et"
         android:text="@string/cor_tv" />
 
     <EditText
-        android:id="@+id/cor_et"
+        android:id="@+id/carColor_et"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/cor_tv" />
+        android:layout_below="@+id/carColor_tv" />
 
     <TextView
-        android:id="@+id/placa_tv"
+        android:id="@+id/carPlate_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/cor_et"
+        android:layout_below="@id/carColor_et"
         android:text="@string/placa_tv" />
 
     <EditText
-        android:id="@+id/placa_et"
+        android:id="@+id/carPlate_et"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/placa_tv" />
-
+        android:layout_below="@+id/carPlate_tv" />
 
 </RelativeLayout>

@@ -1,5 +1,4 @@
 import android.os.Build;
-import android.widget.TextView;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -9,22 +8,21 @@ import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.annotation.Config;
 
 import br.ufrj.caronae.BuildConfig;
-import br.ufrj.caronae.PrincipalAct;
-import br.ufrj.caronae.R;
+import br.ufrj.caronae.MainAct;
 
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
 
 @Config(constants = BuildConfig.class, sdk = Build.VERSION_CODES.LOLLIPOP)
 @RunWith(RobolectricGradleTestRunner.class)
-public class MainActivityTest {
-    private PrincipalAct activity;
+public class MainActTest {
+    private MainAct activity;
 
     @Before
     public void setup() {
         // Convenience method to run MainActivity through the Activity Lifecycle methods:
         // onCreate(...) => onStart() => onPostCreate(...) => onResume()
-        activity = Robolectric.setupActivity(PrincipalAct.class);
+        activity = Robolectric.setupActivity(MainAct.class);
     }
 
     @Test
