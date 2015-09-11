@@ -1,4 +1,4 @@
-package br.ufrj.caronae;
+package br.ufrj.caronae.modules;
 
 import android.support.annotation.Nullable;
 
@@ -6,6 +6,7 @@ import com.activeandroid.query.Select;
 
 import javax.inject.Singleton;
 
+import br.ufrj.caronae.User;
 import dagger.Module;
 import dagger.Provides;
 

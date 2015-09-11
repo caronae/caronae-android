@@ -1,5 +1,9 @@
 package br.ufrj.caronae;
 
+import br.ufrj.caronae.components.DaggerNetworkComponent;
+import br.ufrj.caronae.components.DaggerUserComponent;
+import br.ufrj.caronae.modules.NetworkModule;
+
 public class App extends com.activeandroid.app.Application {
 
     public static final String LOGTAG = "caronae";
@@ -14,11 +18,15 @@ public class App extends com.activeandroid.app.Application {
         return inst;
     }
 
-    User getUser() {
-        return DaggerUserComponent.create().provideUser();
+    public static User getUser() {
+        return DaggerUserComponent.create().provideLoggedInUser();
     }
 
-    public boolean isUserLoggedIn() {
+    public static boolean isUserLoggedIn() {
         return getUser() != null;
+    }
+
+    public static ApiaryService getApiaryService() {
+        return DaggerNetworkComponent.builder().networkModule(new NetworkModule("http://private-5b9ed6-caronae.apiary-mock.com")).build().provideApiaryService();
     }
 }

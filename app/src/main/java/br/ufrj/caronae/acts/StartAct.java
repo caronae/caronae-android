@@ -1,8 +1,10 @@
-package br.ufrj.caronae;
+package br.ufrj.caronae.acts;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+
+import br.ufrj.caronae.App;
 
 public class StartAct extends AppCompatActivity {
 
@@ -12,7 +14,7 @@ public class StartAct extends AppCompatActivity {
 
         //new Delete().from(User.class).execute();
 
-        if (App.inst().isUserLoggedIn())
+        if (App.isUserLoggedIn())
             startActivity(new Intent(this, MainAct.class));
         else
             startActivity(new Intent(this, LoginAct.class));

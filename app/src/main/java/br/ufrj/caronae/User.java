@@ -18,6 +18,14 @@ public class User extends Model {
     private String zone;
     @Column
     private String neighborhood;
+    @Column
+    private boolean carOwner;
+    @Column
+    private String carModel;
+    @Column
+    private String carColor;
+    @Column
+    private String carPlate;
 
     public User() {
         super();
@@ -69,5 +77,37 @@ public class User extends Model {
 
     public void setNeighborhood(String neighborhood) {
         this.neighborhood = neighborhood;
+    }
+
+    public boolean isCarOwner() {
+        return carOwner;
+    }
+
+    public void setCarOwner(boolean carOwner) {
+        this.carOwner = carOwner;
+    }
+
+    public String getCarModel() {
+        return carModel;
+    }
+
+    public void setCarModel(String carModel) {
+        this.carModel = carModel;
+    }
+
+    public String getCarColor() {
+        return carColor;
+    }
+
+    public void setCarColor(String carColor) {
+        this.carColor = carColor;
+    }
+
+    public String getCarPlate() {
+        return carPlate;
+    }
+
+    public void setCarPlate(String carPlate) {
+        this.carPlate = carPlate;
     }
 }

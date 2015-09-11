@@ -1,7 +1,9 @@
-package br.ufrj.caronae;
+package br.ufrj.caronae.acts;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+
+import br.ufrj.caronae.R;
 
 public class MainAct extends AppCompatActivity {
 
