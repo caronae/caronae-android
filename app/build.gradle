@@ -14,9 +14,9 @@ android {
         versionName "1.0"
     }
     buildTypes {
-        release {
+        debug {
             minifyEnabled true
-            shrinkResources true
+            shrinkResources false
             proguardFile 'proguard-butterknife.pro'
             proguardFile 'proguard-activeandroid.pro'
             proguardFile 'proguard-retrofit.pro'
