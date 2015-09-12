@@ -16,4 +16,8 @@
     <string name="title_activity_login">Login</string>
     <string name="tokenHint_et">Digite o token aqui</string>
     <string name="send_bt">Enviar</string>
+    <string name="title_activity_main2">Main2Activity</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
 </resources>

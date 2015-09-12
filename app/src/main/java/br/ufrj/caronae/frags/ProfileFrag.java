@@ -2,11 +2,13 @@ package br.ufrj.caronae.frags;
 
 import android.content.Context;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.EditText;
 
 import br.ufrj.caronae.App;
@@ -39,6 +41,14 @@ public class ProfileFrag extends Fragment {
     EditText zone_et;
     @Bind(R.id.neighborhood_et)
     EditText neighborhood_et;
+    @Bind(R.id.carOwner_cb)
+    CheckBox carOwner_cb;
+    @Bind(R.id.carModel_et)
+    EditText carModel_et;
+    @Bind(R.id.carColor_et)
+    EditText carColor_et;
+    @Bind(R.id.carPlate_et)
+    EditText carPlate_et;
 
     public static ProfileFrag newInstance(String param1, String param2) {
         ProfileFrag fragment = new ProfileFrag();
@@ -77,9 +87,46 @@ public class ProfileFrag extends Fragment {
             unit_et.setText(user.getUnit());
             zone_et.setText(user.getZone());
             neighborhood_et.setText(user.getNeighborhood());
+            carOwner_cb.setChecked(user.isCarOwner());
+            carModel_et.setText(user.getCarModel());
+            carColor_et.setText(user.getCarColor());
+            carPlate_et.setText(user.getCarPlate());
         }
 
         return view;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        User editedUser = new User();
+        editedUser.setName(name_et.getText().toString());
+        editedUser.setProfile(profile_et.getText().toString());
+        editedUser.setCourse(course_et.getText().toString());
+        editedUser.setUnit(unit_et.getText().toString());
+        editedUser.setZone(zone_et.getText().toString());
+        editedUser.setNeighborhood(neighborhood_et.getText().toString());
+        editedUser.setCarOwner(carOwner_cb.isChecked());
+        editedUser.setCarModel(carModel_et.getText().toString());
+        editedUser.setCarColor(carColor_et.getText().toString());
+        editedUser.setCarPlate(carPlate_et.getText().toString());
+
+        User user = App.getUser();
+        if (!user.equals(editedUser)) {
+            new saveUserAsync().execute(editedUser);
+        }
+    }
+
+    private class saveUserAsync extends AsyncTask<User, Void, Void> {
+        @Override
+        protected Void doInBackground(User... paramUser) {
+            User user = App.getUser();
+            user.setUser(paramUser[0]);
+            user.save();
+
+            return null;
+        }
     }
 
     // TODO: Rename method, update argument and hook method into UI event
