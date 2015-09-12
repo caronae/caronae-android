@@ -12,8 +12,6 @@ public class StartAct extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //new Delete().from(User.class).execute();
-
         if (App.isUserLoggedIn())
             startActivity(new Intent(this, MainAct.class));
         else

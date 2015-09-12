@@ -6,6 +6,6 @@
             android:title="Perfil" />
         <item
             android:id="@+id/nav_second_fragment"
-            android:title="Oferecer Carona" />
+            android:title="Sair" />
     </group>
 </menu>

@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
@@ -16,6 +17,7 @@ import br.ufrj.caronae.R;
 import br.ufrj.caronae.User;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 
 /**
@@ -96,10 +98,8 @@ public class ProfileFrag extends Fragment {
         return view;
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-
+    @OnClick(R.id.send_bt)
+    public void sendBt() {
         User editedUser = new User();
         editedUser.setName(name_et.getText().toString());
         editedUser.setProfile(profile_et.getText().toString());

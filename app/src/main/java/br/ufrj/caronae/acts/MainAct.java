@@ -1,5 +1,6 @@
 package br.ufrj.caronae.acts;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -12,7 +13,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import com.activeandroid.query.Delete;
+
+import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
+import br.ufrj.caronae.User;
 import br.ufrj.caronae.frags.ProfileFrag;
 
 public class MainAct extends AppCompatActivity implements ProfileFrag.OnFragmentInteractionListener {
@@ -66,7 +71,9 @@ public class MainAct extends AppCompatActivity implements ProfileFrag.OnFragment
                 fragmentClass = ProfileFrag.class;
                 break;
             case R.id.nav_second_fragment:
-                //fragmentClass = SecondFragment.class;
+                new Delete().from(User.class).execute();
+                startActivity(new Intent(this, LoginAct.class));
+                finish();
                 break;
             default:
                 fragmentClass = ProfileFrag.class;
