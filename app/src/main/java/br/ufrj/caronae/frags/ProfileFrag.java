@@ -30,6 +30,10 @@ public class ProfileFrag extends Fragment {
     EditText zone_et;
     @Bind(R.id.neighborhood_et)
     EditText neighborhood_et;
+    @Bind(R.id.phoneNumber_et)
+    EditText phoneNumber_et;
+    @Bind(R.id.email_et)
+    EditText email_et;
     @Bind(R.id.carOwner_cb)
     CheckBox carOwner_cb;
     @Bind(R.id.carModel_et)
@@ -76,6 +80,8 @@ public class ProfileFrag extends Fragment {
             unit_et.setText(user.getUnit());
             zone_et.setText(user.getZone());
             neighborhood_et.setText(user.getNeighborhood());
+            phoneNumber_et.setText(user.getPhoneNumber());
+            email_et.setText(user.getEmail());
             carOwner_cb.setChecked(user.isCarOwner());
             carModel_et.setText(user.getCarModel());
             carColor_et.setText(user.getCarColor());
@@ -94,6 +100,8 @@ public class ProfileFrag extends Fragment {
         editedUser.setUnit(unit_et.getText().toString());
         editedUser.setZone(zone_et.getText().toString());
         editedUser.setNeighborhood(neighborhood_et.getText().toString());
+        editedUser.setPhoneNumber(phoneNumber_et.getText().toString());
+        editedUser.setEmail(email_et.getText().toString());
         editedUser.setCarOwner(carOwner_cb.isChecked());
         editedUser.setCarModel(carModel_et.getText().toString());
         editedUser.setCarColor(carColor_et.getText().toString());

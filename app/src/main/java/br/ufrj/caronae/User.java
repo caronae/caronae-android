@@ -20,6 +20,10 @@ public class User extends Model {
     @Column
     private String neighborhood;
     @Column
+    private String phoneNumber;
+    @Column
+    private String email;
+    @Column
     private boolean carOwner;
     @Column
     private String carModel;
@@ -80,6 +84,22 @@ public class User extends Model {
         this.neighborhood = neighborhood;
     }
 
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public boolean isCarOwner() {
         return carOwner;
     }
@@ -125,6 +145,10 @@ public class User extends Model {
             return false;
         if (getNeighborhood() != null ? !getNeighborhood().equals(user.getNeighborhood()) : user.getNeighborhood() != null)
             return false;
+        if (getPhoneNumber() != null ? !getPhoneNumber().equals(user.getPhoneNumber()) : user.getPhoneNumber() != null)
+            return false;
+        if (getEmail() != null ? !getEmail().equals(user.getEmail()) : user.getEmail() != null)
+            return false;
         if (getCarModel() != null ? !getCarModel().equals(user.getCarModel()) : user.getCarModel() != null)
             return false;
         if (getCarColor() != null ? !getCarColor().equals(user.getCarColor()) : user.getCarColor() != null)
@@ -139,6 +163,8 @@ public class User extends Model {
         setUnit(editedUser.getUnit());
         setZone(editedUser.getZone());
         setNeighborhood(editedUser.getNeighborhood());
+        setPhoneNumber(editedUser.getPhoneNumber());
+        setEmail(editedUser.getEmail());
         setCarOwner(editedUser.isCarOwner());
         setCarModel(editedUser.getCarModel());
         setCarModel(editedUser.getCarModel());

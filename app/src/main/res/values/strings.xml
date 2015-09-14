@@ -30,4 +30,6 @@
     <string name="slots_tv">Vagas</string>
     <string name="hub_tv">Hub de encontro</string>
     <string name="save_bt">Salvar</string>
+    <string name="phoneNumber_tv">Telefone</string>
+    <string name="email_tv">E-mail</string>
 </resources>

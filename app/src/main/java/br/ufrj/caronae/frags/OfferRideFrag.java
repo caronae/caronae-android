@@ -31,6 +31,8 @@ public class OfferRideFrag extends Fragment {
     EditText slots_et;
     @Bind(R.id.hub_et)
     EditText hub_et;
+    @Bind(R.id.description_et)
+    EditText description_et;
 
     public static OfferRideFrag newInstance() {
         OfferRideFrag fragment = new OfferRideFrag();
@@ -71,8 +73,9 @@ public class OfferRideFrag extends Fragment {
         String time = time_et.getText().toString();
         String slots = slots_et.getText().toString();
         String hub = hub_et.getText().toString();
+        String description = description_et.getText().toString();
 
-        Ride ride = new Ride(from, to, date, time, slots, hub);
+        Ride ride = new Ride(from, to, date, time, slots, hub, description);
         App.getApiaryService().offerRide(ride, new Callback<Ride>() {
             @Override
             public void success(Ride user, Response response) {

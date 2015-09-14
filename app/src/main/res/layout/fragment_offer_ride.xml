@@ -103,11 +103,24 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/hub_tv" />
 
-    <Button
+    <TextView
+        android:id="@+id/description_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/save_bt"
         android:layout_below="@+id/hub_et"
+        android:text="Descrição" />
+
+    <EditText
+        android:id="@+id/description_et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/description_tv" />
+
+    <Button
+        android:id="@+id/save_bt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/description_et"
         android:layout_centerHorizontal="true"
         android:text="Enviar" />
 
