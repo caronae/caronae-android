@@ -1,0 +1,114 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="br.ufrj.caronae.frags.OfferRideFrag">
+
+    <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/radioGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/go_rb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="@string/go_rb" />
+
+        <RadioButton
+            android:id="@+id/back_rb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/back_rb" />
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/from_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/radioGroup"
+        android:text="@string/de_tv" />
+
+    <EditText
+        android:id="@+id/from_et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/from_tv" />
+
+    <TextView
+        android:id="@+id/to_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/from_et"
+        android:text="@string/to_et" />
+
+    <EditText
+        android:id="@+id/to_et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/to_tv" />
+
+    <TextView
+        android:id="@+id/date_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/to_et"
+        android:text="@string/date_tv" />
+
+    <EditText
+        android:id="@+id/date_et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/date_tv" />
+
+    <TextView
+        android:id="@+id/time_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/date_et"
+        android:text="@string/time_tv" />
+
+    <EditText
+        android:id="@+id/time_et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/time_tv" />
+
+    <TextView
+        android:id="@+id/slots_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/time_et"
+        android:text="@string/slots_tv" />
+
+    <EditText
+        android:id="@+id/slots_et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/slots_tv" />
+
+    <TextView
+        android:id="@+id/hub_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/slots_et"
+        android:text="@string/hub_tv" />
+
+    <EditText
+        android:id="@+id/hub_et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/hub_tv" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/save_bt"
+        android:layout_below="@+id/hub_et"
+        android:layout_centerHorizontal="true"
+        android:text="Enviar" />
+
+</RelativeLayout>

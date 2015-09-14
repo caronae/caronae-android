@@ -20,4 +20,14 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+
+    <string name="de_tv">De</string>
+    <string name="to_et">Para</string>
+    <string name="go_rb">Ir</string>
+    <string name="back_rb">Voltar</string>
+    <string name="date_tv">Data</string>
+    <string name="time_tv">Hora</string>
+    <string name="slots_tv">Vagas</string>
+    <string name="hub_tv">Hub de encontro</string>
+    <string name="save_bt">Salvar</string>
 </resources>

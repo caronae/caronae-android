@@ -28,7 +28,7 @@ public class LoginAct extends AppCompatActivity {
         ButterKnife.bind(this);
     }
 
-    @OnClick(R.id.send_bt)
+    @OnClick(R.id.save_bt)
     public void sendBt() {
         App.getApiaryService().sendToken(token_et.getText().toString(), new Callback<User>() {
             @Override

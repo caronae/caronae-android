@@ -15,12 +15,13 @@ import android.view.MenuItem;
 
 import com.activeandroid.query.Delete;
 
-import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.User;
+import br.ufrj.caronae.frags.OfferRideFrag;
 import br.ufrj.caronae.frags.ProfileFrag;
+import br.ufrj.caronae.frags.StubFrag;
 
-public class MainAct extends AppCompatActivity implements ProfileFrag.OnFragmentInteractionListener {
+public class MainAct extends AppCompatActivity {
 
     private DrawerLayout mDrawer;
 
@@ -43,11 +44,13 @@ public class MainAct extends AppCompatActivity implements ProfileFrag.OnFragment
             ab.setDisplayHomeAsUpEnabled(true);
         }
 
-
         // Find our drawer view
         NavigationView nvDrawer = (NavigationView) findViewById(R.id.nvView);
         // Setup drawer view
         setupDrawerContent(nvDrawer);
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.flContent, new StubFrag()).commit();
     }
 
     private void setupDrawerContent(NavigationView navigationView) {
@@ -71,6 +74,9 @@ public class MainAct extends AppCompatActivity implements ProfileFrag.OnFragment
                 fragmentClass = ProfileFrag.class;
                 break;
             case R.id.nav_second_fragment:
+                fragmentClass = OfferRideFrag.class;
+                break;
+            case R.id.nav_third_fragment:
                 new Delete().from(User.class).execute();
                 startActivity(new Intent(this, LoginAct.class));
                 finish();
@@ -111,10 +117,5 @@ public class MainAct extends AppCompatActivity implements ProfileFrag.OnFragment
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-    }
-
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
     }
 }

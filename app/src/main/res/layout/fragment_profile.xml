@@ -145,12 +145,12 @@
             android:layout_below="@+id/carPlate_tv" />
 
         <Button
-            android:id="@+id/send_bt"
+            android:id="@+id/save_bt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/carPlate_et"
             android:layout_centerHorizontal="true"
-            android:text="@string/send_bt"/>
+            android:text="@string/save_bt"/>
 
     </RelativeLayout>
 </ScrollView>
