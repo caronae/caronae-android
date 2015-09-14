@@ -1,7 +1,6 @@
 package br.ufrj.caronae.acts;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -16,7 +15,7 @@ import android.view.MenuItem;
 import com.activeandroid.query.Delete;
 
 import br.ufrj.caronae.R;
-import br.ufrj.caronae.User;
+import br.ufrj.caronae.models.User;
 import br.ufrj.caronae.frags.OfferRideFrag;
 import br.ufrj.caronae.frags.ProfileFrag;
 import br.ufrj.caronae.frags.StubFrag;
@@ -80,7 +79,7 @@ public class MainAct extends AppCompatActivity {
                 new Delete().from(User.class).execute();
                 startActivity(new Intent(this, LoginAct.class));
                 finish();
-                break;
+                return;
             default:
                 fragmentClass = ProfileFrag.class;
         }

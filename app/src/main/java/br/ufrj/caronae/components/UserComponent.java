@@ -4,7 +4,7 @@ import android.support.annotation.Nullable;
 
 import javax.inject.Singleton;
 
-import br.ufrj.caronae.User;
+import br.ufrj.caronae.models.User;
 import br.ufrj.caronae.modules.UserModule;
 import dagger.Component;
 

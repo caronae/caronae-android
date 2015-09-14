@@ -1,9 +1,8 @@
-package br.ufrj.caronae;
+package br.ufrj.caronae.models;
 
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
-import com.google.gson.annotations.Expose;
 
 @Table(name = "User")
 public class User extends Model {
@@ -170,20 +169,4 @@ public class User extends Model {
         setCarModel(editedUser.getCarModel());
         setCarColor(editedUser.getCarColor());
     }
-
-    /*@Override
-    public int hashCode() {
-        int result = super.hashCode();
-        result = 31 * result + getName().hashCode();
-        result = 31 * result + (getProfile() != null ? getProfile().hashCode() : 0);
-        result = 31 * result + (getCourse() != null ? getCourse().hashCode() : 0);
-        result = 31 * result + (getUnit() != null ? getUnit().hashCode() : 0);
-        result = 31 * result + (getZone() != null ? getZone().hashCode() : 0);
-        result = 31 * result + (getNeighborhood() != null ? getNeighborhood().hashCode() : 0);
-        result = 31 * result + (isCarOwner() ? 1 : 0);
-        result = 31 * result + (getCarModel() != null ? getCarModel().hashCode() : 0);
-        result = 31 * result + (getCarColor() != null ? getCarColor().hashCode() : 0);
-        result = 31 * result + (getCarPlate() != null ? getCarPlate().hashCode() : 0);
-        return result;
-    }*/
 }

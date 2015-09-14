@@ -8,7 +8,7 @@ import android.widget.EditText;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
-import br.ufrj.caronae.User;
+import br.ufrj.caronae.models.User;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -28,7 +28,7 @@ public class LoginAct extends AppCompatActivity {
         ButterKnife.bind(this);
     }
 
-    @OnClick(R.id.save_bt)
+    @OnClick(R.id.send_bt)
     public void sendBt() {
         App.getApiaryService().sendToken(token_et.getText().toString(), new Callback<User>() {
             @Override

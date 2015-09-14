@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.RadioGroup;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
@@ -33,27 +34,11 @@ public class OfferRideFrag extends Fragment {
     EditText hub_et;
     @Bind(R.id.description_et)
     EditText description_et;
-
-    public static OfferRideFrag newInstance() {
-        OfferRideFrag fragment = new OfferRideFrag();
-        Bundle args = new Bundle();
-        /*args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);*/
-        fragment.setArguments(args);
-        return fragment;
-    }
+    @Bind(R.id.radioGroup)
+    RadioGroup radioGroup;
 
     public OfferRideFrag() {
         // Required empty public constructor
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            /*mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);*/
-        }
     }
 
     @Override
@@ -65,7 +50,7 @@ public class OfferRideFrag extends Fragment {
         return view;
     }
 
-    @OnClick(R.id.save_bt)
+    @OnClick(R.id.send_bt)
     public void sendBt() {
         String from = from_et.getText().toString();
         String to = to_et.getText().toString();
@@ -74,8 +59,10 @@ public class OfferRideFrag extends Fragment {
         String slots = slots_et.getText().toString();
         String hub = hub_et.getText().toString();
         String description = description_et.getText().toString();
+        int id = radioGroup.getCheckedRadioButtonId();
+        boolean go = id == R.id.go_rb;
 
-        Ride ride = new Ride(from, to, date, time, slots, hub, description);
+        Ride ride = new Ride(from, to, date, time, slots, hub, description, go);
         App.getApiaryService().offerRide(ride, new Callback<Ride>() {
             @Override
             public void success(Ride user, Response response) {

@@ -1,8 +1,8 @@
 package br.ufrj.caronae.frags;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,13 +11,15 @@ import android.widget.EditText;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
-import br.ufrj.caronae.User;
+import br.ufrj.caronae.models.User;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 public class ProfileFrag extends Fragment {
-
     @Bind(R.id.name_et)
     EditText name_et;
     @Bind(R.id.profile_et)
@@ -43,26 +45,8 @@ public class ProfileFrag extends Fragment {
     @Bind(R.id.carPlate_et)
     EditText carPlate_et;
 
-    public static ProfileFrag newInstance(String param1, String param2) {
-        ProfileFrag fragment = new ProfileFrag();
-        Bundle args = new Bundle();
-        //args.putString(ARG_PARAM1, param1);
-        //args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     public ProfileFrag() {
         // Required empty public constructor
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            //mParam1 = getArguments().getString(ARG_PARAM1);
-            //mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
@@ -93,7 +77,8 @@ public class ProfileFrag extends Fragment {
 
     @OnClick(R.id.save_bt)
     public void saveBt() {
-        User editedUser = new User();
+        User user = App.getUser();
+        final User editedUser = new User();
         editedUser.setName(name_et.getText().toString());
         editedUser.setProfile(profile_et.getText().toString());
         editedUser.setCourse(course_et.getText().toString());
@@ -107,20 +92,19 @@ public class ProfileFrag extends Fragment {
         editedUser.setCarColor(carColor_et.getText().toString());
         editedUser.setCarPlate(carPlate_et.getText().toString());
 
-        User user = App.getUser();
         if (!user.equals(editedUser)) {
-            new saveUserAsync().execute(editedUser);
-        }
-    }
+            App.getApiaryService().updateUser(editedUser, new Callback<User>() {
+                @Override
+                public void success(User user, Response response) {
+                    user.setUser(editedUser);
+                    user.save();
+                }
 
-    private class saveUserAsync extends AsyncTask<User, Void, Void> {
-        @Override
-        protected Void doInBackground(User... paramUser) {
-            User user = App.getUser();
-            user.setUser(paramUser[0]);
-            user.save();
-
-            return null;
+                @Override
+                public void failure(RetrofitError error) {
+                    Log.e(App.LOGTAG, error.getMessage());
+                }
+            });
         }
     }
 }

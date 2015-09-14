@@ -6,7 +6,7 @@ import com.activeandroid.query.Select;
 
 import javax.inject.Singleton;
 
-import br.ufrj.caronae.User;
+import br.ufrj.caronae.models.User;
 import dagger.Module;
 import dagger.Provides;
 

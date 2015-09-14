@@ -2,6 +2,7 @@ package br.ufrj.caronae;
 
 import br.ufrj.caronae.components.DaggerNetworkComponent;
 import br.ufrj.caronae.components.DaggerUserComponent;
+import br.ufrj.caronae.models.User;
 import br.ufrj.caronae.modules.NetworkModule;
 
 public class App extends com.activeandroid.app.Application {
