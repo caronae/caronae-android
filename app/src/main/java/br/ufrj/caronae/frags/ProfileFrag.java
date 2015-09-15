@@ -93,9 +93,9 @@ public class ProfileFrag extends Fragment {
         editedUser.setCarPlate(carPlate_et.getText().toString());
 
         if (!user.equals(editedUser)) {
-            App.getApiaryService().updateUser(editedUser, new Callback<User>() {
+            App.getApiaryService().updateUser(editedUser, new Callback<Response>() {
                 @Override
-                public void success(User u, Response response) {
+                public void success(Response response, Response response2) {
                     User user = App.getUser();
                     user.setUser(editedUser);
                     user.save();

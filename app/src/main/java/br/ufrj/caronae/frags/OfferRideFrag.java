@@ -20,10 +20,10 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 public class OfferRideFrag extends Fragment {
-    @Bind(R.id.from_et)
-    EditText from_et;
-    @Bind(R.id.to_et)
-    EditText to_et;
+    @Bind(R.id.origin_et)
+    EditText origin_et;
+    @Bind(R.id.destination_et)
+    EditText destination_et;
     @Bind(R.id.date_et)
     EditText date_et;
     @Bind(R.id.time_et)
@@ -52,8 +52,8 @@ public class OfferRideFrag extends Fragment {
 
     @OnClick(R.id.send_bt)
     public void sendBt() {
-        String from = from_et.getText().toString();
-        String to = to_et.getText().toString();
+        String origin = origin_et.getText().toString();
+        String destination = destination_et.getText().toString();
         String date = date_et.getText().toString();
         String time = time_et.getText().toString();
         String slots = slots_et.getText().toString();
@@ -62,11 +62,12 @@ public class OfferRideFrag extends Fragment {
         int id = radioGroup.getCheckedRadioButtonId();
         boolean go = id == R.id.go_rb;
 
-        Ride ride = new Ride(from, to, date, time, slots, hub, description, go);
-        App.getApiaryService().offerRide(ride, new Callback<Ride>() {
+        final Ride ride = new Ride(origin, destination, date, time, slots, hub, description, go);
+        App.getApiaryService().offerRide(ride, new Callback<Response>() {
+
             @Override
-            public void success(Ride user, Response response) {
-                //ride.save();
+            public void success(Response response, Response response2) {
+                ride.save();
             }
 
             @Override

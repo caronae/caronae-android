@@ -1,8 +1,10 @@
 package br.ufrj.caronae.models;
 
-public class Ride {
-    private String from;
-    private String to;
+import com.orm.SugarRecord;
+
+public class Ride extends SugarRecord<Ride> {
+    private String origin;
+    private String destination;
     private String date;
     private String time;
     private String slots;
@@ -10,9 +12,12 @@ public class Ride {
     private String description;
     private boolean go;
 
-    public Ride(String from, String to, String date, String time, String slots, String hub, String description, boolean go) {
-        this.from = from;
-        this.to = to;
+    public Ride() {
+    }
+
+    public Ride(String origin, String destination, String date, String time, String slots, String hub, String description, boolean go) {
+        this.origin = origin;
+        this.destination = destination;
         this.date = date;
         this.time = time;
         this.slots = slots;

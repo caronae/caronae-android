@@ -16,6 +16,7 @@ import br.ufrj.caronae.R;
 import br.ufrj.caronae.frags.OfferRideFrag;
 import br.ufrj.caronae.frags.ProfileFrag;
 import br.ufrj.caronae.frags.StubFrag;
+import br.ufrj.caronae.models.Ride;
 import br.ufrj.caronae.models.User;
 
 public class MainAct extends AppCompatActivity {
@@ -65,7 +66,7 @@ public class MainAct extends AppCompatActivity {
         // Create a new fragment and specify the planet to show based on
         // position
         Fragment fragment = null;
-        Class fragmentClass = ProfileFrag.class;
+        Class fragmentClass;
         switch (menuItem.getItemId()) {
             case R.id.nav_first_fragment:
                 fragmentClass = ProfileFrag.class;
@@ -73,8 +74,9 @@ public class MainAct extends AppCompatActivity {
             case R.id.nav_second_fragment:
                 fragmentClass = OfferRideFrag.class;
                 break;
-            case R.id.nav_third_fragment:
+            case R.id.nav_third_fragment://make it async
                 User.deleteAll(User.class);
+                Ride.deleteAll(Ride.class);
                 startActivity(new Intent(this, LoginAct.class));
                 finish();
                 return;

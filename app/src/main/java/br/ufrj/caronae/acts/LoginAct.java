@@ -17,7 +17,6 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 public class LoginAct extends AppCompatActivity {
-
     @Bind(R.id.token_et)
     EditText token_et;
 

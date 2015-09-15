@@ -30,40 +30,41 @@
         </RadioGroup>
 
         <TextView
-            android:id="@+id/from_tv"
+            android:id="@+id/origin_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/radioGroup"
             android:text="@string/de_tv" />
 
         <EditText
-            android:id="@+id/from_et"
+            android:id="@+id/origin_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/from_tv" />
+            android:layout_below="@+id/origin_tv" />
 
         <TextView
-            android:id="@+id/to_tv"
+            android:id="@+id/destination_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/from_et"
+            android:layout_below="@+id/origin_et"
             android:text="@string/to_et" />
 
         <EditText
-            android:id="@+id/to_et"
+            android:id="@+id/destination_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/to_tv" />
+            android:layout_below="@+id/destination_tv" />
 
         <TextView
             android:id="@+id/date_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/to_et"
+            android:layout_below="@+id/destination_et"
             android:text="@string/date_tv" />
 
         <EditText
             android:id="@+id/date_et"
+            android:inputType="date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/date_tv" />

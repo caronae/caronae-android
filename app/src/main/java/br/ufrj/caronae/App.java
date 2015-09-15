@@ -1,9 +1,9 @@
 package br.ufrj.caronae;
 
 import com.orm.SugarApp;
+import com.orm.query.Select;
 
 import br.ufrj.caronae.components.DaggerNetworkComponent;
-import br.ufrj.caronae.components.DaggerUserComponent;
 import br.ufrj.caronae.models.User;
 import br.ufrj.caronae.modules.NetworkModule;
 
@@ -13,7 +13,6 @@ public class App extends SugarApp {
 
     private static App inst;
     private static User user;
-
     public App() {
         inst = this;
     }
@@ -23,7 +22,9 @@ public class App extends SugarApp {
     }
 
     public static User getUser() {
-        return DaggerUserComponent.create().provideLoggedInUser();
+        if (user == null)
+            user = Select.from(User.class).first();
+        return user;
     }
 
     public static boolean isUserLoggedIn() {
