@@ -1,5 +1,7 @@
 package br.ufrj.caronae;
 
+import com.squareup.okhttp.Response;
+
 import br.ufrj.caronae.models.Ride;
 import br.ufrj.caronae.models.User;
 import retrofit.Callback;

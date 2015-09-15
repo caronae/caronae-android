@@ -12,13 +12,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-import com.activeandroid.query.Delete;
-
 import br.ufrj.caronae.R;
-import br.ufrj.caronae.models.User;
 import br.ufrj.caronae.frags.OfferRideFrag;
 import br.ufrj.caronae.frags.ProfileFrag;
 import br.ufrj.caronae.frags.StubFrag;
+import br.ufrj.caronae.models.User;
 
 public class MainAct extends AppCompatActivity {
 
@@ -76,7 +74,7 @@ public class MainAct extends AppCompatActivity {
                 fragmentClass = OfferRideFrag.class;
                 break;
             case R.id.nav_third_fragment:
-                new Delete().from(User.class).execute();
+                User.deleteAll(User.class);
                 startActivity(new Intent(this, LoginAct.class));
                 finish();
                 return;

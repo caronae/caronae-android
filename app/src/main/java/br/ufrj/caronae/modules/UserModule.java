@@ -2,7 +2,11 @@ package br.ufrj.caronae.modules;
 
 import android.support.annotation.Nullable;
 
-import com.activeandroid.query.Select;
+import com.orm.query.Select;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import javax.inject.Singleton;
 
@@ -16,6 +20,6 @@ public class UserModule {
     @Singleton
     @Nullable
     User provideLoggedInUser() {
-        return new Select().from(User.class).executeSingle();
+        return Select.from(User.class).first();
     }
 }

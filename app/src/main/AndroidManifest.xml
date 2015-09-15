@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="br.ufrj.caronae" >
+    package="br.ufrj.caronae">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -9,12 +9,21 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
         <meta-data
-            android:name="AA_MODELS"
-            android:value="br.ufrj.caronae.User" />
+            android:name="DATABASE"
+            android:value="caronae.db" />
+        <meta-data
+            android:name="VERSION"
+            android:value="1" />
+        <meta-data
+            android:name="QUERY_LOG"
+            android:value="true" />
+        <meta-data
+            android:name="DOMAIN_PACKAGE_NAME"
+            android:value="br.ufrj.caronae.models" />
 
-        <activity android:name=".acts.StartAct" >
+        <activity android:name=".acts.StartAct">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -23,12 +32,10 @@
         </activity>
         <activity
             android:name=".acts.MainAct"
-            android:label="@string/title_activity_principal" >
-        </activity>
+            android:label="@string/title_activity_principal"/>
         <activity
             android:name=".acts.LoginAct"
-            android:label="@string/title_activity_login" >
-        </activity>
+            android:label="@string/title_activity_login"/>
     </application>
 
 </manifest>

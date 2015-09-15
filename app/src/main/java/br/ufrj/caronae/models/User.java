@@ -1,38 +1,22 @@
 package br.ufrj.caronae.models;
 
-import com.activeandroid.Model;
-import com.activeandroid.annotation.Column;
-import com.activeandroid.annotation.Table;
+import com.orm.SugarRecord;
 
-@Table(name = "User")
-public class User extends Model {
-    @Column
+public class User extends SugarRecord<User> {
     private String name;
-    @Column
     private String profile;
-    @Column
     private String course;
-    @Column
     private String unit;
-    @Column
     private String zone;
-    @Column
     private String neighborhood;
-    @Column
     private String phoneNumber;
-    @Column
     private String email;
-    @Column
     private boolean carOwner;
-    @Column
     private String carModel;
-    @Column
     private String carColor;
-    @Column
     private String carPlate;
 
     public User() {
-        super();
     }
 
     public String getName() {
