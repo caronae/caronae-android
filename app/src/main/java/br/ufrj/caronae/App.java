@@ -4,6 +4,7 @@ import com.orm.SugarApp;
 import com.orm.query.Select;
 
 import br.ufrj.caronae.components.DaggerNetworkComponent;
+import br.ufrj.caronae.components.NetworkComponent;
 import br.ufrj.caronae.models.User;
 import br.ufrj.caronae.modules.NetworkModule;
 
@@ -13,6 +14,8 @@ public class App extends SugarApp {
 
     private static App inst;
     private static User user;
+    private static NetworkComponent component;
+
     public App() {
         inst = this;
     }
@@ -32,6 +35,8 @@ public class App extends SugarApp {
     }
 
     public static ApiaryService getApiaryService() {
-        return DaggerNetworkComponent.builder().networkModule(new NetworkModule("http://private-5b9ed6-caronae.apiary-mock.com")).build().provideApiaryService();
+        if (component == null)
+            component = DaggerNetworkComponent.builder().networkModule(new NetworkModule("http://private-5b9ed6-caronae.apiary-mock.com")).build();
+        return component.provideApiaryService();
     }
 }
