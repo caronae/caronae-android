@@ -15,7 +15,10 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:ems="15"
-        android:hint="@string/tokenHint_et" />
+        android:hint="@string/tokenHint_et"
+        android:imeActionLabel="@string/send_bt"
+        android:imeOptions="actionSend"
+        android:singleLine="true" />
 
     <Button
         android:id="@+id/send_bt"

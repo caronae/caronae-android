@@ -32,4 +32,5 @@
     <string name="save_bt">Salvar</string>
     <string name="phoneNumber_tv">Telefone</string>
     <string name="email_tv">E-mail</string>
+    <string name="enviar">Enviar</string>
 </resources>
