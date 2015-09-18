@@ -52,7 +52,9 @@
         <EditText
             android:id="@+id/destination_et"
             android:layout_width="match_parent"
+            android:enabled="false"
             android:layout_height="wrap_content"
+            android:text="@string/destination_default"
             android:layout_below="@+id/destination_tv" />
 
         <TextView

@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import br.ufrj.caronae.App;
@@ -36,6 +37,10 @@ public class OfferRideFrag extends Fragment {
     EditText description_et;
     @Bind(R.id.radioGroup)
     RadioGroup radioGroup;
+    @Bind(R.id.go_rb)
+    RadioButton go_rb;
+    @Bind(R.id.back_rb)
+    RadioButton back_rb;
 
     public OfferRideFrag() {
         // Required empty public constructor
@@ -47,7 +52,24 @@ public class OfferRideFrag extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_offer_ride, container, false);
         ButterKnife.bind(this, view);
+
         return view;
+    }
+
+    @OnClick(R.id.go_rb)
+    public void goRb() {
+        destination_et.setText(getString(R.string.destination_default));
+        destination_et.setEnabled(false);
+        origin_et.setEnabled(true);
+        origin_et.setText("");
+    }
+
+    @OnClick(R.id.back_rb)
+    public void backRb() {
+        origin_et.setText(getString(R.string.destination_default));
+        destination_et.setEnabled(true);
+        origin_et.setEnabled(false);
+        destination_et.setText("");
     }
 
     @OnClick(R.id.send_bt)
@@ -75,4 +97,6 @@ public class OfferRideFrag extends Fragment {
             }
         });
     }
+
+
 }

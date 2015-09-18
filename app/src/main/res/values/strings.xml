@@ -33,4 +33,5 @@
     <string name="phoneNumber_tv">Telefone</string>
     <string name="email_tv">E-mail</string>
     <string name="enviar">Enviar</string>
+    <string name="destination_default">Cidade Universitária</string>
 </resources>
