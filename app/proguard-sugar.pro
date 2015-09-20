@@ -1,0 +1,3 @@
+-keep class com.orm.** { *; }
+-keep class com.orm.**.** { *; }
+-keep class br.ufrj.caronae.models.* { *; }

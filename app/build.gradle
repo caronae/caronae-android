@@ -14,12 +14,16 @@ android {
         versionName "1.0"
     }
     buildTypes {
-        release {
+        debug {
             minifyEnabled true
             shrinkResources false
             proguardFile 'proguard-butterknife.pro'
-            proguardFile 'proguard-activeandroid.pro'
+            proguardFile 'proguard-gson.pro'
+            proguardFile 'proguard-okhttp.pro'
             proguardFile 'proguard-retrofit.pro'
+            proguardFile 'proguard-sugar.pro'
+            proguardFile 'proguard-support-design.pro'
+            proguardFile 'proguard-support-v7-appcompat.pro'
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
