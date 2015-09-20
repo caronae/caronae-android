@@ -35,15 +35,15 @@ public class App extends SugarApp {
         return getUser() != null;
     }
 
-    public static ApiaryService getApiaryService() {
-        if (component == null)
-            component = DaggerNetworkComponent.builder().networkModule(new NetworkModule("http://private-5b9ed6-caronae.apiary-mock.com")).build();
-        return component.provideApiaryService();
-    }
-
     public static void logOut() {
         user = null;
         User.deleteAll(User.class);
         Ride.deleteAll(Ride.class);
+    }
+
+    public static ApiaryService getApiaryService() {
+        if (component == null)
+            component = DaggerNetworkComponent.builder().networkModule(new NetworkModule("http://private-5b9ed6-caronae.apiary-mock.com")).build();
+        return component.provideApiaryService();
     }
 }

@@ -46,8 +46,10 @@ public class MainAct extends AppCompatActivity {
         // Setup drawer view
         setupDrawerContent(nvDrawer);
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.flContent, new StubFrag()).commit();
+        if (savedInstanceState == null) {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.flContent, new StubFrag()).commit();
+        }
     }
 
     private void setupDrawerContent(NavigationView navigationView) {
@@ -109,10 +111,5 @@ public class MainAct extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
     }
 }
