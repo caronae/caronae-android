@@ -64,8 +64,6 @@ public class MainAct extends AppCompatActivity {
     }
 
     public void selectDrawerItem(MenuItem menuItem) {
-        // Create a new fragment and specify the planet to show based on
-        // position
         Fragment fragment = null;
         Class fragmentClass;
         switch (menuItem.getItemId()) {
@@ -81,7 +79,7 @@ public class MainAct extends AppCompatActivity {
                 finish();
                 return;
             default:
-                fragmentClass = ProfileFrag.class;
+                fragmentClass = StubFrag.class;
         }
 
         try {

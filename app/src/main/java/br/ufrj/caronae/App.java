@@ -41,9 +41,9 @@ public class App extends SugarApp {
         Ride.deleteAll(Ride.class);
     }
 
-    public static ApiaryService getApiaryService() {
+    public static NetworkService getNetworkService() {
         if (component == null)
             component = DaggerNetworkComponent.builder().networkModule(new NetworkModule("http://private-5b9ed6-caronae.apiary-mock.com")).build();
-        return component.provideApiaryService();
+        return component.provideNetworkService();
     }
 }

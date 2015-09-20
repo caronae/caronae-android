@@ -7,7 +7,7 @@ import retrofit.client.Response;
 import retrofit.http.Body;
 import retrofit.http.POST;
 
-public interface ApiaryService {
+public interface NetworkService {
     @POST("/auth")
     void sendToken(@Body String token, Callback<User> cb);
 

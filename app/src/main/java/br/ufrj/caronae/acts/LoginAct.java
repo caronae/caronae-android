@@ -44,7 +44,7 @@ public class LoginAct extends AppCompatActivity {
 
     @OnClick(R.id.send_bt)
     public void sendBt() {
-        App.getApiaryService().sendToken(token_et.getText().toString(), new Callback<User>() {
+        App.getNetworkService().sendToken(token_et.getText().toString(), new Callback<User>() {
             @Override
             public void success(User user, Response response) {
                 user.save();

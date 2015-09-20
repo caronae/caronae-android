@@ -92,10 +92,11 @@ public class ProfileFrag extends Fragment {
         editedUser.setCarColor(carColor_et.getText().toString());
         editedUser.setCarPlate(carPlate_et.getText().toString());
 
-        if (!user.equals(editedUser)) {
-            App.getApiaryService().updateUser(editedUser, new Callback<Response>() {
+        if (!user.sameFieldsState(editedUser)) {
+            App.getNetworkService().updateUser(editedUser, new Callback<Response>() {
                 @Override
                 public void success(Response response, Response response2) {
+                    //should be async
                     User user = App.getUser();
                     user.setUser(editedUser);
                     user.save();

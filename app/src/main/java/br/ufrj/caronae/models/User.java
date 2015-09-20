@@ -115,7 +115,7 @@ public class User extends SugarRecord<User> {
         this.carPlate = carPlate;
     }
 
-    public boolean equals(User user) {
+    public boolean sameFieldsState(User user) {
         if (isCarOwner() != user.isCarOwner()) return false;
         if (!getName().equals(user.getName())) return false;
         if (getProfile() != null ? !getProfile().equals(user.getProfile()) : user.getProfile() != null)
@@ -134,6 +134,7 @@ public class User extends SugarRecord<User> {
             return false;
         if (getCarModel() != null ? !getCarModel().equals(user.getCarModel()) : user.getCarModel() != null)
             return false;
+        //noinspection SimplifiableIfStatement
         if (getCarColor() != null ? !getCarColor().equals(user.getCarColor()) : user.getCarColor() != null)
             return false;
         return !(getCarPlate() != null ? !getCarPlate().equals(user.getCarPlate()) : user.getCarPlate() != null);

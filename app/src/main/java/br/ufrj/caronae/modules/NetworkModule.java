@@ -2,7 +2,7 @@ package br.ufrj.caronae.modules;
 
 import javax.inject.Singleton;
 
-import br.ufrj.caronae.ApiaryService;
+import br.ufrj.caronae.NetworkService;
 import dagger.Module;
 import dagger.Provides;
 import retrofit.RestAdapter;
@@ -25,7 +25,7 @@ public class NetworkModule {
 
     @Provides
     @Singleton
-    ApiaryService provideApiaryService(RestAdapter restAdapter) {
-        return restAdapter.create(ApiaryService.class);
+    NetworkService provideNetworkService(RestAdapter restAdapter) {
+        return restAdapter.create(NetworkService.class);
     }
 }

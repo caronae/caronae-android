@@ -85,7 +85,7 @@ public class OfferRideFrag extends Fragment {
         boolean go = id == R.id.go_rb;
 
         final Ride ride = new Ride(origin, destination, date, time, slots, hub, description, go);
-        App.getApiaryService().offerRide(ride, new Callback<Response>() {
+        App.getNetworkService().offerRide(ride, new Callback<Response>() {
             @Override
             public void success(Response response, Response response2) {
                 ride.save();
