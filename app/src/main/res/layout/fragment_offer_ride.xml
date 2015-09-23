@@ -30,46 +30,57 @@
         </RadioGroup>
 
         <TextView
-            android:id="@+id/origin_tv"
+            android:id="@+id/neighborhood_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/radioGroup"
-            android:text="@string/de_tv" />
+            android:text="@string/bairro_tv" />
 
         <EditText
-            android:id="@+id/origin_et"
+            android:id="@+id/neighborhood_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/origin_tv" />
+            android:layout_below="@+id/neighborhood_tv" />
 
         <TextView
-            android:id="@+id/destination_tv"
+            android:id="@+id/place_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/origin_et"
-            android:text="@string/to_et" />
+            android:layout_below="@+id/neighborhood_et"
+            android:text="@string/place_tv" />
 
         <EditText
-            android:id="@+id/destination_et"
+            android:id="@+id/place_et"
             android:layout_width="match_parent"
-            android:enabled="false"
             android:layout_height="wrap_content"
-            android:text="@string/destination_default"
-            android:layout_below="@+id/destination_tv" />
+            android:layout_below="@+id/place_tv" />
+
+        <TextView
+            android:id="@+id/way_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/place_et"
+            android:text="@string/way_tv" />
+
+        <EditText
+            android:id="@+id/way_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/way_tv" />
 
         <TextView
             android:id="@+id/date_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/destination_et"
+            android:layout_below="@+id/way_et"
             android:text="@string/date_tv" />
 
         <EditText
             android:id="@+id/date_et"
-            android:inputType="date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/date_tv" />
+            android:layout_below="@+id/date_tv"
+            android:inputType="date" />
 
         <TextView
             android:id="@+id/time_tv"
@@ -115,7 +126,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/hub_et"
-            android:text="Descrição" />
+            android:text="@string/description_tv" />
 
         <EditText
             android:id="@+id/description_et"
@@ -123,13 +134,67 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/description_tv" />
 
+        <CheckBox
+            android:id="@+id/routine_cb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/description_et"
+            android:checked="false"
+            android:text="@string/routine_cb" />
+
+        <LinearLayout
+            android:id="@+id/days_lo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/routine_cb"
+            android:layout_centerHorizontal="true"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <CheckBox
+                android:id="@+id/monday_cb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="S" />
+
+            <CheckBox
+                android:id="@+id/tuesday_cb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="T" />
+
+            <CheckBox
+                android:id="@+id/wednesday_cb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Q" />
+
+            <CheckBox
+                android:id="@+id/thursday_cb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Q" />
+
+            <CheckBox
+                android:id="@+id/friday_cb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="S" />
+
+            <CheckBox
+                android:id="@+id/saturday_cb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="S" />
+        </LinearLayout>
+
         <Button
             android:id="@+id/send_bt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/description_et"
+            android:layout_below="@+id/days_lo"
             android:layout_centerHorizontal="true"
-            android:text="Enviar" />
+            android:text="@string/send_bt" />
 
     </RelativeLayout>
 </ScrollView>

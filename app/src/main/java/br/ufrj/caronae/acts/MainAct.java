@@ -73,7 +73,7 @@ public class MainAct extends AppCompatActivity {
             case R.id.nav_second_fragment:
                 fragmentClass = OfferRideFrag.class;
                 break;
-            case R.id.nav_third_fragment://make it async
+            case R.id.nav_third_fragment:
                 App.logOut();
                 startActivity(new Intent(this, LoginAct.class));
                 finish();

@@ -6,9 +6,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.RadioButton;
+import android.widget.LinearLayout;
 import android.widget.RadioGroup;
+
+import com.orm.query.Select;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
@@ -21,10 +24,15 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 public class OfferRideFrag extends Fragment {
-    @Bind(R.id.origin_et)
-    EditText origin_et;
-    @Bind(R.id.destination_et)
-    EditText destination_et;
+    @Bind(R.id.radioGroup)
+    RadioGroup radioGroup;
+
+    @Bind(R.id.neighborhood_et)
+    EditText neighborhood_et;
+    @Bind(R.id.place_et)
+    EditText place_et;
+    @Bind(R.id.way_et)
+    EditText way_et;
     @Bind(R.id.date_et)
     EditText date_et;
     @Bind(R.id.time_et)
@@ -35,12 +43,26 @@ public class OfferRideFrag extends Fragment {
     EditText hub_et;
     @Bind(R.id.description_et)
     EditText description_et;
-    @Bind(R.id.radioGroup)
-    RadioGroup radioGroup;
-    @Bind(R.id.go_rb)
-    RadioButton go_rb;
-    @Bind(R.id.back_rb)
-    RadioButton back_rb;
+
+    @Bind(R.id.routine_cb)
+    CheckBox routine_cb;
+    @Bind(R.id.days_lo)
+    LinearLayout days_lo;
+
+    @Bind(R.id.monday_cb)
+    CheckBox monday_cb;
+    @Bind(R.id.tuesday_cb)
+    CheckBox tuesday_cb;
+    @Bind(R.id.wednesday_cb)
+    CheckBox wednesday_cb;
+    @Bind(R.id.thursday_cb)
+    CheckBox thursday_cb;
+    @Bind(R.id.friday_cb)
+    CheckBox friday_cb;
+    @Bind(R.id.saturday_cb)
+    CheckBox saturday_cb;
+
+    private Ride lastRide;
 
     public OfferRideFrag() {
         // Required empty public constructor
@@ -53,29 +75,32 @@ public class OfferRideFrag extends Fragment {
         View view = inflater.inflate(R.layout.fragment_offer_ride, container, false);
         ButterKnife.bind(this, view);
 
+        lastRide = Select.from(Ride.class).first();
+
+        if (lastRide != null) {
+            neighborhood_et.setText(lastRide.getNeighborhood());
+            place_et.setText(lastRide.getPlace());
+            way_et.setText(lastRide.getWay());
+            date_et.setText(lastRide.getDate());
+            time_et.setText(lastRide.getTime());
+            slots_et.setText(lastRide.getSlots());
+            hub_et.setText(lastRide.getHub());
+            description_et.setText(lastRide.getDescription());
+        }
+
         return view;
     }
 
-    @OnClick(R.id.go_rb)
-    public void goRb() {
-        destination_et.setText(getString(R.string.destination_default));
-        destination_et.setEnabled(false);
-        origin_et.setEnabled(true);
-        origin_et.setText("");
-    }
-
-    @OnClick(R.id.back_rb)
-    public void backRb() {
-        origin_et.setText(getString(R.string.destination_default));
-        destination_et.setEnabled(true);
-        origin_et.setEnabled(false);
-        destination_et.setText("");
+    @OnClick(R.id.routine_cb)
+    public void routineCb() {
+        days_lo.setVisibility(routine_cb.isChecked() ? View.VISIBLE : View.GONE);
     }
 
     @OnClick(R.id.send_bt)
     public void sendBt() {
-        String origin = origin_et.getText().toString();
-        String destination = destination_et.getText().toString();
+        String neighborhood = neighborhood_et.getText().toString();
+        String place = place_et.getText().toString();
+        String way = way_et.getText().toString();
         String date = date_et.getText().toString();
         String time = time_et.getText().toString();
         String slots = slots_et.getText().toString();
@@ -83,8 +108,11 @@ public class OfferRideFrag extends Fragment {
         String description = description_et.getText().toString();
         int id = radioGroup.getCheckedRadioButtonId();
         boolean go = id == R.id.go_rb;
+        boolean routine = routine_cb.isChecked();
+        boolean[] routineDays = {monday_cb.isChecked(), tuesday_cb.isChecked(), wednesday_cb.isChecked(), thursday_cb.isChecked(), friday_cb.isChecked(), saturday_cb.isChecked()};
 
-        final Ride ride = new Ride(origin, destination, date, time, slots, hub, description, go);
+        final Ride ride = new Ride(neighborhood, place, way, date, time, slots, hub, description, go, routine, routineDays);
+
         App.getNetworkService().offerRide(ride, new Callback<Response>() {
             @Override
             public void success(Response response, Response response2) {
@@ -97,6 +125,4 @@ public class OfferRideFrag extends Fragment {
             }
         });
     }
-
-
 }

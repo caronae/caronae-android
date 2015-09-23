@@ -23,8 +23,8 @@
 
     <string name="de_tv">De</string>
     <string name="to_et">Para</string>
-    <string name="go_rb">Ir</string>
-    <string name="back_rb">Voltar</string>
+    <string name="go_rb">Ir ao fundão</string>
+    <string name="back_rb">Voltar do fundão</string>
     <string name="date_tv">Data</string>
     <string name="time_tv">Hora</string>
     <string name="slots_tv">Vagas</string>
@@ -34,4 +34,8 @@
     <string name="email_tv">E-mail</string>
     <string name="enviar">Enviar</string>
     <string name="destination_default">Cidade Universitária</string>
+    <string name="place_tv">Aonde</string>
+    <string name="way_tv">Por onde</string>
+    <string name="routine_cb">Repetir</string>
+    <string name="description_tv">Descrição</string>
 </resources>

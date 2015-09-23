@@ -7,7 +7,6 @@ public class User extends SugarRecord<User> {
     private String profile;
     private String course;
     private String unit;
-    private String zone;
     private String neighborhood;
     private String phoneNumber;
     private String email;
@@ -49,14 +48,6 @@ public class User extends SugarRecord<User> {
 
     public void setUnit(String unit) {
         this.unit = unit;
-    }
-
-    public String getZone() {
-        return zone;
-    }
-
-    public void setZone(String zone) {
-        this.zone = zone;
     }
 
     public String getNeighborhood() {
@@ -124,8 +115,6 @@ public class User extends SugarRecord<User> {
             return false;
         if (getUnit() != null ? !getUnit().equals(user.getUnit()) : user.getUnit() != null)
             return false;
-        if (getZone() != null ? !getZone().equals(user.getZone()) : user.getZone() != null)
-            return false;
         if (getNeighborhood() != null ? !getNeighborhood().equals(user.getNeighborhood()) : user.getNeighborhood() != null)
             return false;
         if (getPhoneNumber() != null ? !getPhoneNumber().equals(user.getPhoneNumber()) : user.getPhoneNumber() != null)
@@ -145,7 +134,6 @@ public class User extends SugarRecord<User> {
         setProfile(editedUser.getProfile());
         setCourse(editedUser.getCourse());
         setUnit(editedUser.getUnit());
-        setZone(editedUser.getZone());
         setNeighborhood(editedUser.getNeighborhood());
         setPhoneNumber(editedUser.getPhoneNumber());
         setEmail(editedUser.getEmail());

@@ -28,8 +28,6 @@ public class ProfileFrag extends Fragment {
     EditText course_et;
     @Bind(R.id.unit_et)
     EditText unit_et;
-    @Bind(R.id.zone_et)
-    EditText zone_et;
     @Bind(R.id.neighborhood_et)
     EditText neighborhood_et;
     @Bind(R.id.phoneNumber_et)
@@ -45,6 +43,8 @@ public class ProfileFrag extends Fragment {
     @Bind(R.id.carPlate_et)
     EditText carPlate_et;
 
+    private User user;
+
     public ProfileFrag() {
         // Required empty public constructor
     }
@@ -56,13 +56,12 @@ public class ProfileFrag extends Fragment {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         ButterKnife.bind(this, view);
 
-        User user = App.getUser();
+        user = App.getUser();
         if (user != null) {
             name_et.setText(user.getName());
             profile_et.setText(user.getProfile());
             course_et.setText(user.getCourse());
             unit_et.setText(user.getUnit());
-            zone_et.setText(user.getZone());
             neighborhood_et.setText(user.getNeighborhood());
             phoneNumber_et.setText(user.getPhoneNumber());
             email_et.setText(user.getEmail());
@@ -77,13 +76,11 @@ public class ProfileFrag extends Fragment {
 
     @OnClick(R.id.save_bt)
     public void saveBt() {
-        User user = App.getUser();
         final User editedUser = new User();
         editedUser.setName(name_et.getText().toString());
         editedUser.setProfile(profile_et.getText().toString());
         editedUser.setCourse(course_et.getText().toString());
         editedUser.setUnit(unit_et.getText().toString());
-        editedUser.setZone(zone_et.getText().toString());
         editedUser.setNeighborhood(neighborhood_et.getText().toString());
         editedUser.setPhoneNumber(phoneNumber_et.getText().toString());
         editedUser.setEmail(email_et.getText().toString());
@@ -96,8 +93,6 @@ public class ProfileFrag extends Fragment {
             App.getNetworkService().updateUser(editedUser, new Callback<Response>() {
                 @Override
                 public void success(Response response, Response response2) {
-                    //should be async
-                    User user = App.getUser();
                     user.setUser(editedUser);
                     user.save();
                 }
