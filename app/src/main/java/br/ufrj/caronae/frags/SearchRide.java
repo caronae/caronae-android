@@ -13,9 +13,11 @@ import com.orm.query.Select;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
-import br.ufrj.caronae.RidesAdapter;
+import br.ufrj.caronae.RideOffersAdapter;
 import br.ufrj.caronae.models.Ride;
+import br.ufrj.caronae.models.RideOffer;
 
 public class SearchRide extends Fragment {
     public SearchRide() {
@@ -30,15 +32,13 @@ public class SearchRide extends Fragment {
         RecyclerView rvRides = (RecyclerView) view.findViewById(R.id.rvRides);
 
         Ride lastRide = Select.from(Ride.class).first();
-        List<Ride> l = new ArrayList<Ride>();
-        l.add(lastRide);
-        l.add(lastRide);
-        l.add(lastRide);
-        l.add(lastRide);
-        l.add(lastRide);
+        RideOffer rideOffer = new RideOffer(lastRide, App.getUser());
+        List<RideOffer> l = new ArrayList<RideOffer>();
+        l.add(rideOffer);
 
-        RidesAdapter adapter = new RidesAdapter(l);
+        RideOffersAdapter adapter = new RideOffersAdapter(l);
         rvRides.setAdapter(adapter);
+        rvRides.setHasFixedSize(true);
         rvRides.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         return view;
