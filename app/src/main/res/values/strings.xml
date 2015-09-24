@@ -38,4 +38,7 @@
     <string name="way_tv">Por onde</string>
     <string name="routine_cb">Repetir</string>
     <string name="description_tv">Descrição</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

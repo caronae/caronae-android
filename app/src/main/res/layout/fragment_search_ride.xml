@@ -1,0 +1,62 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="br.ufrj.caronae.frags.SearchRide">
+
+    <TextView
+        android:id="@+id/zone_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Zona" />
+
+    <EditText
+        android:id="@+id/zone_et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/zone_tv"
+        android:hint="Norte" />
+
+    <TextView
+        android:id="@+id/neighborhood_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/zone_et"
+        android:text="Bairro" />
+
+    <EditText
+        android:id="@+id/neighborhood_et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/neighborhood_tv"
+        android:hint="Tijuca" />
+
+    <TextView
+        android:id="@+id/date_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/neighborhood_et"
+        android:text="Data" />
+
+    <EditText
+        android:id="@+id/date_et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/date_tv"
+        android:hint="24/09/2015" />
+
+    <Button
+        android:id="@+id/search_bt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/date_et"
+        android:layout_centerHorizontal="true"
+        android:text="Buscar" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rvRides"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/search_bt" />
+
+</RelativeLayout>

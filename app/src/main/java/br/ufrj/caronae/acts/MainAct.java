@@ -16,6 +16,7 @@ import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.frags.OfferRideFrag;
 import br.ufrj.caronae.frags.ProfileFrag;
+import br.ufrj.caronae.frags.SearchRide;
 import br.ufrj.caronae.frags.StubFrag;
 
 public class MainAct extends AppCompatActivity {
@@ -48,7 +49,7 @@ public class MainAct extends AppCompatActivity {
 
         if (savedInstanceState == null) {
             FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction().replace(R.id.flContent, new StubFrag()).commit();
+            fragmentManager.beginTransaction().replace(R.id.flContent, new SearchRide()).commit();
         }
     }
 
