@@ -47,6 +47,11 @@ public class RideOffersAdapter extends
         return rideOffers.size();
     }
 
+    public void makeList(List<RideOffer> l) {
+        rideOffers = l;
+        notifyDataSetChanged();
+    }
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView time_tv;
         public TextView direction_tv;
