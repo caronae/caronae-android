@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 
+import com.google.gson.Gson;
 import com.orm.query.Select;
 
 import br.ufrj.caronae.App;
@@ -23,7 +24,7 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class OfferRideFrag extends Fragment {
+public class RideOfferFrag extends Fragment {
     @Bind(R.id.radioGroup)
     RadioGroup radioGroup;
 
@@ -62,9 +63,7 @@ public class OfferRideFrag extends Fragment {
     @Bind(R.id.saturday_cb)
     CheckBox saturday_cb;
 
-    private Ride lastRide;
-
-    public OfferRideFrag() {
+    public RideOfferFrag() {
         // Required empty public constructor
     }
 
@@ -75,17 +74,30 @@ public class OfferRideFrag extends Fragment {
         View view = inflater.inflate(R.layout.fragment_offer_ride, container, false);
         ButterKnife.bind(this, view);
 
-        lastRide = Select.from(Ride.class).first();
-
-        if (lastRide != null) {
-            neighborhood_et.setText(lastRide.getNeighborhood());
-            place_et.setText(lastRide.getPlace());
-            way_et.setText(lastRide.getWay());
-            date_et.setText(lastRide.getDate());
-            time_et.setText(lastRide.getTime());
-            slots_et.setText(lastRide.getSlots());
-            hub_et.setText(lastRide.getHub());
-            description_et.setText(lastRide.getDescription());
+        String lastRideOffer = App.getSharedPref("lastRideOffer");
+        if (!lastRideOffer.equals("missing")) {
+            Ride ride = new Gson().fromJson(lastRideOffer, Ride.class);
+            neighborhood_et.setText(ride.getNeighborhood());
+            place_et.setText(ride.getPlace());
+            way_et.setText(ride.getWay());
+            date_et.setText(ride.getDate());
+            time_et.setText(ride.getTime());
+            slots_et.setText(ride.getSlots());
+            hub_et.setText(ride.getHub());
+            description_et.setText(ride.getDescription());
+            radioGroup.check(ride.isGo() ? R.id.go_rb : R.id.back_rb);
+            boolean isRoutine = ride.isRoutine();
+            routine_cb.setChecked(isRoutine);
+            if (isRoutine) {
+                routineCb();
+                boolean[] days = ride.getRoutineDays();
+                monday_cb.setChecked(days[0]);
+                tuesday_cb.setChecked(days[1]);
+                wednesday_cb.setChecked(days[2]);
+                thursday_cb.setChecked(days[3]);
+                friday_cb.setChecked(days[4]);
+                saturday_cb.setChecked(days[5]);
+            }
         }
 
         return view;
@@ -112,6 +124,9 @@ public class OfferRideFrag extends Fragment {
         boolean[] routineDays = {monday_cb.isChecked(), tuesday_cb.isChecked(), wednesday_cb.isChecked(), thursday_cb.isChecked(), friday_cb.isChecked(), saturday_cb.isChecked()};
 
         final Ride ride = new Ride(neighborhood, place, way, date, time, slots, hub, description, go, routine, routineDays);
+
+        String lastRideOffer = new Gson().toJson(ride);
+        App.putSharedPref("lastRideOffer", lastRideOffer);
 
         App.getNetworkService().offerRide(ride, new Callback<Response>() {
             @Override

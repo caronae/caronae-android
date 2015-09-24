@@ -9,6 +9,7 @@ public class RideOffer {
     private String slots;
     private String description;
     private String neighborhood;
+    private String hub;
     private String rideId;
     private String driverId;
     private boolean go;
@@ -22,6 +23,7 @@ public class RideOffer {
         slots = lastRide.getSlots();
         description = lastRide.getDescription();
         neighborhood = lastRide.getNeighborhood();
+        hub = lastRide.getHub();
         go = lastRide.isGo();
     }
 
@@ -87,6 +89,14 @@ public class RideOffer {
 
     public void setNeighborhood(String neighborhood) {
         this.neighborhood = neighborhood;
+    }
+
+    public String getHub() {
+        return hub;
+    }
+
+    public void setHub(String hub) {
+        this.hub = hub;
     }
 
     public String getRideId() {

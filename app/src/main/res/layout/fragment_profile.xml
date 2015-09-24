@@ -66,23 +66,10 @@
             android:layout_below="@+id/unit_tv" />
 
         <TextView
-            android:id="@+id/neighborhood_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/unit_et"
-            android:text="@string/bairro_tv" />
-
-        <EditText
-            android:id="@+id/neighborhood_et"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/neighborhood_tv" />
-
-        <TextView
             android:id="@+id/phoneNumber_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/neighborhood_et"
+            android:layout_below="@id/unit_et"
             android:text="@string/phoneNumber_tv" />
 
         <EditText

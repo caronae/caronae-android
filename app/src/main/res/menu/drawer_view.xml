@@ -8,6 +8,9 @@
             android:title="Oferecer Carona" />
         <item
             android:id="@+id/nav_third_fragment"
+            android:title="Buscar Carona" />
+        <item
+            android:id="@+id/nav_fourth_fragment"
             android:title="Sair" />
     </group>
 </menu>

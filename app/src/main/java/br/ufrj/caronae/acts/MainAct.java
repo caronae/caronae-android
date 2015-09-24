@@ -14,9 +14,9 @@ import android.view.MenuItem;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
-import br.ufrj.caronae.frags.OfferRideFrag;
+import br.ufrj.caronae.frags.RideOfferFrag;
 import br.ufrj.caronae.frags.ProfileFrag;
-import br.ufrj.caronae.frags.SearchRide;
+import br.ufrj.caronae.frags.RideSearchFrag;
 import br.ufrj.caronae.frags.StubFrag;
 
 public class MainAct extends AppCompatActivity {
@@ -28,28 +28,23 @@ public class MainAct extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Set a Toolbar to replace the ActionBar.
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        // Find our drawer view
         mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
-        // Set the menu icon instead of the launcher icon.
         final ActionBar ab = getSupportActionBar();
         //ab.setHomeAsUpIndicator(R.drawable.ic_menu);
         if (ab != null) {
             ab.setDisplayHomeAsUpEnabled(true);
         }
 
-        // Find our drawer view
         NavigationView nvDrawer = (NavigationView) findViewById(R.id.nvView);
-        // Setup drawer view
         setupDrawerContent(nvDrawer);
 
         if (savedInstanceState == null) {
             FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction().replace(R.id.flContent, new SearchRide()).commit();
+            fragmentManager.beginTransaction().replace(R.id.flContent, new RideSearchFrag()).commit();
         }
     }
 
@@ -72,9 +67,12 @@ public class MainAct extends AppCompatActivity {
                 fragmentClass = ProfileFrag.class;
                 break;
             case R.id.nav_second_fragment:
-                fragmentClass = OfferRideFrag.class;
+                fragmentClass = RideOfferFrag.class;
                 break;
             case R.id.nav_third_fragment:
+                fragmentClass = RideSearchFrag.class;
+                break;
+            case R.id.nav_fourth_fragment:
                 App.logOut();
                 startActivity(new Intent(this, LoginAct.class));
                 finish();
@@ -89,12 +87,9 @@ public class MainAct extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        // Insert the fragment by replacing any existing fragment
-        //FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
 
-        // Highlight the selected item, update the title, and close the drawer
         menuItem.setChecked(true);
         setTitle(menuItem.getTitle());
         mDrawer.closeDrawers();
@@ -102,7 +97,6 @@ public class MainAct extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // The action bar home/up action should open or close the drawer.
         switch (item.getItemId()) {
             case android.R.id.home:
                 mDrawer.openDrawer(GravityCompat.START);

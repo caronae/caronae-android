@@ -56,7 +56,7 @@ public class StubFrag extends Fragment {
     @OnClick(R.id.button)
     public void button() {
         FragmentManager fragmentManager = ((AppCompatActivity) getActivity()).getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.flContent, new OfferRideFrag()).commit();
+        fragmentManager.beginTransaction().replace(R.id.flContent, new RideOfferFrag()).commit();
     }
 
     @Override

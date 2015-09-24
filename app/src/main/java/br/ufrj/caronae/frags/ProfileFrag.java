@@ -28,8 +28,6 @@ public class ProfileFrag extends Fragment {
     EditText course_et;
     @Bind(R.id.unit_et)
     EditText unit_et;
-    @Bind(R.id.neighborhood_et)
-    EditText neighborhood_et;
     @Bind(R.id.phoneNumber_et)
     EditText phoneNumber_et;
     @Bind(R.id.email_et)
@@ -62,7 +60,6 @@ public class ProfileFrag extends Fragment {
             profile_et.setText(user.getProfile());
             course_et.setText(user.getCourse());
             unit_et.setText(user.getUnit());
-            neighborhood_et.setText(user.getNeighborhood());
             phoneNumber_et.setText(user.getPhoneNumber());
             email_et.setText(user.getEmail());
             carOwner_cb.setChecked(user.isCarOwner());
@@ -81,7 +78,6 @@ public class ProfileFrag extends Fragment {
         editedUser.setProfile(profile_et.getText().toString());
         editedUser.setCourse(course_et.getText().toString());
         editedUser.setUnit(unit_et.getText().toString());
-        editedUser.setNeighborhood(neighborhood_et.getText().toString());
         editedUser.setPhoneNumber(phoneNumber_et.getText().toString());
         editedUser.setEmail(email_et.getText().toString());
         editedUser.setCarOwner(carOwner_cb.isChecked());
@@ -94,7 +90,7 @@ public class ProfileFrag extends Fragment {
                 @Override
                 public void success(Response response, Response response2) {
                     user.setUser(editedUser);
-                    user.save();
+                    App.saveUser(user);
                 }
 
                 @Override

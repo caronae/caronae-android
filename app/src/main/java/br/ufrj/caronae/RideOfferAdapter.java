@@ -11,17 +11,17 @@ import java.util.List;
 
 import br.ufrj.caronae.models.RideOffer;
 
-public class RideOffersAdapter extends
-        RecyclerView.Adapter<RideOffersAdapter.ViewHolder> {
+public class RideOfferAdapter extends
+        RecyclerView.Adapter<RideOfferAdapter.ViewHolder> {
 
     private List<RideOffer> rideOffers;
 
-    public RideOffersAdapter(List<RideOffer> rideOffers) {
+    public RideOfferAdapter(List<RideOffer> rideOffers) {
         this.rideOffers = rideOffers;
     }
 
     @Override
-    public RideOffersAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RideOfferAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
 
@@ -31,15 +31,14 @@ public class RideOffersAdapter extends
     }
 
     @Override
-    public void onBindViewHolder(RideOffersAdapter.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(RideOfferAdapter.ViewHolder viewHolder, int position) {
         RideOffer rideOffer = rideOffers.get(position);
 
-        TextView time = viewHolder.time_tv;
-        time.setText(rideOffer.getTime());
-        TextView direction = viewHolder.direction_tv;
-        direction.setText(rideOffer.isGo() ? "Indo para o fundão" : "Voltando do fundão");
-        TextView neighborhood = viewHolder.neighborhood_tv;
-        neighborhood.setText(rideOffer.getNeighborhood());
+        viewHolder.time_tv.setText(rideOffer.getTime());
+        viewHolder.name_tv.setText(rideOffer.getDriverName());
+        viewHolder.slots_tv.setText(rideOffer.getSlots() + " vagas");
+        viewHolder.direction_tv.setText(rideOffer.isGo() ? "Indo para o fundão" : "Voltando do fundão - HUB:" + rideOffer.getHub());
+        viewHolder.neighborhood_tv.setText(rideOffer.getNeighborhood());
     }
 
     @Override
@@ -47,8 +46,8 @@ public class RideOffersAdapter extends
         return rideOffers.size();
     }
 
-    public void makeList(List<RideOffer> l) {
-        rideOffers = l;
+    public void makeList(List<RideOffer> rideOffers) {
+        this.rideOffers = rideOffers;
         notifyDataSetChanged();
     }
 
@@ -57,6 +56,7 @@ public class RideOffersAdapter extends
         public TextView direction_tv;
         public TextView neighborhood_tv;
         public TextView name_tv;
+        public TextView slots_tv;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -65,6 +65,7 @@ public class RideOffersAdapter extends
             direction_tv = (TextView) itemView.findViewById(R.id.direction_tv);
             neighborhood_tv = (TextView) itemView.findViewById(R.id.neighborhood_tv);
             name_tv = (TextView) itemView.findViewById(R.id.name_tv);
+            slots_tv = (TextView) itemView.findViewById(R.id.slots_tv);
         }
     }
 }

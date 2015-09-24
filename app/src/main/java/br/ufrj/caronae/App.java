@@ -1,5 +1,9 @@
 package br.ufrj.caronae;
 
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+
+import com.google.gson.Gson;
 import com.orm.SugarApp;
 import com.orm.query.Select;
 
@@ -26,8 +30,11 @@ public class App extends SugarApp {
     }
 
     public static User getUser() {
-        if (user == null)
-            user = Select.from(User.class).first();
+        if (user == null) {
+            String userJson = getSharedPref("user");
+            if (!userJson.equals("missing"))
+                user = new Gson().fromJson(userJson, User.class);
+        }
         return user;
     }
 
@@ -37,7 +44,7 @@ public class App extends SugarApp {
 
     public static void logOut() {
         user = null;
-        User.deleteAll(User.class);
+        deleteUser();
         Ride.deleteAll(Ride.class);
     }
 
@@ -45,5 +52,30 @@ public class App extends SugarApp {
         if (component == null)
             component = DaggerNetworkComponent.builder().networkModule(new NetworkModule("http://private-5b9ed6-caronae.apiary-mock.com")).build();
         return component.provideNetworkService();
+    }
+
+    public static void putSharedPref(String key, String value) {
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(inst());
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(key, value);
+        editor.apply();
+    }
+
+    public static String getSharedPref(String lastRideSearchFilters) {
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(inst());
+        String value = sharedPref.getString(lastRideSearchFilters, "missing");
+
+        return value;
+    }
+
+    public static void saveUser(User user) {
+        putSharedPref("user", new Gson().toJson(user));
+    }
+
+    private static void deleteUser() {
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(inst());
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.remove("user");
+        editor.apply();
     }
 }

@@ -1,5 +1,6 @@
 package br.ufrj.caronae.acts;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -44,16 +45,19 @@ public class LoginAct extends AppCompatActivity {
 
     @OnClick(R.id.send_bt)
     public void sendBt() {
+        final ProgressDialog pd = ProgressDialog.show(this, "", "Aguarde", true, true);
         App.getNetworkService().sendToken(token_et.getText().toString(), new Callback<User>() {
             @Override
             public void success(User user, Response response) {
-                user.save();
+                pd.dismiss();
+                App.saveUser(user);
                 startActivity(new Intent(LoginAct.this, MainAct.class));
                 LoginAct.this.finish();
             }
 
             @Override
             public void failure(RetrofitError retrofitError) {
+                pd.dismiss();
                 Log.e(App.LOGTAG, retrofitError.getMessage());
             }
         });

@@ -1,13 +1,10 @@
 package br.ufrj.caronae.models;
 
-import com.orm.SugarRecord;
-
-public class User extends SugarRecord<User> {
+public class User {
     private String name;
     private String profile;
     private String course;
     private String unit;
-    private String neighborhood;
     private String phoneNumber;
     private String email;
     private boolean carOwner;
@@ -48,14 +45,6 @@ public class User extends SugarRecord<User> {
 
     public void setUnit(String unit) {
         this.unit = unit;
-    }
-
-    public String getNeighborhood() {
-        return neighborhood;
-    }
-
-    public void setNeighborhood(String neighborhood) {
-        this.neighborhood = neighborhood;
     }
 
     public String getPhoneNumber() {
@@ -115,8 +104,6 @@ public class User extends SugarRecord<User> {
             return false;
         if (getUnit() != null ? !getUnit().equals(user.getUnit()) : user.getUnit() != null)
             return false;
-        if (getNeighborhood() != null ? !getNeighborhood().equals(user.getNeighborhood()) : user.getNeighborhood() != null)
-            return false;
         if (getPhoneNumber() != null ? !getPhoneNumber().equals(user.getPhoneNumber()) : user.getPhoneNumber() != null)
             return false;
         if (getEmail() != null ? !getEmail().equals(user.getEmail()) : user.getEmail() != null)
@@ -134,7 +121,6 @@ public class User extends SugarRecord<User> {
         setProfile(editedUser.getProfile());
         setCourse(editedUser.getCourse());
         setUnit(editedUser.getUnit());
-        setNeighborhood(editedUser.getNeighborhood());
         setPhoneNumber(editedUser.getPhoneNumber());
         setEmail(editedUser.getEmail());
         setCarOwner(editedUser.isCarOwner());
