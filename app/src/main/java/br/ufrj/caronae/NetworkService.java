@@ -23,4 +23,7 @@ public interface NetworkService {
 
     @POST("/ride/list")
     void getRideOffers(@Body RideSearchFilters rideSearchFilters, Callback<List<RideOffer>> cb);
+
+    @POST("/ride/requestJoin")
+    void sendJoinRequest(@Body String rideId, Callback<Response> cb);
 }
