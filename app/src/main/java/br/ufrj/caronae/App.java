@@ -5,7 +5,6 @@ import android.preference.PreferenceManager;
 
 import com.google.gson.Gson;
 import com.orm.SugarApp;
-import com.orm.query.Select;
 
 import br.ufrj.caronae.components.DaggerNetworkComponent;
 import br.ufrj.caronae.components.NetworkComponent;
@@ -63,9 +62,7 @@ public class App extends SugarApp {
 
     public static String getSharedPref(String lastRideSearchFilters) {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(inst());
-        String value = sharedPref.getString(lastRideSearchFilters, "missing");
-
-        return value;
+        return sharedPref.getString(lastRideSearchFilters, "missing");
     }
 
     public static void saveUser(User user) {

@@ -9,8 +9,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 
 import com.google.gson.Gson;
 
@@ -40,6 +45,10 @@ public class RideSearchFrag extends Fragment {
     EditText neighborhood_et;
     @Bind(R.id.date_et)
     EditText date_et;
+    @Bind(R.id.lay)
+    RelativeLayout lay;
+    @Bind(R.id.anotherSearch_bt)
+    Button anotherSearch_bt;
 
     @Bind(R.id.rvRides)
     RecyclerView rvRides;
@@ -75,6 +84,12 @@ public class RideSearchFrag extends Fragment {
         return view;
     }
 
+    @OnClick(R.id.anotherSearch_bt)
+    public void anotherSearchBt() {
+        expandOrCollapse(lay, "expand");
+        anotherSearch_bt.setVisibility(View.GONE);
+    }
+
     @OnClick(R.id.search_bt)
     public void searchBt() {
         final ProgressDialog pd = ProgressDialog.show(getActivity(), "", "Aguarde", true, true);
@@ -91,6 +106,8 @@ public class RideSearchFrag extends Fragment {
         App.getNetworkService().getRideOffers(rideSearchFilters, new Callback<List<RideOffer>>() {
             @Override
             public void success(List<RideOffer> rideOffer, Response response) {
+                expandOrCollapse(lay, "");
+                anotherSearch_bt.setVisibility(View.VISIBLE);
                 Collections.sort(rideOffer, new RideOfferComparatorByTime());
                 adapter.makeList(rideOffer);
                 pd.dismiss();
@@ -102,5 +119,40 @@ public class RideSearchFrag extends Fragment {
                 pd.dismiss();
             }
         });
+    }
+
+    public void expandOrCollapse(final View v,String exp_or_colpse) {
+        TranslateAnimation anim = null;
+        if(exp_or_colpse.equals("expand"))
+        {
+            anim = new TranslateAnimation(0.0f, 0.0f, -v.getHeight(), 0.0f);
+            v.setVisibility(View.VISIBLE);
+        }
+        else{
+            anim = new TranslateAnimation(0.0f, 0.0f, 0.0f, -v.getHeight());
+            Animation.AnimationListener collapselistener= new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    v.setVisibility(View.GONE);
+                }
+            };
+
+            anim.setAnimationListener(collapselistener);
+        }
+
+        // To Collapse
+        //
+
+        anim.setDuration(300);
+        anim.setInterpolator(new AccelerateInterpolator(0.5f));
+        v.startAnimation(anim);
     }
 }

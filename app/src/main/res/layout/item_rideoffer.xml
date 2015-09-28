@@ -4,6 +4,7 @@
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="8dp"
     card_view:cardCornerRadius="@dimen/cardview_default_radius"
     card_view:cardElevation="@dimen/cardview_default_elevation"
     card_view:cardUseCompatPadding="true">
@@ -11,32 +12,29 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_margin="6dp"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/time_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="16:15"
-            android:textSize="24sp" />
-
-        <TextView
-            android:id="@+id/direction_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/time_tv"
-            android:text="Indo para o fundão" />
+            android:textSize="24sp"
+            android:text="16:15" />
 
         <TextView
             android:id="@+id/neighborhood_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/direction_tv"
-            android:layout_toEndOf="@+id/direction_tv"
-            android:layout_toRightOf="@+id/direction_tv"
-            android:paddingLeft="30dp"
-            android:paddingRight="30dp"
-            android:text="Tijuca" />
+            android:layout_below="@+id/time_tv"
+            android:text="Tijuca"/>
+
+        <TextView
+            android:id="@+id/direction_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/neighborhood_tv"
+            android:text="Indo para o fundão" />
 
         <TextView
             android:id="@+id/name_tv"
@@ -49,11 +47,7 @@
             android:id="@+id/slots_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/neighborhood_tv"
-            android:layout_alignStart="@+id/neighborhood_tv"
-            android:layout_below="@+id/direction_tv"
-            android:paddingLeft="30dp"
-            android:paddingRight="30dp"
+            android:layout_below="@+id/name_tv"
             android:text="3 vagas" />
 
         <Button
