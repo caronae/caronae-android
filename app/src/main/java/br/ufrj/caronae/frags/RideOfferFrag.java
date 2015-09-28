@@ -10,6 +10,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.orm.query.Select;
@@ -130,11 +131,13 @@ public class RideOfferFrag extends Fragment {
             @Override
             public void success(Response response, Response response2) {
                 ride.save();
+                Toast.makeText(App.inst(), "Carona salva", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void failure(RetrofitError error) {
                 Log.e(App.LOGTAG, error.getMessage());
+                Toast.makeText(App.inst(), "Erro", Toast.LENGTH_SHORT).show();
             }
         });
     }

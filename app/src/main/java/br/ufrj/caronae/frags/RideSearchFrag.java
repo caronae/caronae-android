@@ -122,7 +122,7 @@ public class RideSearchFrag extends Fragment {
     }
 
     public void expandOrCollapse(final View v,String exp_or_colpse) {
-        TranslateAnimation anim = null;
+        TranslateAnimation anim;
         if(exp_or_colpse.equals("expand"))
         {
             anim = new TranslateAnimation(0.0f, 0.0f, -v.getHeight(), 0.0f);
