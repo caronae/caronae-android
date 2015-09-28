@@ -11,8 +11,7 @@ public class Ride extends SugarRecord<Ride> {
     private String slots;
     private String hub;
     private String description;
-    private boolean go, routine;
-    private boolean[] routineDays;
+    private boolean go, routine, monday, tuesday, wednesday, thursday, friday, saturday;
 
     public Ride() {
     }
@@ -28,7 +27,12 @@ public class Ride extends SugarRecord<Ride> {
         this.description = description;
         this.go = go;
         this.routine = routine;
-        this.routineDays = routineDays;
+        monday = routineDays[0];
+        tuesday = routineDays[1];
+        wednesday = routineDays[2];
+        thursday = routineDays[3];
+        friday = routineDays[4];
+        saturday = routineDays[5];
     }
 
     public String getNeighborhood() {
@@ -111,11 +115,51 @@ public class Ride extends SugarRecord<Ride> {
         this.routine = routine;
     }
 
-    public boolean[] getRoutineDays() {
-        return routineDays;
+    public boolean isMonday() {
+        return monday;
     }
 
-    public void setRoutineDays(boolean[] routineDays) {
-        this.routineDays = routineDays;
+    public void setMonday(boolean monday) {
+        this.monday = monday;
+    }
+
+    public boolean isTuesday() {
+        return tuesday;
+    }
+
+    public void setTuesday(boolean tuesday) {
+        this.tuesday = tuesday;
+    }
+
+    public boolean isWednesday() {
+        return wednesday;
+    }
+
+    public void setWednesday(boolean wednesday) {
+        this.wednesday = wednesday;
+    }
+
+    public boolean isThursday() {
+        return thursday;
+    }
+
+    public void setThursday(boolean thursday) {
+        this.thursday = thursday;
+    }
+
+    public boolean isFriday() {
+        return friday;
+    }
+
+    public void setFriday(boolean friday) {
+        this.friday = friday;
+    }
+
+    public boolean isSaturday() {
+        return saturday;
+    }
+
+    public void setSaturday(boolean saturday) {
+        this.saturday = saturday;
     }
 }

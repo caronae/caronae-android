@@ -14,10 +14,10 @@ import android.view.MenuItem;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
-import br.ufrj.caronae.frags.RideOfferFrag;
+import br.ufrj.caronae.frags.MyRidesFrag;
 import br.ufrj.caronae.frags.ProfileFrag;
+import br.ufrj.caronae.frags.RideOfferFrag;
 import br.ufrj.caronae.frags.RideSearchFrag;
-import br.ufrj.caronae.frags.StubFrag;
 
 public class MainAct extends AppCompatActivity {
 
@@ -73,12 +73,15 @@ public class MainAct extends AppCompatActivity {
                 fragmentClass = RideSearchFrag.class;
                 break;
             case R.id.nav_fourth_fragment:
+                fragmentClass = MyRidesFrag.class;
+                break;
+            case R.id.nav_fifth_fragment:
                 App.logOut();
                 startActivity(new Intent(this, LoginAct.class));
                 finish();
                 return;
             default:
-                fragmentClass = StubFrag.class;
+                fragmentClass = MyRidesFrag.class;
         }
 
         try {

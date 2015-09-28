@@ -26,4 +26,7 @@ public interface NetworkService {
 
     @POST("/ride/requestJoin")
     void sendJoinRequest(@Body String rideId, Callback<Response> cb);
+
+    @POST("/ride/delete")
+    void deleteRide(@Body String id, Callback<Response> cb);
 }

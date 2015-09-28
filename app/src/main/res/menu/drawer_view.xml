@@ -11,6 +11,9 @@
             android:title="Buscar Carona" />
         <item
             android:id="@+id/nav_fourth_fragment"
+            android:title="Minhas caronas" />
+        <item
+            android:id="@+id/nav_fifth_fragment"
             android:title="Sair" />
     </group>
 </menu>

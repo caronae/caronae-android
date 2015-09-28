@@ -1,4 +1,4 @@
-package br.ufrj.caronae;
+package br.ufrj.caronae.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +12,8 @@ import android.widget.Toast;
 
 import java.util.List;
 
+import br.ufrj.caronae.App;
+import br.ufrj.caronae.R;
 import br.ufrj.caronae.models.RideOffer;
 import retrofit.Callback;
 import retrofit.RetrofitError;

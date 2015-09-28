@@ -20,6 +20,13 @@ public class NetworkModule {
     RestAdapter provideRestAdapter() {
         return new RestAdapter.Builder()
                 .setEndpoint(endpoint)
+                .setLogLevel(RestAdapter.LogLevel.BASIC)/*.
+                        setLog(new RestAdapter.Log() {
+                            @Override
+                            public void log(String msg) {
+                                Log.i(App.LOGTAG, msg);
+                            }
+                        })*/
                 .build();
     }
 

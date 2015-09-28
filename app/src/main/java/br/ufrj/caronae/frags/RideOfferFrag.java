@@ -70,7 +70,6 @@ public class RideOfferFrag extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_offer_ride, container, false);
         ButterKnife.bind(this, view);
 
@@ -90,13 +89,12 @@ public class RideOfferFrag extends Fragment {
             routine_cb.setChecked(isRoutine);
             if (isRoutine) {
                 routineCb();
-                boolean[] days = ride.getRoutineDays();
-                monday_cb.setChecked(days[0]);
-                tuesday_cb.setChecked(days[1]);
-                wednesday_cb.setChecked(days[2]);
-                thursday_cb.setChecked(days[3]);
-                friday_cb.setChecked(days[4]);
-                saturday_cb.setChecked(days[5]);
+                monday_cb.setChecked(ride.isMonday());
+                tuesday_cb.setChecked(ride.isTuesday());
+                wednesday_cb.setChecked(ride.isWednesday());
+                thursday_cb.setChecked(ride.isThursday());
+                friday_cb.setChecked(ride.isFriday());
+                saturday_cb.setChecked(ride.isSaturday());
             }
         }
 

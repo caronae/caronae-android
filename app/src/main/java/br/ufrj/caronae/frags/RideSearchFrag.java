@@ -20,7 +20,7 @@ import java.util.List;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
-import br.ufrj.caronae.RideOfferAdapter;
+import br.ufrj.caronae.adapters.RideOfferAdapter;
 import br.ufrj.caronae.comparators.RideOfferComparatorByTime;
 import br.ufrj.caronae.models.RideOffer;
 import br.ufrj.caronae.models.RideSearchFilters;
