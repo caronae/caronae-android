@@ -95,7 +95,7 @@ public class ProfileFrag extends Fragment {
 
                 @Override
                 public void failure(RetrofitError error) {
-                    Log.e(App.LOGTAG, error.getMessage());
+                    Log.e("updateUser", error.getMessage());
                 }
             });
         }

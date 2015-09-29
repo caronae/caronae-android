@@ -14,7 +14,8 @@ import br.ufrj.caronae.modules.NetworkModule;
 
 public class App extends SugarApp {
 
-    public static final String LOGTAG = "caronae";
+    public static final String USER_PREF_KEY = "user";
+    public static final String MISSING_PREF = "missing";
 
     private static App inst;
     private static User user;
@@ -30,8 +31,8 @@ public class App extends SugarApp {
 
     public static User getUser() {
         if (user == null) {
-            String userJson = getSharedPref("user");
-            if (!userJson.equals("missing"))
+            String userJson = getPref(USER_PREF_KEY);
+            if (!userJson.equals(MISSING_PREF))
                 user = new Gson().fromJson(userJson, User.class);
         }
         return user;
@@ -43,36 +44,37 @@ public class App extends SugarApp {
 
     public static void logOut() {
         user = null;
-        deleteUser();
+        removePref(USER_PREF_KEY);
         Ride.deleteAll(Ride.class);
+    }
+
+    public static void saveUser(User user) {
+        putPref("user", new Gson().toJson(user));
+    }
+
+    private static SharedPreferences getSharedPreferences() {
+        return PreferenceManager.getDefaultSharedPreferences(inst());
+    }
+
+    private static SharedPreferences.Editor getSharedPrefEditor() {
+        return getSharedPreferences().edit();
+    }
+
+    public static void putPref(String key, String value) {
+        getSharedPrefEditor().putString(key, value).apply();
+    }
+
+    public static void removePref(String key) {
+        getSharedPrefEditor().remove(key).apply();
+    }
+
+    public static String getPref(String key) {
+        return getSharedPreferences().getString(key, MISSING_PREF);
     }
 
     public static NetworkService getNetworkService() {
         if (component == null)
             component = DaggerNetworkComponent.builder().networkModule(new NetworkModule("http://private-5b9ed6-caronae.apiary-mock.com")).build();
         return component.provideNetworkService();
-    }
-
-    public static void putSharedPref(String key, String value) {
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(inst());
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString(key, value);
-        editor.apply();
-    }
-
-    public static String getSharedPref(String lastRideSearchFilters) {
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(inst());
-        return sharedPref.getString(lastRideSearchFilters, "missing");
-    }
-
-    public static void saveUser(User user) {
-        putSharedPref("user", new Gson().toJson(user));
-    }
-
-    private static void deleteUser() {
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(inst());
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.remove("user");
-        editor.apply();
     }
 }

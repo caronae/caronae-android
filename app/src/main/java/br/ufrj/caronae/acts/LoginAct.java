@@ -58,7 +58,7 @@ public class LoginAct extends AppCompatActivity {
             @Override
             public void failure(RetrofitError retrofitError) {
                 pd.dismiss();
-                Log.e(App.LOGTAG, retrofitError.getMessage());
+                Log.e("sendToken", retrofitError.getMessage());
             }
         });
     }

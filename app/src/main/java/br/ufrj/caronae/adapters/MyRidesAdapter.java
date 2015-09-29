@@ -72,7 +72,7 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
                     @Override
                     public void failure(RetrofitError error) {
                         Toast.makeText(App.inst(), "Erro ao excluir carona", Toast.LENGTH_SHORT).show();
-                        Log.e(App.LOGTAG, error.getMessage());
+                        Log.e("deleteRide", error.getMessage());
                     }
                 });
             }

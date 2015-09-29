@@ -13,7 +13,6 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.orm.query.Select;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
@@ -74,7 +73,7 @@ public class RideOfferFrag extends Fragment {
         View view = inflater.inflate(R.layout.fragment_offer_ride, container, false);
         ButterKnife.bind(this, view);
 
-        String lastRideOffer = App.getSharedPref("lastRideOffer");
+        String lastRideOffer = App.getPref("lastRideOffer");
         if (!lastRideOffer.equals("missing")) {
             Ride ride = new Gson().fromJson(lastRideOffer, Ride.class);
             neighborhood_et.setText(ride.getNeighborhood());
@@ -125,7 +124,7 @@ public class RideOfferFrag extends Fragment {
         final Ride ride = new Ride(neighborhood, place, way, date, time, slots, hub, description, go, routine, routineDays);
 
         String lastRideOffer = new Gson().toJson(ride);
-        App.putSharedPref("lastRideOffer", lastRideOffer);
+        App.putPref("lastRideOffer", lastRideOffer);
 
         App.getNetworkService().offerRide(ride, new Callback<Response>() {
             @Override
@@ -136,7 +135,7 @@ public class RideOfferFrag extends Fragment {
 
             @Override
             public void failure(RetrofitError error) {
-                Log.e(App.LOGTAG, error.getMessage());
+                Log.e("offerRide", error.getMessage());
                 Toast.makeText(App.inst(), "Erro", Toast.LENGTH_SHORT).show();
             }
         });

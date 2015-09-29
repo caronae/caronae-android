@@ -70,7 +70,7 @@ public class RideSearchFrag extends Fragment {
         rvRides.setHasFixedSize(true);
         rvRides.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        String lastRideSearchFilters = App.getSharedPref("lastRideSearchFilters");
+        String lastRideSearchFilters = App.getPref("lastRideSearchFilters");
         if (!lastRideSearchFilters.equals("missing")) {
             RideSearchFilters rideSearchFilters = new Gson().fromJson(lastRideSearchFilters, RideSearchFilters.class);
 
@@ -101,7 +101,7 @@ public class RideSearchFrag extends Fragment {
         RideSearchFilters rideSearchFilters = new RideSearchFilters(zone, neighborhood, date, go);
 
         String lastRideSearchFilters = new Gson().toJson(rideSearchFilters);
-        App.putSharedPref("lastRideSearchFilters", lastRideSearchFilters);
+        App.putPref("lastRideSearchFilters", lastRideSearchFilters);
 
         App.getNetworkService().getRideOffers(rideSearchFilters, new Callback<List<RideOffer>>() {
             @Override
@@ -115,7 +115,7 @@ public class RideSearchFrag extends Fragment {
 
             @Override
             public void failure(RetrofitError error) {
-                Log.e(App.LOGTAG, error.getMessage());
+                Log.e("getRideOffers", error.getMessage());
                 pd.dismiss();
             }
         });

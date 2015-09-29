@@ -60,7 +60,7 @@ public class RideOfferAdapter extends
                     @Override
                     public void failure(RetrofitError error) {
                         Toast.makeText(App.inst(), "Erro no envio da solicitação", Toast.LENGTH_SHORT).show();
-                        Log.e(App.LOGTAG, error.getMessage());
+                        Log.e("sendJoinRequest", error.getMessage());
                     }
                 });
             }
