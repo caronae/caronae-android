@@ -14,17 +14,17 @@ public class RideOffer {
     private String driverId;
     private boolean go;
 
-    public RideOffer(Ride lastRide, User user) {
+    public RideOffer(Ride ride, User user) {
         driverName = user.getName();
-        time = lastRide.getTime();
+        time = ride.getTime();
         course = user.getCourse();
-        place = lastRide.getPlace();
-        way = lastRide.getWay();
-        slots = lastRide.getSlots();
-        description = lastRide.getDescription();
-        neighborhood = lastRide.getNeighborhood();
-        hub = lastRide.getHub();
-        go = lastRide.isGo();
+        place = ride.getPlace();
+        way = ride.getWay();
+        slots = ride.getSlots();
+        description = ride.getDescription();
+        neighborhood = ride.getNeighborhood();
+        hub = ride.getHub();
+        go = ride.isGo();
     }
 
     public String getDriverName() {

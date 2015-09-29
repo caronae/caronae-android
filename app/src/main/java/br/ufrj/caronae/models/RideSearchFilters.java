@@ -1,10 +1,10 @@
 package br.ufrj.caronae.models;
 
 public class RideSearchFilters {
-    private final String zone;
-    private final String neighborhood;
-    private final String date;
-    private final boolean go;
+    private String zone;
+    private String neighborhood;
+    private String date;
+    private boolean go;
 
     public RideSearchFilters(String zone, String neighborhood, String date, boolean go) {
         this.zone = zone;
