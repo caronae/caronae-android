@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
@@ -91,11 +92,13 @@ public class ProfileFrag extends Fragment {
                 public void success(Response response, Response response2) {
                     user.setUser(editedUser);
                     App.saveUser(user);
+                    Toast.makeText(App.inst(), "Perfil salvo", Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
                 public void failure(RetrofitError error) {
                     Log.e("updateUser", error.getMessage());
+                    Toast.makeText(App.inst(), "Erro", Toast.LENGTH_SHORT).show();
                 }
             });
         }
