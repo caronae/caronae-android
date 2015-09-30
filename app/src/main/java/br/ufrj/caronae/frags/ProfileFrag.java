@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import br.ufrj.caronae.App;
@@ -27,8 +28,6 @@ public class ProfileFrag extends Fragment {
     EditText profile_et;
     @Bind(R.id.course_et)
     EditText course_et;
-    @Bind(R.id.unit_et)
-    EditText unit_et;
     @Bind(R.id.phoneNumber_et)
     EditText phoneNumber_et;
     @Bind(R.id.email_et)
@@ -41,6 +40,8 @@ public class ProfileFrag extends Fragment {
     EditText carColor_et;
     @Bind(R.id.carPlate_et)
     EditText carPlate_et;
+    @Bind(R.id.car_lay)
+    RelativeLayout car_lay;
 
     private User user;
 
@@ -60,7 +61,6 @@ public class ProfileFrag extends Fragment {
             name_et.setText(user.getName());
             profile_et.setText(user.getProfile());
             course_et.setText(user.getCourse());
-            unit_et.setText(user.getUnit());
             phoneNumber_et.setText(user.getPhoneNumber());
             email_et.setText(user.getEmail());
             carOwner_cb.setChecked(user.isCarOwner());
@@ -69,7 +69,14 @@ public class ProfileFrag extends Fragment {
             carPlate_et.setText(user.getCarPlate());
         }
 
+        carOwnerCb();
+
         return view;
+    }
+
+    @OnClick(R.id.carOwner_cb)
+    public void carOwnerCb() {
+        car_lay.setVisibility(carOwner_cb.isChecked() ? View.VISIBLE : View.GONE);
     }
 
     @OnClick(R.id.save_bt)
@@ -78,7 +85,6 @@ public class ProfileFrag extends Fragment {
         editedUser.setName(name_et.getText().toString());
         editedUser.setProfile(profile_et.getText().toString());
         editedUser.setCourse(course_et.getText().toString());
-        editedUser.setUnit(unit_et.getText().toString());
         editedUser.setPhoneNumber(phoneNumber_et.getText().toString());
         editedUser.setEmail(email_et.getText().toString());
         editedUser.setCarOwner(carOwner_cb.isChecked());

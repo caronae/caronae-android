@@ -4,7 +4,6 @@ public class User {
     private String name;
     private String profile;
     private String course;
-    private String unit;
     private String phoneNumber;
     private String email;
     private boolean carOwner;
@@ -37,14 +36,6 @@ public class User {
 
     public void setCourse(String course) {
         this.course = course;
-    }
-
-    public String getUnit() {
-        return unit;
-    }
-
-    public void setUnit(String unit) {
-        this.unit = unit;
     }
 
     public String getPhoneNumber() {
@@ -102,8 +93,6 @@ public class User {
             return false;
         if (getCourse() != null ? !getCourse().equals(user.getCourse()) : user.getCourse() != null)
             return false;
-        if (getUnit() != null ? !getUnit().equals(user.getUnit()) : user.getUnit() != null)
-            return false;
         if (getPhoneNumber() != null ? !getPhoneNumber().equals(user.getPhoneNumber()) : user.getPhoneNumber() != null)
             return false;
         if (getEmail() != null ? !getEmail().equals(user.getEmail()) : user.getEmail() != null)
@@ -120,7 +109,6 @@ public class User {
         setName(editedUser.getName());
         setProfile(editedUser.getProfile());
         setCourse(editedUser.getCourse());
-        setUnit(editedUser.getUnit());
         setPhoneNumber(editedUser.getPhoneNumber());
         setEmail(editedUser.getEmail());
         setCarOwner(editedUser.isCarOwner());

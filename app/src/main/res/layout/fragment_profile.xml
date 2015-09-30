@@ -4,8 +4,8 @@
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         tools:context="br.ufrj.caronae.frags.ProfileFrag">
 
         <ImageView
@@ -56,24 +56,10 @@
             android:singleLine="true" />
 
         <TextView
-            android:id="@+id/unit_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/course_et"
-            android:text="@string/unidade_tv" />
-
-        <EditText
-            android:id="@+id/unit_et"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/unit_tv"
-            android:singleLine="true" />
-
-        <TextView
             android:id="@+id/phoneNumber_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/unit_et"
+            android:layout_below="@id/course_et"
             android:text="@string/phoneNumber_tv" />
 
         <EditText
@@ -103,63 +89,62 @@
             android:id="@+id/carOwner_cb"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/email_et" />
-
-        <TextView
-            android:id="@+id/carOwner_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/carOwner_cb"
-            android:layout_toRightOf="@+id/carOwner_cb"
+            android:layout_below="@id/email_et"
             android:text="@string/temCarro_tv" />
 
-        <TextView
-            android:id="@+id/carModel_tv"
+        <RelativeLayout
+            android:id="@+id/car_lay"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_below="@id/carOwner_cb"
-            android:text="@string/modelo_tv" />
+            android:layout_height="wrap_content">
 
-        <EditText
-            android:id="@+id/carModel_et"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/carModel_tv"
-            android:singleLine="true" />
+            <TextView
+                android:id="@+id/carModel_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/modelo_tv" />
 
-        <TextView
-            android:id="@+id/carColor_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/carModel_et"
-            android:text="@string/cor_tv" />
+            <EditText
+                android:id="@+id/carModel_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/carModel_tv"
+                android:singleLine="true" />
 
-        <EditText
-            android:id="@+id/carColor_et"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/carColor_tv"
-            android:singleLine="true" />
+            <TextView
+                android:id="@+id/carColor_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/carModel_et"
+                android:text="@string/cor_tv" />
 
-        <TextView
-            android:id="@+id/carPlate_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/carColor_et"
-            android:text="@string/placa_tv" />
+            <EditText
+                android:id="@+id/carColor_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/carColor_tv"
+                android:singleLine="true" />
 
-        <EditText
-            android:id="@+id/carPlate_et"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/carPlate_tv"
-            android:singleLine="true" />
+            <TextView
+                android:id="@+id/carPlate_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/carColor_et"
+                android:text="@string/placa_tv" />
+
+            <EditText
+                android:id="@+id/carPlate_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/carPlate_tv"
+                android:singleLine="true" />
+        </RelativeLayout>
 
         <Button
             android:id="@+id/save_bt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/carPlate_et"
+            android:layout_below="@id/car_lay"
             android:layout_centerHorizontal="true"
             android:text="@string/save_bt" />
 
