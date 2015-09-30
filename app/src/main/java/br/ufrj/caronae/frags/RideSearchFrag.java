@@ -9,9 +9,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.Animation;
-import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
@@ -62,7 +59,7 @@ public class RideSearchFrag extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_search_ride, container, false);
+        View view = inflater.inflate(R.layout.fragment_ride_search, container, false);
         ButterKnife.bind(this, view);
 
         adapter = new RideOfferAdapter(new ArrayList<RideOffer>());

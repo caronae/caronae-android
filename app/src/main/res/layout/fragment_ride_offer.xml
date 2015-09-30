@@ -68,38 +68,52 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/way_tv" />
 
-        <TextView
-            android:id="@+id/date_tv"
+        <RelativeLayout
+            android:id="@+id/date_time_lay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/way_et"
-            android:text="@string/date_tv" />
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/way_et">
 
-        <EditText
-            android:id="@+id/date_et"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/date_tv"
-            android:inputType="date" />
+            <TextView
+                android:id="@+id/date_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/date_tv" />
 
-        <TextView
-            android:id="@+id/time_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/date_et"
-            android:text="@string/time_tv" />
+            <TextView
+                android:id="@+id/date_et"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/date_tv"
+                android:text="01/02/2015"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
 
-        <EditText
-            android:id="@+id/time_et"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/time_tv" />
+            <TextView
+                android:id="@+id/time_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_toRightOf="@+id/date_et"
+                android:text="@string/time_tv" />
+
+            <TextView
+                android:id="@+id/time_et"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/time_tv"
+                android:layout_alignStart="@+id/time_tv"
+                android:layout_below="@+id/time_tv"
+                android:text="12:34 AM"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/slots_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/time_et"
+            android:layout_below="@+id/date_time_lay"
             android:text="@string/slots_tv" />
 
         <EditText

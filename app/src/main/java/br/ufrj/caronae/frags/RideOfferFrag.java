@@ -2,6 +2,7 @@ package br.ufrj.caronae.frags;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.format.Time;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,9 +11,22 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+
+import com.rey.material.app.DatePickerDialog;
+import com.rey.material.app.Dialog;
+import com.rey.material.app.DialogFragment;
+import com.rey.material.app.TimePickerDialog;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Locale;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
@@ -35,9 +49,9 @@ public class RideOfferFrag extends Fragment {
     @Bind(R.id.way_et)
     EditText way_et;
     @Bind(R.id.date_et)
-    EditText date_et;
+    TextView date_et;
     @Bind(R.id.time_et)
-    EditText time_et;
+    TextView time_et;
     @Bind(R.id.slots_et)
     EditText slots_et;
     @Bind(R.id.hub_et)
@@ -70,11 +84,11 @@ public class RideOfferFrag extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_offer_ride, container, false);
+        View view = inflater.inflate(R.layout.fragment_ride_offer, container, false);
         ButterKnife.bind(this, view);
 
         String lastRideOffer = App.getPref("lastRideOffer");
-        if (!lastRideOffer.equals("missing")) {
+        if (!lastRideOffer.equals(App.MISSING_PREF)) {
             Ride ride = new Gson().fromJson(lastRideOffer, Ride.class);
             neighborhood_et.setText(ride.getNeighborhood());
             place_et.setText(ride.getPlace());
@@ -96,9 +110,58 @@ public class RideOfferFrag extends Fragment {
                 friday_cb.setChecked(ride.isFriday());
                 saturday_cb.setChecked(ride.isSaturday());
             }
+        } else {
+            date_et.setText(new SimpleDateFormat("dd/MM/yyyy").format(Calendar.getInstance().getTime()));
+            time_et.setText(new SimpleDateFormat("HH:mm").format(Calendar.getInstance().getTime()));
         }
 
         return view;
+    }
+
+    @OnClick(R.id.date_et)
+    public void date_et() {
+        Dialog.Builder builder = new DatePickerDialog.Builder(R.style.Material_App_Dialog_DatePicker_Light){
+            @Override
+            public void onPositiveActionClicked(DialogFragment fragment) {
+                DatePickerDialog dialog = (DatePickerDialog)fragment.getDialog();
+                date_et.setText(dialog.getFormattedDate(new SimpleDateFormat("dd/MM/yyyy")));
+                super.onPositiveActionClicked(fragment);
+            }
+
+            @Override
+            public void onNegativeActionClicked(DialogFragment fragment) {
+                super.onNegativeActionClicked(fragment);
+            }
+        };
+
+        builder.positiveAction("OK")
+                .negativeAction("Cancelar");
+
+        DialogFragment fragment = DialogFragment.newInstance(builder);
+        fragment.show(getFragmentManager(), null);
+    }
+
+    @OnClick(R.id.time_et)
+    public void time_et() {
+        Dialog.Builder builder = new TimePickerDialog.Builder(R.style.Material_App_Dialog_TimePicker_Light, 24, 0){
+            @Override
+            public void onPositiveActionClicked(DialogFragment fragment) {
+                TimePickerDialog dialog = (TimePickerDialog)fragment.getDialog();
+                time_et.setText(dialog.getFormattedTime(new SimpleDateFormat("HH:mm")));
+                super.onPositiveActionClicked(fragment);
+            }
+
+            @Override
+            public void onNegativeActionClicked(DialogFragment fragment) {
+                super.onNegativeActionClicked(fragment);
+            }
+        };
+
+        builder.positiveAction("OK")
+                .negativeAction("Cancelar");
+
+        DialogFragment fragment = DialogFragment.newInstance(builder);
+        fragment.show(getFragmentManager(), null);
     }
 
     @OnClick(R.id.routine_cb)

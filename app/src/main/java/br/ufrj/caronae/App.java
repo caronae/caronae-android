@@ -49,6 +49,7 @@ public class App extends SugarApp {
     public static void logOut() {
         user = null;
         removePref(USER_PREF_KEY);
+        removePref("lastRideOffer");
         Ride.deleteAll(Ride.class);
     }
 
