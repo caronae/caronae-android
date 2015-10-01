@@ -13,12 +13,19 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.rey.material.app.DatePickerDialog;
+import com.rey.material.app.Dialog;
+import com.rey.material.app.DialogFragment;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
@@ -41,7 +48,7 @@ public class RideSearchFrag extends Fragment {
     @Bind(R.id.neighborhood_et)
     EditText neighborhood_et;
     @Bind(R.id.date_et)
-    EditText date_et;
+    TextView date_et;
     @Bind(R.id.lay)
     RelativeLayout lay;
     @Bind(R.id.anotherSearch_bt)
@@ -68,7 +75,7 @@ public class RideSearchFrag extends Fragment {
         rvRides.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         String lastRideSearchFilters = App.getPref("lastRideSearchFilters");
-        if (!lastRideSearchFilters.equals("missing")) {
+        if (!lastRideSearchFilters.equals(App.MISSING_PREF)) {
             RideSearchFilters rideSearchFilters = new Gson().fromJson(lastRideSearchFilters, RideSearchFilters.class);
 
             zone_et.setText(rideSearchFilters.getZone());
@@ -76,9 +83,34 @@ public class RideSearchFrag extends Fragment {
             date_et.setText(rideSearchFilters.getDate());
             boolean go = rideSearchFilters.isGo();
             radioGroup.check(go ? R.id.go_rb : R.id.back_rb);
+        } else {
+            date_et.setText(DateFormat.getDateInstance(DateFormat.SHORT, Locale.getDefault()).format(Calendar.getInstance().getTime()));
         }
 
         return view;
+    }
+
+    @OnClick(R.id.date_et)
+    public void dateEt() {
+        Dialog.Builder builder = new DatePickerDialog.Builder(R.style.Material_App_Dialog_DatePicker_Light) {
+            @Override
+            public void onPositiveActionClicked(DialogFragment fragment) {
+                DatePickerDialog dialog = (DatePickerDialog) fragment.getDialog();
+                date_et.setText(dialog.getFormattedDate(DateFormat.getDateInstance(DateFormat.SHORT, Locale.getDefault())));
+                super.onPositiveActionClicked(fragment);
+            }
+
+            @Override
+            public void onNegativeActionClicked(DialogFragment fragment) {
+                super.onNegativeActionClicked(fragment);
+            }
+        };
+
+        builder.positiveAction("OK")
+                .negativeAction("Cancelar");
+
+        DialogFragment fragment = DialogFragment.newInstance(builder);
+        fragment.show(getFragmentManager(), null);
     }
 
     @OnClick(R.id.anotherSearch_bt)

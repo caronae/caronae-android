@@ -65,12 +65,13 @@
             android:layout_below="@+id/neighborhood_et"
             android:text="Data" />
 
-        <EditText
+        <TextView
             android:id="@+id/date_et"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/date_tv"
-            android:hint="24/09/2015" />
+            android:text="01/01/2015"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <Button
             android:id="@+id/search_bt"

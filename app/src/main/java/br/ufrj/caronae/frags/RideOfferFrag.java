@@ -115,10 +115,10 @@ public class RideOfferFrag extends Fragment {
 
     @OnClick(R.id.date_et)
     public void date_et() {
-        Dialog.Builder builder = new DatePickerDialog.Builder(R.style.Material_App_Dialog_DatePicker_Light){
+        Dialog.Builder builder = new DatePickerDialog.Builder(R.style.Material_App_Dialog_DatePicker_Light) {
             @Override
             public void onPositiveActionClicked(DialogFragment fragment) {
-                DatePickerDialog dialog = (DatePickerDialog)fragment.getDialog();
+                DatePickerDialog dialog = (DatePickerDialog) fragment.getDialog();
                 date_et.setText(dialog.getFormattedDate(DateFormat.getDateInstance(DateFormat.SHORT, Locale.getDefault())));
                 super.onPositiveActionClicked(fragment);
             }
@@ -138,10 +138,10 @@ public class RideOfferFrag extends Fragment {
 
     @OnClick(R.id.time_et)
     public void time_et() {
-        Dialog.Builder builder = new TimePickerDialog.Builder(R.style.Material_App_Dialog_TimePicker_Light, 24, 0){
+        Dialog.Builder builder = new TimePickerDialog.Builder(R.style.Material_App_Dialog_TimePicker_Light, 24, 0) {
             @Override
             public void onPositiveActionClicked(DialogFragment fragment) {
-                TimePickerDialog dialog = (TimePickerDialog)fragment.getDialog();
+                TimePickerDialog dialog = (TimePickerDialog) fragment.getDialog();
                 time_et.setText(dialog.getFormattedTime(DateFormat.getTimeInstance(DateFormat.SHORT, Locale.getDefault())));
                 super.onPositiveActionClicked(fragment);
             }
