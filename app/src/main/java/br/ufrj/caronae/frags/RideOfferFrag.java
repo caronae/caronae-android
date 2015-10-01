@@ -2,7 +2,6 @@ package br.ufrj.caronae.frags;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.format.Time;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,17 +14,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-
 import com.rey.material.app.DatePickerDialog;
 import com.rey.material.app.Dialog;
 import com.rey.material.app.DialogFragment;
 import com.rey.material.app.TimePickerDialog;
 
 import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.Locale;
 
 import br.ufrj.caronae.App;
@@ -111,8 +106,8 @@ public class RideOfferFrag extends Fragment {
                 saturday_cb.setChecked(ride.isSaturday());
             }
         } else {
-            date_et.setText(new SimpleDateFormat("dd/MM/yyyy").format(Calendar.getInstance().getTime()));
-            time_et.setText(new SimpleDateFormat("HH:mm").format(Calendar.getInstance().getTime()));
+            date_et.setText(DateFormat.getDateInstance(DateFormat.SHORT, Locale.getDefault()).format(Calendar.getInstance().getTime()));
+            time_et.setText(DateFormat.getTimeInstance(DateFormat.SHORT, Locale.getDefault()).format(Calendar.getInstance().getTime()));
         }
 
         return view;
@@ -124,7 +119,7 @@ public class RideOfferFrag extends Fragment {
             @Override
             public void onPositiveActionClicked(DialogFragment fragment) {
                 DatePickerDialog dialog = (DatePickerDialog)fragment.getDialog();
-                date_et.setText(dialog.getFormattedDate(new SimpleDateFormat("dd/MM/yyyy")));
+                date_et.setText(dialog.getFormattedDate(DateFormat.getDateInstance(DateFormat.SHORT, Locale.getDefault())));
                 super.onPositiveActionClicked(fragment);
             }
 
@@ -147,7 +142,7 @@ public class RideOfferFrag extends Fragment {
             @Override
             public void onPositiveActionClicked(DialogFragment fragment) {
                 TimePickerDialog dialog = (TimePickerDialog)fragment.getDialog();
-                time_et.setText(dialog.getFormattedTime(new SimpleDateFormat("HH:mm")));
+                time_et.setText(dialog.getFormattedTime(DateFormat.getTimeInstance(DateFormat.SHORT, Locale.getDefault())));
                 super.onPositiveActionClicked(fragment);
             }
 
