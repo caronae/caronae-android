@@ -24,6 +24,7 @@ public class App extends SugarApp {
     private static App inst;
     private static User user;
     private static NetworkComponent component;
+    private static NetworkComponent component2;
 
     public App() {
         inst = this;
@@ -79,8 +80,14 @@ public class App extends SugarApp {
 
     public static NetworkService getNetworkService() {
         if (component == null)
-            component = DaggerNetworkComponent.builder().networkModule(new NetworkModule("http://private-5b9ed6-caronae.apiary-mock.com")).build();
+            component = DaggerNetworkComponent.builder().networkModule(new NetworkModule("http://192.168.0.13/")).build();
         return component.provideNetworkService();
+    }
+
+    public static NetworkService getApiaryNetworkService() {
+        if (component2 == null)
+            component2 = DaggerNetworkComponent.builder().networkModule(new NetworkModule("http://private-5b9ed6-caronae.apiary-mock.com")).build();
+        return component2.provideNetworkService();
     }
 
     public static void expandOrCollapse(final View v, boolean expand) {

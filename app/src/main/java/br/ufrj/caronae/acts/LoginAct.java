@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
+import br.ufrj.caronae.models.Token;
 import br.ufrj.caronae.models.User;
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -46,7 +47,8 @@ public class LoginAct extends AppCompatActivity {
     @OnClick(R.id.send_bt)
     public void sendBt() {
         final ProgressDialog pd = ProgressDialog.show(this, "", "Aguarde", true, true);
-        App.getNetworkService().sendToken(token_et.getText().toString(), new Callback<User>() {
+        String token = token_et.getText().toString();
+        App.getNetworkService().sendToken(new Token(token), new Callback<User>() {
             @Override
             public void success(User user, Response response) {
                 pd.dismiss();

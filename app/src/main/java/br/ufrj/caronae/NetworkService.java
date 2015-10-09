@@ -5,6 +5,7 @@ import java.util.List;
 import br.ufrj.caronae.models.Ride;
 import br.ufrj.caronae.models.RideOffer;
 import br.ufrj.caronae.models.RideSearchFilters;
+import br.ufrj.caronae.models.Token;
 import br.ufrj.caronae.models.User;
 import retrofit.Callback;
 import retrofit.client.Response;
@@ -13,7 +14,7 @@ import retrofit.http.POST;
 
 public interface NetworkService {
     @POST("/auth")
-    void sendToken(@Body String token, Callback<User> cb);
+    void sendToken(@Body Token token, Callback<User> cb);
 
     @POST("/user")
     void updateUser(@Body User user, Callback<Response> cb);
