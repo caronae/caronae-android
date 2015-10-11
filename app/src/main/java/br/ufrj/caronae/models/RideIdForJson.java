@@ -1,17 +1,17 @@
 package br.ufrj.caronae.models;
 
 public class RideIdForJson {
-    String rideId;
+    int rideId;
 
-    public RideIdForJson(String rideId) {
+    public RideIdForJson(int rideId) {
         this.rideId = rideId;
     }
 
-    public String getRideId() {
+    public int getRideId() {
         return rideId;
     }
 
-    public void setRideId(String rideId) {
+    public void setRideId(int rideId) {
         this.rideId = rideId;
     }
 }

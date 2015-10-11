@@ -10,8 +10,8 @@ public class RideOffer {
     private String description;
     private String neighborhood;
     private String hub;
-    private String rideId;
-    private String driverId;
+    private int rideId;
+    private int driverId;
     private boolean go;
 
     public RideOffer(Ride ride, User user) {
@@ -99,19 +99,19 @@ public class RideOffer {
         this.hub = hub;
     }
 
-    public String getRideId() {
+    public int getRideId() {
         return rideId;
     }
 
-    public void setRideId(String rideId) {
+    public void setRideId(int rideId) {
         this.rideId = rideId;
     }
 
-    public String getDriverId() {
+    public int getDriverId() {
         return driverId;
     }
 
-    public void setDriverId(String driverId) {
+    public void setDriverId(int driverId) {
         this.driverId = driverId;
     }
 

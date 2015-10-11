@@ -195,7 +195,7 @@ public class RideOfferFrag extends Fragment {
         App.getNetworkService().offerRide(ride, new Callback<String>() {
             @Override
             public void success(String rideId, Response response2) {
-                ride.setDbId(rideId);
+                ride.setDbId(Integer.parseInt(rideId));
                 ride.save();
                 Toast.makeText(App.inst(), "Carona salva", Toast.LENGTH_SHORT).show();
             }

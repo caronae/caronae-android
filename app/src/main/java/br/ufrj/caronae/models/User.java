@@ -17,6 +17,8 @@ public class User {
     private String carColor;
     @SerializedName("car_plate")
     private String carPlate;
+    @SerializedName("id")
+    private int dbId;
 
     public User() {
     }
@@ -91,6 +93,14 @@ public class User {
 
     public void setCarPlate(String carPlate) {
         this.carPlate = carPlate;
+    }
+
+    public int getDbId() {
+        return dbId;
+    }
+
+    public void setDbId(int dbId) {
+        this.dbId = dbId;
     }
 
     public boolean sameFieldsState(User user) {

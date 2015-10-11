@@ -48,6 +48,9 @@ public class RideOfferAdapter extends
         viewHolder.slots_tv.setText(rideOffer.getSlots() + " vagas");
         viewHolder.direction_tv.setText(rideOffer.isGo() ? "Indo para o fundão" : "Voltando do fundão - HUB:" + rideOffer.getHub());
         viewHolder.neighborhood_tv.setText(rideOffer.getNeighborhood());
+        if (rideOffer.getDriverId() == App.getUser().getDbId()) {
+            viewHolder.join_bt.setVisibility(View.GONE);
+        }
         viewHolder.join_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

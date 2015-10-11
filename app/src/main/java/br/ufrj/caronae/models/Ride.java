@@ -17,7 +17,7 @@ public class Ride extends SugarRecord<Ride> {
     private String hub;
     private String description;
     private boolean going, routine, monday, tuesday, wednesday, thursday, friday, saturday;
-    private String dbId;
+    private int dbId;
 
     public Ride() {
     }
@@ -178,11 +178,11 @@ public class Ride extends SugarRecord<Ride> {
         this.saturday = saturday;
     }
 
-    public String getDbId() {
+    public int getDbId() {
         return dbId;
     }
 
-    public void setDbId(String dbId) {
+    public void setDbId(int dbId) {
         this.dbId = dbId;
     }
 }
