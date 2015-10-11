@@ -47,12 +47,15 @@ public class LoginAct extends AppCompatActivity {
     @OnClick(R.id.send_bt)
     public void sendBt() {
         final ProgressDialog pd = ProgressDialog.show(this, "", "Aguarde", true, true);
-        String token = token_et.getText().toString();
+        final String token = token_et.getText().toString();
         App.getNetworkService().sendToken(new Token(token), new Callback<User>() {
             @Override
             public void success(User user, Response response) {
                 pd.dismiss();
                 App.saveUser(user);
+
+                App.saveToken(token);
+
                 startActivity(new Intent(LoginAct.this, MainAct.class));
                 LoginAct.this.finish();
             }

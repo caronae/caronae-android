@@ -18,13 +18,13 @@ public class RideOffer {
         driverName = user.getName();
         time = ride.getTime();
         course = user.getCourse();
-        place = ride.getPlace();
-        way = ride.getWay();
+        place = ride.getReference();
+        way = ride.getRoute();
         slots = ride.getSlots();
         description = ride.getDescription();
         neighborhood = ride.getNeighborhood();
         hub = ride.getHub();
-        go = ride.isGo();
+        go = ride.isGoing();
     }
 
     public String getDriverName() {

@@ -11,12 +11,13 @@ import retrofit.Callback;
 import retrofit.client.Response;
 import retrofit.http.Body;
 import retrofit.http.POST;
+import retrofit.http.PUT;
 
 public interface NetworkService {
     @POST("/auth")
     void sendToken(@Body Token token, Callback<User> cb);
 
-    @POST("/user")
+    @PUT("/user/a")
     void updateUser(@Body User user, Callback<Response> cb);
 
     @POST("/ride")

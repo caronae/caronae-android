@@ -42,7 +42,7 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
 
         holder.time_tv.setText(ride.getTime());
         holder.slots_tv.setText(ride.getSlots() + " vagas");
-        holder.direction_tv.setText(ride.isGo() ? "Indo para o fundão" : "Voltando do fundão - HUB:" + ride.getHub());
+        holder.direction_tv.setText(ride.isGoing() ? "Indo para o fundão" : "Voltando do fundão - HUB:" + ride.getHub());
         holder.neighborhood_tv.setText(ride.getNeighborhood());
         String s;
         if (ride.isRoutine()) {

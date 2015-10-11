@@ -122,4 +122,12 @@ public class App extends SugarApp {
         anim.setInterpolator(new AccelerateInterpolator(0.5f));
         v.startAnimation(anim);
     }
+
+    public static String getUserToken() {
+        return getPref("token");
+    }
+
+    public static void saveToken(String token) {
+        putPref("token", token);
+    }
 }

@@ -1,14 +1,21 @@
 package br.ufrj.caronae.models;
 
+import com.google.gson.annotations.SerializedName;
+
 public class User {
     private String name;
     private String profile;
     private String course;
+    @SerializedName("phone_number")
     private String phoneNumber;
     private String email;
+    @SerializedName("car_owner")
     private boolean carOwner;
+    @SerializedName("car_model")
     private String carModel;
+    @SerializedName("car_color")
     private String carColor;
+    @SerializedName("car_plate")
     private String carPlate;
 
     public User() {

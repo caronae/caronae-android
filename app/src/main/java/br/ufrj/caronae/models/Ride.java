@@ -1,31 +1,36 @@
 package br.ufrj.caronae.models;
 
+import com.google.gson.annotations.SerializedName;
 import com.orm.SugarRecord;
 
 public class Ride extends SugarRecord<Ride> {
+    @SerializedName("myzone")
+    private String zone;
     private String neighborhood;
-    private String place;
-    private String way;
+    private String reference;
+    private String route;
+    @SerializedName("mydate")
     private String date;
+    @SerializedName("mytime")
     private String time;
     private String slots;
     private String hub;
     private String description;
-    private boolean go, routine, monday, tuesday, wednesday, thursday, friday, saturday;
+    private boolean going, routine, monday, tuesday, wednesday, thursday, friday, saturday;
 
     public Ride() {
     }
 
-    public Ride(String neighborhood, String place, String way, String date, String time, String slots, String hub, String description, boolean go, boolean routine, boolean[] routineDays) {
+    public Ride(String neighborhood, String reference, String route, String date, String time, String slots, String hub, String description, boolean going, boolean routine, boolean[] routineDays) {
         this.neighborhood = neighborhood;
-        this.place = place;
-        this.way = way;
+        this.reference = reference;
+        this.route = route;
         this.date = date;
         this.time = time;
         this.slots = slots;
         this.hub = hub;
         this.description = description;
-        this.go = go;
+        this.going = going;
         this.routine = routine;
         monday = routineDays[0];
         tuesday = routineDays[1];
@@ -33,6 +38,14 @@ public class Ride extends SugarRecord<Ride> {
         thursday = routineDays[3];
         friday = routineDays[4];
         saturday = routineDays[5];
+    }
+
+    public String getZone() {
+        return zone;
+    }
+
+    public void setZone(String zone) {
+        this.zone = zone;
     }
 
     public String getNeighborhood() {
@@ -43,20 +56,20 @@ public class Ride extends SugarRecord<Ride> {
         this.neighborhood = neighborhood;
     }
 
-    public String getPlace() {
-        return place;
+    public String getReference() {
+        return reference;
     }
 
-    public void setPlace(String place) {
-        this.place = place;
+    public void setReference(String reference) {
+        this.reference = reference;
     }
 
-    public String getWay() {
-        return way;
+    public String getRoute() {
+        return route;
     }
 
-    public void setWay(String way) {
-        this.way = way;
+    public void setRoute(String route) {
+        this.route = route;
     }
 
     public String getDate() {
@@ -99,12 +112,12 @@ public class Ride extends SugarRecord<Ride> {
         this.description = description;
     }
 
-    public boolean isGo() {
-        return go;
+    public boolean isGoing() {
+        return going;
     }
 
-    public void setGo(boolean go) {
-        this.go = go;
+    public void setGoing(boolean going) {
+        this.going = going;
     }
 
     public boolean isRoutine() {

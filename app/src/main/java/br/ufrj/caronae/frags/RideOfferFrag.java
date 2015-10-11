@@ -86,14 +86,14 @@ public class RideOfferFrag extends Fragment {
         if (!lastRideOffer.equals(App.MISSING_PREF)) {
             Ride ride = new Gson().fromJson(lastRideOffer, Ride.class);
             neighborhood_et.setText(ride.getNeighborhood());
-            place_et.setText(ride.getPlace());
-            way_et.setText(ride.getWay());
+            place_et.setText(ride.getReference());
+            way_et.setText(ride.getRoute());
             date_et.setText(ride.getDate());
             time_et.setText(ride.getTime());
             slots_et.setText(ride.getSlots());
             hub_et.setText(ride.getHub());
             description_et.setText(ride.getDescription());
-            radioGroup.check(ride.isGo() ? R.id.go_rb : R.id.back_rb);
+            radioGroup.check(ride.isGoing() ? R.id.go_rb : R.id.back_rb);
             boolean isRoutine = ride.isRoutine();
             routine_cb.setChecked(isRoutine);
             if (isRoutine) {
