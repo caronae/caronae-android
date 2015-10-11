@@ -9,6 +9,7 @@ import android.view.KeyEvent;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
@@ -52,6 +53,12 @@ public class LoginAct extends AppCompatActivity {
             @Override
             public void success(User user, Response response) {
                 pd.dismiss();
+
+                if (user == null) {
+                    Toast.makeText(App.inst(), "Nenhum usúario encontrado com esse token", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 App.saveUser(user);
 
                 App.saveToken(token);
@@ -63,6 +70,7 @@ public class LoginAct extends AppCompatActivity {
             @Override
             public void failure(RetrofitError retrofitError) {
                 pd.dismiss();
+                Toast.makeText(App.inst(), "Erro", Toast.LENGTH_SHORT).show();
                 Log.e("sendToken", retrofitError.getMessage());
             }
         });
