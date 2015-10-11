@@ -7,7 +7,7 @@ public class Ride extends SugarRecord<Ride> {
     @SerializedName("myzone")
     private String zone;
     private String neighborhood;
-    private String reference;
+    private String place;
     private String route;
     @SerializedName("mydate")
     private String date;
@@ -21,9 +21,10 @@ public class Ride extends SugarRecord<Ride> {
     public Ride() {
     }
 
-    public Ride(String neighborhood, String reference, String route, String date, String time, String slots, String hub, String description, boolean going, boolean routine, boolean[] routineDays) {
+    public Ride(String zone, String neighborhood, String place, String route, String date, String time, String slots, String hub, String description, boolean going, boolean routine, boolean[] routineDays) {
+        this.zone = zone;
         this.neighborhood = neighborhood;
-        this.reference = reference;
+        this.place = place;
         this.route = route;
         this.date = date;
         this.time = time;
@@ -56,12 +57,12 @@ public class Ride extends SugarRecord<Ride> {
         this.neighborhood = neighborhood;
     }
 
-    public String getReference() {
-        return reference;
+    public String getPlace() {
+        return place;
     }
 
-    public void setReference(String reference) {
-        this.reference = reference;
+    public void setPlace(String place) {
+        this.place = place;
     }
 
     public String getRoute() {

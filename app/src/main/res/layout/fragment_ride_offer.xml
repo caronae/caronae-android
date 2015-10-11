@@ -30,11 +30,24 @@
         </RadioGroup>
 
         <TextView
-            android:id="@+id/neighborhood_tv"
+            android:id="@+id/zone_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/radioGroup"
-            android:text="@string/bairro_tv" />
+            android:text="@string/zone_tv" />
+
+        <EditText
+            android:id="@+id/zone_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/zone_tv" />
+
+        <TextView
+            android:id="@+id/neighborhood_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/zone_et"
+            android:text="@string/neighborhood_tv" />
 
         <EditText
             android:id="@+id/neighborhood_et"

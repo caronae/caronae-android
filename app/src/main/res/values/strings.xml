@@ -1,28 +1,21 @@
 <resources>
     <string name="app_name">Caronae</string>
 
-    <string name="nome_tv">Nome</string>
-    <string name="perfil_tv">Perfil</string>
-    <string name="curso_tv">Curso/Cargo/Departamento</string>
-    <string name="unidade_tv">Unidade que mais frequenta</string>
-    <string name="zona_tv">Zona</string>
-    <string name="bairro_tv">Bairro</string>
-    <string name="modelo_tv">Modelo</string>
-    <string name="cor_tv">Cor</string>
-    <string name="placa_tv">Placa</string>
-    <string name="temCarro_tv">Tem carro?</string>
+    <string name="name_tv">Nome</string>
+    <string name="profile_tv">Perfil</string>
+    <string name="course_tv">Curso/Cargo/Departamento</string>
+    <string name="zone_tv">Zona</string>
+    <string name="neighborhood_tv">Bairro</string>
+    <string name="model_tv">Modelo</string>
+    <string name="color_tv">Cor</string>
+    <string name="plate_tv">Placa</string>
+    <string name="carOwner_tv">Tem carro?</string>
 
     <string name="title_activity_principal">Principal</string>
     <string name="title_activity_login">Login</string>
     <string name="tokenHint_et">Digite o token aqui</string>
     <string name="send_bt">Enviar</string>
-    <string name="title_activity_main2">Main2Activity</string>
 
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
-
-    <string name="de_tv">De</string>
-    <string name="to_et">Para</string>
     <string name="go_rb">Ir ao fundão</string>
     <string name="back_rb">Voltar do fundão</string>
     <string name="date_tv">Data</string>
@@ -32,8 +25,7 @@
     <string name="save_bt">Salvar</string>
     <string name="phoneNumber_tv">Telefone</string>
     <string name="email_tv">E-mail</string>
-    <string name="enviar">Enviar</string>
-    <string name="destination_default">Cidade Universitária</string>
+    <string name="send">Enviar</string>
     <string name="place_tv">Aonde</string>
     <string name="way_tv">Por onde</string>
     <string name="routine_cb">Repetir</string>

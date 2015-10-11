@@ -18,7 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/photo_iv"
-            android:text="@string/nome_tv" />
+            android:text="@string/name_tv" />
 
         <EditText
             android:id="@+id/name_et"
@@ -32,7 +32,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/name_et"
-            android:text="@string/perfil_tv" />
+            android:text="@string/profile_tv" />
 
         <EditText
             android:id="@+id/profile_et"
@@ -46,7 +46,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/profile_et"
-            android:text="@string/curso_tv" />
+            android:text="@string/course_tv" />
 
         <EditText
             android:id="@+id/course_et"
@@ -90,7 +90,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/email_et"
-            android:text="@string/temCarro_tv" />
+            android:text="@string/carOwner_tv" />
 
         <RelativeLayout
             android:id="@+id/car_lay"
@@ -102,7 +102,7 @@
                 android:id="@+id/carModel_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/modelo_tv" />
+                android:text="@string/model_tv" />
 
             <EditText
                 android:id="@+id/carModel_et"
@@ -116,7 +116,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/carModel_et"
-                android:text="@string/cor_tv" />
+                android:text="@string/color_tv" />
 
             <EditText
                 android:id="@+id/carColor_et"
@@ -130,7 +130,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/carColor_et"
-                android:text="@string/placa_tv" />
+                android:text="@string/plate_tv" />
 
             <EditText
                 android:id="@+id/carPlate_et"

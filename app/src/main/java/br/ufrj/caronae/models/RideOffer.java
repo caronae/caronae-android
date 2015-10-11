@@ -18,7 +18,7 @@ public class RideOffer {
         driverName = user.getName();
         time = ride.getTime();
         course = user.getCourse();
-        place = ride.getReference();
+        place = ride.getPlace();
         way = ride.getRoute();
         slots = ride.getSlots();
         description = ride.getDescription();

@@ -37,6 +37,8 @@ public class RideOfferFrag extends Fragment {
     @Bind(R.id.radioGroup)
     RadioGroup radioGroup;
 
+    @Bind(R.id.zone_et)
+    EditText zone_et;
     @Bind(R.id.neighborhood_et)
     EditText neighborhood_et;
     @Bind(R.id.place_et)
@@ -85,8 +87,9 @@ public class RideOfferFrag extends Fragment {
         String lastRideOffer = App.getPref("lastRideOffer");
         if (!lastRideOffer.equals(App.MISSING_PREF)) {
             Ride ride = new Gson().fromJson(lastRideOffer, Ride.class);
+            zone_et.setText(ride.getZone());
             neighborhood_et.setText(ride.getNeighborhood());
-            place_et.setText(ride.getReference());
+            place_et.setText(ride.getPlace());
             way_et.setText(ride.getRoute());
             date_et.setText(ride.getDate());
             time_et.setText(ride.getTime());
@@ -166,6 +169,7 @@ public class RideOfferFrag extends Fragment {
 
     @OnClick(R.id.send_bt)
     public void sendBt() {
+        String zone = zone_et.getText().toString();
         String neighborhood = neighborhood_et.getText().toString();
         String place = place_et.getText().toString();
         String way = way_et.getText().toString();
@@ -179,7 +183,7 @@ public class RideOfferFrag extends Fragment {
         boolean routine = routine_cb.isChecked();
         boolean[] routineDays = {monday_cb.isChecked(), tuesday_cb.isChecked(), wednesday_cb.isChecked(), thursday_cb.isChecked(), friday_cb.isChecked(), saturday_cb.isChecked()};
 
-        final Ride ride = new Ride(neighborhood, place, way, date, time, slots, hub, description, go, routine, routineDays);
+        final Ride ride = new Ride(zone, neighborhood, place, way, date, time, slots, hub, description, go, routine, routineDays);
 
         String lastRideOffer = new Gson().toJson(ride);
         App.putPref("lastRideOffer", lastRideOffer);
