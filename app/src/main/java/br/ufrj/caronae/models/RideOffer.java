@@ -5,7 +5,7 @@ public class RideOffer {
     private String time;
     private String course;
     private String place;
-    private String way;
+    private String route;
     private String slots;
     private String description;
     private String neighborhood;
@@ -19,7 +19,7 @@ public class RideOffer {
         time = ride.getTime();
         course = user.getCourse();
         place = ride.getPlace();
-        way = ride.getRoute();
+        route = ride.getRoute();
         slots = ride.getSlots();
         description = ride.getDescription();
         neighborhood = ride.getNeighborhood();
@@ -59,12 +59,12 @@ public class RideOffer {
         this.place = place;
     }
 
-    public String getWay() {
-        return way;
+    public String getRoute() {
+        return route;
     }
 
-    public void setWay(String way) {
-        this.way = way;
+    public void setRoute(String route) {
+        this.route = route;
     }
 
     public String getSlots() {
