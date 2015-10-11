@@ -23,7 +23,9 @@
             android:name="DOMAIN_PACKAGE_NAME"
             android:value="br.ufrj.caronae.models" />
 
-        <activity android:name=".acts.StartAct">
+        <activity
+            android:name=".acts.StartAct"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -32,10 +34,12 @@
         </activity>
         <activity
             android:name=".acts.MainAct"
-            android:label="@string/title_activity_principal"/>
+            android:label="@string/title_activity_principal"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".acts.LoginAct"
-            android:label="@string/title_activity_login"/>
+            android:label="@string/title_activity_login"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
