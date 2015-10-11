@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
-import br.ufrj.caronae.models.Token;
+import br.ufrj.caronae.models.TokenForJson;
 import br.ufrj.caronae.models.User;
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -49,7 +49,7 @@ public class LoginAct extends AppCompatActivity {
     public void sendBt() {
         final ProgressDialog pd = ProgressDialog.show(this, "", "Aguarde", true, true);
         final String token = token_et.getText().toString();
-        App.getNetworkService().sendToken(new Token(token), new Callback<User>() {
+        App.getNetworkService().sendToken(new TokenForJson(token), new Callback<User>() {
             @Override
             public void success(User user, Response response) {
                 pd.dismiss();

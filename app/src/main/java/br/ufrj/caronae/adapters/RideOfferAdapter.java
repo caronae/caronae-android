@@ -14,6 +14,7 @@ import java.util.List;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
+import br.ufrj.caronae.models.RideIdForJson;
 import br.ufrj.caronae.models.RideOffer;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -51,7 +52,7 @@ public class RideOfferAdapter extends
             @Override
             public void onClick(View view) {
                 viewHolder.join_bt.setVisibility(View.GONE);
-                App.getNetworkService().sendJoinRequest(rideOffer.getRideId(), new Callback<Response>() {
+                App.getNetworkService().sendJoinRequest(new RideIdForJson(rideOffer.getRideId()), new Callback<Response>() {
                     @Override
                     public void success(Response response, Response response2) {
                         Toast.makeText(App.inst(), "Solicitação enviada", Toast.LENGTH_SHORT).show();

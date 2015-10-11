@@ -1,9 +1,9 @@
 package br.ufrj.caronae.models;
 
-public class Token {
+public class TokenForJson {
     private String token;
 
-    public Token(String token) {
+    public TokenForJson(String token) {
         this.token = token;
     }
 
