@@ -86,34 +86,38 @@ public class RideOfferFrag extends Fragment {
 
         String lastRideOffer = App.getPref("lastRideOffer");
         if (!lastRideOffer.equals(App.MISSING_PREF)) {
-            Ride ride = new Gson().fromJson(lastRideOffer, Ride.class);
-            zone_et.setText(ride.getZone());
-            neighborhood_et.setText(ride.getNeighborhood());
-            place_et.setText(ride.getPlace());
-            way_et.setText(ride.getRoute());
-            date_et.setText(ride.getDate());
-            time_et.setText(ride.getTime());
-            slots_et.setText(ride.getSlots());
-            hub_et.setText(ride.getHub());
-            description_et.setText(ride.getDescription());
-            radioGroup.check(ride.isGoing() ? R.id.go_rb : R.id.back_rb);
-            boolean isRoutine = ride.isRoutine();
-            routine_cb.setChecked(isRoutine);
-            if (isRoutine) {
-                routineCb();
-                monday_cb.setChecked(ride.isMonday());
-                tuesday_cb.setChecked(ride.isTuesday());
-                wednesday_cb.setChecked(ride.isWednesday());
-                thursday_cb.setChecked(ride.isThursday());
-                friday_cb.setChecked(ride.isFriday());
-                saturday_cb.setChecked(ride.isSaturday());
-            }
+            loadLastRide(lastRideOffer);
         } else {
             date_et.setText(DateFormat.getDateInstance(DateFormat.SHORT, Locale.getDefault()).format(Calendar.getInstance().getTime()));
             time_et.setText(DateFormat.getTimeInstance(DateFormat.SHORT, Locale.getDefault()).format(Calendar.getInstance().getTime()));
         }
 
         return view;
+    }
+
+    private void loadLastRide(String lastRideOffer) {
+        Ride ride = new Gson().fromJson(lastRideOffer, Ride.class);
+        zone_et.setText(ride.getZone());
+        neighborhood_et.setText(ride.getNeighborhood());
+        place_et.setText(ride.getPlace());
+        way_et.setText(ride.getRoute());
+        date_et.setText(ride.getDate());
+        time_et.setText(ride.getTime());
+        slots_et.setText(ride.getSlots());
+        hub_et.setText(ride.getHub());
+        description_et.setText(ride.getDescription());
+        radioGroup.check(ride.isGoing() ? R.id.go_rb : R.id.back_rb);
+        boolean isRoutine = ride.isRoutine();
+        routine_cb.setChecked(isRoutine);
+        if (isRoutine) {
+            routineCb();
+            monday_cb.setChecked(ride.isMonday());
+            tuesday_cb.setChecked(ride.isTuesday());
+            wednesday_cb.setChecked(ride.isWednesday());
+            thursday_cb.setChecked(ride.isThursday());
+            friday_cb.setChecked(ride.isFriday());
+            saturday_cb.setChecked(ride.isSaturday());
+        }
     }
 
     @OnClick(R.id.date_et)

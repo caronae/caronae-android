@@ -29,7 +29,11 @@ public class NetworkModule {
                         }
                     }
                 })
-                .setLogLevel(RestAdapter.LogLevel.FULL)/*.
+                .setLogLevel(RestAdapter.LogLevel.BASIC)
+                //.setLogLevel(RestAdapter.LogLevel.HEADERS)
+                //.setLogLevel(RestAdapter.LogLevel.HEADERS_AND_ARGS)
+                //.setLogLevel(RestAdapter.LogLevel.FULL)
+                /*.
                         setLog(new RestAdapter.Log() {
                             @Override
                             public void log(String msg) {

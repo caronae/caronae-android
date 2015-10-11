@@ -58,6 +58,14 @@ public class App extends SugarApp {
         putPref("user", new Gson().toJson(user));
     }
 
+    public static String getUserToken() {
+        return getPref("token");
+    }
+
+    public static void saveToken(String token) {
+        putPref("token", token);
+    }
+
     private static SharedPreferences getSharedPreferences() {
         return PreferenceManager.getDefaultSharedPreferences(inst());
     }
@@ -121,13 +129,5 @@ public class App extends SugarApp {
         anim.setDuration(300);
         anim.setInterpolator(new AccelerateInterpolator(0.5f));
         v.startAnimation(anim);
-    }
-
-    public static String getUserToken() {
-        return getPref("token");
-    }
-
-    public static void saveToken(String token) {
-        putPref("token", token);
     }
 }

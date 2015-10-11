@@ -82,15 +82,7 @@ public class ProfileFrag extends Fragment {
     @OnClick(R.id.save_bt)
     public void saveBt() {
         final User editedUser = new User();
-        editedUser.setName(name_et.getText().toString());
-        editedUser.setProfile(profile_et.getText().toString());
-        editedUser.setCourse(course_et.getText().toString());
-        editedUser.setPhoneNumber(phoneNumber_et.getText().toString());
-        editedUser.setEmail(email_et.getText().toString());
-        editedUser.setCarOwner(carOwner_cb.isChecked());
-        editedUser.setCarModel(carModel_et.getText().toString());
-        editedUser.setCarColor(carColor_et.getText().toString());
-        editedUser.setCarPlate(carPlate_et.getText().toString());
+        prepEditedUser(editedUser);
 
         if (!user.sameFieldsState(editedUser)) {
             App.getNetworkService().updateUser(editedUser, new Callback<Response>() {
@@ -108,5 +100,17 @@ public class ProfileFrag extends Fragment {
                 }
             });
         }
+    }
+
+    private void prepEditedUser(User editedUser) {
+        editedUser.setName(name_et.getText().toString());
+        editedUser.setProfile(profile_et.getText().toString());
+        editedUser.setCourse(course_et.getText().toString());
+        editedUser.setPhoneNumber(phoneNumber_et.getText().toString());
+        editedUser.setEmail(email_et.getText().toString());
+        editedUser.setCarOwner(carOwner_cb.isChecked());
+        editedUser.setCarModel(carModel_et.getText().toString());
+        editedUser.setCarColor(carColor_et.getText().toString());
+        editedUser.setCarPlate(carPlate_et.getText().toString());
     }
 }

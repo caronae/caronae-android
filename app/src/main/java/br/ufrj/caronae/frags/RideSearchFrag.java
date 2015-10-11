@@ -77,18 +77,22 @@ public class RideSearchFrag extends Fragment {
 
         String lastRideSearchFilters = App.getPref("lastRideSearchFilters");
         if (!lastRideSearchFilters.equals(App.MISSING_PREF)) {
-            RideSearchFilters rideSearchFilters = new Gson().fromJson(lastRideSearchFilters, RideSearchFilters.class);
-
-            zone_et.setText(rideSearchFilters.getZone());
-            neighborhood_et.setText(rideSearchFilters.getNeighborhood());
-            date_et.setText(rideSearchFilters.getDate());
-            boolean go = rideSearchFilters.isGo();
-            radioGroup.check(go ? R.id.go_rb : R.id.back_rb);
+            loadLastFilters(lastRideSearchFilters);
         } else {
             date_et.setText(DateFormat.getDateInstance(DateFormat.SHORT, Locale.getDefault()).format(Calendar.getInstance().getTime()));
         }
 
         return view;
+    }
+
+    private void loadLastFilters(String lastRideSearchFilters) {
+        RideSearchFilters rideSearchFilters = new Gson().fromJson(lastRideSearchFilters, RideSearchFilters.class);
+
+        zone_et.setText(rideSearchFilters.getZone());
+        neighborhood_et.setText(rideSearchFilters.getNeighborhood());
+        date_et.setText(rideSearchFilters.getDate());
+        boolean go = rideSearchFilters.isGo();
+        radioGroup.check(go ? R.id.go_rb : R.id.back_rb);
     }
 
     @OnClick(R.id.date_et)

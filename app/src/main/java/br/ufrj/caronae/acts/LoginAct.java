@@ -60,7 +60,6 @@ public class LoginAct extends AppCompatActivity {
                 }
 
                 App.saveUser(user);
-
                 App.saveToken(token);
 
                 startActivity(new Intent(LoginAct.this, MainAct.class));
