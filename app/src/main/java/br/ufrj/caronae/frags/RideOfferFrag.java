@@ -188,9 +188,10 @@ public class RideOfferFrag extends Fragment {
         String lastRideOffer = new Gson().toJson(ride);
         App.putPref("lastRideOffer", lastRideOffer);
 
-        App.getNetworkService().offerRide(ride, new Callback<Response>() {
+        App.getNetworkService().offerRide(ride, new Callback<String>() {
             @Override
-            public void success(Response response, Response response2) {
+            public void success(String rideId, Response response2) {
+                ride.setDbId(rideId);
                 ride.save();
                 Toast.makeText(App.inst(), "Carona salva", Toast.LENGTH_SHORT).show();
             }

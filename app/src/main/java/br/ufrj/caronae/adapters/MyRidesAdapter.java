@@ -15,6 +15,7 @@ import java.util.List;
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.models.Ride;
+import br.ufrj.caronae.models.RideIdForJson;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -60,7 +61,7 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
             @Override
             public void onClick(View view) {
                 holder.delete_bt.setVisibility(View.GONE);
-                App.getNetworkService().deleteRide(ride.getId().toString(), new Callback<Response>() {
+                App.getNetworkService().deleteRide(new RideIdForJson(ride.getDbId()), new Callback<Response>() {
                     @Override
                     public void success(Response response, Response response2) {
                         Toast.makeText(App.inst(), "Carona excluída", Toast.LENGTH_SHORT).show();

@@ -22,7 +22,7 @@ public interface NetworkService {
     void updateUser(@Body User user, Callback<Response> cb);
 
     @POST("/ride")
-    void offerRide(@Body Ride ride, Callback<Response> cb);
+    void offerRide(@Body Ride ride, Callback<String> cb);
 
     @POST("/ride/list")
     void getRideOffers(@Body RideSearchFilters rideSearchFilters, Callback<List<RideOffer>> cb);
@@ -31,5 +31,5 @@ public interface NetworkService {
     void sendJoinRequest(@Body RideIdForJson rideId, Callback<Response> cb);
 
     @POST("/ride/delete")
-    void deleteRide(@Body String id, Callback<Response> cb);
+    void deleteRide(@Body RideIdForJson rideId, Callback<Response> cb);
 }
