@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.rey.material.app.DatePickerDialog;
@@ -135,10 +136,14 @@ public class RideSearchFrag extends Fragment {
         App.getNetworkService().getRideOffers(rideSearchFilters, new Callback<List<RideOffer>>() {
             @Override
             public void success(List<RideOffer> rideOffer, Response response) {
-                App.expandOrCollapse(lay, false);
-                anotherSearch_bt.setVisibility(View.VISIBLE);
-                Collections.sort(rideOffer, new RideOfferComparatorByTime());
-                adapter.makeList(rideOffer);
+                if (rideOffer != null) {
+                    App.expandOrCollapse(lay, false);
+                    anotherSearch_bt.setVisibility(View.VISIBLE);
+                    Collections.sort(rideOffer, new RideOfferComparatorByTime());
+                    adapter.makeList(rideOffer);
+                } else {
+                    Toast.makeText(App.inst(), "Nenhuma carona encontrada", Toast.LENGTH_SHORT).show();
+                }
                 pd.dismiss();
             }
 
