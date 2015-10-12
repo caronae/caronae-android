@@ -19,6 +19,8 @@ public class User {
     private String carPlate;
     @SerializedName("id")
     private int dbId;
+    @SerializedName("created_at")
+    private String createdAt;
 
     public User() {
     }
@@ -101,6 +103,14 @@ public class User {
 
     public void setDbId(int dbId) {
         this.dbId = dbId;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
     }
 
     public boolean sameFieldsState(User user) {

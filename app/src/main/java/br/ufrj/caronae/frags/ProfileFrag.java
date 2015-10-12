@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import br.ufrj.caronae.App;
@@ -42,6 +43,8 @@ public class ProfileFrag extends Fragment {
     EditText carPlate_et;
     @Bind(R.id.car_lay)
     RelativeLayout car_lay;
+    @Bind(R.id.createdAt_tv)
+    TextView createdAt_tv;
 
     private User user;
 
@@ -67,6 +70,7 @@ public class ProfileFrag extends Fragment {
             carModel_et.setText(user.getCarModel());
             carColor_et.setText(user.getCarColor());
             carPlate_et.setText(user.getCarPlate());
+            createdAt_tv.setText("Usuário desde " + user.getCreatedAt().split(" ")[0]);
         }
 
         carOwnerCb();

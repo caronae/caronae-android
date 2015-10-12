@@ -95,8 +95,8 @@
         <RelativeLayout
             android:id="@+id/car_lay"
             android:layout_width="wrap_content"
-            android:layout_below="@id/carOwner_cb"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_below="@id/carOwner_cb">
 
             <TextView
                 android:id="@+id/carModel_tv"
@@ -147,6 +147,13 @@
             android:layout_below="@id/car_lay"
             android:layout_centerHorizontal="true"
             android:text="@string/save_bt" />
+
+        <TextView
+            android:id="@+id/createdAt_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/save_bt"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
 
     </RelativeLayout>
 </ScrollView>
