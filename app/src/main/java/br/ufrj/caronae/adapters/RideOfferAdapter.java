@@ -10,7 +10,11 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
@@ -43,7 +47,11 @@ public class RideOfferAdapter extends
     public void onBindViewHolder(final RideOfferAdapter.ViewHolder viewHolder, int position) {
         final RideOffer rideOffer = rideOffers.get(position);
 
-        viewHolder.time_tv.setText(rideOffer.getTime());
+        try {
+            viewHolder.time_tv.setText(DateFormat.getTimeInstance(DateFormat.SHORT, Locale.getDefault()).format(new SimpleDateFormat("HH:mm").parse(rideOffer.getTime())));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         viewHolder.name_tv.setText(rideOffer.getDriverName());
         viewHolder.slots_tv.setText(rideOffer.getSlots() + " vagas");
         viewHolder.direction_tv.setText(rideOffer.isGo() ? "Indo para o fundão" : "Voltando do fundão - HUB:" + rideOffer.getHub());
