@@ -34,12 +34,33 @@ public class Ride extends SugarRecord<Ride> {
         this.description = description;
         this.going = going;
         this.routine = routine;
-        monday = routineDays[0];
-        tuesday = routineDays[1];
-        wednesday = routineDays[2];
-        thursday = routineDays[3];
-        friday = routineDays[4];
-        saturday = routineDays[5];
+        monday = routineDays == null ? false : routineDays[0];
+        tuesday = routineDays == null ? false : routineDays[1];
+        wednesday = routineDays == null ? false : routineDays[2];
+        thursday = routineDays == null ? false : routineDays[3];
+        friday = routineDays == null ? false : routineDays[4];
+        saturday = routineDays == null ? false : routineDays[5];
+    }
+
+    public Ride(Ride ride) {
+        zone = ride.getZone();
+        neighborhood = ride.getNeighborhood();
+        place = ride.getPlace();
+        route = ride.getRoute();
+        date = ride.getDate();
+        time = ride.getTime();
+        slots = ride.getSlots();
+        hub = ride.getHub();
+        description = ride.getDescription();
+        going = ride.isGoing();
+        routine = ride.isRoutine();
+        monday = ride.isMonday();
+        tuesday = ride.isTuesday();
+        wednesday = ride.isWednesday();
+        thursday = ride.isThursday();
+        friday = ride.isFriday();
+        saturday = ride.isSaturday();
+        dbId = ride.getId().intValue();
     }
 
     public String getZone() {

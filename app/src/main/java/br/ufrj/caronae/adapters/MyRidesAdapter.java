@@ -10,7 +10,11 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
@@ -41,7 +45,11 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
     public void onBindViewHolder(final MyRidesAdapter.ViewHolder holder, final int position) {
         final Ride ride = rides.get(position);
 
-        holder.time_tv.setText(ride.getTime());
+        try {
+            holder.time_tv.setText(DateFormat.getTimeInstance(DateFormat.SHORT, Locale.getDefault()).format(new SimpleDateFormat("HH:mm").parse(ride.getTime())));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         holder.slots_tv.setText(ride.getSlots() + " vagas");
         holder.direction_tv.setText(ride.isGoing() ? "Indo para o fundão" : "Voltando do fundão - HUB:" + ride.getHub());
         holder.neighborhood_tv.setText(ride.getNeighborhood());

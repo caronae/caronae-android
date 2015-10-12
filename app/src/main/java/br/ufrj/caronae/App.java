@@ -10,11 +10,16 @@ import android.view.animation.TranslateAnimation;
 import com.google.gson.Gson;
 import com.orm.SugarApp;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
 import br.ufrj.caronae.components.DaggerNetworkComponent;
 import br.ufrj.caronae.components.NetworkComponent;
 import br.ufrj.caronae.models.Ride;
 import br.ufrj.caronae.models.User;
 import br.ufrj.caronae.modules.NetworkModule;
+import retrofit.client.Response;
 
 public class App extends SugarApp {
 
@@ -129,5 +134,27 @@ public class App extends SugarApp {
         anim.setDuration(300);
         anim.setInterpolator(new AccelerateInterpolator(0.5f));
         v.startAnimation(anim);
+    }
+
+    public static void printResponseBody(Response response) {
+        BufferedReader reader = null;
+        StringBuilder sb = new StringBuilder();
+        try {
+            reader = new BufferedReader(new InputStreamReader(response.getBody().in()));
+
+            String line;
+
+            try {
+                while ((line = reader.readLine()) != null) {
+                    sb.append(line);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        String result = sb.toString();
     }
 }

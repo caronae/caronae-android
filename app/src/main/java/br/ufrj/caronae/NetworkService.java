@@ -8,6 +8,7 @@ import br.ufrj.caronae.models.RideOffer;
 import br.ufrj.caronae.models.RideSearchFilters;
 import br.ufrj.caronae.models.TokenForJson;
 import br.ufrj.caronae.models.User;
+import br.ufrj.caronae.models.UserWithRides;
 import retrofit.Callback;
 import retrofit.client.Response;
 import retrofit.http.Body;
@@ -16,7 +17,7 @@ import retrofit.http.PUT;
 
 public interface NetworkService {
     @POST("/auth")
-    void sendToken(@Body TokenForJson token, Callback<User> cb);
+    void sendToken(@Body TokenForJson token, Callback<UserWithRides> cb);
 
     @PUT("/user/a")
     void updateUser(@Body User user, Callback<Response> cb);

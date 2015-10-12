@@ -13,8 +13,9 @@ import android.widget.Toast;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
+import br.ufrj.caronae.models.Ride;
 import br.ufrj.caronae.models.TokenForJson;
-import br.ufrj.caronae.models.User;
+import br.ufrj.caronae.models.UserWithRides;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -49,18 +50,22 @@ public class LoginAct extends AppCompatActivity {
     public void sendBt() {
         final ProgressDialog pd = ProgressDialog.show(this, "", "Aguarde", true, true);
         final String token = token_et.getText().toString();
-        App.getNetworkService().sendToken(new TokenForJson(token), new Callback<User>() {
+        App.getNetworkService().sendToken(new TokenForJson(token), new Callback<UserWithRides>() {
             @Override
-            public void success(User user, Response response) {
+            public void success(UserWithRides userWithRides, Response response) {
                 pd.dismiss();
 
-                if (user == null) {
+                if (userWithRides.getUser() == null) {
                     Toast.makeText(App.inst(), "Nenhum usúario encontrado com esse token", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                App.saveUser(user);
+                App.saveUser(userWithRides.getUser());
                 App.saveToken(token);
+
+                for (Ride ride : userWithRides.getRides()) {
+                    new Ride(ride).save();
+                }
 
                 startActivity(new Intent(LoginAct.this, MainAct.class));
                 LoginAct.this.finish();
@@ -71,6 +76,8 @@ public class LoginAct extends AppCompatActivity {
                 pd.dismiss();
                 Toast.makeText(App.inst(), "Erro", Toast.LENGTH_SHORT).show();
                 Log.e("sendToken", retrofitError.getMessage());
+
+                //String json = new String(((TypedByteArray) retrofitError.getResponse().getBody()).getBytes());
             }
         });
     }
