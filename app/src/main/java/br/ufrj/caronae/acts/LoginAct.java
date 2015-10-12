@@ -55,7 +55,7 @@ public class LoginAct extends AppCompatActivity {
             public void success(UserWithRides userWithRides, Response response) {
                 pd.dismiss();
 
-                if (userWithRides.getUser() == null) {
+                if (userWithRides == null) {
                     Toast.makeText(App.inst(), "Nenhum usúario encontrado com esse token", Toast.LENGTH_SHORT).show();
                     return;
                 }

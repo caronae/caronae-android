@@ -14,7 +14,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Você não tem caronas ativas"
+        android:text="Você não tem anúncios de caronas"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:visibility="gone" />
 
