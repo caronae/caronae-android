@@ -6,6 +6,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:focusableInTouchMode="true"
         tools:context="br.ufrj.caronae.frags.RideOfferFrag">
 
         <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
@@ -85,8 +86,8 @@
             android:id="@+id/date_time_lay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@+id/way_et">
+            android:layout_below="@+id/way_et"
+            android:layout_centerHorizontal="true">
 
             <TextView
                 android:id="@+id/date_tv"
