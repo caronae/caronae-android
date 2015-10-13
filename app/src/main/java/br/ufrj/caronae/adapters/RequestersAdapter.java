@@ -1,5 +1,6 @@
 package br.ufrj.caronae.adapters;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -23,10 +24,12 @@ import retrofit.client.Response;
 public class RequestersAdapter extends RecyclerView.Adapter<RequestersAdapter.ViewHolder> {
     private final ArrayList<User> users;
     private final int rideId;
+    private final Context activity;
 
-    public RequestersAdapter(ArrayList<User> users, int rideId) {
+    public RequestersAdapter(ArrayList<User> users, int rideId, Context activity) {
         this.users = users;
         this.rideId = rideId;
+        this.activity = activity;
     }
 
     @Override
@@ -44,6 +47,15 @@ public class RequestersAdapter extends RecyclerView.Adapter<RequestersAdapter.Vi
         final User user = users.get(position);
 
         holder.name_tv.setText(user.getName());
+        holder.name_tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new AlertDialog.Builder(activity).
+                        setTitle(user.getName()).
+                        setMessage(user.getProfile() + "\n" + user.getCourse() + "\nUsuário desde " + user.getCreatedAt().split(" ")[0]).
+                        show();
+            }
+        });
         holder.course_tv.setText(user.getCourse());
         holder.accept_bt.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -35,7 +35,7 @@ public class RequestersListFrag extends Fragment {
         ArrayList<User> users = bundle.getParcelableArrayList("users");
         int rideId = bundle.getInt("rideId");
 
-        requestersList.setAdapter(new RequestersAdapter(users, rideId));
+        requestersList.setAdapter(new RequestersAdapter(users, rideId, getActivity()));
         requestersList.setHasFixedSize(true);
         requestersList.setLayoutManager(new LinearLayoutManager(getActivity()));
 
