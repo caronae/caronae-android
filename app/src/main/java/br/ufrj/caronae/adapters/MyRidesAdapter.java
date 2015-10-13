@@ -105,7 +105,6 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
                             Toast.makeText(App.inst(), "Nenhuma solicitação para esse anúncio", Toast.LENGTH_SHORT).show();
                         } else {
                             activity.showRequestersListFrag(users, ride.getDbId());
-                            Toast.makeText(App.inst(), users.size()+"", Toast.LENGTH_SHORT).show();
                         }
                     }
 

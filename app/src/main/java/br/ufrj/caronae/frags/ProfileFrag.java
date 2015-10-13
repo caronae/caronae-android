@@ -94,7 +94,7 @@ public class ProfileFrag extends Fragment {
                 public void success(Response response, Response response2) {
                     user.setUser(editedUser);
                     App.saveUser(user);
-                    Toast.makeText(App.inst(), "Perfil salvo", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(App.inst(), "Perfil atualizado", Toast.LENGTH_SHORT).show();
                 }
 
                 @Override

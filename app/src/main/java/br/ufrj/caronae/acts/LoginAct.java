@@ -76,8 +76,6 @@ public class LoginAct extends AppCompatActivity {
                 pd.dismiss();
                 Toast.makeText(App.inst(), "Erro", Toast.LENGTH_SHORT).show();
                 Log.e("sendToken", retrofitError.getMessage());
-
-                //String json = new String(((TypedByteArray) retrofitError.getResponse().getBody()).getBytes());
             }
         });
     }
