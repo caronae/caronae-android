@@ -33,7 +33,7 @@ import br.ufrj.caronae.R;
 import br.ufrj.caronae.adapters.RideOfferAdapter;
 import br.ufrj.caronae.comparators.RideOfferComparatorByTime;
 import br.ufrj.caronae.models.RideOffer;
-import br.ufrj.caronae.models.RideSearchFilters;
+import br.ufrj.caronae.models.RideSearchFiltersForJson;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -86,7 +86,7 @@ public class RideSearchFrag extends Fragment {
     }
 
     private void loadLastFilters(String lastRideSearchFilters) {
-        RideSearchFilters rideSearchFilters = new Gson().fromJson(lastRideSearchFilters, RideSearchFilters.class);
+        RideSearchFiltersForJson rideSearchFilters = new Gson().fromJson(lastRideSearchFilters, RideSearchFiltersForJson.class);
 
         zone_et.setText(rideSearchFilters.getZone());
         neighborhood_et.setText(rideSearchFilters.getNeighborhood());
@@ -132,7 +132,7 @@ public class RideSearchFrag extends Fragment {
         String neighborhood = neighborhood_et.getText().toString();
         String date = date_et.getText().toString();
         boolean go = radioGroup.getCheckedRadioButtonId() == R.id.go_rb;
-        RideSearchFilters rideSearchFilters = new RideSearchFilters(zone, neighborhood, date, go);
+        RideSearchFiltersForJson rideSearchFilters = new RideSearchFiltersForJson(zone, neighborhood, date, go);
 
         String lastRideSearchFilters = new Gson().toJson(rideSearchFilters);
         App.putPref("lastRideSearchFilters", lastRideSearchFilters);

@@ -1,8 +1,11 @@
 package br.ufrj.caronae.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
-public class User {
+public class User implements Parcelable {
     private String name;
     private String profile;
     private String course;
@@ -143,4 +146,55 @@ public class User {
         setCarModel(editedUser.getCarModel());
         setCarColor(editedUser.getCarColor());
     }
+
+    public User(Parcel in) {
+        String[] data = new String[9];
+        in.readStringArray(data);
+
+        name = data[0];
+        profile = data[1];
+        course = data[2];
+        phoneNumber = data[3];
+        email = data[4];
+        carModel = data[5];
+        carColor = data[6];
+        carPlate = data[7];
+        createdAt = data[8];
+
+        int[] intData = new int[2];
+        carOwner = intData[0] == 1;
+        dbId = intData[1];
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeStringArray(new String[]{name,
+                profile,
+                course,
+                phoneNumber,
+                email,
+                carModel,
+                carColor,
+                carPlate,
+                createdAt});
+        parcel.writeIntArray(new int[]{
+                carOwner ? 1 : 0,
+                dbId
+        });
+    }
+
+    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+        public User createFromParcel(Parcel in) {
+            return new User(in);
+        }
+
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
 }

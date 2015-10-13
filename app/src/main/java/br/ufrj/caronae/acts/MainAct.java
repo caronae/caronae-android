@@ -12,12 +12,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.frags.MyRidesFrag;
 import br.ufrj.caronae.frags.ProfileFrag;
+import br.ufrj.caronae.frags.RequestersListFrag;
 import br.ufrj.caronae.frags.RideOfferFrag;
 import br.ufrj.caronae.frags.RideSearchFrag;
+import br.ufrj.caronae.models.User;
 
 public class MainAct extends AppCompatActivity {
 
@@ -107,5 +112,17 @@ public class MainAct extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void showRequestersListFrag(List<User> users, int rideId) {
+        RequestersListFrag fragment = new RequestersListFrag();
+
+        Bundle bundle = new Bundle();
+        bundle.putParcelableArrayList("users", (ArrayList<User>) users);
+        bundle.putInt("rideId", rideId);
+        fragment.setArguments(bundle);
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).addToBackStack(null).commit();
     }
 }

@@ -12,6 +12,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import br.ufrj.caronae.R;
+import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.adapters.MyRidesAdapter;
 import br.ufrj.caronae.models.Ride;
 import butterknife.Bind;
@@ -23,8 +24,6 @@ public class MyRidesFrag extends Fragment {
     RecyclerView myRidesList;
     @Bind(R.id.norides_tv)
     TextView norides_tv;
-
-    private MyRidesAdapter adapter;
 
     public MyRidesFrag() {
         // Required empty public constructor
@@ -39,8 +38,7 @@ public class MyRidesFrag extends Fragment {
         ArrayList<Ride> rides = (ArrayList<Ride>) Ride.listAll(Ride.class);
 
         if (!rides.isEmpty()) {
-            adapter = new MyRidesAdapter(rides);
-            myRidesList.setAdapter(adapter);
+            myRidesList.setAdapter(new MyRidesAdapter(rides, (MainAct) getActivity()));
             myRidesList.setHasFixedSize(true);
             myRidesList.setLayoutManager(new LinearLayoutManager(getActivity()));
         } else {

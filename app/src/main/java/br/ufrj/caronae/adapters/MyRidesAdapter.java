@@ -1,5 +1,6 @@
 package br.ufrj.caronae.adapters;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -7,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,17 +20,21 @@ import java.util.Locale;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
+import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.models.Ride;
 import br.ufrj.caronae.models.RideIdForJson;
+import br.ufrj.caronae.models.User;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHolder> {
     private final List<Ride> rides;
+    private final MainAct activity;
 
-    public MyRidesAdapter(List<Ride> rides) {
+    public MyRidesAdapter(List<Ride> rides, MainAct activity) {
         this.rides = rides;
+        this.activity = activity;
     }
 
     @Override
@@ -86,6 +92,32 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
                 });
             }
         });
+
+        holder.layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final ProgressDialog pd = ProgressDialog.show(activity, "", "Aguarde", true, true);
+                App.getNetworkService().getRequesters(ride.getDbId()+"", new Callback<List<User>>() {
+                    @Override
+                    public void success(List<User> users, Response response) {
+                        pd.dismiss();
+                        if (users.isEmpty()) {
+                            Toast.makeText(App.inst(), "Nenhuma solicitação para esse anúncio", Toast.LENGTH_SHORT).show();
+                        } else {
+                            activity.showRequestersListFrag(users, ride.getDbId());
+                            Toast.makeText(App.inst(), users.size()+"", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        pd.dismiss();
+                        Toast.makeText(App.inst(), "Erro", Toast.LENGTH_SHORT).show();
+                        Log.e("getRequesters", error.getMessage());
+                    }
+                });
+            }
+        });
     }
 
     @Override
@@ -100,6 +132,7 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
         public TextView routine_tv;
         public TextView slots_tv;
         public Button delete_bt;
+        public RelativeLayout layout;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -110,6 +143,7 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
             routine_tv = (TextView) itemView.findViewById(R.id.routine_tv);
             slots_tv = (TextView) itemView.findViewById(R.id.slots_tv);
             delete_bt = (Button) itemView.findViewById(R.id.delete_bt);
+            layout = (RelativeLayout) itemView.findViewById(R.id.layout);
         }
     }
 }
