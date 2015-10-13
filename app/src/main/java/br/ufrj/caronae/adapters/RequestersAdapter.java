@@ -48,7 +48,7 @@ public class RequestersAdapter extends RecyclerView.Adapter<RequestersAdapter.Vi
         holder.accept_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                App.getApiaryNetworkService().answerJoinRequest(new JoinRequestIDsForJson(user.getDbId(), rideId, true), new Callback<Response>() {
+                App.getNetworkService().answerJoinRequest(new JoinRequestIDsForJson(user.getDbId(), rideId, true), new Callback<Response>() {
                     @Override
                     public void success(Response response, Response response2) {
                         Toast.makeText(App.inst(), "Solicitação aceita", Toast.LENGTH_SHORT).show();
@@ -67,7 +67,7 @@ public class RequestersAdapter extends RecyclerView.Adapter<RequestersAdapter.Vi
         holder.reject_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                App.getApiaryNetworkService().answerJoinRequest(new JoinRequestIDsForJson(user.getDbId(), rideId, false), new Callback<Response>() {
+                App.getNetworkService().answerJoinRequest(new JoinRequestIDsForJson(user.getDbId(), rideId, false), new Callback<Response>() {
                     @Override
                     public void success(Response response, Response response2) {
                         Toast.makeText(App.inst(), "Solicitação rejeitada", Toast.LENGTH_SHORT).show();
