@@ -107,7 +107,7 @@
             android:layout_below="@+id/riders_tv" />
 
         <Button
-            android:id="@+id/giveup_bt"
+            android:id="@+id/leave_bt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"

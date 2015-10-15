@@ -46,4 +46,7 @@ public interface NetworkService {
 
     @POST("/ride/getMyActiveRides")
     void getMyActiveRides(@Body User user, Callback<List<RideWithUsers>> cb);
+
+    @POST("/ride/leaveRide")
+    void leaveRide(@Body RideIdForJson rideId, Callback<Response> cb);
 }

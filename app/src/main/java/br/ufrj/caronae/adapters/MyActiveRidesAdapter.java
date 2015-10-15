@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,17 +12,23 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
 
+import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.models.Ride;
+import br.ufrj.caronae.models.RideIdForJson;
 import br.ufrj.caronae.models.RideWithUsers;
 import br.ufrj.caronae.models.User;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdapter.ViewHolder> {
 
@@ -44,13 +51,14 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        RideWithUsers rideWithUsers = ridesList.get(position);
+    public void onBindViewHolder(ViewHolder holder, final int position) {
+        final RideWithUsers rideWithUsers = ridesList.get(position);
 
-        Ride ride = rideWithUsers.getRide();
+        final Ride ride = rideWithUsers.getRide();
         User driver = rideWithUsers.getUsers().get(0);
         rideWithUsers.getUsers().remove(0);
 
+        ride.setDbId(ride.getId().intValue());
         holder.neighborhood_tv.setText(ride.getNeighborhood());
         holder.go_tv.setText(ride.isGoing() ? "Indo ao fundão" : "Voltando do fundão");
         holder.name_tv.setText(driver.getName());
@@ -73,9 +81,32 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
         activity.getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
         //int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, displaymetrics.heightPixels, activity.getResources().getDisplayMetrics());
 
-        int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, rideWithUsers.getUsers().size() * 30 + 235, activity.getResources().getDisplayMetrics());
+        int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, rideWithUsers.getUsers().size() * 30 + 230, activity.getResources().getDisplayMetrics());
 
         holder.layout.getLayoutParams().height = height;
+        holder.leave_bt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                App.getNetworkService().leaveRide(new RideIdForJson(ride.getDbId()), new Callback<Response>() {
+                    @Override
+                    public void success(Response response, Response response2) {
+                        Toast.makeText(App.inst(), "Carona excluída", Toast.LENGTH_SHORT).show();
+                        ridesList.remove(rideWithUsers);
+                        notifyItemRemoved(position);
+
+                        List<Ride> rides = Ride.find(Ride.class, "zone = ? and neighborhood = ? and date = ? and time = ?", ride.getZone(), ride.getNeighborhood(), ride.getDate(), ride.getTime());
+                        if (rides != null && !rides.isEmpty())
+                            rides.get(0).delete();
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        Toast.makeText(App.inst(), "Erro ao desistir de carona", Toast.LENGTH_SHORT).show();
+                        Log.e("leaveRide", error.getMessage());
+                    }
+                });
+            }
+        });
     }
 
     @Override
@@ -94,7 +125,7 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
         public TextView carColor_tv;
         public TextView carPlate_tv;
         public TextView description_tv;
-        public Button giveup_bt;
+        public Button leave_bt;
         public RelativeLayout layout;
         public RecyclerView ridersList;
 
@@ -111,7 +142,7 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
             carColor_tv = (TextView) itemView.findViewById(R.id.carColor_tv);
             carPlate_tv = (TextView) itemView.findViewById(R.id.carPlate_tv);
             description_tv = (TextView) itemView.findViewById(R.id.description_tv);
-            giveup_bt = (Button) itemView.findViewById(R.id.giveup_bt);
+            leave_bt = (Button) itemView.findViewById(R.id.leave_bt);
             layout = (RelativeLayout) itemView.findViewById(R.id.layout);
             ridersList = (RecyclerView) itemView.findViewById(R.id.ridersList);
         }
