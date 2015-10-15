@@ -12,7 +12,10 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.acts.MainAct;
@@ -46,13 +49,21 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
 
         Ride ride = rideWithUsers.getRide();
         User driver = rideWithUsers.getUsers().get(0);
+        rideWithUsers.getUsers().remove(0);
 
         holder.neighborhood_tv.setText(ride.getNeighborhood());
         holder.go_tv.setText(ride.isGoing() ? "Indo ao fundão" : "Voltando do fundão");
         holder.name_tv.setText(driver.getName());
         holder.course_tv.setText(driver.getCourse());
-        holder.time_tv.setText(ride.getTime());
+        try {
+            holder.time_tv.setText(DateFormat.getTimeInstance(DateFormat.SHORT, Locale.getDefault()).format(new SimpleDateFormat("HH:mm").parse(ride.getTime())));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         holder.date_tv.setText(ride.getDate());
+        holder.carModel_tv.setText(driver.getCarModel());
+        holder.carColor_tv.setText(driver.getCarColor());
+        holder.carPlate_tv.setText(driver.getCarPlate());
         holder.description_tv.setText(ride.getDescription());
         holder.ridersList.setAdapter(new RidersAdapter(rideWithUsers.getUsers(), activity));
         holder.ridersList.setHasFixedSize(true);
@@ -62,7 +73,7 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
         activity.getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
         //int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, displaymetrics.heightPixels, activity.getResources().getDisplayMetrics());
 
-        int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, rideWithUsers.getUsers().size() * 25 + 135, activity.getResources().getDisplayMetrics());
+        int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, rideWithUsers.getUsers().size() * 30 + 235, activity.getResources().getDisplayMetrics());
 
         holder.layout.getLayoutParams().height = height;
     }
@@ -79,6 +90,9 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
         public TextView course_tv;
         public TextView time_tv;
         public TextView date_tv;
+        public TextView carModel_tv;
+        public TextView carColor_tv;
+        public TextView carPlate_tv;
         public TextView description_tv;
         public Button giveup_bt;
         public RelativeLayout layout;
@@ -93,6 +107,9 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
             course_tv = (TextView) itemView.findViewById(R.id.course_tv);
             time_tv = (TextView) itemView.findViewById(R.id.time_tv);
             date_tv = (TextView) itemView.findViewById(R.id.date_tv);
+            carModel_tv = (TextView) itemView.findViewById(R.id.carModel_tv);
+            carColor_tv = (TextView) itemView.findViewById(R.id.carColor_tv);
+            carPlate_tv = (TextView) itemView.findViewById(R.id.carPlate_tv);
             description_tv = (TextView) itemView.findViewById(R.id.description_tv);
             giveup_bt = (Button) itemView.findViewById(R.id.giveup_bt);
             layout = (RelativeLayout) itemView.findViewById(R.id.layout);

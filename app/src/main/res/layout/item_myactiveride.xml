@@ -13,7 +13,7 @@
     <RelativeLayout
         android:id="@+id/layout"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="wrap_content"
         android:layout_margin="6dp"
         android:orientation="vertical">
 
@@ -31,10 +31,28 @@
             android:text="Indo ao fundão" />
 
         <TextView
-            android:id="@+id/name_tv"
+            android:id="@+id/date_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/go_tv"
+            android:text="20/12/2015" />
+
+        <TextView
+            android:id="@+id/time_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/go_tv"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_toRightOf="@+id/date_tv"
+            android:text="21:56" />
+
+        <TextView
+            android:id="@+id/name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/time_tv"
+            android:layout_marginTop="10dp"
             android:text="Leonardo Marques" />
 
         <TextView
@@ -45,27 +63,33 @@
             android:text="Ciência da computação" />
 
         <TextView
-            android:id="@+id/date_tv"
+            android:id="@+id/carModel_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/course_tv"
-            android:text="20/12/2015" />
+            android:layout_marginTop="10dp"
+            android:text="Clio" />
 
         <TextView
-            android:id="@+id/time_tv"
+            android:id="@+id/carColor_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/course_tv"
-            android:layout_marginLeft="10dp"
-            android:layout_marginStart="10dp"
-            android:layout_toRightOf="@+id/date_tv"
-            android:text="21:56" />
+            android:layout_below="@+id/carModel_tv"
+            android:text="Vermelho" />
+
+        <TextView
+            android:id="@+id/carPlate_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/carColor_tv"
+            android:text="KZZ-1088" />
 
         <TextView
             android:id="@+id/description_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/time_tv"
+            android:layout_below="@+id/carPlate_tv"
+            android:layout_marginTop="10dp"
             android:text="Não fumo" />
 
         <TextView
@@ -73,7 +97,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/description_tv"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="10dp"
             android:text="Caronistas:" />
 
         <android.support.v7.widget.RecyclerView
