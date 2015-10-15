@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +47,7 @@ public class MainAct extends AppCompatActivity {
             public void onDrawerSlide(View drawerView, float slideOffset) {
                 InputMethodManager inputMethodManager = (InputMethodManager)  MainAct.this.getSystemService(Activity.INPUT_METHOD_SERVICE);
                 try {
+                    //noinspection ConstantConditions
                     inputMethodManager.hideSoftInputFromWindow(MainAct.this.getCurrentFocus().getWindowToken(), 0);
                 } catch (NullPointerException e) {
                     Log.e("oi", e.getMessage());
@@ -76,6 +78,9 @@ public class MainAct extends AppCompatActivity {
 
         NavigationView nvDrawer = (NavigationView) findViewById(R.id.nvView);
         setupDrawerContent(nvDrawer);
+
+        TextView headerText = (TextView) findViewById(R.id.headerText);
+        headerText.setText(App.getUser().getName());
 
         if (savedInstanceState == null) {
             FragmentManager fragmentManager = getSupportFragmentManager();
