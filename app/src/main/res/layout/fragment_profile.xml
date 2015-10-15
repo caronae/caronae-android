@@ -39,8 +39,8 @@
             android:id="@+id/profile_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/profile_tv"
-            android:enabled="false" />
+            android:singleLine="true"
+            android:layout_below="@+id/profile_tv" />
 
         <TextView
             android:id="@+id/course_tv"

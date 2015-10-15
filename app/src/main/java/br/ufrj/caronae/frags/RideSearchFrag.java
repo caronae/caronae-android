@@ -139,12 +139,12 @@ public class RideSearchFrag extends Fragment {
 
         App.getNetworkService().getRideOffers(rideSearchFilters, new Callback<List<RideOffer>>() {
             @Override
-            public void success(List<RideOffer> rideOffer, Response response) {
-                if (rideOffer != null) {
+            public void success(List<RideOffer> rideOffers, Response response) {
+                if (rideOffers != null) {
                     App.expandOrCollapse(lay, false);
                     anotherSearch_bt.setVisibility(View.VISIBLE);
-                    Collections.sort(rideOffer, new RideOfferComparatorByTime());
-                    adapter.makeList(rideOffer);
+                    Collections.sort(rideOffers, new RideOfferComparatorByTime());
+                    adapter.makeList(rideOffers);
                 } else {
                     Toast.makeText(App.inst(), "Nenhuma carona encontrada", Toast.LENGTH_SHORT).show();
                 }

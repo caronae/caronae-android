@@ -43,7 +43,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/zone_tv"
-            android:hint="Norte" />
+            android:hint="Norte"
+            android:singleLine="true" />
 
         <TextView
             android:id="@+id/neighborhood_tv"
@@ -57,7 +58,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/neighborhood_tv"
-            android:hint="Tijuca" />
+            android:hint="Tijuca"
+            android:singleLine="true" />
 
         <TextView
             android:id="@+id/date_tv"

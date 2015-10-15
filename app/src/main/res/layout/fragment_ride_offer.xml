@@ -41,7 +41,8 @@
             android:id="@+id/zone_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/zone_tv" />
+            android:layout_below="@+id/zone_tv"
+            android:singleLine="true" />
 
         <TextView
             android:id="@+id/neighborhood_tv"
@@ -54,7 +55,8 @@
             android:id="@+id/neighborhood_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/neighborhood_tv" />
+            android:layout_below="@+id/neighborhood_tv"
+            android:singleLine="true" />
 
         <TextView
             android:id="@+id/place_tv"
@@ -67,7 +69,8 @@
             android:id="@+id/place_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/place_tv" />
+            android:layout_below="@+id/place_tv"
+            android:singleLine="true" />
 
         <TextView
             android:id="@+id/way_tv"
@@ -80,7 +83,8 @@
             android:id="@+id/way_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/way_tv" />
+            android:layout_below="@+id/way_tv"
+            android:singleLine="true" />
 
         <RelativeLayout
             android:id="@+id/date_time_lay"
@@ -134,7 +138,9 @@
             android:id="@+id/slots_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/slots_tv" />
+            android:layout_below="@+id/slots_tv"
+            android:inputType="number"
+            android:singleLine="true" />
 
         <TextView
             android:id="@+id/hub_tv"
@@ -147,7 +153,8 @@
             android:id="@+id/hub_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/hub_tv" />
+            android:layout_below="@+id/hub_tv"
+            android:singleLine="true" />
 
         <TextView
             android:id="@+id/description_tv"

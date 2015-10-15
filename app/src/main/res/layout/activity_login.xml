@@ -17,7 +17,6 @@
         android:ems="15"
         android:hint="@string/tokenHint_et"
         android:imeActionLabel="@string/send_bt"
-        android:text="tokenleo"
         android:imeOptions="actionSend"
         android:singleLine="true" />
 
