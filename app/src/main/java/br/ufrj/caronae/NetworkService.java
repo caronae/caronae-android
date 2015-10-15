@@ -7,6 +7,7 @@ import br.ufrj.caronae.models.Ride;
 import br.ufrj.caronae.models.RideIdForJson;
 import br.ufrj.caronae.models.RideOffer;
 import br.ufrj.caronae.models.RideSearchFiltersForJson;
+import br.ufrj.caronae.models.RideWithUsers;
 import br.ufrj.caronae.models.TokenForJson;
 import br.ufrj.caronae.models.User;
 import br.ufrj.caronae.models.UserWithRides;
@@ -42,4 +43,7 @@ public interface NetworkService {
 
     @POST("/ride/answerJoinRequest")
     void answerJoinRequest(@Body JoinRequestIDsForJson joinRequestIDsForJson, Callback<Response> cb);
+
+    @POST("/ride/getMyActiveRides")
+    void getMyActiveRides(@Body User user, Callback<List<RideWithUsers>> cb);
 }

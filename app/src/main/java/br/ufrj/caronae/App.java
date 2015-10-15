@@ -92,8 +92,11 @@ public class App extends SugarApp {
     }
 
     public static NetworkService getNetworkService() {
-        if (component == null)
-            component = DaggerNetworkComponent.builder().networkModule(new NetworkModule("http://104.131.31.224/")).build();
+        if (component == null) {
+            //String endpoint = "http://104.131.31.224/";
+            String endpoint = "http://192.168.0.13/";
+            component = DaggerNetworkComponent.builder().networkModule(new NetworkModule(endpoint)).build();
+        }
         return component.provideNetworkService();
     }
 

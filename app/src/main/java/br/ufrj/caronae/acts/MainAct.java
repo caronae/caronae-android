@@ -22,6 +22,7 @@ import java.util.List;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
+import br.ufrj.caronae.frags.MyActiveRidesFrag;
 import br.ufrj.caronae.frags.MyRidesFrag;
 import br.ufrj.caronae.frags.ProfileFrag;
 import br.ufrj.caronae.frags.RequestersListFrag;
@@ -116,6 +117,9 @@ public class MainAct extends AppCompatActivity {
                 fragmentClass = MyRidesFrag.class;
                 break;
             case R.id.nav_fifth_fragment:
+                fragmentClass = MyActiveRidesFrag.class;
+                break;
+            case R.id.nav_sixth_fragment:
                 App.logOut();
                 startActivity(new Intent(this, LoginAct.class));
                 finish();
