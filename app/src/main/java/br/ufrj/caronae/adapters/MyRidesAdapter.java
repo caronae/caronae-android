@@ -97,7 +97,7 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
             @Override
             public void onClick(View view) {
                 final ProgressDialog pd = ProgressDialog.show(activity, "", "Aguarde", true, true);
-                App.getNetworkService().getRequesters(ride.getDbId()+"", new Callback<List<User>>() {
+                App.getNetworkService().getRequesters(new RideIdForJson(ride.getDbId()), new Callback<List<User>>() {
                     @Override
                     public void success(List<User> users, Response response) {
                         pd.dismiss();

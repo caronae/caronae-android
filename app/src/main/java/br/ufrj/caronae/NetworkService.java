@@ -38,8 +38,8 @@ public interface NetworkService {
     @POST("/ride/delete")
     void deleteRide(@Body RideIdForJson rideId, Callback<Response> cb);
 
-    @GET("/ride/getRequesters/{rideId}")
-    void getRequesters(@Path("rideId") String rideId, Callback<List<User>> cb);
+    @POST("/ride/getRequesters")
+    void getRequesters(@Body RideIdForJson rideId, Callback<List<User>> cb);
 
     @POST("/ride/answerJoinRequest")
     void answerJoinRequest(@Body JoinRequestIDsForJson joinRequestIDsForJson, Callback<Response> cb);
