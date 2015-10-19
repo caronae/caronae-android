@@ -12,6 +12,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -51,7 +52,7 @@ public class MainAct extends AppCompatActivity {
                     //noinspection ConstantConditions
                     inputMethodManager.hideSoftInputFromWindow(MainAct.this.getCurrentFocus().getWindowToken(), 0);
                 } catch (NullPointerException e) {
-                    Log.e("oi", e.getMessage());
+                    Log.e("onDrawerSlide", e.getMessage());
                 }
             }
 
@@ -72,7 +73,7 @@ public class MainAct extends AppCompatActivity {
         });
 
         final ActionBar ab = getSupportActionBar();
-        //ab.setHomeAsUpIndicator(R.drawable.ic_menu);
+        //ab.setHomeAsUpIndicator(R.drawable.ic_drawer);
         if (ab != null) {
             ab.setDisplayHomeAsUpEnabled(true);
         }
@@ -80,13 +81,20 @@ public class MainAct extends AppCompatActivity {
         NavigationView nvDrawer = (NavigationView) findViewById(R.id.nvView);
         setupDrawerContent(nvDrawer);
 
-        TextView headerText = (TextView) findViewById(R.id.headerText);
+        nvDrawer.addHeaderView(getHeaderView());
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.flContent, new RideSearchFrag()).commit();
+    }
+
+    private View getHeaderView() {
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View nvHeader = inflater.inflate(R.layout.nav_header, null, false);
+
+        TextView headerText = (TextView) nvHeader.findViewById(R.id.headerText);
         headerText.setText(App.getUser().getName());
 
-        if (savedInstanceState == null) {
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction().replace(R.id.flContent, new RideSearchFrag()).commit();
-        }
+        return nvHeader;
     }
 
     private void setupDrawerContent(NavigationView navigationView) {
@@ -154,11 +162,11 @@ public class MainAct extends AppCompatActivity {
     }
 
     public void showRequestersListFrag(List<User> users, int rideId) {
-        RequestersListFrag fragment = new RequestersListFrag();
-
         Bundle bundle = new Bundle();
         bundle.putParcelableArrayList("users", (ArrayList<User>) users);
         bundle.putInt("rideId", rideId);
+
+        RequestersListFrag fragment = new RequestersListFrag();
         fragment.setArguments(bundle);
 
         FragmentManager fragmentManager = getSupportFragmentManager();

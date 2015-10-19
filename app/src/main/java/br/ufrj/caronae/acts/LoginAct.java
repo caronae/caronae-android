@@ -9,13 +9,12 @@ import android.view.KeyEvent;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.models.Ride;
 import br.ufrj.caronae.models.TokenForJson;
-import br.ufrj.caronae.models.UserWithRides;
+import br.ufrj.caronae.models.UserWithRidesForJson;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -50,13 +49,13 @@ public class LoginAct extends AppCompatActivity {
     public void sendBt() {
         final ProgressDialog pd = ProgressDialog.show(this, "", "Aguarde", true, true);
         final String token = token_et.getText().toString();
-        App.getNetworkService().sendToken(new TokenForJson(token), new Callback<UserWithRides>() {
+        App.getNetworkService().sendToken(new TokenForJson(token), new Callback<UserWithRidesForJson>() {
             @Override
-            public void success(UserWithRides userWithRides, Response response) {
+            public void success(UserWithRidesForJson userWithRides, Response response) {
                 pd.dismiss();
 
-                if (userWithRides == null) {
-                    Toast.makeText(App.inst(), "Nenhum usúario encontrado com esse token", Toast.LENGTH_SHORT).show();
+                if (userWithRides == null || userWithRides.getUser() == null) {
+                    App.toast("Nenhum usúario encontrado com esse token");
                     return;
                 }
 
@@ -74,7 +73,7 @@ public class LoginAct extends AppCompatActivity {
             @Override
             public void failure(RetrofitError retrofitError) {
                 pd.dismiss();
-                Toast.makeText(App.inst(), "Erro", Toast.LENGTH_SHORT).show();
+                App.toast("Erro");
                 Log.e("sendToken", retrofitError.getMessage());
             }
         });

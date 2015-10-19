@@ -10,18 +10,16 @@ import br.ufrj.caronae.models.RideSearchFiltersForJson;
 import br.ufrj.caronae.models.RideWithUsers;
 import br.ufrj.caronae.models.TokenForJson;
 import br.ufrj.caronae.models.User;
-import br.ufrj.caronae.models.UserWithRides;
+import br.ufrj.caronae.models.UserWithRidesForJson;
 import retrofit.Callback;
 import retrofit.client.Response;
 import retrofit.http.Body;
-import retrofit.http.GET;
 import retrofit.http.POST;
 import retrofit.http.PUT;
-import retrofit.http.Path;
 
 public interface NetworkService {
     @POST("/auth")
-    void sendToken(@Body TokenForJson token, Callback<UserWithRides> cb);
+    void sendToken(@Body TokenForJson token, Callback<UserWithRidesForJson> cb);
 
     @PUT("/user/a")
     void updateUser(@Body User user, Callback<Response> cb);

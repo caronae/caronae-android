@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.orm.SugarApp;
@@ -159,5 +160,9 @@ public class App extends SugarApp {
         }
 
         String result = sb.toString();
+    }
+
+    public static void toast(String msg) {
+        Toast.makeText(App.inst(), msg, Toast.LENGTH_SHORT).show();
     }
 }

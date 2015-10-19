@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Caronae</string>
+    <string name="app_name">Caronaê</string>
 
     <string name="name_tv">Nome</string>
     <string name="profile_tv">Perfil</string>
@@ -11,7 +11,7 @@
     <string name="plate_tv">Placa</string>
     <string name="carOwner_tv">Tem carro?</string>
 
-    <string name="title_activity_principal">Principal</string>
+    <string name="title_activity_principal">Caronaê</string>
     <string name="title_activity_login">Login</string>
     <string name="tokenHint_et">Digite o token aqui</string>
     <string name="send_bt">Enviar</string>
