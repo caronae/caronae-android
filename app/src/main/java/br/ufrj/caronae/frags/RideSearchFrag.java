@@ -32,7 +32,7 @@ import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.adapters.RideOfferAdapter;
 import br.ufrj.caronae.comparators.RideOfferComparatorByTime;
-import br.ufrj.caronae.models.RideOffer;
+import br.ufrj.caronae.models.RideOfferForJson;
 import br.ufrj.caronae.models.RideSearchFiltersForJson;
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -70,7 +70,7 @@ public class RideSearchFrag extends Fragment {
         View view = inflater.inflate(R.layout.fragment_ride_search, container, false);
         ButterKnife.bind(this, view);
 
-        adapter = new RideOfferAdapter(new ArrayList<RideOffer>());
+        adapter = new RideOfferAdapter(new ArrayList<RideOfferForJson>());
         rvRides.setAdapter(adapter);
         rvRides.setHasFixedSize(true);
         rvRides.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -135,26 +135,27 @@ public class RideSearchFrag extends Fragment {
         RideSearchFiltersForJson rideSearchFilters = new RideSearchFiltersForJson(zone, neighborhood, date, go);
 
         String lastRideSearchFilters = new Gson().toJson(rideSearchFilters);
-        App.putPref("lastRideSearchFilters", lastRideSearchFilters);
+        App.putPref(App.LAST_RIDE_SEARCH_FILTERS_PREF_KEY, lastRideSearchFilters);
 
-        App.getNetworkService().getRideOffers(rideSearchFilters, new Callback<List<RideOffer>>() {
+        App.getNetworkService().getRideOffers(rideSearchFilters, new Callback<List<RideOfferForJson>>() {
             @Override
-            public void success(List<RideOffer> rideOffers, Response response) {
+            public void success(List<RideOfferForJson> rideOffers, Response response) {
                 if (rideOffers != null) {
                     App.expandOrCollapse(lay, false);
                     anotherSearch_bt.setVisibility(View.VISIBLE);
                     Collections.sort(rideOffers, new RideOfferComparatorByTime());
                     adapter.makeList(rideOffers);
                 } else {
-                    Toast.makeText(App.inst(), "Nenhuma carona encontrada", Toast.LENGTH_SHORT).show();
+                    App.toast("Nenhuma carona encontrada");
                 }
                 pd.dismiss();
             }
 
             @Override
             public void failure(RetrofitError error) {
-                Log.e("getRideOffers", error.getMessage());
                 pd.dismiss();
+                App.toast("Erro ao obter caronas");
+                Log.e("getRideOffers", error.getMessage());
             }
         });
     }

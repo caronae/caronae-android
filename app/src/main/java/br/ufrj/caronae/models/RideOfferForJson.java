@@ -1,6 +1,6 @@
 package br.ufrj.caronae.models;
 
-public class RideOffer {
+public class RideOfferForJson {
     private String driverName;
     private String time;
     private String course;
@@ -14,7 +14,7 @@ public class RideOffer {
     private int driverId;
     private boolean go;
 
-    public RideOffer(Ride ride, User user) {
+    public RideOfferForJson(Ride ride, User user) {
         driverName = user.getName();
         time = ride.getTime();
         course = user.getCourse();

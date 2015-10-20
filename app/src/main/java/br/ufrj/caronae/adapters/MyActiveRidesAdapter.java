@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -24,7 +23,7 @@ import br.ufrj.caronae.R;
 import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.models.Ride;
 import br.ufrj.caronae.models.RideIdForJson;
-import br.ufrj.caronae.models.RideWithUsers;
+import br.ufrj.caronae.models.RideWithUsersForJson;
 import br.ufrj.caronae.models.User;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -32,10 +31,10 @@ import retrofit.client.Response;
 
 public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdapter.ViewHolder> {
 
-    private final List<RideWithUsers> ridesList;
+    private final List<RideWithUsersForJson> ridesList;
     private final MainAct activity;
 
-    public MyActiveRidesAdapter(List<RideWithUsers> ridesList, MainAct activity) {
+    public MyActiveRidesAdapter(List<RideWithUsersForJson> ridesList, MainAct activity) {
         this.ridesList = ridesList;
         this.activity = activity;
     }
@@ -52,7 +51,7 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        final RideWithUsers rideWithUsers = ridesList.get(position);
+        final RideWithUsersForJson rideWithUsers = ridesList.get(position);
 
         final Ride ride = rideWithUsers.getRide();
         User driver = rideWithUsers.getUsers().get(0);

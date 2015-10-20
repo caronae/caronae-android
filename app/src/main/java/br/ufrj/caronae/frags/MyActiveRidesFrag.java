@@ -16,7 +16,7 @@ import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.adapters.MyActiveRidesAdapter;
-import br.ufrj.caronae.models.RideWithUsers;
+import br.ufrj.caronae.models.RideWithUsersForJson;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import retrofit.Callback;
@@ -36,15 +36,13 @@ public class MyActiveRidesFrag extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_my_active_rides, container, false);
         ButterKnife.bind(this, view);
 
-        App.getNetworkService().getMyActiveRides(App.getUser(), new Callback<List<RideWithUsers>>() {
+        App.getNetworkService().getMyActiveRides(App.getUser(), new Callback<List<RideWithUsersForJson>>() {
             @Override
-            public void success(List<RideWithUsers> response, Response response2) {
+            public void success(List<RideWithUsersForJson> response, Response response2) {
                 if (response == null || response.isEmpty()) {
                     norides_tv.setVisibility(View.VISIBLE);
                     return;
@@ -58,12 +56,12 @@ public class MyActiveRidesFrag extends Fragment {
             @Override
             public void failure(RetrofitError error) {
                 norides_tv.setVisibility(View.VISIBLE);
+                App.toast("Erro ao obter caronas ativas");
                 Log.e("getMyActiveRides", error.getMessage());
             }
         });
 
         return view;
     }
-
 
 }

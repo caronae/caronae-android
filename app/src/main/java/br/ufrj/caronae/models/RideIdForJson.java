@@ -1,7 +1,7 @@
 package br.ufrj.caronae.models;
 
 public class RideIdForJson {
-    int rideId;
+    private int rideId;
 
     public RideIdForJson(int rideId) {
         this.rideId = rideId;

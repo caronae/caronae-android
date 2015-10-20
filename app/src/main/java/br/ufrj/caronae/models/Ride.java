@@ -34,12 +34,12 @@ public class Ride extends SugarRecord<Ride> {
         this.description = description;
         this.going = going;
         this.routine = routine;
-        monday = routineDays == null ? false : routineDays[0];
-        tuesday = routineDays == null ? false : routineDays[1];
-        wednesday = routineDays == null ? false : routineDays[2];
-        thursday = routineDays == null ? false : routineDays[3];
-        friday = routineDays == null ? false : routineDays[4];
-        saturday = routineDays == null ? false : routineDays[5];
+        monday = routineDays != null && routineDays[0];
+        tuesday = routineDays != null && routineDays[1];
+        wednesday = routineDays != null && routineDays[2];
+        thursday = routineDays != null && routineDays[3];
+        friday = routineDays != null && routineDays[4];
+        saturday = routineDays != null && routineDays[5];
     }
 
     public Ride(Ride ride) {

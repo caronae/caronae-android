@@ -1,11 +1,11 @@
 package br.ufrj.caronae.comparators;
 
-import br.ufrj.caronae.models.RideOffer;
+import br.ufrj.caronae.models.RideOfferForJson;
 
-public class RideOfferComparatorByTime implements java.util.Comparator<RideOffer> {
+public class RideOfferComparatorByTime implements java.util.Comparator<RideOfferForJson> {
 
     @Override
-    public int compare(RideOffer r1, RideOffer r2) {
+    public int compare(RideOfferForJson r1, RideOfferForJson r2) {
         return r1.getTime().compareTo(r2.getTime());
     }
 }

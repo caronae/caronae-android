@@ -3,8 +3,8 @@ package br.ufrj.caronae.models;
 import java.util.List;
 
 public class UserWithRidesForJson {
-    User user;
-    List<Ride> rides;
+    private User user;
+    private List<Ride> rides;
 
     public User getUser() {
         return user;

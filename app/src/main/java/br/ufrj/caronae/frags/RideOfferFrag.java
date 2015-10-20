@@ -34,6 +34,7 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 public class RideOfferFrag extends Fragment {
+
     @Bind(R.id.radioGroup)
     RadioGroup radioGroup;
 
@@ -190,20 +191,20 @@ public class RideOfferFrag extends Fragment {
         final Ride ride = new Ride(zone, neighborhood, place, way, date, time, slots, hub, description, go, routine, routineDays);
 
         String lastRideOffer = new Gson().toJson(ride);
-        App.putPref("lastRideOffer", lastRideOffer);
+        App.putPref(App.LAST_RIDE_OFFER_PREF_KEY, lastRideOffer);
 
         App.getNetworkService().offerRide(ride, new Callback<String>() {
             @Override
             public void success(String rideId, Response response2) {
                 ride.setDbId(Integer.parseInt(rideId));
                 ride.save();
-                Toast.makeText(App.inst(), "Carona salva", Toast.LENGTH_SHORT).show();
+                App.toast("Carona salva");
             }
 
             @Override
             public void failure(RetrofitError error) {
+                App.toast("Erro ao oferecer carona");
                 Log.e("offerRide", error.getMessage());
-                Toast.makeText(App.inst(), "Erro", Toast.LENGTH_SHORT).show();
             }
         });
     }

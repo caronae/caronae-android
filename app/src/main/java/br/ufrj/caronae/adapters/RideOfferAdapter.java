@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -19,16 +18,16 @@ import java.util.Locale;
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.models.RideIdForJson;
-import br.ufrj.caronae.models.RideOffer;
+import br.ufrj.caronae.models.RideOfferForJson;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.ViewHolder> {
 
-    private List<RideOffer> rideOffers;
+    private List<RideOfferForJson> rideOffers;
 
-    public RideOfferAdapter(List<RideOffer> rideOffers) {
+    public RideOfferAdapter(List<RideOfferForJson> rideOffers) {
         this.rideOffers = rideOffers;
     }
 
@@ -44,7 +43,7 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
 
     @Override
     public void onBindViewHolder(final RideOfferAdapter.ViewHolder viewHolder, int position) {
-        final RideOffer rideOffer = rideOffers.get(position);
+        final RideOfferForJson rideOffer = rideOffers.get(position);
 
         try {
             viewHolder.time_tv.setText(DateFormat.getTimeInstance(DateFormat.SHORT, Locale.getDefault()).format(new SimpleDateFormat("HH:mm").parse(rideOffer.getTime())));
@@ -83,7 +82,7 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
         return rideOffers.size();
     }
 
-    public void makeList(List<RideOffer> rideOffers) {
+    public void makeList(List<RideOfferForJson> rideOffers) {
         this.rideOffers = rideOffers;
         notifyDataSetChanged();
     }

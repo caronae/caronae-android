@@ -23,6 +23,7 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 public class ProfileFrag extends Fragment {
+
     @Bind(R.id.name_et)
     EditText name_et;
     @Bind(R.id.profile_et)
@@ -53,9 +54,7 @@ public class ProfileFrag extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         ButterKnife.bind(this, view);
 
@@ -94,13 +93,13 @@ public class ProfileFrag extends Fragment {
                 public void success(Response response, Response response2) {
                     user.setUser(editedUser);
                     App.saveUser(user);
-                    Toast.makeText(App.inst(), "Perfil atualizado", Toast.LENGTH_SHORT).show();
+                    App.toast("Perfil atualizado");
                 }
 
                 @Override
                 public void failure(RetrofitError error) {
                     Log.e("updateUser", error.getMessage());
-                    Toast.makeText(App.inst(), "Erro", Toast.LENGTH_SHORT).show();
+                    App.toast("Erro ao atualizar usuário");
                 }
             });
         }

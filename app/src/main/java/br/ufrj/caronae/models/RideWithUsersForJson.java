@@ -2,7 +2,7 @@ package br.ufrj.caronae.models;
 
 import java.util.List;
 
-public class RideWithUsers {
+public class RideWithUsersForJson {
     private Ride ride;
     private List<User> users;
 

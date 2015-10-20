@@ -143,7 +143,7 @@ public class User implements Parcelable {
         setEmail(editedUser.getEmail());
         setCarOwner(editedUser.isCarOwner());
         setCarModel(editedUser.getCarModel());
-        setCarModel(editedUser.getCarModel());
+        setCarPlate(editedUser.getCarPlate());
         setCarColor(editedUser.getCarColor());
     }
 
@@ -162,6 +162,7 @@ public class User implements Parcelable {
         createdAt = data[8];
 
         int[] intData = new int[2];
+        in.readIntArray(intData);
         carOwner = intData[0] == 1;
         dbId = intData[1];
     }
