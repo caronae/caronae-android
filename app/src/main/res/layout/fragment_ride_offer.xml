@@ -43,6 +43,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/zone_tv"
+            android:inputType="text"
             android:singleLine="true" />
 
         <TextView
@@ -57,6 +58,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/neighborhood_tv"
+            android:inputType="text"
             android:singleLine="true" />
 
         <TextView
@@ -71,6 +73,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/place_tv"
+            android:inputType="text"
             android:singleLine="true" />
 
         <TextView
@@ -85,6 +88,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/way_tv"
+            android:inputType="text"
             android:singleLine="true" />
 
         <RelativeLayout
@@ -113,6 +117,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="30dp"
+                android:layout_marginStart="30dp"
+                android:layout_toEndOf="@+id/date_et"
                 android:layout_toRightOf="@+id/date_et"
                 android:text="@string/time_tv" />
 
@@ -155,6 +161,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/hub_tv"
+            android:inputType="text"
             android:singleLine="true" />
 
         <TextView
@@ -168,7 +175,8 @@
             android:id="@+id/description_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/description_tv" />
+            android:layout_below="@+id/description_tv"
+            android:inputType="text" />
 
         <CheckBox
             android:id="@+id/routine_cb"

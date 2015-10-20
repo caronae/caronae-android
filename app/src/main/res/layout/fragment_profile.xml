@@ -13,7 +13,8 @@
         <ImageView
             android:id="@+id/photo_iv"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:contentDescription="user photo" />
 
         <TextView
             android:id="@+id/name_tv"
@@ -27,7 +28,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/name_tv"
-            android:enabled="false" />
+            android:enabled="false"
+            android:inputType="textPersonName" />
 
         <TextView
             android:id="@+id/profile_tv"
@@ -41,6 +43,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/profile_tv"
+            android:inputType="text"
             android:singleLine="true" />
 
         <TextView
@@ -55,6 +58,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/course_tv"
+            android:inputType="text"
             android:singleLine="true" />
 
         <TextView
@@ -111,6 +115,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/carModel_tv"
+                android:inputType="text"
                 android:singleLine="true" />
 
             <TextView
@@ -125,6 +130,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/carColor_tv"
+                android:inputType="text"
                 android:singleLine="true" />
 
             <TextView
@@ -139,6 +145,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/carPlate_tv"
+                android:inputType="text"
                 android:singleLine="true" />
         </RelativeLayout>
 

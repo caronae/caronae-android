@@ -46,6 +46,8 @@ public class RequestersAdapter extends RecyclerView.Adapter<RequestersAdapter.Vi
     public void onBindViewHolder(RequestersAdapter.ViewHolder holder, final int position) {
         final User user = users.get(position);
 
+        holder.course_tv.setText(user.getCourse());
+
         holder.name_tv.setText(user.getName());
         holder.name_tv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,14 +58,14 @@ public class RequestersAdapter extends RecyclerView.Adapter<RequestersAdapter.Vi
                         show();
             }
         });
-        holder.course_tv.setText(user.getCourse());
+
         holder.accept_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 App.getNetworkService().answerJoinRequest(new JoinRequestIDsForJson(user.getDbId(), rideId, true), new Callback<Response>() {
                     @Override
                     public void success(Response response, Response response2) {
-                        Toast.makeText(App.inst(), "Solicitação aceita", Toast.LENGTH_SHORT).show();
+                        App.toast("Solicitação aceita");
                         users.remove(user);
                         notifyItemRemoved(position);
                     }
@@ -71,18 +73,19 @@ public class RequestersAdapter extends RecyclerView.Adapter<RequestersAdapter.Vi
                     @Override
                     public void failure(RetrofitError error) {
                         Log.e("answerJoinRequest", error.getMessage());
-                        Toast.makeText(App.inst(), "Erro", Toast.LENGTH_SHORT).show();
+                        App.toast("Erro ao responder solicitação");
                     }
                 });
             }
         });
+
         holder.reject_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 App.getNetworkService().answerJoinRequest(new JoinRequestIDsForJson(user.getDbId(), rideId, false), new Callback<Response>() {
                     @Override
                     public void success(Response response, Response response2) {
-                        Toast.makeText(App.inst(), "Solicitação rejeitada", Toast.LENGTH_SHORT).show();
+                        App.toast("Solicitação rejeitada");
                         users.remove(user);
                         notifyItemRemoved(position);
                     }
@@ -90,7 +93,7 @@ public class RequestersAdapter extends RecyclerView.Adapter<RequestersAdapter.Vi
                     @Override
                     public void failure(RetrofitError error) {
                         Log.e("answerJoinRequest", error.getMessage());
-                        Toast.makeText(App.inst(), "Erro", Toast.LENGTH_SHORT).show();
+                        App.toast("Erro ao responder solicitação");
                     }
                 });
             }

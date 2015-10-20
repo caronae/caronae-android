@@ -13,7 +13,6 @@
         android:layout_height="wrap_content"
         android:paddingTop="120dp"
         android:text="Header"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColor="@android:color/white" />
 
 </LinearLayout>

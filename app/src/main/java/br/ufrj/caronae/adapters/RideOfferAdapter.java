@@ -24,8 +24,7 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class RideOfferAdapter extends
-        RecyclerView.Adapter<RideOfferAdapter.ViewHolder> {
+public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.ViewHolder> {
 
     private List<RideOffer> rideOffers;
 
@@ -52,13 +51,13 @@ public class RideOfferAdapter extends
         } catch (ParseException e) {
             e.printStackTrace();
         }
+
         viewHolder.name_tv.setText(rideOffer.getDriverName());
         viewHolder.slots_tv.setText(rideOffer.getSlots() + " vagas");
         viewHolder.direction_tv.setText(rideOffer.isGo() ? "Indo para o fundão" : "Voltando do fundão - HUB:" + rideOffer.getHub());
         viewHolder.neighborhood_tv.setText(rideOffer.getNeighborhood());
-        if (rideOffer.getDriverId() == App.getUser().getDbId()) {
-            viewHolder.join_bt.setVisibility(View.GONE);
-        }
+
+        viewHolder.join_bt.setVisibility(rideOffer.getDriverId() == App.getUser().getDbId() ? View.GONE : View.VISIBLE);
         viewHolder.join_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -66,12 +65,12 @@ public class RideOfferAdapter extends
                 App.getNetworkService().sendJoinRequest(new RideIdForJson(rideOffer.getRideId()), new Callback<Response>() {
                     @Override
                     public void success(Response response, Response response2) {
-                        Toast.makeText(App.inst(), "Solicitação enviada", Toast.LENGTH_SHORT).show();
+                        App.toast("Solicitação enviada");
                     }
 
                     @Override
                     public void failure(RetrofitError error) {
-                        Toast.makeText(App.inst(), "Erro no envio da solicitação", Toast.LENGTH_SHORT).show();
+                        App.toast("Erro no envio da solicitação");
                         Log.e("sendJoinRequest", error.getMessage());
                     }
                 });

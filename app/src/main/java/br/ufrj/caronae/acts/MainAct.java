@@ -49,13 +49,13 @@ public class MainAct extends AppCompatActivity {
 
         drawerToggle = new ActionBarDrawerToggle(this, mDrawer, toolbar, R.string.drawer_open,  R.string.drawer_close) {
             @Override
-            public void onDrawerSlide(View drawerView, float slideOffset) {
+            public void onDrawerOpened(View drawerView) {
                 InputMethodManager inputMethodManager = (InputMethodManager)  MainAct.this.getSystemService(Activity.INPUT_METHOD_SERVICE);
                 try {
                     //noinspection ConstantConditions
                     inputMethodManager.hideSoftInputFromWindow(MainAct.this.getCurrentFocus().getWindowToken(), 0);
                 } catch (NullPointerException e) {
-                    Log.e("onDrawerSlide", e.getMessage());
+                    Log.e("onDrawerOpened", e.getMessage());
                 }
             }
         };
@@ -153,11 +153,7 @@ public class MainAct extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (drawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+        return drawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
     }
 
     public void showRequestersListFrag(List<User> users, int rideId) {

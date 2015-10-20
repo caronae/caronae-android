@@ -26,6 +26,13 @@ public class App extends SugarApp {
 
     public static final String USER_PREF_KEY = "user";
     public static final String MISSING_PREF = "missing";
+    public static final String LAST_RIDE_OFFER_PREF_KEY = "lastRideOffer";
+    public static final String LAST_RIDE_SEARCH_FILTERS_PREF_KEY = "lastRideSearchFilters";
+    public static final String TOKEN_PREF_KEY = "token";
+
+    public static final String APIARY_ENDPOINT = "http://private-5b9ed6-caronae.apiary-mock.com";
+    public static final String LUISDIGOCEAN_ENDPOINT = "http://104.131.31.224/";
+    public static final String LOCAL_SERV_ENDPOINT = "http://192.168.0.13/";
 
     private static App inst;
     private static User user;
@@ -46,6 +53,7 @@ public class App extends SugarApp {
             if (!userJson.equals(MISSING_PREF))
                 user = new Gson().fromJson(userJson, User.class);
         }
+
         return user;
     }
 
@@ -56,20 +64,21 @@ public class App extends SugarApp {
     public static void logOut() {
         user = null;
         removePref(USER_PREF_KEY);
-        removePref("lastRideOffer");
+        removePref(LAST_RIDE_OFFER_PREF_KEY);
+        removePref(LAST_RIDE_SEARCH_FILTERS_PREF_KEY);
         Ride.deleteAll(Ride.class);
     }
 
     public static void saveUser(User user) {
-        putPref("user", new Gson().toJson(user));
+        putPref(USER_PREF_KEY, new Gson().toJson(user));
     }
 
     public static String getUserToken() {
-        return getPref("token");
+        return getPref(TOKEN_PREF_KEY);
     }
 
     public static void saveToken(String token) {
-        putPref("token", token);
+        putPref(TOKEN_PREF_KEY, token);
     }
 
     private static SharedPreferences getSharedPreferences() {
@@ -94,8 +103,8 @@ public class App extends SugarApp {
 
     public static NetworkService getNetworkService() {
         if (component == null) {
-            String endpoint = "http://104.131.31.224/";
-            //String endpoint = "http://192.168.0.13/";
+            String endpoint = LUISDIGOCEAN_ENDPOINT;
+            //String endpoint = LOCAL_SERV_ENDPOINT;
             component = DaggerNetworkComponent.builder().networkModule(new NetworkModule(endpoint)).build();
         }
         return component.provideNetworkService();
@@ -103,7 +112,7 @@ public class App extends SugarApp {
 
     public static NetworkService getApiaryNetworkService() {
         if (component2 == null)
-            component2 = DaggerNetworkComponent.builder().networkModule(new NetworkModule("http://private-5b9ed6-caronae.apiary-mock.com")).build();
+            component2 = DaggerNetworkComponent.builder().networkModule(new NetworkModule(APIARY_ENDPOINT)).build();
         return component2.provideNetworkService();
     }
 
@@ -141,7 +150,7 @@ public class App extends SugarApp {
     }
 
     public static void printResponseBody(Response response) {
-        BufferedReader reader = null;
+        BufferedReader reader;
         StringBuilder sb = new StringBuilder();
         try {
             reader = new BufferedReader(new InputStreamReader(response.getBody().in()));

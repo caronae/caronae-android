@@ -56,6 +56,7 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
 
         final Ride ride = rideWithUsers.getRide();
         User driver = rideWithUsers.getUsers().get(0);
+
         rideWithUsers.getUsers().remove(0);
 
         ride.setDbId(ride.getId().intValue());
@@ -79,18 +80,15 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
 
         DisplayMetrics displaymetrics = new DisplayMetrics();
         activity.getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-        //int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, displaymetrics.heightPixels, activity.getResources().getDisplayMetrics());
+        holder.layout.getLayoutParams().height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, rideWithUsers.getUsers().size() * 30 + 230, activity.getResources().getDisplayMetrics());
 
-        int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, rideWithUsers.getUsers().size() * 30 + 230, activity.getResources().getDisplayMetrics());
-
-        holder.layout.getLayoutParams().height = height;
         holder.leave_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 App.getNetworkService().leaveRide(new RideIdForJson(ride.getDbId()), new Callback<Response>() {
                     @Override
                     public void success(Response response, Response response2) {
-                        Toast.makeText(App.inst(), "Carona excluída", Toast.LENGTH_SHORT).show();
+                        App.toast("Carona excluída");
                         ridesList.remove(rideWithUsers);
                         notifyItemRemoved(position);
 
@@ -101,7 +99,7 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
 
                     @Override
                     public void failure(RetrofitError error) {
-                        Toast.makeText(App.inst(), "Erro ao desistir de carona", Toast.LENGTH_SHORT).show();
+                        App.toast("Erro ao desistir de carona");
                         Log.e("leaveRide", error.getMessage());
                     }
                 });

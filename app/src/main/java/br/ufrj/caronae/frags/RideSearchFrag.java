@@ -75,7 +75,7 @@ public class RideSearchFrag extends Fragment {
         rvRides.setHasFixedSize(true);
         rvRides.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        String lastRideSearchFilters = App.getPref("lastRideSearchFilters");
+        String lastRideSearchFilters = App.getPref(App.LAST_RIDE_SEARCH_FILTERS_PREF_KEY);
         if (!lastRideSearchFilters.equals(App.MISSING_PREF)) {
             loadLastFilters(lastRideSearchFilters);
         } else {

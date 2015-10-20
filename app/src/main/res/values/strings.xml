@@ -14,7 +14,7 @@
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
 
-    <string name="title_activity_principal">Caronaê</string>
+    <string name="title_activity_main">Caronaê</string>
     <string name="title_activity_login">Login</string>
     <string name="tokenHint_et">Digite o token aqui</string>
     <string name="send_bt">Enviar</string>

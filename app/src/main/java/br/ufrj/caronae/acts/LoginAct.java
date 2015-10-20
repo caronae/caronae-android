@@ -73,7 +73,7 @@ public class LoginAct extends AppCompatActivity {
             @Override
             public void failure(RetrofitError retrofitError) {
                 pd.dismiss();
-                App.toast("Erro");
+                App.toast("Erro ao fazer login");
                 Log.e("sendToken", retrofitError.getMessage());
             }
         });

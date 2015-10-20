@@ -84,7 +84,7 @@ public class RideOfferFrag extends Fragment {
         View view = inflater.inflate(R.layout.fragment_ride_offer, container, false);
         ButterKnife.bind(this, view);
 
-        String lastRideOffer = App.getPref("lastRideOffer");
+        String lastRideOffer = App.getPref(App.LAST_RIDE_OFFER_PREF_KEY);
         if (!lastRideOffer.equals(App.MISSING_PREF)) {
             loadLastRide(lastRideOffer);
         } else {

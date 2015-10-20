@@ -56,9 +56,11 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
         } catch (ParseException e) {
             e.printStackTrace();
         }
+
         holder.slots_tv.setText(ride.getSlots() + " vagas");
         holder.direction_tv.setText(ride.isGoing() ? "Indo para o fundão" : "Voltando do fundão - HUB:" + ride.getHub());
         holder.neighborhood_tv.setText(ride.getNeighborhood());
+
         String s;
         if (ride.isRoutine()) {
             s = ride.isMonday() ? "S" : "";
@@ -71,6 +73,7 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
             s = "Não é rotina";
         }
         holder.routine_tv.setText(s);
+
         holder.delete_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -78,7 +81,7 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
                 App.getNetworkService().deleteRide(new RideIdForJson(ride.getDbId()), new Callback<Response>() {
                     @Override
                     public void success(Response response, Response response2) {
-                        Toast.makeText(App.inst(), "Carona excluída", Toast.LENGTH_SHORT).show();
+                        App.toast("Carona excluída");
                         rides.remove(ride);
                         notifyItemRemoved(position);
                         ride.delete();
@@ -86,7 +89,7 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
 
                     @Override
                     public void failure(RetrofitError error) {
-                        Toast.makeText(App.inst(), "Erro ao excluir carona", Toast.LENGTH_SHORT).show();
+                        App.toast("Erro ao excluir carona");
                         Log.e("deleteRide", error.getMessage());
                     }
                 });
@@ -102,7 +105,7 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
                     public void success(List<User> users, Response response) {
                         pd.dismiss();
                         if (users.isEmpty()) {
-                            Toast.makeText(App.inst(), "Nenhuma solicitação para esse anúncio", Toast.LENGTH_SHORT).show();
+                            App.toast("Nenhuma solicitação para esse anúncio");
                         } else {
                             activity.showRequestersListFrag(users, ride.getDbId());
                         }
@@ -111,7 +114,7 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
                     @Override
                     public void failure(RetrofitError error) {
                         pd.dismiss();
-                        Toast.makeText(App.inst(), "Erro", Toast.LENGTH_SHORT).show();
+                        App.toast("Erro ao obter solicitações");
                         Log.e("getRequesters", error.getMessage());
                     }
                 });
