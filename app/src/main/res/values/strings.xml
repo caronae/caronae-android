@@ -11,6 +11,9 @@
     <string name="plate_tv">Placa</string>
     <string name="carOwner_tv">Tem carro?</string>
 
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+
     <string name="title_activity_principal">Caronaê</string>
     <string name="title_activity_login">Login</string>
     <string name="tokenHint_et">Digite o token aqui</string>
@@ -31,6 +34,4 @@
     <string name="routine_cb">Repetir</string>
     <string name="description_tv">Descrição</string>
 
-<!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
