@@ -16,7 +16,7 @@
 
     <string name="title_activity_main">Caronaê</string>
     <string name="title_activity_login">Login</string>
-    <string name="tokenHint_et">Digite o token aqui</string>
+    <string name="tokenHint_et">Digite sua chave de acesso aqui</string>
     <string name="send_bt">Enviar</string>
 
     <string name="go_rb">Ir ao fundão</string>
