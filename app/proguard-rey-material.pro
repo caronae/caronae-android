@@ -1,0 +1,3 @@
+-dontwarn com.rey.material.**
+-keep class com.rey.material.** { *; }
+-keep class com.rey.material.$ { *; }
