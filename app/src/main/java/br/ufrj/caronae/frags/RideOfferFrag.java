@@ -20,7 +20,9 @@ import com.rey.material.app.DialogFragment;
 import com.rey.material.app.TimePickerDialog;
 
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 import br.ufrj.caronae.App;
@@ -89,8 +91,8 @@ public class RideOfferFrag extends Fragment {
         if (!lastRideOffer.equals(App.MISSING_PREF)) {
             loadLastRide(lastRideOffer);
         } else {
-            date_et.setText(DateFormat.getDateInstance(DateFormat.SHORT, Locale.getDefault()).format(Calendar.getInstance().getTime()));
-            time_et.setText(DateFormat.getTimeInstance(DateFormat.SHORT, Locale.getDefault()).format(Calendar.getInstance().getTime()));
+            date_et.setText(new SimpleDateFormat("dd/MM/yy", Locale.US).format(new Date()));
+            time_et.setText(new SimpleDateFormat("HH:mm", Locale.US).format(new Date()));
         }
 
         return view;
@@ -127,7 +129,7 @@ public class RideOfferFrag extends Fragment {
             @Override
             public void onPositiveActionClicked(DialogFragment fragment) {
                 DatePickerDialog dialog = (DatePickerDialog) fragment.getDialog();
-                date_et.setText(dialog.getFormattedDate(DateFormat.getDateInstance(DateFormat.SHORT, Locale.getDefault())));
+                date_et.setText(dialog.getFormattedDate(new SimpleDateFormat("dd/MM/yy", Locale.US)));
                 super.onPositiveActionClicked(fragment);
             }
 
@@ -150,7 +152,7 @@ public class RideOfferFrag extends Fragment {
             @Override
             public void onPositiveActionClicked(DialogFragment fragment) {
                 TimePickerDialog dialog = (TimePickerDialog) fragment.getDialog();
-                time_et.setText(dialog.getFormattedTime(DateFormat.getTimeInstance(DateFormat.SHORT, Locale.getDefault())));
+                time_et.setText(dialog.getFormattedTime(new SimpleDateFormat("HH:mm", Locale.US)));
                 super.onPositiveActionClicked(fragment);
             }
 

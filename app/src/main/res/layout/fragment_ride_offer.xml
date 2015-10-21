@@ -109,7 +109,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/date_tv"
-                android:text="01/02/2015"
+                android:text="31/12/15"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <TextView

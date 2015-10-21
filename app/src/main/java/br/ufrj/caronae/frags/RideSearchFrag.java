@@ -22,9 +22,11 @@ import com.rey.material.app.Dialog;
 import com.rey.material.app.DialogFragment;
 
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -79,7 +81,7 @@ public class RideSearchFrag extends Fragment {
         if (!lastRideSearchFilters.equals(App.MISSING_PREF)) {
             loadLastFilters(lastRideSearchFilters);
         } else {
-            date_et.setText(DateFormat.getDateInstance(DateFormat.SHORT, Locale.getDefault()).format(Calendar.getInstance().getTime()));
+            date_et.setText(new SimpleDateFormat("dd/MM/yy", Locale.US).format(new Date()));
         }
 
         return view;
@@ -101,7 +103,7 @@ public class RideSearchFrag extends Fragment {
             @Override
             public void onPositiveActionClicked(DialogFragment fragment) {
                 DatePickerDialog dialog = (DatePickerDialog) fragment.getDialog();
-                date_et.setText(dialog.getFormattedDate(DateFormat.getDateInstance(DateFormat.SHORT, Locale.getDefault())));
+                date_et.setText(dialog.getFormattedDate(new SimpleDateFormat("dd/MM/yy", Locale.US)));
                 super.onPositiveActionClicked(fragment);
             }
 
