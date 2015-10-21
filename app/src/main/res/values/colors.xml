@@ -3,6 +3,7 @@
 
     <item name="mygreen" type="color">#009688</item>
     <item name="mydarkgreen" type="color">#00796B</item>
+    <item name="mylightgreen" type="color">#4CAF50</item>
     <item name="white" type="color">#fff</item>
     <item name="gray" type="color">#d3d3d3</item>
     <item name="blue" type="color">#FF33B5E5</item>
