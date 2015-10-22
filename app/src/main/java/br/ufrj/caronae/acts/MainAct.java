@@ -80,8 +80,10 @@ public class MainAct extends AppCompatActivity {
         LayoutInflater inflater = LayoutInflater.from(this);
         View nvHeader = inflater.inflate(R.layout.nav_header, null, false);
 
-        TextView headerText = (TextView) nvHeader.findViewById(R.id.headerText);
-        headerText.setText(App.getUser().getName());
+        TextView name_tv = (TextView) nvHeader.findViewById(R.id.name_tv);
+        name_tv.setText(App.getUser().getName());
+        TextView course_tv = (TextView) nvHeader.findViewById(R.id.course_tv);
+        course_tv.setText(App.getUser().getCourse());
 
         nvDrawer.addHeaderView(nvHeader);
     }
@@ -108,15 +110,12 @@ public class MainAct extends AppCompatActivity {
                 fragmentClass = RideOfferFrag.class;
                 break;
             case R.id.nav_third_fragment:
-                fragmentClass = RideSearchFrag.class;
-                break;
-            case R.id.nav_fourth_fragment:
                 fragmentClass = MyRidesFrag.class;
                 break;
-            case R.id.nav_fifth_fragment:
+            case R.id.nav_fourth_fragment:
                 fragmentClass = MyActiveRidesFrag.class;
                 break;
-            case R.id.nav_sixth_fragment:
+            case R.id.nav_fifth_fragment:
                 App.logOut();
                 startActivity(new Intent(this, LoginAct.class));
                 finish();

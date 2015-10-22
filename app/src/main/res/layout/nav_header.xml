@@ -1,16 +1,50 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="bottom"
     android:orientation="vertical"
     android:padding="16dp"
     android:theme="@style/ThemeOverlay.AppCompat.Light">
 
-    <TextView
-        android:id="@+id/headerText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="120dp"
-        android:text="Header" />
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="160dp"
+        android:layout_height="50dp"
+        android:src="@drawable/logo" />
 
-</LinearLayout>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/logo"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="20dp">
+
+        <ImageView
+            android:id="@+id/user_pic"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/user_pic" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@+id/user_pic">
+
+            <TextView
+                android:id="@+id/name_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Fulano da Silva"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/course_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/name_tv"
+                android:text="Ciência da computação" />
+        </RelativeLayout>
+    </RelativeLayout>
+</RelativeLayout>

@@ -8,15 +8,12 @@
             android:title="Oferecer Carona" />
         <item
             android:id="@+id/nav_third_fragment"
-            android:title="Buscar Carona" />
+            android:title="Meus anúncios" />
         <item
             android:id="@+id/nav_fourth_fragment"
-            android:title="Minhas caronas" />
-        <item
-            android:id="@+id/nav_fifth_fragment"
             android:title="Caronas ativas" />
         <item
-            android:id="@+id/nav_sixth_fragment"
+            android:id="@+id/nav_fifth_fragment"
             android:title="Sair" />
     </group>
 </menu>
