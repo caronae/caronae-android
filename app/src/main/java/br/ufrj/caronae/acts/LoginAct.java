@@ -55,7 +55,7 @@ public class LoginAct extends AppCompatActivity {
                 pd.dismiss();
 
                 if (userWithRides == null || userWithRides.getUser() == null) {
-                    App.toast("Nenhum usúario encontrado com esse token");
+                    App.toast("Chave inválida");
                     return;
                 }
 
