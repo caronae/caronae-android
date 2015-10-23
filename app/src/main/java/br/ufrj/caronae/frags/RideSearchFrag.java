@@ -3,6 +3,7 @@ package br.ufrj.caronae.frags;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -11,20 +12,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.rey.material.app.DatePickerDialog;
 import com.rey.material.app.Dialog;
 import com.rey.material.app.DialogFragment;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -56,6 +55,8 @@ public class RideSearchFrag extends Fragment {
     RelativeLayout lay;
     @Bind(R.id.anotherSearch_bt)
     Button anotherSearch_bt;
+    @Bind(R.id.fab)
+    ImageView fab;
 
     @Bind(R.id.rvRides)
     RecyclerView rvRides;
@@ -71,6 +72,14 @@ public class RideSearchFrag extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_ride_search, container, false);
         ButterKnife.bind(this, view);
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentManager fragmentManager = getFragmentManager();
+                fragmentManager.beginTransaction().replace(R.id.flContent, new RideOfferFrag()).commit();
+            }
+        });
 
         adapter = new RideOfferAdapter(new ArrayList<RideOfferForJson>());
         rvRides.setAdapter(adapter);

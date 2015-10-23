@@ -161,6 +161,7 @@ public class MainAct extends AppCompatActivity {
         if (item.getItemId() == R.id.search_frag_bt) {
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.flContent, new RideSearchFrag()).commit();
+            setTitle(item.getTitle());
         }
 
         return drawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);

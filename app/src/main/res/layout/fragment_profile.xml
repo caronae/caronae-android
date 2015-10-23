@@ -1,168 +1,328 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:background="@color/white">
+    android:layout_height="wrap_content">
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:focusableInTouchMode="true"
-        tools:context="br.ufrj.caronae.frags.ProfileFrag">
-
-        <ImageView
-            android:id="@+id/photo_iv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="user photo" />
-
-        <TextView
-            android:id="@+id/name_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/photo_iv"
-            android:text="@string/name_tv" />
-
-        <EditText
-            android:id="@+id/name_et"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/name_tv"
-            android:enabled="false"
-            android:inputType="textPersonName" />
-
-        <TextView
-            android:id="@+id/profile_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/name_et"
-            android:text="@string/profile_tv" />
-
-        <EditText
-            android:id="@+id/profile_et"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/profile_tv"
-            android:inputType="text"
-            android:singleLine="true" />
-
-        <TextView
-            android:id="@+id/course_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/profile_et"
-            android:text="@string/course_tv" />
-
-        <EditText
-            android:id="@+id/course_et"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/course_tv"
-            android:inputType="text"
-            android:singleLine="true" />
-
-        <TextView
-            android:id="@+id/phoneNumber_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/course_et"
-            android:text="@string/phoneNumber_tv" />
-
-        <EditText
-            android:id="@+id/phoneNumber_et"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/phoneNumber_tv"
-            android:inputType="phone"
-            android:singleLine="true" />
-
-        <TextView
-            android:id="@+id/email_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/phoneNumber_et"
-            android:text="@string/email_tv" />
-
-        <EditText
-            android:id="@+id/email_et"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/email_tv"
-            android:inputType="textEmailAddress"
-            android:singleLine="true" />
-
-        <CheckBox
-            android:id="@+id/carOwner_cb"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/email_et"
-            android:text="@string/carOwner_tv" />
+        android:focusableInTouchMode="true">
 
         <RelativeLayout
-            android:id="@+id/car_lay"
+            android:id="@+id/lay1"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/carOwner_cb">
+            android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/carModel_tv"
+            <ImageView
+                android:id="@+id/user_pic"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/user_pic" />
+
+            <RelativeLayout
+                android:id="@+id/lay11"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/model_tv" />
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_toEndOf="@+id/user_pic"
+                android:layout_toRightOf="@+id/user_pic">
 
-            <EditText
-                android:id="@+id/carModel_et"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/carModel_tv"
-                android:inputType="text"
-                android:singleLine="true" />
+                <TextView
+                    android:id="@+id/name_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Fulano da Silva"
+                    android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/carColor_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/carModel_et"
-                android:text="@string/color_tv" />
+                <TextView
+                    android:id="@+id/profile_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/name_tv"
+                    android:text="Aluno" />
 
-            <EditText
-                android:id="@+id/carColor_et"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/carColor_tv"
-                android:inputType="text"
-                android:singleLine="true" />
+                <TextView
+                    android:id="@+id/course_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/profile_tv"
+                    android:text="Ciência da computação" />
 
-            <TextView
-                android:id="@+id/carPlate_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/carColor_et"
-                android:text="@string/plate_tv" />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/logout" />
+            </RelativeLayout>
 
-            <EditText
-                android:id="@+id/carPlate_et"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/carPlate_tv"
-                android:inputType="text"
-                android:singleLine="true" />
         </RelativeLayout>
-
-        <Button
-            android:id="@+id/save_bt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/car_lay"
-            android:layout_centerHorizontal="true"
-            android:text="@string/save_bt" />
 
         <TextView
             android:id="@+id/createdAt_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/save_bt"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
+            android:layout_below="@+id/lay1"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:text="Usuário desde 31/12/2015"
+            android:textStyle="italic" />
 
+        <TextView
+            android:id="@+id/contact_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/createdAt_tv"
+            android:paddingTop="10dp"
+            android:text="CONTATOS"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/contact__text_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/contact_tv"
+            android:text="Os seus contatos só serão visíveis para os usuários que estiverem na mesma carona que você"
+            android:textSize="12sp" />
+
+        <RelativeLayout
+            android:id="@+id/lay2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/contact__text_tv"
+            android:paddingTop="10dp">
+
+            <ImageView
+                android:id="@+id/email_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_email_black_24dp" />
+
+            <EditText
+                android:id="@+id/email_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
+                android:layout_toEndOf="@+id/email_iv"
+                android:layout_toRightOf="@+id/email_iv"
+                android:hint="Digite seu e-mail"
+                android:inputType="textEmailAddress" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/lay3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lay2">
+
+            <ImageView
+                android:id="@+id/phone_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_phone_black_24dp" />
+
+            <EditText
+                android:id="@+id/phoneNumber_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
+                android:layout_toEndOf="@+id/phone_iv"
+                android:layout_toRightOf="@+id/phone_iv"
+                android:hint="Digite seu telefone"
+                android:inputType="phone" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/location_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lay3"
+            android:paddingTop="10dp"
+            android:text="LOCALIDADE"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/location__text_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/location_tv"
+            android:text="Sua localidade nunca será exibida para outros usuários"
+            android:textSize="12sp" />
+
+        <RelativeLayout
+            android:id="@+id/lay4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/location__text_tv"
+            android:paddingTop="10dp">
+
+            <ImageView
+                android:id="@+id/zone_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_location_on_black_24dp" />
+
+            <EditText
+                android:id="@+id/zone_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
+                android:layout_toEndOf="@+id/zone_iv"
+                android:layout_toRightOf="@+id/zone_iv"
+                android:hint="Digite sua zona" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/lay5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lay4">
+
+            <ImageView
+                android:id="@+id/neighborhood_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_location_on_black_24dp" />
+
+            <EditText
+                android:id="@+id/neighborhood_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
+                android:layout_toEndOf="@+id/neighborhood_iv"
+                android:layout_toRightOf="@+id/neighborhood_iv"
+                android:hint="Digite seu bairro" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/carOwner_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lay5"
+            android:paddingTop="15dp"
+            android:text="Possui carro?"
+            android:textStyle="bold" />
+
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/carOwner_sw"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/carOwner_tv"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true" />
+
+        <RelativeLayout
+            android:id="@+id/car_lay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/carOwner_tv">
+
+            <TextView
+                android:id="@+id/car_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:text="SOBRE SEU CARRO"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/car__text_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/car_tv"
+                android:text="Essas informações também só aparecem para pessoas que estiverem na sua carona"
+                android:textSize="12sp" />
+
+            <RelativeLayout
+                android:id="@+id/lay6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/car__text_tv"
+                android:paddingTop="10dp">
+
+                <ImageView
+                    android:id="@+id/carPlate_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_directions_car_black_24dp" />
+
+                <EditText
+                    android:id="@+id/carPlate_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_toEndOf="@+id/carPlate_iv"
+                    android:layout_toRightOf="@+id/carPlate_iv"
+                    android:hint="Digite a placa de seu carro" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/lay7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lay6">
+
+                <ImageView
+                    android:id="@+id/carModel_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_directions_car_black_24dp" />
+
+                <EditText
+                    android:id="@+id/carModel_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_toEndOf="@+id/carModel_iv"
+                    android:layout_toRightOf="@+id/carModel_iv"
+                    android:hint="Digite o modelo de seu carro" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/lay8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lay7">
+
+                <ImageView
+                    android:id="@+id/carColor_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_directions_car_black_24dp" />
+
+                <EditText
+                    android:id="@+id/carColor_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_toEndOf="@+id/carColor_iv"
+                    android:layout_toRightOf="@+id/carColor_iv"
+                    android:hint="Digite a cor de seu carro" />
+            </RelativeLayout>
+        </RelativeLayout>
     </RelativeLayout>
 </ScrollView>
