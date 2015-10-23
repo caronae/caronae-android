@@ -107,15 +107,12 @@ public class MainAct extends AppCompatActivity {
                 fragmentClass = ProfileFrag.class;
                 break;
             case R.id.nav_second_fragment:
-                fragmentClass = RideOfferFrag.class;
-                break;
-            case R.id.nav_third_fragment:
                 fragmentClass = MyRidesFrag.class;
                 break;
-            case R.id.nav_fourth_fragment:
+            case R.id.nav_third_fragment:
                 fragmentClass = MyActiveRidesFrag.class;
                 break;
-            case R.id.nav_fifth_fragment:
+            case R.id.nav_fourth_fragment:
                 App.logOut();
                 startActivity(new Intent(this, LoginAct.class));
                 finish();

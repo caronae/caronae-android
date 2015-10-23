@@ -5,15 +5,12 @@
             android:title="Perfil" />
         <item
             android:id="@+id/nav_second_fragment"
-            android:title="Oferecer Carona" />
-        <item
-            android:id="@+id/nav_third_fragment"
             android:title="Meus anúncios" />
         <item
-            android:id="@+id/nav_fourth_fragment"
+            android:id="@+id/nav_third_fragment"
             android:title="Caronas ativas" />
         <item
-            android:id="@+id/nav_fifth_fragment"
+            android:id="@+id/nav_fourth_fragment"
             android:title="Sair" />
     </group>
 </menu>

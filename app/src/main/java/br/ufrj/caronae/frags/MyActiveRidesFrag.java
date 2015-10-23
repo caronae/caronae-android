@@ -2,12 +2,14 @@ package br.ufrj.caronae.frags;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -29,16 +31,25 @@ public class MyActiveRidesFrag extends Fragment {
     RecyclerView myRidesList;
     @Bind(R.id.norides_tv)
     TextView norides_tv;
+    @Bind(R.id.fab)
+    ImageView fab;
 
     public MyActiveRidesFrag() {
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_my_active_rides, container, false);
         ButterKnife.bind(this, view);
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentManager fragmentManager = getFragmentManager();
+                fragmentManager.beginTransaction().replace(R.id.flContent, new RideOfferFrag()).commit();
+            }
+        });
 
         App.getNetworkService().getMyActiveRides(App.getUser(), new Callback<List<RideWithUsersForJson>>() {
             @Override
@@ -63,5 +74,4 @@ public class MyActiveRidesFrag extends Fragment {
 
         return view;
     }
-
 }

@@ -2,11 +2,13 @@ package br.ufrj.caronae.frags;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -24,6 +26,8 @@ public class MyRidesFrag extends Fragment {
     RecyclerView myRidesList;
     @Bind(R.id.norides_tv)
     TextView norides_tv;
+    @Bind(R.id.fab)
+    ImageView fab;
 
     public MyRidesFrag() {
         // Required empty public constructor
@@ -33,6 +37,14 @@ public class MyRidesFrag extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_my_rides, container, false);
         ButterKnife.bind(this, view);
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentManager fragmentManager = getFragmentManager();
+                fragmentManager.beginTransaction().replace(R.id.flContent, new RideOfferFrag()).commit();
+            }
+        });
 
         ArrayList<Ride> rides = (ArrayList<Ride>) Ride.listAll(Ride.class);
 
