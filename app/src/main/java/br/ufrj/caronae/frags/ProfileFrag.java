@@ -1,6 +1,7 @@
 package br.ufrj.caronae.frags;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -20,6 +21,7 @@ import java.util.Locale;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
+import br.ufrj.caronae.acts.LoginAct;
 import br.ufrj.caronae.models.User;
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -76,7 +78,7 @@ public class ProfileFrag extends Fragment {
             String date = user.getCreatedAt().split(" ")[0];
             try {
                 Date date2 = new SimpleDateFormat("yyyy-MM-dd", Locale.US).parse(date);
-                date = new SimpleDateFormat("dd/MM/yy", Locale.US).format(date2);
+                date = new SimpleDateFormat("dd/MM/yyyy", Locale.US).format(date2);
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -86,6 +88,13 @@ public class ProfileFrag extends Fragment {
         carOwnerSw();
 
         return view;
+    }
+
+    @OnClick(R.id.logout_iv)
+    public void logoutIv() {
+        App.logOut();
+        startActivity(new Intent(getContext(), LoginAct.class));
+        getActivity().finish();
     }
 
     @OnClick(R.id.carOwner_sw)

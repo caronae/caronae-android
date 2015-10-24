@@ -9,8 +9,5 @@
         <item
             android:id="@+id/nav_third_fragment"
             android:title="Caronas ativas" />
-        <item
-            android:id="@+id/nav_fourth_fragment"
-            android:title="Sair" />
     </group>
 </menu>
