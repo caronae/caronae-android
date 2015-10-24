@@ -73,14 +73,6 @@ public class RideSearchFrag extends Fragment {
         View view = inflater.inflate(R.layout.fragment_ride_search, container, false);
         ButterKnife.bind(this, view);
 
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FragmentManager fragmentManager = getFragmentManager();
-                fragmentManager.beginTransaction().replace(R.id.flContent, new RideOfferFrag()).commit();
-            }
-        });
-
         adapter = new RideOfferAdapter(new ArrayList<RideOfferForJson>());
         rvRides.setAdapter(adapter);
         rvRides.setHasFixedSize(true);
@@ -127,6 +119,12 @@ public class RideSearchFrag extends Fragment {
 
         DialogFragment fragment = DialogFragment.newInstance(builder);
         fragment.show(getFragmentManager(), null);
+    }
+
+    @OnClick(R.id.fab)
+    public void fab() {
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.flContent, new RideOfferFrag()).commit();
     }
 
     @OnClick(R.id.anotherSearch_bt)

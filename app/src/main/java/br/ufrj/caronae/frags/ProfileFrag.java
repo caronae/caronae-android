@@ -1,7 +1,9 @@
 package br.ufrj.caronae.frags;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -29,11 +31,11 @@ import retrofit.client.Response;
 public class ProfileFrag extends Fragment {
 
     @Bind(R.id.name_tv)
-    TextView name_et;
+    TextView name_tv;
     @Bind(R.id.profile_tv)
-    TextView profile_et;
+    TextView profile_tv;
     @Bind(R.id.course_tv)
-    TextView course_et;
+    TextView course_tv;
     @Bind(R.id.createdAt_tv)
     TextView createdAt_tv;
     @Bind(R.id.email_et)
@@ -62,9 +64,9 @@ public class ProfileFrag extends Fragment {
 
         User user = App.getUser();
         if (user != null) {
-            name_et.setText(user.getName());
-            profile_et.setText(user.getProfile());
-            course_et.setText(user.getCourse());
+            name_tv.setText(user.getName());
+            profile_tv.setText(user.getProfile());
+            course_tv.setText(user.getCourse());
             phoneNumber_et.setText(user.getPhoneNumber());
             email_et.setText(user.getEmail());
             carOwner_sw.setChecked(user.isCarOwner());
@@ -89,6 +91,32 @@ public class ProfileFrag extends Fragment {
     @OnClick(R.id.carOwner_sw)
     public void carOwnerSw() {
         car_lay.setVisibility(carOwner_sw.isChecked() ? View.VISIBLE : View.GONE);
+    }
+
+    @OnClick(R.id.profile_tv)
+    public void profileTv() {
+        final EditText input = new EditText(getActivity());
+        new AlertDialog.Builder(getActivity())
+                .setView(input)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int which) {
+                        profile_tv.setText(input.getText());
+                    }
+                }).show();
+    }
+
+    @OnClick(R.id.course_tv)
+    public void courseTv() {
+        final EditText input = new EditText(getActivity());
+        new AlertDialog.Builder(getActivity())
+                .setView(input)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int which) {
+                        course_tv.setText(input.getText());
+                    }
+                }).show();
     }
 
     @Override
@@ -122,9 +150,9 @@ public class ProfileFrag extends Fragment {
     }
 
     private void prepEditedUser(User editedUser) {
-        editedUser.setName(name_et.getText().toString());
-        editedUser.setProfile(profile_et.getText().toString());
-        editedUser.setCourse(course_et.getText().toString());
+        editedUser.setName(name_tv.getText().toString());
+        editedUser.setProfile(profile_tv.getText().toString());
+        editedUser.setCourse(course_tv.getText().toString());
         editedUser.setPhoneNumber(phoneNumber_et.getText().toString());
         editedUser.setEmail(email_et.getText().toString());
         editedUser.setCarOwner(carOwner_sw.isChecked());

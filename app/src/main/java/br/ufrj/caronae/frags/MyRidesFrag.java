@@ -19,6 +19,7 @@ import br.ufrj.caronae.adapters.MyRidesAdapter;
 import br.ufrj.caronae.models.Ride;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class MyRidesFrag extends Fragment {
 
@@ -38,14 +39,6 @@ public class MyRidesFrag extends Fragment {
         View view = inflater.inflate(R.layout.fragment_my_rides, container, false);
         ButterKnife.bind(this, view);
 
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FragmentManager fragmentManager = getFragmentManager();
-                fragmentManager.beginTransaction().replace(R.id.flContent, new RideOfferFrag()).commit();
-            }
-        });
-
         ArrayList<Ride> rides = (ArrayList<Ride>) Ride.listAll(Ride.class);
 
         if (!rides.isEmpty()) {
@@ -57,5 +50,11 @@ public class MyRidesFrag extends Fragment {
         }
 
         return view;
+    }
+
+    @OnClick(R.id.fab)
+    public void fab() {
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.flContent, new RideOfferFrag()).commit();
     }
 }

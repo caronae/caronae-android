@@ -21,6 +21,7 @@ import br.ufrj.caronae.adapters.MyActiveRidesAdapter;
 import br.ufrj.caronae.models.RideWithUsersForJson;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -42,14 +43,6 @@ public class MyActiveRidesFrag extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_my_active_rides, container, false);
         ButterKnife.bind(this, view);
-
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FragmentManager fragmentManager = getFragmentManager();
-                fragmentManager.beginTransaction().replace(R.id.flContent, new RideOfferFrag()).commit();
-            }
-        });
 
         App.getNetworkService().getMyActiveRides(App.getUser(), new Callback<List<RideWithUsersForJson>>() {
             @Override
@@ -73,5 +66,11 @@ public class MyActiveRidesFrag extends Fragment {
         });
 
         return view;
+    }
+
+    @OnClick(R.id.fab)
+    public void fab() {
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.flContent, new RideOfferFrag()).commit();
     }
 }
