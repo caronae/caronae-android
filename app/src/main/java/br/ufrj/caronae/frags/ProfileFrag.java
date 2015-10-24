@@ -11,6 +11,11 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.models.User;
@@ -66,7 +71,14 @@ public class ProfileFrag extends Fragment {
             carModel_et.setText(user.getCarModel());
             carColor_et.setText(user.getCarColor());
             carPlate_et.setText(user.getCarPlate());
-            createdAt_tv.setText("Usuário desde " + user.getCreatedAt().split(" ")[0]);
+            String date = user.getCreatedAt().split(" ")[0];
+            try {
+                Date date2 = new SimpleDateFormat("yyyy-MM-dd", Locale.US).parse(date);
+                date = new SimpleDateFormat("dd/MM/yy", Locale.US).format(date2);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            createdAt_tv.setText("Usuário desde " + date);
         }
 
         carOwnerSw();
