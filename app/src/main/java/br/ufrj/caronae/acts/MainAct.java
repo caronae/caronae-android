@@ -173,4 +173,10 @@ public class MainAct extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.flContent, fragment).addToBackStack(null).commit();
     }
+
+    public void showRideOfferFrag() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.flContent, new RideOfferFrag()).commit();
+        setTitle("Oferecer carona");
+    }
 }

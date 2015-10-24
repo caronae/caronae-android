@@ -70,7 +70,6 @@ public class MyActiveRidesFrag extends Fragment {
 
     @OnClick(R.id.fab)
     public void fab() {
-        FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.flContent, new RideOfferFrag()).commit();
+        ((MainAct) getActivity()).showRideOfferFrag();
     }
 }

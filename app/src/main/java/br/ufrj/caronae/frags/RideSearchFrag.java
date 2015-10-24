@@ -31,6 +31,7 @@ import java.util.Locale;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
+import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.adapters.RideOfferAdapter;
 import br.ufrj.caronae.comparators.RideOfferComparatorByTime;
 import br.ufrj.caronae.models.RideOfferForJson;
@@ -123,8 +124,7 @@ public class RideSearchFrag extends Fragment {
 
     @OnClick(R.id.fab)
     public void fab() {
-        FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.flContent, new RideOfferFrag()).commit();
+        ((MainAct) getActivity()).showRideOfferFrag();
     }
 
     @OnClick(R.id.anotherSearch_bt)
