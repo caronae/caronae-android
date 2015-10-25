@@ -237,8 +237,8 @@ public class RideOfferFrag extends Fragment {
         }
         String slots = slots_et.getText().toString();
         if (slots.isEmpty()) {
-            App.toast("Defina quantas vagas há disponíveis");
-            return;
+            slots_et.setText("1");
+            slots = "1";
         }
         String hub = center_et.getText().toString();
         String description = description_et.getText().toString();

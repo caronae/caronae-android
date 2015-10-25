@@ -242,7 +242,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/routine_cb"
             android:layout_centerHorizontal="true"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <CheckBox
                 android:id="@+id/monday_cb"
