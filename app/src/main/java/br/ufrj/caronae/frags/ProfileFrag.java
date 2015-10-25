@@ -161,7 +161,8 @@ public class ProfileFrag extends Fragment {
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int which) {
-                        profile_tv.setText(input.getText());
+                        String text = input.getText().toString();
+                        profile_tv.setText(text.isEmpty() ? "Perfil padrão" : text);
                     }
                 }).show();
     }
@@ -174,7 +175,8 @@ public class ProfileFrag extends Fragment {
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int which) {
-                        course_tv.setText(input.getText());
+                        String text = input.getText().toString();
+                        course_tv.setText(text.isEmpty() ? "Curso padrão" : text);
                     }
                 }).show();
     }
