@@ -25,6 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
+        android:gravity="center"
         android:text="Você não tem caronas ativas"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:visibility="gone" />
