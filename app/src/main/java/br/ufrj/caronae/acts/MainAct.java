@@ -72,8 +72,15 @@ public class MainAct extends AppCompatActivity {
         setupDrawerContent(nvDrawer);
         getHeaderView(nvDrawer);
 
+        User user = App.getUser();
+        Fragment fragment;
+        if (user.getEmail().isEmpty() ||  user.getPhoneNumber().isEmpty()) {
+            fragment = new ProfileFrag();
+        } else {
+            fragment = new RideSearchFrag();
+        }
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.flContent, new RideSearchFrag()).commit();
+        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
     }
 
     private void getHeaderView(NavigationView nvDrawer) {
