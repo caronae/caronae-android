@@ -202,12 +202,12 @@ public class App extends SugarApp {
             return a;
         }
         if (zone.equals("Baixada")) {
-            String[] a = new String[]{"Belford Roxo ", "Duque de Caxias ", "Guapimirim ", "Itaguai ", "Japeri ", "Magé ", "Mesquita ", "Nilópolis ", "Nova Iguaçu ", "Paracambi ", "Queimados ", "São João de Meriti ", "Seropédica ", };
+            String[] a = new String[]{"Belford Roxo", "Duque de Caxias", "Guapimirim", "Itaguai", "Japeri", "Magé", "Mesquita", "Nilópolis", "Nova Iguaçu ", "Paracambi ", "Queimados ", "São João de Meriti ", "Seropédica ", };
             Arrays.sort(a);
             return a;
         }
         if (zone.equals("Grande Niterói")) {
-            String[] a = new String[]{"Niterói Região oceânica ", "Niterói Centro ", "São Gonçalo ", "Maricá ", "Itaboraí ", "Tanguá ", "Rio Bonito "};
+            String[] a = new String[]{"Niterói Região oceânica", "Niterói Centro", "São Gonçalo", "Maricá", "Itaboraí", "Tanguá", "Rio Bonito"};
             Arrays.sort(a);
             return a;
         }

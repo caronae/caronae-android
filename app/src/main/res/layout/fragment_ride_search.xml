@@ -32,56 +32,121 @@
                 android:text="@string/back_rb" />
         </RadioGroup>
 
-        <TextView
-            android:id="@+id/zone_tv"
+        <RelativeLayout
+            android:id="@+id/lay2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/radioGroup"
-            android:text="Zona" />
+            android:paddingTop="10dp">
 
-        <EditText
-            android:id="@+id/zone_et"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/zone_tv"
-            android:hint="Norte"
-            android:singleLine="true" />
+            <ImageView
+                android:id="@+id/location_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_location_on_black_24dp" />
 
-        <TextView
-            android:id="@+id/neighborhood_tv"
+            <EditText
+                android:id="@+id/location_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
+                android:layout_toEndOf="@+id/location_iv"
+                android:layout_toRightOf="@+id/location_iv"
+                android:focusable="false"
+                android:hint="Escolha o local (Obrigatório)" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/lay3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/zone_et"
-            android:text="Bairro" />
+            android:layout_below="@+id/lay2"
+            android:paddingTop="10dp">
 
-        <EditText
-            android:id="@+id/neighborhood_et"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/neighborhood_tv"
-            android:hint="Tijuca"
-            android:singleLine="true" />
+            <ImageView
+                android:id="@+id/date_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_today_black_24dp" />
 
-        <TextView
-            android:id="@+id/date_tv"
+            <EditText
+                android:id="@+id/date_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
+                android:layout_toEndOf="@+id/date_iv"
+                android:layout_toRightOf="@+id/date_iv"
+                android:focusable="false"
+                android:hint="Escolha a data" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/lay4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/neighborhood_et"
-            android:text="Data" />
+            android:layout_below="@+id/lay3"
+            android:paddingTop="10dp">
 
-        <TextView
-            android:id="@+id/date_et"
+            <ImageView
+                android:id="@+id/time_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_access_time_black_24dp" />
+
+            <EditText
+                android:id="@+id/time_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
+                android:layout_toEndOf="@+id/time_iv"
+                android:layout_toRightOf="@+id/time_iv"
+                android:enabled="false"
+                android:focusable="false"
+                android:hint="Escolha a hora" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/lay5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/date_tv"
-            android:text="01/01/2015"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:layout_below="@+id/lay4"
+            android:paddingTop="10dp">
+
+            <ImageView
+                android:id="@+id/center_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_business_black_24dp" />
+
+            <EditText
+                android:id="@+id/center_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
+                android:layout_toEndOf="@+id/center_iv"
+                android:layout_toRightOf="@+id/center_iv"
+                android:enabled="false"
+                android:focusable="false"
+                android:hint="Escolha o centro" />
+        </RelativeLayout>
 
         <Button
             android:id="@+id/search_bt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/date_et"
+            android:layout_below="@+id/lay5"
             android:layout_centerHorizontal="true"
             android:text="Buscar" />
 

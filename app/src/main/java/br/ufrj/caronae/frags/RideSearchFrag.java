@@ -21,6 +21,7 @@ import com.google.gson.Gson;
 import com.rey.material.app.DatePickerDialog;
 import com.rey.material.app.Dialog;
 import com.rey.material.app.DialogFragment;
+import com.rey.material.app.SimpleDialog;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -46,12 +47,14 @@ import retrofit.client.Response;
 public class RideSearchFrag extends Fragment {
     @Bind(R.id.radioGroup)
     RadioGroup radioGroup;
-    @Bind(R.id.zone_et)
-    EditText zone_et;
-    @Bind(R.id.neighborhood_et)
-    EditText neighborhood_et;
+    @Bind(R.id.location_et)
+    EditText location_et;
     @Bind(R.id.date_et)
     TextView date_et;
+    @Bind(R.id.time_et)
+    TextView time_et;
+    @Bind(R.id.center_et)
+    TextView center_et;
     @Bind(R.id.lay)
     RelativeLayout lay;
     @Bind(R.id.anotherSearch_bt)
@@ -82,8 +85,6 @@ public class RideSearchFrag extends Fragment {
         String lastRideSearchFilters = App.getPref(App.LAST_RIDE_SEARCH_FILTERS_PREF_KEY);
         if (!lastRideSearchFilters.equals(App.MISSING_PREF)) {
             loadLastFilters(lastRideSearchFilters);
-        } else {
-            date_et.setText(new SimpleDateFormat("dd/MM/yy", Locale.US).format(new Date()));
         }
 
         return view;
@@ -92,11 +93,78 @@ public class RideSearchFrag extends Fragment {
     private void loadLastFilters(String lastRideSearchFilters) {
         RideSearchFiltersForJson rideSearchFilters = new Gson().fromJson(lastRideSearchFilters, RideSearchFiltersForJson.class);
 
-        zone_et.setText(rideSearchFilters.getZone());
-        neighborhood_et.setText(rideSearchFilters.getNeighborhood());
+        location_et.setText(rideSearchFilters.getLocation());
         date_et.setText(rideSearchFilters.getDate());
+        time_et.setText(rideSearchFilters.getTime());
+        center_et.setText(rideSearchFilters.getCenter());
         boolean go = rideSearchFilters.isGo();
         radioGroup.check(go ? R.id.go_rb : R.id.back_rb);
+    }
+
+    @OnClick(R.id.location_et)
+    public void locationEt() {
+        SimpleDialog.Builder builder = new SimpleDialog.Builder(R.style.SimpleDialogLight) {
+            @Override
+            public void onPositiveActionClicked(DialogFragment fragment) {
+                CharSequence[] selectedZones = getSelectedValues();
+                if (selectedZones.length == 1) {
+                    locationEt2(selectedZones[0].toString());
+                } else {
+                    String zone = "";
+                    for (int i = 0; i < selectedZones.length; i++) {
+                        zone += selectedZones[i];
+                        if (i + 1 != selectedZones.length) {
+                            zone += ", ";
+                        }
+                    }
+                    location_et.setText(zone);
+                }
+                super.onPositiveActionClicked(fragment);
+            }
+
+            @Override
+            public void onNegativeActionClicked(DialogFragment fragment) {
+                super.onNegativeActionClicked(fragment);
+            }
+        };
+
+        builder.multiChoiceItems(App.getZones(), 0)
+                .title("Escolha a(s) zona(s)")
+                .positiveAction("OK")
+                .negativeAction("Cancelar");
+        DialogFragment fragment = DialogFragment.newInstance(builder);
+        fragment.show(getFragmentManager(), null);
+    }
+
+    public void locationEt2(String zone) {
+        SimpleDialog.Builder builder = new SimpleDialog.Builder(R.style.SimpleDialogLight) {
+            @Override
+            public void onPositiveActionClicked(DialogFragment fragment) {
+                CharSequence[] selectedNeighborhoods = getSelectedValues();
+                String neighborhoods = "";
+                for (int i = 0; i < selectedNeighborhoods.length; i++) {
+                    neighborhoods += selectedNeighborhoods[i];
+                    if (i + 1 != selectedNeighborhoods.length) {
+                        neighborhoods += ", ";
+                    }
+                }
+                location_et.setText(neighborhoods);
+
+                super.onPositiveActionClicked(fragment);
+            }
+
+            @Override
+            public void onNegativeActionClicked(DialogFragment fragment) {
+                super.onNegativeActionClicked(fragment);
+            }
+        };
+
+        builder.multiChoiceItems(App.getNeighborhoods(zone), 0)
+                .title("Escolha o(s) bairro(s)")
+                .positiveAction("OK")
+                .negativeAction("Cancelar");
+        DialogFragment fragment = DialogFragment.newInstance(builder);
+        fragment.show(getFragmentManager(), null);
     }
 
     @OnClick(R.id.date_et)
@@ -137,11 +205,20 @@ public class RideSearchFrag extends Fragment {
     public void searchBt() {
         final ProgressDialog pd = ProgressDialog.show(getActivity(), "", "Aguarde", true, true);
 
-        String zone = zone_et.getText().toString();
-        String neighborhood = neighborhood_et.getText().toString();
+        String location = location_et.getText().toString();
+        if (location.isEmpty()) {
+            App.toast("Escolha um local");
+            pd.dismiss();
+            return;
+        }
         String date = date_et.getText().toString();
+        if (date.isEmpty()) {
+            date = new SimpleDateFormat("dd/MM/yy", Locale.US).format(new Date());
+        }
+        String time = time_et.getText().toString();
+        String center = center_et.getText().toString();
         boolean go = radioGroup.getCheckedRadioButtonId() == R.id.go_rb;
-        RideSearchFiltersForJson rideSearchFilters = new RideSearchFiltersForJson(zone, neighborhood, date, go);
+        RideSearchFiltersForJson rideSearchFilters = new RideSearchFiltersForJson(location, date, time, center, go);
 
         String lastRideSearchFilters = new Gson().toJson(rideSearchFilters);
         App.putPref(App.LAST_RIDE_SEARCH_FILTERS_PREF_KEY, lastRideSearchFilters);
@@ -156,6 +233,7 @@ public class RideSearchFrag extends Fragment {
                     adapter.makeList(rideOffers);
                 } else {
                     App.toast("Nenhuma carona encontrada");
+                    adapter.makeList(new ArrayList<RideOfferForJson>());
                 }
                 pd.dismiss();
             }
