@@ -1,4 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -142,24 +143,30 @@
                 android:hint="Escolha o centro" />
         </RelativeLayout>
 
-        <Button
+        <com.rey.material.widget.Button
             android:id="@+id/search_bt"
+            style="@style/Material.Drawable.Ripple.Wave.Light"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/lay5"
             android:layout_centerHorizontal="true"
-            android:text="Buscar" />
+            android:background="@null"
+            android:text="Buscar"
+            app:rd_enable="true" />
 
     </RelativeLayout>
 
-    <Button
+    <com.rey.material.widget.Button
         android:id="@+id/anotherSearch_bt"
+        style="@style/Material.Drawable.Ripple.Wave.Light"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/lay"
         android:layout_centerHorizontal="true"
+        android:background="@null"
         android:text="Outra busca"
-        android:visibility="gone" />
+        android:visibility="gone"
+        app:rd_enable="true" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvRides"
