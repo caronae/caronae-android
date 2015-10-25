@@ -74,7 +74,9 @@ public class MainAct extends AppCompatActivity {
 
         User user = App.getUser();
         Fragment fragment;
-        if (user.getEmail().isEmpty() ||  user.getPhoneNumber().isEmpty()) {
+        if (user.getEmail() == null || user.getEmail().isEmpty() ||
+                user.getPhoneNumber() == null || user.getPhoneNumber().isEmpty() ||
+                user.getLocation() == null || user.getLocation().isEmpty()) {
             fragment = new ProfileFrag();
         } else {
             fragment = new RideSearchFrag();

@@ -14,6 +14,9 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.rey.material.app.DialogFragment;
+import com.rey.material.app.SimpleDialog;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -44,6 +47,8 @@ public class ProfileFrag extends Fragment {
     EditText email_et;
     @Bind(R.id.phoneNumber_et)
     EditText phoneNumber_et;
+    @Bind(R.id.location_et)
+    EditText location_et;
     @Bind(R.id.carOwner_sw)
     SwitchCompat carOwner_sw;
     @Bind(R.id.carModel_et)
@@ -71,6 +76,7 @@ public class ProfileFrag extends Fragment {
             course_tv.setText(user.getCourse());
             phoneNumber_et.setText(user.getPhoneNumber());
             email_et.setText(user.getEmail());
+            location_et.setText(user.getLocation());
             carOwner_sw.setChecked(user.isCarOwner());
             carModel_et.setText(user.getCarModel());
             carColor_et.setText(user.getCarColor());
@@ -100,6 +106,51 @@ public class ProfileFrag extends Fragment {
     @OnClick(R.id.carOwner_sw)
     public void carOwnerSw() {
         car_lay.setVisibility(carOwner_sw.isChecked() ? View.VISIBLE : View.GONE);
+    }
+
+    @OnClick(R.id.location_et)
+    public void locationEt() {
+        SimpleDialog.Builder builder = new SimpleDialog.Builder(R.style.SimpleDialogLight) {
+            @Override
+            public void onPositiveActionClicked(DialogFragment fragment) {
+                locationEt2(getSelectedValue().toString());
+                super.onPositiveActionClicked(fragment);
+            }
+
+            @Override
+            public void onNegativeActionClicked(DialogFragment fragment) {
+                super.onNegativeActionClicked(fragment);
+            }
+        };
+
+        builder.items(App.getZones(), 0)
+                .title("Escolha sua zona")
+                .positiveAction("OK")
+                .negativeAction("Cancelar");
+        DialogFragment fragment = DialogFragment.newInstance(builder);
+        fragment.show(getFragmentManager(), null);
+    }
+
+    public void locationEt2(String zone) {
+        SimpleDialog.Builder builder = new SimpleDialog.Builder(R.style.SimpleDialogLight) {
+            @Override
+            public void onPositiveActionClicked(DialogFragment fragment) {
+                location_et.setText(getSelectedValue());
+                super.onPositiveActionClicked(fragment);
+            }
+
+            @Override
+            public void onNegativeActionClicked(DialogFragment fragment) {
+                super.onNegativeActionClicked(fragment);
+            }
+        };
+
+        builder.items(App.getNeighborhoods(zone), 0)
+                .title("Escolha seu bairro")
+                .positiveAction("OK")
+                .negativeAction("Cancelar");
+        DialogFragment fragment = DialogFragment.newInstance(builder);
+        fragment.show(getFragmentManager(), null);
     }
 
     @OnClick(R.id.profile_tv)
@@ -164,6 +215,7 @@ public class ProfileFrag extends Fragment {
         editedUser.setCourse(course_tv.getText().toString());
         editedUser.setPhoneNumber(phoneNumber_et.getText().toString());
         editedUser.setEmail(email_et.getText().toString());
+        editedUser.setLocation(location_et.getText().toString());
         editedUser.setCarOwner(carOwner_sw.isChecked());
         editedUser.setCarModel(carModel_et.getText().toString());
         editedUser.setCarColor(carColor_et.getText().toString());

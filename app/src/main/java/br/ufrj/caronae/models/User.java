@@ -24,6 +24,7 @@ public class User implements Parcelable {
     private int dbId;
     @SerializedName("created_at")
     private String createdAt;
+    private String location;
 
     public User() {
     }
@@ -116,6 +117,14 @@ public class User implements Parcelable {
         this.createdAt = createdAt;
     }
 
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
     public boolean sameFieldsState(User user) {
         if (isCarOwner() != user.isCarOwner()) return false;
         if (!getName().equals(user.getName())) return false;
@@ -126,6 +135,8 @@ public class User implements Parcelable {
         if (getPhoneNumber() != null ? !getPhoneNumber().equals(user.getPhoneNumber()) : user.getPhoneNumber() != null)
             return false;
         if (getEmail() != null ? !getEmail().equals(user.getEmail()) : user.getEmail() != null)
+            return false;
+        if (getLocation() != null ? !getLocation().equals(user.getLocation()) : user.getLocation() != null)
             return false;
         if (getCarModel() != null ? !getCarModel().equals(user.getCarModel()) : user.getCarModel() != null)
             return false;
@@ -141,6 +152,7 @@ public class User implements Parcelable {
         setCourse(editedUser.getCourse());
         setPhoneNumber(editedUser.getPhoneNumber());
         setEmail(editedUser.getEmail());
+        setLocation(editedUser.getLocation());
         setCarOwner(editedUser.isCarOwner());
         setCarModel(editedUser.getCarModel());
         setCarPlate(editedUser.getCarPlate());
@@ -148,7 +160,7 @@ public class User implements Parcelable {
     }
 
     public User(Parcel in) {
-        String[] data = new String[9];
+        String[] data = new String[10];
         in.readStringArray(data);
 
         name = data[0];
@@ -156,10 +168,11 @@ public class User implements Parcelable {
         course = data[2];
         phoneNumber = data[3];
         email = data[4];
-        carModel = data[5];
-        carColor = data[6];
-        carPlate = data[7];
-        createdAt = data[8];
+        location = data[5];
+        carModel = data[6];
+        carColor = data[7];
+        carPlate = data[8];
+        createdAt = data[9];
 
         int[] intData = new int[2];
         in.readIntArray(intData);
@@ -179,6 +192,7 @@ public class User implements Parcelable {
                 course,
                 phoneNumber,
                 email,
+                location,
                 carModel,
                 carColor,
                 carPlate,

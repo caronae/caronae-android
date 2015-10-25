@@ -167,54 +167,30 @@
             android:paddingTop="10dp">
 
             <ImageView
-                android:id="@+id/zone_iv"
+                android:id="@+id/location_iv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:src="@drawable/ic_location_on_black_24dp" />
 
             <EditText
-                android:id="@+id/zone_et"
+                android:id="@+id/location_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="5dp"
+                android:focusable="false"
                 android:layout_marginStart="5dp"
-                android:layout_toEndOf="@+id/zone_iv"
-                android:layout_toRightOf="@+id/zone_iv"
-                android:hint="Digite sua zona" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/lay5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/lay4">
-
-            <ImageView
-                android:id="@+id/neighborhood_iv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:src="@drawable/ic_location_on_black_24dp" />
-
-            <EditText
-                android:id="@+id/neighborhood_et"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="5dp"
-                android:layout_marginStart="5dp"
-                android:layout_toEndOf="@+id/neighborhood_iv"
-                android:layout_toRightOf="@+id/neighborhood_iv"
-                android:hint="Digite seu bairro" />
+                android:layout_toEndOf="@+id/location_iv"
+                android:layout_toRightOf="@+id/location_iv"
+                android:hint="Digite sua localidade" />
         </RelativeLayout>
 
         <TextView
             android:id="@+id/carOwner_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/lay5"
+            android:layout_below="@+id/lay4"
             android:paddingTop="15dp"
             android:text="Possui carro?"
             android:textStyle="bold" />

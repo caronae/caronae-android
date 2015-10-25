@@ -14,6 +14,7 @@ import com.orm.SugarApp;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 
 import br.ufrj.caronae.components.DaggerNetworkComponent;
 import br.ufrj.caronae.components.NetworkComponent;
@@ -103,8 +104,8 @@ public class App extends SugarApp {
 
     public static NetworkService getNetworkService() {
         if (component == null) {
-            String endpoint = LUISDIGOCEAN_ENDPOINT;
-            //String endpoint = LOCAL_SERV_ENDPOINT;
+            //String endpoint = LUISDIGOCEAN_ENDPOINT;
+            String endpoint = LOCAL_SERV_ENDPOINT;
             component = DaggerNetworkComponent.builder().networkModule(new NetworkModule(endpoint)).build();
         }
         return component.provideNetworkService();
@@ -173,5 +174,43 @@ public class App extends SugarApp {
 
     public static void toast(String msg) {
         Toast.makeText(App.inst(), msg, Toast.LENGTH_SHORT).show();
+    }
+
+    public static String[] getZones() {
+        return new String[]{"Centro", "Zona Sul", "Zona Oeste", "Zona Norte", "Baixada", "Grande Niterói"};
+    }
+
+    public static String[] getNeighborhoods(String zone) {
+        if (zone.equals("Centro")) {
+            String[] a = new String[]{"São Cristóvão", "Benfica", "Caju", "Catumbi", "Centro", "Cidade Nova", "Estácio", "Gamboa", "Glória", "Lapa", "Mangueira", "Paquetá", "Rio Comprido", "Santa Teresa", "Santo Cristo", "Saúde", "Vasco da Gama"};
+            Arrays.sort(a);
+            return a;
+        }
+        if (zone.equals("Zona Sul")) {
+            String[] a = new String[]{"Botafogo", "Catete", "Copacabana", "Cosme Velho", "Flamengo", "Gávea", "Humaitá", "Ipanema", "Jardim Botânico", "Lagoa", "Laranjeiras", "Leblon", "Leme", "Rocinha", "São Conrado", "Urca", "Vidigal"};
+            Arrays.sort(a);
+            return a;
+        }
+        if (zone.equals("Zona Oeste")) {
+            String[] a = new String[]{"Anil", "Barra da Tijuca", "Camorim", "Cidade de Deus", "Curicica", "Freguesia de Jacarepaguá", "Gardênia Azul", "Grumari ", "Itanhangá ", "Jacarepaguá ", "Joá ", "Praça Seca ", "Pechincha ", "Recreio dos Bandeirantes ", "Tanque ", "Taquara ", "Vargem Grande ", "Vargem Pequena ", "Vila Valqueire ", "Bangu ", "Deodoro ", "Gericinó ", "Jardim Sulacap ", "Magalhães Bastos ", "Padre Miguel ", "Realengo ", "Santíssimo ", "Senador Camará ", "Vila Militar ", "Barra de Guaratiba ", "Campo Grande ", "Cosmos ", "Guaratiba ", "Inhoaíba ", "Paciência ", "Pedra de Guaratiba ", "Santa Cruz ", "Senador Vasconcelos", "Sepetiba"};
+            Arrays.sort(a);
+            return a;
+        }
+        if (zone.equals("Zona Norte")) {
+            String[] a = new String[]{"Alto da Boa Vista", "Andaraí ", "Grajaú ", "Maracanã ", "Praça da Bandeira ", "Tijuca ", "Vila Isabel ", "Abolição ", "Água Santa ", "Cachambi", "Del Castilho", "Encantado", "Engenho de Dentro", "Engenho Novo", "Inhaúma ", "Jacaré ", "Jacarezinho ", "Lins de Vasconcelos ", "Maria da Graça", "Méier ", "Piedade ", "Pilares ", "Riachuelo ", "Rocha ", "Sampaio ", "São Francisco Xavier ", "Todos os Santos ", "Bancários ", "Cacuia ", "Cidade Universitária", "Cocotá ", "Freguesia (Ilha do Governador) ", "Galeão ", "Jardim Carioca ", "Jardim Guanabara ", "Maré ", "Monero ", "Pitangueiras ", "Portuguesa ", "Praia da Bandeira", "Ribeira ", "Tauá ", "Zumbi ", "Acari ", "Anchieta ", "Barros Filho ", "Bento Ribeiro ", "Brás de Pina ", "Bonsucesso ", "Campinho ", "Cavalcanti ", "Cascadura ", "Coelho Neto ", "Colégio ", "Complexo do Alemão ", "Cordovil ", "Costa Barros ", "Engenheiro Leal ", "Engenho da Rainha ", "Guadalupe ", "Higienópolis ", "Honório Gurgel ", "Irajá ", "Jardim América", "Madureira ", "Marechal Hermes ", "Manguinhos ", "Oswaldo Cruz ", "Olaria ", "Parada de Lucas ", "Parque Colúmbia ", "Pavuna ", "Penha", "Penha Circular", "Quintino Bocaiuva ", "Ramos ", "Ricardo de Albuquerque", "Rocha Miranda ", "Tomás Coelho ", "Turiaçu ", "Vaz Lobo ", "Vicente de Carvalho ", "Vigário Geral ", "Vila da Penha ", "Vila Kosmos ", "Vista Alegre "};
+            Arrays.sort(a);
+            return a;
+        }
+        if (zone.equals("Baixada")) {
+            String[] a = new String[]{"Belford Roxo ", "Duque de Caxias ", "Guapimirim ", "Itaguai ", "Japeri ", "Magé ", "Mesquita ", "Nilópolis ", "Nova Iguaçu ", "Paracambi ", "Queimados ", "São João de Meriti ", "Seropédica ", };
+            Arrays.sort(a);
+            return a;
+        }
+        if (zone.equals("Grande Niterói")) {
+            String[] a = new String[]{"Niterói Região oceânica ", "Niterói Centro ", "São Gonçalo ", "Maricá ", "Itaboraí ", "Tanguá ", "Rio Bonito "};
+            Arrays.sort(a);
+            return a;
+        }
+        return null;
     }
 }
