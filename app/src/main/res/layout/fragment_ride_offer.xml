@@ -59,29 +59,69 @@
                 android:hint="Escolha o bairro (Obrigatório)" />
         </RelativeLayout>
 
-        <EditText
-            android:id="@+id/place_et"
-            android:layout_width="match_parent"
+        <RelativeLayout
+            android:id="@+id/lay21"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/lay2"
-            android:hint="Ponto de referência"
-            android:inputType="text"
-            android:singleLine="true" />
+            android:paddingTop="10dp">
 
-        <EditText
-            android:id="@+id/way_et"
-            android:layout_width="match_parent"
+            <ImageView
+                android:id="@+id/place_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_location_on_black_24dp" />
+
+            <EditText
+                android:id="@+id/place_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
+                android:layout_toEndOf="@+id/place_iv"
+                android:layout_toRightOf="@+id/place_iv"
+                android:focusable="false"
+                android:hint="Ponto de referência"
+                android:inputType="text"
+                android:singleLine="true" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/lay22"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/place_et"
-            android:hint="Por onde passa"
-            android:inputType="text"
-            android:singleLine="true" />
+            android:layout_below="@+id/lay21"
+            android:paddingTop="10dp">
+
+            <ImageView
+                android:id="@+id/way_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_location_on_black_24dp" />
+
+            <EditText
+                android:id="@+id/way_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:hint="Por onde passa"
+                android:inputType="text"
+                android:singleLine="true"
+                android:layout_marginStart="5dp"
+                android:layout_toEndOf="@+id/way_iv"
+                android:layout_toRightOf="@+id/way_iv"
+                android:focusable="false" />
+        </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/lay3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/way_et"
+            android:layout_below="@+id/lay22"
             android:paddingTop="10dp">
 
             <ImageView
