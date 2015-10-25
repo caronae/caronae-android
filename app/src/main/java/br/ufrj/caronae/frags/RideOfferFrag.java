@@ -20,6 +20,7 @@ import com.rey.material.app.SimpleDialog;
 import com.rey.material.app.TimePickerDialog;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 
 import br.ufrj.caronae.App;
@@ -87,9 +88,6 @@ public class RideOfferFrag extends Fragment {
         String lastRideOffer = App.getPref(App.LAST_RIDE_OFFER_PREF_KEY);
         if (!lastRideOffer.equals(App.MISSING_PREF)) {
             loadLastRide(lastRideOffer);
-        } else {
-            //date_et.setText(new SimpleDateFormat("dd/MM/yy", Locale.US).format(new Date()));
-            //time_et.setText(new SimpleDateFormat("HH:mm", Locale.US).format(new Date()));
         }
 
         return view;
@@ -173,7 +171,7 @@ public class RideOfferFrag extends Fragment {
             @Override
             public void onPositiveActionClicked(DialogFragment fragment) {
                 DatePickerDialog dialog = (DatePickerDialog) fragment.getDialog();
-                date_et.setText(dialog.getFormattedDate(new SimpleDateFormat("dd/MM/yy", Locale.US)));
+                date_et.setText(dialog.getFormattedDate(new SimpleDateFormat("dd/MM/yyyy", Locale.US)));
                 super.onPositiveActionClicked(fragment);
             }
 
@@ -228,7 +226,15 @@ public class RideOfferFrag extends Fragment {
         String place = place_et.getText().toString();
         String way = way_et.getText().toString();
         String date = date_et.getText().toString();
+        if (date.isEmpty()) {
+            date_et.setText(new SimpleDateFormat("dd/MM/yyyy", Locale.US).format(new Date()));
+            date = new SimpleDateFormat("dd/MM/yyyy", Locale.US).format(new Date());
+        }
         String time = time_et.getText().toString();
+        if (time.isEmpty()) {
+            time_et.setText(new SimpleDateFormat("HH:mm", Locale.US).format(new Date()));
+            time = new SimpleDateFormat("HH:mm", Locale.US).format(new Date());
+        }
         String slots = slots_et.getText().toString();
         if (slots.isEmpty()) {
             App.toast("Defina quantas vagas há disponíveis");

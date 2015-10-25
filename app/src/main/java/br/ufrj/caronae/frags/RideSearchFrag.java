@@ -173,7 +173,7 @@ public class RideSearchFrag extends Fragment {
             @Override
             public void onPositiveActionClicked(DialogFragment fragment) {
                 DatePickerDialog dialog = (DatePickerDialog) fragment.getDialog();
-                date_et.setText(dialog.getFormattedDate(new SimpleDateFormat("dd/MM/yy", Locale.US)));
+                date_et.setText(dialog.getFormattedDate(new SimpleDateFormat("dd/MM/yyyy", Locale.US)));
                 super.onPositiveActionClicked(fragment);
             }
 
@@ -213,7 +213,8 @@ public class RideSearchFrag extends Fragment {
         }
         String date = date_et.getText().toString();
         if (date.isEmpty()) {
-            date = new SimpleDateFormat("dd/MM/yy", Locale.US).format(new Date());
+            date_et.setText(new SimpleDateFormat("dd/MM/yyyy", Locale.US).format(new Date()));
+            date = new SimpleDateFormat("dd/MM/yyyy", Locale.US).format(new Date());
         }
         String time = time_et.getText().toString();
         String center = center_et.getText().toString();
