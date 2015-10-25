@@ -1,186 +1,191 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white"
-    tools:context="br.ufrj.caronae.frags.RideSearchFrag">
+    android:layout_height="match_parent">
 
-    <RelativeLayout
-        android:id="@+id/lay"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:focusableInTouchMode="true">
-
-        <RadioGroup
-            android:id="@+id/radioGroup"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:orientation="horizontal">
-
-            <RadioButton
-                android:id="@+id/go_rb"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checked="true"
-                android:text="@string/go_rb" />
-
-            <RadioButton
-                android:id="@+id/back_rb"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/back_rb" />
-        </RadioGroup>
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        tools:context="br.ufrj.caronae.frags.RideSearchFrag">
 
         <RelativeLayout
-            android:id="@+id/lay2"
+            android:id="@+id/lay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/radioGroup"
-            android:paddingTop="10dp">
+            android:focusableInTouchMode="true">
 
-            <ImageView
-                android:id="@+id/location_iv"
+            <RadioGroup
+                android:id="@+id/radioGroup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:src="@drawable/ic_location_on_black_24dp" />
+                android:layout_centerHorizontal="true"
+                android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/location_et"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="5dp"
-                android:layout_marginStart="5dp"
-                android:layout_toEndOf="@+id/location_iv"
-                android:layout_toRightOf="@+id/location_iv"
-                android:focusable="false"
-                android:hint="Escolha o local (Obrigatório)" />
-        </RelativeLayout>
+                <RadioButton
+                    android:id="@+id/go_rb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="@string/go_rb" />
 
-        <RelativeLayout
-            android:id="@+id/lay3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/lay2"
-            android:paddingTop="10dp">
+                <RadioButton
+                    android:id="@+id/back_rb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/back_rb" />
+            </RadioGroup>
 
-            <ImageView
-                android:id="@+id/date_iv"
+            <RelativeLayout
+                android:id="@+id/lay2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:src="@drawable/ic_today_black_24dp" />
+                android:layout_below="@+id/radioGroup"
+                android:paddingTop="10dp">
 
-            <EditText
-                android:id="@+id/date_et"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="5dp"
-                android:layout_marginStart="5dp"
-                android:layout_toEndOf="@+id/date_iv"
-                android:layout_toRightOf="@+id/date_iv"
-                android:focusable="false"
-                android:hint="Escolha a data" />
-        </RelativeLayout>
+                <ImageView
+                    android:id="@+id/location_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_location_on_black_24dp" />
 
-        <RelativeLayout
-            android:id="@+id/lay4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/lay3"
-            android:paddingTop="10dp">
+                <EditText
+                    android:id="@+id/location_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_toEndOf="@+id/location_iv"
+                    android:layout_toRightOf="@+id/location_iv"
+                    android:focusable="false"
+                    android:hint="Escolha o local (Obrigatório)" />
+            </RelativeLayout>
 
-            <ImageView
-                android:id="@+id/time_iv"
+            <RelativeLayout
+                android:id="@+id/lay3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:src="@drawable/ic_access_time_black_24dp" />
+                android:layout_below="@+id/lay2"
+                android:paddingTop="10dp">
 
-            <EditText
-                android:id="@+id/time_et"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="5dp"
-                android:layout_marginStart="5dp"
-                android:layout_toEndOf="@+id/time_iv"
-                android:layout_toRightOf="@+id/time_iv"
-                android:enabled="false"
-                android:focusable="false"
-                android:hint="Escolha a hora" />
-        </RelativeLayout>
+                <ImageView
+                    android:id="@+id/date_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_today_black_24dp" />
 
-        <RelativeLayout
-            android:id="@+id/lay5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/lay4"
-            android:paddingTop="10dp">
+                <EditText
+                    android:id="@+id/date_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_toEndOf="@+id/date_iv"
+                    android:layout_toRightOf="@+id/date_iv"
+                    android:focusable="false"
+                    android:hint="Escolha a data" />
+            </RelativeLayout>
 
-            <ImageView
-                android:id="@+id/center_iv"
+            <RelativeLayout
+                android:id="@+id/lay4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:src="@drawable/ic_business_black_24dp" />
+                android:layout_below="@+id/lay3"
+                android:paddingTop="10dp">
 
-            <EditText
-                android:id="@+id/center_et"
-                android:layout_width="match_parent"
+                <ImageView
+                    android:id="@+id/time_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_access_time_black_24dp" />
+
+                <EditText
+                    android:id="@+id/time_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_toEndOf="@+id/time_iv"
+                    android:layout_toRightOf="@+id/time_iv"
+                    android:enabled="false"
+                    android:focusable="false"
+                    android:hint="Escolha a hora" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/lay5"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="5dp"
-                android:layout_marginStart="5dp"
-                android:layout_toEndOf="@+id/center_iv"
-                android:layout_toRightOf="@+id/center_iv"
-                android:enabled="false"
-                android:focusable="false"
-                android:hint="Escolha o centro" />
+                android:layout_below="@+id/lay4"
+                android:paddingTop="10dp">
+
+                <ImageView
+                    android:id="@+id/center_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_business_black_24dp" />
+
+                <EditText
+                    android:id="@+id/center_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_toEndOf="@+id/center_iv"
+                    android:layout_toRightOf="@+id/center_iv"
+                    android:enabled="false"
+                    android:focusable="false"
+                    android:hint="Escolha o centro" />
+            </RelativeLayout>
+
+            <com.rey.material.widget.Button
+                android:id="@+id/search_bt"
+                style="@style/Material.Drawable.Ripple.Wave.Light"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lay5"
+                android:layout_centerHorizontal="true"
+                android:background="@null"
+                android:text="Buscar"
+                app:rd_enable="true" />
+
         </RelativeLayout>
 
         <com.rey.material.widget.Button
-            android:id="@+id/search_bt"
+            android:id="@+id/anotherSearch_bt"
             style="@style/Material.Drawable.Ripple.Wave.Light"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/lay5"
+            android:layout_below="@+id/lay"
             android:layout_centerHorizontal="true"
             android:background="@null"
-            android:text="Buscar"
+            android:text="Outra busca"
+            android:visibility="gone"
             app:rd_enable="true" />
 
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rvRides"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/anotherSearch_bt" />
+
+        <ImageView
+            android:id="@+id/fab"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/fab_icon" />
+
     </RelativeLayout>
-
-    <com.rey.material.widget.Button
-        android:id="@+id/anotherSearch_bt"
-        style="@style/Material.Drawable.Ripple.Wave.Light"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/lay"
-        android:layout_centerHorizontal="true"
-        android:background="@null"
-        android:text="Outra busca"
-        android:visibility="gone"
-        app:rd_enable="true" />
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rvRides"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/anotherSearch_bt" />
-
-    <ImageView
-        android:id="@+id/fab"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:src="@drawable/fab_icon" />
-
-</RelativeLayout>
+</ScrollView>

@@ -1,4 +1,5 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="@color/white">
@@ -31,158 +32,169 @@
                 android:text="@string/back_rb" />
         </RadioGroup>
 
-        <TextView
-            android:id="@+id/zone_tv"
+        <RelativeLayout
+            android:id="@+id/lay2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/radioGroup"
-            android:text="@string/zone_tv" />
+            android:paddingTop="10dp">
 
-        <EditText
-            android:id="@+id/zone_et"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/zone_tv"
-            android:inputType="text"
-            android:singleLine="true" />
+            <ImageView
+                android:id="@+id/neighborhood_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_location_on_black_24dp" />
 
-        <TextView
-            android:id="@+id/neighborhood_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/zone_et"
-            android:text="@string/neighborhood_tv" />
-
-        <EditText
-            android:id="@+id/neighborhood_et"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/neighborhood_tv"
-            android:inputType="text"
-            android:singleLine="true" />
-
-        <TextView
-            android:id="@+id/place_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/neighborhood_et"
-            android:text="@string/place_tv" />
+            <EditText
+                android:id="@+id/neighborhood_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
+                android:layout_toEndOf="@+id/neighborhood_iv"
+                android:layout_toRightOf="@+id/neighborhood_iv"
+                android:focusable="false"
+                android:hint="Escolha o bairro (Obrigatório)" />
+        </RelativeLayout>
 
         <EditText
             android:id="@+id/place_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/place_tv"
+            android:layout_below="@+id/lay2"
+            android:hint="Ponto de referência"
             android:inputType="text"
             android:singleLine="true" />
-
-        <TextView
-            android:id="@+id/way_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/place_et"
-            android:text="@string/way_tv" />
 
         <EditText
             android:id="@+id/way_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/way_tv"
+            android:layout_below="@+id/place_et"
+            android:hint="Por onde passa"
             android:inputType="text"
             android:singleLine="true" />
 
         <RelativeLayout
-            android:id="@+id/date_time_lay"
+            android:id="@+id/lay3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/way_et"
-            android:layout_centerHorizontal="true">
+            android:paddingTop="10dp">
 
-            <TextView
-                android:id="@+id/date_tv"
+            <ImageView
+                android:id="@+id/center_iv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/date_tv" />
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_business_black_24dp" />
 
-            <TextView
+            <EditText
+                android:id="@+id/center_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
+                android:layout_toEndOf="@+id/center_iv"
+                android:layout_toRightOf="@+id/center_iv"
+                android:enabled="false"
+                android:focusable="false"
+                android:hint="Escolha o centro" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/lay4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lay3"
+            android:paddingTop="10dp">
+
+            <ImageView
+                android:id="@+id/date_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_today_black_24dp" />
+
+            <EditText
                 android:id="@+id/date_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
+                android:layout_toEndOf="@+id/date_iv"
+                android:layout_toRightOf="@+id/date_iv"
+                android:focusable="false"
+                android:hint="Escolha a data" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/lay5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lay4"
+            android:paddingTop="10dp">
+
+            <ImageView
+                android:id="@+id/time_iv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/date_tv"
-                android:text="31/12/15"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_access_time_black_24dp" />
 
-            <TextView
-                android:id="@+id/time_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:layout_marginStart="30dp"
-                android:layout_toEndOf="@+id/date_et"
-                android:layout_toRightOf="@+id/date_et"
-                android:text="@string/time_tv" />
-
-            <TextView
+            <EditText
                 android:id="@+id/time_et"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/time_tv"
-                android:layout_alignStart="@+id/time_tv"
-                android:layout_below="@+id/time_tv"
-                android:text="12:34 AM"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
-
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
+                android:layout_toEndOf="@+id/time_iv"
+                android:layout_toRightOf="@+id/time_iv"
+                android:focusable="false"
+                android:hint="Escolha a hora" />
         </RelativeLayout>
 
         <TextView
             android:id="@+id/slots_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/date_time_lay"
-            android:text="@string/slots_tv" />
+            android:layout_below="@+id/lay5"
+            android:text="Vagas disponíveis"
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/slots_et"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/slots_tv"
-            android:inputType="number"
-            android:singleLine="true" />
-
-        <TextView
-            android:id="@+id/hub_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/slots_et"
-            android:text="@string/hub_tv" />
-
-        <EditText
-            android:id="@+id/hub_et"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/hub_tv"
-            android:inputType="text"
-            android:singleLine="true" />
-
-        <TextView
-            android:id="@+id/description_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/hub_et"
-            android:text="@string/description_tv" />
+            android:layout_alignBaseline="@+id/slots_tv"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:ems="2"
+            android:gravity="center"
+            android:hint="1"
+            android:inputType="number" />
 
         <EditText
             android:id="@+id/description_et"
-            android:layout_width="match_parent"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/description_tv"
-            android:inputType="text" />
+            android:layout_below="@+id/slots_tv"
+            android:layout_marginTop="10dp"
+            android:gravity="top"
+            android:hint="Notas adicionais Ex: Não fumo, pode trazer o cachorro etc"
+            android:lines="3" />
 
         <CheckBox
             android:id="@+id/routine_cb"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/description_et"
+            android:layout_marginTop="10dp"
             android:checked="false"
             android:text="@string/routine_cb" />
 
@@ -192,8 +204,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/routine_cb"
             android:layout_centerHorizontal="true"
-            android:orientation="horizontal"
-            android:visibility="gone">
+            android:orientation="horizontal">
 
             <CheckBox
                 android:id="@+id/monday_cb"
@@ -232,13 +243,17 @@
                 android:text="S" />
         </LinearLayout>
 
-        <Button
+        <com.rey.material.widget.Button
             android:id="@+id/send_bt"
+            style="@style/Material.Drawable.Ripple.Wave.Light"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
             android:layout_below="@+id/days_lo"
-            android:layout_centerHorizontal="true"
-            android:text="@string/send_bt" />
+            android:background="@null"
+            android:text="Criar"
+            app:rd_enable="true" />
 
     </RelativeLayout>
 </ScrollView>

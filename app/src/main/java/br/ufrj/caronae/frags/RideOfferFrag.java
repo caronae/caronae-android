@@ -11,18 +11,15 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.rey.material.app.DatePickerDialog;
 import com.rey.material.app.Dialog;
 import com.rey.material.app.DialogFragment;
+import com.rey.material.app.SimpleDialog;
 import com.rey.material.app.TimePickerDialog;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.Locale;
 
 import br.ufrj.caronae.App;
@@ -40,8 +37,6 @@ public class RideOfferFrag extends Fragment {
     @Bind(R.id.radioGroup)
     RadioGroup radioGroup;
 
-    @Bind(R.id.zone_et)
-    EditText zone_et;
     @Bind(R.id.neighborhood_et)
     EditText neighborhood_et;
     @Bind(R.id.place_et)
@@ -54,8 +49,8 @@ public class RideOfferFrag extends Fragment {
     TextView time_et;
     @Bind(R.id.slots_et)
     EditText slots_et;
-    @Bind(R.id.hub_et)
-    EditText hub_et;
+    @Bind(R.id.center_et)
+    EditText center_et;
     @Bind(R.id.description_et)
     EditText description_et;
 
@@ -77,6 +72,8 @@ public class RideOfferFrag extends Fragment {
     @Bind(R.id.saturday_cb)
     CheckBox saturday_cb;
 
+    private String zone;
+
     public RideOfferFrag() {
         // Required empty public constructor
     }
@@ -91,8 +88,8 @@ public class RideOfferFrag extends Fragment {
         if (!lastRideOffer.equals(App.MISSING_PREF)) {
             loadLastRide(lastRideOffer);
         } else {
-            date_et.setText(new SimpleDateFormat("dd/MM/yy", Locale.US).format(new Date()));
-            time_et.setText(new SimpleDateFormat("HH:mm", Locale.US).format(new Date()));
+            //date_et.setText(new SimpleDateFormat("dd/MM/yy", Locale.US).format(new Date()));
+            //time_et.setText(new SimpleDateFormat("HH:mm", Locale.US).format(new Date()));
         }
 
         return view;
@@ -100,14 +97,14 @@ public class RideOfferFrag extends Fragment {
 
     private void loadLastRide(String lastRideOffer) {
         Ride ride = new Gson().fromJson(lastRideOffer, Ride.class);
-        zone_et.setText(ride.getZone());
+        zone = ride.getZone();
         neighborhood_et.setText(ride.getNeighborhood());
         place_et.setText(ride.getPlace());
         way_et.setText(ride.getRoute());
         date_et.setText(ride.getDate());
         time_et.setText(ride.getTime());
         slots_et.setText(ride.getSlots());
-        hub_et.setText(ride.getHub());
+        center_et.setText(ride.getHub());
         description_et.setText(ride.getDescription());
         radioGroup.check(ride.isGoing() ? R.id.go_rb : R.id.back_rb);
         boolean isRoutine = ride.isRoutine();
@@ -121,6 +118,53 @@ public class RideOfferFrag extends Fragment {
             friday_cb.setChecked(ride.isFriday());
             saturday_cb.setChecked(ride.isSaturday());
         }
+    }
+
+    @OnClick(R.id.neighborhood_et)
+    public void neighborhoodEt() {
+        SimpleDialog.Builder builder = new SimpleDialog.Builder(R.style.SimpleDialogLight) {
+            @Override
+            public void onPositiveActionClicked(DialogFragment fragment) {
+                String selectedZone = getSelectedValue().toString();
+                zone = selectedZone;
+                locationEt2(selectedZone);
+                super.onPositiveActionClicked(fragment);
+            }
+
+            @Override
+            public void onNegativeActionClicked(DialogFragment fragment) {
+                super.onNegativeActionClicked(fragment);
+            }
+        };
+
+        builder.items(App.getZones(), 0)
+                .title("Escolha a zona")
+                .positiveAction("OK")
+                .negativeAction("Cancelar");
+        DialogFragment fragment = DialogFragment.newInstance(builder);
+        fragment.show(getFragmentManager(), null);
+    }
+
+    public void locationEt2(String zone) {
+        SimpleDialog.Builder builder = new SimpleDialog.Builder(R.style.SimpleDialogLight) {
+            @Override
+            public void onPositiveActionClicked(DialogFragment fragment) {
+                neighborhood_et.setText(getSelectedValue());
+                super.onPositiveActionClicked(fragment);
+            }
+
+            @Override
+            public void onNegativeActionClicked(DialogFragment fragment) {
+                super.onNegativeActionClicked(fragment);
+            }
+        };
+
+        builder.items(App.getNeighborhoods(zone), 0)
+                .title("Escolha o bairro")
+                .positiveAction("OK")
+                .negativeAction("Cancelar");
+        DialogFragment fragment = DialogFragment.newInstance(builder);
+        fragment.show(getFragmentManager(), null);
     }
 
     @OnClick(R.id.date_et)
@@ -176,14 +220,21 @@ public class RideOfferFrag extends Fragment {
 
     @OnClick(R.id.send_bt)
     public void sendBt() {
-        String zone = zone_et.getText().toString();
         String neighborhood = neighborhood_et.getText().toString();
+        if (neighborhood.isEmpty()) {
+            App.toast("Escolha um bairro");
+            return;
+        }
         String place = place_et.getText().toString();
         String way = way_et.getText().toString();
         String date = date_et.getText().toString();
         String time = time_et.getText().toString();
         String slots = slots_et.getText().toString();
-        String hub = hub_et.getText().toString();
+        if (slots.isEmpty()) {
+            App.toast("Defina quantas vagas há disponíveis");
+            return;
+        }
+        String hub = center_et.getText().toString();
         String description = description_et.getText().toString();
         int id = radioGroup.getCheckedRadioButtonId();
         boolean go = id == R.id.go_rb;
