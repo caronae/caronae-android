@@ -2,13 +2,14 @@ package br.ufrj.caronae.adapters;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -46,9 +47,31 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
     public void onBindViewHolder(final MyRidesAdapter.ViewHolder holder, final int position) {
         final Ride ride = rides.get(position);
 
-        holder.time_tv.setText(ride.getTime());
-        holder.slots_tv.setText(ride.getSlots() + " vagas");
-        holder.direction_tv.setText(ride.isGoing() ? "Indo para o fundão" : "Voltando do fundão - HUB:" + ride.getHub());
+        int color = 0;
+        if (ride.getZone().equals("Centro")) {
+            color = ContextCompat.getColor(activity, R.color.zone_centro);
+        }
+        if (ride.getZone().equals("Zona Sul")) {
+            color = ContextCompat.getColor(activity, R.color.zone_sul);
+        }
+        if (ride.getZone().equals("Zona Oeste")) {
+            color = ContextCompat.getColor(activity, R.color.zone_oeste);
+        }
+        if (ride.getZone().equals("Zona Norte")) {
+            color = ContextCompat.getColor(activity, R.color.zone_norte);
+        }
+        if (ride.getZone().equals("Baixada")) {
+            color = ContextCompat.getColor(activity, R.color.zone_baixada);
+        }
+        if (ride.getZone().equals("Grande Niterói")) {
+            color = ContextCompat.getColor(activity, R.color.zone_niteroi);
+        }
+        holder.cardView.setCardBackgroundColor(color);
+
+        holder.time_tv.setText("Chegando ás " + ride.getTime() + " | ");
+        holder.date_tv.setText(App.formatGoodDateWithoutYear(ride.getDate()));
+        holder.slots_tv.setText(ride.getSlots() + " vagas | ");
+        //holder.direction_tv.setText(ride.isGoing() ? "Indo para o fundão" : "Voltando do fundão - HUB:" + ride.getHub());
         holder.neighborhood_tv.setText(ride.getNeighborhood());
 
         String s;
@@ -86,7 +109,7 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
             }
         });
 
-        holder.layout.setOnClickListener(new View.OnClickListener() {
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 final ProgressDialog pd = ProgressDialog.show(activity, "", "Aguarde", true, true);
@@ -119,23 +142,26 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView time_tv;
-        public TextView direction_tv;
+        //public TextView direction_tv;
         public TextView neighborhood_tv;
         public TextView routine_tv;
         public TextView slots_tv;
+        public TextView date_tv;
         public Button delete_bt;
-        public RelativeLayout layout;
+        //public RelativeLayout layout;
+        public CardView cardView;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
             time_tv = (TextView) itemView.findViewById(R.id.time_tv);
-            direction_tv = (TextView) itemView.findViewById(R.id.direction_tv);
+            //direction_tv = (TextView) itemView.findViewById(R.id.direction_tv);
             neighborhood_tv = (TextView) itemView.findViewById(R.id.neighborhood_tv);
             routine_tv = (TextView) itemView.findViewById(R.id.routine_tv);
             slots_tv = (TextView) itemView.findViewById(R.id.slots_tv);
+            date_tv = (TextView) itemView.findViewById(R.id.date_tv);
             delete_bt = (Button) itemView.findViewById(R.id.delete_bt);
-            layout = (RelativeLayout) itemView.findViewById(R.id.layout);
+            cardView = (CardView) itemView.findViewById(R.id.cardView);
         }
     }
 }

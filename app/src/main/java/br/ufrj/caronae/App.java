@@ -229,7 +229,29 @@ public class App extends SugarApp {
         return formattedTime;
     }
 
-    public static String formatDate(String date) {
+    public static String formatBadDateWithYear(String date) {
+        String formattedTime = "";
+        try {
+            Date date2 = new SimpleDateFormat("yyyy-MM-dd", Locale.US).parse(date);
+            formattedTime = new SimpleDateFormat("dd/MM/yyyy", Locale.US).format(date2);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return formattedTime;
+    }
+
+    public static String formatGoodDateWithoutYear(String date) {
+        String formattedTime = "";
+        try {
+            Date date2 = new SimpleDateFormat("dd/MM/yyyy", Locale.US).parse(date);
+            formattedTime = new SimpleDateFormat("dd/MM", Locale.US).format(date2);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return formattedTime;
+    }
+
+    public static String formatBadDateWithoutYear(String date) {
         String formattedTime = "";
         try {
             Date date2 = new SimpleDateFormat("yyyy-MM-dd", Locale.US).parse(date);

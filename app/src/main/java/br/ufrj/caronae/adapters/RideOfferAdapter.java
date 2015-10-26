@@ -68,7 +68,7 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
         viewHolder.cardView.setCardBackgroundColor(color);
 
         viewHolder.time_tv.setText(App.formatTime(rideOffer.getTime()));
-        viewHolder.date_tv.setText(" | " + App.formatDate(rideOffer.getDate()));
+        viewHolder.date_tv.setText(" | " + App.formatBadDateWithoutYear(rideOffer.getDate()));
         viewHolder.course_tv.setText(" | " + rideOffer.getCourse());
         viewHolder.name_tv.setText(rideOffer.getDriverName());
         viewHolder.slots_tv.setText(rideOffer.getSlots() + " vaga(s)");
