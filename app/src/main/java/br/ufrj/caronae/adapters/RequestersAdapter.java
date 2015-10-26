@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -56,7 +55,7 @@ public class RequestersAdapter extends RecyclerView.Adapter<RequestersAdapter.Vi
             public void onClick(View view) {
                 new AlertDialog.Builder(activity).
                         setTitle(user.getName()).
-                        setMessage(user.getProfile() + "\n" + user.getCourse() + "\nUsuário desde " + user.getCreatedAt().split(" ")[0]).
+                        setMessage(user.getProfile() + "\n" + user.getCourse() + "\nUsuário desde " + App.formatBadDateWithYear(user.getCreatedAt().split(" ")[0])).
                         show();
             }
         });
