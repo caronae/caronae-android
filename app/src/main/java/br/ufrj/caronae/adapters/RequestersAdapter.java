@@ -25,11 +25,13 @@ public class RequestersAdapter extends RecyclerView.Adapter<RequestersAdapter.Vi
     private final ArrayList<User> users;
     private final int rideId;
     private final Context activity;
+    private final int color;
 
-    public RequestersAdapter(ArrayList<User> users, int rideId, Context activity) {
+    public RequestersAdapter(ArrayList<User> users, int rideId, int color, Context activity) {
         this.users = users;
         this.rideId = rideId;
         this.activity = activity;
+        this.color = color;
     }
 
     @Override
@@ -59,6 +61,7 @@ public class RequestersAdapter extends RecyclerView.Adapter<RequestersAdapter.Vi
             }
         });
 
+        holder.accept_bt.setTextColor(color);
         holder.accept_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

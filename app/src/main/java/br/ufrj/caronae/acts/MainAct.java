@@ -171,10 +171,11 @@ public class MainAct extends AppCompatActivity {
         return drawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
     }
 
-    public void showRequestersListFrag(List<User> users, int rideId) {
+    public void showRequestersListFrag(List<User> users, int rideId, int color) {
         Bundle bundle = new Bundle();
         bundle.putParcelableArrayList("users", (ArrayList<User>) users);
         bundle.putInt("rideId", rideId);
+        bundle.putInt("color", color);
 
         RequestersListFrag fragment = new RequestersListFrag();
         fragment.setArguments(bundle);

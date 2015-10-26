@@ -109,6 +109,7 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
             }
         });
 
+        final int colorToSend = color;
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -120,7 +121,7 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
                         if (users.isEmpty()) {
                             App.toast("Nenhuma solicitação para esse anúncio");
                         } else {
-                            activity.showRequestersListFrag(users, ride.getDbId());
+                            activity.showRequestersListFrag(users, ride.getDbId(), colorToSend);
                         }
                     }
 
