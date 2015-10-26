@@ -10,6 +10,7 @@ public class RideOfferForJson {
     private String slots;
     private String description;
     private String neighborhood;
+    private String zone;
     private String hub;
     private int rideId;
     private int driverId;
@@ -25,6 +26,7 @@ public class RideOfferForJson {
         slots = ride.getSlots();
         description = ride.getDescription();
         neighborhood = ride.getNeighborhood();
+        zone = ride.getZone();
         hub = ride.getHub();
         go = ride.isGoing();
     }
@@ -99,6 +101,14 @@ public class RideOfferForJson {
 
     public void setNeighborhood(String neighborhood) {
         this.neighborhood = neighborhood;
+    }
+
+    public String getZone() {
+        return zone;
+    }
+
+    public void setZone(String zone) {
+        this.zone = zone;
     }
 
     public String getHub() {

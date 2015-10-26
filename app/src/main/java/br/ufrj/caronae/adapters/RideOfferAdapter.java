@@ -1,6 +1,9 @@
 package br.ufrj.caronae.adapters;
 
 import android.content.Context;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,10 +24,12 @@ import retrofit.client.Response;
 
 public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.ViewHolder> {
 
+    private final FragmentActivity activity;
     private List<RideOfferForJson> rideOffers;
 
-    public RideOfferAdapter(List<RideOfferForJson> rideOffers) {
+    public RideOfferAdapter(List<RideOfferForJson> rideOffers, FragmentActivity activity) {
         this.rideOffers = rideOffers;
+        this.activity = activity;
     }
 
     @Override
@@ -40,6 +45,27 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
     @Override
     public void onBindViewHolder(final RideOfferAdapter.ViewHolder viewHolder, int position) {
         final RideOfferForJson rideOffer = rideOffers.get(position);
+
+        int color = 0;
+        if (rideOffer.getZone().equals("Centro")) {
+            color = ContextCompat.getColor(activity, R.color.zone_centro);
+        }
+        if (rideOffer.getZone().equals("Zona Sul")) {
+            color = ContextCompat.getColor(activity, R.color.zone_sul);
+        }
+        if (rideOffer.getZone().equals("Zona Oeste")) {
+            color = ContextCompat.getColor(activity, R.color.zone_oeste);
+        }
+        if (rideOffer.getZone().equals("Zona Norte")) {
+            color = ContextCompat.getColor(activity, R.color.zone_norte);
+        }
+        if (rideOffer.getZone().equals("Baixada")) {
+            color = ContextCompat.getColor(activity, R.color.zone_baixada);
+        }
+        if (rideOffer.getZone().equals("Grande Niterói")) {
+            color = ContextCompat.getColor(activity, R.color.zone_niteroi);
+        }
+        viewHolder.cardView.setCardBackgroundColor(color);
 
         viewHolder.time_tv.setText(App.formatTime(rideOffer.getTime()));
         viewHolder.date_tv.setText(" | " + App.formatDate(rideOffer.getDate()));
@@ -89,6 +115,7 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
         public TextView name_tv;
         public TextView slots_tv;
         public Button join_bt;
+        public CardView cardView;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -101,6 +128,7 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
             name_tv = (TextView) itemView.findViewById(R.id.name_tv);
             slots_tv = (TextView) itemView.findViewById(R.id.slots_tv);
             join_bt = (Button) itemView.findViewById(R.id.join_bt);
+            cardView = (CardView) itemView.findViewById(R.id.cardView);
         }
     }
 }

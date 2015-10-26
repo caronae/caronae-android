@@ -3,6 +3,7 @@
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/tools"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     card_view:cardCornerRadius="@dimen/cardview_default_radius"
@@ -30,6 +31,7 @@
             android:layout_toEndOf="@+id/photo_iv"
             android:layout_toRightOf="@+id/photo_iv"
             android:text="COPACABANA"
+            android:textColor="@color/white"
             android:textStyle="bold" />
 
         <TextView
@@ -41,7 +43,8 @@
             android:layout_marginStart="5dp"
             android:layout_toEndOf="@+id/photo_iv"
             android:layout_toRightOf="@+id/photo_iv"
-            android:text="Chegando ás 16:45" />
+            android:text="Chegando ás 16:45"
+            android:textColor="@color/white" />
 
         <TextView
             android:id="@+id/date_tv"
@@ -51,6 +54,7 @@
             android:layout_toEndOf="@+id/photo_iv"
             android:layout_toRightOf="@+id/time_tv"
             android:text=" | 03/11"
+            android:textColor="@color/white"
             android:textStyle="bold" />
 
         <TextView
@@ -61,7 +65,8 @@
             android:layout_marginLeft="5dp"
             android:layout_toEndOf="@+id/photo_iv"
             android:layout_toRightOf="@+id/photo_iv"
-            android:text="3 vagas" />
+            android:text="3 vagas"
+            android:textColor="@color/white" />
 
         <TextView
             android:id="@+id/name_tv"
@@ -69,7 +74,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/slots_tv"
             android:paddingTop="5dp"
-            android:text="Leonardo Marques" />
+            android:text="Leonardo Marques"
+            android:textColor="@color/white" />
 
         <TextView
             android:id="@+id/course_tv"
@@ -79,7 +85,8 @@
             android:layout_below="@+id/slots_tv"
             android:layout_toEndOf="@+id/name_tv"
             android:layout_toRightOf="@+id/name_tv"
-            android:text=" | Computação" />
+            android:text=" | Computação"
+            android:textColor="@color/white" />
 
         <Button
             android:id="@+id/join_bt"
@@ -92,6 +99,7 @@
             android:background="@null"
             android:gravity="center"
             android:text="Participar"
+            android:textColor="@color/white"
             app:rd_enable="true" />
 
     </RelativeLayout>

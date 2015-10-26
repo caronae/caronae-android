@@ -1,4 +1,5 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
@@ -50,14 +51,19 @@
                     android:layout_below="@+id/profile_tv"
                     android:text="Ciência da computação" />
 
-                <ImageView
+                <com.rey.material.widget.Button
                     android:id="@+id/logout_iv"
+                    style="@style/Material.Drawable.Ripple.Wave.Light"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:src="@drawable/logout" />
+                    android:background="@null"
+                    android:gravity="center"
+                    android:text="SAIR"
+                    android:textColor="@color/red"
+                    app:rd_enable="true" />
             </RelativeLayout>
 
         </RelativeLayout>
@@ -179,10 +185,10 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="5dp"
-                android:focusable="false"
                 android:layout_marginStart="5dp"
                 android:layout_toEndOf="@+id/location_iv"
                 android:layout_toRightOf="@+id/location_iv"
+                android:focusable="false"
                 android:hint="Digite sua localidade" />
         </RelativeLayout>
 
