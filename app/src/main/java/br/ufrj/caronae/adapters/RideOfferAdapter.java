@@ -71,7 +71,7 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
         viewHolder.date_tv.setText(" | " + App.formatDate(rideOffer.getDate()));
         viewHolder.course_tv.setText(" | " + rideOffer.getCourse());
         viewHolder.name_tv.setText(rideOffer.getDriverName());
-        viewHolder.slots_tv.setText(rideOffer.getSlots() + " vagas");
+        viewHolder.slots_tv.setText(rideOffer.getSlots() + " vaga(s)");
         //viewHolder.direction_tv.setText(rideOffer.isGo() ? "Indo para o fundão" : "Voltando do fundão - HUB:" + rideOffer.getHub());
         viewHolder.neighborhood_tv.setText(rideOffer.getNeighborhood());
 
