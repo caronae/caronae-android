@@ -62,6 +62,7 @@
             android:layout_below="@+id/token_et"
             android:layout_centerHorizontal="true"
             android:background="@null"
+            android:gravity="center"
             android:text="@string/send_bt"
             app:rd_enable="true" />
     </RelativeLayout>

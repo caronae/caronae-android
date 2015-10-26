@@ -14,7 +14,11 @@ import com.orm.SugarApp;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
+import java.util.Locale;
 
 import br.ufrj.caronae.components.DaggerNetworkComponent;
 import br.ufrj.caronae.components.NetworkComponent;
@@ -212,5 +216,27 @@ public class App extends SugarApp {
             return a;
         }
         return null;
+    }
+
+    public static String formatTime(String time) {
+        String formattedTime = "";
+        try {
+            Date date = new SimpleDateFormat("HH:mm:ss", Locale.US).parse(time);
+            formattedTime = new SimpleDateFormat("HH:mm", Locale.US).format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return formattedTime;
+    }
+
+    public static String formatDate(String date) {
+        String formattedTime = "";
+        try {
+            Date date2 = new SimpleDateFormat("yyyy-MM-dd", Locale.US).parse(date);
+            formattedTime = new SimpleDateFormat("dd/MM", Locale.US).format(date2);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return formattedTime;
     }
 }

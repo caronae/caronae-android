@@ -3,6 +3,7 @@ package br.ufrj.caronae.models;
 public class RideOfferForJson {
     private String driverName;
     private String time;
+    private String date;
     private String course;
     private String place;
     private String route;
@@ -17,6 +18,7 @@ public class RideOfferForJson {
     public RideOfferForJson(Ride ride, User user) {
         driverName = user.getName();
         time = ride.getTime();
+        date = ride.getDate();
         course = user.getCourse();
         place = ride.getPlace();
         route = ride.getRoute();
@@ -41,6 +43,14 @@ public class RideOfferForJson {
 
     public void setTime(String time) {
         this.time = time;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public String getCourse() {
