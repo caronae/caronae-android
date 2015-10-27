@@ -10,6 +10,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -58,7 +59,7 @@ public class RideOfferFrag extends Fragment {
     @Bind(R.id.routine_cb)
     CheckBox routine_cb;
     @Bind(R.id.days_lo)
-    LinearLayout days_lo;
+    RelativeLayout days_lo;
 
     @Bind(R.id.monday_cb)
     CheckBox monday_cb;

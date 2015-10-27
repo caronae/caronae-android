@@ -237,7 +237,7 @@
             android:checked="false"
             android:text="@string/routine_cb" />
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/days_lo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -246,42 +246,99 @@
             android:orientation="horizontal"
             android:visibility="gone">
 
-            <CheckBox
-                android:id="@+id/monday_cb"
+            <RelativeLayout
+                android:id="@+id/days"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="S" />
+                android:layout_centerHorizontal="true">
 
-            <CheckBox
-                android:id="@+id/tuesday_cb"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="T" />
+                <CheckBox
+                    android:id="@+id/monday_cb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="S" />
 
-            <CheckBox
-                android:id="@+id/wednesday_cb"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Q" />
+                <CheckBox
+                    android:id="@+id/tuesday_cb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/monday_cb"
+                    android:layout_toRightOf="@+id/monday_cb"
+                    android:text="T" />
 
-            <CheckBox
-                android:id="@+id/thursday_cb"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Q" />
+                <CheckBox
+                    android:id="@+id/wednesday_cb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/tuesday_cb"
+                    android:layout_toRightOf="@+id/tuesday_cb"
+                    android:text="Q" />
 
-            <CheckBox
-                android:id="@+id/friday_cb"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="S" />
+                <CheckBox
+                    android:id="@+id/thursday_cb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/wednesday_cb"
+                    android:layout_toRightOf="@+id/wednesday_cb"
+                    android:text="Q" />
 
-            <CheckBox
-                android:id="@+id/saturday_cb"
+                <CheckBox
+                    android:id="@+id/friday_cb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/thursday_cb"
+                    android:layout_toRightOf="@+id/thursday_cb"
+                    android:text="S" />
+
+                <CheckBox
+                    android:id="@+id/saturday_cb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/friday_cb"
+                    android:layout_toRightOf="@+id/friday_cb"
+                    android:text="S" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/routine_text_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="S" />
-        </LinearLayout>
+                android:layout_alignBottom="@+id/radioGroup2"
+                android:layout_alignTop="@+id/radioGroup2"
+                android:gravity="center"
+                android:text="Período"
+                android:textStyle="bold" />
+
+            <RadioGroup
+                android:id="@+id/radioGroup2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/days"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/routine_text_tv"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/go_rb2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="2 meses" />
+
+                <RadioButton
+                    android:id="@+id/back_rb3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="3 meses" />
+
+                <RadioButton
+                    android:id="@+id/back_rb2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="4 meses" />
+            </RadioGroup>
+
+        </RelativeLayout>
 
         <com.rey.material.widget.Button
             android:id="@+id/send_bt"
