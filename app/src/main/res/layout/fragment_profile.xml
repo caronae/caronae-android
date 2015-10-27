@@ -79,11 +79,18 @@
             android:text="Usuário desde 31/12/2015"
             android:textStyle="italic" />
 
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/createdAt_tv"
+            android:id="@+id/color_bar"
+            android:src="@drawable/color_bar"/>
+
         <TextView
             android:id="@+id/contact_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/createdAt_tv"
+            android:layout_below="@+id/color_bar"
             android:paddingTop="10dp"
             android:text="CONTATOS"
             android:textStyle="bold" />
