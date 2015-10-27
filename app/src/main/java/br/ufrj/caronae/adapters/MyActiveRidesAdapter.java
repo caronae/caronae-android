@@ -114,7 +114,7 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
                         ridesList.remove(rideWithUsers);
                         notifyItemRemoved(position);
 
-                        List<Ride> rides = Ride.find(Ride.class, "zone = ? and neighborhood = ? and date = ? and time = ?", ride.getZone(), ride.getNeighborhood(), ride.getDate(), ride.getTime());
+                        List<Ride> rides = Ride.find(Ride.class, "zone = ? and neighborhood = ? and date = ? and time = ?", ride.getZone(), ride.getNeighborhood(), App.formatBadDateWithYear(ride.getDate()), App.formatTime(ride.getTime()));
                         if (rides != null && !rides.isEmpty())
                             rides.get(0).delete();
                     }
