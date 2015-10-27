@@ -1,6 +1,7 @@
 package br.ufrj.caronae.adapters;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
@@ -60,26 +61,46 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
 
         ride.setDbId(ride.getId().intValue());
         holder.neighborhood_tv.setText(ride.getNeighborhood());
-        holder.go_tv.setText(ride.isGoing() ? "Indo ao fundão" : "Voltando do fundão");
+        //holder.go_tv.setText(ride.isGoing() ? "Indo ao fundão" : "Voltando do fundão");
         holder.name_tv.setText(driver.getName());
+        holder.way_tv.setText(ride.getRoute());
+        holder.place_tv.setText(ride.getPlace());
+        holder.phoneNumber_tv.setText(driver.getPhoneNumber());
         holder.course_tv.setText(driver.getCourse());
-        try {
-            holder.time_tv.setText(DateFormat.getTimeInstance(DateFormat.SHORT, Locale.getDefault()).format(new SimpleDateFormat("HH:mm").parse(ride.getTime())));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        holder.date_tv.setText(ride.getDate());
+        holder.time_tv.setText("Chegando ás " + App.formatTime(ride.getTime()));
+        holder.date_tv.setText(App.formatBadDateWithoutYear(ride.getDate()));
         holder.carModel_tv.setText(driver.getCarModel());
         holder.carColor_tv.setText(driver.getCarColor());
         holder.carPlate_tv.setText(driver.getCarPlate());
-        holder.description_tv.setText(ride.getDescription());
+        holder.description_tv.setText(ride.getDescription());/*
         holder.ridersList.setAdapter(new RidersAdapter(rideWithUsers.getUsers(), activity));
         holder.ridersList.setHasFixedSize(true);
-        holder.ridersList.setLayoutManager(new LinearLayoutManager(activity));
+        holder.ridersList.setLayoutManager(new LinearLayoutManager(activity));*/
 
         DisplayMetrics displaymetrics = new DisplayMetrics();
         activity.getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-        holder.layout.getLayoutParams().height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, rideWithUsers.getUsers().size() * 30 + 230, activity.getResources().getDisplayMetrics());
+        //holder.layout.getLayoutParams().height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, rideWithUsers.getUsers().size() * 30 + 230, activity.getResources().getDisplayMetrics());
+
+        int color = 0;
+        if (ride.getZone().equals("Centro")) {
+            color = ContextCompat.getColor(activity, R.color.zone_centro);
+        }
+        if (ride.getZone().equals("Zona Sul")) {
+            color = ContextCompat.getColor(activity, R.color.zone_sul);
+        }
+        if (ride.getZone().equals("Zona Oeste")) {
+            color = ContextCompat.getColor(activity, R.color.zone_oeste);
+        }
+        if (ride.getZone().equals("Zona Norte")) {
+            color = ContextCompat.getColor(activity, R.color.zone_norte);
+        }
+        if (ride.getZone().equals("Baixada")) {
+            color = ContextCompat.getColor(activity, R.color.zone_baixada);
+        }
+        if (ride.getZone().equals("Grande Niterói")) {
+            color = ContextCompat.getColor(activity, R.color.zone_niteroi);
+        }
+        holder.lay1.setBackgroundColor(color);
 
         holder.leave_bt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,35 +134,41 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView neighborhood_tv;
-        public TextView go_tv;
+        //public TextView go_tv;
         public TextView name_tv;
         public TextView course_tv;
         public TextView time_tv;
         public TextView date_tv;
+        public TextView way_tv;
+        public TextView place_tv;
         public TextView carModel_tv;
         public TextView carColor_tv;
         public TextView carPlate_tv;
         public TextView description_tv;
+        public TextView phoneNumber_tv;
         public Button leave_bt;
-        public RelativeLayout layout;
-        public RecyclerView ridersList;
+        public RelativeLayout lay1;
+        //public RecyclerView ridersList;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
             neighborhood_tv = (TextView) itemView.findViewById(R.id.neighborhood_tv);
-            go_tv = (TextView) itemView.findViewById(R.id.go_tv);
+            //go_tv = (TextView) itemView.findViewById(R.id.go_tv);
             name_tv = (TextView) itemView.findViewById(R.id.name_tv);
             course_tv = (TextView) itemView.findViewById(R.id.course_tv);
             time_tv = (TextView) itemView.findViewById(R.id.time_tv);
+            way_tv = (TextView) itemView.findViewById(R.id.way_tv);
+            place_tv = (TextView) itemView.findViewById(R.id.place_tv);
             date_tv = (TextView) itemView.findViewById(R.id.date_tv);
             carModel_tv = (TextView) itemView.findViewById(R.id.carModel_tv);
             carColor_tv = (TextView) itemView.findViewById(R.id.carColor_tv);
             carPlate_tv = (TextView) itemView.findViewById(R.id.carPlate_tv);
             description_tv = (TextView) itemView.findViewById(R.id.description_tv);
+            phoneNumber_tv = (TextView) itemView.findViewById(R.id.phoneNumber_tv);
             leave_bt = (Button) itemView.findViewById(R.id.leave_bt);
-            layout = (RelativeLayout) itemView.findViewById(R.id.layout);
-            ridersList = (RecyclerView) itemView.findViewById(R.id.ridersList);
+            lay1 = (RelativeLayout) itemView.findViewById(R.id.lay1);
+            //ridersList = (RecyclerView) itemView.findViewById(R.id.ridersList);
         }
     }
 }

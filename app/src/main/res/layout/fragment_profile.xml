@@ -254,7 +254,8 @@
                     android:layout_marginStart="5dp"
                     android:layout_toEndOf="@+id/carPlate_iv"
                     android:layout_toRightOf="@+id/carPlate_iv"
-                    android:hint="Digite a placa de seu carro" />
+                    android:hint="Digite a placa de seu carro"
+                    android:singleLine="true" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -279,7 +280,8 @@
                     android:layout_marginStart="5dp"
                     android:layout_toEndOf="@+id/carModel_iv"
                     android:layout_toRightOf="@+id/carModel_iv"
-                    android:hint="Digite o modelo de seu carro" />
+                    android:hint="Digite o modelo de seu carro"
+                    android:singleLine="true" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -304,7 +306,8 @@
                     android:layout_marginStart="5dp"
                     android:layout_toEndOf="@+id/carColor_iv"
                     android:layout_toRightOf="@+id/carColor_iv"
-                    android:hint="Digite a cor de seu carro" />
+                    android:hint="Digite a cor de seu carro"
+                    android:singleLine="true" />
             </RelativeLayout>
         </RelativeLayout>
     </RelativeLayout>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/tools"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -11,109 +12,282 @@
     card_view:cardUseCompatPadding="true">
 
     <RelativeLayout
-        android:id="@+id/layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="6dp"
-        android:orientation="vertical">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/neighborhood_tv"
+        <RelativeLayout
+            android:id="@+id/lay1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/zone_sul">
+
+            <TextView
+                android:id="@+id/neighborhood_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:text="COPACABANA"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/lay2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Copacabana" />
+            android:layout_below="@+id/lay1">
 
-        <TextView
-            android:id="@+id/go_tv"
+            <ImageView
+                android:id="@+id/user_pic"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="30dp"
+                android:src="@drawable/user_pic" />
+
+            <RelativeLayout
+                android:id="@+id/lay21"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_toEndOf="@+id/user_pic"
+                android:layout_toRightOf="@+id/user_pic">
+
+                <TextView
+                    android:id="@+id/name_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Fulano da Silva"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/profile_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/name_tv"
+                    android:text="Aluno | " />
+
+                <TextView
+                    android:id="@+id/course_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/name_tv"
+                    android:layout_toRightOf="@+id/profile_tv"
+                    android:text="Ciência da computação" />
+
+                <TextView
+                    android:id="@+id/phoneNumber_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/profile_tv"
+                    android:text="997338158"
+                    android:textColor="@color/blue" />
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/lay3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/neighborhood_tv"
-            android:text="Indo ao fundão" />
+            android:layout_below="@+id/lay2"
+            android:layout_centerHorizontal="true">
+
+            <ImageView
+                android:id="@+id/time_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_access_time_black_24dp" />
+
+
+            <TextView
+                android:id="@+id/time_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
+                android:layout_toEndOf="@+id/time_iv"
+                android:layout_toRightOf="@+id/time_iv"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:text="Chegando ás 16:45"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/date_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/time_tv"
+                android:layout_alignLeft="@+id/time_tv"
+                android:layout_alignStart="@+id/time_tv"
+                android:layout_alignRight="@+id/time_tv"
+                android:layout_alignEnd="@+id/time_tv"
+                android:paddingTop="15dp"
+                android:gravity="center"
+                android:layout_centerHorizontal="true"
+                android:text="16/10"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/leave_bt"
+                style="@style/Material.Drawable.Ripple.Wave.Light"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="30dp"
+                android:layout_marginStart="30dp"
+                android:layout_toEndOf="@+id/time_tv"
+                android:layout_toRightOf="@+id/time_tv"
+                android:background="@null"
+                android:gravity="center"
+                android:text="Desistir"
+                android:textColor="@color/red"
+                app:rd_enable="true" />
+        </RelativeLayout>
 
         <TextView
-            android:id="@+id/date_tv"
+            android:id="@+id/way_text_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/go_tv"
-            android:text="20/12/2015" />
-
-        <TextView
-            android:id="@+id/time_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/go_tv"
-            android:layout_marginLeft="10dp"
-            android:layout_marginStart="10dp"
-            android:layout_toRightOf="@+id/date_tv"
-            android:text="21:56" />
-
-        <TextView
-            android:id="@+id/name_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/time_tv"
+            android:layout_below="@+id/lay3"
+            android:layout_marginLeft="30dp"
             android:layout_marginTop="10dp"
-            android:text="Leonardo Marques" />
+            android:text="Passa por:"
+            android:textAllCaps="true"
+            android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/course_tv"
+            android:id="@+id/way_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/name_tv"
-            android:text="Ciência da computação" />
+            android:layout_below="@+id/way_text_tv"
+            android:layout_marginLeft="50dp"
+            android:text="Leopoldina" />
 
         <TextView
-            android:id="@+id/carModel_tv"
+            android:id="@+id/place_text_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/course_tv"
+            android:layout_below="@+id/way_tv"
+            android:layout_marginLeft="30dp"
             android:layout_marginTop="10dp"
-            android:text="Clio" />
+            android:text="Ponto de referência:"
+            android:textAllCaps="true"
+            android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/carColor_tv"
+            android:id="@+id/place_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/carModel_tv"
-            android:text="Vermelho" />
+            android:layout_below="@+id/place_text_tv"
+            android:layout_marginLeft="50dp"
+            android:text="Na frente do shopping" />
+
+        <TextView
+            android:id="@+id/car_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/place_tv"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="20dp"
+            android:text="DETALHES DO CARRO"
+            android:textAllCaps="true"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/car_plate_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/car_tv"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="5dp"
+            android:src="@drawable/ic_directions_car_black_24dp" />
 
         <TextView
             android:id="@+id/carPlate_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/car_plate_iv"
+            android:layout_alignTop="@+id/car_plate_iv"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/car_plate_iv"
+            android:gravity="center"
+            android:text="PSR 4567" />
+
+        <ImageView
+            android:id="@+id/car_model_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/carPlate_tv"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="5dp"
+            android:src="@drawable/ic_directions_car_black_24dp" />
+
+        <TextView
+            android:id="@+id/carModel_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/car_model_iv"
+            android:layout_alignTop="@+id/car_model_iv"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/car_plate_iv"
+            android:gravity="center"
+            android:text="Honda Civic" />
+
+        <ImageView
+            android:id="@+id/car_color_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/carModel_tv"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="5dp"
+            android:src="@drawable/ic_directions_car_black_24dp" />
+
+        <TextView
+            android:id="@+id/carColor_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/car_color_iv"
+            android:layout_alignTop="@+id/car_color_iv"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/car_plate_iv"
+            android:gravity="center"
+            android:text="Vermelho" />
+
+        <TextView
+            android:id="@+id/description_text_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/carColor_tv"
-            android:text="KZZ-1088" />
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="20dp"
+            android:text="RECADO DO MOTORISTA"
+            android:textAllCaps="true"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/description_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/carPlate_tv"
-            android:layout_marginTop="10dp"
-            android:text="Não fumo" />
+            android:layout_below="@id/description_text_tv"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:text="Só chegar, rola passar por são cristrovão também, não fumo" />
 
         <TextView
-            android:id="@+id/riders_tv"
+            android:id="@+id/riders_text_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/description_tv"
-            android:layout_marginTop="10dp"
-            android:text="Caronistas:" />
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/ridersList"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/riders_tv" />
-
-        <Button
-            android:id="@+id/leave_bt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:text="Desistir" />
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="20dp"
+            android:text="CARONISTAS"
+            android:textAllCaps="true"
+            android:textStyle="bold" />
 
     </RelativeLayout>
 </android.support.v7.widget.CardView>
