@@ -2,6 +2,7 @@ package br.ufrj.caronae.frags;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -32,8 +33,6 @@ public class MyActiveRidesFrag extends Fragment {
     RecyclerView myRidesList;
     @Bind(R.id.norides_tv)
     TextView norides_tv;
-    @Bind(R.id.fab)
-    ImageView fab;
 
     public MyActiveRidesFrag() {
         // Required empty public constructor
@@ -71,10 +70,5 @@ public class MyActiveRidesFrag extends Fragment {
         });
 
         return view;
-    }
-
-    @OnClick(R.id.fab)
-    public void fab() {
-        ((MainAct) getActivity()).showRideOfferFrag();
     }
 }

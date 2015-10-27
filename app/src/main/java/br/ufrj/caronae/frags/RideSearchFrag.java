@@ -2,6 +2,7 @@ package br.ufrj.caronae.frags;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -60,7 +61,7 @@ public class RideSearchFrag extends Fragment {
     @Bind(R.id.anotherSearch_bt)
     Button anotherSearch_bt;
     @Bind(R.id.fab)
-    ImageView fab;
+    FloatingActionButton fab;
 
     @Bind(R.id.rvRides)
     RecyclerView rvRides;

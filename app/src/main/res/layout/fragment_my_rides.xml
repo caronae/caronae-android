@@ -1,4 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,16 +9,8 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/myRidesList"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
-    <ImageView
-        android:id="@+id/fab"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:src="@drawable/fab_icon" />
+        android:layout_height="match_parent"
+        android:layout_margin="16dp" />
 
     <TextView
         android:id="@+id/norides_tv"
@@ -29,5 +22,15 @@
         android:text="Você não tem anúncios de caronas"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:visibility="gone" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/ic_add_white_24dp"
+        app:backgroundTint="@color/fab_red" />
 
 </RelativeLayout>

@@ -8,6 +8,7 @@
 
     <RelativeLayout
         android:id="@+id/lay"
+        android:layout_margin="16dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:focusableInTouchMode="true">
@@ -170,17 +171,19 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvRides"
+        android:layout_margin="16dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/anotherSearch_bt" />
 
-    <ImageView
+    <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:src="@drawable/fab_icon" />
+        android:src="@drawable/ic_add_white_24dp"
+        app:backgroundTint="@color/fab_red" />
 
 </RelativeLayout>

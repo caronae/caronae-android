@@ -1,6 +1,7 @@
 package br.ufrj.caronae.frags;
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -28,7 +29,7 @@ public class MyRidesFrag extends Fragment {
     @Bind(R.id.norides_tv)
     TextView norides_tv;
     @Bind(R.id.fab)
-    ImageView fab;
+    FloatingActionButton fab;
 
     public MyRidesFrag() {
         // Required empty public constructor
