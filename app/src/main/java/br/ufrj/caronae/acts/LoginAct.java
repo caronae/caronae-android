@@ -2,6 +2,7 @@ package br.ufrj.caronae.acts;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -62,9 +63,7 @@ public class LoginAct extends AppCompatActivity {
                 App.saveUser(userWithRides.getUser());
                 App.saveToken(token);
 
-                for (Ride ride : userWithRides.getRides()) {
-                    new Ride(ride).save();
-                }
+                new SaveRidesAsync(userWithRides).execute();
 
                 startActivity(new Intent(LoginAct.this, MainAct.class));
                 LoginAct.this.finish();
@@ -78,4 +77,22 @@ public class LoginAct extends AppCompatActivity {
             }
         });
     }
+
+    private class SaveRidesAsync extends AsyncTask<Void, Void, Void> {
+        private final UserWithRidesForJson userWithRides;
+
+        public SaveRidesAsync(UserWithRidesForJson userWithRides) {
+            this.userWithRides = userWithRides;
+        }
+
+        @Override
+        protected Void doInBackground(Void... arg0) {
+            for (Ride ride : userWithRides.getRides()) {
+                new Ride(ride).save();
+            }
+
+            return null;
+        }
+    }
+
 }
