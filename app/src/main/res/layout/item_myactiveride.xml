@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/tools"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="625dp"
     android:clickable="true"
     android:foreground="?android:attr/selectableItemBackground"
     card_view:cardCornerRadius="@dimen/cardview_default_radius"
@@ -12,6 +12,7 @@
     card_view:cardUseCompatPadding="true">
 
     <RelativeLayout
+        android:id="@+id/layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
@@ -108,11 +109,11 @@
                 android:id="@+id/time_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:layout_marginLeft="5dp"
                 android:layout_marginStart="5dp"
                 android:layout_toEndOf="@+id/time_iv"
                 android:layout_toRightOf="@+id/time_iv"
-                android:layout_centerVertical="true"
                 android:gravity="center"
                 android:text="Chegando ás 16:45"
                 android:textStyle="bold" />
@@ -121,14 +122,14 @@
                 android:id="@+id/date_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/time_tv"
-                android:layout_alignLeft="@+id/time_tv"
-                android:layout_alignStart="@+id/time_tv"
-                android:layout_alignRight="@+id/time_tv"
                 android:layout_alignEnd="@+id/time_tv"
-                android:paddingTop="15dp"
-                android:gravity="center"
+                android:layout_alignLeft="@+id/time_tv"
+                android:layout_alignRight="@+id/time_tv"
+                android:layout_alignStart="@+id/time_tv"
+                android:layout_below="@+id/time_tv"
                 android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:paddingTop="15dp"
                 android:text="16/10"
                 android:textStyle="bold" />
 
@@ -288,6 +289,12 @@
             android:text="CARONISTAS"
             android:textAllCaps="true"
             android:textStyle="bold" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/ridersList"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/riders_text_tv" />
 
     </RelativeLayout>
 </android.support.v7.widget.CardView>

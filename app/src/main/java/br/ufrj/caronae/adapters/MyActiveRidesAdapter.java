@@ -95,14 +95,14 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
         holder.carModel_tv.setText(driver.getCarModel());
         holder.carColor_tv.setText(driver.getCarColor());
         holder.carPlate_tv.setText(driver.getCarPlate());
-        holder.description_tv.setText(ride.getDescription());/*
+        holder.description_tv.setText(ride.getDescription());
         holder.ridersList.setAdapter(new RidersAdapter(rideWithUsers.getUsers(), activity));
         holder.ridersList.setHasFixedSize(true);
-        holder.ridersList.setLayoutManager(new LinearLayoutManager(activity));*/
+        holder.ridersList.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false));
 
-        DisplayMetrics displaymetrics = new DisplayMetrics();
+        /*DisplayMetrics displaymetrics = new DisplayMetrics();
         activity.getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-        //holder.layout.getLayoutParams().height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, rideWithUsers.getUsers().size() * 30 + 230, activity.getResources().getDisplayMetrics());
+        holder.layout.getLayoutParams().height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, rideWithUsers.getUsers().size() * 30 + 600, activity.getResources().getDisplayMetrics());*/
 
         holder.leave_bt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -150,7 +150,8 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
         public TextView phoneNumber_tv;
         public Button leave_bt;
         public RelativeLayout lay1;
-        //public RecyclerView ridersList;
+        public RelativeLayout layout;
+        public RecyclerView ridersList;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -170,7 +171,8 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
             phoneNumber_tv = (TextView) itemView.findViewById(R.id.phoneNumber_tv);
             leave_bt = (Button) itemView.findViewById(R.id.leave_bt);
             lay1 = (RelativeLayout) itemView.findViewById(R.id.lay1);
-            //ridersList = (RecyclerView) itemView.findViewById(R.id.ridersList);
+            layout = (RelativeLayout) itemView.findViewById(R.id.layout);
+            ridersList = (RecyclerView) itemView.findViewById(R.id.ridersList);
         }
     }
 }
