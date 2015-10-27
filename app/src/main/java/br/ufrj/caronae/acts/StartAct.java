@@ -15,7 +15,7 @@ public class StartAct extends AppCompatActivity {
         if (App.isUserLoggedIn())
             startActivity(new Intent(this, MainAct.class));
         else
-            startActivity(new Intent(this, LoginAct.class));
+            startActivity(new Intent(this, OpeningAct.class));
 
         finish();
     }

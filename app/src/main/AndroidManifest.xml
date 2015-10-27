@@ -40,6 +40,11 @@
             android:name=".acts.LoginAct"
             android:label="@string/title_activity_login"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".acts.OpeningAct"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_opening"
+            android:theme="@style/FullscreenTheme"/>
     </application>
 
 </manifest>
