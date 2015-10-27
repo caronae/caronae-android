@@ -59,28 +59,6 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
 
         rideWithUsers.getUsers().remove(0);
 
-        ride.setDbId(ride.getId().intValue());
-        holder.neighborhood_tv.setText(ride.getNeighborhood());
-        //holder.go_tv.setText(ride.isGoing() ? "Indo ao fundão" : "Voltando do fundão");
-        holder.name_tv.setText(driver.getName());
-        holder.way_tv.setText(ride.getRoute());
-        holder.place_tv.setText(ride.getPlace());
-        holder.phoneNumber_tv.setText(driver.getPhoneNumber());
-        holder.course_tv.setText(driver.getCourse());
-        holder.time_tv.setText("Chegando ás " + App.formatTime(ride.getTime()));
-        holder.date_tv.setText(App.formatBadDateWithoutYear(ride.getDate()));
-        holder.carModel_tv.setText(driver.getCarModel());
-        holder.carColor_tv.setText(driver.getCarColor());
-        holder.carPlate_tv.setText(driver.getCarPlate());
-        holder.description_tv.setText(ride.getDescription());/*
-        holder.ridersList.setAdapter(new RidersAdapter(rideWithUsers.getUsers(), activity));
-        holder.ridersList.setHasFixedSize(true);
-        holder.ridersList.setLayoutManager(new LinearLayoutManager(activity));*/
-
-        DisplayMetrics displaymetrics = new DisplayMetrics();
-        activity.getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-        //holder.layout.getLayoutParams().height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, rideWithUsers.getUsers().size() * 30 + 230, activity.getResources().getDisplayMetrics());
-
         int color = 0;
         if (ride.getZone().equals("Centro")) {
             color = ContextCompat.getColor(activity, R.color.zone_centro);
@@ -101,6 +79,30 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
             color = ContextCompat.getColor(activity, R.color.zone_niteroi);
         }
         holder.lay1.setBackgroundColor(color);
+
+        ride.setDbId(ride.getId().intValue());
+        holder.neighborhood_tv.setText(ride.getNeighborhood());
+        //holder.go_tv.setText(ride.isGoing() ? "Indo ao fundão" : "Voltando do fundão");
+        holder.name_tv.setText(driver.getName());
+        holder.way_tv.setText(ride.getRoute());
+        holder.place_tv.setText(ride.getPlace());
+        holder.phoneNumber_tv.setText(driver.getPhoneNumber());
+        holder.course_tv.setText(driver.getCourse());
+        holder.time_tv.setText("Chegando ás " + App.formatTime(ride.getTime()));
+        holder.time_tv.setTextColor(color);
+        holder.date_tv.setText(App.formatBadDateWithoutYear(ride.getDate()));
+        holder.date_tv.setTextColor(color);
+        holder.carModel_tv.setText(driver.getCarModel());
+        holder.carColor_tv.setText(driver.getCarColor());
+        holder.carPlate_tv.setText(driver.getCarPlate());
+        holder.description_tv.setText(ride.getDescription());/*
+        holder.ridersList.setAdapter(new RidersAdapter(rideWithUsers.getUsers(), activity));
+        holder.ridersList.setHasFixedSize(true);
+        holder.ridersList.setLayoutManager(new LinearLayoutManager(activity));*/
+
+        DisplayMetrics displaymetrics = new DisplayMetrics();
+        activity.getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+        //holder.layout.getLayoutParams().height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, rideWithUsers.getUsers().size() * 30 + 230, activity.getResources().getDisplayMetrics());
 
         holder.leave_bt.setOnClickListener(new View.OnClickListener() {
             @Override
