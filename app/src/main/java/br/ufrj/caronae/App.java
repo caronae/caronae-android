@@ -154,7 +154,7 @@ public class App extends SugarApp {
         v.startAnimation(anim);
     }
 
-    public static String printResponseBody(Response response) {
+    public static String getResponseBody(Response response) {
         BufferedReader reader;
         StringBuilder sb = new StringBuilder();
         try {
