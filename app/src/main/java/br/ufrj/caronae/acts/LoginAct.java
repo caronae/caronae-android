@@ -78,6 +78,12 @@ public class LoginAct extends AppCompatActivity {
         });
     }
 
+
+    @OnClick(R.id.logo)
+    public void signUp() {
+        startActivity(new Intent(LoginAct.this, SignUpAct.class));
+    }
+
     private class SaveRidesAsync extends AsyncTask<Void, Void, Void> {
         private final UserWithRidesForJson userWithRides;
 

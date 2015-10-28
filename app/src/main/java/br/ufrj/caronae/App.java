@@ -154,7 +154,7 @@ public class App extends SugarApp {
         v.startAnimation(anim);
     }
 
-    public static void printResponseBody(Response response) {
+    public static String printResponseBody(Response response) {
         BufferedReader reader;
         StringBuilder sb = new StringBuilder();
         try {
@@ -173,7 +173,7 @@ public class App extends SugarApp {
             e.printStackTrace();
         }
 
-        String result = sb.toString();
+        return sb.toString();
     }
 
     public static void toast(String msg) {

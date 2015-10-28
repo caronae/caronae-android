@@ -14,8 +14,10 @@ import br.ufrj.caronae.models.UserWithRidesForJson;
 import retrofit.Callback;
 import retrofit.client.Response;
 import retrofit.http.Body;
+import retrofit.http.GET;
 import retrofit.http.POST;
 import retrofit.http.PUT;
+import retrofit.http.Path;
 
 public interface NetworkService {
     @POST("/auth")
@@ -47,4 +49,7 @@ public interface NetworkService {
 
     @POST("/ride/leaveRide")
     void leaveRide(@Body RideIdForJson rideId, Callback<Response> cb);
+
+    @GET("/signup/{name}/{token}")
+    void signUp(@Path("name") String name, @Path("token") String token, Callback<Response> cb);
 }
