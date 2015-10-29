@@ -108,17 +108,19 @@ public class RideSearchFrag extends Fragment {
             @Override
             public void onPositiveActionClicked(DialogFragment fragment) {
                 CharSequence[] selectedZones = getSelectedValues();
-                if (selectedZones.length == 1) {
-                    locationEt2(selectedZones[0].toString());
-                } else {
-                    String zone = "";
-                    for (int i = 0; i < selectedZones.length; i++) {
-                        zone += selectedZones[i];
-                        if (i + 1 != selectedZones.length) {
-                            zone += ", ";
+                if (selectedZones != null) {
+                    if (selectedZones.length == 1) {
+                        locationEt2(selectedZones[0].toString());
+                    } else {
+                        String zone = "";
+                        for (int i = 0; i < selectedZones.length; i++) {
+                            zone += selectedZones[i];
+                            if (i + 1 != selectedZones.length) {
+                                zone += ", ";
+                            }
                         }
+                        location_et.setText(zone);
                     }
-                    location_et.setText(zone);
                 }
                 super.onPositiveActionClicked(fragment);
             }
@@ -137,20 +139,23 @@ public class RideSearchFrag extends Fragment {
         fragment.show(getFragmentManager(), null);
     }
 
-    public void locationEt2(String zone) {
+    public void locationEt2(final String zone) {
         SimpleDialog.Builder builder = new SimpleDialog.Builder(R.style.SimpleDialogLight) {
             @Override
             public void onPositiveActionClicked(DialogFragment fragment) {
                 CharSequence[] selectedNeighborhoods = getSelectedValues();
-                String neighborhoods = "";
-                for (int i = 0; i < selectedNeighborhoods.length; i++) {
-                    neighborhoods += selectedNeighborhoods[i];
-                    if (i + 1 != selectedNeighborhoods.length) {
-                        neighborhoods += ", ";
+                if (selectedNeighborhoods != null) {
+                    String neighborhoods = "";
+                    for (int i = 0; i < selectedNeighborhoods.length; i++) {
+                        neighborhoods += selectedNeighborhoods[i];
+                        if (i + 1 != selectedNeighborhoods.length) {
+                            neighborhoods += ", ";
+                        }
                     }
+                    location_et.setText(neighborhoods);
+                } else {
+                    location_et.setText(zone);
                 }
-                location_et.setText(neighborhoods);
-
                 super.onPositiveActionClicked(fragment);
             }
 
