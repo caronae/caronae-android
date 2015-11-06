@@ -243,8 +243,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/routine_cb"
             android:layout_centerHorizontal="true"
-            android:orientation="horizontal"
-            android:visibility="gone">
+            android:orientation="horizontal">
 
             <RelativeLayout
                 android:id="@+id/days"
@@ -319,20 +318,20 @@
                 android:orientation="horizontal">
 
                 <RadioButton
-                    android:id="@+id/go_rb2"
+                    android:id="@+id/r2months_rb"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="true"
                     android:text="2 meses" />
 
                 <RadioButton
-                    android:id="@+id/back_rb3"
+                    android:id="@+id/r3months_rb"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="3 meses" />
 
                 <RadioButton
-                    android:id="@+id/back_rb2"
+                    android:id="@+id/r4months_rb"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="4 meses" />

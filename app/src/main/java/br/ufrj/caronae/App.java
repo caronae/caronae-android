@@ -37,7 +37,8 @@ public class App extends SugarApp {
 
     public static final String APIARY_ENDPOINT = "http://private-5b9ed6-caronae.apiary-mock.com";
     public static final String LUISDIGOCEAN_ENDPOINT = "http://104.131.31.224/";
-    public static final String EUDIGOCEAN_ENDPOINT = "http://45.55.46.90/";
+    public static final String EUDIGOCEAN_PROD_ENDPOINT = "http://45.55.46.90:80/";
+    public static final String EUDIGOCEAN_DEV_ENDPOINT = "http://45.55.46.90:8080/";
     public static final String LOCAL_SERV_ENDPOINT = "http://192.168.0.13/";
 
     private static App inst;
@@ -109,8 +110,8 @@ public class App extends SugarApp {
 
     public static NetworkService getNetworkService() {
         if (component == null) {
-            String endpoint = EUDIGOCEAN_ENDPOINT;
-            //String endpoint = LOCAL_SERV_ENDPOINT;
+            //String endpoint = EUDIGOCEAN_DEV_ENDPOINT;
+            String endpoint = LOCAL_SERV_ENDPOINT;
             component = DaggerNetworkComponent.builder().networkModule(new NetworkModule(endpoint)).build();
         }
         return component.provideNetworkService();

@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -20,8 +19,11 @@ import com.rey.material.app.DialogFragment;
 import com.rey.material.app.SimpleDialog;
 import com.rey.material.app.TimePickerDialog;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import br.ufrj.caronae.App;
@@ -38,6 +40,9 @@ public class RideOfferFrag extends Fragment {
 
     @Bind(R.id.radioGroup)
     RadioGroup radioGroup;
+
+    @Bind(R.id.radioGroup2)
+    RadioGroup radioGroup2;
 
     @Bind(R.id.neighborhood_et)
     EditText neighborhood_et;
@@ -110,12 +115,12 @@ public class RideOfferFrag extends Fragment {
         routine_cb.setChecked(isRoutine);
         if (isRoutine) {
             routineCb();
-            monday_cb.setChecked(ride.isMonday());
-            tuesday_cb.setChecked(ride.isTuesday());
-            wednesday_cb.setChecked(ride.isWednesday());
-            thursday_cb.setChecked(ride.isThursday());
-            friday_cb.setChecked(ride.isFriday());
-            saturday_cb.setChecked(ride.isSaturday());
+            monday_cb.setChecked(ride.getWeekDays().contains("1"));
+            tuesday_cb.setChecked(ride.getWeekDays().contains("2"));
+            wednesday_cb.setChecked(ride.getWeekDays().contains("3"));
+            thursday_cb.setChecked(ride.getWeekDays().contains("4"));
+            friday_cb.setChecked(ride.getWeekDays().contains("5"));
+            saturday_cb.setChecked(ride.getWeekDays().contains("6"));
         }
     }
 
@@ -246,18 +251,55 @@ public class RideOfferFrag extends Fragment {
         int id = radioGroup.getCheckedRadioButtonId();
         boolean go = id == R.id.go_rb;
         boolean routine = routine_cb.isChecked();
-        boolean[] routineDays = {monday_cb.isChecked(), tuesday_cb.isChecked(), wednesday_cb.isChecked(), thursday_cb.isChecked(), friday_cb.isChecked(), saturday_cb.isChecked()};
+        String weekDays = "";
+        if (routine) {
+            weekDays = monday_cb.isChecked() ? "1," : "";
+            weekDays += tuesday_cb.isChecked() ? "2," : "";
+            weekDays += wednesday_cb.isChecked() ? "3," : "";
+            weekDays += thursday_cb.isChecked() ? "4," : "";
+            weekDays += friday_cb.isChecked() ? "5," : "";
+            weekDays += saturday_cb.isChecked() ? "6," : "";
+            weekDays = weekDays.substring(0, weekDays.length() - 1);
+        }
 
-        final Ride ride = new Ride(zone, neighborhood, place, way, date, time, slots, hub, description, go, routine, routineDays);
+        String repeatsUntil = "";
+        int months = 0;
+        int id2 = radioGroup2.getCheckedRadioButtonId();
+        switch (id2) {
+            case R.id.r2months_rb:
+                months = 2;
+                break;
+            case R.id.r3months_rb:
+                months = 3;
+                break;
+            case R.id.r4months_rb:
+                months = 4;
+                break;
+        }
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
+        Calendar c = Calendar.getInstance();
+        try {
+            c.setTime(sdf.parse(date));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        c.add(Calendar.MONTH, months);  // number of days to add
+        repeatsUntil = sdf.format(c.getTime());  // dt is now the new date
+
+        final Ride ride = new Ride(zone, neighborhood, place, way, date, time, slots, hub, description, go, routine, weekDays, repeatsUntil);
 
         String lastRideOffer = new Gson().toJson(ride);
         App.putPref(App.LAST_RIDE_OFFER_PREF_KEY, lastRideOffer);
 
-        App.getNetworkService().offerRide(ride, new Callback<String>() {
+        App.getNetworkService().offerRide(ride, new Callback<List<Ride>>() {
             @Override
-            public void success(String rideId, Response response2) {
-                ride.setDbId(Integer.parseInt(rideId));
-                ride.save();
+            public void success(List<Ride> rides, Response response) {
+                for (Ride ride : rides) {
+                    Ride ride2 = new Ride(ride);
+                    ride2.setDbId(ride.getId().intValue());
+                    ride2.save();
+                }
                 App.toast("Carona salva");
             }
 

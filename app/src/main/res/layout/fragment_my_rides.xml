@@ -34,4 +34,13 @@
         android:src="@drawable/ic_add_white_24dp"
         app:backgroundTint="@color/fab_red" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Apagar tudo"
+        android:id="@+id/button2"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
 </RelativeLayout>

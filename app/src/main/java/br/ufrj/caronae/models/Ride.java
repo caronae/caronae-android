@@ -13,18 +13,22 @@ public class Ride extends SugarRecord<Ride> {
     private String route;
     @SerializedName("mydate")
     private String date;
+    private String slots;
     @SerializedName("mytime")
     private String time;
-    private String slots;
     private String hub;
     private String description;
-    private boolean going, routine, monday, tuesday, wednesday, thursday, friday, saturday;
+    @SerializedName("week_days")
+    private String weekDays;
+    @SerializedName("repeats_until")
+    private String repeatsUntil;
+    private boolean going, routine;
     private int dbId;
 
     public Ride() {
     }
 
-    public Ride(String zone, String neighborhood, String place, String route, String date, String time, String slots, String hub, String description, boolean going, boolean routine, boolean[] routineDays) {
+    public Ride(String zone, String neighborhood, String place, String route, String date, String time, String slots, String hub, String description, boolean going, boolean routine, String weekDays, String repeatsUntil) {
         this.zone = zone;
         this.neighborhood = neighborhood;
         this.place = place;
@@ -36,12 +40,8 @@ public class Ride extends SugarRecord<Ride> {
         this.description = description;
         this.going = going;
         this.routine = routine;
-        monday = routineDays != null && routineDays[0];
-        tuesday = routineDays != null && routineDays[1];
-        wednesday = routineDays != null && routineDays[2];
-        thursday = routineDays != null && routineDays[3];
-        friday = routineDays != null && routineDays[4];
-        saturday = routineDays != null && routineDays[5];
+        this.weekDays = weekDays;
+        this.repeatsUntil = repeatsUntil;
     }
 
     public Ride(Ride ride) {
@@ -50,18 +50,14 @@ public class Ride extends SugarRecord<Ride> {
         place = ride.getPlace();
         route = ride.getRoute();
         date = App.formatBadDateWithYear(ride.getDate());
-        time = App.formatTime(ride.getTime());
+        time = ride.getTime();
         slots = ride.getSlots();
         hub = ride.getHub();
         description = ride.getDescription();
         going = ride.isGoing();
         routine = ride.isRoutine();
-        monday = ride.isMonday();
-        tuesday = ride.isTuesday();
-        wednesday = ride.isWednesday();
-        thursday = ride.isThursday();
-        friday = ride.isFriday();
-        saturday = ride.isSaturday();
+        weekDays = ride.getWeekDays();
+        repeatsUntil = ride.getRepeatsUntil();
         dbId = ride.getId().intValue();
     }
 
@@ -153,52 +149,20 @@ public class Ride extends SugarRecord<Ride> {
         this.routine = routine;
     }
 
-    public boolean isMonday() {
-        return monday;
+    public String getWeekDays() {
+        return weekDays;
     }
 
-    public void setMonday(boolean monday) {
-        this.monday = monday;
+    public void setWeekDays(String weekDays) {
+        this.weekDays = weekDays;
     }
 
-    public boolean isTuesday() {
-        return tuesday;
+    public String getRepeatsUntil() {
+        return repeatsUntil;
     }
 
-    public void setTuesday(boolean tuesday) {
-        this.tuesday = tuesday;
-    }
-
-    public boolean isWednesday() {
-        return wednesday;
-    }
-
-    public void setWednesday(boolean wednesday) {
-        this.wednesday = wednesday;
-    }
-
-    public boolean isThursday() {
-        return thursday;
-    }
-
-    public void setThursday(boolean thursday) {
-        this.thursday = thursday;
-    }
-
-    public boolean isFriday() {
-        return friday;
-    }
-
-    public void setFriday(boolean friday) {
-        this.friday = friday;
-    }
-
-    public boolean isSaturday() {
-        return saturday;
-    }
-
-    public void setSaturday(boolean saturday) {
-        this.saturday = saturday;
+    public void setRepeatsUntil(String repeatsUntil) {
+        this.repeatsUntil = repeatsUntil;
     }
 
     public int getDbId() {

@@ -76,12 +76,12 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
 
         String s;
         if (ride.isRoutine()) {
-            s = ride.isMonday() ? "S" : "";
-            s += ride.isTuesday() ? "T" : "";
-            s += ride.isWednesday() ? "Q" : "";
-            s += ride.isThursday() ? "Q" : "";
-            s += ride.isFriday() ? "S" : "";
-            s += ride.isSaturday() ? "S" : "";
+            s = ride.getWeekDays().contains("1") ? "S" : "";
+            s += ride.getWeekDays().contains("2") ? "T" : "";
+            s += ride.getWeekDays().contains("3") ? "Q" : "";
+            s += ride.getWeekDays().contains("4") ? "Q" : "";
+            s += ride.getWeekDays().contains("5") ? "S" : "";
+            s += ride.getWeekDays().contains("6") ? "S" : "";
         } else {
             s = "Não é rotina";
         }

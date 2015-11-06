@@ -27,7 +27,7 @@ public interface NetworkService {
     void updateUser(@Body User user, Callback<Response> cb);
 
     @POST("/ride")
-    void offerRide(@Body Ride ride, Callback<String> cb);
+    void offerRide(@Body Ride ride, Callback<List<Ride>> cb);
 
     @POST("/ride/list")
     void getRideOffers(@Body RideSearchFiltersForJson rideSearchFilters, Callback<List<RideOfferForJson>> cb);
