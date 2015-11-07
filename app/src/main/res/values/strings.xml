@@ -42,5 +42,6 @@
 
     <string name="title_activity_fullscreen">FullscreenActivity</string>
     <string name="title_activity_sign_up">SignUpAct</string>
+    <string name="gplay_unavailable">Sem o Google Play você não poderá receber notificações ou mensagens de bate-papo =(</string>
 
 </resources>

@@ -1,6 +1,7 @@
 package br.ufrj.caronae.acts;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -21,11 +23,15 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
+import br.ufrj.caronae.gcm.RegistrationIntentService;
 import br.ufrj.caronae.frags.MyActiveRidesFrag;
 import br.ufrj.caronae.frags.MyRidesFrag;
 import br.ufrj.caronae.frags.ProfileFrag;
@@ -36,6 +42,7 @@ import br.ufrj.caronae.models.User;
 
 public class MainAct extends AppCompatActivity {
 
+    public static final int GPLAY_UNAVAILABLE = 123;
     private DrawerLayout mDrawer;
     private ActionBarDrawerToggle drawerToggle;
 
@@ -83,6 +90,36 @@ public class MainAct extends AppCompatActivity {
         }
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+
+        checkGplay();
+    }
+
+    private void checkGplay() {
+        int resultGplay = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
+
+        if (resultGplay != ConnectionResult.SUCCESS) {
+            GooglePlayServicesUtil.getErrorDialog(resultGplay, this, GPLAY_UNAVAILABLE);
+        } else {
+            if (App.getPref(App.GCM_TOKEN_PREF_KEY).equals(App.MISSING_PREF)) {
+                Intent intent = new Intent(this, RegistrationIntentService.class);
+                startService(intent);
+            }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == GPLAY_UNAVAILABLE) {
+            new AlertDialog.Builder(this)
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setMessage(R.string.gplay_unavailable)
+                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int which) {
+                            //
+                        }
+                    }).show();
+        }
     }
 
     private void getHeaderView(NavigationView nvDrawer) {

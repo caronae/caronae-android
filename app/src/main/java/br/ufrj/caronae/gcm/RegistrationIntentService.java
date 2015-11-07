@@ -1,4 +1,4 @@
-package br.ufrj.caronae;
+package br.ufrj.caronae.gcm;
 
 import android.app.IntentService;
 import android.content.Intent;
@@ -9,6 +9,8 @@ import com.google.android.gms.iid.InstanceID;
 
 import java.io.IOException;
 
+import br.ufrj.caronae.App;
+import br.ufrj.caronae.R;
 import br.ufrj.caronae.models.TokenForJson;
 import retrofit.Callback;
 import retrofit.RetrofitError;

@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
-import br.ufrj.caronae.RegistrationIntentService;
 import br.ufrj.caronae.models.Ride;
 import br.ufrj.caronae.models.TokenForJson;
 import br.ufrj.caronae.models.UserWithRidesForJson;
@@ -65,9 +64,6 @@ public class LoginAct extends AppCompatActivity {
                 App.saveToken(token);
 
                 new SaveRidesAsync(userWithRides).execute();
-
-                Intent intent = new Intent(LoginAct.this, RegistrationIntentService.class);
-                startService(intent);
 
                 startActivity(new Intent(LoginAct.this, MainAct.class));
                 LoginAct.this.finish();

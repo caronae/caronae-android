@@ -1,4 +1,4 @@
-package br.ufrj.caronae;
+package br.ufrj.caronae.gcm;
 
 import android.content.Intent;
 
