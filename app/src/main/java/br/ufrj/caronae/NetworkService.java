@@ -52,4 +52,7 @@ public interface NetworkService {
 
     @GET("/signup/{name}/{token}")
     void signUp(@Path("name") String name, @Path("token") String token, Callback<Response> cb);
+
+    @POST("/gcmToken")
+    void sendGcmToken(@Body TokenForJson token, Callback<Response> cb);
 }

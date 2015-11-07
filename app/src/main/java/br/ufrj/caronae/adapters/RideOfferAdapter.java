@@ -75,11 +75,11 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
         //viewHolder.direction_tv.setText(rideOffer.isGo() ? "Indo para o fundão" : "Voltando do fundão - HUB:" + rideOffer.getHub());
         viewHolder.neighborhood_tv.setText(rideOffer.getNeighborhood());
 
-        viewHolder.join_bt.setVisibility(rideOffer.getDriverId() == App.getUser().getDbId() ? View.GONE : View.VISIBLE);
+        //viewHolder.join_bt.setVisibility(rideOffer.getDriverId() == App.getUser().getDbId() ? View.GONE : View.VISIBLE);
         viewHolder.join_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                viewHolder.join_bt.setVisibility(View.GONE);
+                //viewHolder.join_bt.setVisibility(View.GONE);
                 App.getNetworkService().sendJoinRequest(new RideIdForJson(rideOffer.getRideId()), new Callback<Response>() {
                     @Override
                     public void success(Response response, Response response2) {

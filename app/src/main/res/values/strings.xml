@@ -1,5 +1,7 @@
 <resources>
-    <string name="app_name">Caronaê</string>
+    <string name="app_name">Caronaê UFRJ</string>
+
+    <string name="gcm_defaultSenderId">1012033032693</string>
 
     <string name="name_tv">Nome</string>
     <string name="profile_tv">Perfil</string>
