@@ -259,10 +259,14 @@ public class RideOfferFrag extends Fragment {
             weekDays += thursday_cb.isChecked() ? "4," : "";
             weekDays += friday_cb.isChecked() ? "5," : "";
             weekDays += saturday_cb.isChecked() ? "6," : "";
+
+            if (weekDays.isEmpty()) {
+                App.toast("Nenhum dia selecionado para rotina");
+                return;
+            }
             weekDays = weekDays.substring(0, weekDays.length() - 1);
         }
 
-        String repeatsUntil = "";
         int months = 0;
         int id2 = radioGroup2.getCheckedRadioButtonId();
         switch (id2) {
@@ -285,7 +289,7 @@ public class RideOfferFrag extends Fragment {
             e.printStackTrace();
         }
         c.add(Calendar.MONTH, months);  // number of days to add
-        repeatsUntil = sdf.format(c.getTime());  // dt is now the new date
+        String repeatsUntil = sdf.format(c.getTime());  // dt is now the new date
 
         final Ride ride = new Ride(zone, neighborhood, place, way, date, time, slots, hub, description, go, routine, weekDays, repeatsUntil);
 

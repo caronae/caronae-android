@@ -40,6 +40,8 @@ public class MyRidesFrag extends Fragment {
     @Bind(R.id.button2)
     Button button2;
 
+    ArrayList<Ride> rides;
+
     public MyRidesFrag() {
         // Required empty public constructor
     }
@@ -49,7 +51,7 @@ public class MyRidesFrag extends Fragment {
         View view = inflater.inflate(R.layout.fragment_my_rides, container, false);
         ButterKnife.bind(this, view);
 
-        ArrayList<Ride> rides = (ArrayList<Ride>) Ride.listAll(Ride.class);
+        rides = (ArrayList<Ride>) Ride.listAll(Ride.class);
 
         if (!rides.isEmpty()) {
             myRidesList.setAdapter(new MyRidesAdapter(rides, (MainAct) getActivity()));
@@ -69,8 +71,6 @@ public class MyRidesFrag extends Fragment {
 
     @OnClick(R.id.button2)
     public void button2() {
-        ArrayList<Ride> rides = (ArrayList<Ride>) Ride.listAll(Ride.class);
-
         for (final Ride ride : rides) {
             App.getNetworkService().deleteRide(new RideIdForJson(ride.getDbId()), new Callback<Response>() {
                 @Override
@@ -85,5 +85,9 @@ public class MyRidesFrag extends Fragment {
                 }
             });
         }
+
+        App.toast("Caronas deletadas");
+        rides.clear();
+        myRidesList.getAdapter().notifyDataSetChanged();
     }
 }
