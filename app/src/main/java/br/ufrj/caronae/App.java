@@ -74,6 +74,7 @@ public class App extends SugarApp {
         removePref(USER_PREF_KEY);
         removePref(LAST_RIDE_OFFER_PREF_KEY);
         removePref(LAST_RIDE_SEARCH_FILTERS_PREF_KEY);
+        removePref(GCM_TOKEN_PREF_KEY);
         Ride.deleteAll(Ride.class);
     }
 
