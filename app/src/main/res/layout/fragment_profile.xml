@@ -87,10 +87,29 @@
             android:src="@drawable/color_bar"/>
 
         <TextView
-            android:id="@+id/contact_tv"
+            android:id="@+id/notif_text_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/color_bar"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:text="Alertas e notificações"
+            android:textStyle="bold" />
+
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/notif_sw"
+            android:layout_width="wrap_content"
+            android:checked="true"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/notif_text_tv"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true" />
+
+        <TextView
+            android:id="@+id/contact_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/notif_text_tv"
             android:paddingTop="10dp"
             android:text="CONTATOS"
             android:textStyle="bold" />

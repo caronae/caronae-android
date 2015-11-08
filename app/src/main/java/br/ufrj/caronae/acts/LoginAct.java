@@ -62,6 +62,7 @@ public class LoginAct extends AppCompatActivity {
 
                 App.saveUser(userWithRides.getUser());
                 App.saveToken(token);
+                App.putPref(App.NOTIFICATIONS_ON_PREF_KEY, "true");
 
                 new SaveRidesAsync(userWithRides).execute();
 

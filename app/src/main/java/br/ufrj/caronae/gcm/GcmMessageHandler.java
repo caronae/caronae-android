@@ -22,7 +22,8 @@ public class GcmMessageHandler extends GcmListenerService {
 
         Log.i("onMessageReceived", message);
 
-        createNotification(message);
+        if (App.getPref(App.NOTIFICATIONS_ON_PREF_KEY).equals("true"))
+            createNotification(message);
     }
 
     // Creates notification based on title and body received

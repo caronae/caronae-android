@@ -35,6 +35,7 @@ public class App extends SugarApp {
     public static final String LAST_RIDE_SEARCH_FILTERS_PREF_KEY = "lastRideSearchFilters";
     public static final String TOKEN_PREF_KEY = "token";
     public static final String GCM_TOKEN_PREF_KEY = "gcmToken";
+    public static final String NOTIFICATIONS_ON_PREF_KEY = "notifOn";
 
     public static final String APIARY_ENDPOINT = "http://private-5b9ed6-caronae.apiary-mock.com";
     public static final String LUISDIGOCEAN_ENDPOINT = "http://104.131.31.224/";
@@ -75,6 +76,7 @@ public class App extends SugarApp {
         removePref(LAST_RIDE_OFFER_PREF_KEY);
         removePref(LAST_RIDE_SEARCH_FILTERS_PREF_KEY);
         removePref(GCM_TOKEN_PREF_KEY);
+        removePref(NOTIFICATIONS_ON_PREF_KEY);
         Ride.deleteAll(Ride.class);
     }
 

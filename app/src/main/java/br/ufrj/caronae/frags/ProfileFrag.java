@@ -51,6 +51,8 @@ public class ProfileFrag extends Fragment {
     EditText location_et;
     @Bind(R.id.carOwner_sw)
     SwitchCompat carOwner_sw;
+    @Bind(R.id.notif_sw)
+    SwitchCompat notif_sw;
     @Bind(R.id.carModel_et)
     EditText carModel_et;
     @Bind(R.id.carColor_et)
@@ -89,6 +91,9 @@ public class ProfileFrag extends Fragment {
                 e.printStackTrace();
             }
             createdAt_tv.setText("Usuário desde " + date);
+
+            String notifOn = App.getPref(App.NOTIFICATIONS_ON_PREF_KEY);
+            notif_sw.setChecked(notifOn.equals("true"));
         }
 
         carOwnerSw();
@@ -106,6 +111,11 @@ public class ProfileFrag extends Fragment {
     @OnClick(R.id.carOwner_sw)
     public void carOwnerSw() {
         car_lay.setVisibility(carOwner_sw.isChecked() ? View.VISIBLE : View.GONE);
+    }
+
+    @OnClick(R.id.notif_sw)
+    public void notif_sw() {
+        App.putPref(App.NOTIFICATIONS_ON_PREF_KEY, notif_sw.isChecked() ? "true" : "false");
     }
 
     @OnClick(R.id.location_et)
