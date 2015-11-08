@@ -34,9 +34,6 @@ public class RegistrationIntentService extends IntentService {
             String token = instanceID.getToken(senderId, GoogleCloudMessaging.INSTANCE_ID_SCOPE);
             Log.d(TAG, "GCM Registration Token: " + token);
 
-            // save token
-            App.putPref(App.GCM_TOKEN_PREF_KEY, token);
-
             // pass along this data
             sendRegistrationToServer(token);
         } catch (IOException e) {
@@ -47,18 +44,20 @@ public class RegistrationIntentService extends IntentService {
         }
     }
 
-    private void sendRegistrationToServer(String token) {
+    private void sendRegistrationToServer(final String token) {
         // send network request
-        App.getNetworkService().sendGcmToken(new TokenForJson(token), new Callback<Response>() {
+        App.getNetworkService().saveGcmToken(new TokenForJson(token), new Callback<Response>() {
             @Override
             public void success(Response response, Response response2) {
-                App.toast("Token GCM enviado");
+                Log.i("saveGcmToken", "gcm token sent to server");
+
+                // save token
+                App.putPref(App.GCM_TOKEN_PREF_KEY, token);
             }
 
             @Override
             public void failure(RetrofitError error) {
-                App.toast("Erro ao enviar Token GCM");
-                Log.e("sendGcmToken", error.getMessage());
+                Log.e("saveGcmToken", error.getMessage());
             }
         });
 

@@ -2,6 +2,7 @@ package br.ufrj.caronae;
 
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
@@ -24,7 +25,10 @@ import br.ufrj.caronae.components.DaggerNetworkComponent;
 import br.ufrj.caronae.components.NetworkComponent;
 import br.ufrj.caronae.models.Ride;
 import br.ufrj.caronae.models.User;
+import br.ufrj.caronae.models.modelsforjson.TokenForJson;
 import br.ufrj.caronae.modules.NetworkModule;
+import retrofit.Callback;
+import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 public class App extends SugarApp {
@@ -71,6 +75,18 @@ public class App extends SugarApp {
     }
 
     public static void logOut() {
+        getNetworkService().clearGcmToken(new TokenForJson(""), new Callback<Response>() {
+            @Override
+            public void success(Response response, Response response2) {
+                Log.i("clearGcmToken", "gcm token cleared");
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Log.e("clearGcmToken", error.getMessage());
+            }
+        });
+
         user = null;
         removePref(USER_PREF_KEY);
         removePref(LAST_RIDE_OFFER_PREF_KEY);

@@ -50,7 +50,7 @@ public class LoginAct extends AppCompatActivity {
     public void sendBt() {
         final ProgressDialog pd = ProgressDialog.show(this, "", "Aguarde", true, true);
         final String token = token_et.getText().toString();
-        App.getNetworkService().sendToken(new TokenForJson(token), new Callback<UserWithRidesForJson>() {
+        App.getNetworkService().login(new TokenForJson(token), new Callback<UserWithRidesForJson>() {
             @Override
             public void success(UserWithRidesForJson userWithRides, Response response) {
                 pd.dismiss();
@@ -74,7 +74,7 @@ public class LoginAct extends AppCompatActivity {
             public void failure(RetrofitError retrofitError) {
                 pd.dismiss();
                 App.toast("Erro ao fazer login");
-                Log.e("sendToken", retrofitError.getMessage());
+                Log.e("login", retrofitError.getMessage());
             }
         });
     }

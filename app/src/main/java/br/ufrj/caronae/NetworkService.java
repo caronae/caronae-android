@@ -20,17 +20,20 @@ import retrofit.http.PUT;
 import retrofit.http.Path;
 
 public interface NetworkService {
-    @POST("/user/auth")
-    void sendToken(@Body TokenForJson token, Callback<UserWithRidesForJson> cb);
-
-    @PUT("/user/a")
-    void updateUser(@Body User user, Callback<Response> cb);
-
     @GET("/user/signup/{name}/{token}")
     void signUp(@Path("name") String name, @Path("token") String token, Callback<Response> cb);
 
-    @POST("/user/saveGcmToken")
-    void sendGcmToken(@Body TokenForJson token, Callback<Response> cb);
+    @POST("/user/login")
+    void login(@Body TokenForJson token, Callback<UserWithRidesForJson> cb);
+
+    @PUT("/user/update")
+    void updateUser(@Body User user, Callback<Response> cb);
+
+    @PUT("/user/saveGcmToken")
+    void saveGcmToken(@Body TokenForJson token, Callback<Response> cb);
+
+    @PUT("/user/clearGcmToken")
+    void clearGcmToken(@Body TokenForJson token, Callback<Response> cb);
 
     @POST("/ride")
     void offerRide(@Body Ride ride, Callback<List<Ride>> cb);

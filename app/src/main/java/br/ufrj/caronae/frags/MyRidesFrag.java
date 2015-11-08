@@ -73,7 +73,7 @@ public class MyRidesFrag extends Fragment {
             App.getNetworkService().deleteRide(new RideIdForJson(ride.getDbId()), new Callback<Response>() {
                 @Override
                 public void success(Response response, Response response2) {
-                    Log.i("deleteRide", "carona " + ride.getDbId() + "deletada");
+                    Log.i("deleteRide", "ride " + ride.getDbId() + " deleted");
                     ride.delete();
                 }
 
