@@ -40,7 +40,7 @@ public interface NetworkService {
     @POST("/ride/store")
     void offerRide(@Body Ride ride, Callback<List<Ride>> cb);
 
-    @POST("/ride/list")
+    @POST("/ride/listFiltered")
     void getRideOffers(@Body RideSearchFiltersForJson rideSearchFilters, Callback<List<RideOfferForJson>> cb);
 
     @POST("/ride/requestJoin")
