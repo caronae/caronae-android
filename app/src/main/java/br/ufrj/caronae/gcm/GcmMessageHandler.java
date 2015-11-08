@@ -29,9 +29,9 @@ public class GcmMessageHandler extends GcmListenerService {
     private void createNotification(String message) {
         Context context = App.inst();Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
-                .setSmallIcon(R.mipmap.ic_launcher).setContentTitle(message)
-                .setSound(alarmSound);
-                //.setContentText(message);
+                .setSmallIcon(R.mipmap.ic_launcher).setContentTitle("Aviso de carona")
+                .setSound(alarmSound)
+                .setContentText(message);
         NotificationManager mNotificationManager = (NotificationManager) context
                 .getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.notify(MESSAGE_NOTIFICATION_ID, mBuilder.build());
