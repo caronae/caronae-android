@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -13,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -36,8 +34,8 @@ import br.ufrj.caronae.R;
 import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.adapters.RideOfferAdapter;
 import br.ufrj.caronae.comparators.RideOfferComparatorByTime;
-import br.ufrj.caronae.models.RideOfferForJson;
-import br.ufrj.caronae.models.RideSearchFiltersForJson;
+import br.ufrj.caronae.models.modelsforjson.RideOfferForJson;
+import br.ufrj.caronae.models.modelsforjson.RideSearchFiltersForJson;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -213,9 +211,8 @@ public class RideSearchFrag extends Fragment {
 
         String location = location_et.getText().toString();
         if (location.isEmpty()) {
-            App.toast("Escolha um local");
-            pd.dismiss();
-            return;
+            location_et.setText("Benfica");
+            location = location_et.getText().toString();
         }
         String date = date_et.getText().toString();
         if (date.isEmpty()) {

@@ -16,8 +16,8 @@ import java.util.List;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
-import br.ufrj.caronae.models.RideIdForJson;
-import br.ufrj.caronae.models.RideOfferForJson;
+import br.ufrj.caronae.models.modelsforjson.RideIdForJson;
+import br.ufrj.caronae.models.modelsforjson.RideOfferForJson;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;

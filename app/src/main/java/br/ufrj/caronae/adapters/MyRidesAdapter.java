@@ -18,7 +18,7 @@ import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.models.Ride;
-import br.ufrj.caronae.models.RideIdForJson;
+import br.ufrj.caronae.models.modelsforjson.RideIdForJson;
 import br.ufrj.caronae.models.User;
 import retrofit.Callback;
 import retrofit.RetrofitError;

@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
-import br.ufrj.caronae.models.JoinRequestIDsForJson;
+import br.ufrj.caronae.models.modelsforjson.JoinRequestIDsForJson;
 import br.ufrj.caronae.models.User;
 import retrofit.Callback;
 import retrofit.RetrofitError;

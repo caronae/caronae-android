@@ -1,4 +1,4 @@
-package br.ufrj.caronae.models;
+package br.ufrj.caronae.models.modelsforjson;
 
 public class RideSearchFiltersForJson {
     private String location;

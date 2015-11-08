@@ -2,7 +2,6 @@ package br.ufrj.caronae.frags;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,7 +9,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -19,10 +17,9 @@ import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.adapters.MyActiveRidesAdapter;
-import br.ufrj.caronae.models.RideWithUsersForJson;
+import br.ufrj.caronae.models.modelsforjson.RideWithUsersForJson;
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;

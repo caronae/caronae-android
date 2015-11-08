@@ -1,6 +1,9 @@
-package br.ufrj.caronae.models;
+package br.ufrj.caronae.models.modelsforjson;
 
 import java.util.List;
+
+import br.ufrj.caronae.models.Ride;
+import br.ufrj.caronae.models.User;
 
 public class RideWithUsersForJson {
     private Ride ride;

@@ -1,4 +1,7 @@
-package br.ufrj.caronae.models;
+package br.ufrj.caronae.models.modelsforjson;
+
+import br.ufrj.caronae.models.Ride;
+import br.ufrj.caronae.models.User;
 
 public class RideOfferForJson {
     private String driverName;

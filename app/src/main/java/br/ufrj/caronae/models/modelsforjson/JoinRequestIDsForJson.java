@@ -1,4 +1,4 @@
-package br.ufrj.caronae.models;
+package br.ufrj.caronae.models.modelsforjson;
 
 public class JoinRequestIDsForJson {
     private final int userId;

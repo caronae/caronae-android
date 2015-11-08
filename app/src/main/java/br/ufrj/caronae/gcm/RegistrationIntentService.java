@@ -11,7 +11,7 @@ import java.io.IOException;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
-import br.ufrj.caronae.models.TokenForJson;
+import br.ufrj.caronae.models.modelsforjson.TokenForJson;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;

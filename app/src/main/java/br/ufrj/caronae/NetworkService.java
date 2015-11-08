@@ -2,15 +2,15 @@ package br.ufrj.caronae;
 
 import java.util.List;
 
-import br.ufrj.caronae.models.JoinRequestIDsForJson;
+import br.ufrj.caronae.models.modelsforjson.JoinRequestIDsForJson;
 import br.ufrj.caronae.models.Ride;
-import br.ufrj.caronae.models.RideIdForJson;
-import br.ufrj.caronae.models.RideOfferForJson;
-import br.ufrj.caronae.models.RideSearchFiltersForJson;
-import br.ufrj.caronae.models.RideWithUsersForJson;
-import br.ufrj.caronae.models.TokenForJson;
+import br.ufrj.caronae.models.modelsforjson.RideIdForJson;
+import br.ufrj.caronae.models.modelsforjson.RideOfferForJson;
+import br.ufrj.caronae.models.modelsforjson.RideSearchFiltersForJson;
+import br.ufrj.caronae.models.modelsforjson.RideWithUsersForJson;
+import br.ufrj.caronae.models.modelsforjson.TokenForJson;
 import br.ufrj.caronae.models.User;
-import br.ufrj.caronae.models.UserWithRidesForJson;
+import br.ufrj.caronae.models.modelsforjson.UserWithRidesForJson;
 import retrofit.Callback;
 import retrofit.client.Response;
 import retrofit.http.Body;
@@ -20,11 +20,17 @@ import retrofit.http.PUT;
 import retrofit.http.Path;
 
 public interface NetworkService {
-    @POST("/auth")
+    @POST("/user/auth")
     void sendToken(@Body TokenForJson token, Callback<UserWithRidesForJson> cb);
 
     @PUT("/user/a")
     void updateUser(@Body User user, Callback<Response> cb);
+
+    @GET("/user/signup/{name}/{token}")
+    void signUp(@Path("name") String name, @Path("token") String token, Callback<Response> cb);
+
+    @POST("/user/saveGcmToken")
+    void sendGcmToken(@Body TokenForJson token, Callback<Response> cb);
 
     @POST("/ride")
     void offerRide(@Body Ride ride, Callback<List<Ride>> cb);
@@ -49,10 +55,4 @@ public interface NetworkService {
 
     @POST("/ride/leaveRide")
     void leaveRide(@Body RideIdForJson rideId, Callback<Response> cb);
-
-    @GET("/signup/{name}/{token}")
-    void signUp(@Path("name") String name, @Path("token") String token, Callback<Response> cb);
-
-    @POST("/user/saveGcmToken")
-    void sendGcmToken(@Body TokenForJson token, Callback<Response> cb);
 }

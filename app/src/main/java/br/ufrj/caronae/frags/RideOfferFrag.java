@@ -226,8 +226,9 @@ public class RideOfferFrag extends Fragment {
     public void sendBt() {
         String neighborhood = neighborhood_et.getText().toString();
         if (neighborhood.isEmpty()) {
-            App.toast("Escolha um bairro");
-            return;
+            neighborhood_et.setText("Benfica");
+            zone = "Centro";
+            neighborhood = neighborhood_et.getText().toString();
         }
         String place = place_et.getText().toString();
         String way = way_et.getText().toString();
