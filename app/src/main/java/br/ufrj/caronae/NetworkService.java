@@ -20,6 +20,7 @@ import retrofit.http.PUT;
 import retrofit.http.Path;
 
 public interface NetworkService {
+    //user routes
     @GET("/user/signup/{name}/{token}")
     void signUp(@Path("name") String name, @Path("token") String token, Callback<Response> cb);
 
@@ -35,7 +36,8 @@ public interface NetworkService {
     @PUT("/user/clearGcmToken")
     void clearGcmToken(@Body TokenForJson token, Callback<Response> cb);
 
-    @POST("/ride")
+    //ride routes
+    @POST("/ride/store")
     void offerRide(@Body Ride ride, Callback<List<Ride>> cb);
 
     @POST("/ride/list")
