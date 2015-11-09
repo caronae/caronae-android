@@ -75,7 +75,7 @@ public class App extends SugarApp {
     }
 
     public static void logOut() {
-        getNetworkService().clearGcmToken(new TokenForJson(""), new Callback<Response>() {
+        getNetworkService().saveGcmToken(new TokenForJson(""), new Callback<Response>() {
             @Override
             public void success(Response response, Response response2) {
                 Log.i("clearGcmToken", "gcm token cleared");

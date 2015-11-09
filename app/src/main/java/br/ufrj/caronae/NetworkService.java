@@ -28,14 +28,11 @@ public interface NetworkService {
     @POST("/user/login")
     void login(@Body TokenForJson token, Callback<UserWithRidesForJson> cb);
 
-    @PUT("/user/update")
+    @PUT("/user")
     void updateUser(@Body User user, Callback<Response> cb);
 
     @PUT("/user/saveGcmToken")
     void saveGcmToken(@Body TokenForJson token, Callback<Response> cb);
-
-    @PUT("/user/clearGcmToken")
-    void clearGcmToken(@Body TokenForJson token, Callback<Response> cb);
 
     //ride routes
     @POST("/ride")
