@@ -80,7 +80,7 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
             @Override
             public void onClick(View view) {
                 viewHolder.join_bt.setVisibility(View.GONE);
-                App.getNetworkService().sendJoinRequest(new RideIdForJson(rideOffer.getRideId()), new Callback<Response>() {
+                App.getNetworkService().requestJoin(new RideIdForJson(rideOffer.getRideId()), new Callback<Response>() {
                     @Override
                     public void success(Response response, Response response2) {
                         App.toast("Solicitação enviada");
@@ -89,7 +89,7 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
                     @Override
                     public void failure(RetrofitError error) {
                         App.toast("Erro no envio da solicitação");
-                        Log.e("sendJoinRequest", error.getMessage());
+                        Log.e("requestJoin", error.getMessage());
                     }
                 });
             }

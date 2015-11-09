@@ -227,7 +227,7 @@ public class RideSearchFrag extends Fragment {
         String lastRideSearchFilters = new Gson().toJson(rideSearchFilters);
         App.putPref(App.LAST_RIDE_SEARCH_FILTERS_PREF_KEY, lastRideSearchFilters);
 
-        App.getNetworkService().getRideOffers(rideSearchFilters, new Callback<List<RideOfferForJson>>() {
+        App.getNetworkService().listFiltered(rideSearchFilters, new Callback<List<RideOfferForJson>>() {
             @Override
             public void success(List<RideOfferForJson> rideOffers, Response response) {
                 if (rideOffers != null) {
@@ -246,7 +246,7 @@ public class RideSearchFrag extends Fragment {
             public void failure(RetrofitError error) {
                 pd.dismiss();
                 App.toast("Erro ao obter caronas");
-                Log.e("getRideOffers", error.getMessage());
+                Log.e("listFiltered", error.getMessage());
             }
         });
     }

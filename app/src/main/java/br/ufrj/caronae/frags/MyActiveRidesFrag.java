@@ -41,7 +41,7 @@ public class MyActiveRidesFrag extends Fragment {
         ButterKnife.bind(this, view);
 
         final ProgressDialog pd = ProgressDialog.show(getActivity(), "", "Aguarde", true, true);
-        App.getNetworkService().getMyActiveRides(App.getUser(), new Callback<List<RideWithUsersForJson>>() {
+        App.getNetworkService().getMyActiveRides(new Callback<List<RideWithUsersForJson>>() {
             @Override
             public void success(List<RideWithUsersForJson> response, Response response2) {
                 if (response == null || response.isEmpty()) {

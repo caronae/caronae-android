@@ -91,7 +91,7 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
             @Override
             public void onClick(View view) {
                 holder.delete_bt.setVisibility(View.GONE);
-                App.getNetworkService().deleteRide(new RideIdForJson(ride.getDbId()), new Callback<Response>() {
+                App.getNetworkService().deleteRide(""+ride.getDbId(), new Callback<Response>() {
                     @Override
                     public void success(Response response, Response response2) {
                         App.toast("Carona excluída");
@@ -114,7 +114,7 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
             @Override
             public void onClick(View view) {
                 final ProgressDialog pd = ProgressDialog.show(activity, "", "Aguarde", true, true);
-                App.getNetworkService().getRequesters(new RideIdForJson(ride.getDbId()), new Callback<List<User>>() {
+                App.getNetworkService().getRequesters(""+ride.getDbId(), new Callback<List<User>>() {
                     @Override
                     public void success(List<User> users, Response response) {
                         pd.dismiss();

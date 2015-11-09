@@ -69,8 +69,11 @@ public class MyRidesFrag extends Fragment {
 
     @OnClick(R.id.button2)
     public void button2() {
+        if (rides == null || rides.isEmpty())
+            return;
+
         for (final Ride ride : rides) {
-            App.getNetworkService().deleteRide(new RideIdForJson(ride.getDbId()), new Callback<Response>() {
+            App.getNetworkService().deleteRide(""+ride.getDbId(), new Callback<Response>() {
                 @Override
                 public void success(Response response, Response response2) {
                     Log.i("deleteRide", "ride " + ride.getDbId() + " deleted");
