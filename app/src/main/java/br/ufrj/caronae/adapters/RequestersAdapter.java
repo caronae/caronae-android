@@ -44,7 +44,7 @@ public class RequestersAdapter extends RecyclerView.Adapter<RequestersAdapter.Vi
     }
 
     @Override
-    public void onBindViewHolder(RequestersAdapter.ViewHolder holder, final int position) {
+    public void onBindViewHolder(final RequestersAdapter.ViewHolder holder, final int position) {
         final User user = users.get(position);
 
         holder.course_tv.setText(user.getCourse());
@@ -69,7 +69,7 @@ public class RequestersAdapter extends RecyclerView.Adapter<RequestersAdapter.Vi
                     public void success(Response response, Response response2) {
                         App.toast("Solicitação aceita");
                         users.remove(user);
-                        notifyItemRemoved(position);
+                        notifyItemRemoved(holder.getAdapterPosition());
                     }
 
                     @Override
@@ -89,7 +89,7 @@ public class RequestersAdapter extends RecyclerView.Adapter<RequestersAdapter.Vi
                     public void success(Response response, Response response2) {
                         App.toast("Solicitação rejeitada");
                         users.remove(user);
-                        notifyItemRemoved(position);
+                        notifyItemRemoved(holder.getAdapterPosition());
                     }
 
                     @Override

@@ -90,13 +90,13 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
         holder.delete_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                holder.delete_bt.setVisibility(View.GONE);
-                App.getNetworkService().deleteRide(""+ride.getDbId(), new Callback<Response>() {
+                //holder.delete_bt.setVisibility(View.GONE);
+                App.getNetworkService().deleteRide(ride.getDbId()+"", new Callback<Response>() {
                     @Override
                     public void success(Response response, Response response2) {
                         App.toast("Carona excluída");
                         rides.remove(ride);
-                        notifyItemRemoved(position);
+                        notifyItemRemoved(holder.getAdapterPosition());
                         ride.delete();
                     }
 
@@ -114,7 +114,7 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
             @Override
             public void onClick(View view) {
                 final ProgressDialog pd = ProgressDialog.show(activity, "", "Aguarde", true, true);
-                App.getNetworkService().getRequesters(""+ride.getDbId(), new Callback<List<User>>() {
+                App.getNetworkService().getRequesters(ride.getDbId()+"", new Callback<List<User>>() {
                     @Override
                     public void success(List<User> users, Response response) {
                         pd.dismiss();

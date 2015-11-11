@@ -46,7 +46,7 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, final int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         final RideWithUsersForJson rideWithUsers = ridesList.get(position);
 
         final Ride ride = rideWithUsers.getRide();
@@ -107,9 +107,9 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
                     public void success(Response response, Response response2) {
                         App.toast("Carona excluída");
                         ridesList.remove(rideWithUsers);
-                        notifyItemRemoved(position);
+                        notifyItemRemoved(holder.getAdapterPosition());
 
-                        List<Ride> rides = Ride.find(Ride.class, "zone = ? and neighborhood = ? and date = ? and time = ?", ride.getZone(), ride.getNeighborhood(), App.formatBadDateWithYear(ride.getDate()), App.formatTime(ride.getTime()));
+                        List<Ride> rides = Ride.find(Ride.class, "db_id = ?", ride.getDbId()+"");
                         if (rides != null && !rides.isEmpty())
                             rides.get(0).delete();
                     }
