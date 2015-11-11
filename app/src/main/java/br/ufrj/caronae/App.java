@@ -78,12 +78,12 @@ public class App extends SugarApp {
         getNetworkService().saveGcmToken(new TokenForJson(""), new Callback<Response>() {
             @Override
             public void success(Response response, Response response2) {
-                Log.i("clearGcmToken", "gcm token cleared");
+                Log.i("saveGcmToken", "gcm token cleared");
             }
 
             @Override
             public void failure(RetrofitError error) {
-                Log.e("clearGcmToken", error.getMessage());
+                Log.e("saveGcmToken", error.getMessage());
             }
         });
 
@@ -91,7 +91,6 @@ public class App extends SugarApp {
         removePref(USER_PREF_KEY);
         removePref(LAST_RIDE_OFFER_PREF_KEY);
         removePref(LAST_RIDE_SEARCH_FILTERS_PREF_KEY);
-        removePref(GCM_TOKEN_PREF_KEY);
         removePref(NOTIFICATIONS_ON_PREF_KEY);
         Ride.deleteAll(Ride.class);
     }

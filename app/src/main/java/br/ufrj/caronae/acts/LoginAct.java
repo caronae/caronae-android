@@ -66,6 +66,21 @@ public class LoginAct extends AppCompatActivity {
 
                 new SaveRidesAsync(userWithRides).execute();
 
+                String gcmToken = App.getPref(App.GCM_TOKEN_PREF_KEY);
+                if (!gcmToken.equals(App.MISSING_PREF)) {
+                    App.getNetworkService().saveGcmToken(new TokenForJson(gcmToken), new Callback<Response>() {
+                        @Override
+                        public void success(Response response, Response response2) {
+                            Log.i("saveGcmToken", "gcm token sent to server");
+                        }
+
+                        @Override
+                        public void failure(RetrofitError error) {
+                            Log.e("saveGcmToken", error.getMessage());
+                        }
+                    });
+                }
+
                 startActivity(new Intent(LoginAct.this, MainAct.class));
                 LoginAct.this.finish();
             }
@@ -78,7 +93,6 @@ public class LoginAct extends AppCompatActivity {
             }
         });
     }
-
 
     @OnClick(R.id.logo)
     public void signUp() {
@@ -101,5 +115,4 @@ public class LoginAct extends AppCompatActivity {
             return null;
         }
     }
-
 }
