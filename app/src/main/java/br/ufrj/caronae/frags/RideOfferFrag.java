@@ -2,6 +2,7 @@ package br.ufrj.caronae.frags;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -96,7 +97,21 @@ public class RideOfferFrag extends Fragment {
             loadLastRide(lastRideOffer);
         }
 
+        checkCarOwnerDialog();
+
         return view;
+    }
+
+    private boolean checkCarOwnerDialog() {
+        if (!App.getUser().isCarOwner()) {
+            new AlertDialog.Builder(getActivity())
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setMessage(R.string.notCarOwner)
+                    .show();
+            return false;
+        }
+
+        return true;
     }
 
     private void loadLastRide(String lastRideOffer) {
@@ -224,6 +239,9 @@ public class RideOfferFrag extends Fragment {
 
     @OnClick(R.id.send_bt)
     public void sendBt() {
+        if (!checkCarOwnerDialog())
+            return;
+
         String neighborhood = neighborhood_et.getText().toString();
         if (neighborhood.isEmpty()) {
             neighborhood_et.setText("Benfica");
