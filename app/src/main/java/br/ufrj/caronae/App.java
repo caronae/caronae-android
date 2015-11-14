@@ -107,6 +107,10 @@ public class App extends SugarApp {
         putPref(TOKEN_PREF_KEY, token);
     }
 
+    public static String getUserGcmToken() {
+        return getPref(GCM_TOKEN_PREF_KEY);
+    }
+
     private static SharedPreferences getSharedPreferences() {
         return PreferenceManager.getDefaultSharedPreferences(inst());
     }
@@ -130,6 +134,7 @@ public class App extends SugarApp {
     public static NetworkService getNetworkService() {
         if (component == null) {
             //String endpoint = EUDIGOCEAN_DEV_ENDPOINT;
+            //String endpoint = EUDIGOCEAN_PROD_ENDPOINT;
             String endpoint = LOCAL_SERV_ENDPOINT;
             component = DaggerNetworkComponent.builder().networkModule(new NetworkModule(endpoint)).build();
         }

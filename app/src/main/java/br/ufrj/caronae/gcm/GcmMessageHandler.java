@@ -9,6 +9,9 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.google.android.gms.gcm.GcmListenerService;
+import com.google.android.gms.gcm.GcmPubSub;
+
+import java.io.IOException;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
@@ -19,8 +22,22 @@ public class GcmMessageHandler extends GcmListenerService {
     @Override
     public void onMessageReceived(String from, Bundle data) {
         String message = data.getString("message");
+        String msgType = data.getString("msgType");
 
         Log.i("onMessageReceived", message);
+
+        if (msgType != null && msgType.equals("accepted")) {
+            String rideId = data.getString("rideId");
+            if (App.getPref(rideId).equals(App.MISSING_PREF) ||
+                    !App.getPref(rideId).equals("subscribed")) {
+                try {
+                    GcmPubSub.getInstance(getBaseContext()).subscribe(App.getUserGcmToken(), "/topics/" + rideId, null);
+                    App.putPref(rideId, "subscribed");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
 
         if (App.getPref(App.NOTIFICATIONS_ON_PREF_KEY).equals("true"))
             createNotification(message);
@@ -28,7 +45,8 @@ public class GcmMessageHandler extends GcmListenerService {
 
     // Creates notification based on title and body received
     private void createNotification(String message) {
-        Context context = App.inst();Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        Context context = App.inst();
+        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
                 .setSmallIcon(R.mipmap.ic_launcher).setContentTitle("Aviso de carona")
                 .setSound(alarmSound)

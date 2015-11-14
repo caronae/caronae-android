@@ -1,6 +1,7 @@
 package br.ufrj.caronae.frags;
 
 import android.app.ProgressDialog;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,12 +12,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.android.gms.gcm.GcmPubSub;
+
+import java.io.IOException;
 import java.util.List;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.adapters.MyActiveRidesAdapter;
+import br.ufrj.caronae.models.Ride;
 import br.ufrj.caronae.models.modelsforjson.RideWithUsersForJson;
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -43,14 +48,19 @@ public class MyActiveRidesFrag extends Fragment {
         final ProgressDialog pd = ProgressDialog.show(getActivity(), "", "Aguarde", true, true);
         App.getNetworkService().getMyActiveRides(new Callback<List<RideWithUsersForJson>>() {
             @Override
-            public void success(List<RideWithUsersForJson> response, Response response2) {
-                if (response == null || response.isEmpty()) {
+            public void success(List<RideWithUsersForJson> rideWithUsersList, Response response) {
+                if (rideWithUsersList == null || rideWithUsersList.isEmpty()) {
                     norides_tv.setVisibility(View.VISIBLE);
                     pd.dismiss();
                     return;
                 }
 
-                myRidesList.setAdapter(new MyActiveRidesAdapter(response, (MainAct) getActivity()));
+                //subscribe to ride id topic
+                if (!App.getUserGcmToken().equals(App.MISSING_PREF)) {
+                    new SubscribeToRideTopics(rideWithUsersList).execute();
+                }
+
+                myRidesList.setAdapter(new MyActiveRidesAdapter(rideWithUsersList, (MainAct) getActivity()));
                 myRidesList.setHasFixedSize(true);
                 myRidesList.setLayoutManager(new LinearLayoutManager(getActivity()));
 
@@ -68,4 +78,31 @@ public class MyActiveRidesFrag extends Fragment {
 
         return view;
     }
+
+    private class SubscribeToRideTopics extends AsyncTask<Void, Void, Void> {
+        private final List<RideWithUsersForJson> rideWithUsersList;
+
+        public SubscribeToRideTopics(List<RideWithUsersForJson> rideWithUsersList) {
+            this.rideWithUsersList = rideWithUsersList;
+        }
+
+        @Override
+        protected Void doInBackground(Void... arg0) {
+            for (RideWithUsersForJson rideWithUsers : rideWithUsersList) {
+                int rideId = rideWithUsers.getRide().getDbId();
+                if (App.getPref(rideId + "").equals(App.MISSING_PREF) ||
+                        !App.getPref(rideId + "").equals("subscribed")) {
+                    try {
+                        GcmPubSub.getInstance(getActivity()).subscribe(App.getUserGcmToken(), "/topics/" + rideId, null);
+                        App.putPref(rideId + "", "true");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            return null;
+        }
+    }
+
 }
