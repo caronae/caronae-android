@@ -1,6 +1,7 @@
 package br.ufrj.caronae;
 
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
@@ -92,13 +93,35 @@ public class App extends SugarApp {
         });
 
         user = null;
-        removePref(USER_PREF_KEY);
-        removePref(LAST_RIDE_OFFER_PREF_KEY);
-        removePref(LAST_RIDE_SEARCH_FILTERS_PREF_KEY);
-        removePref(NOTIFICATIONS_ON_PREF_KEY);
-        Ride.deleteAll(Ride.class);
+        new MoreLogOutAsyncJob().execute();
+    }
 
-        //String gcmToken = getPref(GCM_TOKEN_PREF_KEY);
+    public static class MoreLogOutAsyncJob extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected Void doInBackground(Void... arg0) {
+            removePref(USER_PREF_KEY);
+            removePref(LAST_RIDE_OFFER_PREF_KEY);
+            removePref(LAST_RIDE_SEARCH_FILTERS_PREF_KEY);
+            removePref(NOTIFICATIONS_ON_PREF_KEY);
+            Ride.deleteAll(Ride.class);
+
+            List<ActiveRideId> activeRideIds = ActiveRideId.listAll(ActiveRideId.class);
+            if (activeRideIds != null && !activeRideIds.isEmpty()) {
+                GcmPubSub pubSub = GcmPubSub.getInstance(inst);
+                for (ActiveRideId ari : activeRideIds) {
+                    try {
+                        pubSub.unsubscribe(getUserGcmToken(), "/topics/" + ari.getRideId());
+                        Log.i("logOut", "unsubscribed from ride " + ari.getRideId());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            ActiveRideId.deleteAll(ActiveRideId.class);
+
+            return null;
+        }
     }
 
     public static void saveUser(User user) {
@@ -118,7 +141,7 @@ public class App extends SugarApp {
     }
 
     private static SharedPreferences getSharedPreferences() {
-        return PreferenceManager.getDefaultSharedPreferences(inst());
+        return PreferenceManager.getDefaultSharedPreferences(inst);
     }
 
     private static SharedPreferences.Editor getSharedPrefEditor() {
@@ -242,7 +265,7 @@ public class App extends SugarApp {
     }
 
     public static void toast(String msg) {
-        Toast.makeText(App.inst(), msg, Toast.LENGTH_SHORT).show();
+        Toast.makeText(App.inst, msg, Toast.LENGTH_SHORT).show();
     }
 
     public static String[] getZones() {
