@@ -9,11 +9,12 @@ public class ChatMessageToSend {
     private String to;
     private Map<String, String> data;
 
-    public ChatMessageToSend(int dbId, String message) {
+    public ChatMessageToSend(String dbId, String message) {
         to = "/topics/" + dbId;
         data = new HashMap<>();
         data.put("message", message);
         data.put("msgType", "chat");
+        data.put("rideId", dbId);
         data.put("senderName", App.getUser().getName());
     }
 

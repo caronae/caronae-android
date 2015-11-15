@@ -103,25 +103,6 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
         activity.getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
         holder.layout.getLayoutParams().height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, rideWithUsers.getUsers().size() * 30 + 600, activity.getResources().getDisplayMetrics());*/
 
-        //chat message send simulation
-        holder.name_tv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                App.getChatService().sendChatMsg(new ChatMessageToSend(ride.getDbId(), "oi galera"), new Callback<Response>() {
-                    @Override
-                    public void success(Response response, Response response2) {
-
-                    }
-
-                    @Override
-                    public void failure(RetrofitError error) {
-                        App.toast("Erro ao enviar mensagem de chat");
-                        Log.e("sendChatMsg", error.getMessage());
-                    }
-                });
-            }
-        });
-
         holder.chat_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
