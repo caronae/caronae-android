@@ -57,7 +57,10 @@ public class MyActiveRidesFrag extends Fragment {
 
                 //subscribe to ride id topic
                 if (!App.getUserGcmToken().equals(App.MISSING_PREF)) {
+                    Log.i("getMyActiveRides", "i have gcm token");
                     new SubscribeToRideTopics(rideWithUsersList).execute();
+                } else {
+                    Log.i("getMyActiveRides", "i DO NOT have gcm token");
                 }
 
                 myRidesList.setAdapter(new MyActiveRidesAdapter(rideWithUsersList, (MainAct) getActivity()));
@@ -89,16 +92,8 @@ public class MyActiveRidesFrag extends Fragment {
         @Override
         protected Void doInBackground(Void... arg0) {
             for (RideWithUsersForJson rideWithUsers : rideWithUsersList) {
-                int rideId = rideWithUsers.getRide().getDbId();
-                if (App.getPref(rideId + "").equals(App.MISSING_PREF) ||
-                        !App.getPref(rideId + "").equals("subscribed")) {
-                    try {
-                        GcmPubSub.getInstance(getActivity()).subscribe(App.getUserGcmToken(), "/topics/" + rideId, null);
-                        App.putPref(rideId + "", "true");
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
+                int rideId = rideWithUsers.getRide().getId().intValue();
+                App.subscribeToTopicIfNeeded(rideId + "");
             }
 
             return null;

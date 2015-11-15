@@ -17,6 +17,7 @@ import java.util.List;
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.acts.MainAct;
+import br.ufrj.caronae.models.modelsforjson.ChatMessage;
 import br.ufrj.caronae.models.Ride;
 import br.ufrj.caronae.models.modelsforjson.RideIdForJson;
 import br.ufrj.caronae.models.modelsforjson.RideWithUsersForJson;
@@ -98,6 +99,25 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
         /*DisplayMetrics displaymetrics = new DisplayMetrics();
         activity.getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
         holder.layout.getLayoutParams().height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, rideWithUsers.getUsers().size() * 30 + 600, activity.getResources().getDisplayMetrics());*/
+
+        //chat message send simulation
+        holder.name_tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                App.getChatService().sendChatMsg(new ChatMessage(ride.getDbId(), "oi galera"), new Callback<Response>() {
+                    @Override
+                    public void success(Response response, Response response2) {
+
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        App.toast("Erro ao enviar mensagem de chat");
+                        Log.e("sendChatMsg", error.getMessage());
+                    }
+                });
+            }
+        });
 
         holder.leave_bt.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -28,15 +28,7 @@ public class GcmMessageHandler extends GcmListenerService {
 
         if (msgType != null && msgType.equals("accepted")) {
             String rideId = data.getString("rideId");
-            if (App.getPref(rideId).equals(App.MISSING_PREF) ||
-                    !App.getPref(rideId).equals("subscribed")) {
-                try {
-                    GcmPubSub.getInstance(getBaseContext()).subscribe(App.getUserGcmToken(), "/topics/" + rideId, null);
-                    App.putPref(rideId, "subscribed");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+            App.subscribeToTopicIfNeeded(rideId);
         }
 
         if (App.getPref(App.NOTIFICATIONS_ON_PREF_KEY).equals("true"))

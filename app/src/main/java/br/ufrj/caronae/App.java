@@ -9,6 +9,7 @@ import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.Toast;
 
+import com.google.android.gms.gcm.GcmPubSub;
 import com.google.gson.Gson;
 import com.orm.SugarApp;
 
@@ -21,13 +22,12 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.Locale;
 
-import br.ufrj.caronae.components.DaggerNetworkComponent;
-import br.ufrj.caronae.components.NetworkComponent;
 import br.ufrj.caronae.models.Ride;
 import br.ufrj.caronae.models.User;
 import br.ufrj.caronae.models.modelsforjson.TokenForJson;
-import br.ufrj.caronae.modules.NetworkModule;
 import retrofit.Callback;
+import retrofit.RequestInterceptor;
+import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
@@ -46,11 +46,13 @@ public class App extends SugarApp {
     public static final String EUDIGOCEAN_PROD_ENDPOINT = "http://45.55.46.90:80/";
     public static final String EUDIGOCEAN_DEV_ENDPOINT = "http://45.55.46.90:8080/";
     public static final String LOCAL_SERV_ENDPOINT = "http://192.168.0.13/";
+    private static final String GCM_API_KEY = "AIzaSyBtGz81bar_LcwtN_fpPTKRMBL5glp2T18";
+    public static final String GCM_ENDPOINT = "https://android.googleapis.com/gcm";
 
     private static App inst;
     private static User user;
-    private static NetworkComponent component;
-    private static NetworkComponent component2;
+    private static NetworkService networkService;
+    private static ChatService chatService;
 
     public App() {
         inst = this;
@@ -132,19 +134,52 @@ public class App extends SugarApp {
     }
 
     public static NetworkService getNetworkService() {
-        if (component == null) {
+        if (networkService == null) {
             //String endpoint = EUDIGOCEAN_DEV_ENDPOINT;
             //String endpoint = EUDIGOCEAN_PROD_ENDPOINT;
             String endpoint = LOCAL_SERV_ENDPOINT;
-            component = DaggerNetworkComponent.builder().networkModule(new NetworkModule(endpoint)).build();
+
+            networkService = new RestAdapter.Builder()
+                    .setEndpoint(endpoint)
+                    .setRequestInterceptor(new RequestInterceptor() {
+                        @Override
+                        public void intercept(RequestFacade request) {
+                            if (App.isUserLoggedIn()) {
+                                request.addHeader("token", App.getUserToken());
+                            }
+                        }
+                    })
+                    //.setLogLevel(RestAdapter.LogLevel.BASIC)
+                    //.setLogLevel(RestAdapter.LogLevel.HEADERS)
+                    //.setLogLevel(RestAdapter.LogLevel.HEADERS_AND_ARGS)
+                    .setLogLevel(RestAdapter.LogLevel.FULL)
+                    .build()
+                    .create(NetworkService.class);
         }
-        return component.provideNetworkService();
+
+        return networkService;
     }
 
-    public static NetworkService getApiaryNetworkService() {
-        if (component2 == null)
-            component2 = DaggerNetworkComponent.builder().networkModule(new NetworkModule(APIARY_ENDPOINT)).build();
-        return component2.provideNetworkService();
+    public static ChatService getChatService() {
+        if (chatService == null) {
+            chatService = new RestAdapter.Builder()
+                    .setEndpoint(GCM_ENDPOINT)
+                    .setRequestInterceptor(new RequestInterceptor() {
+                        @Override
+                        public void intercept(RequestFacade request) {
+                            request.addHeader("Content-Type", "application/json");
+                            request.addHeader("Authorization", "key=" + GCM_API_KEY);
+                        }
+                    })
+                    //.setLogLevel(RestAdapter.LogLevel.BASIC)
+                    //.setLogLevel(RestAdapter.LogLevel.HEADERS)
+                    //.setLogLevel(RestAdapter.LogLevel.HEADERS_AND_ARGS)
+                    .setLogLevel(RestAdapter.LogLevel.FULL)
+                    .build()
+                    .create(ChatService.class);
+        }
+
+        return chatService;
     }
 
     public static void expandOrCollapse(final View v, boolean expand) {
@@ -232,7 +267,7 @@ public class App extends SugarApp {
             return a;
         }
         if (zone.equals("Baixada")) {
-            String[] a = new String[]{"Belford Roxo", "Duque de Caxias", "Guapimirim", "Itaguai", "Japeri", "Magé", "Mesquita", "Nilópolis", "Nova Iguaçu ", "Paracambi ", "Queimados ", "São João de Meriti ", "Seropédica ", };
+            String[] a = new String[]{"Belford Roxo", "Duque de Caxias", "Guapimirim", "Itaguai", "Japeri", "Magé", "Mesquita", "Nilópolis", "Nova Iguaçu ", "Paracambi ", "Queimados ", "São João de Meriti ", "Seropédica ",};
             Arrays.sort(a);
             return a;
         }
@@ -286,5 +321,21 @@ public class App extends SugarApp {
             e.printStackTrace();
         }
         return formattedTime;
+    }
+
+    public static void subscribeToTopicIfNeeded(String rideId) {
+        String subscribedPref = App.getPref(rideId + "");
+        if (subscribedPref.equals(App.MISSING_PREF) || !subscribedPref.equals("subscribed")) {
+            try {
+                Log.i("SubscribeToRideTopics", "i'l subscribe to ride " + rideId);
+                GcmPubSub.getInstance(App.inst()).subscribe(App.getUserGcmToken(), "/topics/" + rideId, null);
+                App.putPref(rideId + "", "subscribed");
+                Log.i("SubscribeToRideTopics", "subscribed to ride " + rideId);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            Log.i("SubscribeToRideTopics", "ALREADY subscribed to ride " + rideId);
+        }
     }
 }
