@@ -70,6 +70,7 @@ public class RequestersAdapter extends RecyclerView.Adapter<RequestersAdapter.Vi
                         App.toast("Solicitação aceita");
                         users.remove(user);
                         notifyItemRemoved(holder.getAdapterPosition());
+                        App.subscribeToTopicIfNeeded(rideId+"");
                     }
 
                     @Override

@@ -20,8 +20,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
+import br.ufrj.caronae.models.ActiveRideId;
 import br.ufrj.caronae.models.Ride;
 import br.ufrj.caronae.models.User;
 import br.ufrj.caronae.models.modelsforjson.TokenForJson;
@@ -95,6 +97,8 @@ public class App extends SugarApp {
         removePref(LAST_RIDE_SEARCH_FILTERS_PREF_KEY);
         removePref(NOTIFICATIONS_ON_PREF_KEY);
         Ride.deleteAll(Ride.class);
+
+        //String gcmToken = getPref(GCM_TOKEN_PREF_KEY);
     }
 
     public static void saveUser(User user) {
@@ -324,12 +328,12 @@ public class App extends SugarApp {
     }
 
     public static void subscribeToTopicIfNeeded(String rideId) {
-        String subscribedPref = App.getPref(rideId + "");
-        if (subscribedPref.equals(App.MISSING_PREF) || !subscribedPref.equals("subscribed")) {
+        List<ActiveRideId> activeRideId = ActiveRideId.find(ActiveRideId.class, "ride_id = ?", rideId);
+        if (activeRideId == null || activeRideId.isEmpty()) {
             try {
                 Log.i("SubscribeToRideTopics", "i'l subscribe to ride " + rideId);
                 GcmPubSub.getInstance(App.inst()).subscribe(App.getUserGcmToken(), "/topics/" + rideId, null);
-                App.putPref(rideId + "", "subscribed");
+                new ActiveRideId(rideId).save();
                 Log.i("SubscribeToRideTopics", "subscribed to ride " + rideId);
             } catch (IOException e) {
                 e.printStackTrace();
