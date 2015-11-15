@@ -9,12 +9,10 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.google.android.gms.gcm.GcmListenerService;
-import com.google.android.gms.gcm.GcmPubSub;
-
-import java.io.IOException;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
+import br.ufrj.caronae.UnsubGcmTopic;
 
 public class GcmMessageHandler extends GcmListenerService {
     public static final int MESSAGE_NOTIFICATION_ID = 435345;
@@ -25,6 +23,11 @@ public class GcmMessageHandler extends GcmListenerService {
         String msgType = data.getString("msgType");
 
         Log.i("onMessageReceived", message);
+
+        if (msgType != null && msgType.equals("cancelled")) {
+            String rideId = data.getString("rideId");
+            new UnsubGcmTopic(getApplicationContext(), rideId).execute();
+        }
 
         if (msgType != null && msgType.equals("accepted")) {
             String rideId = data.getString("rideId");

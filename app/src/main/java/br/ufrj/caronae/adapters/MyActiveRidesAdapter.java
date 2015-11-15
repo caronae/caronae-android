@@ -16,6 +16,7 @@ import java.util.List;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
+import br.ufrj.caronae.UnsubGcmTopic;
 import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.models.modelsforjson.ChatMessage;
 import br.ufrj.caronae.models.Ride;
@@ -128,6 +129,8 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
                         App.toast("Carona excluída");
                         ridesList.remove(rideWithUsers);
                         notifyItemRemoved(holder.getAdapterPosition());
+
+                        new UnsubGcmTopic(activity, ride.getDbId()+"").execute();
 
                         List<Ride> rides = Ride.find(Ride.class, "db_id = ?", ride.getDbId()+"");
                         if (rides != null && !rides.isEmpty())
