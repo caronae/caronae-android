@@ -13,6 +13,7 @@ import com.google.android.gms.gcm.GcmListenerService;
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.UnsubGcmTopic;
+import br.ufrj.caronae.models.ChatMessageReceived;
 
 public class GcmMessageHandler extends GcmListenerService {
     public static final int MESSAGE_NOTIFICATION_ID = 435345;
@@ -23,6 +24,11 @@ public class GcmMessageHandler extends GcmListenerService {
         String msgType = data.getString("msgType");
 
         Log.i("onMessageReceived", message);
+
+        if (msgType != null && msgType.equals("chat")) {
+            String sender = data.getString("senderName");
+            new ChatMessageReceived(sender, message).save();
+        }
 
         if (msgType != null && msgType.equals("cancelled")) {
             String rideId = data.getString("rideId");

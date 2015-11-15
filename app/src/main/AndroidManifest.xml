@@ -9,6 +9,7 @@
     <permission
         android:name="br.ufrj.caronae.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
+
     <uses-permission android:name="br.ufrj.caronae.permission.C2D_MESSAGE" />
 
     <application
@@ -60,7 +61,6 @@
         <service
             android:name=".gcm.RegistrationIntentService"
             android:exported="false" />
-
         <service
             android:name=".gcm.MyInstanceIDListenerService"
             android:exported="false">
@@ -68,7 +68,6 @@
                 <action android:name="com.google.android.gms.iid.InstanceID" />
             </intent-filter>
         </service>
-
         <service
             android:name=".gcm.GcmMessageHandler"
             android:exported="false">
@@ -83,9 +82,14 @@
             android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+
                 <category android:name="com.codepath.gcmquickstart" />
             </intent-filter>
         </receiver>
+
+        <activity
+            android:name=".acts.ChatAct"
+            android:label="@string/title_activity_chat"/>
     </application>
 
 </manifest>

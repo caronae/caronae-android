@@ -3,15 +3,18 @@ package br.ufrj.caronae.models.modelsforjson;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ChatMessage {
+import br.ufrj.caronae.App;
+
+public class ChatMessageToSend {
     private String to;
     private Map<String, String> data;
 
-    public ChatMessage(int dbId, String message) {
+    public ChatMessageToSend(int dbId, String message) {
         to = "/topics/" + dbId;
         data = new HashMap<>();
         data.put("message", message);
         data.put("msgType", "chat");
+        data.put("senderName", App.getUser().getName());
     }
 
     public String getTo() {

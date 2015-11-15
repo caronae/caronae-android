@@ -354,7 +354,7 @@ public class App extends SugarApp {
         List<ActiveRideId> activeRideId = ActiveRideId.find(ActiveRideId.class, "ride_id = ?", rideId);
         if (activeRideId == null || activeRideId.isEmpty()) {
             try {
-                Log.i("SubscribeToRideTopics", "i'l subscribe to ride " + rideId);
+                Log.i("SubscribeToRideTopics", "i'll subscribe to ride " + rideId);
                 GcmPubSub.getInstance(App.inst()).subscribe(App.getUserGcmToken(), "/topics/" + rideId, null);
                 new ActiveRideId(rideId).save();
                 Log.i("SubscribeToRideTopics", "subscribed to ride " + rideId);

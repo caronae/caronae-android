@@ -1,6 +1,7 @@
 package br.ufrj.caronae.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,12 +18,13 @@ import java.util.List;
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.UnsubGcmTopic;
+import br.ufrj.caronae.acts.ChatAct;
 import br.ufrj.caronae.acts.MainAct;
-import br.ufrj.caronae.models.modelsforjson.ChatMessage;
 import br.ufrj.caronae.models.Ride;
+import br.ufrj.caronae.models.User;
+import br.ufrj.caronae.models.modelsforjson.ChatMessageToSend;
 import br.ufrj.caronae.models.modelsforjson.RideIdForJson;
 import br.ufrj.caronae.models.modelsforjson.RideWithUsersForJson;
-import br.ufrj.caronae.models.User;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -105,7 +107,7 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
         holder.name_tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                App.getChatService().sendChatMsg(new ChatMessage(ride.getDbId(), "oi galera"), new Callback<Response>() {
+                App.getChatService().sendChatMsg(new ChatMessageToSend(ride.getDbId(), "oi galera"), new Callback<Response>() {
                     @Override
                     public void success(Response response, Response response2) {
 
@@ -117,6 +119,15 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
                         Log.e("sendChatMsg", error.getMessage());
                     }
                 });
+            }
+        });
+
+        holder.chat_bt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(activity, ChatAct.class);
+                intent.putExtra("rideId", ride.getDbId()+"");
+                activity.startActivity(intent);
             }
         });
 
@@ -132,7 +143,7 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
 
                         new UnsubGcmTopic(activity, ride.getDbId()+"").execute();
 
-                        List<Ride> rides = Ride.find(Ride.class, "db_id = ?", ride.getDbId()+"");
+                        List<Ride> rides = Ride.find(Ride.class, "db_id = ?", ride.getDbId() + "");
                         if (rides != null && !rides.isEmpty())
                             rides.get(0).delete();
                     }
@@ -167,6 +178,7 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
         public TextView description_tv;
         public TextView phoneNumber_tv;
         public Button leave_bt;
+        public Button chat_bt;
         public RelativeLayout lay1;
         public RelativeLayout layout;
         public RecyclerView ridersList;
@@ -188,6 +200,7 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
             description_tv = (TextView) itemView.findViewById(R.id.description_tv);
             phoneNumber_tv = (TextView) itemView.findViewById(R.id.phoneNumber_tv);
             leave_bt = (Button) itemView.findViewById(R.id.leave_bt);
+            chat_bt = (Button) itemView.findViewById(R.id.chat_bt);
             lay1 = (RelativeLayout) itemView.findViewById(R.id.lay1);
             layout = (RelativeLayout) itemView.findViewById(R.id.layout);
             ridersList = (RecyclerView) itemView.findViewById(R.id.ridersList);
