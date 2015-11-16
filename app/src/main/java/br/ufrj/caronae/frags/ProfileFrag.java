@@ -25,6 +25,7 @@ import java.util.Locale;
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.acts.LoginAct;
+import br.ufrj.caronae.asyncs.LogOut;
 import br.ufrj.caronae.models.User;
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -103,7 +104,7 @@ public class ProfileFrag extends Fragment {
 
     @OnClick(R.id.logout_iv)
     public void logoutIv() {
-        App.logOut();
+        new LogOut().execute();
         startActivity(new Intent(getContext(), LoginAct.class));
         getActivity().finish();
     }

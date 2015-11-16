@@ -17,7 +17,7 @@ import java.util.List;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
-import br.ufrj.caronae.UnsubGcmTopic;
+import br.ufrj.caronae.asyncs.UnsubGcmTopic;
 import br.ufrj.caronae.acts.ChatAct;
 import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.models.Ride;

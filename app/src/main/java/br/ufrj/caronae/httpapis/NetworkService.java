@@ -1,4 +1,4 @@
-package br.ufrj.caronae;
+package br.ufrj.caronae.httpapis;
 
 import java.util.List;
 

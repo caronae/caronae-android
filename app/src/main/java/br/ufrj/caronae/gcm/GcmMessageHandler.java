@@ -11,9 +11,9 @@ import android.util.Log;
 import com.google.android.gms.gcm.GcmListenerService;
 
 import br.ufrj.caronae.App;
-import br.ufrj.caronae.CheckAndSubscribeToTopic;
+import br.ufrj.caronae.asyncs.CheckSubGcmTopic;
 import br.ufrj.caronae.R;
-import br.ufrj.caronae.UnsubGcmTopic;
+import br.ufrj.caronae.asyncs.UnsubGcmTopic;
 import br.ufrj.caronae.models.ChatMessageReceived;
 
 public class GcmMessageHandler extends GcmListenerService {
@@ -50,7 +50,7 @@ public class GcmMessageHandler extends GcmListenerService {
 
         if (msgType != null && msgType.equals("accepted")) {
             String rideId = data.getString("rideId");
-            new CheckAndSubscribeToTopic().execute(rideId);
+            new CheckSubGcmTopic().execute(rideId);
         }
 
         if (notify && App.getPref(App.NOTIFICATIONS_ON_PREF_KEY).equals("true"))
@@ -61,7 +61,7 @@ public class GcmMessageHandler extends GcmListenerService {
     private void createNotification(String msgType, String senderName, String message) {
         String title;
         if (msgType.equals("chat")) {
-            title = "Nova mensagem de bate-papo";
+            title = "Nova mensagem";
             message = senderName + ": " + message;
         } else {
             title = "Aviso de carona";

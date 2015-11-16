@@ -1,7 +1,6 @@
 package br.ufrj.caronae.frags;
 
 import android.app.ProgressDialog;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,7 +14,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import br.ufrj.caronae.App;
-import br.ufrj.caronae.CheckAndSubscribeToTopic;
+import br.ufrj.caronae.asyncs.CheckSubGcmTopic;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.adapters.MyActiveRidesAdapter;
@@ -57,7 +56,7 @@ public class MyActiveRidesFrag extends Fragment {
                     Log.i("getMyActiveRides", "i have gcm token");
                     for (RideWithUsersForJson rideWithUsers : rideWithUsersList) {
                         int rideId = rideWithUsers.getRide().getId().intValue();
-                        new CheckAndSubscribeToTopic().execute(rideId+"");
+                        new CheckSubGcmTopic().execute(rideId+"");
                     }
                 } else {
                     Log.i("getMyActiveRides", "i DO NOT have gcm token");

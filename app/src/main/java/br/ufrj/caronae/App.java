@@ -1,16 +1,13 @@
 package br.ufrj.caronae;
 
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.Toast;
 
-import com.google.android.gms.gcm.GcmPubSub;
 import com.google.gson.Gson;
 import com.orm.SugarApp;
 
@@ -21,35 +18,30 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
-import br.ufrj.caronae.models.ActiveRideId;
-import br.ufrj.caronae.models.ChatMessageReceived;
-import br.ufrj.caronae.models.Ride;
+import br.ufrj.caronae.httpapis.ChatService;
+import br.ufrj.caronae.httpapis.NetworkService;
 import br.ufrj.caronae.models.User;
-import br.ufrj.caronae.models.modelsforjson.TokenForJson;
-import retrofit.Callback;
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
-import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 public class App extends SugarApp {
 
     public static final String USER_PREF_KEY                        = "user";
-    public static final String MISSING_PREF                         = "missing";
     public static final String LAST_RIDE_OFFER_PREF_KEY             = "lastRideOffer";
     public static final String LAST_RIDE_SEARCH_FILTERS_PREF_KEY    = "lastRideSearchFilters";
     public static final String TOKEN_PREF_KEY                       = "token";
     public static final String GCM_TOKEN_PREF_KEY                   = "gcmToken";
-    public static final String NOTIFICATIONS_ON_PREF_KEY =          "notifOn";
+    public static final String NOTIFICATIONS_ON_PREF_KEY            = "notifOn";
+    public static final String MISSING_PREF                         = "missing";
 
     public static final String APIARY_ENDPOINT              = "http://private-5b9ed6-caronae.apiary-mock.com";
     public static final String MEUDIGOCEAN_PROD_ENDPOINT    = "http://45.55.46.90:80/";
     public static final String MEUDIGOCEAN_DEV_ENDPOINT     = "http://45.55.46.90:8080/";
-    public static final String TIC_ENDPOINT                 = "http://web1.tic.ufrj.br/caronae/";
     public static final String LOCAL_SERV_ENDPOINT          = "http://192.168.0.13/";
+    public static final String TIC_ENDPOINT                 = "http://web1.tic.ufrj.br/caronae/";
 
     public static final String GCM_ENDPOINT = "https://android.googleapis.com/gcm";
     public static final String GCM_API_KEY  = "AIzaSyBtGz81bar_LcwtN_fpPTKRMBL5glp2T18";
@@ -68,6 +60,14 @@ public class App extends SugarApp {
         return inst;
     }
 
+    public static boolean isUserLoggedIn() {
+        return getUser() != null;
+    }
+
+    public static void clearUser() {
+        user = null;
+    }
+
     public static User getUser() {
         if (user == null) {
             String userJson = getPref(USER_PREF_KEY);
@@ -78,56 +78,6 @@ public class App extends SugarApp {
         return user;
     }
 
-    public static boolean isUserLoggedIn() {
-        return getUser() != null;
-    }
-
-    public static void logOut() {
-        getNetworkService().saveGcmToken(new TokenForJson(""), new Callback<Response>() {
-            @Override
-            public void success(Response response, Response response2) {
-                Log.i("saveGcmToken", "gcm token cleared");
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                Log.e("saveGcmToken", error.getMessage());
-            }
-        });
-
-        user = null;
-        new MoreLogOutAsyncJob().execute();
-    }
-
-    public static class MoreLogOutAsyncJob extends AsyncTask<Void, Void, Void> {
-        @Override
-        protected Void doInBackground(Void... arg0) {
-            removePref(USER_PREF_KEY);
-            removePref(LAST_RIDE_OFFER_PREF_KEY);
-            removePref(LAST_RIDE_SEARCH_FILTERS_PREF_KEY);
-            removePref(NOTIFICATIONS_ON_PREF_KEY);
-            Ride.deleteAll(Ride.class);
-
-            List<ActiveRideId> activeRideIds = ActiveRideId.listAll(ActiveRideId.class);
-            if (activeRideIds != null && !activeRideIds.isEmpty()) {
-                GcmPubSub pubSub = GcmPubSub.getInstance(inst);
-                for (ActiveRideId ari : activeRideIds) {
-                    try {
-                        pubSub.unsubscribe(getUserGcmToken(), "/topics/" + ari.getRideId());
-                        Log.i("logOut", "unsubscribed from ride " + ari.getRideId());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-
-            ActiveRideId.deleteAll(ActiveRideId.class);
-            ChatMessageReceived.deleteAll(ChatMessageReceived.class);
-
-            return null;
-        }
-    }
-
     public static void saveUser(User user) {
         putPref(USER_PREF_KEY, new Gson().toJson(user));
     }
@@ -136,12 +86,16 @@ public class App extends SugarApp {
         return getPref(TOKEN_PREF_KEY);
     }
 
-    public static void saveToken(String token) {
+    public static void saveUserToken(String token) {
         putPref(TOKEN_PREF_KEY, token);
     }
 
     public static String getUserGcmToken() {
         return getPref(GCM_TOKEN_PREF_KEY);
+    }
+
+    public static void saveUserGcmToken(String token) {
+        putPref(GCM_TOKEN_PREF_KEY, token);
     }
 
     private static SharedPreferences getSharedPreferences() {
@@ -168,8 +122,8 @@ public class App extends SugarApp {
         if (networkService == null) {
             //String endpoint = MEUDIGOCEAN_DEV_ENDPOINT;
             //String endpoint = MEUDIGOCEAN_PROD_ENDPOINT;
-            String endpoint = TIC_ENDPOINT;
             //String endpoint = LOCAL_SERV_ENDPOINT;
+            String endpoint = TIC_ENDPOINT;
 
             networkService = new RestAdapter.Builder()
                     .setEndpoint(endpoint)
@@ -181,10 +135,10 @@ public class App extends SugarApp {
                             }
                         }
                     })
-                    //.setLogLevel(RestAdapter.LogLevel.BASIC)
+                    .setLogLevel(RestAdapter.LogLevel.BASIC)
                     //.setLogLevel(RestAdapter.LogLevel.HEADERS)
                     //.setLogLevel(RestAdapter.LogLevel.HEADERS_AND_ARGS)
-                    .setLogLevel(RestAdapter.LogLevel.FULL)
+                    //.setLogLevel(RestAdapter.LogLevel.FULL)
                     .build()
                     .create(NetworkService.class);
         }
@@ -203,15 +157,23 @@ public class App extends SugarApp {
                             request.addHeader("Authorization", "key=" + GCM_API_KEY);
                         }
                     })
-                            //.setLogLevel(RestAdapter.LogLevel.BASIC)
-                            //.setLogLevel(RestAdapter.LogLevel.HEADERS)
-                            //.setLogLevel(RestAdapter.LogLevel.HEADERS_AND_ARGS)
-                    .setLogLevel(RestAdapter.LogLevel.FULL)
+                    .setLogLevel(RestAdapter.LogLevel.BASIC)
+                    //.setLogLevel(RestAdapter.LogLevel.HEADERS)
+                    //.setLogLevel(RestAdapter.LogLevel.HEADERS_AND_ARGS)
+                    //.setLogLevel(RestAdapter.LogLevel.FULL)
                     .build()
                     .create(ChatService.class);
         }
 
         return chatService;
+    }
+
+    public static MainThreadBus getBus() {
+        if (bus == null) {
+            bus = new MainThreadBus();
+        }
+
+        return bus;
     }
 
     public static void expandOrCollapse(final View v, boolean expand) {
@@ -279,32 +241,65 @@ public class App extends SugarApp {
 
     public static String[] getNeighborhoods(String zone) {
         if (zone.equals("Centro")) {
-            String[] a = new String[]{"São Cristóvão", "Benfica", "Caju", "Catumbi", "Centro", "Cidade Nova", "Estácio", "Gamboa", "Glória", "Lapa", "Mangueira", "Paquetá", "Rio Comprido", "Santa Teresa", "Santo Cristo", "Saúde", "Vasco da Gama"};
+            String[] a = new String[]{"São Cristóvão", "Benfica", "Caju", "Catumbi", "Centro",
+                    "Cidade Nova", "Estácio", "Gamboa", "Glória", "Lapa", "Mangueira", "Paquetá",
+                    "Rio Comprido", "Santa Teresa", "Santo Cristo", "Saúde", "Vasco da Gama"};
             Arrays.sort(a);
             return a;
         }
         if (zone.equals("Zona Sul")) {
-            String[] a = new String[]{"Botafogo", "Catete", "Copacabana", "Cosme Velho", "Flamengo", "Gávea", "Humaitá", "Ipanema", "Jardim Botânico", "Lagoa", "Laranjeiras", "Leblon", "Leme", "Rocinha", "São Conrado", "Urca", "Vidigal"};
+            String[] a = new String[]{"Botafogo", "Catete", "Copacabana", "Cosme Velho",
+                    "Flamengo", "Gávea", "Humaitá", "Ipanema", "Jardim Botânico", "Lagoa",
+                    "Laranjeiras", "Leblon", "Leme", "Rocinha", "São Conrado", "Urca", "Vidigal"};
             Arrays.sort(a);
             return a;
         }
         if (zone.equals("Zona Oeste")) {
-            String[] a = new String[]{"Anil", "Barra da Tijuca", "Camorim", "Cidade de Deus", "Curicica", "Freguesia de Jacarepaguá", "Gardênia Azul", "Grumari ", "Itanhangá ", "Jacarepaguá ", "Joá ", "Praça Seca ", "Pechincha ", "Recreio dos Bandeirantes ", "Tanque ", "Taquara ", "Vargem Grande ", "Vargem Pequena ", "Vila Valqueire ", "Bangu ", "Deodoro ", "Gericinó ", "Jardim Sulacap ", "Magalhães Bastos ", "Padre Miguel ", "Realengo ", "Santíssimo ", "Senador Camará ", "Vila Militar ", "Barra de Guaratiba ", "Campo Grande ", "Cosmos ", "Guaratiba ", "Inhoaíba ", "Paciência ", "Pedra de Guaratiba ", "Santa Cruz ", "Senador Vasconcelos", "Sepetiba"};
+            String[] a = new String[]{"Anil", "Barra da Tijuca", "Camorim", "Cidade de Deus",
+                    "Curicica", "Freguesia de Jacarepaguá", "Gardênia Azul", "Grumari",
+                    "Itanhangá", "Jacarepaguá", "Joá", "Praça Seca ", "Pechincha",
+                    "Recreio dos Bandeirantes", "Tanque", "Taquara", "Vargem Grande",
+                    "Vargem Pequena", "Vila Valqueire", "Bangu", "Deodoro", "Gericinó",
+                    "Jardim Sulacap", "Magalhães Bastos", "Padre Miguel", "Realengo",
+                    "Santíssimo", "Senador Camará", "Vila Militar", "Barra de Guaratiba",
+                    "Campo Grande", "Cosmos", "Guaratiba", "Inhoaíba", "Paciência",
+                    "Pedra de Guaratiba", "Santa Cruz", "Senador Vasconcelos", "Sepetiba"};
             Arrays.sort(a);
             return a;
         }
         if (zone.equals("Zona Norte")) {
-            String[] a = new String[]{"Alto da Boa Vista", "Andaraí ", "Grajaú ", "Maracanã ", "Praça da Bandeira ", "Tijuca ", "Vila Isabel ", "Abolição ", "Água Santa ", "Cachambi", "Del Castilho", "Encantado", "Engenho de Dentro", "Engenho Novo", "Inhaúma ", "Jacaré ", "Jacarezinho ", "Lins de Vasconcelos ", "Maria da Graça", "Méier ", "Piedade ", "Pilares ", "Riachuelo ", "Rocha ", "Sampaio ", "São Francisco Xavier ", "Todos os Santos ", "Bancários ", "Cacuia ", "Cidade Universitária", "Cocotá ", "Freguesia (Ilha do Governador) ", "Galeão ", "Jardim Carioca ", "Jardim Guanabara ", "Maré ", "Monero ", "Pitangueiras ", "Portuguesa ", "Praia da Bandeira", "Ribeira ", "Tauá ", "Zumbi ", "Acari ", "Anchieta ", "Barros Filho ", "Bento Ribeiro ", "Brás de Pina ", "Bonsucesso ", "Campinho ", "Cavalcanti ", "Cascadura ", "Coelho Neto ", "Colégio ", "Complexo do Alemão ", "Cordovil ", "Costa Barros ", "Engenheiro Leal ", "Engenho da Rainha ", "Guadalupe ", "Higienópolis ", "Honório Gurgel ", "Irajá ", "Jardim América", "Madureira ", "Marechal Hermes ", "Manguinhos ", "Oswaldo Cruz ", "Olaria ", "Parada de Lucas ", "Parque Colúmbia ", "Pavuna ", "Penha", "Penha Circular", "Quintino Bocaiuva ", "Ramos ", "Ricardo de Albuquerque", "Rocha Miranda ", "Tomás Coelho ", "Turiaçu ", "Vaz Lobo ", "Vicente de Carvalho ", "Vigário Geral ", "Vila da Penha ", "Vila Kosmos ", "Vista Alegre "};
+            String[] a = new String[]{"Alto da Boa Vista", "Andaraí", "Grajaú", "Maracanã",
+                    "Praça da Bandeira", "Tijuca", "Vila Isabel", "Abolição", "Água Santa",
+                    "Cachambi", "Del Castilho", "Encantado", "Engenho de Dentro", "Engenho Novo",
+                    "Inhaúma", "Jacaré", "Jacarezinho", "Lins de Vasconcelos",
+                    "Maria da Graça", "Méier", "Piedade", "Pilares", "Riachuelo", "Rocha",
+                    "Sampaio", "São Francisco Xavier", "Todos os Santos", "Bancários",
+                    "Cacuia", "Cidade Universitária", "Cocotá",
+                    "Freguesia (Ilha do Governador)", "Galeão", "Jardim Carioca",
+                    "Jardim Guanabara", "Maré", "Monero", "Pitangueiras", "Portuguesa",
+                    "Praia da Bandeira", "Ribeira", "Tauá", "Zumbi", "Acari", "Anchieta",
+                    "Barros Filho", "Bento Ribeiro", "Brás de Pina", "Bonsucesso", "Campinho",
+                    "Cavalcanti", "Cascadura", "Coelho Neto", "Colégio", "Complexo do Alemão",
+                    "Cordovil", "Costa Barros", "Engenheiro Leal", "Engenho da Rainha",
+                    "Guadalupe", "Higienópolis", "Honório Gurgel", "Irajá", "Jardim América",
+                    "Madureira", "Marechal Hermes", "Manguinhos", "Oswaldo Cruz", "Olaria",
+                    "Parada de Lucas", "Parque Colúmbia", "Pavuna", "Penha", "Penha Circular",
+                    "Quintino Bocaiuva", "Ramos", "Ricardo de Albuquerque", "Rocha Miranda",
+                    "Tomás Coelho", "Turiaçu", "Vaz Lobo", "Vicente de Carvalho",
+                    "Vigário Geral", "Vila da Penha", "Vila Kosmos", "Vista Alegre"};
             Arrays.sort(a);
             return a;
         }
         if (zone.equals("Baixada")) {
-            String[] a = new String[]{"Belford Roxo", "Duque de Caxias", "Guapimirim", "Itaguai", "Japeri", "Magé", "Mesquita", "Nilópolis", "Nova Iguaçu ", "Paracambi ", "Queimados ", "São João de Meriti ", "Seropédica ",};
+            String[] a = new String[]{"Belford Roxo", "Duque de Caxias", "Guapimirim", "Itaguai",
+                    "Japeri", "Magé", "Mesquita", "Nilópolis", "Nova Iguaçu", "Paracambi",
+                    "Queimados", "São João de Meriti", "Seropédica",};
             Arrays.sort(a);
             return a;
         }
         if (zone.equals("Grande Niterói")) {
-            String[] a = new String[]{"Niterói Região oceânica", "Niterói Centro", "São Gonçalo", "Maricá", "Itaboraí", "Tanguá", "Rio Bonito"};
+            String[] a = new String[]{"Região oceânica", "Centro", "São Gonçalo",
+                    "Maricá", "Itaboraí", "Tanguá", "Rio Bonito"};
             Arrays.sort(a);
             return a;
         }
@@ -353,13 +348,5 @@ public class App extends SugarApp {
             e.printStackTrace();
         }
         return formattedTime;
-    }
-
-    public static MainThreadBus getBus() {
-        if (bus == null) {
-            bus = new MainThreadBus();
-        }
-
-        return bus;
     }
 }

@@ -1,4 +1,4 @@
-package br.ufrj.caronae;
+package br.ufrj.caronae.httpapis;
 
 import br.ufrj.caronae.models.modelsforjson.ChatMessageSent;
 import retrofit.Callback;

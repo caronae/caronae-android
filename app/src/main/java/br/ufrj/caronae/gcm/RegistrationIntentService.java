@@ -52,7 +52,7 @@ public class RegistrationIntentService extends IntentService {
                 Log.i("saveGcmToken", "gcm token sent to server");
 
                 // save token
-                App.putPref(App.GCM_TOKEN_PREF_KEY, token);
+                App.saveUserGcmToken(token);
             }
 
             @Override

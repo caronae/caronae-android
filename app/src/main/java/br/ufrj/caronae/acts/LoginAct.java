@@ -61,7 +61,7 @@ public class LoginAct extends AppCompatActivity {
                 }
 
                 App.saveUser(userWithRides.getUser());
-                App.saveToken(token);
+                App.saveUserToken(token);
                 App.putPref(App.NOTIFICATIONS_ON_PREF_KEY, "true");
 
                 new SaveRidesAsync(userWithRides).execute();
@@ -109,6 +109,7 @@ public class LoginAct extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... arg0) {
             for (Ride ride : userWithRides.getRides()) {
+                ride.setTime(App.formatTime(ride.getTime()));
                 new Ride(ride).save();
             }
 
