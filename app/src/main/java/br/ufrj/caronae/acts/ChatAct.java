@@ -57,6 +57,7 @@ public class ChatAct extends AppCompatActivity {
     @OnClick(R.id.send_bt)
     public void sendBt() {
         final String message = msg_et.getText().toString();
+        msg_et.setText("");
         App.getChatService().sendChatMsg(new ChatMessageSent(rideId, message), new Callback<Response>() {
             @Override
             public void success(Response response, Response response2) {

@@ -15,6 +15,9 @@ public class ChatMessageReceived extends SugarRecord<ChatMessageReceived> {
         this.rideId = rideId;
     }
 
+    public ChatMessageReceived() {
+    }
+
     public String getRideId() {
         return rideId;
     }
