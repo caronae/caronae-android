@@ -28,7 +28,9 @@ public class GcmMessageHandler extends GcmListenerService {
         if (msgType != null && msgType.equals("chat")) {
             String sender = data.getString("senderName");
             String rideId = data.getString("rideId");
-            new ChatMessageReceived(sender, message, rideId).save();
+            ChatMessageReceived cmr = new ChatMessageReceived(sender, message, rideId);
+            cmr.save();
+            App.getBus().post(cmr);
         }
 
         if (msgType != null && msgType.equals("cancelled")) {
