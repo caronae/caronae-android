@@ -43,11 +43,6 @@ public class ChatMsgsAdapter extends RecyclerView.Adapter<ChatMsgsAdapter.ViewHo
         return chatMsgsList.size();
     }
 
-    public void add(ChatMessageReceived msg) {
-        chatMsgsList.add(msg);
-        notifyItemInserted(chatMsgsList.size()-1);
-    }
-
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView msg_tv;
 

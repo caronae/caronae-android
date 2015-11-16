@@ -5,17 +5,18 @@ import java.util.Map;
 
 import br.ufrj.caronae.App;
 
-public class ChatMessageToSend {
+public class ChatMessageSent {
     private String to;
     private Map<String, String> data;
 
-    public ChatMessageToSend(String dbId, String message) {
+    public ChatMessageSent(String dbId, String message) {
         to = "/topics/" + dbId;
         data = new HashMap<>();
         data.put("message", message);
-        data.put("msgType", "chat");
         data.put("rideId", dbId);
+        data.put("msgType", "chat");
         data.put("senderName", App.getUser().getName());
+        data.put("senderId", App.getUser().getDbId()+"");
     }
 
     public String getTo() {

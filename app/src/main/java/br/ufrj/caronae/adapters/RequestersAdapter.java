@@ -13,6 +13,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import br.ufrj.caronae.App;
+import br.ufrj.caronae.CheckAndSubscribeToTopic;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.models.modelsforjson.JoinRequestIDsForJson;
 import br.ufrj.caronae.models.User;
@@ -70,7 +71,7 @@ public class RequestersAdapter extends RecyclerView.Adapter<RequestersAdapter.Vi
                         App.toast("Solicitação aceita");
                         users.remove(user);
                         notifyItemRemoved(holder.getAdapterPosition());
-                        App.subscribeToTopicIfNeeded(rideId+"");
+                        new CheckAndSubscribeToTopic().execute(rideId+"");
                     }
 
                     @Override

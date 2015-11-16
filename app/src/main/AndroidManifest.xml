@@ -52,11 +52,17 @@
             android:name=".acts.OpeningAct"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_opening"
-            android:theme="@style/FullscreenTheme" />
+            android:theme="@style/FullscreenTheme"
+            android:screenOrientation="portrait"  />
         <activity
             android:name=".acts.SignUpAct"
             android:label="@string/title_activity_sign_up"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme"
+            android:screenOrientation="portrait"  />
+        <activity
+            android:name=".acts.ChatAct"
+            android:label="@string/title_activity_chat"
+            android:screenOrientation="portrait"  />
 
         <service
             android:name=".gcm.RegistrationIntentService"
@@ -86,10 +92,6 @@
                 <category android:name="com.codepath.gcmquickstart" />
             </intent-filter>
         </receiver>
-
-        <activity
-            android:name=".acts.ChatAct"
-            android:label="@string/title_activity_chat"/>
     </application>
 
 </manifest>

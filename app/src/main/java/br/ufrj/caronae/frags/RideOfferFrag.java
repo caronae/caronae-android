@@ -269,6 +269,7 @@ public class RideOfferFrag extends Fragment {
         String description = description_et.getText().toString();
         int id = radioGroup.getCheckedRadioButtonId();
         boolean go = id == R.id.go_rb;
+
         boolean routine = routine_cb.isChecked();
         String weekDays = "";
         if (routine) {

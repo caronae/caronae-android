@@ -12,16 +12,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.google.android.gms.gcm.GcmPubSub;
-
-import java.io.IOException;
 import java.util.List;
 
 import br.ufrj.caronae.App;
+import br.ufrj.caronae.CheckAndSubscribeToTopic;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.adapters.MyActiveRidesAdapter;
-import br.ufrj.caronae.models.Ride;
 import br.ufrj.caronae.models.modelsforjson.RideWithUsersForJson;
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -58,7 +55,10 @@ public class MyActiveRidesFrag extends Fragment {
                 //subscribe to ride id topic
                 if (!App.getUserGcmToken().equals(App.MISSING_PREF)) {
                     Log.i("getMyActiveRides", "i have gcm token");
-                    new SubscribeToRideTopics(rideWithUsersList).execute();
+                    for (RideWithUsersForJson rideWithUsers : rideWithUsersList) {
+                        int rideId = rideWithUsers.getRide().getId().intValue();
+                        new CheckAndSubscribeToTopic().execute(rideId+"");
+                    }
                 } else {
                     Log.i("getMyActiveRides", "i DO NOT have gcm token");
                 }
@@ -81,23 +81,4 @@ public class MyActiveRidesFrag extends Fragment {
 
         return view;
     }
-
-    private class SubscribeToRideTopics extends AsyncTask<Void, Void, Void> {
-        private final List<RideWithUsersForJson> rideWithUsersList;
-
-        public SubscribeToRideTopics(List<RideWithUsersForJson> rideWithUsersList) {
-            this.rideWithUsersList = rideWithUsersList;
-        }
-
-        @Override
-        protected Void doInBackground(Void... arg0) {
-            for (RideWithUsersForJson rideWithUsers : rideWithUsersList) {
-                int rideId = rideWithUsers.getRide().getId().intValue();
-                App.subscribeToTopicIfNeeded(rideId + "");
-            }
-
-            return null;
-        }
-    }
-
 }

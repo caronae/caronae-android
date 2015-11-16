@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Locale;
 
 import br.ufrj.caronae.models.ActiveRideId;
+import br.ufrj.caronae.models.ChatMessageReceived;
 import br.ufrj.caronae.models.Ride;
 import br.ufrj.caronae.models.User;
 import br.ufrj.caronae.models.modelsforjson.TokenForJson;
@@ -121,6 +122,7 @@ public class App extends SugarApp {
             }
 
             ActiveRideId.deleteAll(ActiveRideId.class);
+            ChatMessageReceived.deleteAll(ChatMessageReceived.class);
 
             return null;
         }
@@ -351,22 +353,6 @@ public class App extends SugarApp {
             e.printStackTrace();
         }
         return formattedTime;
-    }
-
-    public static void subscribeToTopicIfNeeded(String rideId) {
-        List<ActiveRideId> activeRideId = ActiveRideId.find(ActiveRideId.class, "ride_id = ?", rideId);
-        if (activeRideId == null || activeRideId.isEmpty()) {
-            try {
-                Log.i("SubscribeToRideTopics", "i'll subscribe to ride " + rideId);
-                GcmPubSub.getInstance(App.inst()).subscribe(App.getUserGcmToken(), "/topics/" + rideId, null);
-                new ActiveRideId(rideId).save();
-                Log.i("SubscribeToRideTopics", "subscribed to ride " + rideId);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } else {
-            Log.i("SubscribeToRideTopics", "ALREADY subscribed to ride " + rideId);
-        }
     }
 
     public static MainThreadBus getBus() {

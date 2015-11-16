@@ -22,7 +22,6 @@ import br.ufrj.caronae.acts.ChatAct;
 import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.models.Ride;
 import br.ufrj.caronae.models.User;
-import br.ufrj.caronae.models.modelsforjson.ChatMessageToSend;
 import br.ufrj.caronae.models.modelsforjson.RideIdForJson;
 import br.ufrj.caronae.models.modelsforjson.RideWithUsersForJson;
 import retrofit.Callback;

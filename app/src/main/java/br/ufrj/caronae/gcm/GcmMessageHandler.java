@@ -11,6 +11,7 @@ import android.util.Log;
 import com.google.android.gms.gcm.GcmListenerService;
 
 import br.ufrj.caronae.App;
+import br.ufrj.caronae.CheckAndSubscribeToTopic;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.UnsubGcmTopic;
 import br.ufrj.caronae.models.ChatMessageReceived;
@@ -22,15 +23,24 @@ public class GcmMessageHandler extends GcmListenerService {
     public void onMessageReceived(String from, Bundle data) {
         String message = data.getString("message");
         String msgType = data.getString("msgType");
+        String senderName = data.getString("senderName");
 
         Log.i("onMessageReceived", message);
 
+        boolean notify = true;
+
         if (msgType != null && msgType.equals("chat")) {
-            String sender = data.getString("senderName");
             String rideId = data.getString("rideId");
-            ChatMessageReceived cmr = new ChatMessageReceived(sender, message, rideId);
+            String senderId = data.getString("senderId");
+            ChatMessageReceived cmr = new ChatMessageReceived(senderName, senderId, message, rideId);
             cmr.save();
-            App.getBus().post(cmr);
+
+            //noinspection ConstantConditions
+            if (senderId.equals(App.getUser().getDbId()+"")) {
+                notify = false;
+            } else {
+                App.getBus().post(cmr);
+            }
         }
 
         if (msgType != null && msgType.equals("cancelled")) {
@@ -40,19 +50,27 @@ public class GcmMessageHandler extends GcmListenerService {
 
         if (msgType != null && msgType.equals("accepted")) {
             String rideId = data.getString("rideId");
-            App.subscribeToTopicIfNeeded(rideId);
+            new CheckAndSubscribeToTopic().execute(rideId);
         }
 
-        if (App.getPref(App.NOTIFICATIONS_ON_PREF_KEY).equals("true"))
-            createNotification(message);
+        if (notify && App.getPref(App.NOTIFICATIONS_ON_PREF_KEY).equals("true"))
+            createNotification(msgType, senderName, message);
     }
 
     // Creates notification based on title and body received
-    private void createNotification(String message) {
+    private void createNotification(String msgType, String senderName, String message) {
+        String title;
+        if (msgType.equals("chat")) {
+            title = "Nova mensagem de bate-papo";
+            message = senderName + ": " + message;
+        } else {
+            title = "Aviso de carona";
+        }
+
         Context context = App.inst();
         Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
-                .setSmallIcon(R.mipmap.ic_launcher).setContentTitle("Aviso de carona")
+                .setSmallIcon(R.mipmap.ic_launcher).setContentTitle(title)
                 .setSound(alarmSound)
                 .setContentText(message);
         NotificationManager mNotificationManager = (NotificationManager) context

@@ -16,7 +16,7 @@ import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.adapters.ChatMsgsAdapter;
 import br.ufrj.caronae.models.ChatMessageReceived;
-import br.ufrj.caronae.models.modelsforjson.ChatMessageToSend;
+import br.ufrj.caronae.models.modelsforjson.ChatMessageSent;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -43,26 +43,25 @@ public class ChatAct extends AppCompatActivity {
         ButterKnife.bind(this);
 
         rideId = getIntent().getExtras().getString("rideId");
-        //Log.i("ChatAct", "rideId = " + rideId);
 
         chatMsgsList = ChatMessageReceived.find(ChatMessageReceived.class, "ride_id = ?", rideId);
-        /*if (chatMsgsList == null || chatMsgsList.isEmpty())
-            return;*/
         chatMsgs_rv.setAdapter(new ChatMsgsAdapter(chatMsgsList, this));
-        //chatMsgs_rv.setHasFixedSize(true);
         chatMsgs_rv.setLayoutManager(new LinearLayoutManager(this));
 
-        chatMsgs_rv.scrollToPosition(chatMsgsList.size() - 1);
+        if (!chatMsgsList.isEmpty())
+            chatMsgs_rv.scrollToPosition(chatMsgsList.size() - 1);
 
         App.getBus().register(this);
     }
 
     @OnClick(R.id.send_bt)
     public void sendBt() {
-        App.getChatService().sendChatMsg(new ChatMessageToSend(rideId, msg_et.getText().toString()), new Callback<Response>() {
+        final String message = msg_et.getText().toString();
+        App.getChatService().sendChatMsg(new ChatMessageSent(rideId, message), new Callback<Response>() {
             @Override
             public void success(Response response, Response response2) {
                 Log.i("sendChatMsg", msg_et.getText().toString());
+                updateMsgsList(new ChatMessageReceived(App.getUser().getName(), App.getUser().getDbId()+"", message, rideId));
             }
 
             @Override
@@ -74,12 +73,14 @@ public class ChatAct extends AppCompatActivity {
     }
 
     @Subscribe
-    public void addNewMessage(ChatMessageReceived msg) {
-        Log.i("addNewMessage", msg.getMessage());
-        //chatMsgsList.add(msg);
+    public void updateMsgsList(ChatMessageReceived msg) {
+        Log.i("updateMsgsList", msg.getMessage());
+
+        chatMsgsList.add(msg);
+
         ChatMsgsAdapter adapter = (ChatMsgsAdapter) chatMsgs_rv.getAdapter();
-        //adapter.notifyItemInserted(chatMsgsList.size() - 1);
-        adapter.add(msg);
+        adapter.notifyItemInserted(chatMsgsList.size()-1);
+
         chatMsgs_rv.scrollToPosition(chatMsgsList.size() - 1);
     }
 }
