@@ -13,6 +13,8 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+
 import java.util.List;
 
 import br.ufrj.caronae.App;
@@ -102,11 +104,21 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
         activity.getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
         holder.layout.getLayoutParams().height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, rideWithUsers.getUsers().size() * 30 + 600, activity.getResources().getDisplayMetrics());*/
 
+        final int finalColor = color;
         holder.chat_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(activity, ChatAct.class);
                 intent.putExtra("rideId", ride.getDbId()+"");
+                intent.putExtra("neighborhood", ride.getNeighborhood());
+                intent.putExtra("color", finalColor);
+
+                String riders = "";
+                for (User user : rideWithUsers.getUsers()) {
+                    riders += user.getName().split(" ")[0] + ", ";
+                }
+                riders = riders.substring(0, riders.length() - 2);
+                intent.putExtra("riders", riders);
                 activity.startActivity(intent);
             }
         });

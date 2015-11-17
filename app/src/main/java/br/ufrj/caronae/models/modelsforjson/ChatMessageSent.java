@@ -9,7 +9,7 @@ public class ChatMessageSent {
     private String to;
     private Map<String, String> data;
 
-    public ChatMessageSent(String dbId, String message) {
+    public ChatMessageSent(String dbId, String message, String time) {
         to = "/topics/" + dbId;
         data = new HashMap<>();
         data.put("message", message);
@@ -17,6 +17,7 @@ public class ChatMessageSent {
         data.put("msgType", "chat");
         data.put("senderName", App.getUser().getName());
         data.put("senderId", App.getUser().getDbId()+"");
+        data.put("time", time);
     }
 
     public String getTo() {

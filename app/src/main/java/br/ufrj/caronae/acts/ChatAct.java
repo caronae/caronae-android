@@ -7,10 +7,15 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.squareup.otto.Subscribe;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
@@ -32,6 +37,12 @@ public class ChatAct extends AppCompatActivity {
     Button send_bt;
     @Bind(R.id.msg_et)
     EditText msg_et;
+    @Bind(R.id.neighborhood_tv)
+    TextView neighborhood_tv;
+    @Bind(R.id.riders_tv)
+    TextView riders_tv;
+    @Bind(R.id.lay1)
+    RelativeLayout lay1;
 
     String rideId;
     List<ChatMessageReceived> chatMsgsList;
@@ -43,9 +54,15 @@ public class ChatAct extends AppCompatActivity {
         ButterKnife.bind(this);
 
         rideId = getIntent().getExtras().getString("rideId");
+        int color = getIntent().getExtras().getInt("color");
+        lay1.setBackgroundColor(color);
+        String neighborhood = getIntent().getExtras().getString("neighborhood");
+        neighborhood_tv.setText(neighborhood);
+        String riders = getIntent().getExtras().getString("riders");
+        riders_tv.setText(riders);
 
         chatMsgsList = ChatMessageReceived.find(ChatMessageReceived.class, "ride_id = ?", rideId);
-        chatMsgs_rv.setAdapter(new ChatMsgsAdapter(chatMsgsList, this));
+        chatMsgs_rv.setAdapter(new ChatMsgsAdapter(chatMsgsList, color, this));
         chatMsgs_rv.setLayoutManager(new LinearLayoutManager(this));
 
         if (!chatMsgsList.isEmpty())
@@ -58,11 +75,12 @@ public class ChatAct extends AppCompatActivity {
     public void sendBt() {
         final String message = msg_et.getText().toString();
         msg_et.setText("");
-        App.getChatService().sendChatMsg(new ChatMessageSent(rideId, message), new Callback<Response>() {
+        String time = new SimpleDateFormat("HH:mm", Locale.US).format(new Date());
+        updateMsgsList(new ChatMessageReceived(App.getUser().getName(), App.getUser().getDbId() + "", message, rideId, time));
+        App.getChatService().sendChatMsg(new ChatMessageSent(rideId, message, time), new Callback<Response>() {
             @Override
             public void success(Response response, Response response2) {
                 Log.i("sendChatMsg", msg_et.getText().toString());
-                updateMsgsList(new ChatMessageReceived(App.getUser().getName(), App.getUser().getDbId()+"", message, rideId));
             }
 
             @Override

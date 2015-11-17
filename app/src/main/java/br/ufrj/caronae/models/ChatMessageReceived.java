@@ -7,12 +7,14 @@ public class ChatMessageReceived extends SugarRecord<ChatMessageReceived> {
     private String senderId;
     private String message;
     private String rideId;
+    private String time;
 
-    public ChatMessageReceived(String senderName, String senderId, String message, String rideId) {
+    public ChatMessageReceived(String senderName, String senderId, String message, String rideId, String time) {
         this.senderName = senderName;
         this.senderId = senderId;
         this.message = message;
         this.rideId = rideId;
+        this.time = time;
     }
 
     public ChatMessageReceived() {
@@ -48,5 +50,13 @@ public class ChatMessageReceived extends SugarRecord<ChatMessageReceived> {
 
     public void setRideId(String rideId) {
         this.rideId = rideId;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 }

@@ -32,7 +32,8 @@ public class GcmMessageHandler extends GcmListenerService {
         if (msgType != null && msgType.equals("chat")) {
             String rideId = data.getString("rideId");
             String senderId = data.getString("senderId");
-            ChatMessageReceived cmr = new ChatMessageReceived(senderName, senderId, message, rideId);
+            String time = data.getString("time");
+            ChatMessageReceived cmr = new ChatMessageReceived(senderName, senderId, message, rideId, time);
             cmr.save();
 
             //noinspection ConstantConditions

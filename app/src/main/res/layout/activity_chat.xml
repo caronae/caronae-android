@@ -7,6 +7,34 @@
     android:orientation="vertical"
     tools:context="br.ufrj.caronae.acts.ChatAct">
 
+    <RelativeLayout
+        android:id="@+id/lay1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/zone_sul">
+
+        <TextView
+            android:id="@+id/neighborhood_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingTop="10dp"
+            android:text="COPACABANA"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/riders_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/neighborhood_tv"
+            android:paddingBottom="10dp"
+            android:paddingLeft="10dp"
+            android:text="Fulano, Beltrano"
+            android:textColor="@color/white" />
+    </RelativeLayout>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/chatMsgs_rv"
         android:layout_width="wrap_content"
@@ -25,7 +53,7 @@
         android:id="@+id/send_bt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Enviar"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:text="Enviar" />
 
 </LinearLayout>
