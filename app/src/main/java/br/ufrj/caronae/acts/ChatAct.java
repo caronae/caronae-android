@@ -41,6 +41,10 @@ public class ChatAct extends AppCompatActivity {
     TextView neighborhood_tv;
     @Bind(R.id.riders_tv)
     TextView riders_tv;
+    @Bind(R.id.date_tv)
+    TextView date_tv;
+    @Bind(R.id.time_tv)
+    TextView time_tv;
     @Bind(R.id.lay1)
     RelativeLayout lay1;
 
@@ -53,14 +57,19 @@ public class ChatAct extends AppCompatActivity {
         setContentView(R.layout.activity_chat);
         ButterKnife.bind(this);
 
-        rideId = getIntent().getExtras().getString("rideId");
         int color = getIntent().getExtras().getInt("color");
         lay1.setBackgroundColor(color);
+
         String neighborhood = getIntent().getExtras().getString("neighborhood");
         neighborhood_tv.setText(neighborhood);
         String riders = getIntent().getExtras().getString("riders");
         riders_tv.setText(riders);
+        String date = getIntent().getExtras().getString("date");
+        date_tv.setText(date);
+        String time = getIntent().getExtras().getString("time");
+        time_tv.setText(time);
 
+        rideId = getIntent().getExtras().getString("rideId");
         chatMsgsList = ChatMessageReceived.find(ChatMessageReceived.class, "ride_id = ?", rideId);
         chatMsgs_rv.setAdapter(new ChatMsgsAdapter(chatMsgsList, color, this));
         chatMsgs_rv.setLayoutManager(new LinearLayoutManager(this));

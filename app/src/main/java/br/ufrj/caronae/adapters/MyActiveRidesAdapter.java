@@ -13,8 +13,6 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
-
 import java.util.List;
 
 import br.ufrj.caronae.App;
@@ -112,6 +110,8 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
                 intent.putExtra("rideId", ride.getDbId()+"");
                 intent.putExtra("neighborhood", ride.getNeighborhood());
                 intent.putExtra("color", finalColor);
+                intent.putExtra("date", App.formatBadDateWithoutYear(ride.getDate()));
+                intent.putExtra("time", App.formatTime(ride.getTime()));
 
                 String riders = "";
                 for (User user : rideWithUsers.getUsers()) {
