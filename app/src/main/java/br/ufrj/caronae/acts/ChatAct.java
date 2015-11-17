@@ -58,7 +58,9 @@ public class ChatAct extends AppCompatActivity {
         ButterKnife.bind(this);
 
         int color = getIntent().getExtras().getInt("color");
+        int bgRes = getIntent().getExtras().getInt("bgRes");
         lay1.setBackgroundColor(color);
+        send_bt.setBackgroundResource(bgRes);
 
         String neighborhood = getIntent().getExtras().getString("neighborhood");
         neighborhood_tv.setText(neighborhood);

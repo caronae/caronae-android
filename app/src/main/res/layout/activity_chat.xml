@@ -115,13 +115,15 @@
                 android:hint="Digite sua mensagem" />
         </android.support.v7.widget.CardView>
 
-        <Button
+        <com.rey.material.widget.Button
             android:id="@+id/send_bt"
+            style="@style/LightRaiseColorButtonRippleStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right|center_vertical"
             android:gravity="center"
-            android:text="Enviar" />
+            android:text="Enviar"
+            app:rd_enable="true" />
     </LinearLayout>
 
 
