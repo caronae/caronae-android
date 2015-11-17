@@ -37,7 +37,7 @@ public class RidersAdapter extends RecyclerView.Adapter<RidersAdapter.ViewHolder
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         final User user = users.get(position);
-        holder.name_tv.setText(user.getName());
+        holder.name_tv.setText(user.getName().split(" ")[0]);
         holder.name_tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

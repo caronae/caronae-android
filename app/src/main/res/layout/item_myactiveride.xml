@@ -144,17 +144,27 @@
                 android:layout_toEndOf="@+id/time_tv"
                 android:layout_toRightOf="@+id/time_tv"
                 android:background="@null"
-                android:gravity="center"
                 android:text="Desistir"
                 android:textColor="@color/red"
                 app:rd_enable="true" />
         </RelativeLayout>
 
+        <com.rey.material.widget.Button
+            android:id="@+id/chat_bt"
+            style="@style/LightRaiseColorButtonRippleStyle"
+            android:layout_width="150dp"
+            android:layout_height="36dp"
+            android:layout_below="@+id/lay3"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:text="Abrir bate-papo"
+            app:rd_enable="true" />
+
         <TextView
             android:id="@+id/way_text_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/lay3"
+            android:layout_below="@+id/chat_bt"
             android:layout_marginLeft="30dp"
             android:layout_marginTop="10dp"
             android:text="Passa por:"
@@ -279,19 +289,11 @@
             android:layout_marginRight="30dp"
             android:text="Só chegar, rola passar por são cristrovão também, não fumo" />
 
-        <Button
-            android:id="@+id/chat_bt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/description_tv"
-            android:layout_centerHorizontal="true"
-            android:text="Chat" />
-
         <TextView
             android:id="@+id/riders_text_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/chat_bt"
+            android:layout_below="@+id/description_tv"
             android:layout_marginLeft="30dp"
             android:layout_marginTop="20dp"
             android:text="CARONISTAS"

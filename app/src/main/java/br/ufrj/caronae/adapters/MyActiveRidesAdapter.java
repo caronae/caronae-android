@@ -60,21 +60,27 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
         int color = 0;
         if (ride.getZone().equals("Centro")) {
             color = ContextCompat.getColor(activity, R.color.zone_centro);
+            holder.chat_bt.setBackgroundResource(R.drawable.bg_bt_raise_zone_centro);
         }
         if (ride.getZone().equals("Zona Sul")) {
             color = ContextCompat.getColor(activity, R.color.zone_sul);
+            holder.chat_bt.setBackgroundResource(R.drawable.bg_bt_raise_zone_sul);
         }
         if (ride.getZone().equals("Zona Oeste")) {
             color = ContextCompat.getColor(activity, R.color.zone_oeste);
+            holder.chat_bt.setBackgroundResource(R.drawable.bg_bt_raise_zone_oeste);
         }
         if (ride.getZone().equals("Zona Norte")) {
             color = ContextCompat.getColor(activity, R.color.zone_norte);
+            holder.chat_bt.setBackgroundResource(R.drawable.bg_bt_raise_zone_norte);
         }
         if (ride.getZone().equals("Baixada")) {
             color = ContextCompat.getColor(activity, R.color.zone_baixada);
+            holder.chat_bt.setBackgroundResource(R.drawable.bg_bt_raise_zone_baixada);
         }
         if (ride.getZone().equals("Grande Niterói")) {
             color = ContextCompat.getColor(activity, R.color.zone_niteroi);
+            holder.chat_bt.setBackgroundResource(R.drawable.bg_bt_raise_zone_niteroi);
         }
         holder.lay1.setBackgroundColor(color);
 
