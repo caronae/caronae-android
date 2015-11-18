@@ -85,6 +85,8 @@ public class ChatAct extends AppCompatActivity {
     @OnClick(R.id.send_bt)
     public void sendBt() {
         final String message = msg_et.getText().toString();
+        if (message.isEmpty())
+            return;
         msg_et.setText("");
         String time = new SimpleDateFormat("HH:mm", Locale.US).format(new Date());
         updateMsgsList(new ChatMessageReceived(App.getUser().getName(), App.getUser().getDbId() + "", message, rideId, time));
