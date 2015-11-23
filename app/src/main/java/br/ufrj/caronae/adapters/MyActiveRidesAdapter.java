@@ -53,7 +53,7 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
         final RideWithUsersForJson rideWithUsers = ridesList.get(position);
 
         final Ride ride = rideWithUsers.getRide();
-        User driver = rideWithUsers.getUsers().get(0);
+        final User driver = rideWithUsers.getUsers().get(0);
 
         rideWithUsers.getUsers().remove(0);
 
@@ -126,7 +126,7 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
                 intent.putExtra("date", App.formatBadDateWithoutYear(ride.getDate()));
                 intent.putExtra("time", App.formatTime(ride.getTime()));
 
-                String riders = "";
+                String riders = driver.getName().split(" ")[0] + ", ";
                 for (User user : rideWithUsers.getUsers()) {
                     riders += user.getName().split(" ")[0] + ", ";
                 }

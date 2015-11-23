@@ -50,6 +50,11 @@ public class ChatMsgsAdapter extends RecyclerView.Adapter<ChatMsgsAdapter.ViewHo
 
             holder.sender_name_tv.setVisibility(View.GONE);
         } else {
+            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) holder.card_view.getLayoutParams();
+            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+            holder.card_view.setLayoutParams(layoutParams);
+
+            holder.sender_name_tv.setVisibility(View.VISIBLE);
             holder.sender_name_tv.setText(msg.getSenderName());
             holder.sender_name_tv.setTextColor(color);
         }
