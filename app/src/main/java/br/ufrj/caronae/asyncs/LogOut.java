@@ -35,7 +35,7 @@ public class LogOut extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected Void doInBackground(Void... arg0) {
-        App.clearUser();
+        App.clearUserVar();
 
         App.removePref(App.USER_PREF_KEY);
         App.removePref(App.LAST_RIDE_OFFER_PREF_KEY);

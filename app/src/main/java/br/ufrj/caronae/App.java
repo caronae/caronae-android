@@ -64,7 +64,7 @@ public class App extends SugarApp {
         return getUser() != null;
     }
 
-    public static void clearUser() {
+    public static void clearUserVar() {
         user = null;
     }
 
