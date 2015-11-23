@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
+import br.ufrj.caronae.Util;
 import br.ufrj.caronae.models.Ride;
 import br.ufrj.caronae.models.modelsforjson.TokenForJson;
 import br.ufrj.caronae.models.modelsforjson.UserWithRidesForJson;
@@ -56,7 +57,7 @@ public class LoginAct extends AppCompatActivity {
                 pd.dismiss();
 
                 if (userWithRides == null || userWithRides.getUser() == null) {
-                    App.toast("Chave inválida");
+                    Util.toast("Chave inválida");
                     return;
                 }
 
@@ -88,7 +89,7 @@ public class LoginAct extends AppCompatActivity {
             @Override
             public void failure(RetrofitError retrofitError) {
                 pd.dismiss();
-                App.toast("Erro ao fazer login");
+                Util.toast("Erro ao fazer login");
                 Log.e("login", retrofitError.getMessage());
             }
         });
@@ -109,7 +110,7 @@ public class LoginAct extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... arg0) {
             for (Ride ride : userWithRides.getRides()) {
-                ride.setTime(App.formatTime(ride.getTime()));
+                ride.setTime(Util.formatTime(ride.getTime()));
                 new Ride(ride).save();
             }
 

@@ -13,6 +13,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import br.ufrj.caronae.App;
+import br.ufrj.caronae.Util;
 import br.ufrj.caronae.asyncs.CheckSubGcmTopic;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.models.modelsforjson.JoinRequestIDsForJson;
@@ -56,7 +57,7 @@ public class RequestersAdapter extends RecyclerView.Adapter<RequestersAdapter.Vi
             public void onClick(View view) {
                 new AlertDialog.Builder(activity).
                         setTitle(user.getName()).
-                        setMessage(user.getProfile() + "\n" + user.getCourse() + "\nUsuário desde " + App.formatBadDateWithYear(user.getCreatedAt().split(" ")[0])).
+                        setMessage(user.getProfile() + "\n" + user.getCourse() + "\nUsuário desde " + Util.formatBadDateWithYear(user.getCreatedAt().split(" ")[0])).
                         show();
             }
         });
@@ -68,7 +69,7 @@ public class RequestersAdapter extends RecyclerView.Adapter<RequestersAdapter.Vi
                 App.getNetworkService().answerJoinRequest(new JoinRequestIDsForJson(user.getDbId(), rideId, true), new Callback<Response>() {
                     @Override
                     public void success(Response response, Response response2) {
-                        App.toast("Solicitação aceita");
+                        Util.toast("Solicitação aceita");
                         users.remove(user);
                         notifyItemRemoved(holder.getAdapterPosition());
                         new CheckSubGcmTopic().execute(rideId+"");
@@ -77,7 +78,7 @@ public class RequestersAdapter extends RecyclerView.Adapter<RequestersAdapter.Vi
                     @Override
                     public void failure(RetrofitError error) {
                         Log.e("answerJoinRequest", error.getMessage());
-                        App.toast("Erro ao responder solicitação");
+                        Util.toast("Erro ao responder solicitação");
                     }
                 });
             }
@@ -89,7 +90,7 @@ public class RequestersAdapter extends RecyclerView.Adapter<RequestersAdapter.Vi
                 App.getNetworkService().answerJoinRequest(new JoinRequestIDsForJson(user.getDbId(), rideId, false), new Callback<Response>() {
                     @Override
                     public void success(Response response, Response response2) {
-                        App.toast("Solicitação rejeitada");
+                        Util.toast("Solicitação rejeitada");
                         users.remove(user);
                         notifyItemRemoved(holder.getAdapterPosition());
                     }
@@ -97,7 +98,7 @@ public class RequestersAdapter extends RecyclerView.Adapter<RequestersAdapter.Vi
                     @Override
                     public void failure(RetrofitError error) {
                         Log.e("answerJoinRequest", error.getMessage());
-                        App.toast("Erro ao responder solicitação");
+                        Util.toast("Erro ao responder solicitação");
                     }
                 });
             }

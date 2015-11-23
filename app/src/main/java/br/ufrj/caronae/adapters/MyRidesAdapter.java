@@ -16,6 +16,7 @@ import java.util.List;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
+import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.models.Ride;
 import br.ufrj.caronae.models.modelsforjson.RideIdForJson;
@@ -69,7 +70,7 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
         holder.cardView.setCardBackgroundColor(color);
 
         holder.time_tv.setText("Chegando ás " + ride.getTime() + " | ");
-        holder.date_tv.setText(App.formatGoodDateWithoutYear(ride.getDate()));
+        holder.date_tv.setText(Util.formatGoodDateWithoutYear(ride.getDate()));
         holder.slots_tv.setText(ride.getSlots() + " vagas | ");
         //holder.direction_tv.setText(ride.isGoing() ? "Indo para o fundão" : "Voltando do fundão - HUB:" + ride.getHub());
         holder.neighborhood_tv.setText(ride.getNeighborhood());
@@ -94,7 +95,7 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
                 App.getNetworkService().deleteRide(ride.getDbId()+"", new Callback<Response>() {
                     @Override
                     public void success(Response response, Response response2) {
-                        App.toast("Carona excluída");
+                        Util.toast("Carona excluída");
                         rides.remove(ride);
                         notifyItemRemoved(holder.getAdapterPosition());
                         ride.delete();
@@ -102,7 +103,7 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
 
                     @Override
                     public void failure(RetrofitError error) {
-                        App.toast("Erro ao excluir carona");
+                        Util.toast("Erro ao excluir carona");
                         Log.e("deleteRide", error.getMessage());
                     }
                 });
@@ -119,7 +120,7 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
                     public void success(List<User> users, Response response) {
                         pd.dismiss();
                         if (users.isEmpty()) {
-                            App.toast("Nenhuma solicitação para esse anúncio");
+                            Util.toast("Nenhuma solicitação para esse anúncio");
                         } else {
                             activity.showRequestersListFrag(users, ride.getDbId(), colorToSend);
                         }
@@ -128,7 +129,7 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
                     @Override
                     public void failure(RetrofitError error) {
                         pd.dismiss();
-                        App.toast("Erro ao obter solicitações");
+                        Util.toast("Erro ao obter solicitações");
                         Log.e("getRequesters", error.getMessage());
                     }
                 });

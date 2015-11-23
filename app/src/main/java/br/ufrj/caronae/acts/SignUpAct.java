@@ -7,6 +7,7 @@ import android.widget.EditText;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
+import br.ufrj.caronae.Util;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -33,12 +34,12 @@ public class SignUpAct extends AppCompatActivity {
         App.getNetworkService().signUp(nome_et.getText().toString(), token_et.getText().toString(), new Callback<Response>() {
             @Override
             public void success(Response s, Response response) {
-                App.toast(App.getResponseBody(s));
+                Util.toast(Util.getResponseBody(s));
             }
 
             @Override
             public void failure(RetrofitError error) {
-                App.toast("Erro ao cadastrar");
+                Util.toast("Erro ao cadastrar");
                 Log.e("signUp", error.getMessage());
             }
         });

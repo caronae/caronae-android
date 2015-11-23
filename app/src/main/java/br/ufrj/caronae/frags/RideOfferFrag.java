@@ -29,6 +29,7 @@ import java.util.Locale;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
+import br.ufrj.caronae.Util;
 import br.ufrj.caronae.models.Ride;
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -156,7 +157,7 @@ public class RideOfferFrag extends Fragment {
             }
         };
 
-        builder.items(App.getZones(), 0)
+        builder.items(Util.getZones(), 0)
                 .title("Escolha a zona")
                 .positiveAction("OK")
                 .negativeAction("Cancelar");
@@ -178,7 +179,7 @@ public class RideOfferFrag extends Fragment {
             }
         };
 
-        builder.items(App.getNeighborhoods(zone), 0)
+        builder.items(Util.getNeighborhoods(zone), 0)
                 .title("Escolha o bairro")
                 .positiveAction("OK")
                 .negativeAction("Cancelar");
@@ -281,7 +282,7 @@ public class RideOfferFrag extends Fragment {
             weekDays += saturday_cb.isChecked() ? "6," : "";
 
             if (weekDays.isEmpty()) {
-                App.toast("Nenhum dia selecionado para rotina");
+                Util.toast("Nenhum dia selecionado para rotina");
                 return;
             }
             weekDays = weekDays.substring(0, weekDays.length() - 1);
@@ -324,12 +325,12 @@ public class RideOfferFrag extends Fragment {
                     ride2.setDbId(ride.getId().intValue());
                     ride2.save();
                 }
-                App.toast("Carona salva");
+                Util.toast("Carona salva");
             }
 
             @Override
             public void failure(RetrofitError error) {
-                App.toast("Erro ao oferecer carona");
+                Util.toast("Erro ao oferecer carona");
                 Log.e("offerRide", error.getMessage());
             }
         });

@@ -16,6 +16,7 @@ import java.util.ArrayList;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
+import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.adapters.MyRidesAdapter;
 import br.ufrj.caronae.models.Ride;
@@ -87,7 +88,7 @@ public class MyRidesFrag extends Fragment {
             });
         }
 
-        App.toast("Caronas deletadas");
+        Util.toast("Caronas deletadas");
         rides.clear();
         myRidesList.getAdapter().notifyDataSetChanged();
     }

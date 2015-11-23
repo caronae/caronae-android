@@ -31,6 +31,7 @@ import java.util.Locale;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
+import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.adapters.RideOfferAdapter;
 import br.ufrj.caronae.comparators.RideOfferComparatorByTime;
@@ -129,7 +130,7 @@ public class RideSearchFrag extends Fragment {
             }
         };
 
-        builder.multiChoiceItems(App.getZones(), 0)
+        builder.multiChoiceItems(Util.getZones(), 0)
                 .title("Escolha a(s) zona(s)")
                 .positiveAction("OK")
                 .negativeAction("Cancelar");
@@ -163,7 +164,7 @@ public class RideSearchFrag extends Fragment {
             }
         };
 
-        builder.multiChoiceItems(App.getNeighborhoods(zone), 0)
+        builder.multiChoiceItems(Util.getNeighborhoods(zone), 0)
                 .title("Escolha o(s) bairro(s)")
                 .positiveAction("OK")
                 .negativeAction("Cancelar");
@@ -201,7 +202,7 @@ public class RideSearchFrag extends Fragment {
 
     @OnClick(R.id.anotherSearch_bt)
     public void anotherSearchBt() {
-        App.expandOrCollapse(lay, true);
+        Util.expandOrCollapse(lay, true);
         anotherSearch_bt.setVisibility(View.GONE);
     }
 
@@ -231,12 +232,12 @@ public class RideSearchFrag extends Fragment {
             @Override
             public void success(List<RideOfferForJson> rideOffers, Response response) {
                 if (rideOffers != null) {
-                    App.expandOrCollapse(lay, false);
+                    Util.expandOrCollapse(lay, false);
                     anotherSearch_bt.setVisibility(View.VISIBLE);
                     Collections.sort(rideOffers, new RideOfferComparatorByTime());
                     adapter.makeList(rideOffers);
                 } else {
-                    App.toast("Nenhuma carona encontrada");
+                    Util.toast("Nenhuma carona encontrada");
                     adapter.makeList(new ArrayList<RideOfferForJson>());
                 }
                 pd.dismiss();
@@ -245,7 +246,7 @@ public class RideSearchFrag extends Fragment {
             @Override
             public void failure(RetrofitError error) {
                 pd.dismiss();
-                App.toast("Erro ao obter caronas");
+                Util.toast("Erro ao obter caronas");
                 Log.e("listFiltered", error.getMessage());
             }
         });

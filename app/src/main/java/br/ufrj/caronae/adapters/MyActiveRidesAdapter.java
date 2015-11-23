@@ -17,6 +17,7 @@ import java.util.List;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
+import br.ufrj.caronae.Util;
 import br.ufrj.caronae.asyncs.UnsubGcmTopic;
 import br.ufrj.caronae.acts.ChatAct;
 import br.ufrj.caronae.acts.MainAct;
@@ -98,9 +99,9 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
         holder.place_tv.setText(ride.getPlace());
         holder.phoneNumber_tv.setText(driver.getPhoneNumber());
         holder.course_tv.setText(driver.getCourse());
-        holder.time_tv.setText("Chegando ás " + App.formatTime(ride.getTime()));
+        holder.time_tv.setText("Chegando ás " + Util.formatTime(ride.getTime()));
         holder.time_tv.setTextColor(color);
-        holder.date_tv.setText(App.formatBadDateWithoutYear(ride.getDate()));
+        holder.date_tv.setText(Util.formatBadDateWithoutYear(ride.getDate()));
         holder.date_tv.setTextColor(color);
         holder.carModel_tv.setText(driver.getCarModel());
         holder.carColor_tv.setText(driver.getCarColor());
@@ -123,8 +124,8 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
                 intent.putExtra("neighborhood", ride.getNeighborhood());
                 intent.putExtra("color", finalColor);
                 intent.putExtra("bgRes", finalBgRes);
-                intent.putExtra("date", App.formatBadDateWithoutYear(ride.getDate()));
-                intent.putExtra("time", App.formatTime(ride.getTime()));
+                intent.putExtra("date", Util.formatBadDateWithoutYear(ride.getDate()));
+                intent.putExtra("time", Util.formatTime(ride.getTime()));
 
                 String riders = driver.getName().split(" ")[0] + ", ";
                 for (User user : rideWithUsers.getUsers()) {
@@ -142,7 +143,7 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
                 App.getNetworkService().leaveRide(new RideIdForJson(ride.getDbId()), new Callback<Response>() {
                     @Override
                     public void success(Response response, Response response2) {
-                        App.toast("Carona excluída");
+                        Util.toast("Carona excluída");
                         ridesList.remove(rideWithUsers);
                         notifyItemRemoved(holder.getAdapterPosition());
 
@@ -155,7 +156,7 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
 
                     @Override
                     public void failure(RetrofitError error) {
-                        App.toast("Erro ao desistir de carona");
+                        Util.toast("Erro ao desistir de carona");
                         Log.e("leaveRide", error.getMessage());
                     }
                 });

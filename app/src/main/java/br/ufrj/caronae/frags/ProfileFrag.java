@@ -24,6 +24,7 @@ import java.util.Locale;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
+import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.LoginAct;
 import br.ufrj.caronae.asyncs.LogOut;
 import br.ufrj.caronae.models.User;
@@ -134,7 +135,7 @@ public class ProfileFrag extends Fragment {
             }
         };
 
-        builder.items(App.getZones(), 0)
+        builder.items(Util.getZones(), 0)
                 .title("Escolha sua zona")
                 .positiveAction("OK")
                 .negativeAction("Cancelar");
@@ -156,7 +157,7 @@ public class ProfileFrag extends Fragment {
             }
         };
 
-        builder.items(App.getNeighborhoods(zone), 0)
+        builder.items(Util.getNeighborhoods(zone), 0)
                 .title("Escolha seu bairro")
                 .positiveAction("OK")
                 .negativeAction("Cancelar");
@@ -210,13 +211,13 @@ public class ProfileFrag extends Fragment {
                         return;
                     user.setUser(editedUser);
                     App.saveUser(user);
-                    App.toast("Perfil atualizado");
+                    Util.toast("Perfil atualizado");
                 }
 
                 @Override
                 public void failure(RetrofitError error) {
                     Log.e("updateUser", error.getMessage());
-                    App.toast("Erro ao atualizar usuário");
+                    Util.toast("Erro ao atualizar usuário");
                 }
             });
         }

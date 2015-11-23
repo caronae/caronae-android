@@ -3,7 +3,7 @@ package br.ufrj.caronae.models;
 import com.google.gson.annotations.SerializedName;
 import com.orm.SugarRecord;
 
-import br.ufrj.caronae.App;
+import br.ufrj.caronae.Util;
 
 public class Ride extends SugarRecord<Ride> {
     @SerializedName("myzone")
@@ -49,7 +49,7 @@ public class Ride extends SugarRecord<Ride> {
         neighborhood = ride.getNeighborhood();
         place = ride.getPlace();
         route = ride.getRoute();
-        date = App.formatBadDateWithYear(ride.getDate());
+        date = Util.formatBadDateWithYear(ride.getDate());
         time = ride.getTime();
         slots = ride.getSlots();
         hub = ride.getHub();

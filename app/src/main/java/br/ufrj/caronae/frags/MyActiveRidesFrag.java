@@ -14,6 +14,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import br.ufrj.caronae.App;
+import br.ufrj.caronae.Util;
 import br.ufrj.caronae.asyncs.CheckSubGcmTopic;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.acts.MainAct;
@@ -73,7 +74,7 @@ public class MyActiveRidesFrag extends Fragment {
             public void failure(RetrofitError error) {
                 norides_tv.setVisibility(View.VISIBLE);
                 pd.dismiss();
-                App.toast("Erro ao obter caronas ativas");
+                Util.toast("Erro ao obter caronas ativas");
                 Log.e("getMyActiveRides", error.getMessage());
             }
         });

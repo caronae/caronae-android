@@ -19,6 +19,7 @@ import java.util.Locale;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
+import br.ufrj.caronae.Util;
 import br.ufrj.caronae.adapters.ChatMsgsAdapter;
 import br.ufrj.caronae.models.ChatMessageReceived;
 import br.ufrj.caronae.models.modelsforjson.ChatMessageSent;
@@ -98,7 +99,7 @@ public class ChatAct extends AppCompatActivity {
 
             @Override
             public void failure(RetrofitError error) {
-                App.toast("Erro ao enviar mensagem de chat");
+                Util.toast("Erro ao enviar mensagem de chat");
                 Log.e("sendChatMsg", error.getMessage());
             }
         });

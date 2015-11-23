@@ -16,6 +16,7 @@ import java.util.List;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
+import br.ufrj.caronae.Util;
 import br.ufrj.caronae.models.modelsforjson.RideIdForJson;
 import br.ufrj.caronae.models.modelsforjson.RideOfferForJson;
 import retrofit.Callback;
@@ -67,8 +68,8 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
         }
         viewHolder.cardView.setCardBackgroundColor(color);
 
-        viewHolder.time_tv.setText(App.formatTime(rideOffer.getTime()));
-        viewHolder.date_tv.setText(" | " + App.formatBadDateWithoutYear(rideOffer.getDate()));
+        viewHolder.time_tv.setText(Util.formatTime(rideOffer.getTime()));
+        viewHolder.date_tv.setText(" | " + Util.formatBadDateWithoutYear(rideOffer.getDate()));
         viewHolder.course_tv.setText(" | " + rideOffer.getCourse());
         viewHolder.name_tv.setText(rideOffer.getDriverName());
         viewHolder.slots_tv.setText(rideOffer.getSlots() + " vaga" + (Integer.parseInt(rideOffer.getSlots()) > 1 ? "s" : ""));
@@ -83,12 +84,12 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
                 App.getNetworkService().requestJoin(new RideIdForJson(rideOffer.getRideId()), new Callback<Response>() {
                     @Override
                     public void success(Response response, Response response2) {
-                        App.toast("Solicitação enviada");
+                        Util.toast("Solicitação enviada");
                     }
 
                     @Override
                     public void failure(RetrofitError error) {
-                        App.toast("Erro no envio da solicitação");
+                        Util.toast("Erro no envio da solicitação");
                         Log.e("requestJoin", error.getMessage());
                     }
                 });
