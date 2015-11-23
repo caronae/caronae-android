@@ -43,7 +43,10 @@ public class ChatMsgsAdapter extends RecyclerView.Adapter<ChatMsgsAdapter.ViewHo
         holder.msg_tv.setText(msg.getMessage());
         holder.time_tv.setText(msg.getTime());
 
-        if (msg.getSenderId().equals(App.getUser().getDbId()+"")) {
+        holder.sender_name_tv.setText(msg.getSenderName());
+        holder.sender_name_tv.setTextColor(color);
+
+        /*if (msg.getSenderId().equals(App.getUser().getDbId()+"")) {
             RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) holder.card_view.getLayoutParams();
             layoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
             holder.card_view.setLayoutParams(layoutParams);
@@ -57,7 +60,7 @@ public class ChatMsgsAdapter extends RecyclerView.Adapter<ChatMsgsAdapter.ViewHo
             holder.sender_name_tv.setVisibility(View.VISIBLE);
             holder.sender_name_tv.setText(msg.getSenderName());
             holder.sender_name_tv.setTextColor(color);
-        }
+        }*/
     }
 
     @Override
