@@ -10,11 +10,14 @@ import android.util.Log;
 
 import com.google.android.gms.gcm.GcmListenerService;
 
+import java.util.List;
+
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.asyncs.CheckSubGcmTopic;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.asyncs.UnsubGcmTopic;
+import br.ufrj.caronae.models.ActiveRideId;
 import br.ufrj.caronae.models.ChatMessageReceived;
 
 public class GcmMessageHandler extends GcmListenerService {
@@ -48,6 +51,10 @@ public class GcmMessageHandler extends GcmListenerService {
         if (msgType != null && msgType.equals("cancelled")) {
             String rideId = data.getString("rideId");
             new UnsubGcmTopic(getApplicationContext(), rideId).execute();
+
+            List<ActiveRideId> activeRideId = ActiveRideId.find(ActiveRideId.class, "ride_id = ?", rideId);
+            if (activeRideId != null && !activeRideId.isEmpty())
+                activeRideId.get(0).delete();
         }
 
         if (msgType != null && msgType.equals("accepted")) {

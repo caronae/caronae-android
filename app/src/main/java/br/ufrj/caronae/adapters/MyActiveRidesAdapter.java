@@ -21,6 +21,7 @@ import br.ufrj.caronae.Util;
 import br.ufrj.caronae.asyncs.UnsubGcmTopic;
 import br.ufrj.caronae.acts.ChatAct;
 import br.ufrj.caronae.acts.MainAct;
+import br.ufrj.caronae.models.ActiveRideId;
 import br.ufrj.caronae.models.Ride;
 import br.ufrj.caronae.models.User;
 import br.ufrj.caronae.models.modelsforjson.RideIdForJson;
@@ -137,6 +138,7 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
             }
         });
 
+        final String rideId = ride.getDbId()+"";
         holder.leave_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -147,9 +149,13 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
                         ridesList.remove(rideWithUsers);
                         notifyItemRemoved(holder.getAdapterPosition());
 
-                        new UnsubGcmTopic(activity, ride.getDbId()+"").execute();
+                        new UnsubGcmTopic(activity, rideId).execute();
 
-                        List<Ride> rides = Ride.find(Ride.class, "db_id = ?", ride.getDbId() + "");
+                        List<ActiveRideId> activeRideId = ActiveRideId.find(ActiveRideId.class, "ride_id = ?", rideId);
+                        if (activeRideId != null && !activeRideId.isEmpty())
+                            activeRideId.get(0).delete();
+
+                        List<Ride> rides = Ride.find(Ride.class, "db_id = ?", rideId);
                         if (rides != null && !rides.isEmpty())
                             rides.get(0).delete();
                     }
