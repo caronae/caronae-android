@@ -51,10 +51,6 @@ public class GcmMessageHandler extends GcmListenerService {
         if (msgType != null && msgType.equals("cancelled")) {
             String rideId = data.getString("rideId");
             new UnsubGcmTopic(getApplicationContext(), rideId).execute();
-
-            List<ActiveRideId> activeRideId = ActiveRideId.find(ActiveRideId.class, "ride_id = ?", rideId);
-            if (activeRideId != null && !activeRideId.isEmpty())
-                activeRideId.get(0).delete();
         }
 
         if (msgType != null && msgType.equals("accepted")) {

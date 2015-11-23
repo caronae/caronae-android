@@ -151,10 +151,6 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
 
                         new UnsubGcmTopic(activity, rideId).execute();
 
-                        List<ActiveRideId> activeRideId = ActiveRideId.find(ActiveRideId.class, "ride_id = ?", rideId);
-                        if (activeRideId != null && !activeRideId.isEmpty())
-                            activeRideId.get(0).delete();
-
                         List<Ride> rides = Ride.find(Ride.class, "db_id = ?", rideId);
                         if (rides != null && !rides.isEmpty())
                             rides.get(0).delete();
