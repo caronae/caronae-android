@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.List;
 
 import br.ufrj.caronae.App;
+import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.models.ActiveRideId;
 import br.ufrj.caronae.models.ChatMessageReceived;
 import br.ufrj.caronae.models.Ride;
@@ -37,18 +38,18 @@ public class LogOut extends AsyncTask<Void, Void, Void> {
     protected Void doInBackground(Void... arg0) {
         App.clearUserVar();
 
-        App.removePref(App.USER_PREF_KEY);
-        App.removePref(App.LAST_RIDE_OFFER_PREF_KEY);
-        App.removePref(App.LAST_RIDE_SEARCH_FILTERS_PREF_KEY);
-        App.removePref(App.TOKEN_PREF_KEY);
-        App.removePref(App.NOTIFICATIONS_ON_PREF_KEY);
+        SharedPref.removePref(SharedPref.USER_PREF_KEY);
+        SharedPref.removePref(SharedPref.LAST_RIDE_OFFER_PREF_KEY);
+        SharedPref.removePref(SharedPref.LAST_RIDE_SEARCH_FILTERS_PREF_KEY);
+        SharedPref.removePref(SharedPref.TOKEN_PREF_KEY);
+        SharedPref.removePref(SharedPref.NOTIFICATIONS_ON_PREF_KEY);
 
         List<ActiveRideId> activeRideIds = ActiveRideId.listAll(ActiveRideId.class);
         if (!activeRideIds.isEmpty()) {
             GcmPubSub pubSub = GcmPubSub.getInstance(App.inst());
             for (ActiveRideId ari : activeRideIds) {
                 try {
-                    pubSub.unsubscribe(App.getUserGcmToken(), "/topics/" + ari.getRideId());
+                    pubSub.unsubscribe(SharedPref.getUserGcmToken(), "/topics/" + ari.getRideId());
                     Log.i("logOut", "unsubscribed from ride " + ari.getRideId());
                 } catch (IOException e) {
                     e.printStackTrace();

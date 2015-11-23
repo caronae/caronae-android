@@ -1,41 +1,15 @@
 package br.ufrj.caronae;
 
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-import android.view.View;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.Animation;
-import android.view.animation.TranslateAnimation;
-import android.widget.Toast;
-
 import com.google.gson.Gson;
 import com.orm.SugarApp;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.Locale;
 
 import br.ufrj.caronae.httpapis.ChatService;
 import br.ufrj.caronae.httpapis.NetworkService;
 import br.ufrj.caronae.models.User;
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
-import retrofit.client.Response;
 
 public class App extends SugarApp {
-
-    public static final String USER_PREF_KEY                        = "user";
-    public static final String LAST_RIDE_OFFER_PREF_KEY             = "lastRideOffer";
-    public static final String LAST_RIDE_SEARCH_FILTERS_PREF_KEY    = "lastRideSearchFilters";
-    public static final String TOKEN_PREF_KEY                       = "token";
-    public static final String GCM_TOKEN_PREF_KEY                   = "gcmToken";
-    public static final String NOTIFICATIONS_ON_PREF_KEY            = "notifOn";
-    public static final String MISSING_PREF                         = "missing";
 
     public static final String APIARY_ENDPOINT              = "http://private-5b9ed6-caronae.apiary-mock.com";
     public static final String MEUDIGOCEAN_PROD_ENDPOINT    = "http://45.55.46.90:80/";
@@ -70,52 +44,12 @@ public class App extends SugarApp {
 
     public static User getUser() {
         if (user == null) {
-            String userJson = getPref(USER_PREF_KEY);
-            if (!userJson.equals(MISSING_PREF))
+            String userJson = SharedPref.getUserPref();
+            if (!userJson.equals(SharedPref.MISSING_PREF))
                 user = new Gson().fromJson(userJson, User.class);
         }
 
         return user;
-    }
-
-    public static void saveUser(User user) {
-        putPref(USER_PREF_KEY, new Gson().toJson(user));
-    }
-
-    public static String getUserToken() {
-        return getPref(TOKEN_PREF_KEY);
-    }
-
-    public static void saveUserToken(String token) {
-        putPref(TOKEN_PREF_KEY, token);
-    }
-
-    public static String getUserGcmToken() {
-        return getPref(GCM_TOKEN_PREF_KEY);
-    }
-
-    public static void saveUserGcmToken(String token) {
-        putPref(GCM_TOKEN_PREF_KEY, token);
-    }
-
-    private static SharedPreferences getSharedPreferences() {
-        return PreferenceManager.getDefaultSharedPreferences(inst);
-    }
-
-    private static SharedPreferences.Editor getSharedPrefEditor() {
-        return getSharedPreferences().edit();
-    }
-
-    public static void putPref(String key, String value) {
-        getSharedPrefEditor().putString(key, value).apply();
-    }
-
-    public static void removePref(String key) {
-        getSharedPrefEditor().remove(key).apply();
-    }
-
-    public static String getPref(String key) {
-        return getSharedPreferences().getString(key, MISSING_PREF);
     }
 
     public static NetworkService getNetworkService() {
@@ -131,7 +65,7 @@ public class App extends SugarApp {
                         @Override
                         public void intercept(RequestFacade request) {
                             if (App.isUserLoggedIn()) {
-                                request.addHeader("token", App.getUserToken());
+                                request.addHeader("token", SharedPref.getUserToken());
                             }
                         }
                     })

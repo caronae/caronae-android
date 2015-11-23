@@ -29,6 +29,7 @@ import java.util.Locale;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
+import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.models.Ride;
 import butterknife.Bind;
@@ -93,8 +94,8 @@ public class RideOfferFrag extends Fragment {
         View view = inflater.inflate(R.layout.fragment_ride_offer, container, false);
         ButterKnife.bind(this, view);
 
-        String lastRideOffer = App.getPref(App.LAST_RIDE_OFFER_PREF_KEY);
-        if (!lastRideOffer.equals(App.MISSING_PREF)) {
+        String lastRideOffer = SharedPref.getLastRidePref();
+        if (!lastRideOffer.equals(SharedPref.MISSING_PREF)) {
             loadLastRide(lastRideOffer);
         }
 
@@ -315,7 +316,7 @@ public class RideOfferFrag extends Fragment {
         final Ride ride = new Ride(zone, neighborhood, place, way, date, time, slots, hub, description, go, routine, weekDays, repeatsUntil);
 
         String lastRideOffer = new Gson().toJson(ride);
-        App.putPref(App.LAST_RIDE_OFFER_PREF_KEY, lastRideOffer);
+        SharedPref.saveLastRidePref(lastRideOffer);
 
         App.getNetworkService().offerRide(ride, new Callback<List<Ride>>() {
             @Override

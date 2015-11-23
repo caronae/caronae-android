@@ -11,6 +11,7 @@ import java.io.IOException;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
+import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.models.modelsforjson.TokenForJson;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -52,7 +53,7 @@ public class RegistrationIntentService extends IntentService {
                 Log.i("saveGcmToken", "gcm token sent to server");
 
                 // save token
-                App.saveUserGcmToken(token);
+                SharedPref.saveUserGcmToken(token);
             }
 
             @Override

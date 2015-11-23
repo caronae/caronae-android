@@ -87,8 +87,8 @@
         android:id="@+id/chatMsgs_rv"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
         android:layout_weight="1"
         app:stackFromEnd="true" />
 

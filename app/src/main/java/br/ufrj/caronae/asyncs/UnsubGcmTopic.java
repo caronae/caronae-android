@@ -8,7 +8,7 @@ import com.google.android.gms.gcm.GcmPubSub;
 
 import java.io.IOException;
 
-import br.ufrj.caronae.App;
+import br.ufrj.caronae.SharedPref;
 
 public class UnsubGcmTopic extends AsyncTask<Void, Void, Void> {
     private final String dbId;
@@ -22,7 +22,7 @@ public class UnsubGcmTopic extends AsyncTask<Void, Void, Void> {
     @Override
     protected Void doInBackground(Void... arg0) {
         try {
-            gcmPubSub.unsubscribe(App.getUserGcmToken(), "/topics/" + dbId);
+            gcmPubSub.unsubscribe(SharedPref.getUserGcmToken(), "/topics/" + dbId);
             Log.i("logOut", "unsubscribed from ride " + dbId);
         } catch (IOException e) {
             e.printStackTrace();

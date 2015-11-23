@@ -14,6 +14,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import br.ufrj.caronae.App;
+import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.asyncs.CheckSubGcmTopic;
 import br.ufrj.caronae.R;
@@ -53,7 +54,7 @@ public class MyActiveRidesFrag extends Fragment {
                 }
 
                 //subscribe to ride id topic
-                if (!App.getUserGcmToken().equals(App.MISSING_PREF)) {
+                if (!SharedPref.getUserGcmToken().equals(SharedPref.MISSING_PREF)) {
                     Log.i("getMyActiveRides", "i have gcm token");
                     for (RideWithUsersForJson rideWithUsers : rideWithUsersList) {
                         int rideId = rideWithUsers.getRide().getId().intValue();

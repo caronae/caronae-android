@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.List;
 
 import br.ufrj.caronae.App;
+import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.models.ActiveRideId;
 
 public class CheckSubGcmTopic extends AsyncTask<String, Void, Void> {
@@ -19,7 +20,7 @@ public class CheckSubGcmTopic extends AsyncTask<String, Void, Void> {
         if (activeRideId == null || activeRideId.isEmpty()) {
             try {
                 Log.i("CheckSubGcmTopic", "i'll subscribe to ride " + rideId);
-                GcmPubSub.getInstance(App.inst()).subscribe(App.getUserGcmToken(), "/topics/" + rideId, null);
+                GcmPubSub.getInstance(App.inst()).subscribe(SharedPref.getUserGcmToken(), "/topics/" + rideId, null);
                 new ActiveRideId(rideId).save();
                 Log.i("CheckSubGcmTopic", "subscribed to ride " + rideId);
             } catch (IOException e) {

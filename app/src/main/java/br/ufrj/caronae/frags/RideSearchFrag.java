@@ -31,6 +31,7 @@ import java.util.Locale;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
+import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.adapters.RideOfferAdapter;
@@ -82,8 +83,8 @@ public class RideSearchFrag extends Fragment {
         rvRides.setHasFixedSize(true);
         rvRides.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        String lastRideSearchFilters = App.getPref(App.LAST_RIDE_SEARCH_FILTERS_PREF_KEY);
-        if (!lastRideSearchFilters.equals(App.MISSING_PREF)) {
+        String lastRideSearchFilters = SharedPref.getLastRideSearchFiltersPref();
+        if (!lastRideSearchFilters.equals(SharedPref.MISSING_PREF)) {
             loadLastFilters(lastRideSearchFilters);
         }
 
@@ -226,7 +227,7 @@ public class RideSearchFrag extends Fragment {
         RideSearchFiltersForJson rideSearchFilters = new RideSearchFiltersForJson(location, date, time, center, go);
 
         String lastRideSearchFilters = new Gson().toJson(rideSearchFilters);
-        App.putPref(App.LAST_RIDE_SEARCH_FILTERS_PREF_KEY, lastRideSearchFilters);
+        SharedPref.saveLastRideSearchFiltersPref(lastRideSearchFilters);
 
         App.getNetworkService().listFiltered(rideSearchFilters, new Callback<List<RideOfferForJson>>() {
             @Override

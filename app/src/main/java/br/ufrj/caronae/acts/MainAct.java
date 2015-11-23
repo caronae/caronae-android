@@ -31,6 +31,7 @@ import java.util.List;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
+import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.gcm.RegistrationIntentService;
 import br.ufrj.caronae.frags.MyActiveRidesFrag;
 import br.ufrj.caronae.frags.MyRidesFrag;
@@ -100,7 +101,7 @@ public class MainAct extends AppCompatActivity {
         if (resultGplay != ConnectionResult.SUCCESS) {
             GooglePlayServicesUtil.getErrorDialog(resultGplay, this, GPLAY_UNAVAILABLE);
         } else {
-            if (App.getPref(App.GCM_TOKEN_PREF_KEY).equals(App.MISSING_PREF)) {
+            if (SharedPref.getUserGcmToken().equals(SharedPref.MISSING_PREF)) {
                 Intent intent = new Intent(this, RegistrationIntentService.class);
                 startService(intent);
             }

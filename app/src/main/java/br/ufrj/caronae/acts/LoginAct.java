@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
+import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.models.Ride;
 import br.ufrj.caronae.models.modelsforjson.TokenForJson;
@@ -61,14 +62,14 @@ public class LoginAct extends AppCompatActivity {
                     return;
                 }
 
-                App.saveUser(userWithRides.getUser());
-                App.saveUserToken(token);
-                App.putPref(App.NOTIFICATIONS_ON_PREF_KEY, "true");
+                SharedPref.saveUser(userWithRides.getUser());
+                SharedPref.saveUserToken(token);
+                SharedPref.saveNotifPref("true");
 
                 new SaveRidesAsync(userWithRides).execute();
 
-                String gcmToken = App.getPref(App.GCM_TOKEN_PREF_KEY);
-                if (!gcmToken.equals(App.MISSING_PREF)) {
+                String gcmToken = SharedPref.getUserGcmToken();
+                if (!gcmToken.equals(SharedPref.MISSING_PREF)) {
                     App.getNetworkService().saveGcmToken(new TokenForJson(gcmToken), new Callback<Response>() {
                         @Override
                         public void success(Response response, Response response2) {

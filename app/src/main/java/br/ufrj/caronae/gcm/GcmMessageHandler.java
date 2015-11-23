@@ -11,6 +11,7 @@ import android.util.Log;
 import com.google.android.gms.gcm.GcmListenerService;
 
 import br.ufrj.caronae.App;
+import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.asyncs.CheckSubGcmTopic;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.asyncs.UnsubGcmTopic;
@@ -54,7 +55,7 @@ public class GcmMessageHandler extends GcmListenerService {
             new CheckSubGcmTopic().execute(rideId);
         }
 
-        if (notify && App.getPref(App.NOTIFICATIONS_ON_PREF_KEY).equals("true"))
+        if (notify && SharedPref.getNotifPref().equals("true"))
             createNotification(msgType, senderName, message);
     }
 

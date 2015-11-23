@@ -24,6 +24,7 @@ import java.util.Locale;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
+import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.LoginAct;
 import br.ufrj.caronae.asyncs.LogOut;
@@ -94,7 +95,7 @@ public class ProfileFrag extends Fragment {
             }
             createdAt_tv.setText("Usuário desde " + date);
 
-            String notifOn = App.getPref(App.NOTIFICATIONS_ON_PREF_KEY);
+            String notifOn = SharedPref.getNotifPref();
             notif_sw.setChecked(notifOn.equals("true"));
         }
 
@@ -117,7 +118,7 @@ public class ProfileFrag extends Fragment {
 
     @OnClick(R.id.notif_sw)
     public void notif_sw() {
-        App.putPref(App.NOTIFICATIONS_ON_PREF_KEY, notif_sw.isChecked() ? "true" : "false");
+        SharedPref.saveNotifPref(notif_sw.isChecked() ? "true" : "false");
     }
 
     @OnClick(R.id.location_et)
@@ -210,7 +211,7 @@ public class ProfileFrag extends Fragment {
                     if (user == null)
                         return;
                     user.setUser(editedUser);
-                    App.saveUser(user);
+                    SharedPref.saveUser(user);
                     Util.toast("Perfil atualizado");
                 }
 
