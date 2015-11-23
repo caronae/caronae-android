@@ -59,27 +59,27 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/lay"
-            android:paddingTop="10dp"
-            android:layout_centerHorizontal="true">
+            android:layout_centerHorizontal="true"
+            android:paddingTop="10dp">
 
-            <Button
+            <com.rey.material.widget.Button
                 android:id="@+id/accept_bt"
-                style="@style/Material.Drawable.Ripple.Wave.Light"
+                style="@style/LightRaiseColorButtonRippleStyle"
                 android:layout_width="145dp"
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@+id/reject_bt"
                 android:layout_marginLeft="10dp"
                 android:layout_marginStart="10dp"
-                android:layout_toRightOf="@+id/reject_bt"
                 android:layout_toEndOf="@+id/reject_bt"
+                android:layout_toRightOf="@+id/reject_bt"
                 android:background="@null"
                 android:gravity="center"
                 android:text="Aceitar caronista"
                 app:rd_enable="true" />
 
-            <Button
+            <com.rey.material.widget.Button
                 android:id="@+id/reject_bt"
-                style="@style/Material.Drawable.Ripple.Wave.Light"
+                style="@style/LightRaiseColorButtonRippleStyle"
                 android:layout_width="145dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"

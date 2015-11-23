@@ -133,9 +133,9 @@
                 android:text="16/10"
                 android:textStyle="bold" />
 
-            <Button
+            <com.rey.material.widget.Button
                 android:id="@+id/leave_bt"
-                style="@style/Material.Drawable.Ripple.Wave.Light"
+                style="@style/LightRaiseColorButtonRippleStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -158,6 +158,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
             android:text="Abrir bate-papo"
+            android:textColor="@color/white"
             app:rd_enable="true" />
 
         <TextView

@@ -89,9 +89,9 @@
             android:text=" | Computação"
             android:textColor="@color/white" />
 
-        <Button
+        <com.rey.material.widget.Button
             android:id="@+id/join_bt"
-            style="@style/Material.Drawable.Ripple.Wave.Light"
+            style="@style/LightRaiseColorButtonRippleStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"

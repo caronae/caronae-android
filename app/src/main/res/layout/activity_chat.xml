@@ -123,6 +123,7 @@
             android:layout_gravity="right|center_vertical"
             android:gravity="center"
             android:text="Enviar"
+            android:textColor="@color/white"
             app:rd_enable="true" />
     </LinearLayout>
 
