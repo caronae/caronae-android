@@ -209,7 +209,6 @@ public class RideOfferFrag extends Fragment {
         SimpleDialog.Builder builder = new SimpleDialog.Builder(R.style.SimpleDialogLight) {
             @Override
             public void onPositiveActionClicked(DialogFragment fragment) {
-                String center = getSelectedValue().toString();
                 center_et.setText(getSelectedValue());
                 super.onPositiveActionClicked(fragment);
             }
