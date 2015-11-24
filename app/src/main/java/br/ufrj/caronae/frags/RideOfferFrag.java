@@ -204,36 +204,6 @@ public class RideOfferFrag extends Fragment {
         fragment.show(getFragmentManager(), null);
     }
 
-    @OnClick(R.id.center_et)
-    public void centerEt() {
-        SimpleDialog.Builder builder = new SimpleDialog.Builder(R.style.SimpleDialogLight) {
-            @Override
-            public void onPositiveActionClicked(DialogFragment fragment) {
-                center_et.setText(getSelectedValue());
-                super.onPositiveActionClicked(fragment);
-            }
-
-            @Override
-            public void onNegativeActionClicked(DialogFragment fragment) {
-                super.onNegativeActionClicked(fragment);
-            }
-        };
-
-        if (radioGroup.getCheckedRadioButtonId() == R.id.go_rb) {
-            builder.items(Util.getCenters(), 0)
-                    .title("Escolha o centro")
-                    .positiveAction("OK")
-                    .negativeAction("Cancelar");
-        } else {
-            builder.items(Util.getHubs(), 0)
-                    .title("Escolha o hub de encontro")
-                    .positiveAction("OK")
-                    .negativeAction("Cancelar");
-        }
-        DialogFragment fragment = DialogFragment.newInstance(builder);
-        fragment.show(getFragmentManager(), null);
-    }
-
     @OnClick(R.id.date_et)
     public void date_et() {
         Dialog.Builder builder = new DatePickerDialog.Builder(R.style.Material_App_Dialog_DatePicker_Light) {
