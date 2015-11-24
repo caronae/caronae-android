@@ -94,6 +94,22 @@ public class RideOfferFrag extends Fragment {
         View view = inflater.inflate(R.layout.fragment_ride_offer, container, false);
         ButterKnife.bind(this, view);
 
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
+                switch (checkedId) {
+                    case R.id.go_rb:
+                        center_et.setHint("Escolha o centro");
+                        center_et.setText("");
+                        break;
+                    case R.id.back_rb:
+                        center_et.setHint("Escolha o hub de encontro");
+                        center_et.setText("");
+                        break;
+                }
+            }
+        });
+
         String lastRideOffer = SharedPref.getLastRidePref();
         if (!lastRideOffer.equals(SharedPref.MISSING_PREF)) {
             loadLastRide(lastRideOffer);
@@ -184,6 +200,36 @@ public class RideOfferFrag extends Fragment {
                 .title("Escolha o bairro")
                 .positiveAction("OK")
                 .negativeAction("Cancelar");
+        DialogFragment fragment = DialogFragment.newInstance(builder);
+        fragment.show(getFragmentManager(), null);
+    }
+
+    @OnClick(R.id.center_et)
+    public void centerEt() {
+        SimpleDialog.Builder builder = new SimpleDialog.Builder(R.style.SimpleDialogLight) {
+            @Override
+            public void onPositiveActionClicked(DialogFragment fragment) {
+                center_et.setText(getSelectedValue());
+                super.onPositiveActionClicked(fragment);
+            }
+
+            @Override
+            public void onNegativeActionClicked(DialogFragment fragment) {
+                super.onNegativeActionClicked(fragment);
+            }
+        };
+
+        if (radioGroup.getCheckedRadioButtonId() == R.id.go_rb) {
+            builder.items(Util.getCenters(), 0)
+                    .title("Escolha o centro")
+                    .positiveAction("OK")
+                    .negativeAction("Cancelar");
+        } else {
+            builder.items(Util.getHubs(), 0)
+                    .title("Escolha o hub de encontro")
+                    .positiveAction("OK")
+                    .negativeAction("Cancelar");
+        }
         DialogFragment fragment = DialogFragment.newInstance(builder);
         fragment.show(getFragmentManager(), null);
     }

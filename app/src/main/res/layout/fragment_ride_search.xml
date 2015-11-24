@@ -139,7 +139,6 @@
                 android:layout_marginStart="5dp"
                 android:layout_toEndOf="@+id/center_iv"
                 android:layout_toRightOf="@+id/center_iv"
-                android:enabled="false"
                 android:focusable="false"
                 android:hint="Escolha o centro" />
         </RelativeLayout>
