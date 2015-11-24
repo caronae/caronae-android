@@ -10,14 +10,11 @@ import android.util.Log;
 
 import com.google.android.gms.gcm.GcmListenerService;
 
-import java.util.List;
-
 import br.ufrj.caronae.App;
+import br.ufrj.caronae.R;
 import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.asyncs.CheckSubGcmTopic;
-import br.ufrj.caronae.R;
 import br.ufrj.caronae.asyncs.UnsubGcmTopic;
-import br.ufrj.caronae.models.ActiveRideId;
 import br.ufrj.caronae.models.ChatMessageReceived;
 
 public class GcmMessageHandler extends GcmListenerService {
@@ -41,7 +38,7 @@ public class GcmMessageHandler extends GcmListenerService {
             cmr.save();
 
             //noinspection ConstantConditions
-            if (senderId.equals(App.getUser().getDbId()+"")) {
+            if (senderId.equals(App.getUser().getDbId() + "")) {
                 notify = false;
             } else {
                 App.getBus().post(cmr);
@@ -72,11 +69,23 @@ public class GcmMessageHandler extends GcmListenerService {
             title = "Aviso de carona";
         }
 
+        /*Intent resultIntent = new Intent(this, MainAct.class);
+        PendingIntent resultPendingIntent =
+                PendingIntent.getActivity(
+                        this,
+                        0,
+                        resultIntent,
+                        PendingIntent.FLAG_UPDATE_CURRENT
+                );*/
+
         Context context = App.inst();
         Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
-                .setSmallIcon(R.mipmap.ic_launcher).setContentTitle(title)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentTitle(title)
+                //.setContentIntent(resultPendingIntent)
                 .setSound(alarmSound)
+                .setAutoCancel(true)
                 .setContentText(message);
         NotificationManager mNotificationManager = (NotificationManager) context
                 .getSystemService(Context.NOTIFICATION_SERVICE);

@@ -43,6 +43,7 @@
         <activity
             android:name=".acts.MainAct"
             android:label="@string/title_activity_main"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" />
         <activity
             android:name=".acts.LoginAct"
