@@ -149,6 +149,20 @@ public class Util {
         return null;
     }
 
+    public static String[] getHubs() {
+        String[] a = new String[]{"CCMN - Frente", "CCMN - Estacionamento", "Reitoria", "Letras", "CT - Bloco D", "CT - Bloco H", "CT - Bloco I", "Educação Física", "CCS - Hospital", "CCS - Frente"};
+        Arrays.sort(a);
+
+        return a;
+    }
+
+    public static String[] getCenters() {
+        String[] a = new String[]{"CCMN", "Reitoria", "Letras", "CT", "Educação Física", "CCS"};
+        Arrays.sort(a);
+
+        return a;
+    }
+
     public static String formatTime(String time) {
         String formattedTime = "";
         try {
