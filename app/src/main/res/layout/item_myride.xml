@@ -67,7 +67,7 @@
             android:layout_below="@+id/time_tv"
             android:layout_toEndOf="@+id/slots_tv"
             android:layout_toRightOf="@+id/slots_tv"
-            android:text="S-T-Q-Q-S-S"
+            android:text="Repete Seg-Qua-Sex"
             android:textColor="@color/white" />
 
         <com.rey.material.widget.Button

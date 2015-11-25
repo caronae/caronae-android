@@ -81,6 +81,8 @@ public class RideOfferFrag extends Fragment {
     CheckBox friday_cb;
     @Bind(R.id.saturday_cb)
     CheckBox saturday_cb;
+    @Bind(R.id.sunday_cb)
+    CheckBox sunday_cb;
 
     private String zone;
 
@@ -154,6 +156,7 @@ public class RideOfferFrag extends Fragment {
             thursday_cb.setChecked(ride.getWeekDays().contains("4"));
             friday_cb.setChecked(ride.getWeekDays().contains("5"));
             saturday_cb.setChecked(ride.getWeekDays().contains("6"));
+            sunday_cb.setChecked(ride.getWeekDays().contains("7"));
         }
     }
 
@@ -337,6 +340,7 @@ public class RideOfferFrag extends Fragment {
             weekDays += thursday_cb.isChecked() ? "4," : "";
             weekDays += friday_cb.isChecked() ? "5," : "";
             weekDays += saturday_cb.isChecked() ? "6," : "";
+            weekDays += sunday_cb.isChecked() ? "7," : "";
 
             if (weekDays.isEmpty()) {
                 Util.toast("Nenhum dia selecionado para rotina");

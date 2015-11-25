@@ -82,6 +82,7 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
 
         String s = "Repete ";
         if (ride.isRoutine()) {
+            s += ride.getWeekDays().contains("7") ? "Dom-" : "";
             s += ride.getWeekDays().contains("1") ? "Seg-" : "";
             s += ride.getWeekDays().contains("2") ? "Ter-" : "";
             s += ride.getWeekDays().contains("3") ? "Qua-" : "";

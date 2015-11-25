@@ -252,9 +252,17 @@
                 android:layout_centerHorizontal="true">
 
                 <CheckBox
+                    android:id="@+id/sunday_cb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="D" />
+
+                <CheckBox
                     android:id="@+id/monday_cb"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/sunday_cb"
+                    android:layout_toRightOf="@+id/sunday_cb"
                     android:text="S" />
 
                 <CheckBox
