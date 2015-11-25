@@ -55,8 +55,8 @@ public class Ride extends SugarRecord<Ride> {
         hub = ride.getHub();
         description = ride.getDescription();
         going = ride.isGoing();
-        routine = ride.isRoutine();
         weekDays = ride.getWeekDays();
+        routine = weekDays != null && !weekDays.isEmpty();
         repeatsUntil = ride.getRepeatsUntil();
         dbId = ride.getId().intValue();
     }
