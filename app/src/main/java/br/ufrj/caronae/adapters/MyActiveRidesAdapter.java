@@ -93,8 +93,12 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
         holder.lay1.setBackgroundColor(color);
 
         ride.setDbId(ride.getId().intValue());
-        holder.neighborhood_tv.setText(ride.getNeighborhood());
-        //holder.go_tv.setText(ride.isGoing() ? "Indo ao fundão" : "Voltando do fundão");
+        final String location;
+        if (ride.isGoing())
+            location = ride.getNeighborhood() + " -> " + ride.getHub();
+        else
+            location = ride.getHub() + " -> " + ride.getNeighborhood();
+        holder.location_tv.setText(location);
         holder.name_tv.setText(driver.getName());
         holder.way_tv.setText(ride.getRoute());
         holder.place_tv.setText(ride.getPlace());
@@ -122,7 +126,7 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
             public void onClick(View view) {
                 Intent intent = new Intent(activity, ChatAct.class);
                 intent.putExtra("rideId", ride.getDbId()+"");
-                intent.putExtra("neighborhood", ride.getNeighborhood());
+                intent.putExtra("location", location);
                 intent.putExtra("color", finalColor);
                 intent.putExtra("bgRes", finalBgRes);
                 intent.putExtra("date", Util.formatBadDateWithoutYear(ride.getDate()));
@@ -172,8 +176,7 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView neighborhood_tv;
-        //public TextView go_tv;
+        public TextView location_tv;
         public TextView name_tv;
         public TextView course_tv;
         public TextView time_tv;
@@ -194,8 +197,7 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
         public ViewHolder(View itemView) {
             super(itemView);
 
-            neighborhood_tv = (TextView) itemView.findViewById(R.id.neighborhood_tv);
-            //go_tv = (TextView) itemView.findViewById(R.id.go_tv);
+            location_tv = (TextView) itemView.findViewById(R.id.location_tv);
             name_tv = (TextView) itemView.findViewById(R.id.name_tv);
             course_tv = (TextView) itemView.findViewById(R.id.course_tv);
             time_tv = (TextView) itemView.findViewById(R.id.time_tv);

@@ -313,10 +313,20 @@ public class RideOfferFrag extends Fragment {
             slots_et.setText("1");
             slots = "1";
         }
-        String hub = center_et.getText().toString();
         String description = description_et.getText().toString();
         int id = radioGroup.getCheckedRadioButtonId();
         boolean go = id == R.id.go_rb;
+
+        String hub = center_et.getText().toString();
+        if (hub.isEmpty()) {
+            if (go) {
+                center_et.setText(Util.getCenters()[0]);
+                hub = center_et.getText().toString();
+            } else {
+                center_et.setText(Util.getHubs()[0]);
+                hub = center_et.getText().toString();
+            }
+        }
 
         boolean routine = routine_cb.isChecked();
         String weekDays = "";

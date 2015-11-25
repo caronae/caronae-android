@@ -23,11 +23,11 @@
             android:background="@color/zone_sul">
 
             <TextView
-                android:id="@+id/neighborhood_tv"
+                android:id="@+id/location_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
-                android:text="COPACABANA"
+                android:text="COPACABANA -> CT"
                 android:textColor="@color/white"
                 android:textSize="20sp"
                 android:textStyle="bold" />

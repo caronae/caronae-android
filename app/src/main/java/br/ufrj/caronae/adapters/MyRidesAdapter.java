@@ -73,7 +73,12 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
         holder.date_tv.setText(Util.formatGoodDateWithoutYear(ride.getDate()));
         holder.slots_tv.setText(ride.getSlots() + " vagas | ");
         //holder.direction_tv.setText(ride.isGoing() ? "Indo para o fundão" : "Voltando do fundão - HUB:" + ride.getHub());
-        holder.neighborhood_tv.setText(ride.getNeighborhood());
+        String location;
+        if (ride.isGoing())
+            location = ride.getNeighborhood() + " -> " + ride.getHub();
+        else
+            location = ride.getHub() + " -> " + ride.getNeighborhood();
+        holder.location_tv.setText(location);
 
         String s;
         if (ride.isRoutine()) {
@@ -144,8 +149,7 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView time_tv;
-        //public TextView direction_tv;
-        public TextView neighborhood_tv;
+        public TextView location_tv;
         public TextView routine_tv;
         public TextView slots_tv;
         public TextView date_tv;
@@ -158,7 +162,7 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
 
             time_tv = (TextView) itemView.findViewById(R.id.time_tv);
             //direction_tv = (TextView) itemView.findViewById(R.id.direction_tv);
-            neighborhood_tv = (TextView) itemView.findViewById(R.id.neighborhood_tv);
+            location_tv = (TextView) itemView.findViewById(R.id.location_tv);
             routine_tv = (TextView) itemView.findViewById(R.id.routine_tv);
             slots_tv = (TextView) itemView.findViewById(R.id.slots_tv);
             date_tv = (TextView) itemView.findViewById(R.id.date_tv);

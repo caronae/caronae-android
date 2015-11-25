@@ -63,7 +63,7 @@ public class ChatAct extends AppCompatActivity {
         lay1.setBackgroundColor(color);
         send_bt.setBackgroundResource(bgRes);
 
-        String neighborhood = getIntent().getExtras().getString("neighborhood");
+        String neighborhood = getIntent().getExtras().getString("location");
         neighborhood_tv.setText(neighborhood);
         String riders = getIntent().getExtras().getString("riders");
         riders_tv.setText(riders);

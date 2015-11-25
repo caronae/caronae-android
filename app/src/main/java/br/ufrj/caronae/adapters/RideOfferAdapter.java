@@ -74,7 +74,12 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
         viewHolder.name_tv.setText(rideOffer.getDriverName());
         viewHolder.slots_tv.setText(rideOffer.getSlots() + " vaga" + (Integer.parseInt(rideOffer.getSlots()) > 1 ? "s" : ""));
         //viewHolder.direction_tv.setText(rideOffer.isGo() ? "Indo para o fundão" : "Voltando do fundão - HUB:" + rideOffer.getHub());
-        viewHolder.neighborhood_tv.setText(rideOffer.getNeighborhood());
+        String location;
+        if (rideOffer.isGo())
+            location = rideOffer.getNeighborhood() + " -> " + rideOffer.getHub();
+        else
+            location = rideOffer.getHub() + " -> " + rideOffer.getNeighborhood();
+        viewHolder.location_tv.setText(location);
 
         viewHolder.join_bt.setVisibility(rideOffer.getDriverId() == App.getUser().getDbId() ? View.GONE : View.VISIBLE);
         viewHolder.join_bt.setOnClickListener(new View.OnClickListener() {
@@ -111,8 +116,7 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
         public TextView time_tv;
         public TextView date_tv;
         public TextView course_tv;
-        //public TextView direction_tv;
-        public TextView neighborhood_tv;
+        public TextView location_tv;
         public TextView name_tv;
         public TextView slots_tv;
         public Button join_bt;
@@ -124,8 +128,7 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
             time_tv = (TextView) itemView.findViewById(R.id.time_tv);
             date_tv = (TextView) itemView.findViewById(R.id.date_tv);
             course_tv = (TextView) itemView.findViewById(R.id.course_tv);
-            //direction_tv = (TextView) itemView.findViewById(R.id.direction_tv);
-            neighborhood_tv = (TextView) itemView.findViewById(R.id.neighborhood_tv);
+            location_tv = (TextView) itemView.findViewById(R.id.location_tv);
             name_tv = (TextView) itemView.findViewById(R.id.name_tv);
             slots_tv = (TextView) itemView.findViewById(R.id.slots_tv);
             join_bt = (Button) itemView.findViewById(R.id.join_bt);
