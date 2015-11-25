@@ -256,7 +256,7 @@ public class RideSearchFrag extends Fragment {
         App.getNetworkService().listFiltered(rideSearchFilters, new Callback<List<RideOfferForJson>>() {
             @Override
             public void success(List<RideOfferForJson> rideOffers, Response response) {
-                if (rideOffers != null) {
+                if (rideOffers != null && !rideOffers.isEmpty()) {
                     Util.expandOrCollapse(lay, false);
                     anotherSearch_bt.setVisibility(View.VISIBLE);
                     Collections.sort(rideOffers, new RideOfferComparatorByTime());

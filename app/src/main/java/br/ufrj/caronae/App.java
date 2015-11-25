@@ -69,10 +69,10 @@ public class App extends SugarApp {
                             }
                         }
                     })
-                    .setLogLevel(RestAdapter.LogLevel.BASIC)
+                    //.setLogLevel(RestAdapter.LogLevel.BASIC)
                     //.setLogLevel(RestAdapter.LogLevel.HEADERS)
                     //.setLogLevel(RestAdapter.LogLevel.HEADERS_AND_ARGS)
-                    //.setLogLevel(RestAdapter.LogLevel.FULL)
+                    .setLogLevel(RestAdapter.LogLevel.FULL)
                     .build()
                     .create(NetworkService.class);
         }
