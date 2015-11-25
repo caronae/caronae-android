@@ -80,14 +80,15 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
             location = ride.getHub() + " -> " + ride.getNeighborhood();
         holder.location_tv.setText(location);
 
-        String s;
+        String s = "Repete ";
         if (ride.isRoutine()) {
-            s = ride.getWeekDays().contains("1") ? "S" : "";
-            s += ride.getWeekDays().contains("2") ? "T" : "";
-            s += ride.getWeekDays().contains("3") ? "Q" : "";
-            s += ride.getWeekDays().contains("4") ? "Q" : "";
-            s += ride.getWeekDays().contains("5") ? "S" : "";
-            s += ride.getWeekDays().contains("6") ? "S" : "";
+            s += ride.getWeekDays().contains("1") ? "Seg-" : "";
+            s += ride.getWeekDays().contains("2") ? "Ter-" : "";
+            s += ride.getWeekDays().contains("3") ? "Qua-" : "";
+            s += ride.getWeekDays().contains("4") ? "Qui-" : "";
+            s += ride.getWeekDays().contains("5") ? "Sex-" : "";
+            s += ride.getWeekDays().contains("6") ? "Sab-" : "";
+            s = s.substring(0, s.length() - 1);
         } else {
             s = "Não é rotina";
         }
