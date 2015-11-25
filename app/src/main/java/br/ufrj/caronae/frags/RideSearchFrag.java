@@ -21,6 +21,7 @@ import com.rey.material.app.DatePickerDialog;
 import com.rey.material.app.Dialog;
 import com.rey.material.app.DialogFragment;
 import com.rey.material.app.SimpleDialog;
+import com.rey.material.app.TimePickerDialog;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -196,6 +197,29 @@ public class RideSearchFrag extends Fragment {
         fragment.show(getFragmentManager(), null);
     }
 
+    @OnClick(R.id.time_et)
+    public void timeEt() {
+        Dialog.Builder builder = new TimePickerDialog.Builder(R.style.Material_App_Dialog_TimePicker_Light, 24, 0) {
+            @Override
+            public void onPositiveActionClicked(DialogFragment fragment) {
+                TimePickerDialog dialog = (TimePickerDialog) fragment.getDialog();
+                time_et.setText(dialog.getFormattedTime(new SimpleDateFormat("HH:mm", Locale.US)));
+                super.onPositiveActionClicked(fragment);
+            }
+
+            @Override
+            public void onNegativeActionClicked(DialogFragment fragment) {
+                super.onNegativeActionClicked(fragment);
+            }
+        };
+
+        builder.positiveAction("OK")
+                .negativeAction("Cancelar");
+
+        DialogFragment fragment = DialogFragment.newInstance(builder);
+        fragment.show(getFragmentManager(), null);
+    }
+
     @OnClick(R.id.center_et)
     public void centerEt() {
         SimpleDialog.Builder builder = new SimpleDialog.Builder(R.style.SimpleDialogLight) {
@@ -237,7 +261,8 @@ public class RideSearchFrag extends Fragment {
 
         String location = location_et.getText().toString();
         if (location.isEmpty()) {
-            location_et.setText("Benfica");
+            //noinspection ConstantConditions
+            location_et.setText(Util.getNeighborhoods(Util.getZones()[0])[0]);
             location = location_et.getText().toString();
         }
         String date = date_et.getText().toString();
@@ -246,6 +271,10 @@ public class RideSearchFrag extends Fragment {
             date = new SimpleDateFormat("dd/MM/yyyy", Locale.US).format(new Date());
         }
         String time = time_et.getText().toString();
+        if (time.isEmpty()) {
+            time_et.setText(new SimpleDateFormat("HH:mm", Locale.US).format(new Date()));
+            time = new SimpleDateFormat("HH:mm", Locale.US).format(new Date());
+        }
         String center = center_et.getText().toString();
         boolean go = radioGroup.getCheckedRadioButtonId() == R.id.go_rb;
         RideSearchFiltersForJson rideSearchFilters = new RideSearchFiltersForJson(location, date, time, center, go);

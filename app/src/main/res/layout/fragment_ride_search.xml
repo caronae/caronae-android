@@ -111,7 +111,6 @@
                 android:layout_marginStart="5dp"
                 android:layout_toEndOf="@+id/time_iv"
                 android:layout_toRightOf="@+id/time_iv"
-                android:enabled="false"
                 android:focusable="false"
                 android:hint="Escolha a hora" />
         </RelativeLayout>
