@@ -65,6 +65,7 @@ public class LoginAct extends AppCompatActivity {
                 SharedPref.saveUser(userWithRides.getUser());
                 SharedPref.saveUserToken(token);
                 SharedPref.saveNotifPref("true");
+                String profilePicUrl = userWithRides.getUser().getProfilePicUrl();
 
                 new SaveRidesAsync(userWithRides).execute();
 

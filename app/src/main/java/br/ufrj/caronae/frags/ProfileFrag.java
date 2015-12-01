@@ -165,7 +165,6 @@ public class ProfileFrag extends Fragment {
         return view;
     }
 
-
     @OnClick(R.id.user_pic)
     public void userPic() {
         SimpleDialog.Builder builder = new SimpleDialog.Builder(R.style.SimpleDialogLight) {
@@ -179,11 +178,14 @@ public class ProfileFrag extends Fragment {
                         String profilePicUrl = "http://graph.facebook.com/" + faceId + "/picture";
                         if (user.getProfilePicUrl() == null || !user.getProfilePicUrl().equals(profilePicUrl)) {
                             user.setProfilePicUrl(profilePicUrl);
-                            Picasso.with(getContext()).load(profilePicUrl).into(user_pic);
+                            Picasso.with(getContext()).load(profilePicUrl)
+                                    .error(R.drawable.user_pic)
+                                    .into(user_pic);
                             App.getNetworkService().saveProfilePicUrl(new UrlForJson(profilePicUrl), new Callback<Response>() {
                                 @Override
                                 public void success(Response response, Response response2) {
                                     Log.i("saveProfilePicUrl", "profile pic url saved");
+                                    SharedPref.saveUser(App.getUser());
                                 }
 
                                 @Override
@@ -199,11 +201,14 @@ public class ProfileFrag extends Fragment {
                     String profilePicUrl = "";
                     if (user.getProfilePicUrl() == null || !user.getProfilePicUrl().equals(profilePicUrl)) {
                         user.setProfilePicUrl(profilePicUrl);
-                        Picasso.with(getContext()).load(R.drawable.user_pic).into(user_pic);
+                        Picasso.with(getContext()).load(R.drawable.user_pic)
+                                .error(R.drawable.user_pic)
+                                .into(user_pic);
                         App.getNetworkService().saveProfilePicUrl(new UrlForJson(profilePicUrl), new Callback<Response>() {
                             @Override
                             public void success(Response response, Response response2) {
                                 Log.i("saveProfilePicUrl", "profile pic url saved");
+                                SharedPref.saveUser(App.getUser());
                             }
 
                             @Override

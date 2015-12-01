@@ -16,6 +16,7 @@ public class SharedPref {
     public static final String GCM_TOKEN_PREF_KEY                   = "gcmToken";
     public static final String NOTIFICATIONS_ON_PREF_KEY            = "notifOn";
     public static final String MISSING_PREF                         = "missing";
+    public static final String DRAWER_PIC_PREF                      = "drawerPic";
 
     private static SharedPreferences getSharedPreferences() {
         return PreferenceManager.getDefaultSharedPreferences(App.inst());
@@ -83,5 +84,13 @@ public class SharedPref {
 
     public static void saveUserGcmToken(String token) {
         putPref(GCM_TOKEN_PREF_KEY, token);
+    }
+
+    public static void saveDrawerPic(String profilePicUrl) {
+        putPref(DRAWER_PIC_PREF, profilePicUrl);
+    }
+
+    public static String getDrawerPic() {
+        return getPref(DRAWER_PIC_PREF);
     }
 }

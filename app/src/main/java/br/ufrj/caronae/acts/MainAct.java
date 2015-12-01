@@ -68,6 +68,30 @@ public class MainAct extends AppCompatActivity {
         drawerToggle = new ActionBarDrawerToggle(this, mDrawer, toolbar, R.string.drawer_open, R.string.drawer_close) {
             @Override
             public void onDrawerOpened(View drawerView) {
+                String profilePicUrl = SharedPref.getDrawerPic();
+                if (!profilePicUrl.equals(App.getUser().getProfilePicUrl())) {
+                    if (App.getUser().getProfilePicUrl() != null)
+                        profilePicUrl = App.getUser().getProfilePicUrl();
+                    else
+                        profilePicUrl = "";
+
+                    ImageView user_pic = (ImageView) drawerView.findViewById(R.id.user_pic);
+
+                    if (!profilePicUrl.isEmpty()) {
+                        Picasso.with(MainAct.this).load(profilePicUrl)
+                                .placeholder(R.drawable.user_pic)
+                                .error(R.drawable.user_pic)
+                                .into(user_pic);
+                    } else {
+                        Picasso.with(MainAct.this).load(R.drawable.user_pic)
+                                .placeholder(R.drawable.user_pic)
+                                .error(R.drawable.user_pic)
+                                .into(user_pic);
+                    }
+
+                    SharedPref.saveDrawerPic(profilePicUrl);
+                }
+
                 InputMethodManager inputMethodManager = (InputMethodManager) MainAct.this.getSystemService(Activity.INPUT_METHOD_SERVICE);
                 try {
                     //noinspection ConstantConditions
@@ -103,13 +127,6 @@ public class MainAct extends AppCompatActivity {
         checkGplay();
     }
 
-    public CallbackManager getFbCallbackManager() {
-        if (callbackManager == null)
-            callbackManager = CallbackManager.Factory.create();
-
-        return callbackManager;
-    }
-
     private void checkGplay() {
         int resultGplay = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
 
@@ -120,24 +137,6 @@ public class MainAct extends AppCompatActivity {
                 Intent intent = new Intent(this, RegistrationIntentService.class);
                 startService(intent);
             }
-        }
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        getFbCallbackManager().onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == GPLAY_UNAVAILABLE) {
-            new AlertDialog.Builder(this)
-                    .setIcon(android.R.drawable.ic_dialog_alert)
-                    .setMessage(R.string.gplay_unavailable)
-                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int which) {
-                            //
-                        }
-                    }).show();
         }
     }
 
@@ -152,7 +151,10 @@ public class MainAct extends AppCompatActivity {
         ImageView user_pic = (ImageView) nvHeader.findViewById(R.id.user_pic);
         String profilePicUrl = App.getUser().getProfilePicUrl();
         if (profilePicUrl != null && !profilePicUrl.isEmpty())
-            Picasso.with(this).load(profilePicUrl).into(user_pic);
+            Picasso.with(this).load(profilePicUrl)
+                    .placeholder(R.drawable.user_pic)
+                    .error(R.drawable.user_pic)
+                    .into(user_pic);
 
         nvDrawer.addHeaderView(nvHeader);
     }
@@ -229,6 +231,31 @@ public class MainAct extends AppCompatActivity {
         }
 
         return drawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        getFbCallbackManager().onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == GPLAY_UNAVAILABLE) {
+            new AlertDialog.Builder(this)
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setMessage(R.string.gplay_unavailable)
+                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int which) {
+                            //
+                        }
+                    }).show();
+        }
+    }
+
+    public CallbackManager getFbCallbackManager() {
+        if (callbackManager == null)
+            callbackManager = CallbackManager.Factory.create();
+
+        return callbackManager;
     }
 
     public void showRequestersListFrag(List<User> users, int rideId, int color) {
