@@ -21,12 +21,14 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -147,6 +149,10 @@ public class MainAct extends AppCompatActivity {
         name_tv.setText(App.getUser().getName());
         TextView course_tv = (TextView) nvHeader.findViewById(R.id.course_tv);
         course_tv.setText(App.getUser().getCourse());
+        ImageView user_pic = (ImageView) nvHeader.findViewById(R.id.user_pic);
+        String profilePicUrl = App.getUser().getProfilePicUrl();
+        if (profilePicUrl != null && !profilePicUrl.isEmpty())
+            Picasso.with(this).load(profilePicUrl).into(user_pic);
 
         nvDrawer.addHeaderView(nvHeader);
     }
