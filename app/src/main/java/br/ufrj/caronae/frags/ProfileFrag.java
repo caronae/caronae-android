@@ -14,6 +14,12 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.rey.material.app.DialogFragment;
 import com.rey.material.app.SimpleDialog;
 
@@ -27,6 +33,7 @@ import br.ufrj.caronae.R;
 import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.LoginAct;
+import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.asyncs.LogOut;
 import br.ufrj.caronae.models.User;
 import butterknife.Bind;
@@ -64,6 +71,10 @@ public class ProfileFrag extends Fragment {
     EditText carPlate_et;
     @Bind(R.id.car_lay)
     RelativeLayout car_lay;
+    @Bind(R.id.login_button)
+    LoginButton loginButton;
+
+    private CallbackManager callbackManager;
 
     public ProfileFrag() {
         // Required empty public constructor
@@ -73,6 +84,30 @@ public class ProfileFrag extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         ButterKnife.bind(this, view);
+
+        callbackManager = ((MainAct) getActivity()).getFbCallbackManager();
+
+        loginButton.setReadPermissions("user_friends");
+        loginButton.setFragment(this);
+        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                Log.i("face", "onSuccess = " + loginResult.toString());
+            }
+
+            @Override
+            public void onCancel() {
+                Log.i("face", "onCancel");
+            }
+
+            @Override
+            public void onError(FacebookException exception) {
+                Log.i("face", "onError = " + exception.toString());
+            }
+        });
+
+        if (AccessToken.getCurrentAccessToken() != null)
+            Log.i("face", AccessToken.getCurrentAccessToken().toString());
 
         User user = App.getUser();
         if (user != null) {
@@ -235,5 +270,11 @@ public class ProfileFrag extends Fragment {
         editedUser.setCarModel(carModel_et.getText().toString());
         editedUser.setCarColor(carColor_et.getText().toString());
         editedUser.setCarPlate(carPlate_et.getText().toString());
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 }

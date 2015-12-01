@@ -17,7 +17,7 @@ public class RideOfferForJson {
     private String hub;
     private int rideId;
     private int driverId;
-    private boolean go;
+    private boolean going;
 
     public RideOfferForJson(Ride ride, User user) {
         driverName = user.getName();
@@ -31,7 +31,7 @@ public class RideOfferForJson {
         neighborhood = ride.getNeighborhood();
         zone = ride.getZone();
         hub = ride.getHub();
-        go = ride.isGoing();
+        going = ride.isGoing();
     }
 
     public String getDriverName() {
@@ -138,11 +138,11 @@ public class RideOfferForJson {
         this.driverId = driverId;
     }
 
-    public boolean isGo() {
-        return go;
+    public boolean isGoing() {
+        return going;
     }
 
-    public void setGo(boolean go) {
-        this.go = go;
+    public void setGoing(boolean going) {
+        this.going = going;
     }
 }

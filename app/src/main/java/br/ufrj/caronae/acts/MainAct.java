@@ -23,6 +23,8 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
+import com.facebook.CallbackManager;
+import com.facebook.FacebookSdk;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 
@@ -46,11 +48,15 @@ public class MainAct extends AppCompatActivity {
     public static final int GPLAY_UNAVAILABLE = 123;
     private DrawerLayout mDrawer;
     private ActionBarDrawerToggle drawerToggle;
+    private CallbackManager callbackManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        getFbCallbackManager();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -95,6 +101,13 @@ public class MainAct extends AppCompatActivity {
         checkGplay();
     }
 
+    public CallbackManager getFbCallbackManager() {
+        if (callbackManager == null)
+            callbackManager = CallbackManager.Factory.create();
+
+        return callbackManager;
+    }
+
     private void checkGplay() {
         int resultGplay = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
 
@@ -109,7 +122,10 @@ public class MainAct extends AppCompatActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        getFbCallbackManager().onActivityResult(requestCode, resultCode, data);
+
         if (requestCode == GPLAY_UNAVAILABLE) {
             new AlertDialog.Builder(this)
                     .setIcon(android.R.drawable.ic_dialog_alert)

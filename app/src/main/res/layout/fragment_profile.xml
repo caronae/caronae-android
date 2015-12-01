@@ -105,11 +105,19 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true" />
 
+        <com.facebook.login.widget.LoginButton
+            android:id="@+id/login_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_below="@+id/notif_text_tv" />
+
         <TextView
             android:id="@+id/contact_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/notif_text_tv"
+            android:layout_below="@+id/login_button"
             android:paddingTop="10dp"
             android:text="CONTATOS"
             android:textStyle="bold" />
