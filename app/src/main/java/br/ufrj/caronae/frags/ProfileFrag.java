@@ -116,25 +116,6 @@ public class ProfileFrag extends Fragment {
                         }
                     });
                 }
-
-                /*new GraphRequest(AccessToken.getCurrentAccessToken(), "me", null, HttpMethod.GET,
-                        new GraphRequest.Callback() {
-                            @Override
-                            public void onCompleted(GraphResponse response) {
-                                if (response != null) {
-                                    try {
-                                        JSONObject data = response.getJSONObject();
-                                        if (data.has("picture")) {
-                                            String profilePicUrl = data.getJSONObject("picture").getJSONObject("data").getString("url");
-                                            //Bitmap profilePic = getFacebookProfilePicture(profilePicUrl);
-                                            // set profilePic bitmap to imageview
-                                        }
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            }
-                        }).executeAsync();*/
             }
 
             @Override
@@ -171,6 +152,12 @@ public class ProfileFrag extends Fragment {
 
             String notifOn = SharedPref.getNotifPref();
             notif_sw.setChecked(notifOn.equals("true"));
+
+            if (user.getProfilePicUrl() != null && !user.getProfilePicUrl().isEmpty())
+                Picasso.with(getContext()).load(user.getProfilePicUrl())
+                        .placeholder(R.drawable.user_pic)
+                        .error(R.drawable.user_pic)
+                        .into(user_pic);
         }
 
         carOwnerSw();
@@ -184,15 +171,35 @@ public class ProfileFrag extends Fragment {
         SimpleDialog.Builder builder = new SimpleDialog.Builder(R.style.SimpleDialogLight) {
             @Override
             public void onPositiveActionClicked(DialogFragment fragment) {
-                if (getSelectedValue().toString().equals("Foto do SIGA")) {
-
-                } else {
+                User user = App.getUser();
+                if (getSelectedValue().toString().equals("Foto do Facebook")) {
                     Profile profile = Profile.getCurrentProfile();
                     if (profile != null) {
                         String faceId = profile.getId();
                         String profilePicUrl = "http://graph.facebook.com/" + faceId + "/picture";
-                        App.getUser().setProfilePicUrl(profilePicUrl);
-                        Picasso.with(getContext()).load(profilePicUrl).into(user_pic);
+                        if (user.getProfilePicUrl() == null || !user.getProfilePicUrl().equals(profilePicUrl)) {
+                            user.setProfilePicUrl(profilePicUrl);
+                            Picasso.with(getContext()).load(profilePicUrl).into(user_pic);
+                            App.getNetworkService().saveProfilePicUrl(new UrlForJson(profilePicUrl), new Callback<Response>() {
+                                @Override
+                                public void success(Response response, Response response2) {
+                                    Log.i("saveProfilePicUrl", "profile pic url saved");
+                                }
+
+                                @Override
+                                public void failure(RetrofitError error) {//need to save it later
+                                    Log.e("saveProfilePicUrl", error.getMessage());
+                                }
+                            });
+                        }
+                    } else {
+                        Util.toast("Você não está conectado ao Facebook");
+                    }
+                } else {
+                    String profilePicUrl = "";
+                    if (user.getProfilePicUrl() == null || !user.getProfilePicUrl().equals(profilePicUrl)) {
+                        user.setProfilePicUrl(profilePicUrl);
+                        Picasso.with(getContext()).load(R.drawable.user_pic).into(user_pic);
                         App.getNetworkService().saveProfilePicUrl(new UrlForJson(profilePicUrl), new Callback<Response>() {
                             @Override
                             public void success(Response response, Response response2) {
@@ -200,12 +207,10 @@ public class ProfileFrag extends Fragment {
                             }
 
                             @Override
-                            public void failure(RetrofitError error) {
+                            public void failure(RetrofitError error) {//need to save it later
                                 Log.e("saveProfilePicUrl", error.getMessage());
                             }
                         });
-                    } else {
-                        Util.toast("Você não está conectado ao Facebook");
                     }
                 }
                 super.onPositiveActionClicked(fragment);
