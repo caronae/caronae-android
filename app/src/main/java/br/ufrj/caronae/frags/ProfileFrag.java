@@ -11,17 +11,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.Profile;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.rey.material.app.DialogFragment;
 import com.rey.material.app.SimpleDialog;
+import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -36,6 +38,8 @@ import br.ufrj.caronae.acts.LoginAct;
 import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.asyncs.LogOut;
 import br.ufrj.caronae.models.User;
+import br.ufrj.caronae.models.modelsforjson.IdForJson;
+import br.ufrj.caronae.models.modelsforjson.UrlForJson;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -73,6 +77,8 @@ public class ProfileFrag extends Fragment {
     RelativeLayout car_lay;
     @Bind(R.id.login_button)
     LoginButton loginButton;
+    @Bind(R.id.user_pic)
+    ImageView user_pic;
 
     private CallbackManager callbackManager;
 
@@ -93,6 +99,42 @@ public class ProfileFrag extends Fragment {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 Log.i("face", "onSuccess = " + loginResult.toString());
+
+                Profile profile = Profile.getCurrentProfile();
+                if (profile != null) {
+                    String faceId = profile.getId();
+                    App.getNetworkService().saveFaceId(new IdForJson(faceId), new Callback<Response>() {
+                        @Override
+                        public void success(Response response, Response response2) {
+                            Log.i("saveFaceId", "face id saved");
+                        }
+
+                        @Override
+                        public void failure(RetrofitError error) {//need to save id later
+                            Util.toast("Erro ao enviar Facebook ID");
+                            Log.e("saveFaceId", error.getMessage());
+                        }
+                    });
+                }
+
+                /*new GraphRequest(AccessToken.getCurrentAccessToken(), "me", null, HttpMethod.GET,
+                        new GraphRequest.Callback() {
+                            @Override
+                            public void onCompleted(GraphResponse response) {
+                                if (response != null) {
+                                    try {
+                                        JSONObject data = response.getJSONObject();
+                                        if (data.has("picture")) {
+                                            String profilePicUrl = data.getJSONObject("picture").getJSONObject("data").getString("url");
+                                            //Bitmap profilePic = getFacebookProfilePicture(profilePicUrl);
+                                            // set profilePic bitmap to imageview
+                                        }
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+                        }).executeAsync();*/
             }
 
             @Override
@@ -102,12 +144,9 @@ public class ProfileFrag extends Fragment {
 
             @Override
             public void onError(FacebookException exception) {
-                Log.i("face", "onError = " + exception.toString());
+                Log.e("face", "onError = " + exception.toString());
             }
         });
-
-        if (AccessToken.getCurrentAccessToken() != null)
-            Log.i("face", AccessToken.getCurrentAccessToken().toString());
 
         User user = App.getUser();
         if (user != null) {
@@ -137,6 +176,53 @@ public class ProfileFrag extends Fragment {
         carOwnerSw();
 
         return view;
+    }
+
+
+    @OnClick(R.id.user_pic)
+    public void userPic() {
+        SimpleDialog.Builder builder = new SimpleDialog.Builder(R.style.SimpleDialogLight) {
+            @Override
+            public void onPositiveActionClicked(DialogFragment fragment) {
+                if (getSelectedValue().toString().equals("Foto do SIGA")) {
+
+                } else {
+                    Profile profile = Profile.getCurrentProfile();
+                    if (profile != null) {
+                        String faceId = profile.getId();
+                        String profilePicUrl = "http://graph.facebook.com/" + faceId + "/picture";
+                        App.getUser().setProfilePicUrl(profilePicUrl);
+                        Picasso.with(getContext()).load(profilePicUrl).into(user_pic);
+                        App.getNetworkService().saveProfilePicUrl(new UrlForJson(profilePicUrl), new Callback<Response>() {
+                            @Override
+                            public void success(Response response, Response response2) {
+                                Log.i("saveProfilePicUrl", "profile pic url saved");
+                            }
+
+                            @Override
+                            public void failure(RetrofitError error) {
+                                Log.e("saveProfilePicUrl", error.getMessage());
+                            }
+                        });
+                    } else {
+                        Util.toast("Você não está conectado ao Facebook");
+                    }
+                }
+                super.onPositiveActionClicked(fragment);
+            }
+
+            @Override
+            public void onNegativeActionClicked(DialogFragment fragment) {
+                super.onNegativeActionClicked(fragment);
+            }
+        };
+
+        builder.items(new String[]{"Foto do SIGA", "Foto do Facebook"}, 0)
+                .title("Qual foto você prefere usar?")
+                .positiveAction("OK")
+                .negativeAction("Cancelar");
+        DialogFragment fragment = DialogFragment.newInstance(builder);
+        fragment.show(getFragmentManager(), null);
     }
 
     @OnClick(R.id.logout_iv)

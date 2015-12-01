@@ -25,6 +25,8 @@ public class User implements Parcelable {
     @SerializedName("created_at")
     private String createdAt;
     private String location;
+    @SerializedName("profile_pic_url")
+    private String profilePicUrl;
 
     public User() {
     }
@@ -123,6 +125,14 @@ public class User implements Parcelable {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public String getProfilePicUrl() {
+        return profilePicUrl;
+    }
+
+    public void setProfilePicUrl(String profilePicUrl) {
+        this.profilePicUrl = profilePicUrl;
     }
 
     public boolean sameFieldsState(User user) {

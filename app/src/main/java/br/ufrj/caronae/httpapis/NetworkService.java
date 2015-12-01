@@ -2,6 +2,7 @@ package br.ufrj.caronae.httpapis;
 
 import java.util.List;
 
+import br.ufrj.caronae.models.modelsforjson.IdForJson;
 import br.ufrj.caronae.models.modelsforjson.JoinRequestIDsForJson;
 import br.ufrj.caronae.models.Ride;
 import br.ufrj.caronae.models.modelsforjson.RideIdForJson;
@@ -10,6 +11,7 @@ import br.ufrj.caronae.models.modelsforjson.RideSearchFiltersForJson;
 import br.ufrj.caronae.models.modelsforjson.RideWithUsersForJson;
 import br.ufrj.caronae.models.modelsforjson.TokenForJson;
 import br.ufrj.caronae.models.User;
+import br.ufrj.caronae.models.modelsforjson.UrlForJson;
 import br.ufrj.caronae.models.modelsforjson.UserWithRidesForJson;
 import retrofit.Callback;
 import retrofit.client.Response;
@@ -33,6 +35,12 @@ public interface NetworkService {
 
     @PUT("/user/saveGcmToken")
     void saveGcmToken(@Body TokenForJson token, Callback<Response> cb);
+
+    @PUT("/user/saveFaceId")
+    void saveFaceId(@Body IdForJson id, Callback<Response> cb);
+
+    @PUT("/user/saveProfilePicUrl")
+    void saveProfilePicUrl(@Body UrlForJson url, Callback<Response> cb);
 
     //ride routes
     @POST("/ride")
