@@ -3,6 +3,7 @@ package br.ufrj.caronae.asyncs;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.facebook.login.LoginManager;
 import com.google.android.gms.gcm.GcmPubSub;
 
 import java.io.IOException;
@@ -37,6 +38,7 @@ public class LogOut extends AsyncTask<Void, Void, Void> {
     @Override
     protected Void doInBackground(Void... arg0) {
         App.clearUserVar();
+        LoginManager.getInstance().logOut();
 
         SharedPref.removePref(SharedPref.USER_PREF_KEY);
         SharedPref.removePref(SharedPref.LAST_RIDE_OFFER_PREF_KEY);
