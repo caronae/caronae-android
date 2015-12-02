@@ -1,11 +1,15 @@
 package br.ufrj.caronae.models.modelsforjson;
 
+import com.google.gson.annotations.SerializedName;
+
 import br.ufrj.caronae.models.Ride;
 import br.ufrj.caronae.models.User;
 
 public class RideOfferForJson {
     private String driverName;
+    @SerializedName("mytime")
     private String time;
+    @SerializedName("mydate")
     private String date;
     private String course;
     private String place;
@@ -13,6 +17,7 @@ public class RideOfferForJson {
     private String slots;
     private String description;
     private String neighborhood;
+    @SerializedName("myzone")
     private String zone;
     private String hub;
     private int rideId;
