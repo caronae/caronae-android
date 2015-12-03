@@ -10,18 +10,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
+import br.ufrj.caronae.RoundedTransformation;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.asyncs.UnsubGcmTopic;
 import br.ufrj.caronae.acts.ChatAct;
 import br.ufrj.caronae.acts.MainAct;
-import br.ufrj.caronae.models.ActiveRideId;
 import br.ufrj.caronae.models.Ride;
 import br.ufrj.caronae.models.User;
 import br.ufrj.caronae.models.modelsforjson.RideIdForJson;
@@ -98,6 +101,12 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
             location = ride.getNeighborhood() + " -> " + ride.getHub();
         else
             location = ride.getHub() + " -> " + ride.getNeighborhood();
+
+        Picasso.with(activity).load(driver.getProfilePicUrl())
+                .placeholder(R.drawable.user_pic)
+                .error(R.drawable.user_pic)
+                .transform(new RoundedTransformation(0))
+                .into(holder.user_pic);
         holder.location_tv.setText(location);
         holder.name_tv.setText(driver.getName());
         holder.way_tv.setText(ride.getRoute());
@@ -176,6 +185,7 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
+        public ImageView user_pic;
         public TextView location_tv;
         public TextView name_tv;
         public TextView course_tv;
@@ -197,6 +207,7 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
         public ViewHolder(View itemView) {
             super(itemView);
 
+            user_pic = (ImageView) itemView.findViewById(R.id.user_pic);
             location_tv = (TextView) itemView.findViewById(R.id.location_tv);
             name_tv = (TextView) itemView.findViewById(R.id.name_tv);
             course_tv = (TextView) itemView.findViewById(R.id.course_tv);

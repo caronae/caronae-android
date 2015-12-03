@@ -10,12 +10,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
+import br.ufrj.caronae.RoundedTransformation;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.models.modelsforjson.RideIdForJson;
 import br.ufrj.caronae.models.modelsforjson.RideOfferForJson;
@@ -68,6 +72,11 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
         }
         viewHolder.cardView.setCardBackgroundColor(color);
 
+        Picasso.with(activity).load(rideOffer.getProfilePicUrl())
+                .placeholder(R.drawable.user_pic)
+                .error(R.drawable.user_pic)
+                .transform(new RoundedTransformation(0))
+                .into(viewHolder.photo_iv);
         viewHolder.time_tv.setText(Util.formatTime(rideOffer.getTime()));
         viewHolder.date_tv.setText(" | " + Util.formatBadDateWithoutYear(rideOffer.getDate()));
         viewHolder.course_tv.setText(" | " + rideOffer.getCourse());
@@ -112,6 +121,7 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
+        public ImageView photo_iv;
         public TextView time_tv;
         public TextView date_tv;
         public TextView course_tv;
@@ -124,6 +134,7 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
         public ViewHolder(View itemView) {
             super(itemView);
 
+            photo_iv = (ImageView) itemView.findViewById(R.id.photo_iv);
             time_tv = (TextView) itemView.findViewById(R.id.time_tv);
             date_tv = (TextView) itemView.findViewById(R.id.date_tv);
             course_tv = (TextView) itemView.findViewById(R.id.course_tv);

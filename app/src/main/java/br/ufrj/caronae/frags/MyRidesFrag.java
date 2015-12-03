@@ -13,14 +13,15 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.adapters.MyRidesAdapter;
+import br.ufrj.caronae.comparators.RideComparatorByDateAndTime;
 import br.ufrj.caronae.models.Ride;
-import br.ufrj.caronae.models.modelsforjson.RideIdForJson;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -51,6 +52,7 @@ public class MyRidesFrag extends Fragment {
         ButterKnife.bind(this, view);
 
         rides = (ArrayList<Ride>) Ride.listAll(Ride.class);
+        Collections.sort(rides, new RideComparatorByDateAndTime());
 
         if (!rides.isEmpty()) {
             myRidesList.setAdapter(new MyRidesAdapter(rides, (MainAct) getActivity()));

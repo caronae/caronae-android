@@ -8,11 +8,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 import br.ufrj.caronae.App;
+import br.ufrj.caronae.RoundedTransformation;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.asyncs.CheckSubGcmTopic;
 import br.ufrj.caronae.R;
@@ -51,6 +55,11 @@ public class RequestersAdapter extends RecyclerView.Adapter<RequestersAdapter.Vi
 
         holder.course_tv.setText(user.getCourse());
 
+        Picasso.with(activity).load(user.getProfilePicUrl())
+                .placeholder(R.drawable.user_pic)
+                .error(R.drawable.user_pic)
+                .transform(new RoundedTransformation(0))
+                .into(holder.photo_iv);
         holder.name_tv.setText(user.getName());
         holder.name_tv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,6 +120,7 @@ public class RequestersAdapter extends RecyclerView.Adapter<RequestersAdapter.Vi
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
+        public ImageView photo_iv;
         public TextView name_tv;
         public TextView course_tv;
         public Button accept_bt;
@@ -119,6 +129,7 @@ public class RequestersAdapter extends RecyclerView.Adapter<RequestersAdapter.Vi
         public ViewHolder(View itemView) {
             super(itemView);
 
+            photo_iv = (ImageView) itemView.findViewById(R.id.photo_iv);
             name_tv = (TextView) itemView.findViewById(R.id.name_tv);
             course_tv = (TextView) itemView.findViewById(R.id.course_tv);
             accept_bt = (Button) itemView.findViewById(R.id.accept_bt);

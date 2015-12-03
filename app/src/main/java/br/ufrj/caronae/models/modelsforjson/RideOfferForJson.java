@@ -20,6 +20,7 @@ public class RideOfferForJson {
     @SerializedName("myzone")
     private String zone;
     private String hub;
+    private String profilePicUrl;
     private int rideId;
     private int driverId;
     private boolean going;
@@ -37,6 +38,7 @@ public class RideOfferForJson {
         zone = ride.getZone();
         hub = ride.getHub();
         going = ride.isGoing();
+        profilePicUrl = user.getProfilePicUrl();
     }
 
     public String getDriverName() {
@@ -149,5 +151,13 @@ public class RideOfferForJson {
 
     public void setGoing(boolean going) {
         this.going = going;
+    }
+
+    public String getProfilePicUrl() {
+        return profilePicUrl;
+    }
+
+    public void setProfilePicUrl(String profilePicUrl) {
+        this.profilePicUrl = profilePicUrl;
     }
 }

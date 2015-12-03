@@ -6,11 +6,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 import br.ufrj.caronae.R;
+import br.ufrj.caronae.RoundedTransformation;
 import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.models.User;
 
@@ -37,6 +41,12 @@ public class RidersAdapter extends RecyclerView.Adapter<RidersAdapter.ViewHolder
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         final User user = users.get(position);
+
+        Picasso.with(activity).load(user.getProfilePicUrl())
+                .placeholder(R.drawable.user_pic)
+                .error(R.drawable.user_pic)
+                .transform(new RoundedTransformation(0))
+                .into(holder.photo_iv);
         holder.name_tv.setText(user.getName().split(" ")[0]);
         holder.name_tv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,11 +65,13 @@ public class RidersAdapter extends RecyclerView.Adapter<RidersAdapter.ViewHolder
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
+        public ImageView photo_iv;
         public TextView name_tv;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
+            photo_iv = (ImageView) itemView.findViewById(R.id.photo_iv);
             name_tv = (TextView) itemView.findViewById(R.id.name_tv);
         }
     }

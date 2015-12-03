@@ -32,6 +32,7 @@ import java.util.Locale;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
+import br.ufrj.caronae.RoundedTransformation;
 import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.LoginAct;
@@ -157,6 +158,7 @@ public class ProfileFrag extends Fragment {
                 Picasso.with(getContext()).load(user.getProfilePicUrl())
                         .placeholder(R.drawable.user_pic)
                         .error(R.drawable.user_pic)
+                        .transform(new RoundedTransformation(0))
                         .into(user_pic);
         }
 
@@ -180,6 +182,7 @@ public class ProfileFrag extends Fragment {
                             user.setProfilePicUrl(profilePicUrl);
                             Picasso.with(getContext()).load(profilePicUrl)
                                     .error(R.drawable.user_pic)
+                                    .transform(new RoundedTransformation(0))
                                     .into(user_pic);
                             App.getNetworkService().saveProfilePicUrl(new UrlForJson(profilePicUrl), new Callback<Response>() {
                                 @Override
