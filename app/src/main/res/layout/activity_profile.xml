@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="br.ufrj.caronae.acts.ProfileAct">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:theme="@style/ThemeOverlay.AppCompat.Light" />
+
+    <ImageView
+        android:id="@+id/user_pic_iv"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_below="@+id/toolbar"
+        android:layout_margin="16dp"
+        android:src="@drawable/user_pic" />
+
+    <TextView
+        android:id="@+id/name_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/user_pic_iv"
+        android:layout_toEndOf="@+id/user_pic_iv"
+        android:layout_toRightOf="@+id/user_pic_iv"
+        android:gravity="center"
+        android:paddingTop="12dp"
+        android:text="Leonardo Miranda Marques"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/profile_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/name_tv"
+        android:layout_toEndOf="@+id/user_pic_iv"
+        android:layout_toRightOf="@+id/user_pic_iv"
+        android:text="Perfil padrão" />
+
+    <TextView
+        android:id="@+id/course_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/profile_tv"
+        android:layout_toEndOf="@+id/user_pic_iv"
+        android:layout_toRightOf="@+id/user_pic_iv"
+        android:text="Curso padrão" />
+
+</RelativeLayout>

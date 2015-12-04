@@ -1,7 +1,7 @@
 package br.ufrj.caronae.adapters;
 
-import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.RoundedTransformation;
 import br.ufrj.caronae.Util;
+import br.ufrj.caronae.acts.ProfileAct;
 import br.ufrj.caronae.asyncs.CheckSubGcmTopic;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.models.modelsforjson.JoinRequestIDsForJson;
@@ -61,13 +63,12 @@ public class RequestersAdapter extends RecyclerView.Adapter<RequestersAdapter.Vi
                 .transform(new RoundedTransformation(0))
                 .into(holder.photo_iv);
         holder.name_tv.setText(user.getName());
-        holder.name_tv.setOnClickListener(new View.OnClickListener() {
+        holder.photo_iv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new AlertDialog.Builder(activity).
-                        setTitle(user.getName()).
-                        setMessage(user.getProfile() + "\n" + user.getCourse() + "\nUsuário desde " + Util.formatBadDateWithYear(user.getCreatedAt().split(" ")[0])).
-                        show();
+                Intent intent = new Intent(activity, ProfileAct.class);
+                intent.putExtra("user", new Gson().toJson(user));
+                activity.startActivity(intent);
             }
         });
 

@@ -77,6 +77,7 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
                 .error(R.drawable.user_pic)
                 .transform(new RoundedTransformation(0))
                 .into(viewHolder.photo_iv);
+
         viewHolder.time_tv.setText(Util.formatTime(rideOffer.getTime()));
         viewHolder.date_tv.setText(" | " + Util.formatBadDateWithoutYear(rideOffer.getDate()));
         viewHolder.course_tv.setText(" | " + rideOffer.getCourse());
