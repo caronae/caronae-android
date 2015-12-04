@@ -28,7 +28,7 @@
         android:layout_toEndOf="@+id/user_pic_iv"
         android:layout_toRightOf="@+id/user_pic_iv"
         android:gravity="center"
-        android:paddingTop="12dp"
+        android:paddingTop="10dp"
         android:text="Leonardo Miranda Marques"
         android:textStyle="bold" />
 
@@ -49,5 +49,14 @@
         android:layout_toEndOf="@+id/user_pic_iv"
         android:layout_toRightOf="@+id/user_pic_iv"
         android:text="Curso padrão" />
+
+    <ImageView
+        android:id="@+id/color_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/user_pic_iv"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:src="@drawable/color_bar" />
 
 </RelativeLayout>
