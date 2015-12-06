@@ -98,12 +98,40 @@
             </RelativeLayout>
         </RelativeLayout>
 
+        <LinearLayout
+            android:id="@+id/lay4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lay2"
+            android:orientation="horizontal"
+            android:layout_centerHorizontal="true">
+
+            <com.rey.material.widget.Button
+                android:id="@+id/chat_bt"
+                style="@style/LightRaiseColorButtonRippleStyle"
+                android:layout_width="160dp"
+                android:layout_height="36dp"
+                android:text="Abrir bate-papo"
+                android:textColor="@color/white"
+                app:rd_enable="true" />
+
+            <com.rey.material.widget.Button
+                android:id="@+id/finish_bt"
+                style="@style/LightRaiseColorButtonRippleStyle"
+                android:layout_width="160dp"
+                android:layout_height="36dp"
+                android:text="Concluir carona"
+                android:textColor="@color/white"
+                app:rd_enable="true" />
+        </LinearLayout>
+
         <RelativeLayout
             android:id="@+id/lay3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/lay2"
-            android:layout_centerHorizontal="true">
+            android:layout_below="@+id/lay4"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp">
 
             <ImageView
                 android:id="@+id/time_iv"
@@ -157,23 +185,11 @@
                 app:rd_enable="true" />
         </RelativeLayout>
 
-        <com.rey.material.widget.Button
-            android:id="@+id/chat_bt"
-            style="@style/LightRaiseColorButtonRippleStyle"
-            android:layout_width="150dp"
-            android:layout_height="36dp"
-            android:layout_below="@+id/lay3"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
-            android:text="Abrir bate-papo"
-            android:textColor="@color/white"
-            app:rd_enable="true" />
-
         <TextView
             android:id="@+id/way_text_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/chat_bt"
+            android:layout_below="@+id/lay3"
             android:layout_marginLeft="30dp"
             android:layout_marginTop="10dp"
             android:text="Passa por:"

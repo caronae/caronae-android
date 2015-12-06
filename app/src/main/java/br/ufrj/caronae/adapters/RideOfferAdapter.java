@@ -91,6 +91,7 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
             location = rideOffer.getHub() + " -> " + rideOffer.getNeighborhood();
         viewHolder.location_tv.setText(location);
 
+        viewHolder.join_bt.setVisibility(rideOffer.getDriverId() == App.getUser().getDbId() ? View.GONE : View.VISIBLE);
         viewHolder.join_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

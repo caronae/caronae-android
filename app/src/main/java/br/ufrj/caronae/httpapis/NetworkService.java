@@ -66,4 +66,7 @@ public interface NetworkService {
 
     @POST("/ride/leaveRide")
     void leaveRide(@Body RideIdForJson rideId, Callback<Response> cb);
+
+    @POST("/ride/finishRide")
+    void finishRide(@Body RideIdForJson rideId, Callback<Response> cb);
 }

@@ -64,36 +64,39 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
 
         rideWithUsers.getUsers().remove(0);
 
+        final boolean isDriver = driver.getDbId() == App.getUser().getDbId();
+
         int color = 0, bgRes = 0;
         if (ride.getZone().equals("Centro")) {
             color = ContextCompat.getColor(activity, R.color.zone_centro);
             bgRes = R.drawable.bg_bt_raise_zone_centro;
             holder.chat_bt.setBackgroundResource(bgRes);
+            holder.finish_bt.setBackgroundResource(bgRes);
         }
         if (ride.getZone().equals("Zona Sul")) {
             color = ContextCompat.getColor(activity, R.color.zone_sul);
             bgRes = R.drawable.bg_bt_raise_zone_sul;
-            holder.chat_bt.setBackgroundResource(bgRes);
+            holder.finish_bt.setBackgroundResource(bgRes);
         }
         if (ride.getZone().equals("Zona Oeste")) {
             color = ContextCompat.getColor(activity, R.color.zone_oeste);
             bgRes = R.drawable.bg_bt_raise_zone_oeste;
-            holder.chat_bt.setBackgroundResource(bgRes);
+            holder.finish_bt.setBackgroundResource(bgRes);
         }
         if (ride.getZone().equals("Zona Norte")) {
             color = ContextCompat.getColor(activity, R.color.zone_norte);
             bgRes = R.drawable.bg_bt_raise_zone_norte;
-            holder.chat_bt.setBackgroundResource(bgRes);
+            holder.finish_bt.setBackgroundResource(bgRes);
         }
         if (ride.getZone().equals("Baixada")) {
             color = ContextCompat.getColor(activity, R.color.zone_baixada);
             bgRes = R.drawable.bg_bt_raise_zone_baixada;
-            holder.chat_bt.setBackgroundResource(bgRes);
+            holder.finish_bt.setBackgroundResource(bgRes);
         }
         if (ride.getZone().equals("Grande Niterói")) {
             color = ContextCompat.getColor(activity, R.color.zone_niteroi);
             bgRes = R.drawable.bg_bt_raise_zone_niteroi;
-            holder.chat_bt.setBackgroundResource(bgRes);
+            holder.finish_bt.setBackgroundResource(bgRes);
         }
         holder.lay1.setBackgroundColor(color);
 
@@ -105,15 +108,21 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
         else
             location = ride.getHub() + " -> " + ride.getNeighborhood();
 
-        Picasso.with(activity).load(driver.getProfilePicUrl())
-                .placeholder(R.drawable.user_pic)
-                .error(R.drawable.user_pic)
-                .transform(new RoundedTransformation(0))
-                .into(holder.user_pic);
+        String profilePicUrl = driver.getProfilePicUrl();
+        if (profilePicUrl == null || profilePicUrl.isEmpty()) {
+            Picasso.with(activity).load(R.drawable.user_pic)
+                    .into(holder.user_pic);
+        } else {
+            Picasso.with(activity).load(profilePicUrl)
+                    .placeholder(R.drawable.user_pic)
+                    .error(R.drawable.user_pic)
+                    .transform(new RoundedTransformation(0))
+                    .into(holder.user_pic);
+        }
         holder.user_pic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (driver.getDbId() != App.getUser().getDbId()) {
+                if (!isDriver) {
                     Intent intent = new Intent(activity, ProfileAct.class);
                     intent.putExtra("user", new Gson().toJson(driver));
                     activity.startActivity(intent);
@@ -162,6 +171,10 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
         });
 
         final String rideId = ride.getDbId() + "";
+
+        if (isDriver) {
+            holder.leave_bt.setText("CANCELAR");
+        }
         holder.leave_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -182,7 +195,38 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
                     @Override
                     public void failure(RetrofitError error) {
                         Util.toast(activity.getString(R.string.errorRideDeleted));
+
                         Log.e("leaveRide", error.getMessage());
+                    }
+                });
+            }
+        });
+
+        if (!isDriver) {
+            holder.finish_bt.setVisibility(View.GONE);
+        }
+        holder.finish_bt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                App.getNetworkService().finishRide(new RideIdForJson(ride.getDbId()), new Callback<Response>() {
+                    @Override
+                    public void success(Response response, Response response2) {
+                        Util.toast(activity.getString(R.string.rideFinished));
+                        ridesList.remove(rideWithUsers);
+                        notifyItemRemoved(holder.getAdapterPosition());
+
+                        new UnsubGcmTopic(activity, rideId).execute();
+
+                        List<Ride> rides = Ride.find(Ride.class, "db_id = ?", rideId);
+                        if (rides != null && !rides.isEmpty())
+                            rides.get(0).delete();
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        Util.toast(activity.getString(R.string.errorFinishRide));
+
+                        Log.e("finish_bt", error.getMessage());
                     }
                 });
             }
@@ -211,6 +255,7 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
         public TextView phoneNumber_tv;
         public Button leave_bt;
         public Button chat_bt;
+        public Button finish_bt;
         public RelativeLayout lay1;
         public RelativeLayout layout;
         public RecyclerView ridersList;
@@ -234,6 +279,7 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
             phoneNumber_tv = (TextView) itemView.findViewById(R.id.phoneNumber_tv);
             leave_bt = (Button) itemView.findViewById(R.id.leave_bt);
             chat_bt = (Button) itemView.findViewById(R.id.chat_bt);
+            finish_bt = (Button) itemView.findViewById(R.id.finish_bt);
             lay1 = (RelativeLayout) itemView.findViewById(R.id.lay1);
             layout = (RelativeLayout) itemView.findViewById(R.id.layout);
             ridersList = (RecyclerView) itemView.findViewById(R.id.ridersList);

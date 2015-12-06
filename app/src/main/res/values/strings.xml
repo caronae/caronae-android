@@ -74,5 +74,7 @@
     <string name="errorRequestSent">Erro no envio da solicitação</string>
     <string name="errorGetRequesters">Erro ao obter solicitações</string>
     <string name="g">" vaga"</string>
+    <string name="errorFinishRide">Erro ao concluir carona</string>
+    <string name="rideFinished">Carona concluída</string>
 
 </resources>
