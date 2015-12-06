@@ -48,10 +48,31 @@
     <string name="title_activity_chat">ChatAct</string>
     <string name="title_activity_profile">Perfil do usuário</string>
 
-    <string name="act_login_send_pd">Aguarde</string>
+    <string name="wait">Aguarde</string>
     <string name="act_login_invalidToken">Chave inválida</string>
     <string name="act_login_loginFail">Erro ao fazer login</string>
     <string name="act_main_oknogplay">Ok</string>
     <string name="act_main_setRideOfferFragTitle">Oferecer carona</string>
+    <string name="arrivingAt">"Chegando ás %1$s"</string>
+    <string name="rideDeleted">Carona excluída</string>
+    <string name="errorRideDeleted">Erro ao desistir de carona</string>
+    <string name="Xslots">"%1$s vaga%2$s "</string>
+    <string name="notRoutine">Não é rotina</string>
+    <string name="repeats">"Repete "</string>
+    <string name="sunday">Dom-</string>
+    <string name="monday">Seg-</string>
+    <string name="tuesday">Ter-</string>
+    <string name="wednesday">Qua-</string>
+    <string name="thursday">Qui-</string>
+    <string name="friday">Sex-</string>
+    <string name="saturday">Sab-</string>
+    <string name="noRequesters">Nenhuma solicitação para esse anúncio</string>
+    <string name="requestAccepted">Solicitação aceita</string>
+    <string name="errorAnsweRequest">Erro ao responder solicitação</string>
+    <string name="requestRejected">Solicitação rejeitada</string>
+    <string name="requestSent">Solicitação enviada</string>
+    <string name="errorRequestSent">Erro no envio da solicitação</string>
+    <string name="errorGetRequesters">Erro ao obter solicitações</string>
+    <string name="g">" vaga"</string>
 
 </resources>

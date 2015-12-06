@@ -48,13 +48,24 @@
             android:textColor="@color/white" />
 
         <TextView
-            android:id="@+id/date_tv"
+            android:id="@+id/separator1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/location_tv"
             android:layout_toEndOf="@+id/photo_iv"
             android:layout_toRightOf="@+id/time_tv"
-            android:text=" | 03/11"
+            android:text=" | "
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/date_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/location_tv"
+            android:layout_toEndOf="@+id/photo_iv"
+            android:layout_toRightOf="@+id/separator1"
+            android:text="03/11"
             android:textColor="@color/white"
             android:textStyle="bold" />
 
@@ -79,14 +90,25 @@
             android:textColor="@color/white" />
 
         <TextView
-            android:id="@+id/course_tv"
+            android:id="@+id/separator2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/name_tv"
             android:layout_below="@+id/slots_tv"
             android:layout_toEndOf="@+id/name_tv"
             android:layout_toRightOf="@+id/name_tv"
-            android:text=" | Computação"
+            android:text=" | "
+            android:textColor="@color/white" />
+
+        <TextView
+            android:id="@+id/course_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/name_tv"
+            android:layout_below="@+id/slots_tv"
+            android:layout_toEndOf="@+id/separator2"
+            android:layout_toRightOf="@+id/separator2"
+            android:text="Computação"
             android:textColor="@color/white" />
 
         <com.rey.material.widget.Button

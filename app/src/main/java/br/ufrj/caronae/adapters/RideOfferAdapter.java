@@ -79,10 +79,11 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
                 .into(viewHolder.photo_iv);
 
         viewHolder.time_tv.setText(Util.formatTime(rideOffer.getTime()));
-        viewHolder.date_tv.setText(" | " + Util.formatBadDateWithoutYear(rideOffer.getDate()));
-        viewHolder.course_tv.setText(" | " + rideOffer.getCourse());
+        viewHolder.date_tv.setText(Util.formatBadDateWithoutYear(rideOffer.getDate()));
+        viewHolder.course_tv.setText(rideOffer.getCourse());
         viewHolder.name_tv.setText(rideOffer.getDriverName());
-        viewHolder.slots_tv.setText(rideOffer.getSlots() + " vaga" + (Integer.parseInt(rideOffer.getSlots()) > 1 ? "s" : ""));
+        String slots = activity.getString(R.string.Xslots, rideOffer.getSlots(), (Integer.parseInt(rideOffer.getSlots()) > 1 ? "s" : ""));
+        viewHolder.slots_tv.setText(slots);
         String location;
         if (rideOffer.isGoing())
             location = rideOffer.getNeighborhood() + " -> " + rideOffer.getHub();
@@ -90,20 +91,22 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
             location = rideOffer.getHub() + " -> " + rideOffer.getNeighborhood();
         viewHolder.location_tv.setText(location);
 
-        viewHolder.join_bt.setVisibility(rideOffer.getDriverId() == App.getUser().getDbId() ? View.GONE : View.VISIBLE);
         viewHolder.join_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                viewHolder.join_bt.setVisibility(View.GONE);
                 App.getNetworkService().requestJoin(new RideIdForJson(rideOffer.getRideId()), new Callback<Response>() {
                     @Override
                     public void success(Response response, Response response2) {
-                        Util.toast("Solicitação enviada");
+                        Util.toast(activity.getString(R.string.requestSent));
+
+                        rideOffers.remove(rideOffer);
+                        notifyItemRemoved(viewHolder.getAdapterPosition());
                     }
 
                     @Override
                     public void failure(RetrofitError error) {
-                        Util.toast("Erro no envio da solicitação");
+                        Util.toast(activity.getString(R.string.errorRequestSent));
+
                         Log.e("requestJoin", error.getMessage());
                     }
                 });
@@ -111,14 +114,14 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
         });
     }
 
-    @Override
-    public int getItemCount() {
-        return rideOffers.size();
-    }
-
     public void makeList(List<RideOfferForJson> rideOffers) {
         this.rideOffers = rideOffers;
         notifyDataSetChanged();
+    }
+
+    @Override
+    public int getItemCount() {
+        return rideOffers.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

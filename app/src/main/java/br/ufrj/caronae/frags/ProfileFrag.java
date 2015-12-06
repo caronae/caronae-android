@@ -82,6 +82,7 @@ public class ProfileFrag extends Fragment {
     ImageView user_pic;
 
     private CallbackManager callbackManager;
+    private boolean logOut = false;
 
     public ProfileFrag() {
         // Required empty public constructor
@@ -243,6 +244,7 @@ public class ProfileFrag extends Fragment {
         new LogOut().execute();
         startActivity(new Intent(getContext(), LoginAct.class));
         getActivity().finish();
+        logOut = true;
     }
 
     @OnClick(R.id.carOwner_sw)
@@ -331,7 +333,7 @@ public class ProfileFrag extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        if (App.getUser() == null)
+        if (logOut || App.getUser() == null)
             return;
 
         final User editedUser = new User();

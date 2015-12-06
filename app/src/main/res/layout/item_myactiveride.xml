@@ -70,14 +70,22 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/name_tv"
-                    android:text="Aluno | " />
+                    android:text="Aluno" />
+
+                <TextView
+                    android:id="@+id/separator1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/name_tv"
+                    android:layout_toRightOf="@+id/profile_tv"
+                    android:text=" | " />
 
                 <TextView
                     android:id="@+id/course_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/name_tv"
-                    android:layout_toRightOf="@+id/profile_tv"
+                    android:layout_toRightOf="@+id/separator1"
                     android:text="Ciência da computação" />
 
                 <TextView

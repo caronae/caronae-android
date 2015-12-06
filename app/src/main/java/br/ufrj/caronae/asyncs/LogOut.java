@@ -37,10 +37,10 @@ public class LogOut extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected Void doInBackground(Void... arg0) {
-        App.clearUserVar();
         LoginManager.getInstance().logOut();
 
         SharedPref.removeAllPrefButGcm();
+        App.clearUserVar();
 
         List<ActiveRideId> activeRideIds = ActiveRideId.listAll(ActiveRideId.class);
         if (!activeRideIds.isEmpty()) {

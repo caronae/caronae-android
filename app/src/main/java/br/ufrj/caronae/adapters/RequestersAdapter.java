@@ -17,13 +17,13 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 import br.ufrj.caronae.App;
+import br.ufrj.caronae.R;
 import br.ufrj.caronae.RoundedTransformation;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.ProfileAct;
 import br.ufrj.caronae.asyncs.CheckSubGcmTopic;
-import br.ufrj.caronae.R;
-import br.ufrj.caronae.models.modelsforjson.JoinRequestIDsForJson;
 import br.ufrj.caronae.models.User;
+import br.ufrj.caronae.models.modelsforjson.JoinRequestIDsForJson;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -55,6 +55,7 @@ public class RequestersAdapter extends RecyclerView.Adapter<RequestersAdapter.Vi
     public void onBindViewHolder(final RequestersAdapter.ViewHolder holder, final int position) {
         final User user = users.get(position);
 
+        holder.name_tv.setText(user.getName());
         holder.course_tv.setText(user.getCourse());
 
         Picasso.with(activity).load(user.getProfilePicUrl())
@@ -62,7 +63,6 @@ public class RequestersAdapter extends RecyclerView.Adapter<RequestersAdapter.Vi
                 .error(R.drawable.user_pic)
                 .transform(new RoundedTransformation(0))
                 .into(holder.photo_iv);
-        holder.name_tv.setText(user.getName());
         holder.photo_iv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -79,16 +79,18 @@ public class RequestersAdapter extends RecyclerView.Adapter<RequestersAdapter.Vi
                 App.getNetworkService().answerJoinRequest(new JoinRequestIDsForJson(user.getDbId(), rideId, true), new Callback<Response>() {
                     @Override
                     public void success(Response response, Response response2) {
-                        Util.toast("Solicitação aceita");
+                        Util.toast(activity.getString(R.string.requestAccepted));
                         users.remove(user);
                         notifyItemRemoved(holder.getAdapterPosition());
-                        new CheckSubGcmTopic().execute(rideId+"");
+
+                        new CheckSubGcmTopic().execute(rideId + "");
                     }
 
                     @Override
                     public void failure(RetrofitError error) {
                         Log.e("answerJoinRequest", error.getMessage());
-                        Util.toast("Erro ao responder solicitação");
+
+                        Util.toast(activity.getString(R.string.errorAnsweRequest));
                     }
                 });
             }
@@ -100,7 +102,7 @@ public class RequestersAdapter extends RecyclerView.Adapter<RequestersAdapter.Vi
                 App.getNetworkService().answerJoinRequest(new JoinRequestIDsForJson(user.getDbId(), rideId, false), new Callback<Response>() {
                     @Override
                     public void success(Response response, Response response2) {
-                        Util.toast("Solicitação rejeitada");
+                        Util.toast(activity.getString(R.string.requestRejected));
                         users.remove(user);
                         notifyItemRemoved(holder.getAdapterPosition());
                     }
@@ -108,7 +110,8 @@ public class RequestersAdapter extends RecyclerView.Adapter<RequestersAdapter.Vi
                     @Override
                     public void failure(RetrofitError error) {
                         Log.e("answerJoinRequest", error.getMessage());
-                        Util.toast("Erro ao responder solicitação");
+
+                        Util.toast(activity.getString(R.string.errorAnsweRequest));
                     }
                 });
             }

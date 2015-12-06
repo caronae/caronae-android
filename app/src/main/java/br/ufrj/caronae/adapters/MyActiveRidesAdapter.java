@@ -23,10 +23,10 @@ import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.RoundedTransformation;
 import br.ufrj.caronae.Util;
-import br.ufrj.caronae.acts.ProfileAct;
-import br.ufrj.caronae.asyncs.UnsubGcmTopic;
 import br.ufrj.caronae.acts.ChatAct;
 import br.ufrj.caronae.acts.MainAct;
+import br.ufrj.caronae.acts.ProfileAct;
+import br.ufrj.caronae.asyncs.UnsubGcmTopic;
 import br.ufrj.caronae.models.Ride;
 import br.ufrj.caronae.models.User;
 import br.ufrj.caronae.models.modelsforjson.RideIdForJson;
@@ -73,31 +73,32 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
         if (ride.getZone().equals("Zona Sul")) {
             color = ContextCompat.getColor(activity, R.color.zone_sul);
             bgRes = R.drawable.bg_bt_raise_zone_sul;
-            holder.chat_bt.setBackgroundResource(R.drawable.bg_bt_raise_zone_sul);
+            holder.chat_bt.setBackgroundResource(bgRes);
         }
         if (ride.getZone().equals("Zona Oeste")) {
             color = ContextCompat.getColor(activity, R.color.zone_oeste);
             bgRes = R.drawable.bg_bt_raise_zone_oeste;
-            holder.chat_bt.setBackgroundResource(R.drawable.bg_bt_raise_zone_oeste);
+            holder.chat_bt.setBackgroundResource(bgRes);
         }
         if (ride.getZone().equals("Zona Norte")) {
             color = ContextCompat.getColor(activity, R.color.zone_norte);
             bgRes = R.drawable.bg_bt_raise_zone_norte;
-            holder.chat_bt.setBackgroundResource(R.drawable.bg_bt_raise_zone_norte);
+            holder.chat_bt.setBackgroundResource(bgRes);
         }
         if (ride.getZone().equals("Baixada")) {
             color = ContextCompat.getColor(activity, R.color.zone_baixada);
             bgRes = R.drawable.bg_bt_raise_zone_baixada;
-            holder.chat_bt.setBackgroundResource(R.drawable.bg_bt_raise_zone_baixada);
+            holder.chat_bt.setBackgroundResource(bgRes);
         }
         if (ride.getZone().equals("Grande Niterói")) {
             color = ContextCompat.getColor(activity, R.color.zone_niteroi);
             bgRes = R.drawable.bg_bt_raise_zone_niteroi;
-            holder.chat_bt.setBackgroundResource(R.drawable.bg_bt_raise_zone_niteroi);
+            holder.chat_bt.setBackgroundResource(bgRes);
         }
         holder.lay1.setBackgroundColor(color);
 
         ride.setDbId(ride.getId().intValue());
+
         final String location;
         if (ride.isGoing())
             location = ride.getNeighborhood() + " -> " + ride.getHub();
@@ -121,11 +122,12 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
         });
         holder.location_tv.setText(location);
         holder.name_tv.setText(driver.getName());
+        holder.profile_tv.setText(driver.getProfile());
         holder.way_tv.setText(ride.getRoute());
         holder.place_tv.setText(ride.getPlace());
         holder.phoneNumber_tv.setText(driver.getPhoneNumber());
         holder.course_tv.setText(driver.getCourse());
-        holder.time_tv.setText("Chegando ás " + Util.formatTime(ride.getTime()));
+        holder.time_tv.setText(activity.getString(R.string.arrivingAt, Util.formatTime(ride.getTime())));
         holder.time_tv.setTextColor(color);
         holder.date_tv.setText(Util.formatBadDateWithoutYear(ride.getDate()));
         holder.date_tv.setTextColor(color);
@@ -137,16 +139,12 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
         holder.ridersList.setHasFixedSize(true);
         holder.ridersList.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false));
 
-        /*DisplayMetrics displaymetrics = new DisplayMetrics();
-        activity.getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-        holder.layout.getLayoutParams().height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, rideWithUsers.getUsers().size() * 30 + 600, activity.getResources().getDisplayMetrics());*/
-
         final int finalColor = color, finalBgRes = bgRes;
         holder.chat_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(activity, ChatAct.class);
-                intent.putExtra("rideId", ride.getDbId()+"");
+                intent.putExtra("rideId", ride.getDbId() + "");
                 intent.putExtra("location", location);
                 intent.putExtra("color", finalColor);
                 intent.putExtra("bgRes", finalBgRes);
@@ -163,14 +161,14 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
             }
         });
 
-        final String rideId = ride.getDbId()+"";
+        final String rideId = ride.getDbId() + "";
         holder.leave_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 App.getNetworkService().leaveRide(new RideIdForJson(ride.getDbId()), new Callback<Response>() {
                     @Override
                     public void success(Response response, Response response2) {
-                        Util.toast("Carona excluída");
+                        Util.toast(activity.getString(R.string.rideDeleted));
                         ridesList.remove(rideWithUsers);
                         notifyItemRemoved(holder.getAdapterPosition());
 
@@ -183,7 +181,7 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
 
                     @Override
                     public void failure(RetrofitError error) {
-                        Util.toast("Erro ao desistir de carona");
+                        Util.toast(activity.getString(R.string.errorRideDeleted));
                         Log.e("leaveRide", error.getMessage());
                     }
                 });
@@ -200,6 +198,7 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
         public ImageView user_pic;
         public TextView location_tv;
         public TextView name_tv;
+        public TextView profile_tv;
         public TextView course_tv;
         public TextView time_tv;
         public TextView date_tv;
@@ -222,6 +221,7 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
             user_pic = (ImageView) itemView.findViewById(R.id.user_pic);
             location_tv = (TextView) itemView.findViewById(R.id.location_tv);
             name_tv = (TextView) itemView.findViewById(R.id.name_tv);
+            profile_tv = (TextView) itemView.findViewById(R.id.profile_tv);
             course_tv = (TextView) itemView.findViewById(R.id.course_tv);
             time_tv = (TextView) itemView.findViewById(R.id.time_tv);
             way_tv = (TextView) itemView.findViewById(R.id.way_tv);

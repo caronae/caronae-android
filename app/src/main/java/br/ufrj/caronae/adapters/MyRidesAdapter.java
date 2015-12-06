@@ -19,7 +19,6 @@ import br.ufrj.caronae.R;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.models.Ride;
-import br.ufrj.caronae.models.modelsforjson.RideIdForJson;
 import br.ufrj.caronae.models.User;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -69,10 +68,9 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
         }
         holder.cardView.setCardBackgroundColor(color);
 
-        holder.time_tv.setText("Chegando ás " + ride.getTime() + " | ");
+        holder.time_tv.setText(activity.getString(R.string.arrivingAt, ride.getTime()));
         holder.date_tv.setText(Util.formatGoodDateWithoutYear(ride.getDate()));
-        holder.slots_tv.setText(ride.getSlots() + " vagas | ");
-        //holder.direction_tv.setText(ride.isGoing() ? "Indo para o fundão" : "Voltando do fundão - HUB:" + ride.getHub());
+        holder.slots_tv.setText(activity.getString(R.string.Xslots, ride.getSlots(), (Integer.parseInt(ride.getSlots()) > 1 ? "s" : "")));
         String location;
         if (ride.isGoing())
             location = ride.getNeighborhood() + " -> " + ride.getHub();
@@ -80,29 +78,28 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
             location = ride.getHub() + " -> " + ride.getNeighborhood();
         holder.location_tv.setText(location);
 
-        String s = "Repete ";
+        String s = activity.getString(R.string.repeats);
         if (ride.isRoutine()) {
-            s += ride.getWeekDays().contains("7") ? "Dom-" : "";
-            s += ride.getWeekDays().contains("1") ? "Seg-" : "";
-            s += ride.getWeekDays().contains("2") ? "Ter-" : "";
-            s += ride.getWeekDays().contains("3") ? "Qua-" : "";
-            s += ride.getWeekDays().contains("4") ? "Qui-" : "";
-            s += ride.getWeekDays().contains("5") ? "Sex-" : "";
-            s += ride.getWeekDays().contains("6") ? "Sab-" : "";
+            s += ride.getWeekDays().contains("7") ? activity.getString(R.string.sunday) : "";
+            s += ride.getWeekDays().contains("1") ? activity.getString(R.string.monday) : "";
+            s += ride.getWeekDays().contains("2") ? activity.getString(R.string.tuesday) : "";
+            s += ride.getWeekDays().contains("3") ? activity.getString(R.string.wednesday) : "";
+            s += ride.getWeekDays().contains("4") ? activity.getString(R.string.thursday) : "";
+            s += ride.getWeekDays().contains("5") ? activity.getString(R.string.friday) : "";
+            s += ride.getWeekDays().contains("6") ? activity.getString(R.string.saturday) : "";
             s = s.substring(0, s.length() - 1);
         } else {
-            s = "Não é rotina";
+            s = activity.getString(R.string.notRoutine);
         }
         holder.routine_tv.setText(s);
 
         holder.delete_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //holder.delete_bt.setVisibility(View.GONE);
-                App.getNetworkService().deleteRide(ride.getDbId()+"", new Callback<Response>() {
+                App.getNetworkService().deleteRide(ride.getDbId() + "", new Callback<Response>() {
                     @Override
                     public void success(Response response, Response response2) {
-                        Util.toast("Carona excluída");
+                        Util.toast(activity.getString(R.string.rideDeleted));
                         rides.remove(ride);
                         notifyItemRemoved(holder.getAdapterPosition());
                         ride.delete();
@@ -110,7 +107,7 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
 
                     @Override
                     public void failure(RetrofitError error) {
-                        Util.toast("Erro ao excluir carona");
+                        activity.getString(R.string.errorRideDeleted);
                         Log.e("deleteRide", error.getMessage());
                     }
                 });
@@ -121,13 +118,15 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final ProgressDialog pd = ProgressDialog.show(activity, "", "Aguarde", true, true);
-                App.getNetworkService().getRequesters(ride.getDbId()+"", new Callback<List<User>>() {
+                final ProgressDialog pd = ProgressDialog.show(activity, "", activity.getResources().getString(R.string.wait), true, true);
+
+                App.getNetworkService().getRequesters(ride.getDbId() + "", new Callback<List<User>>() {
                     @Override
                     public void success(List<User> users, Response response) {
                         pd.dismiss();
+
                         if (users.isEmpty()) {
-                            Util.toast("Nenhuma solicitação para esse anúncio");
+                            Util.toast(activity.getString(R.string.noRequesters));
                         } else {
                             activity.showRequestersListFrag(users, ride.getDbId(), colorToSend);
                         }
@@ -136,7 +135,9 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
                     @Override
                     public void failure(RetrofitError error) {
                         pd.dismiss();
-                        Util.toast("Erro ao obter solicitações");
+
+                        Util.toast(activity.getString(R.string.errorGetRequesters));
+
                         Log.e("getRequesters", error.getMessage());
                     }
                 });
@@ -156,14 +157,12 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
         public TextView slots_tv;
         public TextView date_tv;
         public Button delete_bt;
-        //public RelativeLayout layout;
         public CardView cardView;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
             time_tv = (TextView) itemView.findViewById(R.id.time_tv);
-            //direction_tv = (TextView) itemView.findViewById(R.id.direction_tv);
             location_tv = (TextView) itemView.findViewById(R.id.location_tv);
             routine_tv = (TextView) itemView.findViewById(R.id.routine_tv);
             slots_tv = (TextView) itemView.findViewById(R.id.slots_tv);

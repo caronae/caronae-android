@@ -50,7 +50,7 @@ public class LoginAct extends AppCompatActivity {
 
     @OnClick(R.id.send_bt)
     public void sendBt() {
-        final ProgressDialog pd = ProgressDialog.show(this, "", getString(R.string.act_login_send_pd), true, true);
+        final ProgressDialog pd = ProgressDialog.show(this, "", getString(R.string.wait), true, true);
 
         final String token = token_et.getText().toString();
         App.getNetworkService().login(new TokenForJson(token), new Callback<UserWithRidesForJson>() {
