@@ -20,8 +20,10 @@ public class CheckSubGcmTopic extends AsyncTask<String, Void, Void> {
         if (activeRideId == null || activeRideId.isEmpty()) {
             try {
                 Log.i("CheckSubGcmTopic", "i'll subscribe to ride " + rideId);
+
                 GcmPubSub.getInstance(App.inst()).subscribe(SharedPref.getUserGcmToken(), "/topics/" + rideId, null);
                 new ActiveRideId(rideId).save();
+
                 Log.i("CheckSubGcmTopic", "subscribed to ride " + rideId);
             } catch (IOException e) {
                 e.printStackTrace();

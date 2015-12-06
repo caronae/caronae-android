@@ -16,7 +16,7 @@ public class SharedPref {
     private static final String GCM_TOKEN_PREF_KEY                   = "gcmToken";
     private static final String NOTIFICATIONS_ON_PREF_KEY            = "notifOn";
     private static final String DRAWER_PIC_PREF                      = "drawerPic";
-    public static final String MISSING_PREF                         = "missing";
+    public static final String MISSING_PREF                          = "missing";
 
     private static SharedPreferences getSharedPreferences() {
         return PreferenceManager.getDefaultSharedPreferences(App.inst());

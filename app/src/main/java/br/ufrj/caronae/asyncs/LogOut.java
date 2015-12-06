@@ -48,6 +48,7 @@ public class LogOut extends AsyncTask<Void, Void, Void> {
             for (ActiveRideId ari : activeRideIds) {
                 try {
                     pubSub.unsubscribe(SharedPref.getUserGcmToken(), "/topics/" + ari.getRideId());
+
                     Log.i("logOut", "unsubscribed from ride " + ari.getRideId());
                 } catch (IOException e) {
                     e.printStackTrace();

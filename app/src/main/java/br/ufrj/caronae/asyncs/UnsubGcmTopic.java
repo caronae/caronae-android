@@ -29,6 +29,7 @@ public class UnsubGcmTopic extends AsyncTask<Void, Void, Void> {
             List<ActiveRideId> activeRideId = ActiveRideId.find(ActiveRideId.class, "ride_id = ?", dbId);
             if (activeRideId != null && !activeRideId.isEmpty())
                 activeRideId.get(0).delete();
+
             Log.i("logOut", "unsubscribed from ride " + dbId);
         } catch (IOException e) {
             e.printStackTrace();
