@@ -1,11 +1,9 @@
 package br.ufrj.caronae.acts;
 
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.WindowManager;
@@ -13,6 +11,9 @@ import android.view.WindowManager;
 import br.ufrj.caronae.R;
 
 public class OpeningAct extends AppCompatActivity {
+
+    public static final int SPLASH_SCREEN_DURATION = 3000;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +38,6 @@ public class OpeningAct extends AppCompatActivity {
                 startActivity(new Intent(OpeningAct.this, LoginAct.class));
                 OpeningAct.this.finish();
             }
-        }, 3000);
+        }, SPLASH_SCREEN_DURATION);
     }
 }

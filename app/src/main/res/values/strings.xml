@@ -48,4 +48,10 @@
     <string name="title_activity_chat">ChatAct</string>
     <string name="title_activity_profile">Perfil do usuário</string>
 
+    <string name="act_login_send_pd">Aguarde</string>
+    <string name="act_login_invalidToken">Chave inválida</string>
+    <string name="act_login_loginFail">Erro ao fazer login</string>
+    <string name="act_main_oknogplay">Ok</string>
+    <string name="act_main_setRideOfferFragTitle">Oferecer carona</string>
+
 </resources>

@@ -40,12 +40,7 @@ public class LogOut extends AsyncTask<Void, Void, Void> {
         App.clearUserVar();
         LoginManager.getInstance().logOut();
 
-        SharedPref.removePref(SharedPref.USER_PREF_KEY);
-        SharedPref.removePref(SharedPref.LAST_RIDE_OFFER_PREF_KEY);
-        SharedPref.removePref(SharedPref.LAST_RIDE_SEARCH_FILTERS_PREF_KEY);
-        SharedPref.removePref(SharedPref.TOKEN_PREF_KEY);
-        SharedPref.removePref(SharedPref.NOTIFICATIONS_ON_PREF_KEY);
-        SharedPref.removePref(SharedPref.DRAWER_PIC_PREF);
+        SharedPref.removeAllPrefButGcm();
 
         List<ActiveRideId> activeRideIds = ActiveRideId.listAll(ActiveRideId.class);
         if (!activeRideIds.isEmpty()) {

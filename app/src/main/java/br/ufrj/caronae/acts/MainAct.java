@@ -26,8 +26,6 @@ import android.widget.TextView;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -37,7 +35,7 @@ import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.RoundedTransformation;
 import br.ufrj.caronae.SharedPref;
-import br.ufrj.caronae.gcm.RegistrationIntentService;
+import br.ufrj.caronae.asyncs.CheckGPlay;
 import br.ufrj.caronae.frags.MyActiveRidesFrag;
 import br.ufrj.caronae.frags.MyRidesFrag;
 import br.ufrj.caronae.frags.ProfileFrag;
@@ -49,6 +47,7 @@ import br.ufrj.caronae.models.User;
 public class MainAct extends AppCompatActivity {
 
     public static final int GPLAY_UNAVAILABLE = 123;
+
     private DrawerLayout mDrawer;
     private ActionBarDrawerToggle drawerToggle;
     private CallbackManager callbackManager;
@@ -69,6 +68,7 @@ public class MainAct extends AppCompatActivity {
         drawerToggle = new ActionBarDrawerToggle(this, mDrawer, toolbar, R.string.drawer_open, R.string.drawer_close) {
             @Override
             public void onDrawerOpened(View drawerView) {
+                //update user pic on drawer if it changed
                 String profilePicUrl = SharedPref.getDrawerPic();
                 if (!profilePicUrl.equals(App.getUser().getProfilePicUrl())) {
                     if (App.getUser().getProfilePicUrl() != null)
@@ -94,6 +94,7 @@ public class MainAct extends AppCompatActivity {
                     SharedPref.saveDrawerPic(profilePicUrl);
                 }
 
+                //hide keyboard when nav drawer opens
                 InputMethodManager inputMethodManager = (InputMethodManager) MainAct.this.getSystemService(Activity.INPUT_METHOD_SERVICE);
                 try {
                     //noinspection ConstantConditions
@@ -126,20 +127,7 @@ public class MainAct extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
 
-        checkGplay();
-    }
-
-    private void checkGplay() {
-        int resultGplay = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
-
-        if (resultGplay != ConnectionResult.SUCCESS) {
-            GooglePlayServicesUtil.getErrorDialog(resultGplay, this, GPLAY_UNAVAILABLE);
-        } else {
-            if (SharedPref.getUserGcmToken().equals(SharedPref.MISSING_PREF)) {
-                Intent intent = new Intent(this, RegistrationIntentService.class);
-                startService(intent);
-            }
-        }
+        new CheckGPlay(this).execute();
     }
 
     private void getHeaderView(NavigationView nvDrawer) {
@@ -187,7 +175,7 @@ public class MainAct extends AppCompatActivity {
                 fragmentClass = MyActiveRidesFrag.class;
                 break;
             default:
-                fragmentClass = MyRidesFrag.class;
+                fragmentClass = ProfileFrag.class;
         }
 
         try {
@@ -245,7 +233,7 @@ public class MainAct extends AppCompatActivity {
             new AlertDialog.Builder(this)
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .setMessage(R.string.gplay_unavailable)
-                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    .setPositiveButton(getString(R.string.act_main_oknogplay), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int which) {
                             //
@@ -277,6 +265,6 @@ public class MainAct extends AppCompatActivity {
     public void showRideOfferFrag() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.flContent, new RideOfferFrag()).commit();
-        setTitle("Oferecer carona");
+        setTitle(getString(R.string.act_main_setRideOfferFragTitle));
     }
 }

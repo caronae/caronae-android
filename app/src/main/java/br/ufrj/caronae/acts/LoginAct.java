@@ -50,7 +50,8 @@ public class LoginAct extends AppCompatActivity {
 
     @OnClick(R.id.send_bt)
     public void sendBt() {
-        final ProgressDialog pd = ProgressDialog.show(this, "", "Aguarde", true, true);
+        final ProgressDialog pd = ProgressDialog.show(this, "", getString(R.string.act_login_send_pd), true, true);
+
         final String token = token_et.getText().toString();
         App.getNetworkService().login(new TokenForJson(token), new Callback<UserWithRidesForJson>() {
             @Override
@@ -58,14 +59,13 @@ public class LoginAct extends AppCompatActivity {
                 pd.dismiss();
 
                 if (userWithRides == null || userWithRides.getUser() == null) {
-                    Util.toast("Chave inválida");
+                    Util.toast(getString(R.string.act_login_invalidToken));
                     return;
                 }
 
                 SharedPref.saveUser(userWithRides.getUser());
                 SharedPref.saveUserToken(token);
                 SharedPref.saveNotifPref("true");
-                String profilePicUrl = userWithRides.getUser().getProfilePicUrl();
 
                 new SaveRidesAsync(userWithRides).execute();
 
@@ -91,7 +91,8 @@ public class LoginAct extends AppCompatActivity {
             @Override
             public void failure(RetrofitError retrofitError) {
                 pd.dismiss();
-                Util.toast("Erro ao fazer login");
+
+                Util.toast(getString(R.string.act_login_loginFail));
                 Log.e("login", retrofitError.getMessage());
             }
         });

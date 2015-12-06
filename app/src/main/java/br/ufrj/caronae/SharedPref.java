@@ -93,4 +93,13 @@ public class SharedPref {
     public static String getDrawerPic() {
         return getPref(DRAWER_PIC_PREF);
     }
+
+    public static void removeAllPrefButGcm() {
+        removePref(USER_PREF_KEY);
+        removePref(LAST_RIDE_OFFER_PREF_KEY);
+        removePref(LAST_RIDE_SEARCH_FILTERS_PREF_KEY);
+        removePref(TOKEN_PREF_KEY);
+        removePref(NOTIFICATIONS_ON_PREF_KEY);
+        removePref(DRAWER_PIC_PREF);
+    }
 }

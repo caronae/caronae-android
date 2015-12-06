@@ -59,10 +59,9 @@ public class ChatAct extends AppCompatActivity {
         ButterKnife.bind(this);
 
         int color = getIntent().getExtras().getInt("color");
-        int bgRes = getIntent().getExtras().getInt("bgRes");
         lay1.setBackgroundColor(color);
+        int bgRes = getIntent().getExtras().getInt("bgRes");
         send_bt.setBackgroundResource(bgRes);
-
         String neighborhood = getIntent().getExtras().getString("location");
         neighborhood_tv.setText(neighborhood);
         String riders = getIntent().getExtras().getString("riders");
@@ -74,6 +73,7 @@ public class ChatAct extends AppCompatActivity {
 
         rideId = getIntent().getExtras().getString("rideId");
         chatMsgsList = ChatMessageReceived.find(ChatMessageReceived.class, "ride_id = ?", rideId);
+
         chatMsgs_rv.setAdapter(new ChatMsgsAdapter(chatMsgsList, color, this));
         chatMsgs_rv.setLayoutManager(new LinearLayoutManager(this));
 
@@ -89,8 +89,10 @@ public class ChatAct extends AppCompatActivity {
         if (message.isEmpty())
             return;
         msg_et.setText("");
+
         String time = new SimpleDateFormat("HH:mm", Locale.US).format(new Date());
         updateMsgsList(new ChatMessageReceived(App.getUser().getName(), App.getUser().getDbId() + "", message, rideId, time));
+
         App.getChatService().sendChatMsg(new ChatMessageSent(rideId, message, time), new Callback<Response>() {
             @Override
             public void success(Response response, Response response2) {
@@ -112,7 +114,7 @@ public class ChatAct extends AppCompatActivity {
         chatMsgsList.add(msg);
 
         ChatMsgsAdapter adapter = (ChatMsgsAdapter) chatMsgs_rv.getAdapter();
-        adapter.notifyItemInserted(chatMsgsList.size()-1);
+        adapter.notifyItemInserted(chatMsgsList.size() - 1);
 
         chatMsgs_rv.scrollToPosition(chatMsgsList.size() - 1);
     }

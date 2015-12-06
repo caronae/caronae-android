@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -22,6 +23,7 @@ import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.RoundedTransformation;
 import br.ufrj.caronae.Util;
+import br.ufrj.caronae.acts.ProfileAct;
 import br.ufrj.caronae.asyncs.UnsubGcmTopic;
 import br.ufrj.caronae.acts.ChatAct;
 import br.ufrj.caronae.acts.MainAct;
@@ -107,6 +109,16 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
                 .error(R.drawable.user_pic)
                 .transform(new RoundedTransformation(0))
                 .into(holder.user_pic);
+        holder.user_pic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (driver.getDbId() != App.getUser().getDbId()) {
+                    Intent intent = new Intent(activity, ProfileAct.class);
+                    intent.putExtra("user", new Gson().toJson(driver));
+                    activity.startActivity(intent);
+                }
+            }
+        });
         holder.location_tv.setText(location);
         holder.name_tv.setText(driver.getName());
         holder.way_tv.setText(ride.getRoute());
