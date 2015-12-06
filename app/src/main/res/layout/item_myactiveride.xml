@@ -103,8 +103,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/lay2"
-            android:orientation="horizontal"
-            android:layout_centerHorizontal="true">
+            android:layout_centerHorizontal="true"
+            android:orientation="horizontal">
 
             <com.rey.material.widget.Button
                 android:id="@+id/chat_bt"
@@ -120,8 +120,9 @@
                 style="@style/LightRaiseColorButtonRippleStyle"
                 android:layout_width="160dp"
                 android:layout_height="36dp"
+                android:background="@null"
                 android:text="Concluir carona"
-                android:textColor="@color/white"
+                android:textColor="@color/blue"
                 app:rd_enable="true" />
         </LinearLayout>
 

@@ -71,32 +71,26 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
             color = ContextCompat.getColor(activity, R.color.zone_centro);
             bgRes = R.drawable.bg_bt_raise_zone_centro;
             holder.chat_bt.setBackgroundResource(bgRes);
-            holder.finish_bt.setBackgroundResource(bgRes);
         }
         if (ride.getZone().equals("Zona Sul")) {
             color = ContextCompat.getColor(activity, R.color.zone_sul);
             bgRes = R.drawable.bg_bt_raise_zone_sul;
-            holder.finish_bt.setBackgroundResource(bgRes);
         }
         if (ride.getZone().equals("Zona Oeste")) {
             color = ContextCompat.getColor(activity, R.color.zone_oeste);
             bgRes = R.drawable.bg_bt_raise_zone_oeste;
-            holder.finish_bt.setBackgroundResource(bgRes);
         }
         if (ride.getZone().equals("Zona Norte")) {
             color = ContextCompat.getColor(activity, R.color.zone_norte);
             bgRes = R.drawable.bg_bt_raise_zone_norte;
-            holder.finish_bt.setBackgroundResource(bgRes);
         }
         if (ride.getZone().equals("Baixada")) {
             color = ContextCompat.getColor(activity, R.color.zone_baixada);
             bgRes = R.drawable.bg_bt_raise_zone_baixada;
-            holder.finish_bt.setBackgroundResource(bgRes);
         }
         if (ride.getZone().equals("Grande Niterói")) {
             color = ContextCompat.getColor(activity, R.color.zone_niteroi);
             bgRes = R.drawable.bg_bt_raise_zone_niteroi;
-            holder.finish_bt.setBackgroundResource(bgRes);
         }
         holder.lay1.setBackgroundColor(color);
 
