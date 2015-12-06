@@ -55,7 +55,6 @@ public class ProfileAct extends AppCompatActivity {
                 .into(user_pic_iv);
     }
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();

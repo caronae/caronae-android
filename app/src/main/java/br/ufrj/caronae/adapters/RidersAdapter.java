@@ -1,7 +1,7 @@
 package br.ufrj.caronae.adapters;
 
-import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.List;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.RoundedTransformation;
 import br.ufrj.caronae.acts.MainAct;
+import br.ufrj.caronae.acts.ProfileAct;
 import br.ufrj.caronae.models.User;
 
 public class RidersAdapter extends RecyclerView.Adapter<RidersAdapter.ViewHolder> {
@@ -48,13 +50,12 @@ public class RidersAdapter extends RecyclerView.Adapter<RidersAdapter.ViewHolder
                 .transform(new RoundedTransformation(0))
                 .into(holder.photo_iv);
         holder.name_tv.setText(user.getName().split(" ")[0]);
-        holder.name_tv.setOnClickListener(new View.OnClickListener() {
+        holder.photo_iv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new AlertDialog.Builder(activity).
-                        setTitle(user.getName()).
-                        setMessage(user.getProfile() + "\n" + user.getCourse() + "\n" + user.getPhoneNumber() + "\nUsuário desde " + user.getCreatedAt().split(" ")[0]).
-                        show();
+                Intent intent = new Intent(activity, ProfileAct.class);
+                intent.putExtra("user", new Gson().toJson(user));
+                activity.startActivity(intent);
             }
         });
     }

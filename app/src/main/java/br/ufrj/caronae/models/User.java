@@ -27,6 +27,8 @@ public class User implements Parcelable {
     private String location;
     @SerializedName("profile_pic_url")
     private String profilePicUrl;
+    @SerializedName("face_id")
+    private String faceId;
 
     public User() {
     }
@@ -135,6 +137,14 @@ public class User implements Parcelable {
         this.profilePicUrl = profilePicUrl;
     }
 
+    public String getFaceId() {
+        return faceId;
+    }
+
+    public void setFaceId(String faceId) {
+        this.faceId = faceId;
+    }
+
     public boolean sameFieldsState(User user) {
         if (isCarOwner() != user.isCarOwner()) return false;
         if (!getName().equals(user.getName())) return false;
@@ -170,7 +180,7 @@ public class User implements Parcelable {
     }
 
     public User(Parcel in) {
-        String[] data = new String[10];
+        String[] data = new String[12];
         in.readStringArray(data);
 
         name = data[0];
@@ -183,6 +193,8 @@ public class User implements Parcelable {
         carColor = data[7];
         carPlate = data[8];
         createdAt = data[9];
+        profilePicUrl = data[10];
+        faceId = data[11];
 
         int[] intData = new int[2];
         in.readIntArray(intData);
@@ -206,7 +218,9 @@ public class User implements Parcelable {
                 carModel,
                 carColor,
                 carPlate,
-                createdAt});
+                createdAt,
+                profilePicUrl,
+                faceId});
         parcel.writeIntArray(new int[]{
                 carOwner ? 1 : 0,
                 dbId

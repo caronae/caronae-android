@@ -44,9 +44,6 @@ public class Util {
             anim.setAnimationListener(collapselistener);
         }
 
-        // To Collapse
-        //
-
         anim.setDuration(300);
         anim.setInterpolator(new AccelerateInterpolator(0.5f));
         v.startAnimation(anim);

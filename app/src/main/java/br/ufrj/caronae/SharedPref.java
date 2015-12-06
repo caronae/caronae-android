@@ -9,14 +9,14 @@ import br.ufrj.caronae.models.User;
 
 public class SharedPref {
 
-    public static final String USER_PREF_KEY                        = "user";
-    public static final String LAST_RIDE_OFFER_PREF_KEY             = "lastRideOffer";
-    public static final String LAST_RIDE_SEARCH_FILTERS_PREF_KEY    = "lastRideSearchFilters";
-    public static final String TOKEN_PREF_KEY                       = "token";
-    public static final String GCM_TOKEN_PREF_KEY                   = "gcmToken";
-    public static final String NOTIFICATIONS_ON_PREF_KEY            = "notifOn";
+    private static final String USER_PREF_KEY                        = "user";
+    private static final String LAST_RIDE_OFFER_PREF_KEY             = "lastRideOffer";
+    private static final String LAST_RIDE_SEARCH_FILTERS_PREF_KEY    = "lastRideSearchFilters";
+    private static final String TOKEN_PREF_KEY                       = "token";
+    private static final String GCM_TOKEN_PREF_KEY                   = "gcmToken";
+    private static final String NOTIFICATIONS_ON_PREF_KEY            = "notifOn";
+    private static final String DRAWER_PIC_PREF                      = "drawerPic";
     public static final String MISSING_PREF                         = "missing";
-    public static final String DRAWER_PIC_PREF                      = "drawerPic";
 
     private static SharedPreferences getSharedPreferences() {
         return PreferenceManager.getDefaultSharedPreferences(App.inst());
