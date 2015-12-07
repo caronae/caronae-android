@@ -50,13 +50,54 @@
         android:layout_toRightOf="@+id/user_pic_iv"
         android:text="Curso padrão" />
 
+    <LinearLayout
+        android:id="@+id/lay1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/user_pic_iv"
+        android:layout_centerHorizontal="true">
+
+        <TextView
+            android:id="@+id/createdAt_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_today_black_24dp"
+            android:drawableStart="@drawable/ic_today_black_24dp"
+            android:gravity="center_vertical"
+            android:text="02/2014"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/ridesOffered_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_directions_car_black_24dp"
+            android:drawableStart="@drawable/ic_directions_car_black_24dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="40dp"
+            android:paddingStart="40dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/ridesTaken_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_person_black_24dp"
+            android:drawableStart="@drawable/ic_person_black_24dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="40dp"
+            android:paddingStart="40dp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
     <ImageView
         android:id="@+id/color_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/user_pic_iv"
+        android:layout_below="@+id/lay1"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
+        android:paddingTop="5dp"
         android:src="@drawable/color_bar" />
 
 </RelativeLayout>

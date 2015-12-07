@@ -48,7 +48,7 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class ProfileFrag extends Fragment {
+public class MyProfileFrag extends Fragment {
 
     @Bind(R.id.name_tv)
     TextView name_tv;
@@ -84,13 +84,13 @@ public class ProfileFrag extends Fragment {
     private CallbackManager callbackManager;
     private boolean logOut = false;
 
-    public ProfileFrag() {
+    public MyProfileFrag() {
         // Required empty public constructor
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_profile, container, false);
+        View view = inflater.inflate(R.layout.fragment_my_profile, container, false);
         ButterKnife.bind(this, view);
 
         callbackManager = ((MainAct) getActivity()).getFbCallbackManager();

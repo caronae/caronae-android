@@ -11,11 +11,17 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
+import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.RoundedTransformation;
+import br.ufrj.caronae.Util;
 import br.ufrj.caronae.models.User;
+import br.ufrj.caronae.models.modelsforjson.HistoryRideCountForJson;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 public class ProfileAct extends AppCompatActivity {
 
@@ -27,6 +33,12 @@ public class ProfileAct extends AppCompatActivity {
     TextView profile_tv;
     @Bind(R.id.course_tv)
     TextView course_tv;
+    @Bind(R.id.createdAt_tv)
+    TextView createdAt_tv;
+    @Bind(R.id.ridesOffered_tv)
+    TextView ridesOffered_tv;
+    @Bind(R.id.ridesTaken_tv)
+    TextView ridesTaken_tv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +65,27 @@ public class ProfileAct extends AppCompatActivity {
                 .error(R.drawable.user_pic)
                 .transform(new RoundedTransformation(0))
                 .into(user_pic_iv);
+
+        try {
+            String date = user.getCreatedAt().split(" ")[0];
+            date = Util.formatBadDateWithYear(date);
+            createdAt_tv.setText(date);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        App.getNetworkService().getRidesHistoryCount(user.getDbId() + "", new Callback<HistoryRideCountForJson>() {
+            @Override
+            public void success(HistoryRideCountForJson historyRideCountForJson, Response response) {
+                ridesOffered_tv.setText(String.valueOf(historyRideCountForJson.getOfferedCount()));
+                ridesTaken_tv.setText(String.valueOf(historyRideCountForJson.getTakenCount()));
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Util.toast(getString(R.string.act_profile_errorCountRidesHistory));
+            }
+        });
     }
 
     @Override

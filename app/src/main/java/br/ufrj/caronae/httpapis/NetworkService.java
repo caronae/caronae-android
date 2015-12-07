@@ -2,6 +2,7 @@ package br.ufrj.caronae.httpapis;
 
 import java.util.List;
 
+import br.ufrj.caronae.models.modelsforjson.HistoryRideCountForJson;
 import br.ufrj.caronae.models.modelsforjson.HistoryRideForJson;
 import br.ufrj.caronae.models.modelsforjson.IdForJson;
 import br.ufrj.caronae.models.modelsforjson.JoinRequestIDsForJson;
@@ -73,4 +74,7 @@ public interface NetworkService {
 
     @GET("/ride/getRidesHistory")
     void getRidesHistory(Callback<List<HistoryRideForJson>> cb);
+
+    @GET("/ride/getRidesHistoryCount/{userId}")
+    void getRidesHistoryCount(@Path("userId") String userId, Callback<HistoryRideCountForJson> cb);
 }

@@ -38,7 +38,7 @@ import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.asyncs.CheckGPlay;
 import br.ufrj.caronae.frags.MyActiveRidesFrag;
 import br.ufrj.caronae.frags.MyRidesFrag;
-import br.ufrj.caronae.frags.ProfileFrag;
+import br.ufrj.caronae.frags.MyProfileFrag;
 import br.ufrj.caronae.frags.RequestersListFrag;
 import br.ufrj.caronae.frags.RideOfferFrag;
 import br.ufrj.caronae.frags.RideSearchFrag;
@@ -121,7 +121,7 @@ public class MainAct extends AppCompatActivity {
         if (user.getEmail() == null || user.getEmail().isEmpty() ||
                 user.getPhoneNumber() == null || user.getPhoneNumber().isEmpty() ||
                 user.getLocation() == null || user.getLocation().isEmpty()) {
-            fragment = new ProfileFrag();
+            fragment = new MyProfileFrag();
         } else {
             fragment = new RideSearchFrag();
         }
@@ -167,7 +167,7 @@ public class MainAct extends AppCompatActivity {
         Class fragmentClass;
         switch (menuItem.getItemId()) {
             case R.id.nav_first_fragment:
-                fragmentClass = ProfileFrag.class;
+                fragmentClass = MyProfileFrag.class;
                 break;
             case R.id.nav_second_fragment:
                 fragmentClass = MyRidesFrag.class;
@@ -179,7 +179,7 @@ public class MainAct extends AppCompatActivity {
                 fragmentClass = RidesHistoryFrag.class;
                 break;
             default:
-                fragmentClass = ProfileFrag.class;
+                fragmentClass = MyProfileFrag.class;
         }
 
         try {
