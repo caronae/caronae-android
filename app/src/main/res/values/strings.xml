@@ -56,7 +56,7 @@
     <string name="arrivingAt">"Chegando ás %1$s"</string>
     <string name="rideDeleted">Carona excluída</string>
     <string name="errorRideDeleted">Erro ao desistir de carona</string>
-    <string name="Xslots">"%1$s vaga%2$s "</string>
+    <string name="Xslots">"%1$s vaga%2$s"</string>
     <string name="notRoutine">Não é rotina</string>
     <string name="repeats">"Repete "</string>
     <string name="sunday">Dom-</string>
@@ -76,5 +76,7 @@
     <string name="g">" vaga"</string>
     <string name="errorFinishRide">Erro ao concluir carona</string>
     <string name="rideFinished">Carona concluída</string>
+    <string name="arrivedAt">Chegou ás %1$s</string>
+    <string name="Xriders">%1$s caronista%2$s</string>
 
 </resources>

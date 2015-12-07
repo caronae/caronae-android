@@ -42,6 +42,7 @@ import br.ufrj.caronae.frags.ProfileFrag;
 import br.ufrj.caronae.frags.RequestersListFrag;
 import br.ufrj.caronae.frags.RideOfferFrag;
 import br.ufrj.caronae.frags.RideSearchFrag;
+import br.ufrj.caronae.frags.RidesHistoryFrag;
 import br.ufrj.caronae.models.User;
 
 public class MainAct extends AppCompatActivity {
@@ -173,6 +174,9 @@ public class MainAct extends AppCompatActivity {
                 break;
             case R.id.nav_third_fragment:
                 fragmentClass = MyActiveRidesFrag.class;
+                break;
+            case R.id.nav_fourth_fragment:
+                fragmentClass = RidesHistoryFrag.class;
                 break;
             default:
                 fragmentClass = ProfileFrag.class;
