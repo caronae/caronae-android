@@ -76,7 +76,7 @@ public class MyRidesFrag extends Fragment {
             return;
 
         for (final Ride ride : rides) {
-            App.getNetworkService().deleteRide(""+ride.getDbId(), new Callback<Response>() {
+            App.getNetworkService().deleteRide(ride.getDbId() + "", new Callback<Response>() {
                 @Override
                 public void success(Response response, Response response2) {
                     Log.i("deleteRide", "ride " + ride.getDbId() + " deleted");
@@ -90,7 +90,7 @@ public class MyRidesFrag extends Fragment {
             });
         }
 
-        Util.toast("Caronas deletadas");
+        Util.toast(getContext().getString(R.string.frag_myrides_ridesDeleted));
         rides.clear();
         myRidesList.getAdapter().notifyDataSetChanged();
     }

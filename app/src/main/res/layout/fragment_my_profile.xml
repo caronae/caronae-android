@@ -1,8 +1,9 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/scrollView"
     android:layout_width="match_parent"
-    android:layout_margin="16dp"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_margin="16dp">
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="wrap_content"
@@ -23,14 +24,14 @@
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_below="@+id/user_pic"
-                android:textSize="12sp"
+                android:layout_height="wrap_content"
                 android:layout_alignEnd="@+id/user_pic"
                 android:layout_alignRight="@+id/user_pic"
+                android:layout_below="@+id/user_pic"
+                android:background="@color/gray"
                 android:text="Mudar foto"
                 android:textColor="@color/white"
-                android:background="@color/gray"
-                android:layout_height="wrap_content" />
+                android:textSize="12sp" />
 
             <RelativeLayout
                 android:id="@+id/lay11"
@@ -91,38 +92,38 @@
             android:textStyle="italic" />
 
         <ImageView
+            android:id="@+id/color_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/createdAt_tv"
-            android:id="@+id/color_bar"
-            android:src="@drawable/color_bar"/>
+            android:src="@drawable/color_bar" />
 
         <TextView
             android:id="@+id/notif_text_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/color_bar"
-            android:paddingTop="15dp"
             android:paddingBottom="15dp"
+            android:paddingTop="15dp"
             android:text="Alertas e notificações"
             android:textStyle="bold" />
 
         <android.support.v7.widget.SwitchCompat
             android:id="@+id/notif_sw"
             android:layout_width="wrap_content"
-            android:checked="true"
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/notif_text_tv"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true" />
+            android:layout_alignParentRight="true"
+            android:checked="true" />
 
         <com.facebook.login.widget.LoginButton
             android:id="@+id/login_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/notif_text_tv"
             android:layout_centerHorizontal="true"
-            android:layout_gravity="center_horizontal"
-            android:layout_below="@+id/notif_text_tv" />
+            android:layout_gravity="center_horizontal" />
 
         <TextView
             android:id="@+id/contact_tv"

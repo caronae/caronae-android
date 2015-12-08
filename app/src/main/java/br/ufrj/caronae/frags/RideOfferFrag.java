@@ -1,6 +1,7 @@
 package br.ufrj.caronae.frags;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -11,6 +12,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -83,6 +85,8 @@ public class RideOfferFrag extends Fragment {
     CheckBox saturday_cb;
     @Bind(R.id.sunday_cb)
     CheckBox sunday_cb;
+    @Bind(R.id.scrollView)
+    ScrollView scrollView;
 
     private String zone;
 
@@ -101,11 +105,11 @@ public class RideOfferFrag extends Fragment {
             public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
                 switch (checkedId) {
                     case R.id.go_rb:
-                        center_et.setHint("Escolha o centro");
+                        center_et.setHint(R.string.frag_rideSearch_hintPickCenter);
                         center_et.setText("");
                         break;
                     case R.id.back_rb:
-                        center_et.setHint("Escolha o hub de encontro");
+                        center_et.setHint(R.string.frag_rideOffer_hintPickHub);
                         center_et.setText("");
                         break;
                 }
@@ -178,9 +182,9 @@ public class RideOfferFrag extends Fragment {
         };
 
         builder.items(Util.getZones(), 0)
-                .title("Escolha a zona")
-                .positiveAction("OK")
-                .negativeAction("Cancelar");
+                .title(getContext().getString(R.string.frag_rideOffer_pickZone))
+                .positiveAction(getContext().getString(R.string.ok))
+                .negativeAction(getContext().getString(R.string.cancel));
         DialogFragment fragment = DialogFragment.newInstance(builder);
         fragment.show(getFragmentManager(), null);
     }
@@ -200,9 +204,9 @@ public class RideOfferFrag extends Fragment {
         };
 
         builder.items(Util.getNeighborhoods(zone), 0)
-                .title("Escolha o bairro")
-                .positiveAction("OK")
-                .negativeAction("Cancelar");
+                .title(getContext().getString(R.string.frag_rideOffer_pickNeighborhood))
+                .positiveAction(getContext().getString(R.string.ok))
+                .negativeAction(getContext().getString(R.string.cancel));
         DialogFragment fragment = DialogFragment.newInstance(builder);
         fragment.show(getFragmentManager(), null);
     }
@@ -224,14 +228,14 @@ public class RideOfferFrag extends Fragment {
 
         if (radioGroup.getCheckedRadioButtonId() == R.id.go_rb) {
             builder.items(Util.getCenters(), 0)
-                    .title("Escolha o centro")
-                    .positiveAction("OK")
-                    .negativeAction("Cancelar");
+                    .title(getContext().getString(R.string.frag_rideOffer_pickCenter))
+                    .positiveAction(getContext().getString(R.string.ok))
+                    .negativeAction(getContext().getString(R.string.cancel));
         } else {
             builder.items(Util.getHubs(), 0)
-                    .title("Escolha o hub de encontro")
-                    .positiveAction("OK")
-                    .negativeAction("Cancelar");
+                    .title(getContext().getString(R.string.frag_rideOffer_pickHub))
+                    .positiveAction(getContext().getString(R.string.ok))
+                    .negativeAction(getContext().getString(R.string.cancel));
         }
         DialogFragment fragment = DialogFragment.newInstance(builder);
         fragment.show(getFragmentManager(), null);
@@ -253,8 +257,8 @@ public class RideOfferFrag extends Fragment {
             }
         };
 
-        builder.positiveAction("OK")
-                .negativeAction("Cancelar");
+        builder.positiveAction(getContext().getString(R.string.ok))
+                .negativeAction(getContext().getString(R.string.cancel));
 
         DialogFragment fragment = DialogFragment.newInstance(builder);
         fragment.show(getFragmentManager(), null);
@@ -276,8 +280,8 @@ public class RideOfferFrag extends Fragment {
             }
         };
 
-        builder.positiveAction("OK")
-                .negativeAction("Cancelar");
+        builder.positiveAction(getContext().getString(R.string.ok))
+                .negativeAction(getContext().getString(R.string.cancel));
 
         DialogFragment fragment = DialogFragment.newInstance(builder);
         fragment.show(getFragmentManager(), null);
@@ -286,6 +290,13 @@ public class RideOfferFrag extends Fragment {
     @OnClick(R.id.routine_cb)
     public void routineCb() {
         days_lo.setVisibility(routine_cb.isChecked() ? View.VISIBLE : View.GONE);
+
+        new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+                scrollView.smoothScrollTo(0, scrollView.getBottom());
+            }
+        });
     }
 
     @OnClick(R.id.send_bt)
@@ -295,8 +306,9 @@ public class RideOfferFrag extends Fragment {
 
         String neighborhood = neighborhood_et.getText().toString();
         if (neighborhood.isEmpty()) {
-            neighborhood_et.setText("Benfica");
-            zone = "Centro";
+            //noinspection ConstantConditions
+            neighborhood_et.setText(Util.getNeighborhoods(Util.getZones()[0])[0]);
+            zone = Util.getZones()[0];
             neighborhood = neighborhood_et.getText().toString();
         }
         String place = place_et.getText().toString();
@@ -343,7 +355,7 @@ public class RideOfferFrag extends Fragment {
             weekDays += sunday_cb.isChecked() ? "7," : "";
 
             if (weekDays.isEmpty()) {
-                Util.toast("Nenhum dia selecionado para rotina");
+                Util.toast(getContext().getString(R.string.frag_rideOffer_noRoutineDays));
                 return;
             }
             weekDays = weekDays.substring(0, weekDays.length() - 1);
@@ -370,8 +382,8 @@ public class RideOfferFrag extends Fragment {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        c.add(Calendar.MONTH, months);  // number of days to add
-        String repeatsUntil = sdf.format(c.getTime());  // dt is now the new date
+        c.add(Calendar.MONTH, months);
+        String repeatsUntil = sdf.format(c.getTime());
 
         final Ride ride = new Ride(zone, neighborhood, place, way, date, time, slots, hub, description, go, routine, weekDays, repeatsUntil);
 
@@ -386,12 +398,12 @@ public class RideOfferFrag extends Fragment {
                     ride2.setDbId(ride.getId().intValue());
                     ride2.save();
                 }
-                Util.toast("Carona salva");
+                Util.toast(getContext().getString(R.string.frag_rideOffer_rideSaved));
             }
 
             @Override
             public void failure(RetrofitError error) {
-                Util.toast("Erro ao oferecer carona");
+                Util.toast(getContext().getString(R.string.frag_rideOffer_errorRideSaved));
                 Log.e("offerRide", error.getMessage());
             }
         });

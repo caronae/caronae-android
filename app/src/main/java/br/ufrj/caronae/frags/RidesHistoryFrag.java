@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.Collections;
 import java.util.List;
 
 import br.ufrj.caronae.App;
@@ -18,6 +19,7 @@ import br.ufrj.caronae.R;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.adapters.RidesHistoryAdapter;
+import br.ufrj.caronae.comparators.HistoryRideForJsonComparatorByDateAndTime;
 import br.ufrj.caronae.models.modelsforjson.HistoryRideForJson;
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -41,7 +43,7 @@ public class RidesHistoryFrag extends Fragment {
         View view = inflater.inflate(R.layout.fragment_rides_history, container, false);
         ButterKnife.bind(this, view);
 
-        final ProgressDialog pd = ProgressDialog.show(getActivity(), "", "Aguarde", true, true);
+        final ProgressDialog pd = ProgressDialog.show(getActivity(), "", getContext().getString(R.string.wait), true, true);
         App.getNetworkService().getRidesHistory(new Callback<List<HistoryRideForJson>>() {
             @Override
             public void success(List<HistoryRideForJson> historyRides, Response response) {
@@ -51,10 +53,10 @@ public class RidesHistoryFrag extends Fragment {
                     return;
                 }
 
+                Collections.sort(historyRides, new HistoryRideForJsonComparatorByDateAndTime());
                 myRidesList.setAdapter(new RidesHistoryAdapter(historyRides, (MainAct) getActivity()));
                 myRidesList.setHasFixedSize(true);
                 myRidesList.setLayoutManager(new LinearLayoutManager(getActivity()));
-                //Collections.sort(rides, new RideComparatorByDateAndTime());
 
                 pd.dismiss();
             }
@@ -63,9 +65,8 @@ public class RidesHistoryFrag extends Fragment {
             public void failure(RetrofitError error) {
                 norides_tv.setVisibility(View.VISIBLE);
                 pd.dismiss();
-                Util.toast("Erro ao obter histórico de caronas");
+                Util.toast(getContext().getString(R.string.frag_rideshistory_errorGetRides));
                 Log.e("getRidesHistory", error.getMessage());
-
             }
         });
 

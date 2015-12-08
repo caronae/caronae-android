@@ -133,9 +133,9 @@ public class RideSearchFrag extends Fragment {
         };
 
         builder.multiChoiceItems(Util.getZones(), 0)
-                .title("Escolha a(s) zona(s)")
-                .positiveAction("OK")
-                .negativeAction("Cancelar");
+                .title(getContext().getString(R.string.frag_rideSearch_pickZones))
+                .positiveAction(getContext().getString(R.string.ok))
+                .negativeAction(getContext().getString(R.string.cancel));
         DialogFragment fragment = DialogFragment.newInstance(builder);
         fragment.show(getFragmentManager(), null);
     }
@@ -167,9 +167,9 @@ public class RideSearchFrag extends Fragment {
         };
 
         builder.multiChoiceItems(Util.getNeighborhoods(zone), 0)
-                .title("Escolha o(s) bairro(s)")
-                .positiveAction("OK")
-                .negativeAction("Cancelar");
+                .title(getContext().getString(R.string.frag_rideSearch_pickNeighborhood))
+                .positiveAction(getContext().getString(R.string.ok))
+                .negativeAction(getContext().getString(R.string.cancel));
         DialogFragment fragment = DialogFragment.newInstance(builder);
         fragment.show(getFragmentManager(), null);
     }
@@ -190,8 +190,8 @@ public class RideSearchFrag extends Fragment {
             }
         };
 
-        builder.positiveAction("OK")
-                .negativeAction("Cancelar");
+        builder.positiveAction(getContext().getString(R.string.ok))
+                .negativeAction(getContext().getString(R.string.cancel));
 
         DialogFragment fragment = DialogFragment.newInstance(builder);
         fragment.show(getFragmentManager(), null);
@@ -213,8 +213,8 @@ public class RideSearchFrag extends Fragment {
             }
         };
 
-        builder.positiveAction("OK")
-                .negativeAction("Cancelar");
+        builder.positiveAction(getContext().getString(R.string.ok))
+                .negativeAction(getContext().getString(R.string.cancel));
 
         DialogFragment fragment = DialogFragment.newInstance(builder);
         fragment.show(getFragmentManager(), null);
@@ -225,7 +225,6 @@ public class RideSearchFrag extends Fragment {
         SimpleDialog.Builder builder = new SimpleDialog.Builder(R.style.SimpleDialogLight) {
             @Override
             public void onPositiveActionClicked(DialogFragment fragment) {
-                String center = getSelectedValue().toString();
                 center_et.setText(getSelectedValue());
                 super.onPositiveActionClicked(fragment);
             }
@@ -237,9 +236,9 @@ public class RideSearchFrag extends Fragment {
         };
 
         builder.items(Util.getCenters(), 0)
-                .title("Escolha o centro")
-                .positiveAction("OK")
-                .negativeAction("Cancelar");
+                .title(getContext().getString(R.string.frag_rideSearch_hintPickCenter))
+                .positiveAction(getContext().getString(R.string.ok))
+                .negativeAction(getContext().getString(R.string.cancel));
         DialogFragment fragment = DialogFragment.newInstance(builder);
         fragment.show(getFragmentManager(), null);
     }
@@ -257,7 +256,7 @@ public class RideSearchFrag extends Fragment {
 
     @OnClick(R.id.search_bt)
     public void searchBt() {
-        final ProgressDialog pd = ProgressDialog.show(getActivity(), "", "Aguarde", true, true);
+        final ProgressDialog pd = ProgressDialog.show(getActivity(), "", getContext().getString(R.string.wait), true, true);
 
         String location = location_et.getText().toString();
         if (location.isEmpty()) {
@@ -291,7 +290,7 @@ public class RideSearchFrag extends Fragment {
                     Collections.sort(rideOffers, new RideOfferComparatorByTime());
                     adapter.makeList(rideOffers);
                 } else {
-                    Util.toast("Nenhuma carona encontrada");
+                    Util.toast(getContext().getString(R.string.frag_rideSearch_noRideFound));
                     adapter.makeList(new ArrayList<RideOfferForJson>());
                 }
                 pd.dismiss();
@@ -300,7 +299,7 @@ public class RideSearchFrag extends Fragment {
             @Override
             public void failure(RetrofitError error) {
                 pd.dismiss();
-                Util.toast("Erro ao obter caronas");
+                Util.toast(getContext().getString(R.string.frag_rideSearch_errorListFiltered));
                 Log.e("listFiltered", error.getMessage());
             }
         });

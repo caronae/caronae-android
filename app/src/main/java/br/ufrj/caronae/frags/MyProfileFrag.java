@@ -2,8 +2,8 @@ package br.ufrj.caronae.frags;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.SwitchCompat;
@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.facebook.CallbackManager;
@@ -25,11 +26,6 @@ import com.facebook.login.widget.LoginButton;
 import com.rey.material.app.DialogFragment;
 import com.rey.material.app.SimpleDialog;
 import com.squareup.picasso.Picasso;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
@@ -81,6 +77,8 @@ public class MyProfileFrag extends Fragment {
     LoginButton loginButton;
     @Bind(R.id.user_pic)
     ImageView user_pic;
+    @Bind(R.id.scrollView)
+    ScrollView scrollView;
 
     private CallbackManager callbackManager;
     private boolean logOut = false;
@@ -143,7 +141,7 @@ public class MyProfileFrag extends Fragment {
     }
 
     private void fillUserFields(User user) {
-        carOwnerSw();
+        car_lay.setVisibility(carOwner_sw.isChecked() ? View.VISIBLE : View.GONE);
         name_tv.setText(user.getName());
         profile_tv.setText(user.getProfile());
         course_tv.setText(user.getCourse());
@@ -251,6 +249,13 @@ public class MyProfileFrag extends Fragment {
     @OnClick(R.id.carOwner_sw)
     public void carOwnerSw() {
         car_lay.setVisibility(carOwner_sw.isChecked() ? View.VISIBLE : View.GONE);
+
+        new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+                scrollView.smoothScrollTo(0, scrollView.getBottom());
+            }
+        });
     }
 
     @OnClick(R.id.notif_sw)
