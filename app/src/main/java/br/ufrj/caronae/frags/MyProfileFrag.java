@@ -2,6 +2,7 @@ package br.ufrj.caronae.frags;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -113,7 +114,8 @@ public class MyProfileFrag extends Fragment {
 
                         @Override
                         public void failure(RetrofitError error) {//need to save id later
-                            Util.toast("Erro ao enviar Facebook ID");
+                            Util.toast(getContext().getString(R.string.frag_myprofile_errorSaveFaceId));
+
                             Log.e("saveFaceId", error.getMessage());
                         }
                     });
@@ -127,45 +129,44 @@ public class MyProfileFrag extends Fragment {
 
             @Override
             public void onError(FacebookException exception) {
+                Util.toast(getContext().getString(R.string.frag_myprofile_errorFaceLogin));
                 Log.e("face", "onError = " + exception.toString());
             }
         });
 
         User user = App.getUser();
         if (user != null) {
-            name_tv.setText(user.getName());
-            profile_tv.setText(user.getProfile());
-            course_tv.setText(user.getCourse());
-            phoneNumber_et.setText(user.getPhoneNumber());
-            email_et.setText(user.getEmail());
-            location_et.setText(user.getLocation());
-            carOwner_sw.setChecked(user.isCarOwner());
-            carModel_et.setText(user.getCarModel());
-            carColor_et.setText(user.getCarColor());
-            carPlate_et.setText(user.getCarPlate());
-            String date = user.getCreatedAt().split(" ")[0];
-            try {
-                Date date2 = new SimpleDateFormat("yyyy-MM-dd", Locale.US).parse(date);
-                date = new SimpleDateFormat("dd/MM/yyyy", Locale.US).format(date2);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            createdAt_tv.setText("Usuário desde " + date);
-
-            String notifOn = SharedPref.getNotifPref();
-            notif_sw.setChecked(notifOn.equals("true"));
-
-            if (user.getProfilePicUrl() != null && !user.getProfilePicUrl().isEmpty())
-                Picasso.with(getContext()).load(user.getProfilePicUrl())
-                        .placeholder(R.drawable.user_pic)
-                        .error(R.drawable.user_pic)
-                        .transform(new RoundedTransformation(0))
-                        .into(user_pic);
+            fillUserFields(user);
         }
 
-        carOwnerSw();
-
         return view;
+    }
+
+    private void fillUserFields(User user) {
+        carOwnerSw();
+        name_tv.setText(user.getName());
+        profile_tv.setText(user.getProfile());
+        course_tv.setText(user.getCourse());
+        phoneNumber_et.setText(user.getPhoneNumber());
+        email_et.setText(user.getEmail());
+        location_et.setText(user.getLocation());
+        carOwner_sw.setChecked(user.isCarOwner());
+        carModel_et.setText(user.getCarModel());
+        carColor_et.setText(user.getCarColor());
+        carPlate_et.setText(user.getCarPlate());
+        String date = user.getCreatedAt().split(" ")[0];
+        date = Util.formatBadDateWithYear(date);
+        createdAt_tv.setText(getContext().getString(R.string.frag_myprofile_createdAt, date));
+
+        String notifOn = SharedPref.getNotifPref();
+        notif_sw.setChecked(notifOn.equals("true"));
+
+        if (user.getProfilePicUrl() != null && !user.getProfilePicUrl().isEmpty())
+            Picasso.with(getContext()).load(user.getProfilePicUrl())
+                    .placeholder(R.drawable.user_pic)
+                    .error(R.drawable.user_pic)
+                    .transform(new RoundedTransformation(0))
+                    .into(user_pic);
     }
 
     @OnClick(R.id.user_pic)
@@ -231,10 +232,10 @@ public class MyProfileFrag extends Fragment {
             }
         };
 
-        builder.items(new String[]{"Foto do SIGA", "Foto do Facebook"}, 0)
-                .title("Qual foto você prefere usar?")
-                .positiveAction("OK")
-                .negativeAction("Cancelar");
+        builder.items(new String[]{getContext().getString(R.string.frag_myprofile_SigaPicChoice), getContext().getString(R.string.frag_myprofile_facePicChoice)}, 0)
+                .title(getContext().getString(R.string.frag_myprofile_picChoice))
+                .positiveAction(getContext().getString(R.string.ok))
+                .negativeAction(getContext().getString(R.string.cancel));
         DialogFragment fragment = DialogFragment.newInstance(builder);
         fragment.show(getFragmentManager(), null);
     }

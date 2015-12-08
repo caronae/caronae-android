@@ -121,9 +121,10 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
         holder.user_pic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!isDriver) {
+                if (!isDriver) {//dont allow user to open own profile
                     Intent intent = new Intent(activity, ProfileAct.class);
                     intent.putExtra("user", new Gson().toJson(driver));
+                    intent.putExtra("from", "activeRides");
                     activity.startActivity(intent);
                 }
             }

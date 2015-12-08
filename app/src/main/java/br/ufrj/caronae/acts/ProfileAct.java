@@ -1,10 +1,13 @@
 package br.ufrj.caronae.acts;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -39,6 +42,10 @@ public class ProfileAct extends AppCompatActivity {
     TextView ridesOffered_tv;
     @Bind(R.id.ridesTaken_tv)
     TextView ridesTaken_tv;
+    @Bind(R.id.phone_tv)
+    TextView phone_tv;
+    @Bind(R.id.call_tv)
+    TextView call_tv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +67,7 @@ public class ProfileAct extends AppCompatActivity {
         name_tv.setText(user.getName());
         profile_tv.setText(user.getProfile());
         course_tv.setText(user.getCourse());
+        phone_tv.setText(user.getPhoneNumber());
         Picasso.with(this).load(user.getProfilePicUrl())
                 .placeholder(R.drawable.user_pic)
                 .error(R.drawable.user_pic)
@@ -86,6 +94,22 @@ public class ProfileAct extends AppCompatActivity {
                 Util.toast(getString(R.string.act_profile_errorCountRidesHistory));
             }
         });
+
+
+        String from = getIntent().getExtras().getString("from");
+        if (from != null && !from.equals("requesters")) {
+            call_tv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent callIntent = new Intent(Intent.ACTION_DIAL);
+                    callIntent.setData(Uri.parse("tel:" + phone_tv.getText()));
+                    startActivity(callIntent);
+                }
+            });
+        } else {
+            phone_tv.setVisibility(View.GONE);
+            call_tv.setVisibility(View.GONE);
+        }
     }
 
     @Override

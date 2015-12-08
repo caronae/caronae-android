@@ -14,6 +14,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.RoundedTransformation;
 import br.ufrj.caronae.acts.MainAct;
@@ -50,14 +51,18 @@ public class RidersAdapter extends RecyclerView.Adapter<RidersAdapter.ViewHolder
                 .transform(new RoundedTransformation(0))
                 .into(holder.photo_iv);
         holder.name_tv.setText(user.getName().split(" ")[0]);
-        holder.photo_iv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(activity, ProfileAct.class);
-                intent.putExtra("user", new Gson().toJson(user));
-                activity.startActivity(intent);
-            }
-        });
+
+        if (user.getDbId() != App.getUser().getDbId()) {//dont allow user to open own profile
+            holder.photo_iv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(activity, ProfileAct.class);
+                    intent.putExtra("user", new Gson().toJson(user));
+                    intent.putExtra("from", "riders");
+                    activity.startActivity(intent);
+                }
+            });
+        }
     }
 
     @Override

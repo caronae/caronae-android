@@ -79,5 +79,14 @@
     <string name="arrivedAt">Chegou ás %1$s</string>
     <string name="Xriders">%1$s caronista%2$s</string>
     <string name="act_profile_errorCountRidesHistory">Erro ao obter contagem de caronas</string>
+    <string name="frag_myactiverides_errorGetActiveRides">Erro ao obter caronas ativas</string>
+    <string name="frag_myprofile_errorSaveFaceId">Erro ao enviar Facebook ID</string>
+    <string name="frag_myprofile_errorFaceLogin">Erro ao logar no Facebook</string>
+    <string name="frag_myprofile_createdAt">"Usuário desde %1$s"</string>
+    <string name="frag_myprofile_SigaPicChoice">Foto do SIGA</string>
+    <string name="frag_myprofile_facePicChoice">Foto do Facebook</string>
+    <string name="frag_myprofile_picChoice">Qual foto você prefere usar?</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancelar</string>
 
 </resources>

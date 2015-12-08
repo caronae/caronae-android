@@ -43,13 +43,14 @@ public class MyActiveRidesFrag extends Fragment {
         final View view = inflater.inflate(R.layout.fragment_my_active_rides, container, false);
         ButterKnife.bind(this, view);
 
-        final ProgressDialog pd = ProgressDialog.show(getActivity(), "", "Aguarde", true, true);
+        final ProgressDialog pd = ProgressDialog.show(getContext(), "", getActivity().getString(R.string.wait), true, true);
         App.getNetworkService().getMyActiveRides(new Callback<List<RideWithUsersForJson>>() {
             @Override
             public void success(List<RideWithUsersForJson> rideWithUsersList, Response response) {
                 if (rideWithUsersList == null || rideWithUsersList.isEmpty()) {
-                    norides_tv.setVisibility(View.VISIBLE);
                     pd.dismiss();
+
+                    norides_tv.setVisibility(View.VISIBLE);
                     return;
                 }
 
@@ -73,9 +74,11 @@ public class MyActiveRidesFrag extends Fragment {
 
             @Override
             public void failure(RetrofitError error) {
-                norides_tv.setVisibility(View.VISIBLE);
                 pd.dismiss();
-                Util.toast("Erro ao obter caronas ativas");
+
+                norides_tv.setVisibility(View.VISIBLE);
+                Util.toast(getContext().getString(R.string.frag_myactiverides_errorGetActiveRides));
+
                 Log.e("getMyActiveRides", error.getMessage());
             }
         });

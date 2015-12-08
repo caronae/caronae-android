@@ -109,7 +109,7 @@
             <com.rey.material.widget.Button
                 android:id="@+id/chat_bt"
                 style="@style/LightRaiseColorButtonRippleStyle"
-                android:layout_width="160dp"
+                android:layout_width="150dp"
                 android:layout_height="36dp"
                 android:text="Abrir bate-papo"
                 android:textColor="@color/white"
@@ -118,7 +118,7 @@
             <com.rey.material.widget.Button
                 android:id="@+id/finish_bt"
                 style="@style/LightRaiseColorButtonRippleStyle"
-                android:layout_width="160dp"
+                android:layout_width="150dp"
                 android:layout_height="36dp"
                 android:background="@null"
                 android:text="Concluir carona"

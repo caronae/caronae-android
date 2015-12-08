@@ -68,6 +68,7 @@ public class RequestersAdapter extends RecyclerView.Adapter<RequestersAdapter.Vi
             public void onClick(View view) {
                 Intent intent = new Intent(activity, ProfileAct.class);
                 intent.putExtra("user", new Gson().toJson(user));
+                intent.putExtra("from", "requesters");
                 activity.startActivity(intent);
             }
         });
