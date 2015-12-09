@@ -355,7 +355,7 @@ public class RideOfferFrag extends Fragment {
             weekDays += sunday_cb.isChecked() ? "7," : "";
 
             if (weekDays.isEmpty()) {
-                Util.toast(getContext().getString(R.string.frag_rideOffer_noRoutineDays));
+                Util.toast(R.string.frag_rideOffer_noRoutineDays);
                 return;
             }
             weekDays = weekDays.substring(0, weekDays.length() - 1);
@@ -398,12 +398,12 @@ public class RideOfferFrag extends Fragment {
                     ride2.setDbId(ride.getId().intValue());
                     ride2.save();
                 }
-                Util.toast(getContext().getString(R.string.frag_rideOffer_rideSaved));
+                Util.toast(R.string.frag_rideOffer_rideSaved);
             }
 
             @Override
             public void failure(RetrofitError error) {
-                Util.toast(getContext().getString(R.string.frag_rideOffer_errorRideSaved));
+                Util.toast(R.string.frag_rideOffer_errorRideSaved);
                 Log.e("offerRide", error.getMessage());
             }
         });

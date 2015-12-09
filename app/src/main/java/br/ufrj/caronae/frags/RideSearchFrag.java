@@ -290,7 +290,7 @@ public class RideSearchFrag extends Fragment {
                     Collections.sort(rideOffers, new RideOfferComparatorByTime());
                     adapter.makeList(rideOffers);
                 } else {
-                    Util.toast(getContext().getString(R.string.frag_rideSearch_noRideFound));
+                    Util.toast(R.string.frag_rideSearch_noRideFound);
                     adapter.makeList(new ArrayList<RideOfferForJson>());
                 }
                 pd.dismiss();
@@ -299,7 +299,7 @@ public class RideSearchFrag extends Fragment {
             @Override
             public void failure(RetrofitError error) {
                 pd.dismiss();
-                Util.toast(getContext().getString(R.string.frag_rideSearch_errorListFiltered));
+                Util.toast(R.string.frag_rideSearch_errorListFiltered);
                 Log.e("listFiltered", error.getMessage());
             }
         });

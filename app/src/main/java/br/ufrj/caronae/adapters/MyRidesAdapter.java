@@ -99,7 +99,7 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
                 App.getNetworkService().deleteRide(ride.getDbId() + "", new Callback<Response>() {
                     @Override
                     public void success(Response response, Response response2) {
-                        Util.toast(activity.getString(R.string.rideDeleted));
+                        Util.toast(R.string.rideDeleted);
                         rides.remove(ride);
                         notifyItemRemoved(holder.getAdapterPosition());
                         ride.delete();
@@ -126,7 +126,7 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
                         pd.dismiss();
 
                         if (users.isEmpty()) {
-                            Util.toast(activity.getString(R.string.noRequesters));
+                            Util.toast(R.string.noRequesters);
                         } else {
                             activity.showRequestersListFrag(users, ride.getDbId(), colorToSend);
                         }
@@ -136,7 +136,7 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
                     public void failure(RetrofitError error) {
                         pd.dismiss();
 
-                        Util.toast(activity.getString(R.string.errorGetRequesters));
+                        Util.toast(R.string.errorGetRequesters);
 
                         Log.e("getRequesters", error.getMessage());
                     }

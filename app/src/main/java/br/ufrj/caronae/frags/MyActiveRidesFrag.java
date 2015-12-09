@@ -77,7 +77,7 @@ public class MyActiveRidesFrag extends Fragment {
                 pd.dismiss();
 
                 norides_tv.setVisibility(View.VISIBLE);
-                Util.toast(getContext().getString(R.string.frag_myactiverides_errorGetActiveRides));
+                Util.toast(R.string.frag_myactiverides_errorGetActiveRides);
 
                 Log.e("getMyActiveRides", error.getMessage());
             }

@@ -59,7 +59,7 @@ public class LoginAct extends AppCompatActivity {
                 pd.dismiss();
 
                 if (userWithRides == null || userWithRides.getUser() == null) {
-                    Util.toast(getString(R.string.act_login_invalidToken));
+                    Util.toast(R.string.act_login_invalidToken);
                     return;
                 }
 
@@ -92,7 +92,7 @@ public class LoginAct extends AppCompatActivity {
             public void failure(RetrofitError retrofitError) {
                 pd.dismiss();
 
-                Util.toast(getString(R.string.act_login_loginFail));
+                Util.toast(R.string.act_login_loginFail);
                 Log.e("login", retrofitError.getMessage());
             }
         });

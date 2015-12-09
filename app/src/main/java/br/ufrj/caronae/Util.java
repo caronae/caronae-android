@@ -71,6 +71,10 @@ public class Util {
         return sb.toString();
     }
 
+    public static void toast(int msg) {
+        Toast.makeText(App.inst(), App.inst().getString(msg), Toast.LENGTH_SHORT).show();
+    }
+
     public static void toast(String msg) {
         Toast.makeText(App.inst(), msg, Toast.LENGTH_SHORT).show();
     }

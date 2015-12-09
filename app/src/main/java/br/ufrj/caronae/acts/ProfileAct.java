@@ -91,7 +91,7 @@ public class ProfileAct extends AppCompatActivity {
 
             @Override
             public void failure(RetrofitError error) {
-                Util.toast(getString(R.string.act_profile_errorCountRidesHistory));
+                Util.toast(R.string.act_profile_errorCountRidesHistory);
             }
         });
 

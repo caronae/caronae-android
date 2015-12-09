@@ -98,7 +98,7 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
                 App.getNetworkService().requestJoin(new RideIdForJson(rideOffer.getRideId()), new Callback<Response>() {
                     @Override
                     public void success(Response response, Response response2) {
-                        Util.toast(activity.getString(R.string.requestSent));
+                        Util.toast(R.string.requestSent);
 
                         rideOffers.remove(rideOffer);
                         notifyItemRemoved(viewHolder.getAdapterPosition());
@@ -106,7 +106,7 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
 
                     @Override
                     public void failure(RetrofitError error) {
-                        Util.toast(activity.getString(R.string.errorRequestSent));
+                        Util.toast(R.string.errorRequestSent);
 
                         Log.e("requestJoin", error.getMessage());
                     }

@@ -112,7 +112,7 @@ public class MyProfileFrag extends Fragment {
 
                         @Override
                         public void failure(RetrofitError error) {//need to save id later
-                            Util.toast(getContext().getString(R.string.frag_myprofile_errorSaveFaceId));
+                            Util.toast(R.string.frag_myprofile_errorSaveFaceId);
 
                             Log.e("saveFaceId", error.getMessage());
                         }
@@ -127,7 +127,7 @@ public class MyProfileFrag extends Fragment {
 
             @Override
             public void onError(FacebookException exception) {
-                Util.toast(getContext().getString(R.string.frag_myprofile_errorFaceLogin));
+                Util.toast(R.string.frag_myprofile_errorFaceLogin);
                 Log.e("face", "onError = " + exception.toString());
             }
         });
@@ -141,7 +141,7 @@ public class MyProfileFrag extends Fragment {
     }
 
     private void fillUserFields(User user) {
-        car_lay.setVisibility(carOwner_sw.isChecked() ? View.VISIBLE : View.GONE);
+        car_lay.setVisibility(user.isCarOwner() ? View.VISIBLE : View.GONE);
         name_tv.setText(user.getName());
         profile_tv.setText(user.getProfile());
         course_tv.setText(user.getCourse());
@@ -198,7 +198,7 @@ public class MyProfileFrag extends Fragment {
                             });
                         }
                     } else {
-                        Util.toast("Você não está conectado ao Facebook");
+                        Util.toast(R.string.frag_myprofile_facePickChoiceNotOnFace);
                     }
                 } else {
                     String profilePicUrl = "";
@@ -354,13 +354,13 @@ public class MyProfileFrag extends Fragment {
                         return;
                     user.setUser(editedUser);
                     SharedPref.saveUser(user);
-                    Util.toast("Perfil atualizado");
+                    Util.toast(R.string.frag_myprofile_updated);
                 }
 
                 @Override
                 public void failure(RetrofitError error) {
                     Log.e("updateUser", error.getMessage());
-                    Util.toast("Erro ao atualizar usuário");
+                    Util.toast(R.string.frag_myprofile_errorUpdated);
                 }
             });
         }

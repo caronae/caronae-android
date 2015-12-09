@@ -181,7 +181,7 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
                 App.getNetworkService().leaveRide(new RideIdForJson(ride.getDbId()), new Callback<Response>() {
                     @Override
                     public void success(Response response, Response response2) {
-                        Util.toast(activity.getString(R.string.rideDeleted));
+                        Util.toast(R.string.rideDeleted);
                         ridesList.remove(rideWithUsers);
                         notifyItemRemoved(holder.getAdapterPosition());
 
@@ -194,7 +194,7 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
 
                     @Override
                     public void failure(RetrofitError error) {
-                        Util.toast(activity.getString(R.string.errorRideDeleted));
+                        Util.toast(R.string.errorRideDeleted);
 
                         Log.e("leaveRide", error.getMessage());
                     }
@@ -211,7 +211,7 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
                 App.getNetworkService().finishRide(new RideIdForJson(ride.getDbId()), new Callback<Response>() {
                     @Override
                     public void success(Response response, Response response2) {
-                        Util.toast(activity.getString(R.string.rideFinished));
+                        Util.toast(R.string.rideFinished);
                         ridesList.remove(rideWithUsers);
                         notifyItemRemoved(holder.getAdapterPosition());
 
@@ -224,7 +224,7 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
 
                     @Override
                     public void failure(RetrofitError error) {
-                        Util.toast(activity.getString(R.string.errorFinishRide));
+                        Util.toast(R.string.errorFinishRide);
 
                         Log.e("finish_bt", error.getMessage());
                     }

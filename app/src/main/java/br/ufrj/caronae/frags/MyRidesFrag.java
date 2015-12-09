@@ -90,7 +90,7 @@ public class MyRidesFrag extends Fragment {
             });
         }
 
-        Util.toast(getContext().getString(R.string.frag_myrides_ridesDeleted));
+        Util.toast(R.string.frag_myrides_ridesDeleted);
         rides.clear();
         myRidesList.getAdapter().notifyDataSetChanged();
     }

@@ -65,7 +65,7 @@ public class RidesHistoryFrag extends Fragment {
             public void failure(RetrofitError error) {
                 norides_tv.setVisibility(View.VISIBLE);
                 pd.dismiss();
-                Util.toast(getContext().getString(R.string.frag_rideshistory_errorGetRides));
+                Util.toast(R.string.frag_rideshistory_errorGetRides);
                 Log.e("getRidesHistory", error.getMessage());
             }
         });

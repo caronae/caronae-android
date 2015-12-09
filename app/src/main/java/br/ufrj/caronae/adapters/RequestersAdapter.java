@@ -80,7 +80,7 @@ public class RequestersAdapter extends RecyclerView.Adapter<RequestersAdapter.Vi
                 App.getNetworkService().answerJoinRequest(new JoinRequestIDsForJson(user.getDbId(), rideId, true), new Callback<Response>() {
                     @Override
                     public void success(Response response, Response response2) {
-                        Util.toast(activity.getString(R.string.requestAccepted));
+                        Util.toast(R.string.requestAccepted);
                         users.remove(user);
                         notifyItemRemoved(holder.getAdapterPosition());
 
@@ -91,7 +91,7 @@ public class RequestersAdapter extends RecyclerView.Adapter<RequestersAdapter.Vi
                     public void failure(RetrofitError error) {
                         Log.e("answerJoinRequest", error.getMessage());
 
-                        Util.toast(activity.getString(R.string.errorAnsweRequest));
+                        Util.toast(R.string.errorAnsweRequest);
                     }
                 });
             }
@@ -103,7 +103,7 @@ public class RequestersAdapter extends RecyclerView.Adapter<RequestersAdapter.Vi
                 App.getNetworkService().answerJoinRequest(new JoinRequestIDsForJson(user.getDbId(), rideId, false), new Callback<Response>() {
                     @Override
                     public void success(Response response, Response response2) {
-                        Util.toast(activity.getString(R.string.requestRejected));
+                        Util.toast(R.string.requestRejected);
                         users.remove(user);
                         notifyItemRemoved(holder.getAdapterPosition());
                     }
@@ -112,7 +112,7 @@ public class RequestersAdapter extends RecyclerView.Adapter<RequestersAdapter.Vi
                     public void failure(RetrofitError error) {
                         Log.e("answerJoinRequest", error.getMessage());
 
-                        Util.toast(activity.getString(R.string.errorAnsweRequest));
+                        Util.toast(R.string.errorAnsweRequest);
                     }
                 });
             }
