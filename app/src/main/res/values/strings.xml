@@ -43,7 +43,7 @@
 
     <string name="title_activity_fullscreen">FullscreenActivity</string>
     <string name="title_activity_sign_up">SignUpAct</string>
-    <string name="gplay_unavailable">Sem o Google Play você não poderá receber notificações ou mensagens de bate-papo =(</string>
+    <string name="gplay_unavailable">Sem o Google Play Services você não poderá receber notificações ou mensagens de bate-papo =(</string>
     <string name="notCarOwner">Você deve possuir um carro em seu perfil para poder oferecer uma carona</string>
     <string name="title_activity_chat">ChatAct</string>
     <string name="title_activity_profile">Perfil do usuário</string>

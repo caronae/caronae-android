@@ -177,7 +177,7 @@ public class MyProfileFrag extends Fragment {
                     Profile profile = Profile.getCurrentProfile();
                     if (profile != null) {
                         String faceId = profile.getId();
-                        String profilePicUrl = "http://graph.facebook.com/" + faceId + "/picture";
+                        String profilePicUrl = "http://graph.facebook.com/" + faceId + "/picture?type=large";
                         if (user.getProfilePicUrl() == null || !user.getProfilePicUrl().equals(profilePicUrl)) {
                             user.setProfilePicUrl(profilePicUrl);
                             Picasso.with(getContext()).load(profilePicUrl)

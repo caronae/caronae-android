@@ -72,11 +72,14 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
         }
         viewHolder.cardView.setCardBackgroundColor(color);
 
-        Picasso.with(activity).load(rideOffer.getProfilePicUrl())
-                .placeholder(R.drawable.user_pic)
-                .error(R.drawable.user_pic)
-                .transform(new RoundedTransformation(0))
-                .into(viewHolder.photo_iv);
+        String profilePicUrl = rideOffer.getProfilePicUrl();
+        if (profilePicUrl != null && !profilePicUrl.isEmpty()) {
+            Picasso.with(activity).load(profilePicUrl)
+                    .placeholder(R.drawable.user_pic)
+                    .error(R.drawable.user_pic)
+                    .transform(new RoundedTransformation(0))
+                    .into(viewHolder.photo_iv);
+        }
 
         viewHolder.time_tv.setText(Util.formatTime(rideOffer.getTime()));
         viewHolder.date_tv.setText(Util.formatBadDateWithoutYear(rideOffer.getDate()));

@@ -1,6 +1,7 @@
 package br.ufrj.caronae.acts;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -26,6 +27,8 @@ import android.widget.TextView;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -35,14 +38,15 @@ import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.RoundedTransformation;
 import br.ufrj.caronae.SharedPref;
-import br.ufrj.caronae.asyncs.CheckGPlay;
+import br.ufrj.caronae.Util;
 import br.ufrj.caronae.frags.MyActiveRidesFrag;
-import br.ufrj.caronae.frags.MyRidesFrag;
 import br.ufrj.caronae.frags.MyProfileFrag;
+import br.ufrj.caronae.frags.MyRidesFrag;
 import br.ufrj.caronae.frags.RequestersListFrag;
 import br.ufrj.caronae.frags.RideOfferFrag;
 import br.ufrj.caronae.frags.RideSearchFrag;
 import br.ufrj.caronae.frags.RidesHistoryFrag;
+import br.ufrj.caronae.gcm.RegistrationIntentService;
 import br.ufrj.caronae.models.User;
 
 public class MainAct extends AppCompatActivity {
@@ -128,7 +132,26 @@ public class MainAct extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
 
-        new CheckGPlay(this).execute();
+        checkGPlay();
+    }
+
+    private void checkGPlay() {
+        int resultGplay = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
+
+        if (resultGplay != ConnectionResult.SUCCESS) {
+            Dialog dialog = GooglePlayServicesUtil.getErrorDialog(resultGplay, this, MainAct.GPLAY_UNAVAILABLE);
+            if(dialog != null)
+            {
+                dialog.show();
+            } else {
+                Util.toast(R.string.gplay_unavailable);
+            }
+        } else {
+            if (SharedPref.getUserGcmToken().equals(SharedPref.MISSING_PREF)) {
+                Intent intent = new Intent(this, RegistrationIntentService.class);
+                startService(intent);
+            }
+        }
     }
 
     private void getHeaderView(NavigationView nvDrawer) {

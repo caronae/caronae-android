@@ -79,7 +79,9 @@ public class RidesHistoryAdapter extends RecyclerView.Adapter<RidesHistoryAdapte
         holder.location_tv.setText(location);
         holder.location_tv.setTextColor(color);
 
-        Picasso.with(activity).load(historyRide.getDriverPic())
+        String driverPic = historyRide.getDriverPic();
+        if (driverPic != null && !driverPic.isEmpty())
+            Picasso.with(activity).load(driverPic)
                 .placeholder(R.drawable.user_pic)
                 .error(R.drawable.user_pic)
                 .transform(new RoundedTransformation(0))
