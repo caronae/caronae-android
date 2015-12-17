@@ -95,7 +95,6 @@ public class ProfileAct extends AppCompatActivity {
             }
         });
 
-
         String from = getIntent().getExtras().getString("from");
         if (from != null && !from.equals("requesters")) {
             call_tv.setOnClickListener(new View.OnClickListener() {

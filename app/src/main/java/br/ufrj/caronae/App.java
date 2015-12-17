@@ -55,8 +55,8 @@ public class App extends SugarApp {
     public static NetworkService getNetworkService() {
         if (networkService == null) {
             //String endpoint = MEUDIGOCEAN_DEV_ENDPOINT;
-            String endpoint = MEUDIGOCEAN_PROD_ENDPOINT;
-            //String endpoint = LOCAL_SERV_ENDPOINT;
+            //String endpoint = MEUDIGOCEAN_PROD_ENDPOINT;
+            String endpoint = LOCAL_SERV_ENDPOINT;
             //String endpoint = TIC_ENDPOINT;
 
             networkService = new RestAdapter.Builder()

@@ -82,7 +82,6 @@
     <string name="frag_myactiverides_errorGetActiveRides">Erro ao obter caronas ativas</string>
     <string name="frag_myprofile_errorSaveFaceId">Erro ao enviar Facebook ID</string>
     <string name="frag_myprofile_errorFaceLogin">Erro ao logar no Facebook</string>
-    <string name="frag_myprofile_createdAt">"Usuário desde %1$s"</string>
     <string name="frag_myprofile_SigaPicChoice">Foto do SIGA</string>
     <string name="frag_myprofile_facePicChoice">Foto do Facebook</string>
     <string name="frag_myprofile_picChoice">Qual foto você prefere usar?</string>

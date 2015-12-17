@@ -36,6 +36,7 @@ import br.ufrj.caronae.acts.LoginAct;
 import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.asyncs.LogOut;
 import br.ufrj.caronae.models.User;
+import br.ufrj.caronae.models.modelsforjson.HistoryRideCountForJson;
 import br.ufrj.caronae.models.modelsforjson.IdForJson;
 import br.ufrj.caronae.models.modelsforjson.UrlForJson;
 import butterknife.Bind;
@@ -79,6 +80,10 @@ public class MyProfileFrag extends Fragment {
     ImageView user_pic;
     @Bind(R.id.scrollView)
     ScrollView scrollView;
+    @Bind(R.id.ridesOffered_tv)
+    TextView ridesOffered_tv;
+    @Bind(R.id.ridesTaken_tv)
+    TextView ridesTaken_tv;
 
     private CallbackManager callbackManager;
     private boolean logOut = false;
@@ -135,6 +140,19 @@ public class MyProfileFrag extends Fragment {
         User user = App.getUser();
         if (user != null) {
             fillUserFields(user);
+
+            App.getNetworkService().getRidesHistoryCount(user.getDbId() + "", new Callback<HistoryRideCountForJson>() {
+                @Override
+                public void success(HistoryRideCountForJson historyRideCountForJson, Response response) {
+                    ridesOffered_tv.setText(String.valueOf(historyRideCountForJson.getOfferedCount()));
+                    ridesTaken_tv.setText(String.valueOf(historyRideCountForJson.getTakenCount()));
+                }
+
+                @Override
+                public void failure(RetrofitError error) {
+                    Util.toast(R.string.act_profile_errorCountRidesHistory);
+                }
+            });
         }
 
         return view;
@@ -154,7 +172,7 @@ public class MyProfileFrag extends Fragment {
         carPlate_et.setText(user.getCarPlate());
         String date = user.getCreatedAt().split(" ")[0];
         date = Util.formatBadDateWithYear(date);
-        createdAt_tv.setText(getContext().getString(R.string.frag_myprofile_createdAt, date));
+        createdAt_tv.setText(date);
 
         String notifOn = SharedPref.getNotifPref();
         notif_sw.setChecked(notifOn.equals("true"));
