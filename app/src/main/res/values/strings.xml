@@ -105,5 +105,9 @@
     <string name="frag_myprofile_updated">Perfil atualizado</string>
     <string name="frag_myprofile_errorUpdated">Erro ao atualizar usuário</string>
     <string name="frag_myprofile_facePickChoiceNotOnFace">Você não está conectado ao Facebook</string>
+    <string name="dashSeparator">-</string>
+    <string name="chat_sendMsgHint">Digite sua mensagem</string>
+    <string name="hello">Olá :)</string>
+    <string name="welcome">Bem vindo ao aplicativo de caronas da UFRJ. O acesso é restrito á usuários vinculados a universidade, para continuar você deve obter sua chave de acesso na Intranet.</string>
 
 </resources>

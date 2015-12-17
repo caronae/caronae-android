@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/logo"
             android:paddingTop="30dp"
-            android:text="Olá :)"
+            android:text="@string/hello"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textStyle="bold" />
 
@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/textView"
             android:paddingTop="10dp"
-            android:text="Bem vindo ao aplicativo de caronas da UFRJ. O acesso é restrito á usuários vinculados a universidade, para continuar você deve obter sua chave de acesso na Intranet."
+            android:text="@string/welcome"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <EditText
@@ -65,5 +65,6 @@
             android:gravity="center"
             android:text="@string/send_bt"
             app:rd_enable="true" />
+
     </RelativeLayout>
 </RelativeLayout>
