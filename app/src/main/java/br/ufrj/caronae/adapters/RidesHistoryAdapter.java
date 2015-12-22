@@ -19,13 +19,14 @@ import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.models.Ride;
 import br.ufrj.caronae.models.modelsforjson.HistoryRideForJson;
+import br.ufrj.caronae.models.modelsforjson.RideForJson;
 
 public class RidesHistoryAdapter extends RecyclerView.Adapter<RidesHistoryAdapter.ViewHolder> {
 
-    private final List<HistoryRideForJson> historyRides;
+    private final List<RideForJson> historyRides;
     private final MainAct activity;
 
-    public RidesHistoryAdapter(List<HistoryRideForJson> historyRides, MainAct activity) {
+    public RidesHistoryAdapter(List<RideForJson> historyRides, MainAct activity) {
         this.historyRides = historyRides;
         this.activity = activity;
     }
@@ -42,44 +43,43 @@ public class RidesHistoryAdapter extends RecyclerView.Adapter<RidesHistoryAdapte
 
     @Override
     public void onBindViewHolder(RidesHistoryAdapter.ViewHolder holder, int position) {
-        final HistoryRideForJson historyRide = historyRides.get(position);
-        Ride ride = historyRide.getRide();
+        final RideForJson historyRide = historyRides.get(position);
 
         int color = 0;
-        if (ride.getZone().equals("Centro")) {
+        if (historyRide.getZone().equals("Centro")) {
             color = ContextCompat.getColor(activity, R.color.zone_centro);
         }
-        if (ride.getZone().equals("Zona Sul")) {
+        if (historyRide.getZone().equals("Zona Sul")) {
             color = ContextCompat.getColor(activity, R.color.zone_sul);
         }
-        if (ride.getZone().equals("Zona Oeste")) {
+        if (historyRide.getZone().equals("Zona Oeste")) {
             color = ContextCompat.getColor(activity, R.color.zone_oeste);
         }
-        if (ride.getZone().equals("Zona Norte")) {
+        if (historyRide.getZone().equals("Zona Norte")) {
             color = ContextCompat.getColor(activity, R.color.zone_norte);
         }
-        if (ride.getZone().equals("Baixada")) {
+        if (historyRide.getZone().equals("Baixada")) {
             color = ContextCompat.getColor(activity, R.color.zone_baixada);
         }
-        if (ride.getZone().equals("Grande Niterói")) {
+        if (historyRide.getZone().equals("Grande Niterói")) {
             color = ContextCompat.getColor(activity, R.color.zone_niteroi);
         }
 
-        holder.time_tv.setText(activity.getString(R.string.arrivedAt, Util.formatTime(ride.getTime()) + " | "));
+        holder.time_tv.setText(activity.getString(R.string.arrivedAt, Util.formatTime(historyRide.getTime()) + " | "));
         holder.time_tv.setTextColor(color);
-        holder.date_tv.setText(Util.formatBadDateWithoutYear(ride.getDate()));
+        holder.date_tv.setText(Util.formatBadDateWithoutYear(historyRide.getDate()));
         holder.date_tv.setTextColor(color);
-        holder.slots_tv.setText(activity.getString(R.string.Xriders, historyRide.getRidersCount(), historyRide.getRidersCount() > 1 ? "s" : ""));
+        holder.slots_tv.setText(activity.getString(R.string.Xriders, historyRide.getRiders().size(), historyRide.getRiders().size() > 1 ? "s" : ""));
         holder.slots_tv.setTextColor(color);
         String location;
-        if (ride.isGoing())
-            location = ride.getNeighborhood() + " -> " + ride.getHub();
+        if (historyRide.isGoing())
+            location = historyRide.getNeighborhood() + " -> " + historyRide.getHub();
         else
-            location = ride.getHub() + " -> " + ride.getNeighborhood();
+            location = historyRide.getHub() + " -> " + historyRide.getNeighborhood();
         holder.location_tv.setText(location);
         holder.location_tv.setTextColor(color);
 
-        String driverPic = historyRide.getDriverPic();
+        String driverPic = historyRide.getDriver().getProfilePicUrl();
         if (driverPic != null && !driverPic.isEmpty())
             Picasso.with(activity).load(driverPic)
                 .placeholder(R.drawable.user_pic)

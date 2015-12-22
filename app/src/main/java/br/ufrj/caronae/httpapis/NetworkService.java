@@ -11,7 +11,6 @@ import br.ufrj.caronae.models.modelsforjson.JoinRequestIDsForJson;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
 import br.ufrj.caronae.models.modelsforjson.RideIdForJson;
 import br.ufrj.caronae.models.modelsforjson.RideSearchFiltersForJson;
-import br.ufrj.caronae.models.modelsforjson.RideWithUsersForJson;
 import br.ufrj.caronae.models.modelsforjson.TokenForJson;
 import br.ufrj.caronae.models.modelsforjson.UrlForJson;
 import br.ufrj.caronae.models.modelsforjson.UserWithRidesForJson;
@@ -64,7 +63,7 @@ public interface NetworkService {
     void answerJoinRequest(@Body JoinRequestIDsForJson joinRequestIDsForJson, Callback<Response> cb);
 
     @GET("/ride/getMyActiveRides")
-    void getMyActiveRides(Callback<List<RideWithUsersForJson>> cb);
+    void getMyActiveRides(Callback<List<RideForJson>> cb);
 
     @POST("/ride/leaveRide")
     void leaveRide(@Body RideIdForJson rideId, Callback<Response> cb);
@@ -73,7 +72,7 @@ public interface NetworkService {
     void finishRide(@Body RideIdForJson rideId, Callback<Response> cb);
 
     @GET("/ride/getRidesHistory")
-    void getRidesHistory(Callback<List<HistoryRideForJson>> cb);
+    void getRidesHistory(Callback<List<RideForJson>> cb);
 
     @GET("/ride/getRidesHistoryCount/{userId}")
     void getRidesHistoryCount(@Path("userId") String userId, Callback<HistoryRideCountForJson> cb);

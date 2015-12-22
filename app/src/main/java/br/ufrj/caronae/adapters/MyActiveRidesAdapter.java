@@ -29,18 +29,18 @@ import br.ufrj.caronae.acts.ProfileAct;
 import br.ufrj.caronae.asyncs.UnsubGcmTopic;
 import br.ufrj.caronae.models.Ride;
 import br.ufrj.caronae.models.User;
+import br.ufrj.caronae.models.modelsforjson.RideForJson;
 import br.ufrj.caronae.models.modelsforjson.RideIdForJson;
-import br.ufrj.caronae.models.modelsforjson.RideWithUsersForJson;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdapter.ViewHolder> {
 
-    private final List<RideWithUsersForJson> ridesList;
+    private final List<RideForJson> ridesList;
     private final MainAct activity;
 
-    public MyActiveRidesAdapter(List<RideWithUsersForJson> ridesList, MainAct activity) {
+    public MyActiveRidesAdapter(List<RideForJson> ridesList, MainAct activity) {
         this.ridesList = ridesList;
         this.activity = activity;
     }
@@ -57,55 +57,52 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        final RideWithUsersForJson rideWithUsers = ridesList.get(position);
+        final RideForJson rideWithUsers = ridesList.get(position);
 
-        final Ride ride = rideWithUsers.getRide();
-        final User driver = rideWithUsers.getUsers().get(0);
-
-        rideWithUsers.getUsers().remove(0);
+        final User driver = rideWithUsers.getDriver();
 
         final boolean isDriver = driver.getDbId() == App.getUser().getDbId();
 
         int color = 0, bgRes = 0;
-        if (ride.getZone().equals("Centro")) {
+        if (rideWithUsers.getZone().equals("Centro")) {
             color = ContextCompat.getColor(activity, R.color.zone_centro);
             bgRes = R.drawable.bg_bt_raise_zone_centro;
             holder.chat_bt.setBackgroundResource(bgRes);
         }
-        if (ride.getZone().equals("Zona Sul")) {
+        if (rideWithUsers.getZone().equals("Zona Sul")) {
             color = ContextCompat.getColor(activity, R.color.zone_sul);
             bgRes = R.drawable.bg_bt_raise_zone_sul;
             holder.chat_bt.setBackgroundResource(bgRes);
         }
-        if (ride.getZone().equals("Zona Oeste")) {
+        if (rideWithUsers.getZone().equals("Zona Oeste")) {
             color = ContextCompat.getColor(activity, R.color.zone_oeste);
             bgRes = R.drawable.bg_bt_raise_zone_oeste;
             holder.chat_bt.setBackgroundResource(bgRes);
         }
-        if (ride.getZone().equals("Zona Norte")) {
+        if (rideWithUsers.getZone().equals("Zona Norte")) {
             color = ContextCompat.getColor(activity, R.color.zone_norte);
             bgRes = R.drawable.bg_bt_raise_zone_norte;
             holder.chat_bt.setBackgroundResource(bgRes);
         }
-        if (ride.getZone().equals("Baixada")) {
+        if (rideWithUsers.getZone().equals("Baixada")) {
             color = ContextCompat.getColor(activity, R.color.zone_baixada);
             bgRes = R.drawable.bg_bt_raise_zone_baixada;
             holder.chat_bt.setBackgroundResource(bgRes);
         }
-        if (ride.getZone().equals("Grande Niterói")) {
+        if (rideWithUsers.getZone().equals("Grande Niterói")) {
             color = ContextCompat.getColor(activity, R.color.zone_niteroi);
             bgRes = R.drawable.bg_bt_raise_zone_niteroi;
             holder.chat_bt.setBackgroundResource(bgRes);
         }
         holder.lay1.setBackgroundColor(color);
 
-        ride.setDbId(ride.getId().intValue());
+        rideWithUsers.setDbId(rideWithUsers.getId().intValue());
 
         final String location;
-        if (ride.isGoing())
-            location = ride.getNeighborhood() + " -> " + ride.getHub();
+        if (rideWithUsers.isGoing())
+            location = rideWithUsers.getNeighborhood() + " -> " + rideWithUsers.getHub();
         else
-            location = ride.getHub() + " -> " + ride.getNeighborhood();
+            location = rideWithUsers.getHub() + " -> " + rideWithUsers.getNeighborhood();
 
         String profilePicUrl = driver.getProfilePicUrl();
         if (profilePicUrl == null || profilePicUrl.isEmpty()) {
@@ -132,19 +129,19 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
         holder.location_tv.setText(location);
         holder.name_tv.setText(driver.getName());
         holder.profile_tv.setText(driver.getProfile());
-        holder.way_tv.setText(ride.getRoute());
-        holder.place_tv.setText(ride.getPlace());
+        holder.way_tv.setText(rideWithUsers.getRoute());
+        holder.place_tv.setText(rideWithUsers.getPlace());
         holder.phoneNumber_tv.setText(driver.getPhoneNumber());
         holder.course_tv.setText(driver.getCourse());
-        holder.time_tv.setText(activity.getString(R.string.arrivingAt, Util.formatTime(ride.getTime())));
+        holder.time_tv.setText(activity.getString(R.string.arrivingAt, Util.formatTime(rideWithUsers.getTime())));
         holder.time_tv.setTextColor(color);
-        holder.date_tv.setText(Util.formatBadDateWithoutYear(ride.getDate()));
+        holder.date_tv.setText(Util.formatBadDateWithoutYear(rideWithUsers.getDate()));
         holder.date_tv.setTextColor(color);
         holder.carModel_tv.setText(driver.getCarModel());
         holder.carColor_tv.setText(driver.getCarColor());
         holder.carPlate_tv.setText(driver.getCarPlate());
-        holder.description_tv.setText(ride.getDescription());
-        holder.ridersList.setAdapter(new RidersAdapter(rideWithUsers.getUsers(), activity));
+        holder.description_tv.setText(rideWithUsers.getDescription());
+        holder.ridersList.setAdapter(new RidersAdapter(rideWithUsers.getRiders(), activity));
         holder.ridersList.setHasFixedSize(true);
         holder.ridersList.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false));
 
@@ -153,15 +150,15 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(activity, ChatAct.class);
-                intent.putExtra("rideId", ride.getDbId() + "");
+                intent.putExtra("rideId", rideWithUsers.getDbId() + "");
                 intent.putExtra("location", location);
                 intent.putExtra("color", finalColor);
                 intent.putExtra("bgRes", finalBgRes);
-                intent.putExtra("date", Util.formatBadDateWithoutYear(ride.getDate()));
-                intent.putExtra("time", Util.formatTime(ride.getTime()));
+                intent.putExtra("date", Util.formatBadDateWithoutYear(rideWithUsers.getDate()));
+                intent.putExtra("time", Util.formatTime(rideWithUsers.getTime()));
 
                 String riders = driver.getName().split(" ")[0] + ", ";
-                for (User user : rideWithUsers.getUsers()) {
+                for (User user : rideWithUsers.getRiders()) {
                     riders += user.getName().split(" ")[0] + ", ";
                 }
                 riders = riders.substring(0, riders.length() - 2);
@@ -170,7 +167,7 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
             }
         });
 
-        final String rideId = ride.getDbId() + "";
+        final String rideId = rideWithUsers.getDbId() + "";
 
         if (isDriver) {
             holder.leave_bt.setText("CANCELAR");
@@ -178,7 +175,7 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
         holder.leave_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                App.getNetworkService().leaveRide(new RideIdForJson(ride.getDbId()), new Callback<Response>() {
+                App.getNetworkService().leaveRide(new RideIdForJson(rideWithUsers.getDbId()), new Callback<Response>() {
                     @Override
                     public void success(Response response, Response response2) {
                         Util.toast(R.string.rideDeleted);
@@ -208,7 +205,7 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
         holder.finish_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                App.getNetworkService().finishRide(new RideIdForJson(ride.getDbId()), new Callback<Response>() {
+                App.getNetworkService().finishRide(new RideIdForJson(rideWithUsers.getDbId()), new Callback<Response>() {
                     @Override
                     public void success(Response response, Response response2) {
                         Util.toast(R.string.rideFinished);

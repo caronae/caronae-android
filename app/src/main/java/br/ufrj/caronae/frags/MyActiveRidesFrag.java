@@ -14,13 +14,13 @@ import android.widget.TextView;
 import java.util.List;
 
 import br.ufrj.caronae.App;
+import br.ufrj.caronae.R;
 import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.Util;
-import br.ufrj.caronae.asyncs.CheckSubGcmTopic;
-import br.ufrj.caronae.R;
 import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.adapters.MyActiveRidesAdapter;
-import br.ufrj.caronae.models.modelsforjson.RideWithUsersForJson;
+import br.ufrj.caronae.asyncs.CheckSubGcmTopic;
+import br.ufrj.caronae.models.modelsforjson.RideForJson;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import retrofit.Callback;
@@ -44,9 +44,9 @@ public class MyActiveRidesFrag extends Fragment {
         ButterKnife.bind(this, view);
 
         final ProgressDialog pd = ProgressDialog.show(getContext(), "", getActivity().getString(R.string.wait), true, true);
-        App.getNetworkService().getMyActiveRides(new Callback<List<RideWithUsersForJson>>() {
+        App.getNetworkService().getMyActiveRides(new Callback<List<RideForJson>>() {
             @Override
-            public void success(List<RideWithUsersForJson> rideWithUsersList, Response response) {
+            public void success(List<RideForJson> rideWithUsersList, Response response) {
                 if (rideWithUsersList == null || rideWithUsersList.isEmpty()) {
                     pd.dismiss();
 
@@ -57,9 +57,9 @@ public class MyActiveRidesFrag extends Fragment {
                 //subscribe to ride id topic
                 if (!SharedPref.getUserGcmToken().equals(SharedPref.MISSING_PREF)) {
                     Log.i("getMyActiveRides", "i have gcm token");
-                    for (RideWithUsersForJson rideWithUsers : rideWithUsersList) {
-                        int rideId = rideWithUsers.getRide().getId().intValue();
-                        new CheckSubGcmTopic().execute(rideId+"");
+                    for (RideForJson rideWithUsers : rideWithUsersList) {
+                        int rideId = rideWithUsers.getId().intValue();
+                        new CheckSubGcmTopic().execute(rideId + "");
                     }
                 } else {
                     Log.i("getMyActiveRides", "i DO NOT have gcm token");
