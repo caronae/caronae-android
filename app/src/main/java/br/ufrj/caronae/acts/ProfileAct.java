@@ -5,19 +5,28 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.facebook.AccessToken;
+import com.facebook.Profile;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
+
+import java.util.List;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.RoundedTransformation;
 import br.ufrj.caronae.Util;
+import br.ufrj.caronae.adapters.RidersAdapter;
 import br.ufrj.caronae.models.User;
 import br.ufrj.caronae.models.modelsforjson.HistoryRideCountForJson;
 import butterknife.Bind;
@@ -46,6 +55,12 @@ public class ProfileAct extends AppCompatActivity {
     TextView phone_tv;
     @Bind(R.id.call_tv)
     TextView call_tv;
+    @Bind(R.id.mutualFriendsList)
+    RecyclerView mutualFriendsList;
+    @Bind(R.id.mutualFriends_lay)
+    RelativeLayout mutualFriends_lay;
+    @Bind(R.id.mutualFriends_tv)
+    TextView mutualFriends_tv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +77,7 @@ public class ProfileAct extends AppCompatActivity {
         }
 
         String user2 = getIntent().getExtras().getString("user");
-        User user = new Gson().fromJson(user2, User.class);
+        final User user = new Gson().fromJson(user2, User.class);
 
         name_tv.setText(user.getName());
         profile_tv.setText(user.getProfile());
@@ -92,8 +107,29 @@ public class ProfileAct extends AppCompatActivity {
             @Override
             public void failure(RetrofitError error) {
                 Util.toast(R.string.act_profile_errorCountRidesHistory);
+                Log.e("getRidesHistoryCount", error.getMessage());
             }
         });
+
+        AccessToken token = AccessToken.getCurrentAccessToken();
+        if (token != null) {
+            App.getNetworkService().getMutualFriends(user.getDbId() + "", token.getToken(), new Callback<List<User>>() {
+                @Override
+                public void success(List<User> users, Response response) {
+                    mutualFriends_lay.setVisibility(View.VISIBLE);
+                    mutualFriends_tv.setText(getString(R.string.act_profile_mutualFriends, users.size()));
+                    mutualFriendsList.setAdapter(new RidersAdapter(users, ProfileAct.this));
+                    mutualFriendsList.setHasFixedSize(true);
+                    mutualFriendsList.setLayoutManager(new LinearLayoutManager(ProfileAct.this, LinearLayoutManager.HORIZONTAL, false));
+                }
+
+                @Override
+                public void failure(RetrofitError error) {
+                    //Util.toast(getString(R.string.act_profile_errorMutualFriends));
+                    Log.e("getMutualFriends", error.getMessage());
+                }
+            });
+        }
 
         String from = getIntent().getExtras().getString("from");
         if (from != null && !from.equals("requesters")) {

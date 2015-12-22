@@ -43,6 +43,9 @@ public interface NetworkService {
     @PUT("/user/saveProfilePicUrl")
     void saveProfilePicUrl(@Body UrlForJson url, Callback<Response> cb);
 
+    @GET("/user/{id}/{fbtoken}/getMutualFriends")
+    void getMutualFriends(@Path("id") String userId, @Path("fbtoken") String fbToken, Callback<List<User>> cb);
+
     //ride routes
     @POST("/ride")
     void offerRide(@Body Ride ride, Callback<List<Ride>> cb);

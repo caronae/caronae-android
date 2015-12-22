@@ -2,6 +2,7 @@ package br.ufrj.caronae.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,9 +25,9 @@ import br.ufrj.caronae.models.User;
 public class RidersAdapter extends RecyclerView.Adapter<RidersAdapter.ViewHolder> {
 
     private final List<User> users;
-    private final MainAct activity;
+    private final AppCompatActivity activity;
 
-    public RidersAdapter(List<User> users, MainAct activity) {
+    public RidersAdapter(List<User> users, AppCompatActivity activity) {
         this.users = users;
         this.activity = activity;
     }
@@ -45,7 +46,9 @@ public class RidersAdapter extends RecyclerView.Adapter<RidersAdapter.ViewHolder
     public void onBindViewHolder(ViewHolder holder, int position) {
         final User user = users.get(position);
 
-        Picasso.with(activity).load(user.getProfilePicUrl())
+        String profilePicUrl = user.getProfilePicUrl();
+        if (profilePicUrl != null && !profilePicUrl.isEmpty())
+            Picasso.with(activity).load(profilePicUrl)
                 .placeholder(R.drawable.user_pic)
                 .error(R.drawable.user_pic)
                 .transform(new RoundedTransformation(0))

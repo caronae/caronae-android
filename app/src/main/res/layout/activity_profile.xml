@@ -126,4 +126,26 @@
         android:paddingTop="5dp"
         android:src="@drawable/color_bar" />
 
+    <RelativeLayout
+        android:id="@+id/mutualFriends_lay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/color_bar"
+        android:layout_margin="16dp"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/mutualFriends_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/mutualFriendsList"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/mutualFriends_tv"
+            android:layout_marginTop="5dp" />
+    </RelativeLayout>
+
 </RelativeLayout>
