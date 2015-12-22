@@ -21,8 +21,8 @@ import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.RoundedTransformation;
 import br.ufrj.caronae.Util;
+import br.ufrj.caronae.models.modelsforjson.RideForJson;
 import br.ufrj.caronae.models.modelsforjson.RideIdForJson;
-import br.ufrj.caronae.models.modelsforjson.RideOfferForJson;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -30,9 +30,9 @@ import retrofit.client.Response;
 public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.ViewHolder> {
 
     private final FragmentActivity activity;
-    private List<RideOfferForJson> rideOffers;
+    private List<RideForJson> rideOffers;
 
-    public RideOfferAdapter(List<RideOfferForJson> rideOffers, FragmentActivity activity) {
+    public RideOfferAdapter(List<RideForJson> rideOffers, FragmentActivity activity) {
         this.rideOffers = rideOffers;
         this.activity = activity;
     }
@@ -49,7 +49,7 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
 
     @Override
     public void onBindViewHolder(final RideOfferAdapter.ViewHolder viewHolder, int position) {
-        final RideOfferForJson rideOffer = rideOffers.get(position);
+        final RideForJson rideOffer = rideOffers.get(position);
 
         int color = 0;
         if (rideOffer.getZone().equals("Centro")) {
@@ -72,7 +72,7 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
         }
         viewHolder.cardView.setCardBackgroundColor(color);
 
-        String profilePicUrl = rideOffer.getProfilePicUrl();
+        String profilePicUrl = rideOffer.getDriver().getProfilePicUrl();
         if (profilePicUrl != null && !profilePicUrl.isEmpty()) {
             Picasso.with(activity).load(profilePicUrl)
                     .placeholder(R.drawable.user_pic)
@@ -83,8 +83,8 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
 
         viewHolder.time_tv.setText(Util.formatTime(rideOffer.getTime()));
         viewHolder.date_tv.setText(Util.formatBadDateWithoutYear(rideOffer.getDate()));
-        viewHolder.course_tv.setText(rideOffer.getCourse());
-        viewHolder.name_tv.setText(rideOffer.getDriverName());
+        viewHolder.course_tv.setText(rideOffer.getDriver().getCourse());
+        viewHolder.name_tv.setText(rideOffer.getDriver().getName());
         String slots = activity.getString(R.string.Xslots, rideOffer.getSlots(), (Integer.parseInt(rideOffer.getSlots()) > 1 ? "s" : ""));
         viewHolder.slots_tv.setText(slots);
         String location;
@@ -94,11 +94,11 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
             location = rideOffer.getHub() + " -> " + rideOffer.getNeighborhood();
         viewHolder.location_tv.setText(location);
 
-        viewHolder.join_bt.setVisibility(rideOffer.getDriverId() == App.getUser().getDbId() ? View.GONE : View.VISIBLE);
+        viewHolder.join_bt.setVisibility(rideOffer.getDriver().getDbId() == App.getUser().getDbId() ? View.GONE : View.VISIBLE);
         viewHolder.join_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                App.getNetworkService().requestJoin(new RideIdForJson(rideOffer.getRideId()), new Callback<Response>() {
+                App.getNetworkService().requestJoin(new RideIdForJson(rideOffer.getDbId()), new Callback<Response>() {
                     @Override
                     public void success(Response response, Response response2) {
                         Util.toast(R.string.requestSent);
@@ -118,7 +118,7 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
         });
     }
 
-    public void makeList(List<RideOfferForJson> rideOffers) {
+    public void makeList(List<RideForJson> rideOffers) {
         this.rideOffers = rideOffers;
         notifyDataSetChanged();
     }

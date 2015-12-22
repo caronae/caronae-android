@@ -37,7 +37,7 @@ import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.adapters.RideOfferAdapter;
 import br.ufrj.caronae.comparators.RideOfferComparatorByTime;
-import br.ufrj.caronae.models.modelsforjson.RideOfferForJson;
+import br.ufrj.caronae.models.modelsforjson.RideForJson;
 import br.ufrj.caronae.models.modelsforjson.RideSearchFiltersForJson;
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -79,7 +79,7 @@ public class RideSearchFrag extends Fragment {
         View view = inflater.inflate(R.layout.fragment_ride_search, container, false);
         ButterKnife.bind(this, view);
 
-        adapter = new RideOfferAdapter(new ArrayList<RideOfferForJson>(), getActivity());
+        adapter = new RideOfferAdapter(new ArrayList<RideForJson>(), getActivity());
         rvRides.setAdapter(adapter);
         rvRides.setHasFixedSize(true);
         rvRides.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -281,9 +281,9 @@ public class RideSearchFrag extends Fragment {
         String lastRideSearchFilters = new Gson().toJson(rideSearchFilters);
         SharedPref.saveLastRideSearchFiltersPref(lastRideSearchFilters);
 
-        App.getNetworkService().listFiltered(rideSearchFilters, new Callback<List<RideOfferForJson>>() {
+        App.getNetworkService().listFiltered(rideSearchFilters, new Callback<List<RideForJson>>() {
             @Override
-            public void success(List<RideOfferForJson> rideOffers, Response response) {
+            public void success(List<RideForJson> rideOffers, Response response) {
                 if (rideOffers != null && !rideOffers.isEmpty()) {
                     Util.expandOrCollapse(lay, false);
                     anotherSearch_bt.setVisibility(View.VISIBLE);
@@ -291,7 +291,7 @@ public class RideSearchFrag extends Fragment {
                     adapter.makeList(rideOffers);
                 } else {
                     Util.toast(R.string.frag_rideSearch_noRideFound);
-                    adapter.makeList(new ArrayList<RideOfferForJson>());
+                    adapter.makeList(new ArrayList<RideForJson>());
                 }
                 pd.dismiss();
             }

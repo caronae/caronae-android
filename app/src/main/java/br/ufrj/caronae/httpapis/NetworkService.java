@@ -2,17 +2,17 @@ package br.ufrj.caronae.httpapis;
 
 import java.util.List;
 
+import br.ufrj.caronae.models.Ride;
+import br.ufrj.caronae.models.User;
 import br.ufrj.caronae.models.modelsforjson.HistoryRideCountForJson;
 import br.ufrj.caronae.models.modelsforjson.HistoryRideForJson;
 import br.ufrj.caronae.models.modelsforjson.IdForJson;
 import br.ufrj.caronae.models.modelsforjson.JoinRequestIDsForJson;
-import br.ufrj.caronae.models.Ride;
+import br.ufrj.caronae.models.modelsforjson.RideForJson;
 import br.ufrj.caronae.models.modelsforjson.RideIdForJson;
-import br.ufrj.caronae.models.modelsforjson.RideOfferForJson;
 import br.ufrj.caronae.models.modelsforjson.RideSearchFiltersForJson;
 import br.ufrj.caronae.models.modelsforjson.RideWithUsersForJson;
 import br.ufrj.caronae.models.modelsforjson.TokenForJson;
-import br.ufrj.caronae.models.User;
 import br.ufrj.caronae.models.modelsforjson.UrlForJson;
 import br.ufrj.caronae.models.modelsforjson.UserWithRidesForJson;
 import retrofit.Callback;
@@ -52,7 +52,7 @@ public interface NetworkService {
     void deleteRide(@Path("rideId") String rideId, Callback<Response> cb);
 
     @POST("/ride/listFiltered")
-    void listFiltered(@Body RideSearchFiltersForJson rideSearchFilters, Callback<List<RideOfferForJson>> cb);
+    void listFiltered(@Body RideSearchFiltersForJson rideSearchFilters, Callback<List<RideForJson>> cb);
 
     @POST("/ride/requestJoin")
     void requestJoin(@Body RideIdForJson rideId, Callback<Response> cb);
