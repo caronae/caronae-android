@@ -4,8 +4,8 @@ import java.util.List;
 
 import br.ufrj.caronae.models.Ride;
 import br.ufrj.caronae.models.User;
+import br.ufrj.caronae.models.modelsforjson.FacebookFriendForJson;
 import br.ufrj.caronae.models.modelsforjson.HistoryRideCountForJson;
-import br.ufrj.caronae.models.modelsforjson.HistoryRideForJson;
 import br.ufrj.caronae.models.modelsforjson.IdForJson;
 import br.ufrj.caronae.models.modelsforjson.JoinRequestIDsForJson;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
@@ -19,6 +19,7 @@ import retrofit.client.Response;
 import retrofit.http.Body;
 import retrofit.http.DELETE;
 import retrofit.http.GET;
+import retrofit.http.Header;
 import retrofit.http.POST;
 import retrofit.http.PUT;
 import retrofit.http.Path;
@@ -43,8 +44,8 @@ public interface NetworkService {
     @PUT("/user/saveProfilePicUrl")
     void saveProfilePicUrl(@Body UrlForJson url, Callback<Response> cb);
 
-    @GET("/user/{id}/{fbtoken}/getMutualFriends")
-    void getMutualFriends(@Path("id") String userId, @Path("fbtoken") String fbToken, Callback<List<User>> cb);
+    @GET("/user/{id}/mutualFriends")
+    void getMutualFriends(@Header("Facebook-Token") String faceToken, @Path("id") String faceId, Callback<FacebookFriendForJson> cb);
 
     //ride routes
     @POST("/ride")

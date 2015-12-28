@@ -288,6 +288,9 @@ public class RideSearchFrag extends Fragment {
                     Util.expandOrCollapse(lay, false);
                     anotherSearch_bt.setVisibility(View.VISIBLE);
                     Collections.sort(rideOffers, new RideOfferComparatorByTime());
+                    for (RideForJson rideOffer : rideOffers) {
+                        rideOffer.setDbId(rideOffer.getId().intValue());
+                    }
                     adapter.makeList(rideOffers);
                 } else {
                     Util.toast(R.string.frag_rideSearch_noRideFound);

@@ -16,11 +16,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.facebook.AccessToken;
-import com.facebook.Profile;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
-
-import java.util.List;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
@@ -28,6 +25,7 @@ import br.ufrj.caronae.RoundedTransformation;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.adapters.RidersAdapter;
 import br.ufrj.caronae.models.User;
+import br.ufrj.caronae.models.modelsforjson.FacebookFriendForJson;
 import br.ufrj.caronae.models.modelsforjson.HistoryRideCountForJson;
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -113,12 +111,12 @@ public class ProfileAct extends AppCompatActivity {
 
         AccessToken token = AccessToken.getCurrentAccessToken();
         if (token != null) {
-            App.getNetworkService().getMutualFriends(user.getDbId() + "", token.getToken(), new Callback<List<User>>() {
+            App.getNetworkService().getMutualFriends(token.getToken(), user.getFaceId(), new Callback<FacebookFriendForJson>() {
                 @Override
-                public void success(List<User> users, Response response) {
+                public void success(FacebookFriendForJson mutualFriends, Response response) {
                     mutualFriends_lay.setVisibility(View.VISIBLE);
-                    mutualFriends_tv.setText(getString(R.string.act_profile_mutualFriends, users.size()));
-                    mutualFriendsList.setAdapter(new RidersAdapter(users, ProfileAct.this));
+                    mutualFriends_tv.setText(getString(R.string.act_profile_mutualFriends, mutualFriends.getTotalCount(), mutualFriends.getMutualFriends().size()));
+                    mutualFriendsList.setAdapter(new RidersAdapter(mutualFriends.getMutualFriends(), ProfileAct.this));
                     mutualFriendsList.setHasFixedSize(true);
                     mutualFriendsList.setLayoutManager(new LinearLayoutManager(ProfileAct.this, LinearLayoutManager.HORIZONTAL, false));
                 }

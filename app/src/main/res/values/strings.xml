@@ -109,7 +109,7 @@
     <string name="chat_sendMsgHint">Digite sua mensagem</string>
     <string name="hello">Olá :)</string>
     <string name="welcome">Bem vindo ao aplicativo de caronas da UFRJ. O acesso é restrito á usuários vinculados a universidade, para continuar você deve obter sua chave de acesso na Intranet.</string>
-    <string name="act_profile_mutualFriends">Amigos em comum no Facebook: %1$d</string>
+    <string name="act_profile_mutualFriends">Vocês tem %1$d amigos em comum no facebook, %2$d deles usam o Caronaê.</string>
     <string name="act_profile_errorMutualFriends">Erro ao pegar amigos em comum no Facebook</string>
 
 </resources>

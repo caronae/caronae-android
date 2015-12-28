@@ -17,8 +17,6 @@ import br.ufrj.caronae.R;
 import br.ufrj.caronae.RoundedTransformation;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.MainAct;
-import br.ufrj.caronae.models.Ride;
-import br.ufrj.caronae.models.modelsforjson.HistoryRideForJson;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
 
 public class RidesHistoryAdapter extends RecyclerView.Adapter<RidesHistoryAdapter.ViewHolder> {
