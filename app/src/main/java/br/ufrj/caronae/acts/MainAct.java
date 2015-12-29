@@ -28,6 +28,7 @@ import android.widget.TextView;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.squareup.picasso.Picasso;
 
@@ -39,6 +40,7 @@ import br.ufrj.caronae.R;
 import br.ufrj.caronae.RoundedTransformation;
 import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.Util;
+import br.ufrj.caronae.frags.FalaeFrag;
 import br.ufrj.caronae.frags.MyActiveRidesFrag;
 import br.ufrj.caronae.frags.MyProfileFrag;
 import br.ufrj.caronae.frags.MyRidesFrag;
@@ -136,10 +138,10 @@ public class MainAct extends AppCompatActivity {
     }
 
     private void checkGPlay() {
-        int resultGplay = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
+        int resultGplay = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable (this);
 
         if (resultGplay != ConnectionResult.SUCCESS) {
-            Dialog dialog = GooglePlayServicesUtil.getErrorDialog(resultGplay, this, MainAct.GPLAY_UNAVAILABLE);
+            Dialog dialog = GoogleApiAvailability.getInstance().getErrorDialog(this, resultGplay, MainAct.GPLAY_UNAVAILABLE);
             if(dialog != null)
             {
                 dialog.show();
@@ -200,6 +202,9 @@ public class MainAct extends AppCompatActivity {
                 break;
             case R.id.nav_fourth_fragment:
                 fragmentClass = RidesHistoryFrag.class;
+                break;
+            case R.id.nav_fifth_fragment:
+                fragmentClass = FalaeFrag.class;
                 break;
             default:
                 fragmentClass = MyProfileFrag.class;

@@ -5,6 +5,7 @@ import java.util.List;
 import br.ufrj.caronae.models.Ride;
 import br.ufrj.caronae.models.User;
 import br.ufrj.caronae.models.modelsforjson.FacebookFriendForJson;
+import br.ufrj.caronae.models.modelsforjson.FalaeMsgForJson;
 import br.ufrj.caronae.models.modelsforjson.HistoryRideCountForJson;
 import br.ufrj.caronae.models.modelsforjson.IdForJson;
 import br.ufrj.caronae.models.modelsforjson.JoinRequestIDsForJson;
@@ -80,4 +81,8 @@ public interface NetworkService {
 
     @GET("/ride/getRidesHistoryCount/{userId}")
     void getRidesHistoryCount(@Path("userId") String userId, Callback<HistoryRideCountForJson> cb);
+
+    //falae route
+    @POST("/falae/sendMessage")
+    void falaeSendMessage(@Body FalaeMsgForJson msg, Callback<Response> cb);
 }

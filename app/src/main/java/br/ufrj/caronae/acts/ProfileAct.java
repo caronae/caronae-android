@@ -11,12 +11,17 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.facebook.AccessToken;
 import com.google.gson.Gson;
+import com.rey.material.app.Dialog;
+import com.rey.material.app.DialogFragment;
+import com.rey.material.app.SimpleDialog;
 import com.squareup.picasso.Picasso;
 
 import br.ufrj.caronae.App;
@@ -26,9 +31,11 @@ import br.ufrj.caronae.Util;
 import br.ufrj.caronae.adapters.RidersAdapter;
 import br.ufrj.caronae.models.User;
 import br.ufrj.caronae.models.modelsforjson.FacebookFriendForJson;
+import br.ufrj.caronae.models.modelsforjson.FalaeMsgForJson;
 import br.ufrj.caronae.models.modelsforjson.HistoryRideCountForJson;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -60,6 +67,8 @@ public class ProfileAct extends AppCompatActivity {
     @Bind(R.id.mutualFriends_tv)
     TextView mutualFriends_tv;
 
+    User user;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,13 +84,15 @@ public class ProfileAct extends AppCompatActivity {
         }
 
         String user2 = getIntent().getExtras().getString("user");
-        final User user = new Gson().fromJson(user2, User.class);
+        user = new Gson().fromJson(user2, User.class);
 
         name_tv.setText(user.getName());
         profile_tv.setText(user.getProfile());
         course_tv.setText(user.getCourse());
         phone_tv.setText(user.getPhoneNumber());
-        Picasso.with(this).load(user.getProfilePicUrl())
+        String profilePicUrl = user.getProfilePicUrl();
+        if (profilePicUrl != null && !profilePicUrl.isEmpty())
+            Picasso.with(this).load(profilePicUrl)
                 .placeholder(R.drawable.user_pic)
                 .error(R.drawable.user_pic)
                 .transform(new RoundedTransformation(0))
@@ -143,6 +154,55 @@ public class ProfileAct extends AppCompatActivity {
             phone_tv.setVisibility(View.GONE);
             call_tv.setVisibility(View.GONE);
         }
+    }
+
+    @OnClick(R.id.report_bt)
+    public void reportBt() {
+        Dialog.Builder builder = new SimpleDialog.Builder(R.style.SimpleDialogLight){
+
+            @Override
+            protected void onBuildDone(Dialog dialog) {
+                dialog.layoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            }
+
+            @Override
+            public void onPositiveActionClicked(DialogFragment fragment) {
+                EditText msg_et = (EditText)fragment.getDialog().findViewById(R.id.msg_et);
+                String msg = msg_et.getText().toString();
+                if (msg.isEmpty())
+                    return;
+
+                App.getNetworkService().falaeSendMessage(new FalaeMsgForJson(getString(R.string.frag_falae_reportRb) + user.getName(), msg), new Callback<Response>() {
+                    @Override
+                    public void success(Response response, Response response2) {
+                        Util.toast(getString(R.string.act_profile_reportOk));
+                        Log.i("falaeSendMessage", "falae message sent succesfully");
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        Util.toast(getString(R.string.frag_falae_errorSent));
+                        Log.e("falaeSendMessage", error.getMessage());
+                    }
+                });
+
+                super.onPositiveActionClicked(fragment);
+            }
+
+            @Override
+            public void onNegativeActionClicked(DialogFragment fragment) {
+                super.onNegativeActionClicked(fragment);
+            }
+        };
+
+        String name = user.getName().split(" ")[0];
+        builder.title("Reportar " + name)
+                .positiveAction(getString(R.string.send_bt))
+                .negativeAction(getString(R.string.cancel))
+                .contentView(R.layout.layout_dialog_custom);
+
+        DialogFragment fragment = DialogFragment.newInstance(builder);
+        fragment.show(getSupportFragmentManager(), null);
     }
 
     @Override

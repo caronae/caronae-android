@@ -109,7 +109,24 @@
     <string name="chat_sendMsgHint">Digite sua mensagem</string>
     <string name="hello">Olá :)</string>
     <string name="welcome">Bem vindo ao aplicativo de caronas da UFRJ. O acesso é restrito á usuários vinculados a universidade, para continuar você deve obter sua chave de acesso na Intranet.</string>
-    <string name="act_profile_mutualFriends">Vocês tem %1$d amigos em comum no facebook, %2$d deles usam o Caronaê.</string>
+    <string name="act_profile_mutualFriends">Vocês tem %1$d amigos em comum no Facebook.\n%2$d deles usam o Caronaê.</string>
     <string name="act_profile_errorMutualFriends">Erro ao pegar amigos em comum no Facebook</string>
+    <string name="frag_falae_messageHint">Conte pra gente, o que houve?</string>
+    <string name="frag_falae_subjectHint">Assunto (Opcional)</string>
+    <string name="frag_falae_reason_tv">Motivo do contato</string>
+    <string name="frag_falae_suggestion_rb">Sugestão</string>
+    <string name="frag_falae_question_rb">Dúvida</string>
+    <string name="frag_falae_critique_rb">Crítica</string>
+    <string name="frag_falae_report_rb">Denúncia</string>
+    <string name="frag_falae_msgblank">Campo de mensagem vazio</string>
+    <string name="frag_falae_thanksSent">Mensagem enviada. Obrigado por entrar em contato!</string>
+    <string name="frag_falae_errorSent">Erro ao enviar mensagem</string>
+    <string name="frag_falae_suggestionRb">"[SUGESTÃO] "</string>
+    <string name="frag_falae_questionRb">"[DÚVIDA] "</string>
+    <string name="frag_falae_critiqueRb">"[CRÍTICA] "</string>
+    <string name="frag_falae_reportRb">"[DENÚNCIA] "</string>
+    <string name="act_profile_report_bt">Reportar</string>
+    <string name="activity_falae">Reportar usuário</string>
+    <string name="act_profile_reportOk">Usuário reportado, obrigado por entrar em contato.</string>
 
 </resources>
