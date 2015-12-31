@@ -172,7 +172,7 @@ public class ProfileAct extends AppCompatActivity {
                 if (msg.isEmpty())
                     return;
 
-                App.getNetworkService().falaeSendMessage(new FalaeMsgForJson(getString(R.string.frag_falae_reportRb) + user.getName(), msg), new Callback<Response>() {
+                App.getNetworkService().falaeSendMessage(new FalaeMsgForJson(getString(R.string.frag_falae_reportRb) + user.getName() + " - ID:" + user.getDbId(), msg), new Callback<Response>() {
                     @Override
                     public void success(Response response, Response response2) {
                         Util.toast(getString(R.string.act_profile_reportOk));
