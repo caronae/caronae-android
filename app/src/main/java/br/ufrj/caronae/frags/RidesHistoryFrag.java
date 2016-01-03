@@ -21,6 +21,7 @@ import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.adapters.RidesHistoryAdapter;
 import br.ufrj.caronae.comparators.RideComparatorByDateAndTime;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
+import br.ufrj.caronae.models.modelsforjson.RideHistoryForJson;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import retrofit.Callback;
@@ -44,15 +45,18 @@ public class RidesHistoryFrag extends Fragment {
         ButterKnife.bind(this, view);
 
         final ProgressDialog pd = ProgressDialog.show(getActivity(), "", getContext().getString(R.string.wait), true, true);
-        App.getNetworkService().getRidesHistory(new Callback<List<RideForJson>>() {
+        App.getNetworkService().getRidesHistory(new Callback<List<RideHistoryForJson>>() {
             @Override
-            public void success(List<RideForJson> historyRides, Response response) {
+            public void success(List<RideHistoryForJson> historyRides, Response response) {
                 if (historyRides == null || historyRides.isEmpty()) {
                     norides_tv.setVisibility(View.VISIBLE);
                     pd.dismiss();
                     return;
                 }
 
+                for (RideForJson rideHistory : historyRides) {
+                    rideHistory.setDbId(rideHistory.getId().intValue());
+                }
                 Collections.sort(historyRides, new RideComparatorByDateAndTime());
                 myRidesList.setAdapter(new RidesHistoryAdapter(historyRides, (MainAct) getActivity()));
                 myRidesList.setHasFixedSize(true);

@@ -9,7 +9,9 @@ import br.ufrj.caronae.models.modelsforjson.FalaeMsgForJson;
 import br.ufrj.caronae.models.modelsforjson.HistoryRideCountForJson;
 import br.ufrj.caronae.models.modelsforjson.IdForJson;
 import br.ufrj.caronae.models.modelsforjson.JoinRequestIDsForJson;
+import br.ufrj.caronae.models.modelsforjson.RideFeedbackForJson;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
+import br.ufrj.caronae.models.modelsforjson.RideHistoryForJson;
 import br.ufrj.caronae.models.modelsforjson.RideIdForJson;
 import br.ufrj.caronae.models.modelsforjson.RideSearchFiltersForJson;
 import br.ufrj.caronae.models.modelsforjson.TokenForJson;
@@ -77,10 +79,13 @@ public interface NetworkService {
     void finishRide(@Body RideIdForJson rideId, Callback<Response> cb);
 
     @GET("/ride/getRidesHistory")
-    void getRidesHistory(Callback<List<RideForJson>> cb);
+    void getRidesHistory(Callback<List<RideHistoryForJson>> cb);
 
     @GET("/ride/getRidesHistoryCount/{userId}")
     void getRidesHistoryCount(@Path("userId") String userId, Callback<HistoryRideCountForJson> cb);
+
+    @POST("/ride/saveFeedback")
+    void saveFeedback(@Body RideFeedbackForJson rideFeedbackForJson, Callback<Response> cb);
 
     //falae route
     @POST("/falae/sendMessage")

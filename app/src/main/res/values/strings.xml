@@ -128,5 +128,10 @@
     <string name="act_profile_report_bt">Reportar</string>
     <string name="activity_falae">Reportar usuário</string>
     <string name="act_profile_reportOk">Usuário reportado, obrigado por entrar em contato.</string>
+    <string name="rideHistory_Feedback">Carona avaliada com sucesso</string>
+    <string name="errorRideHistory_Feedback">Erro ao avaliar carona</string>
+    <string name="rideHistory_DialogTitle">Eaí? Correu tudo bem?</string>
+    <string name="yes">Sim</string>
+    <string name="no">Não</string>
 
 </resources>
