@@ -66,6 +66,8 @@ public class ProfileAct extends AppCompatActivity {
     RelativeLayout mutualFriends_lay;
     @Bind(R.id.mutualFriends_tv)
     TextView mutualFriends_tv;
+    /*@Bind(R.id.openProfile_tv)
+    TextView openProfile_tv;*/
 
     User user;
 
@@ -127,6 +129,8 @@ public class ProfileAct extends AppCompatActivity {
                 public void success(FacebookFriendForJson mutualFriends, Response response) {
                     mutualFriends_lay.setVisibility(View.VISIBLE);
                     mutualFriends_tv.setText(getString(R.string.act_profile_mutualFriends, mutualFriends.getTotalCount(), mutualFriends.getMutualFriends().size()));
+                    //String name = user.getName().split(" ")[0];
+                    //openProfile_tv.setText(getString(R.string.act_profile_openFbProfile, name));
                     mutualFriendsList.setAdapter(new RidersAdapter(mutualFriends.getMutualFriends(), ProfileAct.this));
                     mutualFriendsList.setHasFixedSize(true);
                     mutualFriendsList.setLayoutManager(new LinearLayoutManager(ProfileAct.this, LinearLayoutManager.HORIZONTAL, false));
@@ -155,6 +159,22 @@ public class ProfileAct extends AppCompatActivity {
             call_tv.setVisibility(View.GONE);
         }
     }
+
+    /*@OnClick(R.id.openProfile_tv)
+    public void openProfileTv() {
+        startActivity(getOpenFacebookIntent());
+    }
+
+    public Intent getOpenFacebookIntent() {
+        try {
+            getPackageManager().getPackageInfo("com.facebook.katana", 0); //Checks if FB is even installed.
+            return new Intent(Intent.ACTION_VIEW,
+                    Uri.parse("fb://profile/" + user.getFaceId())); //Tries to make intent with FB's URI
+        } catch (Exception e) {
+            return new Intent(Intent.ACTION_VIEW,
+                    Uri.parse("https://www.facebook.com/arkverse")); //catches and opens a url to the desired page
+        }
+    }*/
 
     @OnClick(R.id.report_bt)
     public void reportBt() {

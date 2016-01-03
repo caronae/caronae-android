@@ -157,6 +157,13 @@
             android:layout_height="wrap_content"
             android:textStyle="bold" />
 
+        <!--<TextView
+            android:id="@+id/openProfile_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/mutualFriends_tv"
+            android:textStyle="bold" />-->
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/mutualFriendsList"
             android:layout_width="wrap_content"
