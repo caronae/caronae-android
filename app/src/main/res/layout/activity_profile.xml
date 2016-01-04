@@ -157,18 +157,23 @@
             android:layout_height="wrap_content"
             android:textStyle="bold" />
 
-        <!--<TextView
+        <TextView
             android:id="@+id/openProfile_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/mutualFriends_tv"
-            android:textStyle="bold" />-->
+            android:layout_centerHorizontal="true"
+            android:background="@color/blue"
+            android:padding="4dp"
+            android:text="Veja o perfil de Fulano no Facebook"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/mutualFriendsList"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/mutualFriends_tv"
+            android:layout_below="@+id/openProfile_tv"
             android:layout_marginTop="5dp" />
     </RelativeLayout>
 

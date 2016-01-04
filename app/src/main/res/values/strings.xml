@@ -133,6 +133,6 @@
     <string name="rideHistory_DialogTitle">Eaí? Correu tudo bem?</string>
     <string name="yes">Sim</string>
     <string name="no">Não</string>
-    <!--<string name="act_profile_openFbProfile">Clique aqui e veja o perfil de %1$s no Facebook.</string>-->
+    <string name="act_profile_openFbProfile">Veja o perfil de %1$s no Facebook.</string>
 
 </resources>
