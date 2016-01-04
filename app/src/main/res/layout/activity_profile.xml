@@ -150,6 +150,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/report_bt"
         android:layout_marginLeft="16dp"
+        android:visibility="gone"
         android:layout_marginRight="16dp">
 
         <TextView
