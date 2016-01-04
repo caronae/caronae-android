@@ -18,7 +18,7 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:gravity="center"
-        android:text="Você não tem caronas ativas"
+        android:text="@string/frag_myactiverides_noRides"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:visibility="gone" />
 

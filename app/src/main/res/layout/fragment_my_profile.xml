@@ -29,55 +29,54 @@
                 android:layout_alignRight="@+id/user_pic"
                 android:layout_below="@+id/user_pic"
                 android:background="@color/gray"
-                android:text="Mudar foto"
+                android:text="@string/frag_myprofile_changePic"
                 android:textColor="@color/white"
                 android:textSize="12sp" />
 
-            <RelativeLayout
-                android:id="@+id/lay11"
+            <TextView
+                android:id="@+id/name_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
+                android:layout_alignTop="@+id/user_pic"
                 android:layout_marginLeft="20dp"
                 android:layout_marginStart="20dp"
                 android:layout_toEndOf="@+id/user_pic"
-                android:layout_toRightOf="@+id/user_pic">
+                android:layout_toRightOf="@+id/user_pic"
+                android:paddingTop="15dp"
+                android:text="Fulano da Silva"
+                android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/name_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Fulano da Silva"
-                    android:textStyle="bold" />
+            <TextView
+                android:id="@+id/profile_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/name_tv"
+                android:layout_alignStart="@+id/name_tv"
+                android:layout_below="@+id/name_tv"
+                android:text="Aluno" />
 
-                <TextView
-                    android:id="@+id/profile_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/name_tv"
-                    android:text="Aluno" />
+            <TextView
+                android:id="@+id/course_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/name_tv"
+                android:layout_alignStart="@+id/name_tv"
+                android:layout_below="@+id/profile_tv"
+                android:text="Ciência da computação" />
 
-                <TextView
-                    android:id="@+id/course_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/profile_tv"
-                    android:text="Ciência da computação" />
-
-                <com.rey.material.widget.Button
-                    android:id="@+id/logout_iv"
-                    style="@style/LightRaiseColorButtonRippleStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:background="@null"
-                    android:gravity="center"
-                    android:text="SAIR"
-                    android:textColor="@color/red"
-                    app:rd_enable="true" />
-            </RelativeLayout>
+            <com.rey.material.widget.Button
+                android:id="@+id/logout_iv"
+                style="@style/LightRaiseColorButtonRippleStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignTop="@+id/name_tv"
+                android:background="@null"
+                android:gravity="center"
+                android:text="SAIR"
+                android:textColor="@color/red"
+                app:rd_enable="true" />
 
         </RelativeLayout>
 
@@ -96,7 +95,6 @@
                 android:drawableLeft="@drawable/ic_today_black_24dp"
                 android:drawableStart="@drawable/ic_today_black_24dp"
                 android:gravity="center_vertical"
-                android:text="02/2014"
                 android:textStyle="bold" />
 
             <TextView
@@ -137,7 +135,7 @@
             android:layout_below="@+id/color_bar"
             android:paddingBottom="15dp"
             android:paddingTop="15dp"
-            android:text="Alertas e notificações"
+            android:text="@string/frag_myprofile_notif"
             android:textStyle="bold" />
 
         <android.support.v7.widget.SwitchCompat
@@ -163,7 +161,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/login_button"
             android:paddingTop="10dp"
-            android:text="CONTATOS"
+            android:text="@string/frag_myprofile_contacts"
             android:textStyle="bold" />
 
         <TextView
@@ -171,67 +169,42 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/contact_tv"
-            android:text="Os seus contatos só serão visíveis para os usuários que estiverem na mesma carona que você"
+            android:text="@string/frag_myprofile_contactsText"
             android:textSize="12sp" />
 
-        <RelativeLayout
-            android:id="@+id/lay2"
-            android:layout_width="wrap_content"
+        <EditText
+            android:id="@+id/email_et"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/contact__text_tv"
-            android:paddingTop="10dp">
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:drawableLeft="@drawable/ic_email_black_24dp"
+            android:drawablePadding="5dp"
+            android:drawableStart="@drawable/ic_email_black_24dp"
+            android:hint="@string/frag_myprofile_emailHint"
+            android:inputType="textEmailAddress" />
 
-            <ImageView
-                android:id="@+id/email_iv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:src="@drawable/ic_email_black_24dp" />
-
-            <EditText
-                android:id="@+id/email_et"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="5dp"
-                android:layout_marginStart="5dp"
-                android:layout_toEndOf="@+id/email_iv"
-                android:layout_toRightOf="@+id/email_iv"
-                android:hint="Digite seu e-mail"
-                android:inputType="textEmailAddress" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/lay3"
-            android:layout_width="wrap_content"
+        <EditText
+            android:id="@+id/phoneNumber_et"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/lay2">
-
-            <ImageView
-                android:id="@+id/phone_iv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:src="@drawable/ic_phone_black_24dp" />
-
-            <EditText
-                android:id="@+id/phoneNumber_et"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="5dp"
-                android:layout_marginStart="5dp"
-                android:layout_toEndOf="@+id/phone_iv"
-                android:layout_toRightOf="@+id/phone_iv"
-                android:hint="Digite seu telefone"
-                android:inputType="phone" />
-        </RelativeLayout>
+            android:layout_below="@+id/email_et"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:drawableLeft="@drawable/ic_phone_black_24dp"
+            android:drawablePadding="5dp"
+            android:drawableStart="@drawable/ic_phone_black_24dp"
+            android:hint="@string/frag_myprofile_phoneHint"
+            android:inputType="phone" />
 
         <TextView
             android:id="@+id/location_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/lay3"
+            android:layout_below="@+id/phoneNumber_et"
             android:paddingTop="10dp"
             android:text="LOCALIDADE"
             android:textStyle="bold" />
@@ -241,43 +214,30 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/location_tv"
-            android:text="Sua localidade nunca será exibida para outros usuários"
+            android:text="@string/frag_myprofile_locationText"
             android:textSize="12sp" />
 
-        <RelativeLayout
-            android:id="@+id/lay4"
-            android:layout_width="wrap_content"
+        <EditText
+            android:id="@+id/location_et"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/location__text_tv"
-            android:paddingTop="10dp">
-
-            <ImageView
-                android:id="@+id/location_iv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:src="@drawable/ic_location_on_black_24dp" />
-
-            <EditText
-                android:id="@+id/location_et"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="5dp"
-                android:layout_marginStart="5dp"
-                android:layout_toEndOf="@+id/location_iv"
-                android:layout_toRightOf="@+id/location_iv"
-                android:focusable="false"
-                android:hint="Digite sua localidade" />
-        </RelativeLayout>
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:drawableLeft="@drawable/ic_location_on_black_24dp"
+            android:drawablePadding="5dp"
+            android:drawableStart="@drawable/ic_location_on_black_24dp"
+            android:focusable="false"
+            android:hint="@string/frag_myprofile_locationHint" />
 
         <TextView
             android:id="@+id/carOwner_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/lay4"
+            android:layout_below="@+id/location_et"
             android:paddingTop="15dp"
-            android:text="Possui carro?"
+            android:text="@string/frag_myprofile_carOwner"
             android:textStyle="bold" />
 
         <android.support.v7.widget.SwitchCompat
@@ -299,7 +259,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingTop="10dp"
-                android:text="SOBRE SEU CARRO"
+                android:text="@string/frag_myprofile_aboutYourCar"
                 android:textStyle="bold" />
 
             <TextView
@@ -307,87 +267,41 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/car_tv"
-                android:text="Essas informações também só aparecem para pessoas que estiverem na sua carona"
+                android:text="@string/frag_myprofile_carText"
                 android:textSize="12sp" />
 
-            <RelativeLayout
-                android:id="@+id/lay6"
-                android:layout_width="wrap_content"
+            <EditText
+                android:id="@+id/carPlate_et"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/car__text_tv"
-                android:paddingTop="10dp">
+                android:drawableLeft="@drawable/ic_directions_car_black_24dp"
+                android:drawablePadding="5dp"
+                android:drawableStart="@drawable/ic_directions_car_black_24dp"
+                android:hint="@string/frag_myprofile_carPlateHint"
+                android:singleLine="true" />
 
-                <ImageView
-                    android:id="@+id/carPlate_iv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/ic_directions_car_black_24dp" />
-
-                <EditText
-                    android:id="@+id/carPlate_et"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginStart="5dp"
-                    android:layout_toEndOf="@+id/carPlate_iv"
-                    android:layout_toRightOf="@+id/carPlate_iv"
-                    android:hint="Digite a placa de seu carro"
-                    android:singleLine="true" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/lay7"
-                android:layout_width="wrap_content"
+            <EditText
+                android:id="@+id/carModel_et"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/lay6">
+                android:layout_below="@+id/carPlate_et"
+                android:drawableLeft="@drawable/ic_directions_car_black_24dp"
+                android:drawablePadding="5dp"
+                android:drawableStart="@drawable/ic_directions_car_black_24dp"
+                android:hint="@string/frag_myprofile_carModelHint"
+                android:singleLine="true" />
 
-                <ImageView
-                    android:id="@+id/carModel_iv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/ic_directions_car_black_24dp" />
-
-                <EditText
-                    android:id="@+id/carModel_et"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginStart="5dp"
-                    android:layout_toEndOf="@+id/carModel_iv"
-                    android:layout_toRightOf="@+id/carModel_iv"
-                    android:hint="Digite o modelo de seu carro"
-                    android:singleLine="true" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/lay8"
-                android:layout_width="wrap_content"
+            <EditText
+                android:id="@+id/carColor_et"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/lay7">
-
-                <ImageView
-                    android:id="@+id/carColor_iv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/ic_directions_car_black_24dp" />
-
-                <EditText
-                    android:id="@+id/carColor_et"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginStart="5dp"
-                    android:layout_toEndOf="@+id/carColor_iv"
-                    android:layout_toRightOf="@+id/carColor_iv"
-                    android:hint="Digite a cor de seu carro"
-                    android:singleLine="true" />
-            </RelativeLayout>
+                android:layout_below="@+id/carModel_et"
+                android:drawableLeft="@drawable/ic_directions_car_black_24dp"
+                android:drawablePadding="5dp"
+                android:drawableStart="@drawable/ic_directions_car_black_24dp"
+                android:hint="@string/frag_myprofile_carColorHint"
+                android:singleLine="true" />
         </RelativeLayout>
     </RelativeLayout>
 </ScrollView>

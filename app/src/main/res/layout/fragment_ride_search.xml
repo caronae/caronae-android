@@ -10,14 +10,14 @@
         android:id="@+id/lay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:focusableInTouchMode="true">
+        android:layout_margin="16dp">
 
         <RadioGroup
             android:id="@+id/radioGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
+            android:focusableInTouchMode="true"
             android:orientation="horizontal">
 
             <RadioButton
@@ -34,123 +34,70 @@
                 android:text="@string/back_rb" />
         </RadioGroup>
 
-        <RelativeLayout
-            android:id="@+id/lay2"
-            android:layout_width="wrap_content"
+        <EditText
+            android:id="@+id/location_et"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/radioGroup"
-            android:paddingTop="10dp">
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:drawableLeft="@drawable/ic_location_on_black_24dp"
+            android:drawablePadding="5dp"
+            android:drawableStart="@drawable/ic_location_on_black_24dp"
+            android:focusable="false"
+            android:hint="@string/frag_ridesearch_locationHint" />
 
-            <ImageView
-                android:id="@+id/location_iv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:src="@drawable/ic_location_on_black_24dp" />
-
-            <EditText
-                android:id="@+id/location_et"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="5dp"
-                android:layout_marginStart="5dp"
-                android:layout_toEndOf="@+id/location_iv"
-                android:layout_toRightOf="@+id/location_iv"
-                android:focusable="false"
-                android:hint="Escolha o local (Obrigatório)" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/lay3"
-            android:layout_width="wrap_content"
+        <EditText
+            android:id="@+id/date_et"
+            android:inputType="date"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/lay2"
-            android:paddingTop="10dp">
+            android:layout_below="@+id/location_et"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:drawableLeft="@drawable/ic_today_black_24dp"
+            android:drawablePadding="5dp"
+            android:drawableStart="@drawable/ic_today_black_24dp"
+            android:focusable="false"
+            android:hint="@string/frag_ridesearch_dateHint" />
 
-            <ImageView
-                android:id="@+id/date_iv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:src="@drawable/ic_today_black_24dp" />
-
-            <EditText
-                android:id="@+id/date_et"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="5dp"
-                android:layout_marginStart="5dp"
-                android:layout_toEndOf="@+id/date_iv"
-                android:layout_toRightOf="@+id/date_iv"
-                android:focusable="false"
-                android:hint="Escolha a data" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/lay4"
-            android:layout_width="wrap_content"
+        <EditText
+            android:id="@+id/time_et"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/lay3"
-            android:paddingTop="10dp">
+            android:layout_below="@+id/date_et"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:drawableLeft="@drawable/ic_access_time_black_24dp"
+            android:drawablePadding="5dp"
+            android:drawableStart="@drawable/ic_access_time_black_24dp"
+            android:focusable="false"
+            android:hint="@string/frag_ridesearch_timeHint" />
 
-            <ImageView
-                android:id="@+id/time_iv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:src="@drawable/ic_access_time_black_24dp" />
-
-            <EditText
-                android:id="@+id/time_et"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="5dp"
-                android:layout_marginStart="5dp"
-                android:layout_toEndOf="@+id/time_iv"
-                android:layout_toRightOf="@+id/time_iv"
-                android:focusable="false"
-                android:hint="Escolha a hora" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/lay5"
-            android:layout_width="wrap_content"
+        <EditText
+            android:id="@+id/center_et"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/lay4"
-            android:paddingTop="10dp">
-
-            <ImageView
-                android:id="@+id/center_iv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:src="@drawable/ic_business_black_24dp" />
-
-            <EditText
-                android:id="@+id/center_et"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="5dp"
-                android:layout_marginStart="5dp"
-                android:layout_toEndOf="@+id/center_iv"
-                android:layout_toRightOf="@+id/center_iv"
-                android:focusable="false"
-                android:hint="Escolha o centro" />
-        </RelativeLayout>
+            android:layout_below="@+id/time_et"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:drawableLeft="@drawable/ic_business_black_24dp"
+            android:drawablePadding="5dp"
+            android:drawableStart="@drawable/ic_business_black_24dp"
+            android:focusable="false"
+            android:hint="@string/frag_ridesearch_centerHint" />
 
         <com.rey.material.widget.Button
             android:id="@+id/search_bt"
             style="@style/LightRaiseColorButtonRippleStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/lay5"
+            android:layout_below="@+id/center_et"
             android:layout_centerHorizontal="true"
             android:background="@null"
-            android:text="Buscar"
+            android:text="@string/frag_ridesearch_searchBt"
             app:rd_enable="true" />
 
     </RelativeLayout>
@@ -163,7 +110,7 @@
         android:layout_below="@+id/lay"
         android:layout_centerHorizontal="true"
         android:background="@null"
-        android:text="Outra busca"
+        android:text="@string/frag_ridesearch_anotherSearchBt"
         android:visibility="gone"
         app:rd_enable="true" />
 

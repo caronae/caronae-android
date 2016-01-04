@@ -67,6 +67,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/profile_tv"
         android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="12dp"
         android:layout_toEndOf="@+id/phone_tv"
         android:layout_toRightOf="@+id/phone_tv"
@@ -165,7 +166,7 @@
             android:layout_centerHorizontal="true"
             android:background="@color/blue"
             android:padding="4dp"
-            android:text="Veja o perfil de Fulano no Facebook"
+            android:text="@string/act_profile_openProfile"
             android:textColor="@color/white"
             android:textStyle="bold" />
 

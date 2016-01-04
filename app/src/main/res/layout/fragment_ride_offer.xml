@@ -34,176 +34,81 @@
                 android:text="@string/back_rb" />
         </RadioGroup>
 
-        <RelativeLayout
-            android:id="@+id/lay2"
-            android:layout_width="wrap_content"
+        <EditText
+            android:id="@+id/neighborhood_et"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/radioGroup"
-            android:paddingTop="10dp">
+            android:drawableLeft="@drawable/ic_location_on_black_24dp"
+            android:drawablePadding="5dp"
+            android:drawableStart="@drawable/ic_location_on_black_24dp"
+            android:focusable="false"
+            android:hint="@string/frag_rideoffer_neighborHint" />
 
-            <ImageView
-                android:id="@+id/neighborhood_iv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:src="@drawable/ic_location_on_black_24dp" />
-
-            <EditText
-                android:id="@+id/neighborhood_et"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="5dp"
-                android:layout_marginStart="5dp"
-                android:layout_toEndOf="@+id/neighborhood_iv"
-                android:layout_toRightOf="@+id/neighborhood_iv"
-                android:focusable="false"
-                android:hint="Escolha o bairro (Obrigatório)" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/lay21"
-            android:layout_width="wrap_content"
+        <EditText
+            android:id="@+id/place_et"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/lay2"
-            android:paddingTop="10dp">
+            android:layout_below="@+id/neighborhood_et"
+            android:drawableLeft="@drawable/ic_location_on_black_24dp"
+            android:drawablePadding="5dp"
+            android:drawableStart="@drawable/ic_location_on_black_24dp"
+            android:hint="@string/frag_rideoffer_placeHint"
+            android:inputType="text"
+            android:singleLine="true" />
 
-            <ImageView
-                android:id="@+id/place_iv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:src="@drawable/ic_location_on_black_24dp" />
-
-            <EditText
-                android:id="@+id/place_et"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="5dp"
-                android:layout_marginStart="5dp"
-                android:layout_toEndOf="@+id/place_iv"
-                android:layout_toRightOf="@+id/place_iv"
-                android:hint="Ponto de referência"
-                android:inputType="text"
-                android:singleLine="true" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/lay22"
-            android:layout_width="wrap_content"
+        <EditText
+            android:id="@+id/way_et"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/lay21"
-            android:paddingTop="10dp">
+            android:layout_below="@+id/place_et"
+            android:drawableLeft="@drawable/ic_location_on_black_24dp"
+            android:drawablePadding="5dp"
+            android:drawableStart="@drawable/ic_location_on_black_24dp"
+            android:hint="@string/frag_rideoffer_wayhint"
+            android:inputType="text"
+            android:singleLine="true" />
 
-            <ImageView
-                android:id="@+id/way_iv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:src="@drawable/ic_location_on_black_24dp" />
-
-            <EditText
-                android:id="@+id/way_et"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="5dp"
-                android:layout_marginStart="5dp"
-                android:layout_toEndOf="@+id/way_iv"
-                android:layout_toRightOf="@+id/way_iv"
-                android:hint="Por onde passa"
-                android:inputType="text"
-                android:singleLine="true" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/lay3"
-            android:layout_width="wrap_content"
+        <EditText
+            android:id="@+id/center_et"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/lay22"
-            android:paddingTop="10dp">
+            android:layout_below="@+id/way_et"
+            android:drawableLeft="@drawable/ic_business_black_24dp"
+            android:drawablePadding="5dp"
+            android:drawableStart="@drawable/ic_business_black_24dp"
+            android:focusable="false"
+            android:hint="@string/frag_rideoffer_centerHint" />
 
-            <ImageView
-                android:id="@+id/center_iv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:src="@drawable/ic_business_black_24dp" />
-
-            <EditText
-                android:id="@+id/center_et"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="5dp"
-                android:layout_marginStart="5dp"
-                android:layout_toEndOf="@+id/center_iv"
-                android:layout_toRightOf="@+id/center_iv"
-                android:focusable="false"
-                android:hint="Escolha o centro" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/lay4"
-            android:layout_width="wrap_content"
+        <EditText
+            android:id="@+id/date_et"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/lay3"
-            android:paddingTop="10dp">
+            android:layout_below="@+id/center_et"
+            android:drawableLeft="@drawable/ic_today_black_24dp"
+            android:drawablePadding="5dp"
+            android:drawableStart="@drawable/ic_today_black_24dp"
+            android:focusable="false"
+            android:hint="@string/frag_rideoffer_dateHint"
+            android:inputType="date" />
 
-            <ImageView
-                android:id="@+id/date_iv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:src="@drawable/ic_today_black_24dp" />
-
-            <EditText
-                android:id="@+id/date_et"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="5dp"
-                android:layout_marginStart="5dp"
-                android:layout_toEndOf="@+id/date_iv"
-                android:layout_toRightOf="@+id/date_iv"
-                android:focusable="false"
-                android:hint="Escolha a data" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/lay5"
-            android:layout_width="wrap_content"
+        <EditText
+            android:id="@+id/time_et"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/lay4"
-            android:paddingTop="10dp">
-
-            <ImageView
-                android:id="@+id/time_iv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:src="@drawable/ic_access_time_black_24dp" />
-
-            <EditText
-                android:id="@+id/time_et"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="5dp"
-                android:layout_marginStart="5dp"
-                android:layout_toEndOf="@+id/time_iv"
-                android:layout_toRightOf="@+id/time_iv"
-                android:focusable="false"
-                android:hint="Escolha a hora" />
-        </RelativeLayout>
+            android:layout_below="@+id/date_et"
+            android:drawableLeft="@drawable/ic_access_time_black_24dp"
+            android:drawablePadding="5dp"
+            android:drawableStart="@drawable/ic_access_time_black_24dp"
+            android:focusable="false"
+            android:hint="@string/frag_rideoffer_timeHint" />
 
         <TextView
             android:id="@+id/slots_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/lay5"
-            android:text="Vagas disponíveis"
+            android:layout_below="@+id/time_et"
+            android:text="@string/frag_rideoffer_slots"
             android:textStyle="bold" />
 
         <EditText
@@ -225,7 +130,7 @@
             android:layout_below="@+id/slots_tv"
             android:layout_marginTop="10dp"
             android:gravity="top"
-            android:hint="Notas adicionais Ex: Não fumo, pode trazer o cachorro etc"
+            android:hint="@string/frag_rideoffer_description"
             android:lines="3" />
 
         <CheckBox
@@ -323,6 +228,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/days"
                 android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_toEndOf="@+id/routine_text_tv"
                 android:layout_toRightOf="@+id/routine_text_tv"
                 android:orientation="horizontal">
 
@@ -357,7 +264,7 @@
             android:layout_alignParentRight="true"
             android:layout_below="@+id/days_lo"
             android:background="@null"
-            android:text="Criar"
+            android:text="@string/send_bt"
             app:rd_enable="true" />
 
     </RelativeLayout>

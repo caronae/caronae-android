@@ -134,5 +134,37 @@
     <string name="yes">Sim</string>
     <string name="no">Não</string>
     <string name="act_profile_openFbProfile">Veja o perfil de %1$s no Facebook.</string>
+    <string name="act_profile_openProfile">Veja o perfil de Fulano no Facebook</string>
+    <string name="frag_myactiverides_noRides">Você não tem caronas ativas</string>
+    <string name="frag_myrides_noRides">Você não tem anúncios de caronas</string>
+    <string name="frag_rideoffer_neighborHint">Escolha o bairro (Obrigatório)</string>
+    <string name="frag_rideoffer_placeHint">Ponto de referência</string>
+    <string name="frag_rideoffer_wayhint">Por onde passa</string>
+    <string name="frag_rideoffer_centerHint">Escolha o centro</string>
+    <string name="frag_rideoffer_dateHint">Escolha a data</string>
+    <string name="frag_rideoffer_timeHint">Escolha a hora</string>
+    <string name="frag_rideoffer_slots">Vagas disponíveis</string>
+    <string name="frag_rideoffer_description">Notas adicionais Ex: Não fumo, pode trazer o cachorro etc</string>
+    <string name="frag_ridesearch_locationHint">Escolha o local (Obrigatório)</string>
+    <string name="frag_ridesearch_dateHint">Escolha a data</string>
+    <string name="frag_ridesearch_timeHint">Escolha a hora</string>
+    <string name="frag_ridesearch_centerHint">Escolha o centro</string>
+    <string name="frag_ridesearch_searchBt">Buscar</string>
+    <string name="frag_ridesearch_anotherSearchBt">Outra busca</string>
+    <string name="frag_ridehistory_noRides">Você não tem caronas no seu histórico</string>
+    <string name="frag_myprofile_changePic">Mudar foto</string>
+    <string name="frag_myprofile_notif">Alertas e notificações</string>
+    <string name="frag_myprofile_contacts">CONTATOS</string>
+    <string name="frag_myprofile_contactsText">Os seus contatos só serão visíveis para os usuários que estiverem na mesma carona que você</string>
+    <string name="frag_myprofile_emailHint">Digite seu e-mail</string>
+    <string name="frag_myprofile_phoneHint">Digite seu telefone</string>
+    <string name="frag_myprofile_locationText">Sua localidade nunca será exibida para outros usuários</string>
+    <string name="frag_myprofile_locationHint">Digite sua localidade</string>
+    <string name="frag_myprofile_carOwner">Possui carro?</string>
+    <string name="frag_myprofile_aboutYourCar">SOBRE SEU CARRO</string>
+    <string name="frag_myprofile_carText">Essas informações também só aparecem para pessoas que estiverem na sua carona</string>
+    <string name="frag_myprofile_carPlateHint">Digite a placa de seu carro</string>
+    <string name="frag_myprofile_carModelHint">Digite o modelo de seu carro</string>
+    <string name="frag_myprofile_carColorHint">Digite a cor de seu carro</string>
 
 </resources>

@@ -214,7 +214,7 @@ public class ProfileAct extends AppCompatActivity {
         builder.title("Reportar " + name)
                 .positiveAction(getString(R.string.send_bt))
                 .negativeAction(getString(R.string.cancel))
-                .contentView(R.layout.layout_dialog_custom);
+                .contentView(R.layout.report_dialog);
 
         DialogFragment fragment = DialogFragment.newInstance(builder);
         fragment.show(getSupportFragmentManager(), null);
