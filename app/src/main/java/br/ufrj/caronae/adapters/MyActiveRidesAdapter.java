@@ -100,9 +100,9 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
 
         final String location;
         if (rideWithUsers.isGoing())
-            location = rideWithUsers.getNeighborhood() + " -> " + rideWithUsers.getHub();
+            location = rideWithUsers.getNeighborhood() + " ➜ " + rideWithUsers.getHub();
         else
-            location = rideWithUsers.getHub() + " -> " + rideWithUsers.getNeighborhood();
+            location = rideWithUsers.getHub() + " ➜ " + rideWithUsers.getNeighborhood();
 
         String profilePicUrl = driver.getProfilePicUrl();
         if (profilePicUrl == null || profilePicUrl.isEmpty()) {

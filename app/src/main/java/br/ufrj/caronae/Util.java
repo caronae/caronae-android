@@ -151,7 +151,7 @@ public class Util {
     }
 
     public static String[] getHubs() {
-        return new String[]{"CCMN Frente", "CCMN Fundos", "CCS Frente", "CCS Saída HU", "CT Bloco D", "CT Bloco H", "CT Fundos Bloco I", "EEFD", "Letras", "Reitoria"};
+        return new String[]{"CCMN: Frente", "CCMN: Fundos", "CCS: Frente", "CCS: HU", "CT: Bloco A", "CT: Bloco D", "CT: Bloco H", "EEFD", "Letras", "Reitoria"};
     }
 
     public static String[] getCenters() {

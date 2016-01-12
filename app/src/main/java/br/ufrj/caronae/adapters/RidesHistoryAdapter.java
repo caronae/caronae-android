@@ -87,9 +87,9 @@ public class RidesHistoryAdapter extends RecyclerView.Adapter<RidesHistoryAdapte
         holder.slots_tv.setTextColor(color);
         String location;
         if (historyRide.isGoing())
-            location = historyRide.getNeighborhood() + " -> " + historyRide.getHub();
+            location = historyRide.getNeighborhood() + " ➜ " + historyRide.getHub();
         else
-            location = historyRide.getHub() + " -> " + historyRide.getNeighborhood();
+            location = historyRide.getHub() + " ➜ " + historyRide.getNeighborhood();
         holder.location_tv.setText(location);
         holder.location_tv.setTextColor(color);
 

@@ -73,9 +73,9 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
         holder.slots_tv.setText(activity.getString(R.string.Xslots, ride.getSlots(), (Integer.parseInt(ride.getSlots()) > 1 ? "s" : "")));
         String location;
         if (ride.isGoing())
-            location = ride.getNeighborhood() + " -> " + ride.getHub();
+            location = ride.getNeighborhood() + " ➜ " + ride.getHub();
         else
-            location = ride.getHub() + " -> " + ride.getNeighborhood();
+            location = ride.getHub() + " ➜ " + ride.getNeighborhood();
         holder.location_tv.setText(location);
 
         String s = activity.getString(R.string.repeats);

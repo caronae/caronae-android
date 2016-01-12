@@ -89,9 +89,9 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
         viewHolder.slots_tv.setText(slots);
         String location;
         if (rideOffer.isGoing())
-            location = rideOffer.getNeighborhood() + " -> " + rideOffer.getHub();
+            location = rideOffer.getNeighborhood() + " ➜ " + rideOffer.getHub();
         else
-            location = rideOffer.getHub() + " -> " + rideOffer.getNeighborhood();
+            location = rideOffer.getHub() + " ➜ " + rideOffer.getNeighborhood();
         viewHolder.location_tv.setText(location);
 
         viewHolder.join_bt.setVisibility(rideOffer.getDriver().getDbId() == App.getUser().getDbId() ? View.GONE : View.VISIBLE);
