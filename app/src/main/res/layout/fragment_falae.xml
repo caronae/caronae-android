@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:background="@color/white">
 
     <ImageView
         android:id="@+id/user_pic_iv"
@@ -17,8 +17,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/user_pic_iv"
-        android:layout_toRightOf="@+id/user_pic_iv"
         android:layout_toEndOf="@+id/user_pic_iv"
+        android:layout_toRightOf="@+id/user_pic_iv"
         android:paddingTop="5dp"
         android:text="Fulano da Silva"
         android:textStyle="bold" />
@@ -28,8 +28,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/name_tv"
-        android:layout_toRightOf="@+id/user_pic_iv"
         android:layout_toEndOf="@+id/user_pic_iv"
+        android:layout_toRightOf="@+id/user_pic_iv"
         android:text="Aluno" />
 
     <TextView
@@ -37,8 +37,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/profile_tv"
-        android:layout_toRightOf="@+id/user_pic_iv"
         android:layout_toEndOf="@+id/user_pic_iv"
+        android:layout_toRightOf="@+id/user_pic_iv"
         android:text="Ciência da computação" />
 
     <ImageView
@@ -120,8 +120,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_margin="16dp"
         android:layout_below="@+id/message_et"
+        android:layout_margin="16dp"
         android:background="@null"
         android:text="@string/send_bt"
         app:rd_enable="true" />
