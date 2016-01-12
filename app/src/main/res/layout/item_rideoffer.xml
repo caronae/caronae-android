@@ -75,6 +75,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/time_tv"
             android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
             android:layout_toEndOf="@+id/photo_iv"
             android:layout_toRightOf="@+id/photo_iv"
             android:text="3 vagas"
@@ -121,7 +122,7 @@
             android:layout_centerVertical="true"
             android:background="@null"
             android:gravity="center"
-            android:text="Participar"
+            android:text="@string/rideoffer_joinBt"
             android:textColor="@color/white"
             app:rd_enable="true" />
 

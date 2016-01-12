@@ -74,7 +74,7 @@
                 android:layout_toRightOf="@+id/reject_bt"
                 android:background="@null"
                 android:gravity="center"
-                android:text="Aceitar caronista"
+                android:text="@string/acceptRiderBtn"
                 app:rd_enable="true" />
 
             <com.rey.material.widget.Button
@@ -86,7 +86,7 @@
                 android:layout_marginRight="10dp"
                 android:background="@null"
                 android:gravity="center"
-                android:text="Remover pedido"
+                android:text="@string/refuseRriderBtn"
                 app:rd_enable="true" />
         </RelativeLayout>
     </RelativeLayout>

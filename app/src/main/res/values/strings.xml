@@ -166,5 +166,16 @@
     <string name="frag_myprofile_carPlateHint">Digite a placa de seu carro</string>
     <string name="frag_myprofile_carModelHint">Digite o modelo de seu carro</string>
     <string name="frag_myprofile_carColorHint">Digite a cor de seu carro</string>
+    <string name="acceptRiderBtn">Aceitar caronista</string>
+    <string name="refuseRriderBtn">Remover pedido</string>
+    <string name="rateBtn">Avaliar</string>
+    <string name="rideoffer_joinBt">Participar</string>
+    <string name="myactiveride_openchatBt">Abrir bate-papo</string>
+    <string name="myactiveride_finishrideBt">Concluir carona</string>
+    <string name="myactiveride_wayTv">Passa por:</string>
+    <string name="myactiveride_placeTv">Ponto de referência:</string>
+    <string name="myactiveride_carTv">DETALHES DO CARRO</string>
+    <string name="myactiveride_descriptionTv">RECADO DO MOTORISTA</string>
+    <string name="myactiveride_ridersTv">CARONISTAS</string>
 
 </resources>

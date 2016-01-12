@@ -111,7 +111,7 @@
                 style="@style/LightRaiseColorButtonRippleStyle"
                 android:layout_width="150dp"
                 android:layout_height="36dp"
-                android:text="Abrir bate-papo"
+                android:text="@string/myactiveride_openchatBt"
                 android:textColor="@color/white"
                 app:rd_enable="true" />
 
@@ -121,7 +121,7 @@
                 android:layout_width="150dp"
                 android:layout_height="36dp"
                 android:background="@null"
-                android:text="Concluir carona"
+                android:text="@string/myactiveride_finishrideBt"
                 android:textColor="@color/blue"
                 app:rd_enable="true" />
         </LinearLayout>
@@ -191,8 +191,9 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/lay3"
             android:layout_marginLeft="30dp"
+            android:layout_marginStart="30dp"
             android:layout_marginTop="10dp"
-            android:text="Passa por:"
+            android:text="@string/myactiveride_wayTv"
             android:textAllCaps="true"
             android:textStyle="bold" />
 
@@ -202,6 +203,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/way_text_tv"
             android:layout_marginLeft="50dp"
+            android:layout_marginStart="50dp"
             android:text="Leopoldina" />
 
         <TextView
@@ -210,8 +212,9 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/way_tv"
             android:layout_marginLeft="30dp"
+            android:layout_marginStart="30dp"
             android:layout_marginTop="10dp"
-            android:text="Ponto de referência:"
+            android:text="@string/myactiveride_placeTv"
             android:textAllCaps="true"
             android:textStyle="bold" />
 
@@ -221,6 +224,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/place_text_tv"
             android:layout_marginLeft="50dp"
+            android:layout_marginStart="50dp"
             android:text="Na frente do shopping" />
 
         <TextView
@@ -229,8 +233,9 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/place_tv"
             android:layout_marginLeft="30dp"
+            android:layout_marginStart="30dp"
             android:layout_marginTop="20dp"
-            android:text="DETALHES DO CARRO"
+            android:text="@string/myactiveride_carTv"
             android:textAllCaps="true"
             android:textStyle="bold" />
 
@@ -240,6 +245,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/car_tv"
             android:layout_marginLeft="30dp"
+            android:layout_marginStart="30dp"
             android:layout_marginTop="5dp"
             android:src="@drawable/ic_directions_car_black_24dp" />
 
@@ -250,6 +256,8 @@
             android:layout_alignBottom="@+id/car_plate_iv"
             android:layout_alignTop="@+id/car_plate_iv"
             android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_toEndOf="@+id/car_plate_iv"
             android:layout_toRightOf="@+id/car_plate_iv"
             android:gravity="center"
             android:text="PSR 4567" />
@@ -260,6 +268,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/carPlate_tv"
             android:layout_marginLeft="30dp"
+            android:layout_marginStart="30dp"
             android:layout_marginTop="5dp"
             android:src="@drawable/ic_directions_car_black_24dp" />
 
@@ -270,6 +279,8 @@
             android:layout_alignBottom="@+id/car_model_iv"
             android:layout_alignTop="@+id/car_model_iv"
             android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_toEndOf="@+id/car_plate_iv"
             android:layout_toRightOf="@+id/car_plate_iv"
             android:gravity="center"
             android:text="Honda Civic" />
@@ -280,6 +291,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/carModel_tv"
             android:layout_marginLeft="30dp"
+            android:layout_marginStart="30dp"
             android:layout_marginTop="5dp"
             android:src="@drawable/ic_directions_car_black_24dp" />
 
@@ -290,6 +302,8 @@
             android:layout_alignBottom="@+id/car_color_iv"
             android:layout_alignTop="@+id/car_color_iv"
             android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_toEndOf="@+id/car_plate_iv"
             android:layout_toRightOf="@+id/car_plate_iv"
             android:gravity="center"
             android:text="Vermelho" />
@@ -300,8 +314,9 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/carColor_tv"
             android:layout_marginLeft="30dp"
+            android:layout_marginStart="30dp"
             android:layout_marginTop="20dp"
-            android:text="RECADO DO MOTORISTA"
+            android:text="@string/myactiveride_descriptionTv"
             android:textAllCaps="true"
             android:textStyle="bold" />
 
@@ -320,8 +335,9 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/description_tv"
             android:layout_marginLeft="30dp"
+            android:layout_marginStart="30dp"
             android:layout_marginTop="20dp"
-            android:text="CARONISTAS"
+            android:text="@string/myactiveride_ridersTv"
             android:textAllCaps="true"
             android:textStyle="bold" />
 
