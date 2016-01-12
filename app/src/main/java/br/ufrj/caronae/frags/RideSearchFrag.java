@@ -25,6 +25,7 @@ import com.rey.material.app.TimePickerDialog;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -108,21 +109,9 @@ public class RideSearchFrag extends Fragment {
         SimpleDialog.Builder builder = new SimpleDialog.Builder(R.style.SimpleDialogLight) {
             @Override
             public void onPositiveActionClicked(DialogFragment fragment) {
-                CharSequence[] selectedZones = getSelectedValues();
-                if (selectedZones != null) {
-                    if (selectedZones.length == 1) {
-                        locationEt2(selectedZones[0].toString());
-                    } else {
-                        String zone = "";
-                        for (int i = 0; i < selectedZones.length; i++) {
-                            zone += selectedZones[i];
-                            if (i + 1 != selectedZones.length) {
-                                zone += ", ";
-                            }
-                        }
-                        location_et.setText(zone);
-                    }
-                }
+                String selectedZone = getSelectedValue().toString();
+                locationEt2(selectedZone);
+                location_et.setText(selectedZone);
                 super.onPositiveActionClicked(fragment);
             }
 
@@ -132,7 +121,7 @@ public class RideSearchFrag extends Fragment {
             }
         };
 
-        builder.multiChoiceItems(Util.getZones(), 0)
+        builder.items(Util.getZones(), 0)
                 .title(getContext().getString(R.string.frag_rideSearch_pickZones))
                 .positiveAction(getContext().getString(R.string.ok))
                 .negativeAction(getContext().getString(R.string.cancel));
@@ -148,6 +137,10 @@ public class RideSearchFrag extends Fragment {
                 if (selectedNeighborhoods != null) {
                     String neighborhoods = "";
                     for (int i = 0; i < selectedNeighborhoods.length; i++) {
+                        if (selectedNeighborhoods[i].equals("Todos")) {
+                            super.onPositiveActionClicked(fragment);
+                            return;
+                        }
                         neighborhoods += selectedNeighborhoods[i];
                         if (i + 1 != selectedNeighborhoods.length) {
                             neighborhoods += ", ";
@@ -166,7 +159,12 @@ public class RideSearchFrag extends Fragment {
             }
         };
 
-        builder.multiChoiceItems(Util.getNeighborhoods(zone), 0)
+        @SuppressWarnings("ConstantConditions")
+        ArrayList<String> neighborhoods = new ArrayList<>(Arrays.asList(Util.getNeighborhoods(zone)));
+        neighborhoods.add(0, "Todos");
+        String[] neighborhoodsArray = new String[neighborhoods.size()];
+        neighborhoods.toArray(neighborhoodsArray);
+        builder.multiChoiceItems(neighborhoodsArray, 0)
                 .title(getContext().getString(R.string.frag_rideSearch_pickNeighborhood))
                 .positiveAction(getContext().getString(R.string.ok))
                 .negativeAction(getContext().getString(R.string.cancel));

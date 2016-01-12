@@ -85,67 +85,54 @@ public class Util {
 
     public static String[] getNeighborhoods(String zone) {
         if (zone.equals("Centro")) {
-            String[] a = new String[]{"São Cristóvão", "Benfica", "Caju", "Catumbi", "Centro",
-                    "Cidade Nova", "Estácio", "Gamboa", "Glória", "Lapa", "Mangueira", "Paquetá",
-                    "Rio Comprido", "Santa Teresa", "Santo Cristo", "Saúde", "Vasco da Gama"};
-            Arrays.sort(a);
-            return a;
+            return new String[]{"Benfica", "Caju", "Catumbi", "Centro", "Cidade Nova",
+                    "Estácio", "Gamboa", "Glória", "Lapa", "Mangueira", "Paquetá", "Rio Comprido",
+                    "Santa Teresa", "Santo Cristo", "São Cristóvão", "Saúde", "Vasco da Gama"};
         }
         if (zone.equals("Zona Sul")) {
-            String[] a = new String[]{"Botafogo", "Catete", "Copacabana", "Cosme Velho",
+            return new String[]{"Botafogo", "Catete", "Copacabana", "Cosme Velho",
                     "Flamengo", "Gávea", "Humaitá", "Ipanema", "Jardim Botânico", "Lagoa",
                     "Laranjeiras", "Leblon", "Leme", "Rocinha", "São Conrado", "Urca", "Vidigal"};
-            Arrays.sort(a);
-            return a;
         }
         if (zone.equals("Zona Oeste")) {
-            String[] a = new String[]{"Anil", "Barra da Tijuca", "Camorim", "Cidade de Deus",
-                    "Curicica", "Freguesia de Jacarepaguá", "Gardênia Azul", "Grumari",
-                    "Itanhangá", "Jacarepaguá", "Joá", "Praça Seca ", "Pechincha",
-                    "Recreio dos Bandeirantes", "Tanque", "Taquara", "Vargem Grande",
-                    "Vargem Pequena", "Vila Valqueire", "Bangu", "Deodoro", "Gericinó",
-                    "Jardim Sulacap", "Magalhães Bastos", "Padre Miguel", "Realengo",
-                    "Santíssimo", "Senador Camará", "Vila Militar", "Barra de Guaratiba",
-                    "Campo Grande", "Cosmos", "Guaratiba", "Inhoaíba", "Paciência",
-                    "Pedra de Guaratiba", "Santa Cruz", "Senador Vasconcelos", "Sepetiba"};
-            Arrays.sort(a);
-            return a;
+            return new String[]{"Anil", "Bangu", "Barra de Guaratiba",
+                    "Barra da Tijuca", "Camorim", "Campo Grande", "Cidade de Deus", "Cosmos",
+                    "Curicica", "Deodoro", "Freguesia de Jacarepaguá", "Gardênia Azul", "Gericinó",
+                    "Grumari", "Guaratiba", "Inhoaíba", "Itanhangá", "Jacarepaguá",
+                    "Jardim Sulacap", "Joá", "Magalhães Bastos", "Paciência", "Padre Miguel",
+                    "Pedra de Guaratiba", "Praça Seca ", "Pechincha", "Realengo",
+                    "Recreio dos Bandeirantes", "Santa Cruz", "Santíssimo", "Senador Camará",
+                    "Senador Vasconcelos", "Sepetiba", "Tanque", "Taquara", "Vargem Grande",
+                    "Vargem Pequena", "Vila Militar", "Vila Valqueire",};
         }
         if (zone.equals("Zona Norte")) {
-            String[] a = new String[]{"Alto da Boa Vista", "Andaraí", "Grajaú", "Maracanã",
-                    "Praça da Bandeira", "Tijuca", "Vila Isabel", "Abolição", "Água Santa",
-                    "Cachambi", "Del Castilho", "Encantado", "Engenho de Dentro", "Engenho Novo",
-                    "Inhaúma", "Jacaré", "Jacarezinho", "Lins de Vasconcelos",
-                    "Maria da Graça", "Méier", "Piedade", "Pilares", "Riachuelo", "Rocha",
-                    "Sampaio", "São Francisco Xavier", "Todos os Santos", "Bancários",
-                    "Cacuia", "Cidade Universitária", "Cocotá",
-                    "Freguesia (Ilha do Governador)", "Galeão", "Jardim Carioca",
-                    "Jardim Guanabara", "Maré", "Monero", "Pitangueiras", "Portuguesa",
-                    "Praia da Bandeira", "Ribeira", "Tauá", "Zumbi", "Acari", "Anchieta",
-                    "Barros Filho", "Bento Ribeiro", "Brás de Pina", "Bonsucesso", "Campinho",
-                    "Cavalcanti", "Cascadura", "Coelho Neto", "Colégio", "Complexo do Alemão",
-                    "Cordovil", "Costa Barros", "Engenheiro Leal", "Engenho da Rainha",
-                    "Guadalupe", "Higienópolis", "Honório Gurgel", "Irajá", "Jardim América",
-                    "Madureira", "Marechal Hermes", "Manguinhos", "Oswaldo Cruz", "Olaria",
-                    "Parada de Lucas", "Parque Colúmbia", "Pavuna", "Penha", "Penha Circular",
-                    "Quintino Bocaiuva", "Ramos", "Ricardo de Albuquerque", "Rocha Miranda",
-                    "Tomás Coelho", "Turiaçu", "Vaz Lobo", "Vicente de Carvalho",
-                    "Vigário Geral", "Vila da Penha", "Vila Kosmos", "Vista Alegre"};
-            Arrays.sort(a);
-            return a;
+            return new String[]{"Abolição", "Acari", "Água Santa", "Alto da Boa Vista",
+                    "Anchieta", "Andaraí", "Bancários", "Barros Filho", "Bento Ribeiro",
+                    "Bonsucesso", "Brás de Pina", "Cachambi", "Cacuia", "Campinho", "Cascadura",
+                    "Cavalcanti", "Cidade Universitária", "Cocotá", "Coelho Neto", "Colégio",
+                    "Complexo do Alemão", "Cordovil", "Costa Barros", "Del Castilho", "Encantado",
+                    "Engenheiro Leal", "Engenho Novo", "Engenho da Rainha", "Engenho de Dentro",
+                    "Freguesia (Ilha do Governador)", "Galeão", "Grajaú", "Guadalupe",
+                    "Higienópolis", "Honório Gurgel", "Inhaúma", "Irajá", "Jacarezinho", "Jacaré",
+                    "Jardim América", "Jardim Carioca", "Jardim Guanabara", "Lins de Vasconcelos",
+                    "Madureira", "Manguinhos", "Maracanã", "Marechal Hermes", "Maria da Graça",
+                    "Maré", "Monero", "Méier", "Olaria", "Oswaldo Cruz", "Parada de Lucas",
+                    "Parque Colúmbia", "Pavuna", "Penha", "Penha Circular", "Piedade", "Pilares",
+                    "Pitangueiras", "Portuguesa", "Praia da Bandeira", "Praça da Bandeira",
+                    "Quintino Bocaiuva", "Ramos", "Riachuelo", "Ribeira", "Ricardo de Albuquerque",
+                    "Rocha", "Rocha Miranda", "Sampaio", "São Francisco Xavier", "Tauá", "Tijuca",
+                    "Todos os Santos", "Tomás Coelho", "Turiaçu", "Vaz Lobo",
+                    "Vicente de Carvalho", "Vigário Geral", "Vila Isabel", "Vila Kosmos",
+                    "Vila da Penha", "Vista Alegre", "Zumbi"};
         }
         if (zone.equals("Baixada")) {
-            String[] a = new String[]{"Belford Roxo", "Duque de Caxias", "Guapimirim", "Itaguai",
+            return new String[]{"Belford Roxo", "Duque de Caxias", "Guapimirim", "Itaguai",
                     "Japeri", "Magé", "Mesquita", "Nilópolis", "Nova Iguaçu", "Paracambi",
                     "Queimados", "São João de Meriti", "Seropédica",};
-            Arrays.sort(a);
-            return a;
         }
         if (zone.equals("Grande Niterói")) {
-            String[] a = new String[]{"Região oceânica", "Centro", "São Gonçalo",
-                    "Maricá", "Itaboraí", "Tanguá", "Rio Bonito"};
-            Arrays.sort(a);
-            return a;
+            return new String[]{"Centro", "Itaboraí", "Maricá", "Região oceânica",
+                    "Rio Bonito", "São Gonçalo", "Tanguá"};
         }
         return null;
     }
