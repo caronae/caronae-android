@@ -79,7 +79,10 @@ public class RidesHistoryAdapter extends RecyclerView.Adapter<RidesHistoryAdapte
             bgRes = R.drawable.bg_bt_raise_zone_niteroi;
         }
 
-        holder.time_tv.setText(activity.getString(R.string.arrivedAt, Util.formatTime(historyRide.getTime()) + " | "));
+        if (historyRide.isGoing())
+            holder.time_tv.setText(activity.getString(R.string.arrivedAt, Util.formatTime(historyRide.getTime()) + " | "));
+        else
+            holder.time_tv.setText(activity.getString(R.string.leavingAt, Util.formatTime(historyRide.getTime()) + " | "));
         holder.time_tv.setTextColor(color);
         holder.date_tv.setText(Util.formatBadDateWithoutYear(historyRide.getDate()));
         holder.date_tv.setTextColor(color);

@@ -133,7 +133,10 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
         holder.place_tv.setText(rideWithUsers.getPlace());
         holder.phoneNumber_tv.setText(driver.getPhoneNumber());
         holder.course_tv.setText(driver.getCourse());
-        holder.time_tv.setText(activity.getString(R.string.arrivingAt, Util.formatTime(rideWithUsers.getTime())));
+        if (rideWithUsers.isGoing())
+            holder.time_tv.setText(activity.getString(R.string.arrivingAt, Util.formatTime(rideWithUsers.getTime())));
+        else
+            holder.time_tv.setText(activity.getString(R.string.leavingAt, Util.formatTime(rideWithUsers.getTime())));
         holder.time_tv.setTextColor(color);
         holder.date_tv.setText(Util.formatBadDateWithoutYear(rideWithUsers.getDate()));
         holder.date_tv.setTextColor(color);

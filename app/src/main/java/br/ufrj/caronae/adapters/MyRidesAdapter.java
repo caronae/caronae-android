@@ -68,7 +68,10 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
         }
         holder.cardView.setCardBackgroundColor(color);
 
-        holder.time_tv.setText(activity.getString(R.string.arrivingAt, ride.getTime()));
+        if (ride.isGoing())
+            holder.time_tv.setText(activity.getString(R.string.arrivingAt, ride.getTime()));
+        else
+            holder.time_tv.setText(activity.getString(R.string.leavingAt, ride.getTime()));
         holder.date_tv.setText(Util.formatGoodDateWithoutYear(ride.getDate()));
         holder.slots_tv.setText(activity.getString(R.string.Xslots, ride.getSlots(), (Integer.parseInt(ride.getSlots()) > 1 ? "s" : "")));
         String location;

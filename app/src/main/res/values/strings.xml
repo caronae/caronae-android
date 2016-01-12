@@ -54,6 +54,7 @@
     <string name="act_main_oknogplay">Ok</string>
     <string name="act_main_setRideOfferFragTitle">Oferecer carona</string>
     <string name="arrivingAt">"Chegando ás %1$s"</string>
+    <string name="leavingAt">"Saindo ás %1$s"</string>
     <string name="rideDeleted">Carona excluída</string>
     <string name="errorRideDeleted">Erro ao desistir de carona</string>
     <string name="Xslots">"%1$s vaga%2$s"</string>
@@ -108,7 +109,7 @@
     <string name="dashSeparator">-</string>
     <string name="chat_sendMsgHint">Digite sua mensagem</string>
     <string name="hello">Olá :)</string>
-    <string name="welcome">Bem vindo ao aplicativo de caronas da UFRJ. O acesso é restrito á usuários vinculados a universidade, para continuar você deve obter sua chave de acesso na Intranet.</string>
+    <string name="welcome">Bem-vindo ao aplicativo de caronas da UFRJ. O acesso é restrito a usuários vinculados à universidade. Para continuar você deve obter sua chave de acesso na Intranet UFRJ.</string>
     <string name="act_profile_mutualFriends">Vocês tem %1$d amigos em comum no Facebook.\n%2$d deles usam o Caronaê.</string>
     <string name="act_profile_errorMutualFriends">Erro ao pegar amigos em comum no Facebook</string>
     <string name="frag_falae_messageHint">Conte pra gente, o que houve?</string>
