@@ -70,6 +70,9 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
         if (rideOffer.getZone().equals("Grande Niterói")) {
             color = ContextCompat.getColor(activity, R.color.zone_niteroi);
         }
+        if (rideOffer.getZone().equals("Outros")) {
+            color = ContextCompat.getColor(activity, R.color.zone_outros);
+        }
         viewHolder.cardView.setCardBackgroundColor(color);
 
         String profilePicUrl = rideOffer.getDriver().getProfilePicUrl();

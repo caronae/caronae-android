@@ -178,5 +178,6 @@
     <string name="myactiveride_carTv">DETALHES DO CARRO</string>
     <string name="myactiveride_descriptionTv">RECADO DO MOTORISTA</string>
     <string name="myactiveride_ridersTv">CARONISTAS</string>
+    <string name="frag_ridesearch_typeNeighborhood">Digite o nome do bairro</string>
 
 </resources>

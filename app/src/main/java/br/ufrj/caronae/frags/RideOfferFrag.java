@@ -171,7 +171,11 @@ public class RideOfferFrag extends Fragment {
             public void onPositiveActionClicked(DialogFragment fragment) {
                 String selectedZone = getSelectedValue().toString();
                 zone = selectedZone;
-                locationEt2(selectedZone);
+                if (selectedZone.equals("Outros")) {
+                    showOtherNeighborhoodDialog();
+                } else {
+                    locationEt2(selectedZone);
+                }
                 super.onPositiveActionClicked(fragment);
             }
 
@@ -187,6 +191,40 @@ public class RideOfferFrag extends Fragment {
                 .negativeAction(getContext().getString(R.string.cancel));
         DialogFragment fragment = DialogFragment.newInstance(builder);
         fragment.show(getFragmentManager(), null);
+    }
+
+    public void showOtherNeighborhoodDialog() {
+        Dialog.Builder builder = new SimpleDialog.Builder(R.style.SimpleDialogLight) {
+
+            @Override
+            protected void onBuildDone(Dialog dialog) {
+                dialog.layoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            }
+
+            @Override
+            public void onPositiveActionClicked(DialogFragment fragment) {
+                EditText neighborhood_et2 = (EditText) fragment.getDialog().findViewById(R.id.neighborhood_et);
+                String neighborhood = neighborhood_et2.getText().toString();
+                if (!neighborhood.isEmpty()) {
+                    neighborhood_et.setText(neighborhood);
+                }
+
+                super.onPositiveActionClicked(fragment);
+            }
+
+            @Override
+            public void onNegativeActionClicked(DialogFragment fragment) {
+                super.onNegativeActionClicked(fragment);
+            }
+        };
+
+        builder.title(getActivity().getString(R.string.frag_ridesearch_typeNeighborhood))
+                .positiveAction(getString(R.string.ok))
+                .negativeAction(getString(R.string.cancel))
+                .contentView(R.layout.other_neighborhood);
+
+        DialogFragment fragment2 = DialogFragment.newInstance(builder);
+        fragment2.show(getActivity().getSupportFragmentManager(), null);
     }
 
     public void locationEt2(String zone) {
@@ -344,7 +382,7 @@ public class RideOfferFrag extends Fragment {
         }
 
         boolean routine = routine_cb.isChecked();
-        String weekDays = "";
+        String weekDays = "", repeatsUntil = "";
         if (routine) {
             weekDays = monday_cb.isChecked() ? "1," : "";
             weekDays += tuesday_cb.isChecked() ? "2," : "";
@@ -359,31 +397,32 @@ public class RideOfferFrag extends Fragment {
                 return;
             }
             weekDays = weekDays.substring(0, weekDays.length() - 1);
+
+            int months = 0;
+            int id2 = radioGroup2.getCheckedRadioButtonId();
+            switch (id2) {
+                case R.id.r2months_rb:
+                    months = 2;
+                    break;
+                case R.id.r3months_rb:
+                    months = 3;
+                    break;
+                case R.id.r4months_rb:
+                    months = 4;
+                    break;
+            }
+
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
+            Calendar c = Calendar.getInstance();
+            try {
+                c.setTime(sdf.parse(date));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            c.add(Calendar.MONTH, months);
+            repeatsUntil = sdf.format(c.getTime());
         }
 
-        int months = 0;
-        int id2 = radioGroup2.getCheckedRadioButtonId();
-        switch (id2) {
-            case R.id.r2months_rb:
-                months = 2;
-                break;
-            case R.id.r3months_rb:
-                months = 3;
-                break;
-            case R.id.r4months_rb:
-                months = 4;
-                break;
-        }
-
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
-        Calendar c = Calendar.getInstance();
-        try {
-            c.setTime(sdf.parse(date));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        c.add(Calendar.MONTH, months);
-        String repeatsUntil = sdf.format(c.getTime());
 
         final Ride ride = new Ride(zone, neighborhood, place, way, date, time, slots, hub, description, go, routine, weekDays, repeatsUntil);
 

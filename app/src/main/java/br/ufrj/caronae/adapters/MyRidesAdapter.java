@@ -66,6 +66,9 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
         if (ride.getZone().equals("Grande Niterói")) {
             color = ContextCompat.getColor(activity, R.color.zone_niteroi);
         }
+        if (ride.getZone().equals("Outros")) {
+            color = ContextCompat.getColor(activity, R.color.zone_outros);
+        }
         holder.cardView.setCardBackgroundColor(color);
 
         if (ride.isGoing())

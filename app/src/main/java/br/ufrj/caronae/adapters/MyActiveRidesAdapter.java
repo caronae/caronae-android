@@ -94,6 +94,11 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
             bgRes = R.drawable.bg_bt_raise_zone_niteroi;
             holder.chat_bt.setBackgroundResource(bgRes);
         }
+        if (rideWithUsers.getZone().equals("Outros")) {
+            color = ContextCompat.getColor(activity, R.color.zone_outros);
+            bgRes = R.drawable.bg_bt_raise_zone_outros;
+            holder.chat_bt.setBackgroundResource(bgRes);
+        }
         holder.lay1.setBackgroundColor(color);
 
         rideWithUsers.setDbId(rideWithUsers.getId().intValue());

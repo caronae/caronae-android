@@ -80,7 +80,7 @@ public class Util {
     }
 
     public static String[] getZones() {
-        return new String[]{"Centro", "Zona Sul", "Zona Oeste", "Zona Norte", "Baixada", "Grande Niterói"};
+        return new String[]{"Centro", "Zona Sul", "Zona Oeste", "Zona Norte", "Baixada", "Grande Niterói", "Outros"};
     }
 
     public static String[] getNeighborhoods(String zone) {

@@ -110,8 +110,12 @@ public class RideSearchFrag extends Fragment {
             @Override
             public void onPositiveActionClicked(DialogFragment fragment) {
                 String selectedZone = getSelectedValue().toString();
-                locationEt2(selectedZone);
                 location_et.setText(selectedZone);
+                if (selectedZone.equals("Outros")) {
+                    showOtherNeighborhoodDialog();
+                } else {
+                    locationEt2(selectedZone);
+                }
                 super.onPositiveActionClicked(fragment);
             }
 
@@ -129,11 +133,50 @@ public class RideSearchFrag extends Fragment {
         fragment.show(getFragmentManager(), null);
     }
 
+    public void showOtherNeighborhoodDialog() {
+        Dialog.Builder builder = new SimpleDialog.Builder(R.style.SimpleDialogLight) {
+
+            @Override
+            protected void onBuildDone(Dialog dialog) {
+                dialog.layoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            }
+
+            @Override
+            public void onPositiveActionClicked(DialogFragment fragment) {
+                EditText neighborhood_et = (EditText) fragment.getDialog().findViewById(R.id.neighborhood_et);
+                String neighborhood = neighborhood_et.getText().toString();
+                if (!neighborhood.isEmpty()) {
+                    location_et.setText(neighborhood);
+                }
+
+                super.onPositiveActionClicked(fragment);
+            }
+
+            @Override
+            public void onNegativeActionClicked(DialogFragment fragment) {
+                super.onNegativeActionClicked(fragment);
+            }
+        };
+
+        builder.title(getActivity().getString(R.string.frag_ridesearch_typeNeighborhood))
+                .positiveAction(getString(R.string.ok))
+                .negativeAction(getString(R.string.cancel))
+                .contentView(R.layout.other_neighborhood);
+
+        DialogFragment fragment2 = DialogFragment.newInstance(builder);
+        fragment2.show(getActivity().getSupportFragmentManager(), null);
+    }
+
     public void locationEt2(final String zone) {
         SimpleDialog.Builder builder = new SimpleDialog.Builder(R.style.SimpleDialogLight) {
             @Override
             public void onPositiveActionClicked(DialogFragment fragment) {
-                CharSequence[] selectedNeighborhoods = getSelectedValues();
+                CharSequence[] selectedNeighborhoods = null;
+                try {
+                    selectedNeighborhoods = getSelectedValues();
+                } catch (Exception e) {
+                    //do nothing
+                }
                 if (selectedNeighborhoods != null) {
                     String neighborhoods = "";
                     for (int i = 0; i < selectedNeighborhoods.length; i++) {
@@ -164,7 +207,7 @@ public class RideSearchFrag extends Fragment {
         neighborhoods.add(0, "Todos");
         String[] neighborhoodsArray = new String[neighborhoods.size()];
         neighborhoods.toArray(neighborhoodsArray);
-        builder.multiChoiceItems(neighborhoodsArray, 0)
+        builder.multiChoiceItems(neighborhoodsArray, -1)
                 .title(getContext().getString(R.string.frag_rideSearch_pickNeighborhood))
                 .positiveAction(getContext().getString(R.string.ok))
                 .negativeAction(getContext().getString(R.string.cancel));
