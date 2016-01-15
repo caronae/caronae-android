@@ -71,6 +71,8 @@ public class RideSearchFrag extends Fragment {
 
     private RideOfferAdapter adapter;
 
+    private String neighborhoods;
+
     public RideSearchFrag() {
         // Required empty public constructor
     }
@@ -97,7 +99,8 @@ public class RideSearchFrag extends Fragment {
     private void loadLastFilters(String lastRideSearchFilters) {
         RideSearchFiltersForJson rideSearchFilters = new Gson().fromJson(lastRideSearchFilters, RideSearchFiltersForJson.class);
 
-        location_et.setText(rideSearchFilters.getLocation());
+        location_et.setText(rideSearchFilters.getLocationResumedField());
+        neighborhoods = rideSearchFilters.getLocation();
         date_et.setText(rideSearchFilters.getDate());
         time_et.setText(rideSearchFilters.getTime());
         center_et.setText(rideSearchFilters.getCenter());
@@ -179,18 +182,28 @@ public class RideSearchFrag extends Fragment {
                     //do nothing
                 }
                 if (selectedNeighborhoods != null) {
-                    String neighborhoods = "";
+                    String resumedField = "";
+                    neighborhoods = "";
                     for (int i = 0; i < selectedNeighborhoods.length; i++) {
                         if (selectedNeighborhoods[i].equals("Todos")) {
                             super.onPositiveActionClicked(fragment);
                             return;
                         }
                         neighborhoods += selectedNeighborhoods[i];
+                        if (i == 2) {
+                            resumedField = neighborhoods + " + " + (selectedNeighborhoods.length - 3);
+                        }
                         if (i + 1 != selectedNeighborhoods.length) {
                             neighborhoods += ", ";
                         }
                     }
-                    location_et.setText(neighborhoods);
+
+                    if (selectedNeighborhoods.length > 3) {
+                        location_et.setText(resumedField);
+                    } else {
+                        location_et.setText(neighborhoods);
+                    }
+
                 } else {
                     location_et.setText(zone);
                 }
@@ -305,6 +318,10 @@ public class RideSearchFrag extends Fragment {
             //noinspection ConstantConditions
             location_et.setText(Util.getNeighborhoods(Util.getZones()[0])[0]);
             location = location_et.getText().toString();
+        } else {
+            if (location.contains("+")) {
+                location = neighborhoods;
+            }
         }
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
@@ -340,7 +357,7 @@ public class RideSearchFrag extends Fragment {
         }
         String center = center_et.getText().toString();
         boolean go = radioGroup.getCheckedRadioButtonId() == R.id.go_rb;
-        RideSearchFiltersForJson rideSearchFilters = new RideSearchFiltersForJson(location, etDateString, time, center, go);
+        RideSearchFiltersForJson rideSearchFilters = new RideSearchFiltersForJson(location, etDateString, time, center, go, location_et.getText().toString());
 
         String lastRideSearchFilters = new Gson().toJson(rideSearchFilters);
         SharedPref.saveLastRideSearchFiltersPref(lastRideSearchFilters);

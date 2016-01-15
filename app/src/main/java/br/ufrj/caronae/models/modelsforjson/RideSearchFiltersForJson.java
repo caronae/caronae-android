@@ -6,13 +6,15 @@ public class RideSearchFiltersForJson {
     private String time;
     private String center;
     private boolean go;
+    private String locationResumedField;
 
-    public RideSearchFiltersForJson(String location, String date, String time, String center, boolean go) {
+    public RideSearchFiltersForJson(String location, String date, String time, String center, boolean go, String locationResumedField) {
         this.location = location;
         this.date = date;
         this.time = time;
         this.center = center;
         this.go = go;
+        this.locationResumedField = locationResumedField;
     }
 
     public String getLocation() {
@@ -53,5 +55,13 @@ public class RideSearchFiltersForJson {
 
     public void setGo(boolean go) {
         this.go = go;
+    }
+
+    public String getLocationResumedField() {
+        return locationResumedField;
+    }
+
+    public void setLocationResumedField(String locationResumedField) {
+        this.locationResumedField = locationResumedField;
     }
 }
