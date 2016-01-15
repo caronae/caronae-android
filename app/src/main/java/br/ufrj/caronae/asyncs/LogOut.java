@@ -14,6 +14,7 @@ import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.models.ActiveRideId;
 import br.ufrj.caronae.models.ChatMessageReceived;
 import br.ufrj.caronae.models.Ride;
+import br.ufrj.caronae.models.RideRequest;
 import br.ufrj.caronae.models.modelsforjson.TokenForJson;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -57,6 +58,7 @@ public class LogOut extends AsyncTask<Void, Void, Void> {
         }
 
         Ride.deleteAll(Ride.class);
+        RideRequest.deleteAll(Ride.class);
         ActiveRideId.deleteAll(ActiveRideId.class);
         ChatMessageReceived.deleteAll(ChatMessageReceived.class);
 

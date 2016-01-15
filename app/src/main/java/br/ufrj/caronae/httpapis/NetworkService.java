@@ -87,6 +87,9 @@ public interface NetworkService {
     @POST("/ride/saveFeedback")
     void saveFeedback(@Body RideFeedbackForJson rideFeedbackForJson, Callback<Response> cb);
 
+    @DELETE("/ride/joinRequests")
+    void deleteJoinRequests(@Body List<RideIdForJson> rideIdsList, Callback<Response> cb);
+
     //falae route
     @POST("/falae/sendMessage")
     void falaeSendMessage(@Body FalaeMsgForJson msg, Callback<Response> cb);
