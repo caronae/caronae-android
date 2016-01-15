@@ -8,10 +8,10 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
@@ -25,6 +25,7 @@ import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.rey.material.app.DialogFragment;
 import com.rey.material.app.SimpleDialog;
+import com.rey.material.widget.EditText;
 import com.squareup.picasso.Picasso;
 
 import br.ufrj.caronae.App;
@@ -137,6 +138,84 @@ public class MyProfileFrag extends Fragment {
             }
         });
 
+        phoneNumber_et.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP) {
+                    String phone = phoneNumber_et.getText().toString();
+                    if (!validatePhone(phone))
+                        phoneNumber_et.setError(getActivity().getString(R.string.frag_myprofile_invalidPhone));
+                }
+
+                return false;
+            }
+
+        });
+        phoneNumber_et.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    phoneNumber_et.setError(null);
+                } else {
+                    String phone = phoneNumber_et.getText().toString();
+                    if (!validatePhone(phone))
+                        phoneNumber_et.setError(getActivity().getString(R.string.frag_myprofile_invalidPhone));
+                }
+            }
+        });
+
+        email_et.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP) {
+                    String phone = email_et.getText().toString();
+                    if (!validateMail(phone))
+                        email_et.setError(getActivity().getString(R.string.frag_myprofile_invalidMail));
+                }
+
+                return false;
+            }
+
+        });
+        email_et.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    email_et.setError(null);
+                } else {
+                    String phone = email_et.getText().toString();
+                    if (!validateMail(phone))
+                        email_et.setError(getActivity().getString(R.string.frag_myprofile_invalidMail));
+                }
+            }
+        });
+
+        carPlate_et.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP) {
+                    String plate = carPlate_et.getText().toString();
+                    if (!validatePlate(plate))
+                        carPlate_et.setError(getActivity().getString(R.string.frag_myprofile_invalidPlate));
+                }
+
+                return false;
+            }
+
+        });
+        carPlate_et.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    carPlate_et.setError(null);
+                } else {
+                    String plate = carPlate_et.getText().toString();
+                    if (!validatePlate(plate))
+                        carPlate_et.setError(getActivity().getString(R.string.frag_myprofile_invalidPlate));
+                }
+            }
+        });
+
         User user = App.getUser();
         if (user != null) {
             fillUserFields(user);
@@ -156,6 +235,28 @@ public class MyProfileFrag extends Fragment {
         }
 
         return view;
+    }
+
+    private boolean validatePlate(String plate) {
+        return plate.length() == 7 &&
+                Character.isLetter(plate.charAt(0)) &&
+                Character.isLetter(plate.charAt(1)) &&
+                Character.isLetter(plate.charAt(2)) &&
+                Character.isDigit(plate.charAt(3)) &&
+                Character.isDigit(plate.charAt(4)) &&
+                Character.isDigit(plate.charAt(5)) &&
+                Character.isDigit(plate.charAt(6));
+    }
+
+    private boolean validateMail(String mail) {
+        String ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
+        java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);
+        java.util.regex.Matcher m = p.matcher(mail);
+        return m.matches();
+    }
+
+    private boolean validatePhone(String phone) {
+        return phone.length() == 11;
     }
 
     private void fillUserFields(User user) {
@@ -363,7 +464,7 @@ public class MyProfileFrag extends Fragment {
         final User editedUser = new User();
         prepEditedUser(editedUser);
 
-        if (!App.getUser().sameFieldsState(editedUser)) {
+        if (!App.getUser().sameFieldsState(editedUser) && fieldsValidated()) {
             App.getNetworkService().updateUser(editedUser, new Callback<Response>() {
                 @Override
                 public void success(Response response, Response response2) {
@@ -382,6 +483,21 @@ public class MyProfileFrag extends Fragment {
                 }
             });
         }
+    }
+
+    private boolean fieldsValidated() {
+        String phone = phoneNumber_et.getText().toString();
+        String mail = email_et.getText().toString();
+        boolean result = validatePhone(phone) && validateMail(mail);
+        if (!result) {
+            return false;
+        }
+        if (carOwner_sw.isChecked()) {
+            String plate = carPlate_et.getText().toString();
+            return validatePlate(plate);
+        }
+
+        return true;
     }
 
     private void prepEditedUser(User editedUser) {

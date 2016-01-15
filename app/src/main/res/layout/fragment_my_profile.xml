@@ -173,7 +173,7 @@
             android:text="@string/frag_myprofile_contactsText"
             android:textSize="12sp" />
 
-        <EditText
+        <com.rey.material.widget.EditText
             android:id="@+id/email_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -185,9 +185,16 @@
             android:drawablePadding="5dp"
             android:drawableStart="@drawable/ic_email_black_24dp"
             android:hint="@string/frag_myprofile_emailHint"
-            android:inputType="textEmailAddress" />
+            android:inputType="textEmailAddress"
+            app:et_dividerErrorColor="@color/red"
+            app:et_dividerHeight="1dp"
+            app:et_helper="@string/frag_myprofile_emailHelper"
+            app:et_labelEnable="true"
+            app:et_supportMode="helper"
+            app:et_supportTextColor="@color/blue"
+            app:et_supportTextErrorColor="@color/red" />
 
-        <EditText
+        <com.rey.material.widget.EditText
             android:id="@+id/phoneNumber_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -199,7 +206,14 @@
             android:drawablePadding="5dp"
             android:drawableStart="@drawable/ic_phone_black_24dp"
             android:hint="@string/frag_myprofile_phoneHint"
-            android:inputType="phone" />
+            android:inputType="phone"
+            app:et_dividerErrorColor="@color/red"
+            app:et_dividerHeight="1dp"
+            app:et_helper="@string/frag_myprofile_phoneHelper"
+            app:et_labelEnable="true"
+            app:et_supportMode="helper"
+            app:et_supportTextColor="@color/blue"
+            app:et_supportTextErrorColor="@color/red" />
 
         <TextView
             android:id="@+id/location_tv"
@@ -218,7 +232,7 @@
             android:text="@string/frag_myprofile_locationText"
             android:textSize="12sp" />
 
-        <EditText
+        <com.rey.material.widget.EditText
             android:id="@+id/location_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -230,7 +244,8 @@
             android:drawablePadding="5dp"
             android:drawableStart="@drawable/ic_location_on_black_24dp"
             android:focusable="false"
-            android:hint="@string/frag_myprofile_locationHint" />
+            android:hint="@string/frag_myprofile_locationHint"
+            app:et_dividerHeight="1dp" />
 
         <TextView
             android:id="@+id/carOwner_tv"
@@ -271,7 +286,7 @@
                 android:text="@string/frag_myprofile_carText"
                 android:textSize="12sp" />
 
-            <EditText
+            <com.rey.material.widget.EditText
                 android:id="@+id/carPlate_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -280,9 +295,16 @@
                 android:drawablePadding="5dp"
                 android:drawableStart="@drawable/ic_directions_car_black_24dp"
                 android:hint="@string/frag_myprofile_carPlateHint"
-                android:singleLine="true" />
+                android:singleLine="true"
+                app:et_dividerErrorColor="@color/red"
+                app:et_dividerHeight="1dp"
+                app:et_helper="@string/frag_myprofile_plateHelper"
+                app:et_labelEnable="true"
+                app:et_supportMode="helper"
+                app:et_supportTextColor="@color/blue"
+                app:et_supportTextErrorColor="@color/red" />
 
-            <EditText
+            <com.rey.material.widget.EditText
                 android:id="@+id/carModel_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -291,9 +313,14 @@
                 android:drawablePadding="5dp"
                 android:drawableStart="@drawable/ic_directions_car_black_24dp"
                 android:hint="@string/frag_myprofile_carModelHint"
-                android:singleLine="true" />
+                android:singleLine="true"
+                app:et_dividerHeight="1dp"
+                app:et_helper="@string/fragmyprofile_carmodelHelper"
+                app:et_labelEnable="true"
+                app:et_supportMode="helper"
+                app:et_supportTextColor="@color/blue" />
 
-            <EditText
+            <com.rey.material.widget.EditText
                 android:id="@+id/carColor_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -302,7 +329,12 @@
                 android:drawablePadding="5dp"
                 android:drawableStart="@drawable/ic_directions_car_black_24dp"
                 android:hint="@string/frag_myprofile_carColorHint"
-                android:singleLine="true" />
+                android:singleLine="true"
+                app:et_dividerHeight="1dp"
+                app:et_helper="@string/frag_myprofile_carcolorHelper"
+                app:et_labelEnable="true"
+                app:et_supportMode="helper"
+                app:et_supportTextColor="@color/blue" />
         </RelativeLayout>
     </RelativeLayout>
 </ScrollView>
