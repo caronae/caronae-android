@@ -232,7 +232,7 @@
             android:text="@string/frag_myprofile_locationText"
             android:textSize="12sp" />
 
-        <com.rey.material.widget.EditText
+        <EditText
             android:id="@+id/location_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -244,8 +244,7 @@
             android:drawablePadding="5dp"
             android:drawableStart="@drawable/ic_location_on_black_24dp"
             android:focusable="false"
-            android:hint="@string/frag_myprofile_locationHint"
-            app:et_dividerHeight="1dp" />
+            android:hint="@string/frag_myprofile_locationHint"  />
 
         <TextView
             android:id="@+id/carOwner_tv"

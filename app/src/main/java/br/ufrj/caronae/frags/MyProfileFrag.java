@@ -62,7 +62,7 @@ public class MyProfileFrag extends Fragment {
     @Bind(R.id.phoneNumber_et)
     EditText phoneNumber_et;
     @Bind(R.id.location_et)
-    EditText location_et;
+    android.widget.EditText location_et;
     @Bind(R.id.carOwner_sw)
     SwitchCompat carOwner_sw;
     @Bind(R.id.notif_sw)
