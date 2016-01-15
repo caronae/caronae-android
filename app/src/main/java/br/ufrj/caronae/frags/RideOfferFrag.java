@@ -360,15 +360,36 @@ public class RideOfferFrag extends Fragment {
         }
         String place = place_et.getText().toString();
         String way = way_et.getText().toString();
-        String date = date_et.getText().toString();
-        if (date.isEmpty()) {
-            date_et.setText(new SimpleDateFormat("dd/MM/yyyy", Locale.US).format(new Date()));
-            date = new SimpleDateFormat("dd/MM/yyyy", Locale.US).format(new Date());
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
+        String etDateString = date_et.getText().toString();
+        Date todayDate = new Date();
+        String todayString = simpleDateFormat.format(todayDate);
+        try {
+            todayDate = simpleDateFormat.parse(todayString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        if (etDateString.isEmpty()) {
+            date_et.setText(todayString);
+            etDateString = todayString;
+        } else {
+            try {
+                Date etDate = simpleDateFormat.parse(etDateString);
+                if (etDate.before(todayDate)) {
+                    Util.toast(getActivity().getString(R.string.frag_rideoffersearch_pastdate));
+                    return;
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
         }
         String time = time_et.getText().toString();
         if (time.isEmpty()) {
-            time_et.setText(new SimpleDateFormat("HH:mm", Locale.US).format(new Date()));
-            time = new SimpleDateFormat("HH:mm", Locale.US).format(new Date());
+            SimpleDateFormat simpleDateFormat1 = new SimpleDateFormat("HH:mm", Locale.US);
+            time_et.setText(simpleDateFormat1.format(todayDate));
+            time = simpleDateFormat1.format(todayDate);
         }
         String slots = slots_et.getSelectedItemPosition() + 1 + "";
         String description = description_et.getText().toString();
@@ -417,19 +438,18 @@ public class RideOfferFrag extends Fragment {
                     break;
             }
 
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
             Calendar c = Calendar.getInstance();
             try {
-                c.setTime(sdf.parse(date));
+                c.setTime(simpleDateFormat.parse(etDateString));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
             c.add(Calendar.MONTH, months);
-            repeatsUntil = sdf.format(c.getTime());
+            repeatsUntil = simpleDateFormat.format(c.getTime());
         }
 
 
-        final Ride ride = new Ride(zone, neighborhood, place, way, date, time, slots, hub, description, go, routine, weekDays, repeatsUntil);
+        final Ride ride = new Ride(zone, neighborhood, place, way, etDateString, time, slots, hub, description, go, routine, weekDays, repeatsUntil);
 
         String lastRideOffer = new Gson().toJson(ride);
         SharedPref.saveLastRidePref(lastRideOffer);

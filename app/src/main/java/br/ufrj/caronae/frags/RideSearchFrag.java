@@ -23,6 +23,7 @@ import com.rey.material.app.DialogFragment;
 import com.rey.material.app.SimpleDialog;
 import com.rey.material.app.TimePickerDialog;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -305,19 +306,41 @@ public class RideSearchFrag extends Fragment {
             location_et.setText(Util.getNeighborhoods(Util.getZones()[0])[0]);
             location = location_et.getText().toString();
         }
-        String date = date_et.getText().toString();
-        if (date.isEmpty()) {
-            date_et.setText(new SimpleDateFormat("dd/MM/yyyy", Locale.US).format(new Date()));
-            date = new SimpleDateFormat("dd/MM/yyyy", Locale.US).format(new Date());
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
+        String etDateString = date_et.getText().toString();
+        Date todayDate = new Date();
+        String todayString = simpleDateFormat.format(todayDate);
+        try {
+            todayDate = simpleDateFormat.parse(todayString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        if (etDateString.isEmpty()) {
+            date_et.setText(todayString);
+            etDateString = todayString;
+        } else {
+            try {
+                Date etDate = simpleDateFormat.parse(etDateString);
+                if (etDate.before(todayDate)) {
+                    Util.toast(getActivity().getString(R.string.frag_rideoffersearch_pastdate));
+                    pd.dismiss();
+                    return;
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
         }
         String time = time_et.getText().toString();
         if (time.isEmpty()) {
-            time_et.setText(new SimpleDateFormat("HH:mm", Locale.US).format(new Date()));
-            time = new SimpleDateFormat("HH:mm", Locale.US).format(new Date());
+            SimpleDateFormat simpleDateFormat1 = new SimpleDateFormat("HH:mm", Locale.US);
+            time_et.setText(simpleDateFormat1.format(todayDate));
+            time = simpleDateFormat1.format(todayDate);
         }
         String center = center_et.getText().toString();
         boolean go = radioGroup.getCheckedRadioButtonId() == R.id.go_rb;
-        RideSearchFiltersForJson rideSearchFilters = new RideSearchFiltersForJson(location, date, time, center, go);
+        RideSearchFiltersForJson rideSearchFilters = new RideSearchFiltersForJson(location, etDateString, time, center, go);
 
         String lastRideSearchFilters = new Gson().toJson(rideSearchFilters);
         SharedPref.saveLastRideSearchFiltersPref(lastRideSearchFilters);
