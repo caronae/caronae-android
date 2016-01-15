@@ -111,17 +111,15 @@
             android:text="@string/frag_rideoffer_slots"
             android:textStyle="bold" />
 
-        <EditText
+        <com.rey.material.widget.Spinner
             android:id="@+id/slots_et"
+            style="@style/Material.Widget.Spinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/slots_tv"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:ems="2"
-            android:gravity="center"
-            android:hint="1"
-            android:inputType="number" />
+            app:rd_style="@style/Material.Drawable.Ripple.Wave" />
 
         <EditText
             android:id="@+id/description_et"

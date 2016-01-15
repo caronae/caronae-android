@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioGroup;
@@ -21,6 +22,7 @@ import com.rey.material.app.Dialog;
 import com.rey.material.app.DialogFragment;
 import com.rey.material.app.SimpleDialog;
 import com.rey.material.app.TimePickerDialog;
+import com.rey.material.widget.Spinner;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -60,7 +62,7 @@ public class RideOfferFrag extends Fragment {
     @Bind(R.id.time_et)
     TextView time_et;
     @Bind(R.id.slots_et)
-    EditText slots_et;
+    Spinner slots_et;
     @Bind(R.id.center_et)
     EditText center_et;
     @Bind(R.id.description_et)
@@ -116,6 +118,13 @@ public class RideOfferFrag extends Fragment {
             }
         });
 
+        String[] items = new String[6];
+        for(int i = 0; i < items.length; i++)
+            items[i] = String.valueOf(i + 1);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), R.layout.row_spn, items);
+        adapter.setDropDownViewResource(R.layout.row_spn_dropdown);
+        slots_et.setAdapter(adapter);
+
         String lastRideOffer = SharedPref.getLastRidePref();
         if (!lastRideOffer.equals(SharedPref.MISSING_PREF)) {
             loadLastRide(lastRideOffer);
@@ -146,7 +155,7 @@ public class RideOfferFrag extends Fragment {
         way_et.setText(ride.getRoute());
         date_et.setText(ride.getDate());
         time_et.setText(ride.getTime());
-        slots_et.setText(ride.getSlots());
+        slots_et.setSelection(Integer.parseInt(ride.getSlots()) - 1);
         center_et.setText(ride.getHub());
         description_et.setText(ride.getDescription());
         radioGroup.check(ride.isGoing() ? R.id.go_rb : R.id.back_rb);
@@ -361,11 +370,7 @@ public class RideOfferFrag extends Fragment {
             time_et.setText(new SimpleDateFormat("HH:mm", Locale.US).format(new Date()));
             time = new SimpleDateFormat("HH:mm", Locale.US).format(new Date());
         }
-        String slots = slots_et.getText().toString();
-        if (slots.isEmpty()) {
-            slots_et.setText("1");
-            slots = "1";
-        }
+        String slots = slots_et.getSelectedItemPosition() + 1 + "";
         String description = description_et.getText().toString();
         int id = radioGroup.getCheckedRadioButtonId();
         boolean go = id == R.id.go_rb;
