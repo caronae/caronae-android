@@ -1,6 +1,7 @@
 package br.ufrj.caronae.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
@@ -13,6 +14,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -21,6 +23,7 @@ import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.RoundedTransformation;
 import br.ufrj.caronae.Util;
+import br.ufrj.caronae.acts.ProfileAct;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
 import br.ufrj.caronae.models.modelsforjson.RideIdForJson;
 import retrofit.Callback;
@@ -83,6 +86,17 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
                     .transform(new RoundedTransformation(0))
                     .into(viewHolder.photo_iv);
         }
+
+
+        viewHolder.photo_iv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(activity, ProfileAct.class);
+                intent.putExtra("user", new Gson().toJson(rideOffer.getDriver()));
+                intent.putExtra("from", "rideOffer");
+                activity.startActivity(intent);
+            }
+        });
 
         viewHolder.time_tv.setText(Util.formatTime(rideOffer.getTime()));
         viewHolder.date_tv.setText(Util.formatBadDateWithoutYear(rideOffer.getDate()));
