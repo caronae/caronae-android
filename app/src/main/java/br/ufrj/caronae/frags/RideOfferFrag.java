@@ -388,8 +388,9 @@ public class RideOfferFrag extends Fragment {
         String time = time_et.getText().toString();
         if (time.isEmpty()) {
             SimpleDateFormat simpleDateFormat1 = new SimpleDateFormat("HH:mm", Locale.US);
-            time_et.setText(simpleDateFormat1.format(todayDate));
-            time = simpleDateFormat1.format(todayDate);
+            String format = simpleDateFormat1.format(todayDate);
+            time_et.setText(format);
+            time = format;
         }
         String slots = slots_et.getSelectedItemPosition() + 1 + "";
         String description = description_et.getText().toString();
