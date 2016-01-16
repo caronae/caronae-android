@@ -352,7 +352,7 @@ public class RideSearchFrag extends Fragment {
         String time = time_et.getText().toString();
         if (time.isEmpty()) {
             SimpleDateFormat simpleDateFormat1 = new SimpleDateFormat("HH:mm", Locale.US);
-            String format = simpleDateFormat1.format(todayDate);
+            String format = simpleDateFormat1.format(new Date());
             time_et.setText(format);
             time = format;
         }
