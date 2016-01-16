@@ -429,7 +429,7 @@ public class MyProfileFrag extends Fragment {
 
     @OnClick(R.id.profile_tv)
     public void profileTv() {
-        final EditText input = new EditText(getActivity());
+        final android.widget.EditText input = new android.widget.EditText(getActivity());
         new AlertDialog.Builder(getActivity())
                 .setView(input)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -443,7 +443,7 @@ public class MyProfileFrag extends Fragment {
 
     @OnClick(R.id.course_tv)
     public void courseTv() {
-        final EditText input = new EditText(getActivity());
+        final android.widget.EditText input = new android.widget.EditText(getActivity());
         new AlertDialog.Builder(getActivity())
                 .setView(input)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
