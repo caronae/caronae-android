@@ -78,11 +78,15 @@ public class RidesHistoryAdapter extends RecyclerView.Adapter<RidesHistoryAdapte
             color = ContextCompat.getColor(activity, R.color.zone_niteroi);
             bgRes = R.drawable.bg_bt_raise_zone_niteroi;
         }
+        if (historyRide.getZone().equals("Outros")) {
+            color = ContextCompat.getColor(activity, R.color.zone_outros);
+            bgRes = R.drawable.bg_bt_raise_zone_outros;
+        }
 
         if (historyRide.isGoing())
             holder.time_tv.setText(activity.getString(R.string.arrivedAt, Util.formatTime(historyRide.getTime()) + " | "));
         else
-            holder.time_tv.setText(activity.getString(R.string.leavingAt, Util.formatTime(historyRide.getTime()) + " | "));
+            holder.time_tv.setText(activity.getString(R.string.leftAt, Util.formatTime(historyRide.getTime()) + " | "));
         holder.time_tv.setTextColor(color);
         holder.date_tv.setText(Util.formatBadDateWithoutYear(historyRide.getDate()));
         holder.date_tv.setTextColor(color);
@@ -105,8 +109,9 @@ public class RidesHistoryAdapter extends RecyclerView.Adapter<RidesHistoryAdapte
                     .into(holder.photo_iv);
 
         if (historyRide.getFeedback() != null) {
-            holder.feedback_bt.setVisibility(View.GONE);
+            holder.feedback_bt.setVisibility(View.INVISIBLE);
         } else {
+            holder.feedback_bt.setVisibility(View.VISIBLE);
             holder.feedback_bt.setBackgroundResource(bgRes);
             holder.feedback_bt.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -135,7 +140,7 @@ public class RidesHistoryAdapter extends RecyclerView.Adapter<RidesHistoryAdapte
                             });
 
                             super.onPositiveActionClicked(fragment);
-                            holder.feedback_bt.setVisibility(View.GONE);
+                            holder.feedback_bt.setVisibility(View.INVISIBLE);
                         }
 
                         @Override
@@ -155,7 +160,7 @@ public class RidesHistoryAdapter extends RecyclerView.Adapter<RidesHistoryAdapte
                             });
 
                             super.onNegativeActionClicked(fragment);
-                            holder.feedback_bt.setVisibility(View.GONE);
+                            holder.feedback_bt.setVisibility(View.INVISIBLE);
                         }
                     };
 

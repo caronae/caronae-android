@@ -55,6 +55,7 @@
     <string name="act_main_setRideOfferFragTitle">Oferecer carona</string>
     <string name="arrivingAt">"Chegando ás %1$s"</string>
     <string name="leavingAt">"Saindo ás %1$s"</string>
+    <string name="leftAt">"Saiu ás %1$s"</string>
     <string name="rideDeleted">Carona excluída</string>
     <string name="errorRideDeleted">Erro ao desistir de carona</string>
     <string name="Xslots">"%1$s vaga%2$s"</string>
