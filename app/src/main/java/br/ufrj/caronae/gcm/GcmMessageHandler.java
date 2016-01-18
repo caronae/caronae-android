@@ -53,6 +53,7 @@ public class GcmMessageHandler extends GcmListenerService {
         if (msgType != null && msgType.equals("accepted")) {
             String rideId = data.getString("rideId");
             new CheckSubGcmTopic().execute(rideId);
+            //new DeleteConflictingRequests().execute(rideId);
         }
 
         if (notify && SharedPref.getNotifPref().equals("true"))

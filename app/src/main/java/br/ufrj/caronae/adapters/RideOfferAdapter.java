@@ -24,6 +24,7 @@ import br.ufrj.caronae.R;
 import br.ufrj.caronae.RoundedTransformation;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.ProfileAct;
+import br.ufrj.caronae.models.RideRequest;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
 import br.ufrj.caronae.models.modelsforjson.RideIdForJson;
 import retrofit.Callback;
@@ -34,6 +35,7 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
 
     private final FragmentActivity activity;
     private List<RideForJson> rideOffers;
+    private List<RideRequest> rideRequests;
 
     public RideOfferAdapter(List<RideForJson> rideOffers, FragmentActivity activity) {
         this.rideOffers = rideOffers;
@@ -111,7 +113,21 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
             location = rideOffer.getHub() + " ➜ " + rideOffer.getNeighborhood();
         viewHolder.location_tv.setText(location);
 
-        viewHolder.join_bt.setVisibility(rideOffer.getDriver().getDbId() == App.getUser().getDbId() ? View.GONE : View.VISIBLE);
+        int visibility = View.VISIBLE;
+        if (rideOffer.getDriver().getDbId() == App.getUser().getDbId()) {
+            visibility = View.INVISIBLE;
+        } else {
+            if (rideRequests != null && !rideRequests.isEmpty()) {
+                for (RideRequest rideRequest : rideRequests) {
+                    if (rideRequest.getDbId() == rideOffer.getDbId() && rideRequest.isGoing() == rideOffer.isGoing()) {
+                        visibility = View.INVISIBLE;
+                        break;
+                    }
+                }
+            }
+        }
+        viewHolder.join_bt.setVisibility(visibility);
+
         viewHolder.join_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -119,6 +135,8 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
                     @Override
                     public void success(Response response, Response response2) {
                         Util.toast(R.string.requestSent);
+
+                        new RideRequest(rideOffer.getDbId(), rideOffer.isGoing(), rideOffer.getDate()).save();
 
                         rideOffers.remove(rideOffer);
                         notifyItemRemoved(viewHolder.getAdapterPosition());
@@ -137,6 +155,8 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
 
     public void makeList(List<RideForJson> rideOffers) {
         this.rideOffers = rideOffers;
+        if (rideOffers != null && !rideOffers.isEmpty())
+            rideRequests = RideRequest.find(RideRequest.class, "date = ?", rideOffers.get(0).getDate());
         notifyDataSetChanged();
     }
 
