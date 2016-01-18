@@ -89,7 +89,6 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
                     .into(viewHolder.photo_iv);
         }
 
-
         viewHolder.photo_iv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -100,7 +99,12 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
             }
         });
 
-        viewHolder.time_tv.setText(Util.formatTime(rideOffer.getTime()));
+        String timeText;
+        if (rideOffer.isGoing())
+            timeText = activity.getResources().getString(R.string.arrivingAt, Util.formatTime(rideOffer.getTime()));
+        else
+            timeText = activity.getResources().getString(R.string.leavingAt, Util.formatTime(rideOffer.getTime()));
+        viewHolder.time_tv.setText(timeText);
         viewHolder.date_tv.setText(Util.formatBadDateWithoutYear(rideOffer.getDate()));
         viewHolder.course_tv.setText(rideOffer.getDriver().getCourse());
         viewHolder.name_tv.setText(rideOffer.getDriver().getName());
