@@ -189,6 +189,7 @@
             app:et_dividerErrorColor="@color/red"
             app:et_dividerHeight="1dp"
             app:et_helper="@string/frag_myprofile_emailHelper"
+            app:et_inputId="@+id/email_et2"
             app:et_labelEnable="true"
             app:et_supportMode="helper"
             app:et_supportTextColor="@color/blue"
@@ -210,6 +211,7 @@
             app:et_dividerErrorColor="@color/red"
             app:et_dividerHeight="1dp"
             app:et_helper="@string/frag_myprofile_phoneHelper"
+            app:et_inputId="@+id/phoneNumber_et2"
             app:et_labelEnable="true"
             app:et_supportMode="helper"
             app:et_supportTextColor="@color/blue"
@@ -244,7 +246,7 @@
             android:drawablePadding="5dp"
             android:drawableStart="@drawable/ic_location_on_black_24dp"
             android:focusable="false"
-            android:hint="@string/frag_myprofile_locationHint"  />
+            android:hint="@string/frag_myprofile_locationHint" />
 
         <TextView
             android:id="@+id/carOwner_tv"
@@ -298,6 +300,7 @@
                 app:et_dividerErrorColor="@color/red"
                 app:et_dividerHeight="1dp"
                 app:et_helper="@string/frag_myprofile_plateHelper"
+                app:et_inputId="@+id/carPlate_et2"
                 app:et_labelEnable="true"
                 app:et_supportMode="helper"
                 app:et_supportTextColor="@color/blue"
@@ -315,6 +318,7 @@
                 android:singleLine="true"
                 app:et_dividerHeight="1dp"
                 app:et_helper="@string/fragmyprofile_carmodelHelper"
+                app:et_inputId="@+id/carModel_et2"
                 app:et_labelEnable="true"
                 app:et_supportMode="helper"
                 app:et_supportTextColor="@color/blue" />
@@ -331,6 +335,7 @@
                 android:singleLine="true"
                 app:et_dividerHeight="1dp"
                 app:et_helper="@string/frag_myprofile_carcolorHelper"
+                app:et_inputId="@+id/carColor_et2"
                 app:et_labelEnable="true"
                 app:et_supportMode="helper"
                 app:et_supportTextColor="@color/blue" />
