@@ -99,16 +99,20 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
             location = rideOffer.getHub() + " ➜ " + rideOffer.getNeighborhood();
         viewHolder.location_tv.setText(location);
 
-        if (rideRequests != null && !rideRequests.isEmpty()) {
-            for (RideRequest rideRequest : rideRequests) {
-                if (rideRequest.getDbId() == rideOffer.getDbId()) {
-                    //viewHolder.join_bt.setVisibility(View.GONE);
-                    break;
+        int visibility = View.VISIBLE;
+        if (rideOffer.getDriver().getDbId() == App.getUser().getDbId()) {
+            visibility = View.INVISIBLE;
+        } else {
+            if (rideRequests != null && !rideRequests.isEmpty()) {
+                for (RideRequest rideRequest : rideRequests) {
+                    if (rideRequest.getDbId() == rideOffer.getDbId() && rideRequest.isGoing() == rideOffer.isGoing()) {
+                        visibility = View.INVISIBLE;
+                        break;
+                    }
                 }
             }
-        } else {
-            viewHolder.join_bt.setVisibility(rideOffer.getDriver().getDbId() == App.getUser().getDbId() ? View.GONE : View.VISIBLE);
         }
+        viewHolder.join_bt.setVisibility(visibility);
 
         viewHolder.join_bt.setOnClickListener(new View.OnClickListener() {
             @Override
