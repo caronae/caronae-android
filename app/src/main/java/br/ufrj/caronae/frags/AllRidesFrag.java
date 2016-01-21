@@ -21,7 +21,7 @@ import br.ufrj.caronae.R;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.adapters.RideOfferAdapter;
-import br.ufrj.caronae.comparators.RideOfferComparatorByTime;
+import br.ufrj.caronae.comparators.RideOfferComparatorByDateAndTime;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -54,7 +54,7 @@ public class AllRidesFrag extends Fragment {
                 progressBar.setVisibility(View.GONE);
 
                 if (rideOffers != null && !rideOffers.isEmpty()) {
-                    Collections.sort(rideOffers, new RideOfferComparatorByTime());
+                    Collections.sort(rideOffers, new RideOfferComparatorByDateAndTime());
                     for (RideForJson rideOffer : rideOffers) {
                         rideOffer.setDbId(rideOffer.getId().intValue());
                     }
@@ -72,7 +72,6 @@ public class AllRidesFrag extends Fragment {
             @Override
             public void failure(RetrofitError error) {
                 progressBar.setVisibility(View.GONE);
-                //norides_tv.setVisibility(View.VISIBLE);
                 Util.toast(R.string.frag_allrides_errorGetRides);
                 Log.e("listAllRides", error.getMessage());
             }
