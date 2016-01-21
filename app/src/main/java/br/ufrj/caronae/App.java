@@ -11,14 +11,14 @@ import retrofit.RestAdapter;
 
 public class App extends SugarApp {
 
-    public static final String APIARY_ENDPOINT              = "http://private-5b9ed6-caronae.apiary-mock.com";
-    public static final String MEUDIGOCEAN_PROD_ENDPOINT    = "http://45.55.46.90:80/";
-    public static final String MEUDIGOCEAN_DEV_ENDPOINT     = "http://45.55.46.90:8080/";
-    public static final String LOCAL_SERV_ENDPOINT          = "http://192.168.0.13/";
-    public static final String TIC_ENDPOINT                 = "http://web1.tic.ufrj.br/caronae/";
+    private static final String APIARY_ENDPOINT              = "http://private-5b9ed6-caronae.apiary-mock.com";
+    private static final String MEUDIGOCEAN_PROD_ENDPOINT    = "http://45.55.46.90:80/";
+    private static final String MEUDIGOCEAN_DEV_ENDPOINT     = "http://45.55.46.90:8080/";
+    private static final String LOCAL_SERV_ENDPOINT          = "http://192.168.0.13/";
+    private static final String TIC_ENDPOINT                 = "http://web1.tic.ufrj.br/caronae/";
 
-    public static final String GCM_ENDPOINT = "https://android.googleapis.com/gcm";
-    public static final String GCM_API_KEY  = "AIzaSyBtGz81bar_LcwtN_fpPTKRMBL5glp2T18";
+    private static final String GCM_ENDPOINT = "https://android.googleapis.com/gcm";
+    private static final String GCM_API_KEY  = "AIzaSyBtGz81bar_LcwtN_fpPTKRMBL5glp2T18";
 
     private static App inst;
     private static User user;

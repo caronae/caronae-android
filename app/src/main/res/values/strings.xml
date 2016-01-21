@@ -51,7 +51,7 @@
     <string name="wait">Aguarde</string>
     <string name="act_login_invalidToken">Chave inválida</string>
     <string name="act_login_loginFail">Erro ao fazer login</string>
-    <string name="act_main_oknogplay">Ok</string>
+    <string name="act_main_oknogplay">OK</string>
     <string name="act_main_setRideOfferFragTitle">Oferecer carona</string>
     <string name="arrivingAt">"Chegando ás %1$s"</string>
     <string name="leavingAt">"Saindo ás %1$s"</string>
@@ -189,5 +189,6 @@
     <string name="fragmyprofile_carmodelHelper">Exemplo: Fusca</string>
     <string name="frag_myprofile_carcolorHelper">Exemplo: Vermelho</string>
     <string name="frag_myprofile_invalidPlate">Placa inválida</string>
+    <string name="cancelCaps">CANCELAR</string>
 
 </resources>

@@ -26,15 +26,15 @@ public class SharedPref {
         return getSharedPreferences().edit();
     }
 
-    public static void putPref(String key, String value) {
+    private static void putPref(String key, String value) {
         getSharedPrefEditor().putString(key, value).apply();
     }
 
-    public static String getPref(String key) {
+    private static String getPref(String key) {
         return getSharedPreferences().getString(key, MISSING_PREF);
     }
 
-    public static void removePref(String key) {
+    private static void removePref(String key) {
         getSharedPrefEditor().remove(key).apply();
     }
 

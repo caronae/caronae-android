@@ -29,7 +29,6 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
-import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -53,7 +52,7 @@ import br.ufrj.caronae.models.User;
 
 public class MainAct extends AppCompatActivity {
 
-    public static final int GPLAY_UNAVAILABLE = 123;
+    private static final int GPLAY_UNAVAILABLE = 123;
 
     private DrawerLayout mDrawer;
     private ActionBarDrawerToggle drawerToggle;
@@ -187,7 +186,7 @@ public class MainAct extends AppCompatActivity {
                 });
     }
 
-    public void selectDrawerItem(MenuItem menuItem) {
+    private void selectDrawerItem(MenuItem menuItem) {
         Fragment fragment = null;
         Class fragmentClass;
         switch (menuItem.getItemId()) {

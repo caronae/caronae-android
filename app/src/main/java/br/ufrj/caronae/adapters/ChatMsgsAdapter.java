@@ -16,12 +16,10 @@ import br.ufrj.caronae.models.ChatMessageReceived;
 public class ChatMsgsAdapter extends RecyclerView.Adapter<ChatMsgsAdapter.ViewHolder> {
 
     private final List<ChatMessageReceived> chatMsgsList;
-    private final Context context;
     private final int color;
 
-    public ChatMsgsAdapter(List<ChatMessageReceived> chatMsgsList, int color, Context context) {
+    public ChatMsgsAdapter(List<ChatMessageReceived> chatMsgsList, int color) {
         this.chatMsgsList = chatMsgsList;
-        this.context = context;
         this.color = color;
     }
 

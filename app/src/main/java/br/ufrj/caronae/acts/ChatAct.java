@@ -49,8 +49,8 @@ public class ChatAct extends AppCompatActivity {
     @Bind(R.id.lay1)
     RelativeLayout lay1;
 
-    String rideId;
-    List<ChatMessageReceived> chatMsgsList;
+    private String rideId;
+    private List<ChatMessageReceived> chatMsgsList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +74,7 @@ public class ChatAct extends AppCompatActivity {
         rideId = getIntent().getExtras().getString("rideId");
         chatMsgsList = ChatMessageReceived.find(ChatMessageReceived.class, "ride_id = ?", rideId);
 
-        chatMsgs_rv.setAdapter(new ChatMsgsAdapter(chatMsgsList, color, this));
+        chatMsgs_rv.setAdapter(new ChatMsgsAdapter(chatMsgsList, color));
         chatMsgs_rv.setLayoutManager(new LinearLayoutManager(this));
 
         if (!chatMsgsList.isEmpty())

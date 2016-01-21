@@ -178,7 +178,7 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
         final String rideId = rideWithUsers.getDbId() + "";
 
         if (isDriver) {
-            holder.leave_bt.setText("CANCELAR");
+            holder.leave_bt.setText(R.string.cancelCaps);
         }
         holder.leave_bt.setOnClickListener(new View.OnClickListener() {
             @Override

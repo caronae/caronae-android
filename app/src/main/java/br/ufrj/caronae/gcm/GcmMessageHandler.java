@@ -18,7 +18,7 @@ import br.ufrj.caronae.asyncs.UnsubGcmTopic;
 import br.ufrj.caronae.models.ChatMessageReceived;
 
 public class GcmMessageHandler extends GcmListenerService {
-    public static final int MESSAGE_NOTIFICATION_ID = 435345;
+    private static final int MESSAGE_NOTIFICATION_ID = 435345;
 
     @Override
     public void onMessageReceived(String from, Bundle data) {

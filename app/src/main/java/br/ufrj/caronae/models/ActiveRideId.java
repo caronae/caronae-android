@@ -3,7 +3,7 @@ package br.ufrj.caronae.models;
 import com.orm.SugarRecord;
 
 public class ActiveRideId extends SugarRecord<Ride> {
-    String rideId;
+    private String rideId;
 
     public ActiveRideId() {
     }

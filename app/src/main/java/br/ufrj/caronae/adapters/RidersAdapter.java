@@ -18,7 +18,6 @@ import java.util.List;
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.RoundedTransformation;
-import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.acts.ProfileAct;
 import br.ufrj.caronae.models.User;
 

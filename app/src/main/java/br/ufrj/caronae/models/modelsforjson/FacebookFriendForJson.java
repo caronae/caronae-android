@@ -9,9 +9,9 @@ import br.ufrj.caronae.models.User;
 public class FacebookFriendForJson {
 
     @SerializedName("mutual_friends")
-    List<User> mutualFriends;
+    private List<User> mutualFriends;
     @SerializedName("total_count")
-    int totalCount;
+    private int totalCount;
 
     public List<User> getMutualFriends() {
         return mutualFriends;
