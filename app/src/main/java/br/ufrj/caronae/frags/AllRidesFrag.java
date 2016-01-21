@@ -48,7 +48,7 @@ public class AllRidesFrag extends Fragment {
         View view = inflater.inflate(R.layout.fragment_all_rides, container, false);
         ButterKnife.bind(this, view);
 
-        App.getNetworkService().listAllRides(new Callback<List<RideForJson>>() {
+        App.getNetworkService().listAllRides(true, new Callback<List<RideForJson>>() {
             @Override
             public void success(List<RideForJson> rideOffers, Response response) {
                 progressBar.setVisibility(View.GONE);

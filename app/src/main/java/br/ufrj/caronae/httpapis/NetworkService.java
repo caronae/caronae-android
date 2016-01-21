@@ -60,8 +60,8 @@ public interface NetworkService {
     @POST("/ride/listFiltered")
     void listFiltered(@Body RideSearchFiltersForJson rideSearchFilters, Callback<List<RideForJson>> cb);
 
-    @GET("/ride/all")
-    void listAllRides(Callback<List<RideForJson>> cb);
+    @GET("/ride/all/{going}")
+    void listAllRides(@Path("going") boolean going, Callback<List<RideForJson>> cb);
 
     @POST("/ride/requestJoin")
     void requestJoin(@Body RideIdForJson rideId, Callback<Response> cb);
