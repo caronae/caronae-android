@@ -5,15 +5,18 @@
             android:title="Perfil" />
         <item
             android:id="@+id/nav_second_fragment"
-            android:title="Minhas Ofertas" />
+            android:title="Todas as caronas" />
         <item
             android:id="@+id/nav_third_fragment"
-            android:title="Caronas Ativas" />
+            android:title="Minhas Ofertas" />
         <item
             android:id="@+id/nav_fourth_fragment"
-            android:title="Histórico" />
+            android:title="Caronas Ativas" />
         <item
             android:id="@+id/nav_fifth_fragment"
+            android:title="Histórico" />
+        <item
+            android:id="@+id/nav_sixth_fragment"
             android:title="Fale conosco" />
     </group>
 </menu>

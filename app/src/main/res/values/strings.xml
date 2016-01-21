@@ -4,44 +4,21 @@
     <string name="gcm_defaultSenderId">1012033032693</string>
     <string name="facebook_app_id">933455893356973</string>
 
-    <string name="name_tv">Nome</string>
-    <string name="profile_tv">Perfil</string>
-    <string name="course_tv">Curso/Cargo/Departamento</string>
-    <string name="zone_tv">Zona</string>
-    <string name="neighborhood_tv">Bairro</string>
-    <string name="model_tv">Modelo</string>
-    <string name="color_tv">Cor</string>
-    <string name="plate_tv">Placa</string>
-    <string name="carOwner_tv">Tem carro?</string>
-
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
 
     <string name="title_activity_main">Caronaê</string>
     <string name="title_activity_login">Login</string>
+
     <string name="tokenHint_et">Digite sua chave de acesso aqui</string>
     <string name="send_bt">Enviar</string>
 
     <string name="go_rb">Ir ao fundão</string>
     <string name="back_rb">Voltar do fundão</string>
-    <string name="date_tv">Data</string>
-    <string name="time_tv">Hora</string>
-    <string name="slots_tv">Vagas</string>
-    <string name="hub_tv">Hub de encontro</string>
-    <string name="save_bt">Salvar</string>
-    <string name="phoneNumber_tv">Telefone</string>
-    <string name="email_tv">E-mail</string>
-    <string name="send">Enviar</string>
-    <string name="place_tv">Aonde</string>
-    <string name="way_tv">Por onde</string>
     <string name="routine_cb">Repetir</string>
-    <string name="description_tv">Descrição</string>
 
     <string name="title_activity_opening">OpeningAct</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
 
-    <string name="title_activity_fullscreen">FullscreenActivity</string>
     <string name="title_activity_sign_up">SignUpAct</string>
     <string name="gplay_unavailable">Sem o Google Play Services você não poderá receber notificações ou mensagens de bate-papo =(</string>
     <string name="notCarOwner">Você deve possuir um carro em seu perfil para poder oferecer uma carona</string>
@@ -75,7 +52,6 @@
     <string name="requestSent">Solicitação enviada</string>
     <string name="errorRequestSent">Erro no envio da solicitação</string>
     <string name="errorGetRequesters">Erro ao obter solicitações</string>
-    <string name="g">" vaga"</string>
     <string name="errorFinishRide">Erro ao concluir carona</string>
     <string name="rideFinished">Carona concluída</string>
     <string name="arrivedAt">Chegou ás %1$s</string>
@@ -112,7 +88,6 @@
     <string name="hello">Olá :)</string>
     <string name="welcome">Bem-vindo ao aplicativo de caronas da UFRJ. O acesso é restrito a usuários vinculados à universidade. Para continuar você deve obter sua chave de acesso na Intranet UFRJ.</string>
     <string name="act_profile_mutualFriends">Vocês tem %1$d amigos em comum no Facebook.\n%2$d deles usam o Caronaê.</string>
-    <string name="act_profile_errorMutualFriends">Erro ao pegar amigos em comum no Facebook</string>
     <string name="frag_falae_messageHint">Conte pra gente, o que houve?</string>
     <string name="frag_falae_subjectHint">Assunto (Opcional)</string>
     <string name="frag_falae_reason_tv">Motivo do contato</string>
@@ -128,7 +103,6 @@
     <string name="frag_falae_critiqueRb">"[CRÍTICA] "</string>
     <string name="frag_falae_reportRb">"[DENÚNCIA] "</string>
     <string name="act_profile_report_bt">Reportar</string>
-    <string name="activity_falae">Reportar usuário</string>
     <string name="act_profile_reportOk">Usuário reportado, obrigado por entrar em contato.</string>
     <string name="rideHistory_Feedback">Carona avaliada com sucesso</string>
     <string name="errorRideHistory_Feedback">Erro ao avaliar carona</string>
@@ -182,7 +156,7 @@
     <string name="frag_ridesearch_typeNeighborhood">Digite o nome do bairro</string>
     <string name="frag_rideoffersearch_pastdate">Data da carona anterior ao dia atual</string>
     <string name="frag_myprofile_invalidPhone">Telefone inválido</string>
-    <string name="frag_myprofile_phoneHelper">Exemplo: 21987654321</string>
+    <string name="frag_myprofile_phoneHelper">Exemplo: 021987654321</string>
     <string name="frag_myprofile_invalidMail">E-mail inválido</string>
     <string name="frag_myprofile_emailHelper">Exemplo: nome@ufrj.br</string>
     <string name="frag_myprofile_plateHelper">Exemplo: ABC1234</string>
@@ -190,5 +164,7 @@
     <string name="frag_myprofile_carcolorHelper">Exemplo: Vermelho</string>
     <string name="frag_myprofile_invalidPlate">Placa inválida</string>
     <string name="cancelCaps">CANCELAR</string>
+    <string name="frag_allrides_errorGetRides">Erro ao pegar todas as caronas</string>
+    <string name="frag_allrides_noRides">Nenhuma carona foi encontrada</string>
 
 </resources>

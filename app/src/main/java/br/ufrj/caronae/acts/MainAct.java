@@ -39,6 +39,7 @@ import br.ufrj.caronae.R;
 import br.ufrj.caronae.RoundedTransformation;
 import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.Util;
+import br.ufrj.caronae.frags.AllRidesFrag;
 import br.ufrj.caronae.frags.FalaeFrag;
 import br.ufrj.caronae.frags.MyActiveRidesFrag;
 import br.ufrj.caronae.frags.MyProfileFrag;
@@ -128,7 +129,7 @@ public class MainAct extends AppCompatActivity {
                 user.getLocation() == null || user.getLocation().isEmpty()) {
             fragment = new MyProfileFrag();
         } else {
-            fragment = new RideSearchFrag();
+            fragment = new AllRidesFrag();
         }
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
@@ -194,15 +195,18 @@ public class MainAct extends AppCompatActivity {
                 fragmentClass = MyProfileFrag.class;
                 break;
             case R.id.nav_second_fragment:
-                fragmentClass = MyRidesFrag.class;
+                fragmentClass = AllRidesFrag.class;
                 break;
             case R.id.nav_third_fragment:
-                fragmentClass = MyActiveRidesFrag.class;
+                fragmentClass = MyRidesFrag.class;
                 break;
             case R.id.nav_fourth_fragment:
-                fragmentClass = RidesHistoryFrag.class;
+                fragmentClass = MyActiveRidesFrag.class;
                 break;
             case R.id.nav_fifth_fragment:
+                fragmentClass = RidesHistoryFrag.class;
+                break;
+            case R.id.nav_sixth_fragment:
                 fragmentClass = FalaeFrag.class;
                 break;
             default:
