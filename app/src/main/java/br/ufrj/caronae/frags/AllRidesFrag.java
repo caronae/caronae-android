@@ -12,9 +12,13 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
@@ -55,9 +59,22 @@ public class AllRidesFrag extends Fragment {
 
                 if (rideOffers != null && !rideOffers.isEmpty()) {
                     Collections.sort(rideOffers, new RideOfferComparatorByDateAndTime());
-                    for (RideForJson rideOffer : rideOffers) {
-                        rideOffer.setDbId(rideOffer.getId().intValue());
+
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
+                    Date todayDate = new Date();
+                    String todayString = simpleDateFormat.format(todayDate);
+                    simpleDateFormat = new SimpleDateFormat("HH:mm", Locale.US);
+                    String time = simpleDateFormat.format(todayDate);
+
+                    Iterator<RideForJson> it = rideOffers.iterator();
+                    while (it.hasNext()) {
+                        RideForJson rideOffer = it.next();
+                        if (Util.formatBadDateWithYear(rideOffer.getDate()).equals(todayString) && Util.formatTime(rideOffer.getTime()).compareTo(time) < 0)
+                            it.remove();
+                        else
+                            rideOffer.setDbId(rideOffer.getId().intValue());
                     }
+
                     RideOfferAdapter adapter = new RideOfferAdapter(new ArrayList<RideForJson>(), getActivity());
                     rvRides.setAdapter(adapter);
                     rvRides.setHasFixedSize(true);
@@ -66,7 +83,6 @@ public class AllRidesFrag extends Fragment {
                 } else {
                     norides_tv.setVisibility(View.VISIBLE);
                 }
-
             }
 
             @Override
