@@ -75,6 +75,11 @@ public class AllRidesFrag extends Fragment {
                             rideOffer.setDbId(rideOffer.getId().intValue());
                     }
 
+                    if (rideOffers.isEmpty()) {
+                        norides_tv.setVisibility(View.VISIBLE);
+                        return;
+                    }
+
                     RideOfferAdapter adapter = new RideOfferAdapter(new ArrayList<RideForJson>(), getActivity());
                     rvRides.setAdapter(adapter);
                     rvRides.setHasFixedSize(true);
