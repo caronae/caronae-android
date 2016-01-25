@@ -12,7 +12,7 @@
         android:layout_above="@+id/token_et"
         android:layout_centerHorizontal="true"
         android:ems="12"
-        android:hint="Nome"
+        android:hint="Identificação UFRJ"
         android:singleLine="true" />
 
     <EditText

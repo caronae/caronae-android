@@ -31,7 +31,7 @@ public class SignUpAct extends AppCompatActivity {
 
     @OnClick(R.id.button)
     public void button() {
-        App.getNetworkService().signUp(nome_et.getText().toString(), token_et.getText().toString(), new Callback<Response>() {
+        App.getNetworkService().signUpIntranet(nome_et.getText().toString(), token_et.getText().toString(), new Callback<Response>() {
             @Override
             public void success(Response s, Response response) {
                 Util.toast(Util.getResponseBody(s));
