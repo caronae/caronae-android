@@ -138,12 +138,11 @@ public class MainAct extends AppCompatActivity {
     }
 
     private void checkGPlay() {
-        int resultGplay = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable (this);
+        int resultGplay = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(this);
 
         if (resultGplay != ConnectionResult.SUCCESS) {
             Dialog dialog = GoogleApiAvailability.getInstance().getErrorDialog(this, resultGplay, MainAct.GPLAY_UNAVAILABLE);
-            if(dialog != null)
-            {
+            if (dialog != null) {
                 dialog.show();
             } else {
                 Util.toast(R.string.gplay_unavailable);
