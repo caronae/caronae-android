@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import br.ufrj.caronae.App;
@@ -43,12 +44,23 @@ public class MyActiveRidesFrag extends Fragment {
         final View view = inflater.inflate(R.layout.fragment_my_active_rides, container, false);
         ButterKnife.bind(this, view);
 
+        return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
         final ProgressDialog pd = ProgressDialog.show(getContext(), "", getActivity().getString(R.string.wait), true, true);
         App.getNetworkService().getMyActiveRides(new Callback<List<RideForJson>>() {
             @Override
             public void success(List<RideForJson> rideWithUsersList, Response response) {
                 if (rideWithUsersList == null || rideWithUsersList.isEmpty()) {
                     pd.dismiss();
+
+                    myRidesList.setAdapter(new MyActiveRidesAdapter(new ArrayList<RideForJson>(), (MainAct) getActivity()));
+                    myRidesList.setHasFixedSize(true);
+                    myRidesList.setLayoutManager(new LinearLayoutManager(getActivity()));
 
                     norides_tv.setVisibility(View.VISIBLE);
                     return;
@@ -59,6 +71,7 @@ public class MyActiveRidesFrag extends Fragment {
                     Log.i("getMyActiveRides", "i have gcm token");
                     for (RideForJson rideWithUsers : rideWithUsersList) {
                         int rideId = rideWithUsers.getId().intValue();
+                        rideWithUsers.setDbId(rideId);
                         new CheckSubGcmTopic().execute(rideId + "");
                     }
                 } else {
@@ -82,7 +95,5 @@ public class MyActiveRidesFrag extends Fragment {
                 Log.e("getMyActiveRides", error.getMessage());
             }
         });
-
-        return view;
     }
 }
