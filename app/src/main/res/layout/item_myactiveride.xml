@@ -74,28 +74,17 @@
                     android:text="Aluno" />
 
                 <TextView
-                    android:id="@+id/separator1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/name_tv"
-                    android:layout_toRightOf="@+id/profile_tv"
-                    android:layout_toEndOf="@+id/profile_tv"
-                    android:text=" | " />
-
-                <TextView
                     android:id="@+id/course_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/name_tv"
-                    android:layout_toRightOf="@+id/separator1"
-                    android:layout_toEndOf="@+id/separator1"
+                    android:layout_below="@+id/profile_tv"
                     android:text="Ciência da computação" />
 
                 <TextView
                     android:id="@+id/phoneNumber_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/profile_tv"
+                    android:layout_below="@+id/course_tv"
                     android:text="997338158"
                     android:textColor="@color/blue" />
             </RelativeLayout>

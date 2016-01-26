@@ -91,24 +91,10 @@
             android:textColor="@color/white" />
 
         <TextView
-            android:id="@+id/separator2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/name_tv"
-            android:layout_below="@+id/slots_tv"
-            android:layout_toEndOf="@+id/name_tv"
-            android:layout_toRightOf="@+id/name_tv"
-            android:text=" | "
-            android:textColor="@color/white" />
-
-        <TextView
             android:id="@+id/course_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/name_tv"
-            android:layout_below="@+id/slots_tv"
-            android:layout_toEndOf="@+id/separator2"
-            android:layout_toRightOf="@+id/separator2"
+            android:layout_below="@+id/name_tv"
             android:text="Computação"
             android:textColor="@color/white" />
 

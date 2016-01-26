@@ -7,23 +7,23 @@ import br.ufrj.caronae.Util;
 
 public class Ride extends SugarRecord<Ride> {
     @SerializedName("myzone")
-    private String zone;
-    private String neighborhood;
-    private String place;
-    private String route;
+    protected String zone;
+    protected String neighborhood;
+    protected String place;
+    protected String route;
     @SerializedName("mydate")
-    private String date;
-    private String slots;
+    protected String date;
+    protected String slots;
     @SerializedName("mytime")
-    private String time;
-    private String hub;
-    private String description;
+    protected String time;
+    protected String hub;
+    protected String description;
     @SerializedName("week_days")
-    private String weekDays;
+    protected String weekDays;
     @SerializedName("repeats_until")
-    private String repeatsUntil;
-    private boolean going, routine;
-    private int dbId;
+    protected String repeatsUntil;
+    protected boolean going, routine;
+    protected int dbId;
 
     public Ride() {
     }
