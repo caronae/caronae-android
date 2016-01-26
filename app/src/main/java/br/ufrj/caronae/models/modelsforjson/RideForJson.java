@@ -50,7 +50,9 @@ public class RideForJson extends Ride implements Parcelable {
         routine = intData[1] == 1;
         dbId = intData[2];
 
-        driver = in.readParcelable(null);
+        driver = in.readParcelable(User.class.getClassLoader());
+        //noinspection unchecked
+        riders = in.readArrayList(User.class.getClassLoader());
     }
 
     @Override
@@ -77,6 +79,7 @@ public class RideForJson extends Ride implements Parcelable {
                 dbId
         });
         parcel.writeParcelable(driver, 0);
+        parcel.writeList(riders);
     }
 
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {

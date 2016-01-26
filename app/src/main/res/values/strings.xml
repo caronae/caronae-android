@@ -167,5 +167,7 @@
     <string name="frag_allrides_errorGetRides">Erro ao pegar todas as caronas</string>
     <string name="frag_allrides_noRides">Nenhuma carona foi encontrada</string>
     <string name="frag_myprofile_invalidFields">Perfil não salvo (Campos inválidos)</string>
+    <string name="myactiveride_openBt">Ver mais</string>
+    <string name="act_activeride_rideNUll">Erro ao abrir carona</string>
 
 </resources>
