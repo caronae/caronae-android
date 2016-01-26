@@ -144,7 +144,7 @@ public class MyProfileFrag extends Fragment {
                 if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP) {
                     String phone = phoneNumber_et.getText().toString();
                     if (!validatePhone(phone))
-                        phoneNumber_et.setError(getActivity().getString(R.string.frag_myprofile_invalidPhone));
+                        phoneNumber_et.setError(getString(R.string.frag_myprofile_invalidPhone));
                 }
 
                 return false;
@@ -159,7 +159,7 @@ public class MyProfileFrag extends Fragment {
                 } else {
                     String phone = phoneNumber_et.getText().toString();
                     if (!validatePhone(phone))
-                        phoneNumber_et.setError(getActivity().getString(R.string.frag_myprofile_invalidPhone));
+                        phoneNumber_et.setError(getString(R.string.frag_myprofile_invalidPhone));
                 }
             }
         });
@@ -170,7 +170,7 @@ public class MyProfileFrag extends Fragment {
                 if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP) {
                     String phone = email_et.getText().toString();
                     if (!validateMail(phone))
-                        email_et.setError(getActivity().getString(R.string.frag_myprofile_invalidMail));
+                        email_et.setError(getString(R.string.frag_myprofile_invalidMail));
                 }
 
                 return false;
@@ -185,7 +185,7 @@ public class MyProfileFrag extends Fragment {
                 } else {
                     String phone = email_et.getText().toString();
                     if (!validateMail(phone))
-                        email_et.setError(getActivity().getString(R.string.frag_myprofile_invalidMail));
+                        email_et.setError(getString(R.string.frag_myprofile_invalidMail));
                 }
             }
         });
@@ -196,7 +196,7 @@ public class MyProfileFrag extends Fragment {
                 if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP) {
                     String plate = carPlate_et.getText().toString();
                     if (!validatePlate(plate))
-                        carPlate_et.setError(getActivity().getString(R.string.frag_myprofile_invalidPlate));
+                        carPlate_et.setError(getString(R.string.frag_myprofile_invalidPlate));
                 }
 
                 return false;
@@ -211,7 +211,7 @@ public class MyProfileFrag extends Fragment {
                 } else {
                     String plate = carPlate_et.getText().toString();
                     if (!validatePlate(plate))
-                        carPlate_et.setError(getActivity().getString(R.string.frag_myprofile_invalidPlate));
+                        carPlate_et.setError(getString(R.string.frag_myprofile_invalidPlate));
                 }
             }
         });
@@ -358,10 +358,10 @@ public class MyProfileFrag extends Fragment {
             }
         };
 
-        builder.items(new String[]{getContext().getString(R.string.frag_myprofile_SigaPicChoice), getContext().getString(R.string.frag_myprofile_facePicChoice)}, 0)
-                .title(getContext().getString(R.string.frag_myprofile_picChoice))
-                .positiveAction(getContext().getString(R.string.ok))
-                .negativeAction(getContext().getString(R.string.cancel));
+        builder.items(new String[]{getString(R.string.frag_myprofile_SigaPicChoice), getString(R.string.frag_myprofile_facePicChoice)}, 0)
+                .title(getString(R.string.frag_myprofile_picChoice))
+                .positiveAction(getString(R.string.ok))
+                .negativeAction(getString(R.string.cancel));
         DialogFragment fragment = DialogFragment.newInstance(builder);
         fragment.show(getFragmentManager(), null);
     }
@@ -408,8 +408,8 @@ public class MyProfileFrag extends Fragment {
 
         builder.items(Util.getZones(), 0)
                 .title("Escolha sua zona")
-                .positiveAction("OK")
-                .negativeAction("Cancelar");
+                .positiveAction(getString(R.string.ok))
+                .negativeAction(getString(R.string.cancel));
         DialogFragment fragment = DialogFragment.newInstance(builder);
         fragment.show(getFragmentManager(), null);
     }
@@ -430,8 +430,8 @@ public class MyProfileFrag extends Fragment {
 
         builder.items(Util.getNeighborhoods(zone), 0)
                 .title("Escolha seu bairro")
-                .positiveAction("OK")
-                .negativeAction("Cancelar");
+                .positiveAction(getString(R.string.ok))
+                .negativeAction(getString(R.string.cancel));
         DialogFragment fragment = DialogFragment.newInstance(builder);
         fragment.show(getFragmentManager(), null);
     }
@@ -441,7 +441,7 @@ public class MyProfileFrag extends Fragment {
         final android.widget.EditText input = new android.widget.EditText(getActivity());
         new AlertDialog.Builder(getActivity())
                 .setView(input)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int which) {
                         String text = input.getText().toString();
@@ -455,7 +455,7 @@ public class MyProfileFrag extends Fragment {
         final android.widget.EditText input = new android.widget.EditText(getActivity());
         new AlertDialog.Builder(getActivity())
                 .setView(input)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int which) {
                         String text = input.getText().toString();
@@ -473,24 +473,28 @@ public class MyProfileFrag extends Fragment {
         final User editedUser = new User();
         prepEditedUser(editedUser);
 
-        if (!App.getUser().sameFieldsState(editedUser) && fieldsValidated()) {
-            App.getNetworkService().updateUser(editedUser, new Callback<Response>() {
-                @Override
-                public void success(Response response, Response response2) {
-                    User user = App.getUser();
-                    if (user == null)
-                        return;
-                    user.setUser(editedUser);
-                    SharedPref.saveUser(user);
-                    Util.toast(R.string.frag_myprofile_updated);
-                }
+        if (!App.getUser().sameFieldsState(editedUser)) {
+            if (fieldsValidated()) {
+                App.getNetworkService().updateUser(editedUser, new Callback<Response>() {
+                    @Override
+                    public void success(Response response, Response response2) {
+                        User user = App.getUser();
+                        if (user == null)
+                            return;
+                        user.setUser(editedUser);
+                        SharedPref.saveUser(user);
+                        Util.toast(R.string.frag_myprofile_updated);
+                    }
 
-                @Override
-                public void failure(RetrofitError error) {
-                    Log.e("updateUser", error.getMessage());
-                    Util.toast(R.string.frag_myprofile_errorUpdated);
-                }
-            });
+                    @Override
+                    public void failure(RetrofitError error) {
+                        Log.e("updateUser", error.getMessage());
+                        Util.toast(R.string.frag_myprofile_errorUpdated);
+                    }
+                });
+            } else {
+                Util.toast(getString(R.string.frag_myprofile_invalidFields));
+            }
         }
     }
 

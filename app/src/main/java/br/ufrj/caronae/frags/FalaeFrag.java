@@ -96,6 +96,8 @@ public class FalaeFrag extends Fragment {
             @Override
             public void success(Response response, Response response2) {
                 Util.toast(getActivity().getString(R.string.frag_falae_thanksSent));
+                subject_et.setText("");
+                message_et.setText("");
                 Log.i("falaeSendMessage", "falae message sent succesfully");
             }
 
