@@ -99,16 +99,17 @@
             android:textColor="@color/white" />
 
         <com.rey.material.widget.Button
-            android:id="@+id/join_bt"
+            android:id="@+id/open_bt"
             style="@style/LightRaiseColorButtonRippleStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
+            android:layout_below="@+id/join_bt"
             android:layout_centerVertical="true"
             android:background="@null"
             android:gravity="center"
-            android:text="@string/rideoffer_joinBt"
+            android:text="@string/rideoffer_openBt"
             android:textColor="@color/white"
             app:rd_enable="true" />
 

@@ -2,11 +2,9 @@ package br.ufrj.caronae.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,22 +22,19 @@ import br.ufrj.caronae.R;
 import br.ufrj.caronae.RoundedTransformation;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.ProfileAct;
+import br.ufrj.caronae.acts.RideOfferAct;
 import br.ufrj.caronae.models.RideRequest;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
-import br.ufrj.caronae.models.modelsforjson.RideIdForJson;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
 
 public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.ViewHolder> {
 
-    private final FragmentActivity activity;
+    private final Context context;
     private List<RideForJson> rideOffers;
     private List<RideRequest> rideRequests;
 
-    public RideOfferAdapter(List<RideForJson> rideOffers, FragmentActivity activity) {
+    public RideOfferAdapter(List<RideForJson> rideOffers, Context context) {
         this.rideOffers = rideOffers;
-        this.activity = activity;
+        this.context = context;
     }
 
     @Override
@@ -58,31 +53,31 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
 
         int color = 0;
         if (rideOffer.getZone().equals("Centro")) {
-            color = ContextCompat.getColor(activity, R.color.zone_centro);
+            color = ContextCompat.getColor(context, R.color.zone_centro);
         }
         if (rideOffer.getZone().equals("Zona Sul")) {
-            color = ContextCompat.getColor(activity, R.color.zone_sul);
+            color = ContextCompat.getColor(context, R.color.zone_sul);
         }
         if (rideOffer.getZone().equals("Zona Oeste")) {
-            color = ContextCompat.getColor(activity, R.color.zone_oeste);
+            color = ContextCompat.getColor(context, R.color.zone_oeste);
         }
         if (rideOffer.getZone().equals("Zona Norte")) {
-            color = ContextCompat.getColor(activity, R.color.zone_norte);
+            color = ContextCompat.getColor(context, R.color.zone_norte);
         }
         if (rideOffer.getZone().equals("Baixada")) {
-            color = ContextCompat.getColor(activity, R.color.zone_baixada);
+            color = ContextCompat.getColor(context, R.color.zone_baixada);
         }
         if (rideOffer.getZone().equals("Grande Niterói")) {
-            color = ContextCompat.getColor(activity, R.color.zone_niteroi);
+            color = ContextCompat.getColor(context, R.color.zone_niteroi);
         }
         if (rideOffer.getZone().equals("Outros")) {
-            color = ContextCompat.getColor(activity, R.color.zone_outros);
+            color = ContextCompat.getColor(context, R.color.zone_outros);
         }
         viewHolder.cardView.setCardBackgroundColor(color);
 
         String profilePicUrl = rideOffer.getDriver().getProfilePicUrl();
         if (profilePicUrl != null && !profilePicUrl.isEmpty()) {
-            Picasso.with(activity).load(profilePicUrl)
+            Picasso.with(context).load(profilePicUrl)
                     .placeholder(R.drawable.user_pic)
                     .error(R.drawable.user_pic)
                     .transform(new RoundedTransformation(0))
@@ -92,23 +87,23 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
         viewHolder.photo_iv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(activity, ProfileAct.class);
+                Intent intent = new Intent(context, ProfileAct.class);
                 intent.putExtra("user", new Gson().toJson(rideOffer.getDriver()));
                 intent.putExtra("from", "rideOffer");
-                activity.startActivity(intent);
+                context.startActivity(intent);
             }
         });
 
         String timeText;
         if (rideOffer.isGoing())
-            timeText = activity.getResources().getString(R.string.arrivingAt, Util.formatTime(rideOffer.getTime()));
+            timeText = context.getResources().getString(R.string.arrivingAt, Util.formatTime(rideOffer.getTime()));
         else
-            timeText = activity.getResources().getString(R.string.leavingAt, Util.formatTime(rideOffer.getTime()));
+            timeText = context.getResources().getString(R.string.leavingAt, Util.formatTime(rideOffer.getTime()));
         viewHolder.time_tv.setText(timeText);
         viewHolder.date_tv.setText(Util.formatBadDateWithoutYear(rideOffer.getDate()));
         viewHolder.course_tv.setText(rideOffer.getDriver().getCourse());
         viewHolder.name_tv.setText(rideOffer.getDriver().getName());
-        String slots = activity.getString(R.string.Xslots, rideOffer.getSlots(), (Integer.parseInt(rideOffer.getSlots()) > 1 ? "s" : ""));
+        String slots = context.getString(R.string.Xslots, rideOffer.getSlots(), (Integer.parseInt(rideOffer.getSlots()) > 1 ? "s" : ""));
         viewHolder.slots_tv.setText(slots);
         String location;
         if (rideOffer.isGoing())
@@ -130,29 +125,14 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
                 }
             }
         }
-        viewHolder.join_bt.setVisibility(visibility);
+        viewHolder.open_bt.setVisibility(visibility);
 
-        viewHolder.join_bt.setOnClickListener(new View.OnClickListener() {
+        viewHolder.open_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                App.getNetworkService().requestJoin(new RideIdForJson(rideOffer.getDbId()), new Callback<Response>() {
-                    @Override
-                    public void success(Response response, Response response2) {
-                        Util.toast(R.string.requestSent);
-
-                        new RideRequest(rideOffer.getDbId(), rideOffer.isGoing(), rideOffer.getDate()).save();
-
-                        rideOffers.remove(rideOffer);
-                        notifyItemRemoved(viewHolder.getAdapterPosition());
-                    }
-
-                    @Override
-                    public void failure(RetrofitError error) {
-                        Util.toast(R.string.errorRequestSent);
-
-                        Log.e("requestJoin", error.getMessage());
-                    }
-                });
+                Intent intent = new Intent(context, RideOfferAct.class);
+                intent.putExtra("ride", rideOffer);
+                context.startActivity(intent);
             }
         });
     }
@@ -162,6 +142,14 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
         if (rideOffers != null && !rideOffers.isEmpty())
             rideRequests = RideRequest.find(RideRequest.class, "date = ?", rideOffers.get(0).getDate());
         notifyDataSetChanged();
+    }
+
+    public void remove(int rideId) {
+        for (int i = 0; i < rideOffers.size(); i++)
+            if (rideOffers.get(i).getDbId() == rideId) {
+                rideOffers.remove(i);
+                notifyItemRemoved(i);
+            }
     }
 
     @Override
@@ -177,7 +165,7 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
         public TextView location_tv;
         public TextView name_tv;
         public TextView slots_tv;
-        public Button join_bt;
+        public Button open_bt;
         public CardView cardView;
 
         public ViewHolder(View itemView) {
@@ -190,7 +178,7 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
             location_tv = (TextView) itemView.findViewById(R.id.location_tv);
             name_tv = (TextView) itemView.findViewById(R.id.name_tv);
             slots_tv = (TextView) itemView.findViewById(R.id.slots_tv);
-            join_bt = (Button) itemView.findViewById(R.id.join_bt);
+            open_bt = (Button) itemView.findViewById(R.id.open_bt);
             cardView = (CardView) itemView.findViewById(R.id.cardView);
         }
     }
