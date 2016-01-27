@@ -60,6 +60,6 @@ public class AllRidesListFrag extends Fragment {
     @Subscribe
     public void removeRideFromList(RideRequest ride) {
         adapter.remove(ride.getDbId());
-        Log.i("removeRideFromList", "remove called");
+        Log.i("removeRideFromList,all", "remove called");
     }
 }

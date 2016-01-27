@@ -22,6 +22,7 @@ import com.rey.material.app.Dialog;
 import com.rey.material.app.DialogFragment;
 import com.rey.material.app.SimpleDialog;
 import com.rey.material.app.TimePickerDialog;
+import com.squareup.otto.Subscribe;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -39,6 +40,7 @@ import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.adapters.RideOfferAdapter;
 import br.ufrj.caronae.comparators.RideOfferComparatorByTime;
+import br.ufrj.caronae.models.RideRequest;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
 import br.ufrj.caronae.models.modelsforjson.RideSearchFiltersForJson;
 import butterknife.Bind;
@@ -92,6 +94,8 @@ public class RideSearchFrag extends Fragment {
         if (!lastRideSearchFilters.equals(SharedPref.MISSING_PREF)) {
             loadLastFilters(lastRideSearchFilters);
         }
+
+        App.getBus().register(this);
 
         return view;
     }
@@ -388,5 +392,11 @@ public class RideSearchFrag extends Fragment {
                 Log.e("listFiltered", error.getMessage());
             }
         });
+    }
+
+    @Subscribe
+    public void removeRideFromList(RideRequest ride) {
+        adapter.remove(ride.getDbId());
+        Log.i("removeRideFromList,srch", "remove called");
     }
 }
