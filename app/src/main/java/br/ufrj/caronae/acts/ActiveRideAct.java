@@ -221,13 +221,15 @@ public class ActiveRideAct extends AppCompatActivity {
                     @Override
                     public void success(Response response, Response response2) {
                         Util.toast(R.string.rideDeleted);
-                        finish();
 
                         new UnsubGcmTopic(ActiveRideAct.this, rideId).execute();
 
                         List<Ride> rides = Ride.find(Ride.class, "db_id = ?", rideId);
                         if (rides != null && !rides.isEmpty())
                             rides.get(0).delete();
+
+                        App.getBus().post(new RideIdForJson(rideWithUsers.getDbId()));
+                        finish();
                     }
 
                     @Override
@@ -249,13 +251,15 @@ public class ActiveRideAct extends AppCompatActivity {
                     @Override
                     public void success(Response response, Response response2) {
                         Util.toast(R.string.rideFinished);
-                        finish();
 
                         new UnsubGcmTopic(ActiveRideAct.this, rideId).execute();
 
                         List<Ride> rides = Ride.find(Ride.class, "db_id = ?", rideId);
                         if (rides != null && !rides.isEmpty())
                             rides.get(0).delete();
+
+                        App.getBus().post(new RideIdForJson(rideWithUsers.getDbId()));
+                        finish();
                     }
 
                     @Override

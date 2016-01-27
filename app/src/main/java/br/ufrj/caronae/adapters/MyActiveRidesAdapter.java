@@ -122,6 +122,14 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
         });
     }
 
+    public void remove(int rideId) {
+        for (int i = 0; i < ridesList.size(); i++)
+            if (ridesList.get(i).getDbId() == rideId) {
+                ridesList.remove(i);
+                notifyItemRemoved(i);
+            }
+    }
+
     @Override
     public int getItemCount() {
         return ridesList.size();
