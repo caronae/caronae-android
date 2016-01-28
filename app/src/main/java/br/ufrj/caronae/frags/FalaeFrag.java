@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import br.ufrj.caronae.App;
+import br.ufrj.caronae.BuildConfig;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.RoundedTransformation;
 import br.ufrj.caronae.Util;
@@ -86,7 +87,7 @@ public class FalaeFrag extends Fragment {
                 break;
         }
         subject = subject.concat(subject_et.getText().toString());
-        String message = message_et.getText().toString();
+        String message = message_et.getText().toString() + "\n\nID UFRJ: " + App.getUser().getIdUfrj() + "\n" + "Plataforma: Android\nVersão do App: " + BuildConfig.VERSION_NAME;
         if (message.isEmpty()) {
             Util.toast(getActivity().getString(R.string.frag_falae_msgblank));
             return;

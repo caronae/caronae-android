@@ -127,6 +127,7 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
             if (ridesList.get(i).getDbId() == rideId) {
                 ridesList.remove(i);
                 notifyItemRemoved(i);
+                return;
             }
     }
 

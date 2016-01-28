@@ -22,6 +22,7 @@ import br.ufrj.caronae.R;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.adapters.ChatMsgsAdapter;
 import br.ufrj.caronae.models.ChatMessageReceived;
+import br.ufrj.caronae.models.RideEndedEvent;
 import br.ufrj.caronae.models.modelsforjson.ChatMessageSent;
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -117,5 +118,14 @@ public class ChatAct extends AppCompatActivity {
         adapter.notifyItemInserted(chatMsgsList.size() - 1);
 
         chatMsgs_rv.scrollToPosition(chatMsgsList.size() - 1);
+    }
+
+    @Subscribe
+    public void rideEndedEvent(RideEndedEvent rideEndedEvent) {
+        Log.i("rideEndedEvent", "chatact" + rideEndedEvent.getRideId());
+
+        if (rideId.equals(rideEndedEvent.getRideId())) {
+            finish();
+        }
     }
 }

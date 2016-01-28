@@ -16,6 +16,7 @@ import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.asyncs.CheckSubGcmTopic;
 import br.ufrj.caronae.asyncs.UnsubGcmTopic;
 import br.ufrj.caronae.models.ChatMessageReceived;
+import br.ufrj.caronae.models.RideEndedEvent;
 
 public class GcmMessageHandler extends GcmListenerService {
     private static final int MESSAGE_NOTIFICATION_ID = 435345;
@@ -45,9 +46,16 @@ public class GcmMessageHandler extends GcmListenerService {
             }
         }
 
+        if (msgType != null && msgType.equals("finished")) {
+            String rideId = data.getString("rideId");
+            new UnsubGcmTopic(getApplicationContext(), rideId).execute();
+            App.getBus().post(new RideEndedEvent(rideId));
+        }
+
         if (msgType != null && msgType.equals("cancelled")) {
             String rideId = data.getString("rideId");
             new UnsubGcmTopic(getApplicationContext(), rideId).execute();
+            App.getBus().post(new RideEndedEvent(rideId));
         }
 
         if (msgType != null && msgType.equals("accepted")) {

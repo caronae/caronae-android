@@ -11,12 +11,17 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.rey.material.app.Dialog;
+import com.rey.material.app.DialogFragment;
+import com.rey.material.app.SimpleDialog;
+import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -24,10 +29,12 @@ import java.util.List;
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.RoundedTransformation;
+import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.adapters.RidersAdapter;
 import br.ufrj.caronae.asyncs.UnsubGcmTopic;
 import br.ufrj.caronae.models.Ride;
+import br.ufrj.caronae.models.RideEndedEvent;
 import br.ufrj.caronae.models.User;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
 import br.ufrj.caronae.models.modelsforjson.RideIdForJson;
@@ -77,6 +84,11 @@ public class ActiveRideAct extends AppCompatActivity {
     public RelativeLayout lay1;
     @Bind(R.id.ridersList)
     public RecyclerView ridersList;
+
+    private String rideId2;
+
+    private boolean notVisible;
+    private boolean scheduledToClose;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -209,7 +221,8 @@ public class ActiveRideAct extends AppCompatActivity {
             }
         });
 
-        final String rideId = rideWithUsers.getDbId() + "";
+        rideId2 = rideWithUsers.getDbId() + "";
+        final String rideId = rideId2;
 
         if (isDriver) {
             leave_bt.setText(R.string.cancelCaps);
@@ -228,7 +241,7 @@ public class ActiveRideAct extends AppCompatActivity {
                         if (rides != null && !rides.isEmpty())
                             rides.get(0).delete();
 
-                        App.getBus().post(new RideIdForJson(rideWithUsers.getDbId()));
+                        SharedPref.putPref("removeRideFromList", rideId);
                         finish();
                     }
 
@@ -258,7 +271,7 @@ public class ActiveRideAct extends AppCompatActivity {
                         if (rides != null && !rides.isEmpty())
                             rides.get(0).delete();
 
-                        App.getBus().post(new RideIdForJson(rideWithUsers.getDbId()));
+                        SharedPref.putPref("removeRideFromList", rideId);
                         finish();
                     }
 
@@ -271,6 +284,72 @@ public class ActiveRideAct extends AppCompatActivity {
                 });
             }
         });
+
+        App.getBus().register(this);
+        notVisible = false;
+        scheduledToClose = false;
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        notVisible = true;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        notVisible = false;
+
+        if (scheduledToClose)
+            showCloseDialog();
+    }
+
+    @Subscribe
+    public void rideEndedEvent(RideEndedEvent rideEndedEvent) {
+        final String rideId = rideEndedEvent.getRideId();
+        Log.i("rideEndedEvent", "activerideact" + rideId);
+
+        if (rideId2.equals(rideId)) {
+            if (notVisible) {
+                scheduledToClose = true;
+                return;
+            }
+
+            showCloseDialog();
+        }
+    }
+
+    private void showCloseDialog() {
+        Dialog.Builder builder = new SimpleDialog.Builder(R.style.SimpleDialogLight){
+
+            @Override
+            protected void onBuildDone(Dialog dialog) {
+                dialog.layoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            }
+
+            @Override
+            public void onPositiveActionClicked(DialogFragment fragment) {
+                SharedPref.putPref("removeRideFromList", rideId2);
+                ActiveRideAct.this.finish();
+
+                super.onPositiveActionClicked(fragment);
+            }
+
+            @Override
+            public void onNegativeActionClicked(DialogFragment fragment) {
+                super.onNegativeActionClicked(fragment);
+            }
+        };
+
+        builder.title("Opa...")
+                .positiveAction(getString(R.string.ok))
+                .contentView(R.layout.rideended);
+
+        DialogFragment fragment = DialogFragment.newInstance(builder);
+        fragment.show(getSupportFragmentManager(), null);
     }
 
     @Override

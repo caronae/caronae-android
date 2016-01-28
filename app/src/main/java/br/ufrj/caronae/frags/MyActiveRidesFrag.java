@@ -37,6 +37,7 @@ public class MyActiveRidesFrag extends Fragment {
     RecyclerView myRidesList;
     @Bind(R.id.norides_tv)
     TextView norides_tv;
+
     private MyActiveRidesAdapter adapter;
 
     public MyActiveRidesFrag() {
@@ -99,9 +100,19 @@ public class MyActiveRidesFrag extends Fragment {
         return view;
     }
 
-    @Subscribe
-    public void removeRideFromList(RideIdForJson rideIdForJson) {
-        adapter.remove(rideIdForJson.getRideId());
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        String rideId = SharedPref.getPref("removeRideFromList");
+        if (!rideId.equals(SharedPref.MISSING_PREF)) {
+            removeRideFromList(rideId);
+        }
+    }
+
+    public void removeRideFromList(String rideId) {
+        adapter.remove(Integer.valueOf(rideId));
+        SharedPref.removePref("removeRideFromList");
         Log.i("removeRideFromList,actv", "remove called");
     }
 }
