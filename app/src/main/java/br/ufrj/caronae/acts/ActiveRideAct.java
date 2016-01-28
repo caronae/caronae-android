@@ -241,7 +241,7 @@ public class ActiveRideAct extends AppCompatActivity {
                         if (rides != null && !rides.isEmpty())
                             rides.get(0).delete();
 
-                        SharedPref.putPref("removeRideFromList", rideId);
+                        SharedPref.saveRemoveRideFromList(rideId);
                         finish();
                     }
 
@@ -271,7 +271,7 @@ public class ActiveRideAct extends AppCompatActivity {
                         if (rides != null && !rides.isEmpty())
                             rides.get(0).delete();
 
-                        SharedPref.putPref("removeRideFromList", rideId);
+                        SharedPref.saveRemoveRideFromList(rideId);
                         finish();
                     }
 
@@ -332,7 +332,7 @@ public class ActiveRideAct extends AppCompatActivity {
 
             @Override
             public void onPositiveActionClicked(DialogFragment fragment) {
-                SharedPref.putPref("removeRideFromList", rideId2);
+                SharedPref.saveRemoveRideFromList(rideId2);
                 ActiveRideAct.this.finish();
 
                 super.onPositiveActionClicked(fragment);

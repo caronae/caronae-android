@@ -16,6 +16,7 @@ public class SharedPref {
     private static final String GCM_TOKEN_PREF_KEY                   = "gcmToken";
     private static final String NOTIFICATIONS_ON_PREF_KEY            = "notifOn";
     private static final String DRAWER_PIC_PREF                      = "drawerPic";
+    private static final String RM_RIDE_LIST                         = "removeRideFromList";
     public static final String MISSING_PREF                          = "missing";
 
     private static SharedPreferences getSharedPreferences() {
@@ -26,15 +27,15 @@ public class SharedPref {
         return getSharedPreferences().edit();
     }
 
-    public static void putPref(String key, String value) {
+    private static void putPref(String key, String value) {
         getSharedPrefEditor().putString(key, value).apply();
     }
 
-    public static String getPref(String key) {
+    private static String getPref(String key) {
         return getSharedPreferences().getString(key, MISSING_PREF);
     }
 
-    public static void removePref(String key) {
+    private static void removePref(String key) {
         getSharedPrefEditor().remove(key).apply();
     }
 
@@ -92,6 +93,18 @@ public class SharedPref {
 
     public static String getDrawerPic() {
         return getPref(DRAWER_PIC_PREF);
+    }
+
+    public static void saveRemoveRideFromList(String profilePicUrl) {
+        putPref(RM_RIDE_LIST, profilePicUrl);
+    }
+
+    public static String getRemoveRideFromList() {
+        return getPref(RM_RIDE_LIST);
+    }
+
+    public static void removeRemoveRideFromList() {
+        removePref(RM_RIDE_LIST);
     }
 
     public static void removeAllPrefButGcm() {

@@ -104,7 +104,7 @@ public class MyActiveRidesFrag extends Fragment {
     public void onResume() {
         super.onResume();
 
-        String rideId = SharedPref.getPref("removeRideFromList");
+        String rideId = SharedPref.getRemoveRideFromList();
         if (!rideId.equals(SharedPref.MISSING_PREF)) {
             removeRideFromList(rideId);
         }
@@ -112,7 +112,7 @@ public class MyActiveRidesFrag extends Fragment {
 
     public void removeRideFromList(String rideId) {
         adapter.remove(Integer.valueOf(rideId));
-        SharedPref.removePref("removeRideFromList");
+        SharedPref.removeRemoveRideFromList();
         Log.i("removeRideFromList,actv", "remove called");
     }
 }
