@@ -1,7 +1,9 @@
 package br.ufrj.caronae.gcm;
 
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,6 +15,7 @@ import com.google.android.gms.gcm.GcmListenerService;
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.SharedPref;
+import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.asyncs.CheckSubGcmTopic;
 import br.ufrj.caronae.asyncs.UnsubGcmTopic;
 import br.ufrj.caronae.models.ChatMessageReceived;
@@ -78,21 +81,24 @@ public class GcmMessageHandler extends GcmListenerService {
             title = "Aviso de carona";
         }
 
-        /*Intent resultIntent = new Intent(this, MainAct.class);
+        Intent resultIntent = new Intent(this, MainAct.class);
+        resultIntent.putExtra("msgType", msgType);
+        resultIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
+                | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         PendingIntent resultPendingIntent =
                 PendingIntent.getActivity(
                         this,
                         0,
                         resultIntent,
                         PendingIntent.FLAG_UPDATE_CURRENT
-                );*/
+                );
 
         Context context = App.inst();
         Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle(title)
-                //.setContentIntent(resultPendingIntent)
+                .setContentIntent(resultPendingIntent)
                 .setSound(alarmSound)
                 .setAutoCancel(true)
                 .setContentText(message);

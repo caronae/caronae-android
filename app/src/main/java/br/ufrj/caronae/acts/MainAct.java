@@ -124,23 +124,28 @@ public class MainAct extends AppCompatActivity {
         setupDrawerContent(nvDrawer);
         getHeaderView(nvDrawer);
 
-        User user = App.getUser();
-        Fragment fragment;
-        if (user.getEmail() == null || user.getEmail().isEmpty() ||
-                user.getPhoneNumber() == null || user.getPhoneNumber().isEmpty() ||
-                user.getLocation() == null || user.getLocation().isEmpty()) {
-            fragment = new MyProfileFrag();
-            Util.toast(getString(R.string.act_main_profileIncomplete));
-        } else {
-            fragment = new AllRidesFrag();
-        }
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+        checkGPlay();
 
         backstack = new ArrayList<>();
-        backstack.add(fragment.getClass());
 
-        checkGPlay();
+        String msgType = getIntent().getStringExtra("msgType");
+        if (msgType != null && !msgType.isEmpty()) {
+            openFragFromNotif(getIntent());
+        } else {
+            User user = App.getUser();
+            Fragment fragment;
+            if (user.getEmail() == null || user.getEmail().isEmpty() ||
+                    user.getPhoneNumber() == null || user.getPhoneNumber().isEmpty() ||
+                    user.getLocation() == null || user.getLocation().isEmpty()) {
+                fragment = new MyProfileFrag();
+                Util.toast(getString(R.string.act_main_profileIncomplete));
+            } else {
+                fragment = new AllRidesFrag();
+            }
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+            backstack.add(fragment.getClass());
+        }
     }
 
     private void checkGPlay() {
@@ -233,6 +238,42 @@ public class MainAct extends AppCompatActivity {
         menuItem.setChecked(true);
         setTitle(menuItem.getTitle());
         mDrawer.closeDrawers();
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
+        openFragFromNotif(intent);
+    }
+
+    private void openFragFromNotif(Intent intent) {
+        Class fragmentClass = AllRidesFrag.class;
+        String msgType = intent.getStringExtra("msgType");
+        if (msgType.equals("accepted") ||
+                msgType.equals("refused") ||
+                msgType.equals("quitter") ||
+                msgType.equals("cancelled")) {
+            fragmentClass = MyActiveRidesFrag.class;
+        }
+        if (msgType.equals("joinRequest")) {
+            fragmentClass = MyRidesFrag.class;
+        }
+        if (msgType.equals("finished")) {
+            fragmentClass = RidesHistoryFrag.class;
+        }
+
+        backstack.remove(fragmentClass);
+        backstack.add(fragmentClass);
+        Fragment fragment = null;
+        try {
+            fragment = (Fragment) fragmentClass.newInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+        setTitle(retrieveTitle(fragmentClass.toString()));
     }
 
     @Override
