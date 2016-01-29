@@ -179,6 +179,7 @@ public class RideOfferAct extends AppCompatActivity {
                         RideRequest rideRequest = new RideRequest(rideWithUsers.getDbId(), rideWithUsers.isGoing(), rideWithUsers.getDate());
                         rideRequest.save();
 
+                        join_bt.setVisibility(View.INVISIBLE);
                         App.getBus().post(rideRequest);
                     }
 
