@@ -11,9 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.squareup.otto.Subscribe;
-
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import br.ufrj.caronae.App;
@@ -23,8 +22,8 @@ import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.adapters.MyActiveRidesAdapter;
 import br.ufrj.caronae.asyncs.CheckSubGcmTopic;
+import br.ufrj.caronae.comparators.RideComparatorByDateAndTime;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
-import br.ufrj.caronae.models.modelsforjson.RideIdForJson;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import retrofit.Callback;
@@ -78,6 +77,7 @@ public class MyActiveRidesFrag extends Fragment {
                     Log.i("getMyActiveRides", "i DO NOT have gcm token");
                 }
 
+                Collections.sort(rideWithUsersList, new RideComparatorByDateAndTime());
                 adapter = new MyActiveRidesAdapter(rideWithUsersList, (MainAct) getActivity());
                 myRidesList.setAdapter(adapter);
                 myRidesList.setHasFixedSize(true);

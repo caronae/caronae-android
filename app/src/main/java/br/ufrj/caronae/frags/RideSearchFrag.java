@@ -39,7 +39,7 @@ import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.adapters.RideOfferAdapter;
-import br.ufrj.caronae.comparators.RideOfferComparatorByTime;
+import br.ufrj.caronae.comparators.RideOfferComparatorByDateAndTime;
 import br.ufrj.caronae.models.RideRequest;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
 import br.ufrj.caronae.models.modelsforjson.RideSearchFiltersForJson;
@@ -373,7 +373,7 @@ public class RideSearchFrag extends Fragment {
                 if (rideOffers != null && !rideOffers.isEmpty()) {
                     Util.expandOrCollapse(lay, false);
                     anotherSearch_bt.setVisibility(View.VISIBLE);
-                    Collections.sort(rideOffers, new RideOfferComparatorByTime());
+                    Collections.sort(rideOffers, new RideOfferComparatorByDateAndTime());
                     for (RideForJson rideOffer : rideOffers) {
                         rideOffer.setDbId(rideOffer.getId().intValue());
                     }
