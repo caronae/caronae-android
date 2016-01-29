@@ -59,6 +59,8 @@ public class MainAct extends AppCompatActivity {
     private ActionBarDrawerToggle drawerToggle;
     private CallbackManager callbackManager;
 
+    private ArrayList<Class> backstack;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -134,6 +136,9 @@ public class MainAct extends AppCompatActivity {
         }
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+
+        backstack = new ArrayList<>();
+        backstack.add(fragment.getClass());
 
         checkGPlay();
     }
@@ -219,12 +224,64 @@ public class MainAct extends AppCompatActivity {
             e.printStackTrace();
         }
 
+        backstackSafeCheck();
+        backstack.remove(fragmentClass);
+        backstack.add(fragmentClass);
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
 
         menuItem.setChecked(true);
         setTitle(menuItem.getTitle());
         mDrawer.closeDrawers();
+    }
+
+    @Override
+    public void onBackPressed() {
+        backstackSafeCheck();
+        if (!backstack.isEmpty())
+            backstack.remove(backstack.size() - 1);
+        if (backstack.isEmpty()) {
+            finish();
+        } else {
+            Class fragmentClass = backstack.get(backstack.size() - 1);
+
+            Fragment fragment = null;
+            try {
+                fragment = (Fragment) fragmentClass.newInstance();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+            setTitle(retrieveTitle(fragmentClass.toString()));
+            mDrawer.closeDrawers();
+        }
+    }
+
+    private void backstackSafeCheck() {//better safe than sorry
+        if (backstack == null)
+            backstack = new ArrayList<>();
+    }
+
+    private int retrieveTitle(String fragmentClass) {
+        if (fragmentClass.equals(MyProfileFrag.class.toString()))
+            return R.string.frag_profile_title;
+        if (fragmentClass.equals(AllRidesFrag.class.toString()))
+            return R.string.frag_allrides_title;
+        if (fragmentClass.equals(MyRidesFrag.class.toString()))
+            return R.string.frag_myrides_title;
+        if (fragmentClass.equals(MyActiveRidesFrag.class.toString()))
+            return R.string.frag_myactiverides_title;
+        if (fragmentClass.equals(RidesHistoryFrag.class.toString()))
+            return R.string.frag_history_title;
+        if (fragmentClass.equals(FalaeFrag.class.toString()))
+            return R.string.frag_falae_title;
+        if (fragmentClass.equals(RideOfferFrag.class.toString()))
+            return R.string.act_main_setRideOfferFragTitle;
+        if (fragmentClass.equals(RideSearchFrag.class.toString()))
+            return R.string.frag_searchride_title;
+        return R.string.app_name;
     }
 
     @Override
@@ -251,6 +308,9 @@ public class MainAct extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.search_frag_bt) {
+            backstackSafeCheck();
+            backstack.remove(RideSearchFrag.class);
+            backstack.add(RideSearchFrag.class);
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.flContent, new RideSearchFrag()).commit();
             setTitle(item.getTitle());
@@ -290,14 +350,20 @@ public class MainAct extends AppCompatActivity {
         bundle.putInt("rideId", rideId);
         bundle.putInt("color", color);
 
+        backstackSafeCheck();
+        backstack.remove(RequestersListFrag.class);
+        backstack.add(RequestersListFrag.class);
         RequestersListFrag fragment = new RequestersListFrag();
         fragment.setArguments(bundle);
 
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).addToBackStack(null).commit();
+        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
     }
 
     public void showRideOfferFrag() {
+        backstackSafeCheck();
+        backstack.remove(RideOfferFrag.class);
+        backstack.add(RideOfferFrag.class);
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.flContent, new RideOfferFrag()).commit();
         setTitle(getString(R.string.act_main_setRideOfferFragTitle));

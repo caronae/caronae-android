@@ -2,21 +2,21 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_first_fragment"
-            android:title="Perfil" />
+            android:title="@string/frag_profile_title" />
         <item
             android:id="@+id/nav_second_fragment"
-            android:title="Todas as caronas" />
+            android:title="@string/frag_allrides_title" />
         <item
             android:id="@+id/nav_third_fragment"
-            android:title="Minhas Ofertas" />
+            android:title="@string/frag_myrides_title" />
         <item
             android:id="@+id/nav_fourth_fragment"
-            android:title="Caronas Ativas" />
+            android:title="@string/frag_myactiverides_title" />
         <item
             android:id="@+id/nav_fifth_fragment"
-            android:title="Histórico" />
+            android:title="@string/frag_history_title" />
         <item
             android:id="@+id/nav_sixth_fragment"
-            android:title="Fale conosco" />
+            android:title="@string/frag_falae_title" />
     </group>
 </menu>
