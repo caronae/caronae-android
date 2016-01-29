@@ -253,6 +253,7 @@ public class MainAct extends AppCompatActivity {
         if (msgType.equals("accepted") ||
                 msgType.equals("refused") ||
                 msgType.equals("quitter") ||
+                msgType.equals("chat") ||
                 msgType.equals("cancelled")) {
             fragmentClass = MyActiveRidesFrag.class;
         }
