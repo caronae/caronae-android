@@ -21,6 +21,7 @@ import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.adapters.ChatMsgsAdapter;
+import br.ufrj.caronae.models.ChatAssets;
 import br.ufrj.caronae.models.ChatMessageReceived;
 import br.ufrj.caronae.models.RideEndedEvent;
 import br.ufrj.caronae.models.modelsforjson.ChatMessageSent;
@@ -59,20 +60,28 @@ public class ChatAct extends AppCompatActivity {
         setContentView(R.layout.activity_chat);
         ButterKnife.bind(this);
 
-        int color = getIntent().getExtras().getInt("color");
+        rideId = getIntent().getExtras().getString("rideId");
+        List<ChatAssets> l = ChatAssets.find(ChatAssets.class, "ride_id = ?", rideId);
+        if (l == null || l.isEmpty()) {
+            finish();
+            return;
+        }
+
+        ChatAssets chatAssets = l.get(0);
+
+        int color = chatAssets.getColor();
         lay1.setBackgroundColor(color);
-        int bgRes = getIntent().getExtras().getInt("bgRes");
+        int bgRes = chatAssets.getBgRes();
         send_bt.setBackgroundResource(bgRes);
-        String neighborhood = getIntent().getExtras().getString("location");
+        String neighborhood = chatAssets.getLocation();
         neighborhood_tv.setText(neighborhood);
-        String riders = getIntent().getExtras().getString("riders");
+        String riders = chatAssets.getRiders();
         riders_tv.setText(riders);
-        String date = getIntent().getExtras().getString("date");
+        String date = chatAssets.getDate();
         date_tv.setText(date);
-        String time = getIntent().getExtras().getString("time");
+        String time = chatAssets.getTime();
         time_tv.setText(time);
 
-        rideId = getIntent().getExtras().getString("rideId");
         chatMsgsList = ChatMessageReceived.find(ChatMessageReceived.class, "ride_id = ?", rideId);
 
         chatMsgs_rv.setAdapter(new ChatMsgsAdapter(chatMsgsList, color));

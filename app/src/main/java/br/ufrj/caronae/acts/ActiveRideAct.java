@@ -33,6 +33,7 @@ import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.adapters.RidersAdapter;
 import br.ufrj.caronae.asyncs.UnsubGcmTopic;
+import br.ufrj.caronae.models.ChatAssets;
 import br.ufrj.caronae.models.Ride;
 import br.ufrj.caronae.models.RideEndedEvent;
 import br.ufrj.caronae.models.User;
@@ -203,20 +204,20 @@ public class ActiveRideAct extends AppCompatActivity {
         chat_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(ActiveRideAct.this, ChatAct.class);
-                intent.putExtra("rideId", rideWithUsers.getDbId() + "");
-                intent.putExtra("location", location);
-                intent.putExtra("color", finalColor);
-                intent.putExtra("bgRes", finalBgRes);
-                intent.putExtra("date", Util.formatBadDateWithoutYear(rideWithUsers.getDate()));
-                intent.putExtra("time", Util.formatTime(rideWithUsers.getTime()));
-
                 String riders = driver.getName().split(" ")[0] + ", ";
                 for (User user : rideWithUsers.getRiders()) {
                     riders += user.getName().split(" ")[0] + ", ";
                 }
                 riders = riders.substring(0, riders.length() - 2);
-                intent.putExtra("riders", riders);
+
+                List<ChatAssets> l = ChatAssets.find(ChatAssets.class, "ride_id = ?", rideWithUsers.getDbId() + "");
+                if (l == null || l.isEmpty())
+                    new ChatAssets(rideWithUsers.getDbId() + "", location, finalColor, finalBgRes,
+                            Util.formatBadDateWithoutYear(rideWithUsers.getDate()),
+                            Util.formatTime(rideWithUsers.getTime()), riders).save();
+
+                Intent intent = new Intent(ActiveRideAct.this, ChatAct.class);
+                intent.putExtra("rideId", rideWithUsers.getDbId() + "");
                 startActivity(intent);
             }
         });
@@ -323,7 +324,7 @@ public class ActiveRideAct extends AppCompatActivity {
     }
 
     private void showCloseDialog() {
-        Dialog.Builder builder = new SimpleDialog.Builder(R.style.SimpleDialogLight){
+        Dialog.Builder builder = new SimpleDialog.Builder(R.style.SimpleDialogLight) {
 
             @Override
             protected void onBuildDone(Dialog dialog) {

@@ -22,7 +22,7 @@ import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.adapters.MyActiveRidesAdapter;
 import br.ufrj.caronae.asyncs.CheckSubGcmTopic;
-import br.ufrj.caronae.comparators.RideComparatorByDateAndTime;
+import br.ufrj.caronae.comparators.RideOfferComparatorByDateAndTime;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -77,7 +77,7 @@ public class MyActiveRidesFrag extends Fragment {
                     Log.i("getMyActiveRides", "i DO NOT have gcm token");
                 }
 
-                Collections.sort(rideWithUsersList, new RideComparatorByDateAndTime());
+                Collections.sort(rideWithUsersList, new RideOfferComparatorByDateAndTime());
                 adapter = new MyActiveRidesAdapter(rideWithUsersList, (MainAct) getActivity());
                 myRidesList.setAdapter(adapter);
                 myRidesList.setHasFixedSize(true);
