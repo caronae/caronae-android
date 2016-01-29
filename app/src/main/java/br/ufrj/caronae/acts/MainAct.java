@@ -44,7 +44,6 @@ import br.ufrj.caronae.frags.FalaeFrag;
 import br.ufrj.caronae.frags.MyActiveRidesFrag;
 import br.ufrj.caronae.frags.MyProfileFrag;
 import br.ufrj.caronae.frags.MyRidesFrag;
-import br.ufrj.caronae.frags.RequestersListFrag;
 import br.ufrj.caronae.frags.RideOfferFrag;
 import br.ufrj.caronae.frags.RideSearchFrag;
 import br.ufrj.caronae.frags.RidesHistoryFrag;
@@ -384,22 +383,6 @@ public class MainAct extends AppCompatActivity {
             callbackManager = CallbackManager.Factory.create();
 
         return callbackManager;
-    }
-
-    public void showRequestersListFrag(List<User> users, int rideId, int color) {
-        Bundle bundle = new Bundle();
-        bundle.putParcelableArrayList("users", (ArrayList<User>) users);
-        bundle.putInt("rideId", rideId);
-        bundle.putInt("color", color);
-
-        backstackSafeCheck();
-        backstack.remove(RequestersListFrag.class);
-        backstack.add(RequestersListFrag.class);
-        RequestersListFrag fragment = new RequestersListFrag();
-        fragment.setArguments(bundle);
-
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
     }
 
     public void showRideOfferFrag() {

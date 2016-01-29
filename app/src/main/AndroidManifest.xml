@@ -83,9 +83,12 @@
             android:name=".acts.ActiveRideAct"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".acts.RideOfferAct"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".acts.RequestersListAct"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
 

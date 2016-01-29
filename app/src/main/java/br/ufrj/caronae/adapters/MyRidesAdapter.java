@@ -2,6 +2,7 @@ package br.ufrj.caronae.adapters;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -12,12 +13,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.MainAct;
+import br.ufrj.caronae.acts.RequestersListAct;
 import br.ufrj.caronae.models.Ride;
 import br.ufrj.caronae.models.User;
 import retrofit.Callback;
@@ -134,7 +137,11 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
                         if (users.isEmpty()) {
                             Util.toast(R.string.noRequesters);
                         } else {
-                            activity.showRequestersListFrag(users, ride.getDbId(), colorToSend);
+                            Intent intent = new Intent(activity, RequestersListAct.class);
+                            intent.putParcelableArrayListExtra("users", (ArrayList<User>) users);
+                            intent.putExtra("rideId", ride.getDbId());
+                            intent.putExtra("color", colorToSend);
+                            activity.startActivity(intent);
                         }
                     }
 
