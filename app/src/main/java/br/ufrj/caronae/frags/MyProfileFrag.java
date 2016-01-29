@@ -1,11 +1,9 @@
 package br.ufrj.caronae.frags;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -23,6 +21,7 @@ import com.facebook.FacebookException;
 import com.facebook.Profile;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.rey.material.app.Dialog;
 import com.rey.material.app.DialogFragment;
 import com.rey.material.app.SimpleDialog;
 import com.rey.material.widget.EditText;
@@ -396,7 +395,12 @@ public class MyProfileFrag extends Fragment {
         SimpleDialog.Builder builder = new SimpleDialog.Builder(R.style.SimpleDialogLight) {
             @Override
             public void onPositiveActionClicked(DialogFragment fragment) {
-                locationEt2(getSelectedValue().toString());
+                String selectedZone = getSelectedValue().toString();
+                if (selectedZone.equals("Outros")) {
+                    showOtherNeighborhoodDialog();
+                } else {
+                    locationEt2(selectedZone);
+                }
                 super.onPositiveActionClicked(fragment);
             }
 
@@ -412,6 +416,40 @@ public class MyProfileFrag extends Fragment {
                 .negativeAction(getString(R.string.cancel));
         DialogFragment fragment = DialogFragment.newInstance(builder);
         fragment.show(getFragmentManager(), null);
+    }
+
+    public void showOtherNeighborhoodDialog() {
+        Dialog.Builder builder = new SimpleDialog.Builder(R.style.SimpleDialogLight) {
+
+            @Override
+            protected void onBuildDone(Dialog dialog) {
+                dialog.layoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            }
+
+            @Override
+            public void onPositiveActionClicked(DialogFragment fragment) {
+                android.widget.EditText neighborhood_et = (android.widget.EditText) fragment.getDialog().findViewById(R.id.neighborhood_et);
+                String neighborhood = neighborhood_et.getText().toString();
+                if (!neighborhood.isEmpty()) {
+                    location_et.setText(neighborhood);
+                }
+
+                super.onPositiveActionClicked(fragment);
+            }
+
+            @Override
+            public void onNegativeActionClicked(DialogFragment fragment) {
+                super.onNegativeActionClicked(fragment);
+            }
+        };
+
+        builder.title(getActivity().getString(R.string.frag_ridesearch_typeNeighborhood))
+                .positiveAction(getString(R.string.ok))
+                .negativeAction(getString(R.string.cancel))
+                .contentView(R.layout.other_neighborhood);
+
+        DialogFragment fragment2 = DialogFragment.newInstance(builder);
+        fragment2.show(getActivity().getSupportFragmentManager(), null);
     }
 
     public void locationEt2(String zone) {
@@ -434,34 +472,6 @@ public class MyProfileFrag extends Fragment {
                 .negativeAction(getString(R.string.cancel));
         DialogFragment fragment = DialogFragment.newInstance(builder);
         fragment.show(getFragmentManager(), null);
-    }
-
-    @OnClick(R.id.profile_tv)
-    public void profileTv() {
-        final android.widget.EditText input = new android.widget.EditText(getActivity());
-        new AlertDialog.Builder(getActivity())
-                .setView(input)
-                .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int which) {
-                        String text = input.getText().toString();
-                        profile_tv.setText(text.isEmpty() ? "Perfil padrão" : text);
-                    }
-                }).show();
-    }
-
-    @OnClick(R.id.course_tv)
-    public void courseTv() {
-        final android.widget.EditText input = new android.widget.EditText(getActivity());
-        new AlertDialog.Builder(getActivity())
-                .setView(input)
-                .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int which) {
-                        String text = input.getText().toString();
-                        course_tv.setText(text.isEmpty() ? "Curso padrão" : text);
-                    }
-                }).show();
     }
 
     @Override

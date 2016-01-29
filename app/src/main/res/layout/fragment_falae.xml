@@ -99,7 +99,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/radioGroup"
-        android:maxLines="1"
+        android:singleLine="true"
         android:layout_margin="16dp"
         android:hint="@string/frag_falae_subjectHint" />
 
