@@ -170,5 +170,6 @@
     <string name="myactiveride_openBt">Ver mais</string>
     <string name="act_activeride_rideNUll">Erro ao abrir carona</string>
     <string name="rideoffer_openBt">Ver mais</string>
+    <string name="act_main_profileIncomplete">Por favor, complete seu perfil</string>
 
 </resources>

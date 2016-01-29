@@ -187,4 +187,8 @@ public class Util {
         }
         return formattedTime;
     }
+
+    public static String formatDateRemoveYear(String date) {
+        return date.substring(0, 5);
+    }
 }

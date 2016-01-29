@@ -128,6 +128,7 @@ public class MainAct extends AppCompatActivity {
                 user.getPhoneNumber() == null || user.getPhoneNumber().isEmpty() ||
                 user.getLocation() == null || user.getLocation().isEmpty()) {
             fragment = new MyProfileFrag();
+            Util.toast(getString(R.string.act_main_profileIncomplete));
         } else {
             fragment = new AllRidesFrag();
         }

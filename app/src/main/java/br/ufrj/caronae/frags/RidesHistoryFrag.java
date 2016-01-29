@@ -56,6 +56,8 @@ public class RidesHistoryFrag extends Fragment {
 
                 for (RideForJson rideHistory : historyRides) {
                     rideHistory.setDbId(rideHistory.getId().intValue());
+                    rideHistory.setTime(Util.formatTime(rideHistory.getTime()));
+                    rideHistory.setDate(Util.formatBadDateWithYear(rideHistory.getDate()));
                 }
                 Collections.sort(historyRides, new RideComparatorByDateAndTime());
                 myRidesList.setAdapter(new RidesHistoryAdapter(historyRides, (MainAct) getActivity()));

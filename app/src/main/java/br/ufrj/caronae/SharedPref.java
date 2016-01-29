@@ -114,5 +114,6 @@ public class SharedPref {
         removePref(TOKEN_PREF_KEY);
         removePref(NOTIFICATIONS_ON_PREF_KEY);
         removePref(DRAWER_PIC_PREF);
+        removePref(RM_RIDE_LIST);
     }
 }
