@@ -32,13 +32,13 @@ import com.google.android.gms.common.GoogleApiAvailability;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.RoundedTransformation;
 import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.Util;
+import br.ufrj.caronae.frags.AboutFrag;
 import br.ufrj.caronae.frags.AllRidesFrag;
 import br.ufrj.caronae.frags.FalaeFrag;
 import br.ufrj.caronae.frags.MyActiveRidesFrag;
@@ -218,6 +218,12 @@ public class MainAct extends AppCompatActivity {
             case R.id.nav_sixth_fragment:
                 fragmentClass = FalaeFrag.class;
                 break;
+            case R.id.nav_seventh_fragment:
+                fragmentClass = AboutFrag.class;
+                break;
+            case R.id.nav_eigth_fragment:
+                fragmentClass = AboutFrag.class;
+                break;
             default:
                 fragmentClass = MyProfileFrag.class;
         }
@@ -322,6 +328,8 @@ public class MainAct extends AppCompatActivity {
             return R.string.act_main_setRideOfferFragTitle;
         if (fragmentClass.equals(RideSearchFrag.class.toString()))
             return R.string.frag_searchride_title;
+        if (fragmentClass.equals(AboutFrag.class.toString()))
+            return R.string.frag_about_title;
         return R.string.app_name;
     }
 

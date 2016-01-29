@@ -178,5 +178,7 @@
     <string name="frag_history_title">Histórico</string>
     <string name="frag_falae_title">Fale conosco</string>
     <string name="frag_searchride_title">Buscar carona</string>
+    <string name="frag_termsofuse_title">Termos de uso</string>
+    <string name="frag_about_title">Sobre</string>
 
 </resources>
