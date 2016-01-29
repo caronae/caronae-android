@@ -33,7 +33,7 @@ public interface NetworkService {
     void signUp(@Path("name") String name, @Path("token") String token, Callback<Response> cb);
 
     @GET("/user/signup/intranet/{id}/{token}")
-    void signUpIntranet(@Path("id") String id, @Path("token") String token, Callback<Response> cb);
+    void signUpIntranet(@Path("id") String id, @Path("token") String token, Callback<User> cb);
 
     @POST("/user/login")
     void login(@Body TokenForJson token, Callback<UserWithRidesForJson> cb);

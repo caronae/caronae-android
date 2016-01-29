@@ -8,6 +8,7 @@ import android.widget.EditText;
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.Util;
+import br.ufrj.caronae.models.User;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -31,10 +32,10 @@ public class SignUpAct extends AppCompatActivity {
 
     @OnClick(R.id.button)
     public void button() {
-        App.getNetworkService().signUpIntranet(nome_et.getText().toString(), token_et.getText().toString(), new Callback<Response>() {
+        App.getNetworkService().signUpIntranet(nome_et.getText().toString(), token_et.getText().toString(), new Callback<User>() {
             @Override
-            public void success(Response s, Response response) {
-                Util.toast(Util.getResponseBody(s));
+            public void success(User user, Response response) {
+                Util.toast(user.getName() + "cadastrado");
             }
 
             @Override
