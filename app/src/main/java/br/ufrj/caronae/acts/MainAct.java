@@ -225,7 +225,7 @@ public class MainAct extends AppCompatActivity {
                 fragmentClass = AboutFrag.class;
                 break;
             default:
-                fragmentClass = MyProfileFrag.class;
+                fragmentClass = AllRidesFrag.class;
         }
 
         try {
@@ -240,7 +240,6 @@ public class MainAct extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
 
-        menuItem.setChecked(true);
         setTitle(menuItem.getTitle());
         mDrawer.closeDrawers();
     }
