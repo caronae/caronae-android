@@ -30,7 +30,7 @@ import retrofit.http.Path;
 public interface NetworkService {
     //user routes
     @GET("/user/signup/{name}/{token}")
-    void signUp(@Path("name") String name, @Path("token") String token, Callback<Response> cb);
+    void signUp(@Path("name") String name, @Path("token") String token, Callback<User> cb);
 
     @GET("/user/signup/intranet/{id}/{token}")
     void signUpIntranet(@Path("id") String id, @Path("token") String token, Callback<User> cb);

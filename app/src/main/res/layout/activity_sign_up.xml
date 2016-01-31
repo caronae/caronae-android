@@ -32,4 +32,13 @@
         android:layout_below="@+id/token_et"
         android:layout_centerHorizontal="true"
         android:text="Cadastrar" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Intranet"
+        android:id="@+id/checkBox"
+        android:checked="true"
+        android:layout_above="@+id/nome_et"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>
