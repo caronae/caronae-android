@@ -70,6 +70,13 @@ public class FalaeFrag extends Fragment {
 
     @OnClick(R.id.send_bt)
     public void sendBt() {
+        String message = message_et.getText().toString();
+        if (message.isEmpty()) {
+            Util.toast(getActivity().getString(R.string.frag_falae_msgblank));
+            return;
+        }
+        message = message.concat("\n\nID UFRJ: " + App.getUser().getIdUfrj() + "\n" + "Plataforma: Android\nVersão do App: " + BuildConfig.VERSION_NAME);
+
         int checkedId = radioGroup.getCheckedRadioButtonId();
         String subject = "";
         switch (checkedId) {
@@ -87,11 +94,6 @@ public class FalaeFrag extends Fragment {
                 break;
         }
         subject = subject.concat(subject_et.getText().toString());
-        String message = message_et.getText().toString() + "\n\nID UFRJ: " + App.getUser().getIdUfrj() + "\n" + "Plataforma: Android\nVersão do App: " + BuildConfig.VERSION_NAME;
-        if (message.isEmpty()) {
-            Util.toast(getActivity().getString(R.string.frag_falae_msgblank));
-            return;
-        }
 
         App.getNetworkService().falaeSendMessage(new FalaeMsgForJson(subject, message), new Callback<Response>() {
             @Override
