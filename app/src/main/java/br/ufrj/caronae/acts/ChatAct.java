@@ -119,6 +119,9 @@ public class ChatAct extends AppCompatActivity {
 
     @Subscribe
     public void updateMsgsList(ChatMessageReceived msg) {
+        if (!msg.getRideId().equals(rideId))
+            return;
+
         Log.i("updateMsgsList", msg.getMessage());
 
         chatMsgsList.add(msg);

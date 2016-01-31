@@ -95,10 +95,10 @@ public class ProfileAct extends AppCompatActivity {
         String profilePicUrl = user.getProfilePicUrl();
         if (profilePicUrl != null && !profilePicUrl.isEmpty())
             Picasso.with(this).load(profilePicUrl)
-                .placeholder(R.drawable.user_pic)
-                .error(R.drawable.user_pic)
-                .transform(new RoundedTransformation(0))
-                .into(user_pic_iv);
+                    .placeholder(R.drawable.user_pic)
+                    .error(R.drawable.user_pic)
+                    .transform(new RoundedTransformation(0))
+                    .into(user_pic_iv);
 
         try {
             String date = user.getCreatedAt().split(" ")[0];
@@ -122,26 +122,30 @@ public class ProfileAct extends AppCompatActivity {
             }
         });
 
-        AccessToken token = AccessToken.getCurrentAccessToken();
-        if (token != null) {
-            App.getNetworkService().getMutualFriends(token.getToken(), user.getFaceId(), new Callback<FacebookFriendForJson>() {
-                @Override
-                public void success(FacebookFriendForJson mutualFriends, Response response) {
-                    mutualFriends_lay.setVisibility(View.VISIBLE);
-                    mutualFriends_tv.setText(getString(R.string.act_profile_mutualFriends, mutualFriends.getTotalCount(), mutualFriends.getMutualFriends().size()));
-                    String name = user.getName().split(" ")[0];
-                    openProfile_tv.setText(getString(R.string.act_profile_openFbProfile, name));
-                    mutualFriendsList.setAdapter(new RidersAdapter(mutualFriends.getMutualFriends(), ProfileAct.this));
-                    mutualFriendsList.setHasFixedSize(true);
-                    mutualFriendsList.setLayoutManager(new LinearLayoutManager(ProfileAct.this, LinearLayoutManager.HORIZONTAL, false));
-                }
+        try {
+            AccessToken token = AccessToken.getCurrentAccessToken();
+            if (token != null) {
+                App.getNetworkService().getMutualFriends(token.getToken(), user.getFaceId(), new Callback<FacebookFriendForJson>() {
+                    @Override
+                    public void success(FacebookFriendForJson mutualFriends, Response response) {
+                        mutualFriends_lay.setVisibility(View.VISIBLE);
+                        mutualFriends_tv.setText(getString(R.string.act_profile_mutualFriends, mutualFriends.getTotalCount(), mutualFriends.getMutualFriends().size()));
+                        String name = user.getName().split(" ")[0];
+                        openProfile_tv.setText(getString(R.string.act_profile_openFbProfile, name));
+                        mutualFriendsList.setAdapter(new RidersAdapter(mutualFriends.getMutualFriends(), ProfileAct.this));
+                        mutualFriendsList.setHasFixedSize(true);
+                        mutualFriendsList.setLayoutManager(new LinearLayoutManager(ProfileAct.this, LinearLayoutManager.HORIZONTAL, false));
+                    }
 
-                @Override
-                public void failure(RetrofitError error) {
-                    //Util.toast(getString(R.string.act_profile_errorMutualFriends));
-                    Log.e("getMutualFriends", error.getMessage());
-                }
-            });
+                    @Override
+                    public void failure(RetrofitError error) {
+                        //Util.toast(getString(R.string.act_profile_errorMutualFriends));
+                        Log.e("getMutualFriends", error.getMessage());
+                    }
+                });
+            }
+        } catch (Exception e) {
+            Log.e("profileact", e.getMessage());
         }
 
         String from = getIntent().getExtras().getString("from");
@@ -173,7 +177,7 @@ public class ProfileAct extends AppCompatActivity {
 
     @OnClick(R.id.report_bt)
     public void reportBt() {
-        Dialog.Builder builder = new SimpleDialog.Builder(R.style.SimpleDialogLight){
+        Dialog.Builder builder = new SimpleDialog.Builder(R.style.SimpleDialogLight) {
 
             @Override
             protected void onBuildDone(Dialog dialog) {
@@ -182,7 +186,7 @@ public class ProfileAct extends AppCompatActivity {
 
             @Override
             public void onPositiveActionClicked(DialogFragment fragment) {
-                EditText msg_et = (EditText)fragment.getDialog().findViewById(R.id.msg_et);
+                EditText msg_et = (EditText) fragment.getDialog().findViewById(R.id.msg_et);
                 String msg = msg_et.getText().toString();
                 if (msg.isEmpty())
                     return;
