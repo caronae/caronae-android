@@ -39,6 +39,7 @@
         android:text="Intranet"
         android:id="@+id/checkBox"
         android:checked="true"
+        android:visibility="gone"
         android:layout_above="@+id/nome_et"
         android:layout_centerHorizontal="true" />
 </RelativeLayout>
