@@ -100,7 +100,7 @@ public class ChatAct extends AppCompatActivity {
             return;
         msg_et.setText("");
 
-        String time = new SimpleDateFormat("HH:mm", Locale.US).format(new Date());
+        String time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US).format(new Date());
         updateMsgsList(new ChatMessageReceived(App.getUser().getName(), App.getUser().getDbId() + "", message, rideId, time));
 
         App.getChatService().sendChatMsg(new ChatMessageSent(rideId, message, time), new Callback<Response>() {

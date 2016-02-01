@@ -3,6 +3,7 @@ package br.ufrj.caronae.adapters;
 import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,7 +38,13 @@ public class ChatMsgsAdapter extends RecyclerView.Adapter<ChatMsgsAdapter.ViewHo
     public void onBindViewHolder(ViewHolder holder, int position) {
         ChatMessageReceived msg = chatMsgsList.get(position);
         holder.msg_tv.setText(msg.getMessage());
-        holder.time_tv.setText(msg.getTime());
+        String time = "";
+        try {
+            time = msg.getTime().split(" ")[1].substring(0, 5);
+        } catch (Exception e) {
+            Log.e("ChatMsgsAdapter", e.getMessage());
+        }
+        holder.time_tv.setText(time);
 
         holder.sender_name_tv.setText(msg.getSenderName());
         holder.sender_name_tv.setTextColor(color);
