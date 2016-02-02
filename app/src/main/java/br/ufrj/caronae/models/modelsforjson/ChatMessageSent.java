@@ -7,7 +7,8 @@ import br.ufrj.caronae.App;
 
 public class ChatMessageSent {
     private String to;
-    private Map<String, String> data;
+    private boolean content_available;
+    private Map<String, String> data, notification;
 
     public ChatMessageSent(String dbId, String message, String time) {
         to = "/topics/" + dbId;
@@ -18,6 +19,11 @@ public class ChatMessageSent {
         data.put("senderName", App.getUser().getName());
         data.put("senderId", App.getUser().getDbId()+"");
         data.put("time", time);
+        data.put("body", "true");
+
+        content_available = true;
+        notification = new HashMap<>();
+        notification.put("body", App.getUser().getName() + ": " + message);
     }
 
     public String getTo() {
@@ -34,5 +40,21 @@ public class ChatMessageSent {
 
     public void setData(Map<String, String> data) {
         this.data = data;
+    }
+
+    public boolean isContent_available() {
+        return content_available;
+    }
+
+    public void setContent_available(boolean content_available) {
+        this.content_available = content_available;
+    }
+
+    public Map<String, String> getNotification() {
+        return notification;
+    }
+
+    public void setNotification(Map<String, String> notification) {
+        this.notification = notification;
     }
 }
