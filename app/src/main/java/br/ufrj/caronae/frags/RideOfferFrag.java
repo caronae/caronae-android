@@ -23,7 +23,6 @@ import com.rey.material.app.DialogFragment;
 import com.rey.material.app.SimpleDialog;
 import com.rey.material.app.TimePickerDialog;
 import com.rey.material.widget.Spinner;
-import com.squareup.leakcanary.RefWatcher;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -120,7 +119,7 @@ public class RideOfferFrag extends Fragment {
         });
 
         String[] items = new String[6];
-        for(int i = 0; i < items.length; i++)
+        for (int i = 0; i < items.length; i++)
             items[i] = String.valueOf(i + 1);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), R.layout.row_spn, items);
         adapter.setDropDownViewResource(R.layout.row_spn_dropdown);
@@ -474,10 +473,4 @@ public class RideOfferFrag extends Fragment {
             }
         });
     }
-
-    /*@Override public void onDestroy() {
-        super.onDestroy();
-        RefWatcher refWatcher = App.getRefWatcher(getActivity());
-        refWatcher.watch(this);
-    }*/
 }

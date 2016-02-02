@@ -11,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import com.squareup.leakcanary.RefWatcher;
 import com.squareup.picasso.Picasso;
 
 import br.ufrj.caronae.App;
@@ -112,10 +111,4 @@ public class FalaeFrag extends Fragment {
             }
         });
     }
-
-    /*@Override public void onDestroy() {
-        super.onDestroy();
-        RefWatcher refWatcher = App.getRefWatcher(getActivity());
-        refWatcher.watch(this);
-    }*/
 }

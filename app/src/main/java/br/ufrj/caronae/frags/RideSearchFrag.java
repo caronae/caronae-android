@@ -22,7 +22,6 @@ import com.rey.material.app.Dialog;
 import com.rey.material.app.DialogFragment;
 import com.rey.material.app.SimpleDialog;
 import com.rey.material.app.TimePickerDialog;
-import com.squareup.leakcanary.RefWatcher;
 import com.squareup.otto.Subscribe;
 
 import java.text.ParseException;
@@ -406,10 +405,4 @@ public class RideSearchFrag extends Fragment {
         adapter.remove(ride.getDbId());
         Log.i("removeRideFromList,srch", "remove called");
     }
-
-    /*@Override public void onDestroy() {
-        super.onDestroy();
-        RefWatcher refWatcher = App.getRefWatcher(getActivity());
-        refWatcher.watch(this);
-    }*/
 }
