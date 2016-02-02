@@ -292,6 +292,13 @@ public class ActiveRideAct extends AppCompatActivity {
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        App.getBus().unregister(this);
+    }
+
+    @Override
     protected void onPause() {
         super.onPause();
 

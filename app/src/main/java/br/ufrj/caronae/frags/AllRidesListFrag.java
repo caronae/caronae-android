@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.squareup.leakcanary.RefWatcher;
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
@@ -61,5 +62,12 @@ public class AllRidesListFrag extends Fragment {
     public void removeRideFromList(RideRequest ride) {
         adapter.remove(ride.getDbId());
         Log.i("removeRideFromList,all", "remove called");
+    }
+
+    @Override public void onDestroy() {
+        super.onDestroy();
+        App.getBus().unregister(this);
+        /*RefWatcher refWatcher = App.getRefWatcher(getActivity());
+        refWatcher.watch(this);*/
     }
 }

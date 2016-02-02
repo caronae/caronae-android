@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import com.squareup.leakcanary.RefWatcher;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -102,4 +104,10 @@ public class AllRidesFrag extends Fragment {
     public void fab() {
         ((MainAct) getActivity()).showRideOfferFrag();
     }
+
+    /*@Override public void onDestroy() {
+        super.onDestroy();
+        RefWatcher refWatcher = App.getRefWatcher(getActivity());
+        refWatcher.watch(this);
+    }*/
 }

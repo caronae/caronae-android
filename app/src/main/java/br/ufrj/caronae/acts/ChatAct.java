@@ -140,4 +140,10 @@ public class ChatAct extends AppCompatActivity {
             finish();
         }
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        App.getBus().unregister(this);
+    }
 }

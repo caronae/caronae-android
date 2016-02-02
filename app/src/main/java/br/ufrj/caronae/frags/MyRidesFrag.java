@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.squareup.leakcanary.RefWatcher;
+
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -94,4 +96,10 @@ public class MyRidesFrag extends Fragment {
         rides.clear();
         myRidesList.getAdapter().notifyDataSetChanged();
     }
+
+    /*@Override public void onDestroy() {
+        super.onDestroy();
+        RefWatcher refWatcher = App.getRefWatcher(getActivity());
+        refWatcher.watch(this);
+    }*/
 }

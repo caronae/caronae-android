@@ -125,24 +125,28 @@ public class ProfileAct extends AppCompatActivity {
         try {
             AccessToken token = AccessToken.getCurrentAccessToken();
             if (token != null) {
-                App.getNetworkService().getMutualFriends(token.getToken(), user.getFaceId(), new Callback<FacebookFriendForJson>() {
-                    @Override
-                    public void success(FacebookFriendForJson mutualFriends, Response response) {
-                        mutualFriends_lay.setVisibility(View.VISIBLE);
-                        mutualFriends_tv.setText(getString(R.string.act_profile_mutualFriends, mutualFriends.getTotalCount(), mutualFriends.getMutualFriends().size()));
-                        String name = user.getName().split(" ")[0];
-                        openProfile_tv.setText(getString(R.string.act_profile_openFbProfile, name));
-                        mutualFriendsList.setAdapter(new RidersAdapter(mutualFriends.getMutualFriends(), ProfileAct.this));
-                        mutualFriendsList.setHasFixedSize(true);
-                        mutualFriendsList.setLayoutManager(new LinearLayoutManager(ProfileAct.this, LinearLayoutManager.HORIZONTAL, false));
-                    }
+                if (user.getFaceId() != null) {
+                    App.getNetworkService().getMutualFriends(token.getToken(), user.getFaceId(), new Callback<FacebookFriendForJson>() {
+                        @Override
+                        public void success(FacebookFriendForJson mutualFriends, Response response) {
+                            mutualFriends_lay.setVisibility(View.VISIBLE);
+                            mutualFriends_tv.setText(getString(R.string.act_profile_mutualFriends, mutualFriends.getTotalCount(), mutualFriends.getMutualFriends().size()));
+                            String name = user.getName().split(" ")[0];
+                            openProfile_tv.setText(getString(R.string.act_profile_openFbProfile, name));
+                            mutualFriendsList.setAdapter(new RidersAdapter(mutualFriends.getMutualFriends(), ProfileAct.this));
+                            mutualFriendsList.setHasFixedSize(true);
+                            mutualFriendsList.setLayoutManager(new LinearLayoutManager(ProfileAct.this, LinearLayoutManager.HORIZONTAL, false));
+                        }
 
-                    @Override
-                    public void failure(RetrofitError error) {
-                        //Util.toast(getString(R.string.act_profile_errorMutualFriends));
-                        Log.e("getMutualFriends", error.getMessage());
-                    }
-                });
+                        @Override
+                        public void failure(RetrofitError error) {
+                            //Util.toast(getString(R.string.act_profile_errorMutualFriends));
+                            Log.e("getMutualFriends", error.getMessage());
+                        }
+                    });
+                } else {
+                    Log.i("profileact,facebook", "user face id is null");
+                }
             }
         } catch (Exception e) {
             Log.e("profileact", e.getMessage());

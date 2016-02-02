@@ -1,7 +1,11 @@
 package br.ufrj.caronae;
 
+import android.content.Context;
+
 import com.google.gson.Gson;
 import com.orm.SugarApp;
+import com.squareup.leakcanary.LeakCanary;
+import com.squareup.leakcanary.RefWatcher;
 
 import br.ufrj.caronae.httpapis.ChatService;
 import br.ufrj.caronae.httpapis.NetworkService;
@@ -25,6 +29,18 @@ public class App extends SugarApp {
     private static NetworkService networkService;
     private static ChatService chatService;
     private static MainThreadBus bus;
+
+    /*public static RefWatcher getRefWatcher(Context context) {
+        App application = (App) context.getApplicationContext();
+        return application.refWatcher;
+    }
+
+    private RefWatcher refWatcher;
+
+    @Override public void onCreate() {
+        super.onCreate();
+        refWatcher = LeakCanary.install(this);
+    }*/
 
     public App() {
         inst = this;

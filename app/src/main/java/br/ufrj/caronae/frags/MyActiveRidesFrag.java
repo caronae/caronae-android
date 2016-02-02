@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.squareup.leakcanary.RefWatcher;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -115,4 +117,10 @@ public class MyActiveRidesFrag extends Fragment {
         SharedPref.removeRemoveRideFromList();
         Log.i("removeRideFromList,actv", "remove called");
     }
+
+    /*@Override public void onDestroy() {
+        super.onDestroy();
+        RefWatcher refWatcher = App.getRefWatcher(getActivity());
+        refWatcher.watch(this);
+    }*/
 }

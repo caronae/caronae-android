@@ -8,6 +8,9 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.squareup.leakcanary.RefWatcher;
+
+import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -29,4 +32,10 @@ public class AboutFrag extends Fragment {
 
         return view;
     }
+
+    /*@Override public void onDestroy() {
+        super.onDestroy();
+        RefWatcher refWatcher = App.getRefWatcher(getActivity());
+        refWatcher.watch(this);
+    }*/
 }

@@ -25,6 +25,7 @@ import com.rey.material.app.Dialog;
 import com.rey.material.app.DialogFragment;
 import com.rey.material.app.SimpleDialog;
 import com.rey.material.widget.EditText;
+import com.squareup.leakcanary.RefWatcher;
 import com.squareup.picasso.Picasso;
 
 import br.ufrj.caronae.App;
@@ -108,11 +109,14 @@ public class MyProfileFrag extends Fragment {
 
                 Profile profile = Profile.getCurrentProfile();
                 if (profile != null) {
-                    String faceId = profile.getId();
+                    final String faceId = profile.getId();
                     App.getNetworkService().saveFaceId(new IdForJson(faceId), new Callback<Response>() {
                         @Override
                         public void success(Response response, Response response2) {
                             Log.i("saveFaceId", "face id saved");
+                            User user = App.getUser();
+                            user.setFaceId(faceId);
+                            SharedPref.saveUser(user);
                         }
 
                         @Override
@@ -137,6 +141,30 @@ public class MyProfileFrag extends Fragment {
             }
         });
 
+        setFieldValidatorsListeners();
+
+        User user = App.getUser();
+        if (user != null) {
+            fillUserFields(user);
+
+            App.getNetworkService().getRidesHistoryCount(user.getDbId() + "", new Callback<HistoryRideCountForJson>() {
+                @Override
+                public void success(HistoryRideCountForJson historyRideCountForJson, Response response) {
+                    ridesOffered_tv.setText(String.valueOf(historyRideCountForJson.getOfferedCount()));
+                    ridesTaken_tv.setText(String.valueOf(historyRideCountForJson.getTakenCount()));
+                }
+
+                @Override
+                public void failure(RetrofitError error) {
+                    Util.toast(R.string.act_profile_errorCountRidesHistory);
+                }
+            });
+        }
+
+        return view;
+    }
+
+    private void setFieldValidatorsListeners() {
         phoneNumber_et.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -214,26 +242,6 @@ public class MyProfileFrag extends Fragment {
                 }
             }
         });
-
-        User user = App.getUser();
-        if (user != null) {
-            fillUserFields(user);
-
-            App.getNetworkService().getRidesHistoryCount(user.getDbId() + "", new Callback<HistoryRideCountForJson>() {
-                @Override
-                public void success(HistoryRideCountForJson historyRideCountForJson, Response response) {
-                    ridesOffered_tv.setText(String.valueOf(historyRideCountForJson.getOfferedCount()));
-                    ridesTaken_tv.setText(String.valueOf(historyRideCountForJson.getTakenCount()));
-                }
-
-                @Override
-                public void failure(RetrofitError error) {
-                    Util.toast(R.string.act_profile_errorCountRidesHistory);
-                }
-            });
-        }
-
-        return view;
     }
 
     private boolean validatePlate(String plate) {
@@ -300,7 +308,7 @@ public class MyProfileFrag extends Fragment {
             @Override
             public void onPositiveActionClicked(DialogFragment fragment) {
                 User user = App.getUser();
-                if (getSelectedValue().toString().equals("Foto do Facebook")) {
+                if (getSelectedValue().toString().equals(getString(R.string.frag_myprofile_facePicChoice))) {
                     Profile profile = Profile.getCurrentProfile();
                     if (profile != null) {
                         String faceId = profile.getId();
@@ -541,4 +549,11 @@ public class MyProfileFrag extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
+
+    /*@Override
+    public void onDestroy() {
+        super.onDestroy();
+        RefWatcher refWatcher = App.getRefWatcher(getActivity());
+        refWatcher.watch(this);
+    }*/
 }

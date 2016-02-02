@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.squareup.leakcanary.RefWatcher;
 import com.squareup.picasso.Picasso;
 
 import br.ufrj.caronae.App;
@@ -75,7 +76,7 @@ public class FalaeFrag extends Fragment {
             Util.toast(getActivity().getString(R.string.frag_falae_msgblank));
             return;
         }
-        message = message.concat("\n\nID UFRJ: " + App.getUser().getIdUfrj() + "\n" + "Plataforma: Android\nVersão do App: " + BuildConfig.VERSION_NAME);
+        message = message.concat("\n\nPlataforma: Android\nVersão do App: " + BuildConfig.VERSION_NAME);
 
         int checkedId = radioGroup.getCheckedRadioButtonId();
         String subject = "";
@@ -111,4 +112,10 @@ public class FalaeFrag extends Fragment {
             }
         });
     }
+
+    /*@Override public void onDestroy() {
+        super.onDestroy();
+        RefWatcher refWatcher = App.getRefWatcher(getActivity());
+        refWatcher.watch(this);
+    }*/
 }
