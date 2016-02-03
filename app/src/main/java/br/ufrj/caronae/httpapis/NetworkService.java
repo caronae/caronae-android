@@ -53,6 +53,9 @@ public interface NetworkService {
     @GET("/user/{id}/mutualFriends")
     void getMutualFriends(@Header("Facebook-Token") String faceToken, @Path("id") String faceId, Callback<FacebookFriendForJson> cb);
 
+    @GET("/user/intranetPhotoUrl")
+    void getIntranetPhotoUrl(Callback<UrlForJson> cb);
+
     //ride routes
     @POST("/ride")
     void offerRide(@Body Ride ride, Callback<List<Ride>> cb);

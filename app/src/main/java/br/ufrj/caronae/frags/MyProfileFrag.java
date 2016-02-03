@@ -306,7 +306,8 @@ public class MyProfileFrag extends Fragment {
         SimpleDialog.Builder builder = new SimpleDialog.Builder(R.style.SimpleDialogLight) {
             @Override
             public void onPositiveActionClicked(DialogFragment fragment) {
-                User user = App.getUser();
+                final User user = App.getUser();
+
                 if (getSelectedValue().toString().equals(getString(R.string.frag_myprofile_facePicChoice))) {
                     Profile profile = Profile.getCurrentProfile();
                     if (profile != null) {
@@ -318,6 +319,7 @@ public class MyProfileFrag extends Fragment {
                                     .error(R.drawable.user_pic)
                                     .transform(new RoundedTransformation(0))
                                     .into(user_pic);
+
                             App.getNetworkService().saveProfilePicUrl(new UrlForJson(profilePicUrl), new Callback<Response>() {
                                 @Override
                                 public void success(Response response, Response response2) {
@@ -335,25 +337,41 @@ public class MyProfileFrag extends Fragment {
                         Util.toast(R.string.frag_myprofile_facePickChoiceNotOnFace);
                     }
                 } else {
-                    String profilePicUrl = "";
-                    if (user.getProfilePicUrl() == null || !user.getProfilePicUrl().equals(profilePicUrl)) {
-                        user.setProfilePicUrl(profilePicUrl);
-                        Picasso.with(getContext()).load(R.drawable.user_pic)
-                                .error(R.drawable.user_pic)
-                                .into(user_pic);
-                        App.getNetworkService().saveProfilePicUrl(new UrlForJson(profilePicUrl), new Callback<Response>() {
-                            @Override
-                            public void success(Response response, Response response2) {
-                                Log.i("saveProfilePicUrl", "profile pic url saved");
-                                SharedPref.saveUser(App.getUser());
-                            }
+                    App.getNetworkService().getIntranetPhotoUrl(new Callback<UrlForJson>() {
+                        @Override
+                        public void success(UrlForJson urlForJson, Response response) {
+                            if (urlForJson == null)
+                                return;
 
-                            @Override
-                            public void failure(RetrofitError error) {//need to save it later
-                                Log.e("saveProfilePicUrl", error.getMessage());
+                            String profilePicUrl = urlForJson.getUrl();
+                            if (profilePicUrl != null && !profilePicUrl.isEmpty()) {
+                                user.setProfilePicUrl(profilePicUrl);
+                                Picasso.with(getContext()).load(profilePicUrl)
+                                        .error(R.drawable.user_pic)
+                                        .transform(new RoundedTransformation(0))
+                                        .into(user_pic);
+
+                                App.getNetworkService().saveProfilePicUrl(new UrlForJson(profilePicUrl), new Callback<Response>() {
+                                    @Override
+                                    public void success(Response response, Response response2) {
+                                        Log.i("saveProfilePicUrl", "profile pic url saved");
+                                        SharedPref.saveUser(App.getUser());
+                                    }
+
+                                    @Override
+                                    public void failure(RetrofitError error) {//need to save it later
+                                        Log.e("saveProfilePicUrl", error.getMessage());
+                                    }
+                                });
                             }
-                        });
-                    }
+                        }
+
+                        @Override
+                        public void failure(RetrofitError error) {
+                            Util.toast(R.string.frag_myprofile_errorGetIntranetPhoto);
+                            Log.e("getIntranetPhotoUrl", error.getMessage());
+                        }
+                    });
                 }
                 super.onPositiveActionClicked(fragment);
             }
