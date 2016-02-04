@@ -24,16 +24,20 @@ import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.ActiveRideAct;
 import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.acts.ProfileAct;
+import br.ufrj.caronae.models.NewChatMsgIndicator;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
 
 public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdapter.ViewHolder> {
 
     private final List<RideForJson> ridesList;
     private final MainAct activity;
+    private final List<NewChatMsgIndicator> newChatMsgIndicatorList;
 
     public MyActiveRidesAdapter(List<RideForJson> ridesList, MainAct activity) {
         this.ridesList = ridesList;
         this.activity = activity;
+
+        newChatMsgIndicatorList = NewChatMsgIndicator.listAll(NewChatMsgIndicator.class);
     }
 
     @Override
@@ -115,11 +119,26 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
         viewHolder.open_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                NewChatMsgIndicator.deleteAll(NewChatMsgIndicator.class, "db_id = ?", rideOffer.getDbId()+"");
+                viewHolder.newMsgIndicator_iv.setVisibility(View.INVISIBLE);
+
                 Intent intent = new Intent(activity, ActiveRideAct.class);
                 intent.putExtra("ride", rideOffer);
                 activity.startActivity(intent);
             }
         });
+
+        boolean found = false;
+        for (NewChatMsgIndicator newChatMsgIndicator : newChatMsgIndicatorList) {
+            if (newChatMsgIndicator.getDbId() == rideOffer.getDbId()) {
+                viewHolder.newMsgIndicator_iv.setVisibility(View.VISIBLE);
+                found = true;
+                break;
+            }
+        }
+
+        if (!found)
+            viewHolder.newMsgIndicator_iv.setVisibility(View.INVISIBLE);
     }
 
     public void remove(int rideId) {
@@ -146,6 +165,7 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
         public TextView slots_tv;
         public Button open_bt;
         public CardView cardView;
+        public ImageView newMsgIndicator_iv;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -159,6 +179,7 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
             slots_tv = (TextView) itemView.findViewById(R.id.slots_tv);
             open_bt = (Button) itemView.findViewById(R.id.open_bt);
             cardView = (CardView) itemView.findViewById(R.id.cardView);
+            newMsgIndicator_iv = (ImageView) itemView.findViewById(R.id.newMsgIndicator_iv);
         }
     }
 }

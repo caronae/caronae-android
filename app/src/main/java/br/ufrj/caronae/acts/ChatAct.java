@@ -1,5 +1,6 @@
 package br.ufrj.caronae.acts;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -23,6 +24,7 @@ import br.ufrj.caronae.Util;
 import br.ufrj.caronae.adapters.ChatMsgsAdapter;
 import br.ufrj.caronae.models.ChatAssets;
 import br.ufrj.caronae.models.ChatMessageReceived;
+import br.ufrj.caronae.models.NewChatMsgIndicator;
 import br.ufrj.caronae.models.RideEndedEvent;
 import br.ufrj.caronae.models.modelsforjson.ChatMessageSent;
 import butterknife.Bind;
@@ -130,6 +132,13 @@ public class ChatAct extends AppCompatActivity {
         adapter.notifyItemInserted(chatMsgsList.size() - 1);
 
         chatMsgs_rv.scrollToPosition(chatMsgsList.size() - 1);
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
+        NewChatMsgIndicator.deleteAll(NewChatMsgIndicator.class, "db_id = ?", rideId);
     }
 
     @Subscribe

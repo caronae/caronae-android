@@ -98,6 +98,18 @@
             android:text="Computação"
             android:textColor="@color/white" />
 
+        <ImageView
+            android:id="@+id/newMsgIndicator_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/open_bt"
+            android:layout_toStartOf="@+id/open_bt"
+            android:paddingEnd="10dp"
+            android:paddingRight="10dp"
+            android:src="@drawable/ic_email_black_24dp_red"
+            android:visibility="gone" />
+
         <com.rey.material.widget.Button
             android:id="@+id/open_bt"
             style="@style/LightRaiseColorButtonRippleStyle"

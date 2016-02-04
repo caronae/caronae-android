@@ -23,6 +23,7 @@ import br.ufrj.caronae.asyncs.CheckSubGcmTopic;
 import br.ufrj.caronae.asyncs.UnsubGcmTopic;
 import br.ufrj.caronae.models.ChatAssets;
 import br.ufrj.caronae.models.ChatMessageReceived;
+import br.ufrj.caronae.models.NewChatMsgIndicator;
 import br.ufrj.caronae.models.RideEndedEvent;
 import br.ufrj.caronae.models.RideRequestReceived;
 
@@ -40,12 +41,13 @@ public class GcmMessageHandler extends GcmListenerService {
 
         boolean notify = true;
 
-
         if (msgType != null && msgType.equals("chat")) {
             String senderId = data.getString("senderId");
             String time = data.getString("time");
             ChatMessageReceived cmr = new ChatMessageReceived(senderName, senderId, message, rideId, time);
             cmr.save();
+
+            new NewChatMsgIndicator(Integer.valueOf(rideId)).save();
 
             //noinspection ConstantConditions
             if (senderId.equals(App.getUser().getDbId() + "")) {
