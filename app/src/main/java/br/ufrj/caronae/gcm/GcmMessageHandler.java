@@ -24,6 +24,7 @@ import br.ufrj.caronae.asyncs.UnsubGcmTopic;
 import br.ufrj.caronae.models.ChatAssets;
 import br.ufrj.caronae.models.ChatMessageReceived;
 import br.ufrj.caronae.models.RideEndedEvent;
+import br.ufrj.caronae.models.RideRequestReceived;
 
 public class GcmMessageHandler extends GcmListenerService {
     private static final int MESSAGE_NOTIFICATION_ID = 435345;
@@ -33,12 +34,12 @@ public class GcmMessageHandler extends GcmListenerService {
         String message = data.getString("message");
         String msgType = data.getString("msgType");
         String senderName = data.getString("senderName");
+        String rideId = data.getString("rideId");
 
         Log.i("onMessageReceived", message);
 
         boolean notify = true;
 
-        String rideId = data.getString("rideId");
 
         if (msgType != null && msgType.equals("chat")) {
             String senderId = data.getString("senderId");
@@ -52,6 +53,10 @@ public class GcmMessageHandler extends GcmListenerService {
             } else {
                 App.getBus().post(cmr);
             }
+        }
+
+        if (msgType != null && msgType.equals("joinRequest")) {
+            new RideRequestReceived(Integer.valueOf(rideId)).save();
         }
 
         if (msgType != null && msgType.equals("finished")) {

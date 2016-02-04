@@ -23,14 +23,14 @@ import br.ufrj.caronae.RoundedTransformation;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.ProfileAct;
 import br.ufrj.caronae.acts.RideOfferAct;
-import br.ufrj.caronae.models.RideRequest;
+import br.ufrj.caronae.models.RideRequestSent;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
 
 public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.ViewHolder> {
 
     private final Context context;
     private List<RideForJson> rideOffers;
-    private List<RideRequest> rideRequests;
+    private List<RideRequestSent> rideRequests;
 
     public RideOfferAdapter(List<RideForJson> rideOffers, Context context) {
         this.rideOffers = rideOffers;
@@ -117,7 +117,7 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
             visibility = View.INVISIBLE;
         } else {
             if (rideRequests != null && !rideRequests.isEmpty()) {
-                for (RideRequest rideRequest : rideRequests) {
+                for (RideRequestSent rideRequest : rideRequests) {
                     if (rideRequest.getDbId() == rideOffer.getDbId() && rideRequest.isGoing() == rideOffer.isGoing()) {
                         visibility = View.INVISIBLE;
                         break;
@@ -140,7 +140,7 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
     public void makeList(List<RideForJson> rideOffers) {
         this.rideOffers = rideOffers;
         if (rideOffers != null && !rideOffers.isEmpty())
-            rideRequests = RideRequest.find(RideRequest.class, "date = ?", rideOffers.get(0).getDate());
+            rideRequests = RideRequestSent.find(RideRequestSent.class, "date = ?", rideOffers.get(0).getDate());
         notifyDataSetChanged();
     }
 

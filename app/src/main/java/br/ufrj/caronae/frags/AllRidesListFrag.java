@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.adapters.RideOfferAdapter;
-import br.ufrj.caronae.models.RideRequest;
+import br.ufrj.caronae.models.RideRequestSent;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -58,7 +58,7 @@ public class AllRidesListFrag extends Fragment {
     }
 
     @Subscribe
-    public void removeRideFromList(RideRequest ride) {
+    public void removeRideFromList(RideRequestSent ride) {
         adapter.remove(ride.getDbId());
         Log.i("removeRideFromList,all", "remove called");
     }

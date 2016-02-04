@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -22,6 +23,7 @@ import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.acts.RequestersListAct;
 import br.ufrj.caronae.models.Ride;
+import br.ufrj.caronae.models.RideRequestReceived;
 import br.ufrj.caronae.models.User;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -30,10 +32,13 @@ import retrofit.client.Response;
 public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHolder> {
     private final List<Ride> rides;
     private final MainAct activity;
+    private final List<RideRequestReceived> rideRequestReceivedList;
 
     public MyRidesAdapter(List<Ride> rides, MainAct activity) {
         this.rides = rides;
         this.activity = activity;
+
+        rideRequestReceivedList = RideRequestReceived.listAll(RideRequestReceived.class);
     }
 
     @Override
@@ -129,6 +134,9 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
             public void onClick(View view) {
                 final ProgressDialog pd = ProgressDialog.show(activity, "", activity.getResources().getString(R.string.wait), true, true);
 
+                RideRequestReceived.deleteAll(RideRequestReceived.class, "db_id = ?", ride.getDbId()+"");
+                holder.newRequest_iv.setVisibility(View.INVISIBLE);
+
                 App.getNetworkService().getRequesters(ride.getDbId() + "", new Callback<List<User>>() {
                     @Override
                     public void success(List<User> users, Response response) {
@@ -156,6 +164,18 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
                 });
             }
         });
+
+        boolean found = false;
+        for (RideRequestReceived requestReceived : rideRequestReceivedList) {
+            if (requestReceived.getDbId() == ride.getDbId()) {
+                holder.newRequest_iv.setVisibility(View.VISIBLE);
+                found = true;
+                break;
+            }
+        }
+
+        if (!found)
+            holder.newRequest_iv.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -171,6 +191,7 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
         public TextView date_tv;
         public Button delete_bt;
         public CardView cardView;
+        public ImageView newRequest_iv;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -182,6 +203,7 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
             date_tv = (TextView) itemView.findViewById(R.id.date_tv);
             delete_bt = (Button) itemView.findViewById(R.id.delete_bt);
             cardView = (CardView) itemView.findViewById(R.id.cardView);
+            newRequest_iv = (ImageView) itemView.findViewById(R.id.newRequest_iv);
         }
     }
 }

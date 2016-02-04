@@ -21,7 +21,7 @@ import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.RoundedTransformation;
 import br.ufrj.caronae.Util;
-import br.ufrj.caronae.models.RideRequest;
+import br.ufrj.caronae.models.RideRequestSent;
 import br.ufrj.caronae.models.User;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
 import br.ufrj.caronae.models.modelsforjson.RideIdForJson;
@@ -176,7 +176,7 @@ public class RideOfferAct extends AppCompatActivity {
                     public void success(Response response, Response response2) {
                         Util.toast(R.string.requestSent);
 
-                        RideRequest rideRequest = new RideRequest(rideWithUsers.getDbId(), rideWithUsers.isGoing(), rideWithUsers.getDate());
+                        RideRequestSent rideRequest = new RideRequestSent(rideWithUsers.getDbId(), rideWithUsers.isGoing(), rideWithUsers.getDate());
                         rideRequest.save();
 
                         join_bt.setVisibility(View.INVISIBLE);

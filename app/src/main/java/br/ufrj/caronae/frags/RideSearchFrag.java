@@ -40,7 +40,7 @@ import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.adapters.RideOfferAdapter;
 import br.ufrj.caronae.comparators.RideOfferComparatorByDateAndTime;
-import br.ufrj.caronae.models.RideRequest;
+import br.ufrj.caronae.models.RideRequestSent;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
 import br.ufrj.caronae.models.modelsforjson.RideSearchFiltersForJson;
 import butterknife.Bind;
@@ -401,7 +401,7 @@ public class RideSearchFrag extends Fragment {
     }
 
     @Subscribe
-    public void removeRideFromList(RideRequest ride) {
+    public void removeRideFromList(RideRequestSent ride) {
         adapter.remove(ride.getDbId());
         Log.i("removeRideFromList,srch", "remove called");
     }

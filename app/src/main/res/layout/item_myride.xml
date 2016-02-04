@@ -91,6 +91,18 @@
             android:text="Repete Seg-Qua-Sex"
             android:textColor="@color/white" />
 
+        <ImageView
+            android:id="@+id/newRequest_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/delete_bt"
+            android:layout_toStartOf="@+id/delete_bt"
+            android:paddingEnd="10dp"
+            android:paddingRight="10dp"
+            android:src="@drawable/ic_new_releases_black_24dp"
+            android:visibility="gone" />
+
         <com.rey.material.widget.Button
             android:id="@+id/delete_bt"
             style="@style/LightRaiseColorButtonRippleStyle"
