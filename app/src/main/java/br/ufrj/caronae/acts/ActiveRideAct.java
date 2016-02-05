@@ -34,6 +34,7 @@ import br.ufrj.caronae.Util;
 import br.ufrj.caronae.adapters.RidersAdapter;
 import br.ufrj.caronae.asyncs.UnsubGcmTopic;
 import br.ufrj.caronae.models.ChatAssets;
+import br.ufrj.caronae.models.NewChatMsgIndicator;
 import br.ufrj.caronae.models.Ride;
 import br.ufrj.caronae.models.RideEndedEvent;
 import br.ufrj.caronae.models.User;
@@ -308,6 +309,8 @@ public class ActiveRideAct extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
+        NewChatMsgIndicator.deleteAll(NewChatMsgIndicator.class, "db_id = ?", rideId2);
 
         notVisible = false;
 

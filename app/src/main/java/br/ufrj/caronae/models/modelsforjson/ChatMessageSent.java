@@ -6,12 +6,13 @@ import java.util.Map;
 import br.ufrj.caronae.App;
 
 public class ChatMessageSent {
-    private String to;
+    private String to, priority;
     private boolean content_available;
     private Map<String, String> data, notification;
 
     public ChatMessageSent(String dbId, String message, String time) {
         to = "/topics/" + dbId;
+        priority = "high";
         data = new HashMap<>();
         data.put("message", message);
         data.put("rideId", dbId);
@@ -19,7 +20,6 @@ public class ChatMessageSent {
         data.put("senderName", App.getUser().getName());
         data.put("senderId", App.getUser().getDbId()+"");
         data.put("time", time);
-        data.put("body", "true");
 
         content_available = true;
         notification = new HashMap<>();
@@ -32,6 +32,14 @@ public class ChatMessageSent {
 
     public void setTo(String to) {
         this.to = to;
+    }
+
+    public String getPriority() {
+        return priority;
+    }
+
+    public void setPriority(String priority) {
+        this.priority = priority;
     }
 
     public Map<String, String> getData() {
