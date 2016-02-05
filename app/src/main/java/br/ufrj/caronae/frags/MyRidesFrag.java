@@ -1,5 +1,6 @@
 package br.ufrj.caronae.frags;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -51,19 +52,38 @@ public class MyRidesFrag extends Fragment {
         View view = inflater.inflate(R.layout.fragment_my_rides, container, false);
         ButterKnife.bind(this, view);
 
-        rides = (ArrayList<Ride>) Ride.listAll(Ride.class);
-        Collections.sort(rides, new RideComparatorByDateAndTime());
-
-        if (!rides.isEmpty()) {
-            myRidesList.setAdapter(new MyRidesAdapter(rides, (MainAct) getActivity()));
-            myRidesList.setHasFixedSize(true);
-            myRidesList.setLayoutManager(new LinearLayoutManager(getActivity()));
-        } else {
-            norides_tv.setVisibility(View.VISIBLE);
-        }
-
         return view;
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        new LoadRides().execute();
+    }
+
+    public class LoadRides extends AsyncTask<String, Void, Void> {
+        @Override
+        protected Void doInBackground(String... arg0) {
+            rides = (ArrayList<Ride>) Ride.listAll(Ride.class);
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            if (!rides.isEmpty()) {
+                Collections.sort(rides, new RideComparatorByDateAndTime());
+
+                myRidesList.setAdapter(new MyRidesAdapter(rides, (MainAct) getActivity()));
+                myRidesList.setHasFixedSize(true);
+                myRidesList.setLayoutManager(new LinearLayoutManager(getActivity()));
+            } else {
+                norides_tv.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
 
     @OnClick(R.id.fab)
     public void fab() {
