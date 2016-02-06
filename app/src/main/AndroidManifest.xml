@@ -102,22 +102,18 @@
                 <action android:name="com.google.android.gms.iid.InstanceID" />
             </intent-filter>
         </service>
+
         <service
-            android:name=".gcm.GcmMessageHandler"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-            </intent-filter>
-        </service>
+            android:name=".gcm.MyGCMIntentService"
+            android:exported="false" />
 
         <receiver
-            android:name="com.google.android.gms.gcm.GcmReceiver"
+            android:name=".gcm.MyGCMBroadcastReceiver"
             android:exported="true"
             android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-
-                <category android:name="com.codepath.gcmquickstart" />
+                <category android:name="br.ufrj.caronae" />
             </intent-filter>
         </receiver>
     </application>
