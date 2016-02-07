@@ -10,7 +10,7 @@
     <string name="title_activity_main">Caronaê</string>
     <string name="title_activity_login">Login</string>
 
-    <string name="tokenHint_et">Digite sua chave de acesso aqui</string>
+    <string name="tokenHint_et">Sua chave aqui</string>
     <string name="send_bt">Enviar</string>
 
     <string name="go_rb">Ir ao fundão</string>
@@ -26,7 +26,7 @@
     <string name="title_activity_profile">Perfil do usuário</string>
 
     <string name="wait">Aguarde</string>
-    <string name="act_login_invalidToken">Chave inválida</string>
+    <string name="act_login_invalidLogin">CPF ou chave inválida</string>
     <string name="act_login_loginFail">Erro ao fazer login</string>
     <string name="act_main_oknogplay">OK</string>
     <string name="act_main_setRideOfferFragTitle">Oferecer carona</string>
@@ -181,5 +181,6 @@
     <string name="frag_termsofuse_title">Termos de uso</string>
     <string name="frag_about_title">Sobre</string>
     <string name="frag_myprofile_errorGetIntranetPhoto">Erro ao pegar foto do SIGA</string>
+    <string name="idUfrjHint_et">Seu CPF aqui</string>
 
 </resources>

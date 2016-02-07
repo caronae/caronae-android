@@ -11,7 +11,8 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:layout_margin="16dp">
+        android:layout_margin="16dp"
+        tools:ignore="UselessParent">
 
         <ImageView
             android:id="@+id/logo"
@@ -41,17 +42,32 @@
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <EditText
-            android:id="@+id/token_et"
+            android:id="@+id/idUfrj_et"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/textView2"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:ems="14"
+            android:ems="8"
+            android:gravity="center"
+            android:hint="@string/idUfrjHint_et"
+            android:inputType="number"
+            android:paddingTop="20dp"
+            android:singleLine="true" />
+
+        <EditText
+            android:id="@+id/token_et"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/idUfrj_et"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:ems="8"
+            android:gravity="center"
             android:hint="@string/tokenHint_et"
             android:imeActionLabel="@string/send_bt"
             android:imeOptions="actionSend"
-            android:paddingTop="40dp"
+            android:paddingTop="20dp"
             android:singleLine="true" />
 
         <com.rey.material.widget.Button

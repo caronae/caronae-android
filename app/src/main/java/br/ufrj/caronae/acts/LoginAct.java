@@ -16,6 +16,7 @@ import br.ufrj.caronae.R;
 import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.models.Ride;
+import br.ufrj.caronae.models.modelsforjson.LoginForJson;
 import br.ufrj.caronae.models.modelsforjson.TokenForJson;
 import br.ufrj.caronae.models.modelsforjson.UserWithRidesForJson;
 import butterknife.Bind;
@@ -28,6 +29,8 @@ import retrofit.client.Response;
 public class LoginAct extends AppCompatActivity {
     @Bind(R.id.token_et)
     EditText token_et;
+    @Bind(R.id.idUfrj_et)
+    EditText idUfrj_et;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,11 +56,12 @@ public class LoginAct extends AppCompatActivity {
         final ProgressDialog pd = ProgressDialog.show(this, "", getString(R.string.wait), true, true);
 
         final String token = token_et.getText().toString();
-        App.getNetworkService().login(new TokenForJson(token), new Callback<UserWithRidesForJson>() {
+        final String idUfrj = idUfrj_et.getText().toString();
+        App.getNetworkService().login(new LoginForJson(token, idUfrj), new Callback<UserWithRidesForJson>() {
             @Override
             public void success(UserWithRidesForJson userWithRides, Response response) {
                 if (userWithRides == null || userWithRides.getUser() == null) {
-                    Util.toast(R.string.act_login_invalidToken);
+                    Util.toast(R.string.act_login_invalidLogin);
                     return;
                 }
 
@@ -93,7 +97,7 @@ public class LoginAct extends AppCompatActivity {
                 pd.dismiss();
 
                 if (retrofitError.getResponse().getStatus() == 403)
-                    Util.toast(R.string.act_login_invalidToken);
+                    Util.toast(R.string.act_login_invalidLogin);
                 else
                     Util.toast(R.string.act_login_loginFail);
 
