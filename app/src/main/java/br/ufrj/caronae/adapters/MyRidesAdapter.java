@@ -122,7 +122,11 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
                     @Override
                     public void failure(RetrofitError error) {
                         activity.getString(R.string.errorRideDeleted);
-                        Log.e("deleteRide", error.getMessage());
+                        try {
+                            Log.e("deleteRide", error.getMessage());
+                        } catch (Exception e) {//sometimes RetrofitError is null
+                            Log.e("deleteRide", e.getMessage());
+                        }
                     }
                 });
             }
@@ -159,7 +163,11 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
 
                         Util.toast(R.string.errorGetRequesters);
 
-                        Log.e("getRequesters", error.getMessage());
+                        try {
+                            Log.e("getRequesters", error.getMessage());
+                        } catch (Exception e) {//sometimes RetrofitError is null
+                            Log.e("getRequesters", e.getMessage());
+                        }
                     }
                 });
             }

@@ -121,8 +121,11 @@ public class MyProfileFrag extends Fragment {
                         @Override
                         public void failure(RetrofitError error) {//need to save id later
                             Util.toast(R.string.frag_myprofile_errorSaveFaceId);
-
-                            Log.e("saveFaceId", error.getMessage());
+                            try {
+                                Log.e("saveFaceId", error.getMessage());
+                            } catch (Exception e) {//sometimes RetrofitError is null
+                                Log.e("saveFaceId", e.getMessage());
+                            }
                         }
                     });
                 }
@@ -156,6 +159,11 @@ public class MyProfileFrag extends Fragment {
                 @Override
                 public void failure(RetrofitError error) {
                     Util.toast(R.string.act_profile_errorCountRidesHistory);
+                    try {
+                        Log.e("getRidesHistoryCount", error.getMessage());
+                    } catch (Exception e) {//sometimes RetrofitError is null
+                        Log.e("getRidesHistoryCount", e.getMessage());
+                    }
                 }
             });
         }
@@ -329,7 +337,11 @@ public class MyProfileFrag extends Fragment {
 
                                 @Override
                                 public void failure(RetrofitError error) {//need to save it later
-                                    Log.e("saveProfilePicUrl", error.getMessage());
+                                    try {
+                                        Log.e("saveProfilePicUrl", error.getMessage());
+                                    } catch (Exception e) {//sometimes RetrofitError is null
+                                        Log.e("saveProfilePicUrl", e.getMessage());
+                                    }
                                 }
                             });
                         }
@@ -360,7 +372,11 @@ public class MyProfileFrag extends Fragment {
 
                                     @Override
                                     public void failure(RetrofitError error) {//need to save it later
-                                        Log.e("saveProfilePicUrl", error.getMessage());
+                                        try {
+                                            Log.e("saveProfilePicUrl", error.getMessage());
+                                        } catch (Exception e) {//sometimes RetrofitError is null
+                                            Log.e("saveProfilePicUrl", e.getMessage());
+                                        }
                                     }
                                 });
                             }
@@ -369,7 +385,11 @@ public class MyProfileFrag extends Fragment {
                         @Override
                         public void failure(RetrofitError error) {
                             Util.toast(R.string.frag_myprofile_errorGetIntranetPhoto);
-                            Log.e("getIntranetPhotoUrl", error.getMessage());
+                            try {
+                                Log.e("getIntranetPhotoUrl", error.getMessage());
+                            } catch (Exception e) {//sometimes RetrofitError is null
+                                Log.e("getIntranetPhotoUrl", e.getMessage());
+                            }
                         }
                     });
                 }
@@ -523,7 +543,11 @@ public class MyProfileFrag extends Fragment {
 
                     @Override
                     public void failure(RetrofitError error) {
-                        Log.e("updateUser", error.getMessage());
+                        try {
+                            Log.e("updateUser", error.getMessage());
+                        } catch (Exception e) {//sometimes RetrofitError is null
+                            Log.e("signUp", e.getMessage());
+                        }
                         Util.toast(R.string.frag_myprofile_errorUpdated);
                     }
                 });

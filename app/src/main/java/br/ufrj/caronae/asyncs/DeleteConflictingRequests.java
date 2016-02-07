@@ -39,7 +39,11 @@ public class DeleteConflictingRequests extends AsyncTask<String, Void, Void> {
 
             @Override
             public void failure(RetrofitError error) {
-                Log.i("deleteJoinRequests", "error deleting requests");
+                try {
+                    Log.e("deleteJoinRequests", error.getMessage());
+                } catch (Exception e) {//sometimes RetrofitError is null
+                    Log.e("deleteJoinRequests", e.getMessage());
+                }
             }
         });
 

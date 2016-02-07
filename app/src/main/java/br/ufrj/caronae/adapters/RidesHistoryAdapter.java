@@ -135,7 +135,11 @@ public class RidesHistoryAdapter extends RecyclerView.Adapter<RidesHistoryAdapte
                                 @Override
                                 public void failure(RetrofitError error) {
                                     Util.toast(activity.getString(R.string.errorRideHistory_Feedback));
-                                    Log.e("saveFeedback", error.getMessage());
+                                    try {
+                                        Log.e("saveFeedback", error.getMessage());
+                                    } catch (Exception e) {//sometimes RetrofitError is null
+                                        Log.e("saveFeedback", e.getMessage());
+                                    }
                                 }
                             });
 
@@ -155,7 +159,11 @@ public class RidesHistoryAdapter extends RecyclerView.Adapter<RidesHistoryAdapte
                                 @Override
                                 public void failure(RetrofitError error) {
                                     Util.toast(activity.getString(R.string.errorRideHistory_Feedback));
-                                    Log.e("saveFeedback", error.getMessage());
+                                    try {
+                                        Log.e("saveFeedback", error.getMessage());
+                                    } catch (Exception e) {//sometimes RetrofitError is null
+                                        Log.e("saveFeedback", e.getMessage());
+                                    }
                                 }
                             });
 

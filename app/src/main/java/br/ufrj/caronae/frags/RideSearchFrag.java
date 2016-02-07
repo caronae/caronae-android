@@ -395,7 +395,11 @@ public class RideSearchFrag extends Fragment {
             public void failure(RetrofitError error) {
                 pd.dismiss();
                 Util.toast(R.string.frag_rideSearch_errorListFiltered);
-                Log.e("listFiltered", error.getMessage());
+                try {
+                    Log.e("listFiltered", error.getMessage());
+                } catch (Exception e) {//sometimes RetrofitError is null
+                    Log.e("listFiltered", e.getMessage());
+                }
             }
         });
     }

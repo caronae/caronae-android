@@ -105,7 +105,11 @@ public class MyRidesFrag extends Fragment {
 
                 @Override
                 public void failure(RetrofitError error) {
-                    Log.e("deleteRide", error.getMessage());
+                    try {
+                        Log.e("deleteRide", error.getMessage());
+                    } catch (Exception e) {//sometimes RetrofitError is null
+                        Log.e("deleteRide", e.getMessage());
+                    }
                 }
             });
         }

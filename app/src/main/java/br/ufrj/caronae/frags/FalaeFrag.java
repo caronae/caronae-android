@@ -107,7 +107,11 @@ public class FalaeFrag extends Fragment {
             @Override
             public void failure(RetrofitError error) {
                 Util.toast(getActivity().getString(R.string.frag_falae_errorSent));
-                Log.e("falaeSendMessage", error.getMessage());
+                try {
+                    Log.e("falaeSendMessage", error.getMessage());
+                } catch (Exception e) {//sometimes RetrofitError is null
+                    Log.e("falaeSendMessage", e.getMessage());
+                }
             }
         });
     }

@@ -469,7 +469,11 @@ public class RideOfferFrag extends Fragment {
             @Override
             public void failure(RetrofitError error) {
                 Util.toast(R.string.frag_rideOffer_errorRideSaved);
-                Log.e("offerRide", error.getMessage());
+                try {
+                    Log.e("offerRide", error.getMessage());
+                } catch (Exception e) {//sometimes RetrofitError is null
+                    Log.e("offerRide", e.getMessage());
+                }
             }
         });
     }

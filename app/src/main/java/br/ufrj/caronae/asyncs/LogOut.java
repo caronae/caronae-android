@@ -33,7 +33,11 @@ public class LogOut extends AsyncTask<Void, Void, Void> {
 
             @Override
             public void failure(RetrofitError error) {
-                Log.e("saveGcmToken", error.getMessage());
+                try {
+                    Log.e("saveGcmToken", error.getMessage());
+                } catch (Exception e) {//sometimes RetrofitError is null
+                    Log.e("saveGcmToken", e.getMessage());
+                }
             }
         });
     }

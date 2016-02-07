@@ -250,7 +250,11 @@ public class ActiveRideAct extends AppCompatActivity {
                     @Override
                     public void failure(RetrofitError error) {
                         Util.toast(R.string.errorRideDeleted);
-                        Log.e("leaveRide", error.getMessage());
+                        try {
+                            Log.e("leaveRide", error.getMessage());
+                        } catch (Exception e) {//sometimes RetrofitError is null
+                            Log.e("leaveRide", e.getMessage());
+                        }
                     }
                 });
             }
@@ -281,7 +285,11 @@ public class ActiveRideAct extends AppCompatActivity {
                     public void failure(RetrofitError error) {
                         Util.toast(R.string.errorFinishRide);
 
-                        Log.e("finish_bt", error.getMessage());
+                        try {
+                            Log.e("finish_bt", error.getMessage());
+                        } catch (Exception e) {//sometimes RetrofitError is null
+                            Log.e("finish_bt", e.getMessage());
+                        }
                     }
                 });
             }

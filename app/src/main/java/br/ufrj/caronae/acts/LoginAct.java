@@ -81,7 +81,11 @@ public class LoginAct extends AppCompatActivity {
 
                         @Override
                         public void failure(RetrofitError error) {
-                            Log.e("saveGcmToken", error.getMessage());
+                            try {
+                                Log.e("saveGcmToken", error.getMessage());
+                            } catch (Exception e) {//sometimes RetrofitError is null
+                                Log.e("saveGcmToken", e.getMessage());
+                            }
                         }
                     });
                 }
@@ -101,7 +105,11 @@ public class LoginAct extends AppCompatActivity {
                 else
                     Util.toast(R.string.act_login_loginFail);
 
-                Log.e("login", retrofitError.getMessage());
+                try {
+                    Log.e("login", retrofitError.getMessage());
+                } catch (Exception e) {//sometimes RetrofitError is null
+                    Log.e("signUp", e.getMessage());
+                }
             }
         });
     }

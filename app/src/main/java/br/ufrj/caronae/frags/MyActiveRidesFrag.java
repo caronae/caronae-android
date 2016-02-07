@@ -93,7 +93,11 @@ public class MyActiveRidesFrag extends Fragment {
                 norides_tv.setVisibility(View.VISIBLE);
                 Util.toast(R.string.frag_myactiverides_errorGetActiveRides);
 
-                Log.e("getMyActiveRides", error.getMessage());
+                try {
+                    Log.e("getMyActiveRides", error.getMessage());
+                } catch (Exception e) {//sometimes RetrofitError is null
+                    Log.e("getMyActiveRides", e.getMessage());
+                }
             }
         });
 

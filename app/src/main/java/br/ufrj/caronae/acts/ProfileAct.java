@@ -118,7 +118,11 @@ public class ProfileAct extends AppCompatActivity {
             @Override
             public void failure(RetrofitError error) {
                 Util.toast(R.string.act_profile_errorCountRidesHistory);
-                Log.e("getRidesHistoryCount", error.getMessage());
+                try {
+                    Log.e("getRidesHistoryCount", error.getMessage());
+                } catch (Exception e) {//sometimes RetrofitError is null
+                    Log.e("getRidesHistoryCount", e.getMessage());
+                }
             }
         });
 
@@ -141,7 +145,11 @@ public class ProfileAct extends AppCompatActivity {
                         @Override
                         public void failure(RetrofitError error) {
                             //Util.toast(getString(R.string.act_profile_errorMutualFriends));
-                            Log.e("getMutualFriends", error.getMessage());
+                            try {
+                                Log.e("getMutualFriends", error.getMessage());
+                            } catch (Exception e) {//sometimes RetrofitError is null
+                                Log.e("getMutualFriends", e.getMessage());
+                            }
                         }
                     });
                 } else {

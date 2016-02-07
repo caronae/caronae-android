@@ -7,6 +7,8 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 
+import com.google.android.gms.common.data.Freezable;
+
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.Util;
@@ -53,7 +55,11 @@ public class SignUpAct extends AppCompatActivity {
                 @Override
                 public void failure(RetrofitError error) {
                     Util.toast("Erro ao cadastrar");
-                    Log.e("signUp", error.getMessage());
+                    try {
+                        Log.e("signUp", error.getMessage());
+                    } catch (Exception e) {//sometimes RetrofitError is null
+                        Log.e("signUp", e.getMessage());
+                    }
                 }
             });
         else
@@ -66,7 +72,11 @@ public class SignUpAct extends AppCompatActivity {
                 @Override
                 public void failure(RetrofitError error) {
                     Util.toast("Erro ao cadastrar");
-                    Log.e("signUp", error.getMessage());
+                    try {
+                        Log.e("signUp", error.getMessage());
+                    } catch (Exception e) {//sometimes RetrofitError is null
+                        Log.e("signUp", e.getMessage());
+                    }
                 }
             });
     }

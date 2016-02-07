@@ -72,7 +72,11 @@ public class RidesHistoryFrag extends Fragment {
                 norides_tv.setVisibility(View.VISIBLE);
                 pd.dismiss();
                 Util.toast(R.string.frag_rideshistory_errorGetRides);
-                Log.e("getRidesHistory", error.getMessage());
+                try {
+                    Log.e("getRidesHistory", error.getMessage());
+                } catch (Exception e) {//sometimes RetrofitError is null
+                    Log.e("getRidesHistory", e.getMessage());
+                }
             }
         });
 

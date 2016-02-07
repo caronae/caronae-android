@@ -91,7 +91,11 @@ public class RequestersAdapter extends RecyclerView.Adapter<RequestersAdapter.Vi
 
                     @Override
                     public void failure(RetrofitError error) {
-                        Log.e("answerJoinRequest", error.getMessage());
+                        try {
+                            Log.e("answerJoinRequest", error.getMessage());
+                        } catch (Exception e) {//sometimes RetrofitError is null
+                            Log.e("answerJoinRequest", e.getMessage());
+                        }
 
                         Util.toast(R.string.errorAnsweRequest);
                     }
@@ -112,7 +116,11 @@ public class RequestersAdapter extends RecyclerView.Adapter<RequestersAdapter.Vi
 
                     @Override
                     public void failure(RetrofitError error) {
-                        Log.e("answerJoinRequest", error.getMessage());
+                        try {
+                            Log.e("answerJoinRequest", error.getMessage());
+                        } catch (Exception e) {//sometimes RetrofitError is null
+                            Log.e("answerJoinRequest", e.getMessage());
+                        }
 
                         Util.toast(R.string.errorAnsweRequest);
                     }

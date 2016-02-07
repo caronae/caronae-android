@@ -187,7 +187,11 @@ public class RideOfferAct extends AppCompatActivity {
                     public void failure(RetrofitError error) {
                         Util.toast(R.string.errorRequestSent);
 
-                        Log.e("requestJoin", error.getMessage());
+                        try {
+                            Log.e("requestJoin", error.getMessage());
+                        } catch (Exception e) {//sometimes RetrofitError is null
+                            Log.e("requestJoin", e.getMessage());
+                        }
                     }
                 });
             }

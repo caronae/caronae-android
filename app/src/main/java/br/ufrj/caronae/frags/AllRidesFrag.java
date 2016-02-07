@@ -90,6 +90,11 @@ public class AllRidesFrag extends Fragment {
             @Override
             public void failure(RetrofitError error) {
                 progressBar2.setVisibility(View.GONE);
+                try {
+                    Log.e("listAllRides", error.getMessage());
+                } catch (Exception e) {//sometimes RetrofitError is null
+                    Log.e("listAllRides", e.getMessage());
+                }
                 Util.toast(R.string.frag_allrides_errorGetRides);
             }
         });
