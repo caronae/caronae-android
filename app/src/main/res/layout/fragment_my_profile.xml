@@ -18,17 +18,17 @@
 
             <ImageView
                 android:id="@+id/user_pic"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:layout_centerVertical="true"
                 android:src="@drawable/user_pic" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignEnd="@+id/user_pic"
-                android:layout_alignRight="@+id/user_pic"
                 android:layout_below="@+id/user_pic"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
                 android:background="@color/gray"
                 android:text="@string/frag_myprofile_changePic"
                 android:textColor="@color/white"
@@ -39,8 +39,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@+id/user_pic"
-                android:layout_marginLeft="20dp"
-                android:layout_marginStart="20dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
                 android:layout_toEndOf="@+id/user_pic"
                 android:layout_toRightOf="@+id/user_pic"
                 android:paddingTop="15dp"
@@ -72,14 +72,15 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:layout_alignTop="@+id/name_tv"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
                 android:background="@null"
                 android:gravity="center"
                 android:text="SAIR"
                 android:textColor="@color/red"
                 app:rd_enable="true" />
-
         </RelativeLayout>
+
 
         <LinearLayout
             android:id="@+id/history_lay"

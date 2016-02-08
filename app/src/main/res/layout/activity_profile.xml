@@ -8,17 +8,25 @@
     android:fitsSystemWindows="true"
     tools:context="br.ufrj.caronae.acts.ProfileAct">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/toolbar_lay"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:theme="@style/ThemeOverlay.AppCompat.Light" />
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:theme="@style/ThemeOverlay.AppCompat.Light" />
+
+    </android.support.design.widget.AppBarLayout>
 
     <ImageView
         android:id="@+id/user_pic_iv"
         android:layout_width="75dp"
         android:layout_height="75dp"
-        android:layout_below="@+id/toolbar"
+        android:layout_below="@+id/toolbar_lay"
         android:layout_margin="16dp"
         android:src="@drawable/user_pic" />
 

@@ -7,6 +7,19 @@
     android:orientation="vertical"
     tools:context="br.ufrj.caronae.acts.ChatAct">
 
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:theme="@style/ThemeOverlay.AppCompat.Light" />
+
+    </android.support.design.widget.AppBarLayout>
+
     <RelativeLayout
         android:id="@+id/lay1"
         android:layout_width="fill_parent"
