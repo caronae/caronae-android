@@ -12,7 +12,7 @@ import br.ufrj.caronae.R;
 
 public class OpeningAct extends AppCompatActivity {
 
-    public static final int SPLASH_SCREEN_DURATION = 3000;
+    public static final int SPLASH_SCREEN_DURATION = 2500;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
