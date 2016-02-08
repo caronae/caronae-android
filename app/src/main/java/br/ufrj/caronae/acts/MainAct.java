@@ -254,6 +254,8 @@ public class MainAct extends AppCompatActivity {
     private void openFragFromNotif(Intent intent) {
         Class fragmentClass = AllRidesFrag.class;
         String msgType = intent.getStringExtra("msgType");
+        if (msgType == null)
+            return;
         if (msgType.equals("accepted") ||
                 msgType.equals("refused") ||
                 msgType.equals("quitter") ||
