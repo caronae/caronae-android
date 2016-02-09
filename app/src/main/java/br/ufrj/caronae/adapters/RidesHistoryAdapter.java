@@ -23,6 +23,7 @@ import br.ufrj.caronae.R;
 import br.ufrj.caronae.RoundedTransformation;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.MainAct;
+import br.ufrj.caronae.models.User;
 import br.ufrj.caronae.models.modelsforjson.RideFeedbackForJson;
 import br.ufrj.caronae.models.modelsforjson.RideHistoryForJson;
 import retrofit.Callback;
@@ -100,14 +101,16 @@ public class RidesHistoryAdapter extends RecyclerView.Adapter<RidesHistoryAdapte
         holder.location_tv.setText(location);
         holder.location_tv.setTextColor(color);
 
-        String driverPic = historyRide.getDriver().getProfilePicUrl();
-        if (driverPic != null && !driverPic.isEmpty())
-            Picasso.with(activity).load(driverPic)
-                    .placeholder(R.drawable.user_pic)
-                    .error(R.drawable.user_pic)
-                    .transform(new RoundedTransformation(0))
-                    .into(holder.photo_iv);
-
+        User driver = historyRide.getDriver();
+        if (driver != null) {
+            String driverPic = driver.getProfilePicUrl();
+            if (driverPic != null && !driverPic.isEmpty())
+                Picasso.with(activity).load(driverPic)
+                        .placeholder(R.drawable.user_pic)
+                        .error(R.drawable.user_pic)
+                        .transform(new RoundedTransformation(0))
+                        .into(holder.photo_iv);
+        }
         if (historyRide.getFeedback() != null) {
             holder.feedback_bt.setVisibility(View.INVISIBLE);
         } else {
