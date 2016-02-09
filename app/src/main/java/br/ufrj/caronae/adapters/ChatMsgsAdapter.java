@@ -1,7 +1,6 @@
 package br.ufrj.caronae.adapters;
 
 import android.content.Context;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,10 +10,11 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.models.ChatMessageReceived;
 
-public class ChatMsgsAdapter extends RecyclerView.Adapter<ChatMsgsAdapter.ViewHolder> {
+public class ChatMsgsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private final List<ChatMessageReceived> chatMsgsList;
     private final int color;
@@ -25,45 +25,58 @@ public class ChatMsgsAdapter extends RecyclerView.Adapter<ChatMsgsAdapter.ViewHo
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
+        RecyclerView.ViewHolder viewHolder;
 
-        View contactView = inflater.inflate(R.layout.item_chatmsg, parent, false);
+        if (viewType == 0) {
+            View contactView = inflater.inflate(R.layout.item_chatmsg_right, parent, false);
+            viewHolder = new ViewHolderRight(contactView);
+        } else {
+            View contactView = inflater.inflate(R.layout.item_chatmsg_left, parent, false);
+            viewHolder = new ViewHolderLeft(contactView);
+        }
 
-        return new ViewHolder(contactView);
+        return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         ChatMessageReceived msg = chatMsgsList.get(position);
-        holder.msg_tv.setText(msg.getMessage());
-        String time = "";
-        try {
-            time = msg.getTime().split(" ")[1].substring(0, 5);
-        } catch (Exception e) {
-            Log.e("ChatMsgsAdapter", e.getMessage());
-        }
-        holder.time_tv.setText(time);
 
-        holder.sender_name_tv.setText(msg.getSenderName());
-        holder.sender_name_tv.setTextColor(color);
+        if (holder.getItemViewType() == 0) {
+            ViewHolderRight viewHolderRight = (ViewHolderRight) holder;
 
-        /*if (msg.getSenderId().equals(App.getUser().getDbId()+"")) {
-            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) holder.card_view.getLayoutParams();
-            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-            holder.card_view.setLayoutParams(layoutParams);
-
-            holder.sender_name_tv.setVisibility(View.GONE);
+            viewHolderRight.msg_tv.setText(msg.getMessage());
+            String time = "";
+            try {
+                time = msg.getTime().split(" ")[1].substring(0, 5);
+            } catch (Exception e) {
+                Log.e("ChatMsgsAdapter", e.getMessage());
+            }
+            viewHolderRight.time_tv.setText(time);
         } else {
-            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) holder.card_view.getLayoutParams();
-            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-            holder.card_view.setLayoutParams(layoutParams);
+            ViewHolderLeft viewHolderLeft = (ViewHolderLeft) holder;
 
-            holder.sender_name_tv.setVisibility(View.VISIBLE);
-            holder.sender_name_tv.setText(msg.getSenderName());
-            holder.sender_name_tv.setTextColor(color);
-        }*/
+            viewHolderLeft.msg_tv.setText(msg.getMessage());
+            String time = "";
+            try {
+                time = msg.getTime().split(" ")[1].substring(0, 5);
+            } catch (Exception e) {
+                Log.e("ChatMsgsAdapter", e.getMessage());
+            }
+            viewHolderLeft.time_tv.setText(time);
+
+            viewHolderLeft.sender_name_tv.setText(msg.getSenderName());
+            viewHolderLeft.sender_name_tv.setTextColor(color);
+        }
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        ChatMessageReceived msg = chatMsgsList.get(position);
+        return msg.getSenderId().equals(App.getUser().getDbId() + "") ? 0 : 1;
     }
 
     @Override
@@ -71,19 +84,29 @@ public class ChatMsgsAdapter extends RecyclerView.Adapter<ChatMsgsAdapter.ViewHo
         return chatMsgsList.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolderLeft extends RecyclerView.ViewHolder {
         public TextView msg_tv;
         public TextView sender_name_tv;
         public TextView time_tv;
-        public CardView card_view;
 
-        public ViewHolder(View itemView) {
+        public ViewHolderLeft(View itemView) {
             super(itemView);
 
             msg_tv = (TextView) itemView.findViewById(R.id.msg_tv);
             sender_name_tv = (TextView) itemView.findViewById(R.id.sender_name_tv);
             time_tv = (TextView) itemView.findViewById(R.id.time_tv);
-            card_view = (CardView) itemView.findViewById(R.id.card_view);
+        }
+    }
+
+    public static class ViewHolderRight extends RecyclerView.ViewHolder {
+        public TextView msg_tv;
+        public TextView time_tv;
+
+        public ViewHolderRight(View itemView) {
+            super(itemView);
+
+            msg_tv = (TextView) itemView.findViewById(R.id.msg_tv);
+            time_tv = (TextView) itemView.findViewById(R.id.time_tv);
         }
     }
 }
