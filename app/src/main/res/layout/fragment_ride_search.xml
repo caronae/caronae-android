@@ -96,7 +96,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/center_et"
             android:layout_centerHorizontal="true"
-            android:background="@null"
+            android:background="@drawable/btn_color"
             android:text="@string/frag_ridesearch_searchBt"
             app:rd_enable="true" />
 

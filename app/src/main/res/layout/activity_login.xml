@@ -77,7 +77,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/token_et"
             android:layout_centerHorizontal="true"
-            android:background="@drawable/bg_bt_raise"
+            android:background="@drawable/btn_color"
             android:gravity="center"
             android:text="@string/send_bt"
             app:rd_enable="true" />

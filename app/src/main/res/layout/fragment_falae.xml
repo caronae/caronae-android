@@ -9,7 +9,9 @@
         android:id="@+id/user_pic_iv"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_margin="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         android:src="@drawable/user_pic" />
 
     <TextView
@@ -17,6 +19,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/user_pic_iv"
+        android:layout_marginLeft="5dp"
+        android:layout_marginStart="5dp"
         android:layout_toEndOf="@+id/user_pic_iv"
         android:layout_toRightOf="@+id/user_pic_iv"
         android:paddingTop="5dp"
@@ -27,6 +31,8 @@
         android:id="@+id/profile_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/name_tv"
+        android:layout_alignStart="@+id/name_tv"
         android:layout_below="@+id/name_tv"
         android:layout_toEndOf="@+id/user_pic_iv"
         android:layout_toRightOf="@+id/user_pic_iv"
@@ -36,6 +42,8 @@
         android:id="@+id/course_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/name_tv"
+        android:layout_alignStart="@+id/name_tv"
         android:layout_below="@+id/profile_tv"
         android:layout_toEndOf="@+id/user_pic_iv"
         android:layout_toRightOf="@+id/user_pic_iv"
@@ -99,9 +107,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/radioGroup"
-        android:singleLine="true"
         android:layout_margin="16dp"
-        android:hint="@string/frag_falae_subjectHint" />
+        android:hint="@string/frag_falae_subjectHint"
+        android:singleLine="true" />
 
     <EditText
         android:id="@+id/message_et"
@@ -123,7 +131,7 @@
         android:layout_alignParentRight="true"
         android:layout_below="@+id/message_et"
         android:layout_margin="16dp"
-        android:background="@null"
+        android:background="@drawable/btn_color"
         android:text="@string/send_bt"
         app:rd_enable="true" />
 

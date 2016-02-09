@@ -2,6 +2,7 @@ package br.ufrj.caronae.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -31,10 +32,10 @@ import retrofit.client.Response;
 public class RequestersAdapter extends RecyclerView.Adapter<RequestersAdapter.ViewHolder> {
     private final ArrayList<User> users;
     private final int rideId;
-    private final Context activity;
+    private final AppCompatActivity activity;
     private final int color;
 
-    public RequestersAdapter(ArrayList<User> users, int rideId, int color, Context activity) {
+    public RequestersAdapter(ArrayList<User> users, int rideId, int color, AppCompatActivity activity) {
         this.users = users;
         this.rideId = rideId;
         this.activity = activity;
@@ -85,6 +86,9 @@ public class RequestersAdapter extends RecyclerView.Adapter<RequestersAdapter.Vi
                         Util.toast(R.string.requestAccepted);
                         users.remove(user);
                         notifyItemRemoved(holder.getAdapterPosition());
+
+                        if (users.isEmpty())
+                            activity.finish();
 
                         new CheckSubGcmTopic().execute(rideId + "");
                     }
