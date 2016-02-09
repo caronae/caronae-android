@@ -321,13 +321,11 @@ public class RideSearchFrag extends Fragment {
 
     @OnClick(R.id.search_bt)
     public void searchBt() {
-        final ProgressDialog pd = ProgressDialog.show(getActivity(), "", getContext().getString(R.string.wait), true, true);
 
         String location = location_et.getText().toString();
         if (location.isEmpty()) {
-            //noinspection ConstantConditions
-            location_et.setText(Util.getNeighborhoods(Util.getZones()[0])[0]);
-            location = location_et.getText().toString();
+            Util.toast(getString(R.string.frag_rideSearch_locationEmpty));
+            return;
         } else {
             if (location.contains("+")) {
                 location = neighborhoods;
@@ -351,8 +349,7 @@ public class RideSearchFrag extends Fragment {
             try {
                 Date etDate = simpleDateFormat.parse(etDateString);
                 if (etDate.before(todayDate)) {
-                    Util.toast(getActivity().getString(R.string.frag_rideoffersearch_pastdate));
-                    pd.dismiss();
+                    Util.toast(getString(R.string.frag_rideoffersearch_pastdate));
                     return;
                 }
             } catch (ParseException e) {
@@ -373,6 +370,7 @@ public class RideSearchFrag extends Fragment {
         String lastRideSearchFilters = new Gson().toJson(rideSearchFilters);
         SharedPref.saveLastRideSearchFiltersPref(lastRideSearchFilters);
 
+        final ProgressDialog pd = ProgressDialog.show(getActivity(), "", getContext().getString(R.string.wait), true, true);
         App.getNetworkService().listFiltered(rideSearchFilters, new Callback<List<RideForJson>>() {
             @Override
             public void success(List<RideForJson> rideOffers, Response response) {
