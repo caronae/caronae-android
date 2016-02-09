@@ -68,8 +68,8 @@
             <com.rey.material.widget.Button
                 android:id="@+id/logout_iv"
                 style="@style/LightRaiseColorButtonRippleStyle"
-                android:layout_width="45dp"
-                android:layout_height="wrap_content"
+                android:layout_width="55dp"
+                android:layout_height="50dp"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"

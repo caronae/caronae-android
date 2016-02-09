@@ -27,7 +27,12 @@
         android:layout_width="75dp"
         android:layout_height="75dp"
         android:layout_below="@+id/toolbar_lay"
-        android:layout_margin="16dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         android:src="@drawable/user_pic" />
 
     <TextView
@@ -65,6 +70,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/course_tv"
+        android:layout_marginTop="15dp"
         android:layout_toEndOf="@+id/user_pic_iv"
         android:layout_toRightOf="@+id/user_pic_iv"
         android:text="(21) 997338158"
@@ -74,10 +80,9 @@
         android:id="@+id/call_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/profile_tv"
-        android:layout_marginLeft="10dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="12dp"
+        android:layout_alignBaseline="@+id/phone_tv"
+        android:layout_marginLeft="5dp"
+        android:layout_marginStart="5dp"
         android:layout_toEndOf="@+id/phone_tv"
         android:layout_toRightOf="@+id/phone_tv"
         android:background="@color/blue"
@@ -92,7 +97,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/user_pic_iv"
-        android:layout_centerHorizontal="true">
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="13dp">
 
         <TextView
             android:id="@+id/createdAt_tv"
@@ -147,44 +153,49 @@
         android:layout_below="@id/color_bar"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:background="@null"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/bg_bt_raise"
         android:gravity="center"
         android:text="@string/act_profile_report_bt"
         android:textColor="@color/red"
         app:rd_enable="true" />
 
+    <TextView
+        android:id="@+id/openProfile_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/report_bt"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:background="@color/blue"
+        android:padding="4dp"
+        android:text="@string/act_profile_openProfile"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:visibility="gone" />
+
     <RelativeLayout
         android:id="@+id/mutualFriends_lay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/report_bt"
+        android:layout_below="@+id/openProfile_tv"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
+        android:layout_marginTop="5dp"
         android:visibility="gone">
 
         <TextView
             android:id="@+id/mutualFriends_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/openProfile_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/mutualFriends_tv"
-            android:layout_centerHorizontal="true"
-            android:background="@color/blue"
-            android:padding="4dp"
-            android:text="@string/act_profile_openProfile"
-            android:textColor="@color/white"
+            android:layout_marginTop="5dp"
             android:textStyle="bold" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/mutualFriendsList"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/openProfile_tv"
+            android:layout_below="@+id/mutualFriends_tv"
             android:layout_marginTop="5dp" />
     </RelativeLayout>
 

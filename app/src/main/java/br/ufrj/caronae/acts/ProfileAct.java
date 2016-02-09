@@ -130,11 +130,21 @@ public class ProfileAct extends AppCompatActivity {
             AccessToken token = AccessToken.getCurrentAccessToken();
             if (token != null) {
                 if (user.getFaceId() != null) {
+                    openProfile_tv.setVisibility(View.VISIBLE);
                     App.getNetworkService().getMutualFriends(token.getToken(), user.getFaceId(), new Callback<FacebookFriendForJson>() {
                         @Override
                         public void success(FacebookFriendForJson mutualFriends, Response response) {
+                            if (mutualFriends.getTotalCount() < 1)
+                                return;
+
                             mutualFriends_lay.setVisibility(View.VISIBLE);
-                            mutualFriends_tv.setText(getString(R.string.act_profile_mutualFriends, mutualFriends.getTotalCount(), mutualFriends.getMutualFriends().size()));
+
+                            int totalCount = mutualFriends.getTotalCount();
+                            String s = mutualFriends.getTotalCount() > 1 ? "s" : "";
+                            int size = mutualFriends.getMutualFriends().size();
+                            String s1 = mutualFriends.getMutualFriends().size() != 1 ? "m" : "";
+                            mutualFriends_tv.setText(getString(R.string.act_profile_mutualFriends, totalCount, s, size, s1));
+
                             String name = user.getName().split(" ")[0];
                             openProfile_tv.setText(getString(R.string.act_profile_openFbProfile, name));
                             mutualFriendsList.setAdapter(new RidersAdapter(mutualFriends.getMutualFriends(), ProfileAct.this));
@@ -171,8 +181,8 @@ public class ProfileAct extends AppCompatActivity {
                 }
             });
         } else {
-            phone_tv.setVisibility(View.GONE);
-            call_tv.setVisibility(View.GONE);
+            phone_tv.setVisibility(View.INVISIBLE);
+            call_tv.setVisibility(View.INVISIBLE);
         }
     }
 

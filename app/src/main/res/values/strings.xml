@@ -87,7 +87,7 @@
     <string name="chat_sendMsgHint">Digite sua mensagem</string>
     <string name="hello">Olá :)</string>
     <string name="welcome">Bem-vindo ao aplicativo de caronas da UFRJ. O acesso é restrito a usuários vinculados à universidade. Para continuar você deve obter sua chave de acesso na Intranet UFRJ.</string>
-    <string name="act_profile_mutualFriends">Vocês tem %1$d amigos em comum no Facebook.\n%2$d deles usam o Caronaê.</string>
+    <string name="act_profile_mutualFriends">Vocês tem %1$d amigo%2$s em comum no Facebook.\n%3$d deles usa%4$s o Caronaê.</string>
     <string name="frag_falae_messageHint">Conte pra gente, o que houve?</string>
     <string name="frag_falae_subjectHint">Assunto (Opcional)</string>
     <string name="frag_falae_reason_tv">Motivo do contato</string>
@@ -109,7 +109,7 @@
     <string name="rideHistory_DialogTitle">Eaí? Correu tudo bem?</string>
     <string name="yes">Sim</string>
     <string name="no">Não</string>
-    <string name="act_profile_openFbProfile">Veja o perfil de %1$s no Facebook.</string>
+    <string name="act_profile_openFbProfile">Veja o perfil de %1$s no Facebook</string>
     <string name="act_profile_openProfile">Veja o perfil de Fulano no Facebook</string>
     <string name="frag_myactiverides_noRides">Você não tem caronas ativas</string>
     <string name="frag_myrides_noRides">Você não tem anúncios de caronas</string>
