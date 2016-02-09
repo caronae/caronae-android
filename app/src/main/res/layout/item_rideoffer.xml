@@ -27,8 +27,8 @@
             android:id="@+id/location_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginStart="10dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
             android:layout_toEndOf="@+id/photo_iv"
             android:layout_toRightOf="@+id/photo_iv"
             android:text="COPACABANA -> CT"
@@ -39,9 +39,9 @@
             android:id="@+id/time_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/location_tv"
-            android:layout_alignStart="@+id/location_tv"
             android:layout_alignLeft="@+id/location_tv"
+            android:layout_alignStart="@+id/location_tv"
+            android:layout_below="@+id/location_tv"
             android:text="Chegando ás 16:45"
             android:textColor="@color/white" />
 
@@ -71,9 +71,9 @@
             android:id="@+id/slots_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/time_tv"
-            android:layout_alignStart="@+id/location_tv"
             android:layout_alignLeft="@+id/location_tv"
+            android:layout_alignStart="@+id/location_tv"
+            android:layout_below="@+id/time_tv"
             android:text="3 vagas"
             android:textColor="@color/white" />
 
@@ -101,7 +101,6 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_below="@+id/join_bt"
             android:layout_centerVertical="true"
             android:background="@null"
             android:gravity="center"

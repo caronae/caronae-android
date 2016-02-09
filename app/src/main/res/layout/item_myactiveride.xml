@@ -19,8 +19,8 @@
 
         <ImageView
             android:id="@+id/photo_iv"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:src="@drawable/user_pic" />
 
         <TextView
@@ -39,11 +39,9 @@
             android:id="@+id/time_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/location_tv"
+            android:layout_alignStart="@+id/location_tv"
             android:layout_below="@+id/location_tv"
-            android:layout_marginLeft="5dp"
-            android:layout_marginStart="5dp"
-            android:layout_toEndOf="@+id/photo_iv"
-            android:layout_toRightOf="@+id/photo_iv"
             android:text="Chegando ás 16:45"
             android:textColor="@color/white" />
 
@@ -73,11 +71,9 @@
             android:id="@+id/slots_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/location_tv"
+            android:layout_alignStart="@+id/location_tv"
             android:layout_below="@+id/time_tv"
-            android:layout_marginLeft="5dp"
-            android:layout_marginStart="5dp"
-            android:layout_toEndOf="@+id/photo_iv"
-            android:layout_toRightOf="@+id/photo_iv"
             android:text="3 vagas"
             android:textColor="@color/white" />
 
@@ -85,7 +81,7 @@
             android:id="@+id/name_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/slots_tv"
+            android:layout_below="@+id/photo_iv"
             android:paddingTop="5dp"
             android:text="Leonardo Marques"
             android:textColor="@color/white" />
