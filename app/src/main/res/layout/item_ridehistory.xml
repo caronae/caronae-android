@@ -30,8 +30,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp"
-            android:layout_toRightOf="@+id/photo_iv"
             android:layout_toEndOf="@+id/photo_iv"
+            android:layout_toRightOf="@+id/photo_iv"
             android:paddingTop="8dp"
             android:text="COPACABANA -> CT"
             android:textStyle="bold" />
@@ -43,8 +43,8 @@
             android:layout_alignLeft="@+id/location_tv"
             android:layout_alignStart="@+id/location_tv"
             android:layout_below="@+id/location_tv"
-            android:layout_toRightOf="@+id/photo_iv"
             android:layout_toEndOf="@+id/photo_iv"
+            android:layout_toRightOf="@+id/photo_iv"
             android:text="Chegando ás 16:45 | " />
 
         <TextView
@@ -63,8 +63,8 @@
             android:layout_alignLeft="@+id/location_tv"
             android:layout_alignStart="@+id/location_tv"
             android:layout_below="@+id/time_tv"
-            android:layout_toRightOf="@+id/photo_iv"
             android:layout_toEndOf="@+id/photo_iv"
+            android:layout_toRightOf="@+id/photo_iv"
             android:text="3 caronistas" />
 
         <com.rey.material.widget.Button
@@ -77,8 +77,8 @@
             android:layout_centerVertical="true"
             android:background="@null"
             android:gravity="center"
-            android:textColor="@color/white"
             android:text="@string/rateBtn"
+            android:textColor="@color/white"
             app:rd_enable="true" />
 
     </RelativeLayout>
