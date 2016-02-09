@@ -261,7 +261,7 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_below="@+id/days_lo"
-            android:background="@null"
+            android:background="@drawable/btn_color"
             android:text="@string/send_bt"
             app:rd_enable="true" />
 

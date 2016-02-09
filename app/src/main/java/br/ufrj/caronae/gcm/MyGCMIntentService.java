@@ -142,7 +142,7 @@ public class MyGCMIntentService extends IntentService {
         Context context = App.inst();
         Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(R.drawable.ic_stat_name)
                 .setContentTitle(title)
                 .setContentIntent(resultPendingIntent)
                 .setSound(alarmSound)
