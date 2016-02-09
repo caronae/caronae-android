@@ -110,9 +110,11 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
         holder.delete_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                final ProgressDialog pd = ProgressDialog.show(activity, "", activity.getString(R.string.wait), true, true);
                 App.getNetworkService().deleteRide(ride.getDbId() + "", new Callback<Response>() {
                     @Override
                     public void success(Response response, Response response2) {
+                        pd.dismiss();
                         Util.toast(R.string.rideDeleted);
                         rides.remove(ride);
                         notifyItemRemoved(holder.getAdapterPosition());
@@ -121,7 +123,8 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
 
                     @Override
                     public void failure(RetrofitError error) {
-                        activity.getString(R.string.errorRideDeleted);
+                        pd.dismiss();
+                        Util.toast(activity.getString(R.string.errorRideDeleted));
                         try {
                             Log.e("deleteRide", error.getMessage());
                         } catch (Exception e) {//sometimes RetrofitError is null

@@ -1,5 +1,6 @@
 package br.ufrj.caronae.frags;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -455,6 +456,7 @@ public class RideOfferFrag extends Fragment {
         String lastRideOffer = new Gson().toJson(ride);
         SharedPref.saveLastRidePref(lastRideOffer);
 
+        final ProgressDialog pd = ProgressDialog.show(getContext(), "", getString(R.string.wait), true, true);
         App.getNetworkService().offerRide(ride, new Callback<List<Ride>>() {
             @Override
             public void success(List<Ride> rides, Response response) {
@@ -463,11 +465,13 @@ public class RideOfferFrag extends Fragment {
                     ride2.setDbId(ride.getId().intValue());
                     ride2.save();
                 }
+                pd.dismiss();
                 Util.toast(R.string.frag_rideOffer_rideSaved);
             }
 
             @Override
             public void failure(RetrofitError error) {
+                pd.dismiss();
                 Util.toast(R.string.frag_rideOffer_errorRideSaved);
                 try {
                     Log.e("offerRide", error.getMessage());

@@ -1,5 +1,6 @@
 package br.ufrj.caronae.acts;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -226,10 +227,15 @@ public class ActiveRideAct extends AppCompatActivity {
         leave_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                final ProgressDialog pd = ProgressDialog.show(ActiveRideAct.this, "", getString(R.string.wait), true, true);
                 App.getNetworkService().leaveRide(new RideIdForJson(rideWithUsers.getDbId()), new Callback<Response>() {
                     @Override
                     public void success(Response response, Response response2) {
-                        Util.toast(R.string.rideDeleted);
+                        pd.dismiss();
+                        if (isDriver)
+                            Util.toast(getString(R.string.act_activeride_cancelledRide));
+                        else
+                            Util.toast(getString(R.string.act_activeride_quitRide));
 
                         new UnsubGcmTopic(ActiveRideAct.this, rideId).execute();
 
@@ -243,6 +249,7 @@ public class ActiveRideAct extends AppCompatActivity {
 
                     @Override
                     public void failure(RetrofitError error) {
+                        pd.dismiss();
                         Util.toast(R.string.errorRideDeleted);
                         try {
                             Log.e("leaveRide", error.getMessage());
@@ -260,9 +267,11 @@ public class ActiveRideAct extends AppCompatActivity {
         finish_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                final ProgressDialog pd = ProgressDialog.show(ActiveRideAct.this, "", getString(R.string.wait), true, true);
                 App.getNetworkService().finishRide(new RideIdForJson(rideWithUsers.getDbId()), new Callback<Response>() {
                     @Override
                     public void success(Response response, Response response2) {
+                        pd.dismiss();
                         Util.toast(R.string.rideFinished);
 
                         new UnsubGcmTopic(ActiveRideAct.this, rideId).execute();
@@ -277,6 +286,7 @@ public class ActiveRideAct extends AppCompatActivity {
 
                     @Override
                     public void failure(RetrofitError error) {
+                        pd.dismiss();
                         Util.toast(R.string.errorFinishRide);
 
                         try {

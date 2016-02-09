@@ -1,5 +1,6 @@
 package br.ufrj.caronae.frags;
 
+import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -97,9 +98,11 @@ public class MyRidesFrag extends Fragment {
     }
 
     @OnClick(R.id.deleteAll_bt)
-    public void button2() {
+    public void deleteAllBt() {
         if (rides == null || rides.isEmpty())
             return;
+
+        final ProgressDialog pd = ProgressDialog.show(getContext(), "", getResources().getString(R.string.wait), true, true);
 
         for (final Ride ride : rides) {
             App.getNetworkService().deleteRide(ride.getDbId() + "", new Callback<Response>() {
@@ -120,6 +123,7 @@ public class MyRidesFrag extends Fragment {
             });
         }
 
+        pd.dismiss();
         Util.toast(R.string.frag_myrides_ridesDeleted);
         rides.clear();
         myRidesList.getAdapter().notifyDataSetChanged();

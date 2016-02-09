@@ -1,5 +1,6 @@
 package br.ufrj.caronae.acts;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -171,20 +172,23 @@ public class RideOfferAct extends AppCompatActivity {
         join_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                final ProgressDialog pd = ProgressDialog.show(RideOfferAct.this, "", getString(R.string.wait), true, true);
                 App.getNetworkService().requestJoin(new RideIdForJson(rideWithUsers.getDbId()), new Callback<Response>() {
                     @Override
                     public void success(Response response, Response response2) {
-                        Util.toast(R.string.requestSent);
-
                         RideRequestSent rideRequest = new RideRequestSent(rideWithUsers.getDbId(), rideWithUsers.isGoing(), rideWithUsers.getDate());
                         rideRequest.save();
 
                         join_bt.setVisibility(View.INVISIBLE);
                         App.getBus().post(rideRequest);
+
+                        pd.dismiss();
+                        Util.toast(R.string.requestSent);
                     }
 
                     @Override
                     public void failure(RetrofitError error) {
+                        pd.dismiss();
                         Util.toast(R.string.errorRequestSent);
 
                         try {

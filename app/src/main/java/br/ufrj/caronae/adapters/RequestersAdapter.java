@@ -1,5 +1,6 @@
 package br.ufrj.caronae.adapters;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -80,9 +81,11 @@ public class RequestersAdapter extends RecyclerView.Adapter<RequestersAdapter.Vi
         holder.accept_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                final ProgressDialog pd = ProgressDialog.show(activity, "", activity.getString(R.string.wait), true, true);
                 App.getNetworkService().answerJoinRequest(new JoinRequestIDsForJson(user.getDbId(), rideId, true), new Callback<Response>() {
                     @Override
                     public void success(Response response, Response response2) {
+                        pd.dismiss();
                         Util.toast(R.string.requestAccepted);
                         users.remove(user);
                         notifyItemRemoved(holder.getAdapterPosition());
@@ -95,6 +98,7 @@ public class RequestersAdapter extends RecyclerView.Adapter<RequestersAdapter.Vi
 
                     @Override
                     public void failure(RetrofitError error) {
+                        pd.dismiss();
                         try {
                             Log.e("answerJoinRequest", error.getMessage());
                         } catch (Exception e) {//sometimes RetrofitError is null
@@ -110,9 +114,11 @@ public class RequestersAdapter extends RecyclerView.Adapter<RequestersAdapter.Vi
         holder.reject_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                final ProgressDialog pd = ProgressDialog.show(activity, "", activity.getString(R.string.wait), true, true);
                 App.getNetworkService().answerJoinRequest(new JoinRequestIDsForJson(user.getDbId(), rideId, false), new Callback<Response>() {
                     @Override
                     public void success(Response response, Response response2) {
+                        pd.dismiss();
                         Util.toast(R.string.requestRejected);
                         users.remove(user);
                         notifyItemRemoved(holder.getAdapterPosition());
@@ -120,6 +126,7 @@ public class RequestersAdapter extends RecyclerView.Adapter<RequestersAdapter.Vi
 
                     @Override
                     public void failure(RetrofitError error) {
+                        pd.dismiss();
                         try {
                             Log.e("answerJoinRequest", error.getMessage());
                         } catch (Exception e) {//sometimes RetrofitError is null

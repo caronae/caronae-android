@@ -1,5 +1,6 @@
 package br.ufrj.caronae.frags;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -95,9 +96,11 @@ public class FalaeFrag extends Fragment {
         }
         subject = subject.concat(subject_et.getText().toString());
 
+        final ProgressDialog pd = ProgressDialog.show(getContext(), "", getString(R.string.wait), true, true);
         App.getNetworkService().falaeSendMessage(new FalaeMsgForJson(subject, message), new Callback<Response>() {
             @Override
             public void success(Response response, Response response2) {
+                pd.dismiss();
                 Util.toast(getActivity().getString(R.string.frag_falae_thanksSent));
                 subject_et.setText("");
                 message_et.setText("");
@@ -106,6 +109,7 @@ public class FalaeFrag extends Fragment {
 
             @Override
             public void failure(RetrofitError error) {
+                pd.dismiss();
                 Util.toast(getActivity().getString(R.string.frag_falae_errorSent));
                 try {
                     Log.e("falaeSendMessage", error.getMessage());

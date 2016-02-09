@@ -184,5 +184,7 @@
     <string name="idUfrjHint_et">Seu CPF aqui</string>
     <string name="frag_myrides_deleteAllBt">Excluir todas</string>
     <string name="frag_rideSearch_locationEmpty">Escolha o local</string>
+    <string name="act_activeride_cancelledRide">Carona cancelada</string>
+    <string name="act_activeride_quitRide">Você saiu da carona</string>
 
 </resources>
