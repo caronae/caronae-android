@@ -10,8 +10,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
+
+import com.rey.material.widget.Button;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -38,8 +39,10 @@ public class MyRidesFrag extends Fragment {
     TextView norides_tv;
     @Bind(R.id.fab)
     FloatingActionButton fab;
-    @Bind(R.id.button2)
-    Button button2;
+    @Bind(R.id.deleteAll_bt)
+    Button deleteAll_bt;
+    @Bind(R.id.helpText_tv)
+    TextView helpText_tv;
 
     ArrayList<Ride> rides;
 
@@ -78,6 +81,9 @@ public class MyRidesFrag extends Fragment {
                 myRidesList.setAdapter(new MyRidesAdapter(rides, (MainAct) getActivity()));
                 myRidesList.setHasFixedSize(true);
                 myRidesList.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+                deleteAll_bt.setVisibility(View.VISIBLE);
+                helpText_tv.setVisibility(View.VISIBLE);
             } else {
                 norides_tv.setVisibility(View.VISIBLE);
             }
@@ -90,7 +96,7 @@ public class MyRidesFrag extends Fragment {
         ((MainAct) getActivity()).showRideOfferFrag();
     }
 
-    @OnClick(R.id.button2)
+    @OnClick(R.id.deleteAll_bt)
     public void button2() {
         if (rides == null || rides.isEmpty())
             return;
@@ -117,5 +123,8 @@ public class MyRidesFrag extends Fragment {
         Util.toast(R.string.frag_myrides_ridesDeleted);
         rides.clear();
         myRidesList.getAdapter().notifyDataSetChanged();
+        norides_tv.setVisibility(View.VISIBLE);
+        deleteAll_bt.setVisibility(View.INVISIBLE);
+        helpText_tv.setVisibility(View.INVISIBLE);
     }
 }

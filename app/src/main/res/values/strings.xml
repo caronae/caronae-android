@@ -65,7 +65,7 @@
     <string name="frag_myprofile_picChoice">Qual foto você prefere usar?</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancelar</string>
-    <string name="frag_myrides_ridesDeleted">Caronas deletadas</string>
+    <string name="frag_myrides_ridesDeleted">Caronas excluídas</string>
     <string name="frag_rideshistory_errorGetRides">Erro ao obter histórico de caronas</string>
     <string name="frag_rideSearch_pickZones">Escolha a zona</string>
     <string name="frag_rideSearch_pickNeighborhood">Escolha o(s) bairro(s)</string>

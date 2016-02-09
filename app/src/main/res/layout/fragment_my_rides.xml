@@ -7,18 +7,19 @@
     tools:context="br.ufrj.caronae.frags.MyRidesFrag">
 
     <TextView
-        android:id="@+id/text"
+        android:id="@+id/helpText_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_margin="5dp"
-        android:text="Toque nas caronas para verificar solicitações" />
+        android:layout_margin="3dp"
+        android:text="Toque nas caronas para verificar solicitações"
+        android:visibility="invisible" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/myRidesList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/text"
+        android:layout_below="@+id/helpText_tv"
         android:layout_marginBottom="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp" />
@@ -46,7 +47,7 @@
         app:backgroundTint="@color/fab_red" />
 
     <com.rey.material.widget.Button
-        android:id="@+id/button2"
+        android:id="@+id/deleteAll_bt"
         style="@style/LightRaiseColorButtonRippleStyle"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
@@ -56,6 +57,7 @@
         android:background="@drawable/bg_bt_raise_fab_red"
         android:text="@string/frag_myrides_deleteAllBt"
         android:textColor="@color/white"
+        android:visibility="invisible"
         app:rd_enable="true" />
 
 </RelativeLayout>
