@@ -9,19 +9,17 @@ public class ChatAssets extends SugarRecord<ChatAssets> {
     private int bgres;
     private String date;
     private String time;
-    private String riders;
 
     public ChatAssets() {
     }
 
-    public ChatAssets(String rideId, String location, int color, int bgres, String date, String time, String riders) {
+    public ChatAssets(String rideId, String location, int color, int bgres, String date, String time) {
         this.rideId = rideId;
         this.location = location;
         this.color = color;
         this.bgres = bgres;
         this.date = date;
         this.time = time;
-        this.riders = riders;
     }
 
     public String getRideId() {
@@ -46,9 +44,5 @@ public class ChatAssets extends SugarRecord<ChatAssets> {
 
     public String getTime() {
         return time;
-    }
-
-    public String getRiders() {
-        return riders;
     }
 }

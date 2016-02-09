@@ -47,8 +47,6 @@ public class ChatAct extends AppCompatActivity {
     EditText msg_et;
     @Bind(R.id.neighborhood_tv)
     TextView neighborhood_tv;
-    @Bind(R.id.riders_tv)
-    TextView riders_tv;
     @Bind(R.id.date_tv)
     TextView date_tv;
     @Bind(R.id.time_tv)
@@ -88,8 +86,6 @@ public class ChatAct extends AppCompatActivity {
         send_bt.setBackgroundResource(bgRes);
         String neighborhood = chatAssets.getLocation();
         neighborhood_tv.setText(neighborhood);
-        String riders = chatAssets.getRiders();
-        riders_tv.setText(riders);
         String date = chatAssets.getDate();
         date_tv.setText(date);
         String time = chatAssets.getTime();

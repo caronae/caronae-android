@@ -103,7 +103,7 @@
             android:layout_toStartOf="@+id/open_bt"
             android:paddingEnd="10dp"
             android:paddingRight="10dp"
-            android:src="@drawable/ic_email_black_24dp_red"
+            android:src="@drawable/ic_email_red_24dp"
             android:visibility="gone" />
 
         <com.rey.material.widget.Button

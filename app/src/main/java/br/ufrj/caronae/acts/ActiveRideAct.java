@@ -205,17 +205,11 @@ public class ActiveRideAct extends AppCompatActivity {
         chat_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String riders = driver.getName().split(" ")[0] + ", ";
-                for (User user : rideWithUsers.getRiders()) {
-                    riders += user.getName().split(" ")[0] + ", ";
-                }
-                riders = riders.substring(0, riders.length() - 2);
-
                 List<ChatAssets> l = ChatAssets.find(ChatAssets.class, "ride_id = ?", rideWithUsers.getDbId() + "");
                 if (l == null || l.isEmpty())
                     new ChatAssets(rideWithUsers.getDbId() + "", location, finalColor, finalBgRes,
                             Util.formatBadDateWithoutYear(rideWithUsers.getDate()),
-                            Util.formatTime(rideWithUsers.getTime()), riders).save();
+                            Util.formatTime(rideWithUsers.getTime())).save();
 
                 Intent intent = new Intent(ActiveRideAct.this, ChatAct.class);
                 intent.putExtra("rideId", rideWithUsers.getDbId() + "");

@@ -32,6 +32,7 @@
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
             android:paddingStart="10dp"
+            android:paddingBottom="10dp"
             android:paddingTop="10dp"
             android:singleLine="true"
             android:text="COPACABANA"
@@ -90,17 +91,6 @@
             android:textColor="@color/white"
             android:textSize="13sp"
             android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/riders_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/neighborhood_tv"
-            android:paddingBottom="10dp"
-            android:paddingLeft="10dp"
-            android:paddingStart="10dp"
-            android:text="Fulano, Beltrano"
-            android:textColor="@color/white" />
     </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
