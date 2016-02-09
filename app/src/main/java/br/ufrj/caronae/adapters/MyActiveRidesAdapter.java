@@ -116,7 +116,7 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
             location = rideOffer.getHub() + " ➜ " + rideOffer.getNeighborhood();
         viewHolder.location_tv.setText(location);
 
-        viewHolder.open_bt.setOnClickListener(new View.OnClickListener() {
+        viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 NewChatMsgIndicator.deleteAll(NewChatMsgIndicator.class, "db_id = ?", rideOffer.getDbId()+"");
@@ -163,7 +163,6 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
         public TextView location_tv;
         public TextView name_tv;
         public TextView slots_tv;
-        public Button open_bt;
         public CardView cardView;
         public ImageView newMsgIndicator_iv;
 
@@ -177,7 +176,6 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
             location_tv = (TextView) itemView.findViewById(R.id.location_tv);
             name_tv = (TextView) itemView.findViewById(R.id.name_tv);
             slots_tv = (TextView) itemView.findViewById(R.id.slots_tv);
-            open_bt = (Button) itemView.findViewById(R.id.open_bt);
             cardView = (CardView) itemView.findViewById(R.id.cardView);
             newMsgIndicator_iv = (ImageView) itemView.findViewById(R.id.newMsgIndicator_iv);
         }

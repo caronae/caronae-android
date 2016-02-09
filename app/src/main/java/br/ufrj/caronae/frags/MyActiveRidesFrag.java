@@ -36,6 +36,8 @@ public class MyActiveRidesFrag extends Fragment {
     RecyclerView myRidesList;
     @Bind(R.id.norides_tv)
     TextView norides_tv;
+    @Bind(R.id.helpText_tv)
+    TextView helpText_tv;
 
     private MyActiveRidesAdapter adapter;
 
@@ -83,6 +85,7 @@ public class MyActiveRidesFrag extends Fragment {
                 myRidesList.setHasFixedSize(true);
                 myRidesList.setLayoutManager(new LinearLayoutManager(getActivity()));
 
+                helpText_tv.setVisibility(View.VISIBLE);
                 pd.dismiss();
             }
 

@@ -5,11 +5,24 @@
     android:background="@color/white"
     tools:context="br.ufrj.caronae.frags.MyActiveRidesFrag">
 
+    <TextView
+        android:id="@+id/helpText_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="2dp"
+        android:text="Toque nas caronas para mais informações"
+        android:visibility="invisible" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/myRidesList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="16dp" />
+        android:layout_marginEnd="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="21dp" />
 
     <TextView
         android:id="@+id/norides_tv"
