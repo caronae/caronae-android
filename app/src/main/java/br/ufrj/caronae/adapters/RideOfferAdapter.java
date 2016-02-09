@@ -112,22 +112,23 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
             location = rideOffer.getHub() + " ➜ " + rideOffer.getNeighborhood();
         viewHolder.location_tv.setText(location);
 
-        int visibility = View.VISIBLE;
+        int visibility = View.INVISIBLE;
         if (rideOffer.getDriver().getDbId() == App.getUser().getDbId()) {
-            visibility = View.INVISIBLE;
+            visibility = View.VISIBLE;
         } else {
             if (rideRequests != null && !rideRequests.isEmpty()) {
                 for (RideRequestSent rideRequest : rideRequests) {
                     if (rideRequest.getDbId() == rideOffer.getDbId() && rideRequest.isGoing() == rideOffer.isGoing()) {
-                        visibility = View.INVISIBLE;
+                        visibility = View.VISIBLE;
                         break;
                     }
                 }
             }
         }
-        viewHolder.open_bt.setVisibility(visibility);
 
-        viewHolder.open_bt.setOnClickListener(new View.OnClickListener() {
+        viewHolder.requestIndicator_iv.setVisibility(visibility);
+
+        viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, RideOfferAct.class);
@@ -159,26 +160,26 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public ImageView photo_iv;
+        public ImageView requestIndicator_iv;
         public TextView time_tv;
         public TextView date_tv;
         public TextView course_tv;
         public TextView location_tv;
         public TextView name_tv;
         public TextView slots_tv;
-        public Button open_bt;
         public CardView cardView;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
             photo_iv = (ImageView) itemView.findViewById(R.id.photo_iv);
+            requestIndicator_iv = (ImageView) itemView.findViewById(R.id.requestIndicator_iv);
             time_tv = (TextView) itemView.findViewById(R.id.time_tv);
             date_tv = (TextView) itemView.findViewById(R.id.date_tv);
             course_tv = (TextView) itemView.findViewById(R.id.course_tv);
             location_tv = (TextView) itemView.findViewById(R.id.location_tv);
             name_tv = (TextView) itemView.findViewById(R.id.name_tv);
             slots_tv = (TextView) itemView.findViewById(R.id.slots_tv);
-            open_bt = (Button) itemView.findViewById(R.id.open_bt);
             cardView = (CardView) itemView.findViewById(R.id.cardView);
         }
     }

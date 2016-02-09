@@ -186,5 +186,6 @@
     <string name="frag_rideSearch_locationEmpty">Escolha o local</string>
     <string name="act_activeride_cancelledRide">Carona cancelada</string>
     <string name="act_activeride_quitRide">Você saiu da carona</string>
+    <string name="frag_myrides_helpText">Toque nas caronas para verificar solicitações</string>
 
 </resources>

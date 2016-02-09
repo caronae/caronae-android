@@ -25,10 +25,20 @@
 
             <ImageView
                 android:id="@+id/photo_iv"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 android:layout_centerVertical="true"
                 android:src="@drawable/user_pic" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/photo_iv"
+                android:layout_margin="7dp"
+                android:background="@color/gray"
+                android:padding="2dp"
+                android:text="Ver perfil"
+                android:textColor="@color/white" />
 
             <RelativeLayout
                 android:layout_width="wrap_content"
@@ -61,8 +71,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/lay"
-            android:layout_centerHorizontal="true"
-            android:paddingTop="10dp">
+            android:layout_centerHorizontal="true">
 
             <com.rey.material.widget.Button
                 android:id="@+id/accept_bt"

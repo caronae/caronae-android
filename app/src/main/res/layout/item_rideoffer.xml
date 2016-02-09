@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/tools"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:id="@+id/cardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:clickable="true"
+    android:foreground="?android:attr/selectableItemBackground"
     card_view:cardBackgroundColor="@color/blue"
     card_view:cardCornerRadius="@dimen/cardview_default_radius"
     card_view:cardElevation="@dimen/cardview_default_elevation"
@@ -94,19 +95,13 @@
             android:text="Computação"
             android:textColor="@color/white" />
 
-        <com.rey.material.widget.Button
-            android:id="@+id/open_bt"
-            style="@style/LightRaiseColorButtonRippleStyle"
+        <ImageView
+            android:id="@+id/requestIndicator_iv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:background="@null"
-            android:gravity="center"
-            android:text="@string/rideoffer_openBt"
-            android:textColor="@color/white"
-            app:rd_enable="true" />
+            android:src="@drawable/requested" />
 
     </RelativeLayout>
 </android.support.v7.widget.CardView>

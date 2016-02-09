@@ -27,6 +27,8 @@ public class AllRidesListFrag extends Fragment {
     RecyclerView rvRides;
     @Bind(R.id.norides_tv)
     TextView norides_tv;
+    @Bind(R.id.helpText_tv)
+    TextView helpText_tv;
 
     RideOfferAdapter adapter;
 
@@ -48,6 +50,7 @@ public class AllRidesListFrag extends Fragment {
 
         if (rideOffers == null || rideOffers.isEmpty()) {
             norides_tv.setVisibility(View.VISIBLE);
+            helpText_tv.setVisibility(View.INVISIBLE);
         } else {
             adapter.makeList(rideOffers);
         }

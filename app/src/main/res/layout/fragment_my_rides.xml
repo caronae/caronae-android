@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_margin="3dp"
-        android:text="Toque nas caronas para verificar solicitações"
+        android:text="@string/frag_myrides_helpText"
         android:visibility="invisible" />
 
     <android.support.v7.widget.RecyclerView
