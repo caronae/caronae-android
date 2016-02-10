@@ -38,7 +38,7 @@
                     android:id="@+id/location_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="20dp"
+                    android:layout_margin="15dp"
                     android:text="COPACABANA -> CT"
                     android:textColor="@color/white"
                     android:textSize="20sp"
@@ -49,17 +49,28 @@
                 android:id="@+id/lay2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/lay1">
+                android:layout_below="@+id/lay1"
+                android:layout_marginLeft="25dp"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="5dp">
 
                 <ImageView
                     android:id="@+id/user_pic"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="30dp"
-                    android:layout_marginStart="30dp"
-                    android:layout_marginTop="30dp"
                     android:src="@drawable/user_pic" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/user_pic"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
+                    android:background="@color/gray"
+                    android:padding="1dp"
+                    android:text="Ver perfil"
+                    android:textColor="@color/white" />
 
                 <RelativeLayout
                     android:id="@+id/lay21"
@@ -287,10 +298,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/description_text_tv"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="5dp"
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
-                android:text="Só chegar, rola passar por são cristrovão também, não fumo" />
+                android:text="Lorem ipsum dolor sit amet" />
         </RelativeLayout>
     </ScrollView>
 
