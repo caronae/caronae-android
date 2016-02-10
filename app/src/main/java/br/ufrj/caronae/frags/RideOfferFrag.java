@@ -354,10 +354,11 @@ public class RideOfferFrag extends Fragment {
 
         String neighborhood = neighborhood_et.getText().toString();
         if (neighborhood.isEmpty()) {
-            //noinspection ConstantConditions
-            neighborhood_et.setText(Util.getNeighborhoods(Util.getZones()[0])[0]);
+            Util.toast(getString(R.string.frag_rideoffer_nullNeighborhood));
+            return;
+            /*neighborhood_et.setText(Util.getNeighborhoods(Util.getZones()[0])[0]);
             zone = Util.getZones()[0];
-            neighborhood = neighborhood_et.getText().toString();
+            neighborhood = neighborhood_et.getText().toString();*/
         }
         String place = place_et.getText().toString();
         String way = way_et.getText().toString();
@@ -373,8 +374,10 @@ public class RideOfferFrag extends Fragment {
         }
 
         if (etDateString.isEmpty()) {
-            date_et.setText(todayString);
-            etDateString = todayString;
+            Util.toast(getString(R.string.frag_rideoffer_nullDate));
+            return;
+            /*date_et.setText(todayString);
+            etDateString = todayString;*/
         } else {
             try {
                 Date etDate = simpleDateFormat.parse(etDateString);
@@ -388,10 +391,12 @@ public class RideOfferFrag extends Fragment {
         }
         String time = time_et.getText().toString();
         if (time.isEmpty()) {
-            SimpleDateFormat simpleDateFormat1 = new SimpleDateFormat("HH:mm", Locale.US);
+            Util.toast(getString(R.string.frag_rideoffer_nullTime));
+            return;
+            /*SimpleDateFormat simpleDateFormat1 = new SimpleDateFormat("HH:mm", Locale.US);
             String format = simpleDateFormat1.format(new Date());
             time_et.setText(format);
-            time = format;
+            time = format;*/
         }
         String slots = slots_et.getSelectedItemPosition() + 1 + "";
         String description = description_et.getText().toString();

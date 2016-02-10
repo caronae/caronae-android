@@ -108,6 +108,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/time_et"
+            android:layout_marginTop="10dp"
             android:text="@string/frag_rideoffer_slots"
             android:textStyle="bold" />
 
@@ -129,7 +130,7 @@
             android:layout_marginTop="10dp"
             android:gravity="top"
             android:hint="@string/frag_rideoffer_description"
-            android:lines="3" />
+            android:lines="2" />
 
         <CheckBox
             android:id="@+id/routine_cb"
