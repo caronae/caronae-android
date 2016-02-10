@@ -30,7 +30,6 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
 
     private final Context context;
     private List<RideForJson> rideOffers;
-    private List<RideRequestSent> rideRequests;
 
     public RideOfferAdapter(List<RideForJson> rideOffers, Context context) {
         this.rideOffers = rideOffers;
@@ -112,29 +111,20 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
             location = rideOffer.getHub() + " ➜ " + rideOffer.getNeighborhood();
         viewHolder.location_tv.setText(location);
 
-        int visibility = View.INVISIBLE;
-        if (rideOffer.getDriver().getDbId() == App.getUser().getDbId()) {
-            visibility = View.VISIBLE;
-        } else {
-            if (rideRequests != null && !rideRequests.isEmpty()) {
-                for (RideRequestSent rideRequest : rideRequests) {
-                    if (rideRequest.getDbId() == rideOffer.getDbId() && rideRequest.isGoing() == rideOffer.isGoing()) {
-                        visibility = View.VISIBLE;
-                        break;
-                    }
-                }
-            }
-        }
+        List<RideRequestSent> rideRequests = RideRequestSent.find(RideRequestSent.class, "db_id = ?", rideOffer.getDbId()+"");
+        boolean requested = false;
+        if (rideRequests != null && !rideRequests.isEmpty())
+            requested = true;
 
-        viewHolder.requestIndicator_iv.setVisibility(visibility);
+        viewHolder.requestIndicator_iv.setVisibility(requested ? View.VISIBLE : View.INVISIBLE);
 
-        final int finalVisibility = visibility;
+        final boolean finalRequested = requested;
         viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, RideOfferAct.class);
                 intent.putExtra("ride", rideOffer);
-                intent.putExtra("requested", finalVisibility == View.VISIBLE);
+                intent.putExtra("requested", finalRequested);
                 context.startActivity(intent);
             }
         });
@@ -142,8 +132,6 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
 
     public void makeList(List<RideForJson> rideOffers) {
         this.rideOffers = rideOffers;
-        if (rideOffers != null && !rideOffers.isEmpty())
-            rideRequests = RideRequestSent.find(RideRequestSent.class, "date = ?", rideOffers.get(0).getDate());
         notifyDataSetChanged();
     }
 

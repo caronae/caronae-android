@@ -169,7 +169,6 @@
         android:layout_marginTop="5dp"
         android:background="@color/blue"
         android:padding="4dp"
-        android:text="@string/act_profile_openProfile"
         android:textColor="@color/white"
         android:textStyle="bold"
         android:visibility="gone" />

@@ -130,6 +130,8 @@ public class ProfileAct extends AppCompatActivity {
             AccessToken token = AccessToken.getCurrentAccessToken();
             if (token != null) {
                 if (user.getFaceId() != null) {
+                    String name = user.getName().split(" ")[0];
+                    openProfile_tv.setText(getString(R.string.act_profile_openFbProfile, name));
                     openProfile_tv.setVisibility(View.VISIBLE);
                     App.getNetworkService().getMutualFriends(token.getToken(), user.getFaceId(), new Callback<FacebookFriendForJson>() {
                         @Override
@@ -145,8 +147,6 @@ public class ProfileAct extends AppCompatActivity {
                             String s1 = mutualFriends.getMutualFriends().size() != 1 ? "m" : "";
                             mutualFriends_tv.setText(getString(R.string.act_profile_mutualFriends, totalCount, s, size, s1));
 
-                            String name = user.getName().split(" ")[0];
-                            openProfile_tv.setText(getString(R.string.act_profile_openFbProfile, name));
                             mutualFriendsList.setAdapter(new RidersAdapter(mutualFriends.getMutualFriends(), ProfileAct.this));
                             mutualFriendsList.setHasFixedSize(true);
                             mutualFriendsList.setLayoutManager(new LinearLayoutManager(ProfileAct.this, LinearLayoutManager.HORIZONTAL, false));
