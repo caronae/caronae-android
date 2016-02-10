@@ -37,7 +37,7 @@
                     android:id="@+id/location_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="20dp"
+                    android:layout_margin="15dp"
                     android:text="COPACABANA -> CT"
                     android:textColor="@color/white"
                     android:textSize="20sp"
@@ -48,17 +48,28 @@
                 android:id="@+id/lay2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/lay1">
+                android:layout_below="@+id/lay1"
+                android:layout_marginLeft="30dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="5dp">
 
                 <ImageView
                     android:id="@+id/user_pic"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="30dp"
-                    android:layout_marginStart="30dp"
-                    android:layout_marginTop="30dp"
                     android:src="@drawable/user_pic" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/user_pic"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
+                    android:background="@color/gray"
+                    android:padding="1dp"
+                    android:text="Ver perfil"
+                    android:textColor="@color/white" />
 
                 <RelativeLayout
                     android:id="@+id/lay21"
@@ -101,12 +112,13 @@
                 </RelativeLayout>
             </RelativeLayout>
 
-            <LinearLayout
+            <RelativeLayout
                 android:id="@+id/lay4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/lay2"
                 android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
                 android:orientation="horizontal">
 
                 <com.rey.material.widget.Button
@@ -114,6 +126,7 @@
                     style="@style/LightRaiseColorButtonRippleStyle"
                     android:layout_width="150dp"
                     android:layout_height="36dp"
+                    android:layout_centerVertical="true"
                     android:text="@string/myactiveride_openchatBt"
                     android:textColor="@color/white"
                     app:rd_enable="true" />
@@ -123,11 +136,15 @@
                     style="@style/LightRaiseColorButtonRippleStyle"
                     android:layout_width="150dp"
                     android:layout_height="36dp"
-                    android:background="@null"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_toRightOf="@+id/chat_bt"
+                    android:background="@drawable/bg_bt_raise"
                     android:text="@string/myactiveride_finishrideBt"
                     android:textColor="@color/blue"
                     app:rd_enable="true" />
-            </LinearLayout>
+            </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/lay3"
@@ -135,7 +152,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/lay4"
                 android:layout_centerHorizontal="true"
-                android:layout_marginBottom="10dp">
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp">
 
                 <ImageView
                     android:id="@+id/time_iv"
@@ -182,8 +200,8 @@
                     android:layout_marginStart="30dp"
                     android:layout_toEndOf="@+id/time_tv"
                     android:layout_toRightOf="@+id/time_tv"
-                    android:background="@null"
-                    android:text="Desistir"
+                    android:background="@drawable/bg_bt_raise"
+                    android:text="@string/act_activeride_quitBtn"
                     android:textColor="@color/red"
                     app:rd_enable="true" />
             </RelativeLayout>
