@@ -144,6 +144,18 @@
                     android:text="16/10"
                     android:textStyle="bold" />
 
+                <TextView
+                    android:id="@+id/requested_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/time_tv"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="15dp"
+                    android:text="@string/act_rideoffer_requested"
+                    android:visibility="gone"
+                    android:textColor="@color/green"
+                    android:textStyle="bold" />
+
                 <com.rey.material.widget.Button
                     android:id="@+id/join_bt"
                     style="@style/LightRaiseColorButtonRippleStyle"

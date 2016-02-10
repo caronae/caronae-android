@@ -128,11 +128,13 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
 
         viewHolder.requestIndicator_iv.setVisibility(visibility);
 
+        final int finalVisibility = visibility;
         viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, RideOfferAct.class);
                 intent.putExtra("ride", rideOffer);
+                intent.putExtra("requested", finalVisibility == View.VISIBLE);
                 context.startActivity(intent);
             }
         });

@@ -62,6 +62,8 @@ public class RideOfferAct extends AppCompatActivity {
     public TextView carPlate_tv;
     @Bind(R.id.description_tv)
     public TextView description_tv;
+    @Bind(R.id.requested_tv)
+    public TextView requested_tv;
     @Bind(R.id.lay1)
     public RelativeLayout lay1;
 
@@ -80,6 +82,7 @@ public class RideOfferAct extends AppCompatActivity {
         }
 
         final RideForJson rideWithUsers = getIntent().getExtras().getParcelable("ride");
+        final boolean requested = getIntent().getExtras().getBoolean("requested");
 
         if (rideWithUsers == null) {
             Util.toast(getString(R.string.act_activeride_rideNUll));
@@ -169,37 +172,47 @@ public class RideOfferAct extends AppCompatActivity {
         carPlate_tv.setText(driver.getCarPlate());
         description_tv.setText(rideWithUsers.getDescription());
 
-        join_bt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                final ProgressDialog pd = ProgressDialog.show(RideOfferAct.this, "", getString(R.string.wait), true, true);
-                App.getNetworkService().requestJoin(new RideIdForJson(rideWithUsers.getDbId()), new Callback<Response>() {
+        if (isDriver) {
+            join_bt.setVisibility(View.INVISIBLE);
+        } else {
+            if (requested) {
+                join_bt.setVisibility(View.INVISIBLE);
+                requested_tv.setVisibility(View.VISIBLE);
+            } else {
+                join_bt.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void success(Response response, Response response2) {
-                        RideRequestSent rideRequest = new RideRequestSent(rideWithUsers.getDbId(), rideWithUsers.isGoing(), rideWithUsers.getDate());
-                        rideRequest.save();
+                    public void onClick(View view) {
+                        final ProgressDialog pd = ProgressDialog.show(RideOfferAct.this, "", getString(R.string.wait), true, true);
+                        App.getNetworkService().requestJoin(new RideIdForJson(rideWithUsers.getDbId()), new Callback<Response>() {
+                            @Override
+                            public void success(Response response, Response response2) {
+                                RideRequestSent rideRequest = new RideRequestSent(rideWithUsers.getDbId(), rideWithUsers.isGoing(), rideWithUsers.getDate());
+                                rideRequest.save();
 
-                        join_bt.setVisibility(View.INVISIBLE);
-                        App.getBus().post(rideRequest);
+                                join_bt.setVisibility(View.INVISIBLE);
+                                requested_tv.setVisibility(View.VISIBLE);
+                                App.getBus().post(rideRequest);
 
-                        pd.dismiss();
-                        Util.toast(R.string.requestSent);
-                    }
+                                pd.dismiss();
+                                Util.toast(R.string.requestSent);
+                            }
 
-                    @Override
-                    public void failure(RetrofitError error) {
-                        pd.dismiss();
-                        Util.toast(R.string.errorRequestSent);
+                            @Override
+                            public void failure(RetrofitError error) {
+                                pd.dismiss();
+                                Util.toast(R.string.errorRequestSent);
 
-                        try {
-                            Log.e("requestJoin", error.getMessage());
-                        } catch (Exception e) {//sometimes RetrofitError is null
-                            Log.e("requestJoin", e.getMessage());
-                        }
+                                try {
+                                    Log.e("requestJoin", error.getMessage());
+                                } catch (Exception e) {//sometimes RetrofitError is null
+                                    Log.e("requestJoin", e.getMessage());
+                                }
+                            }
+                        });
                     }
                 });
             }
-        });
+        }
     }
 
     @Override
