@@ -136,7 +136,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/description_et"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
             android:checked="false"
             android:text="@string/routine_cb" />
 
@@ -153,6 +153,7 @@
                 android:id="@+id/days"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:layout_centerHorizontal="true">
 
                 <CheckBox
@@ -260,7 +261,7 @@
             android:layout_height="50dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_below="@+id/days_lo"
+            android:layout_below="@+id/description_et"
             android:background="@drawable/btn_color"
             android:text="@string/send_bt"
             app:rd_enable="true" />
