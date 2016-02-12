@@ -68,7 +68,7 @@
                     android:layout_marginStart="5dp"
                     android:background="@color/gray"
                     android:padding="1dp"
-                    android:text="Ver perfil"
+                    android:text="@string/act_activeride_seeProfile"
                     android:textColor="@color/white" />
 
                 <RelativeLayout

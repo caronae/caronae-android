@@ -192,5 +192,6 @@
     <string name="frag_rideoffer_nullNeighborhood">Escolha o bairro</string>
     <string name="act_rideoffer_requested">Solicitação Enviada!</string>
     <string name="act_activeride_quitBtn">Desistir</string>
+    <string name="act_activeride_seeProfile">Ver perfil</string>
 
 </resources>
