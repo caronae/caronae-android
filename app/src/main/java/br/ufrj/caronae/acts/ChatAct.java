@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.squareup.otto.Subscribe;
 
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -25,6 +26,7 @@ import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.adapters.ChatMsgsAdapter;
+import br.ufrj.caronae.comparators.ChatMsgComparator;
 import br.ufrj.caronae.models.ChatAssets;
 import br.ufrj.caronae.models.ChatMessageReceived;
 import br.ufrj.caronae.models.NewChatMsgIndicator;
@@ -92,6 +94,7 @@ public class ChatAct extends AppCompatActivity {
         time_tv.setText(time);
 
         chatMsgsList = ChatMessageReceived.find(ChatMessageReceived.class, "ride_id = ?", rideId);
+        Collections.sort(chatMsgsList, new ChatMsgComparator());
 
         chatMsgs_rv.setAdapter(new ChatMsgsAdapter(chatMsgsList, color));
         chatMsgs_rv.setLayoutManager(new LinearLayoutManager(this));
@@ -110,7 +113,9 @@ public class ChatAct extends AppCompatActivity {
         msg_et.setText("");
 
         String time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US).format(new Date());
-        updateMsgsList(new ChatMessageReceived(App.getUser().getName(), App.getUser().getDbId() + "", message, rideId, time));
+        final ChatMessageReceived msg = new ChatMessageReceived(App.getUser().getName(), App.getUser().getDbId() + "", message, rideId, time);
+        msg.save();
+        updateMsgsList(msg);
 
         App.getChatService().sendChatMsg(new ChatMessageSent(rideId, message, time), new Callback<Response>() {
             @Override
@@ -121,7 +126,13 @@ public class ChatAct extends AppCompatActivity {
             @Override
             public void failure(RetrofitError error) {
                 Util.toast("Erro ao enviar mensagem de chat");
-                Log.e("sendChatMsg", error.getMessage());
+                try {
+                    Log.e("sendChatMsg", error.getMessage());
+                } catch (Exception e) {
+                    Log.e("sendChatMsg", e.getMessage());
+                }
+
+                msg.delete();
             }
         });
     }

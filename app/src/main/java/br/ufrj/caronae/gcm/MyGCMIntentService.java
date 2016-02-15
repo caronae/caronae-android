@@ -68,22 +68,18 @@ public class MyGCMIntentService extends IntentService {
 
         Log.i("onMessageReceived", message);
 
-        boolean notify = true;
-
         if (msgType != null && msgType.equals("chat")) {
             String senderId = data.getString("senderId");
+            //noinspection ConstantConditions
+            if (senderId.equals(App.getUser().getDbId() + "")) {
+                return;
+            }
+
             String time = data.getString("time");
             ChatMessageReceived cmr = new ChatMessageReceived(senderName, senderId, message, rideId, time);
             cmr.save();
-
+            App.getBus().post(cmr);
             new NewChatMsgIndicator(Integer.valueOf(rideId)).save();
-
-            //noinspection ConstantConditions
-            if (senderId.equals(App.getUser().getDbId() + "")) {
-                notify = false;
-            } else {
-                App.getBus().post(cmr);
-            }
         }
 
         if (msgType != null && msgType.equals("joinRequest")) {
@@ -105,7 +101,7 @@ public class MyGCMIntentService extends IntentService {
             //new DeleteConflictingRequests().execute(rideId);
         }
 
-        if (notify && SharedPref.getNotifPref().equals("true"))
+        if (SharedPref.getNotifPref().equals("true"))
             createNotification(msgType, senderName, message, rideId);
     }
 
