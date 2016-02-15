@@ -161,6 +161,7 @@ public class ChatAct extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         App.getBus().unregister(this);
+        NewChatMsgIndicator.deleteAll(NewChatMsgIndicator.class, "db_id = ?", rideId);
     }
 
 

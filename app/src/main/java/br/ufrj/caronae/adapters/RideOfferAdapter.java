@@ -8,7 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -83,15 +82,16 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
                     .into(viewHolder.photo_iv);
         }
 
-        viewHolder.photo_iv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(context, ProfileAct.class);
-                intent.putExtra("user", new Gson().toJson(rideOffer.getDriver()));
-                intent.putExtra("from", "rideOffer");
-                context.startActivity(intent);
-            }
-        });
+        if (rideOffer.getDriver().getDbId() != App.getUser().getDbId())
+            viewHolder.photo_iv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context, ProfileAct.class);
+                    intent.putExtra("user", new Gson().toJson(rideOffer.getDriver()));
+                    intent.putExtra("from", "rideOffer");
+                    context.startActivity(intent);
+                }
+            });
 
         String timeText;
         if (rideOffer.isGoing())
@@ -111,7 +111,7 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
             location = rideOffer.getHub() + " ➜ " + rideOffer.getNeighborhood();
         viewHolder.location_tv.setText(location);
 
-        List<RideRequestSent> rideRequests = RideRequestSent.find(RideRequestSent.class, "db_id = ?", rideOffer.getDbId()+"");
+        List<RideRequestSent> rideRequests = RideRequestSent.find(RideRequestSent.class, "db_id = ?", rideOffer.getDbId() + "");
         boolean requested = false;
         if (rideRequests != null && !rideRequests.isEmpty())
             requested = true;

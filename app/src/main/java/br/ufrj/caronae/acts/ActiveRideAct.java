@@ -322,8 +322,6 @@ public class ActiveRideAct extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        NewChatMsgIndicator.deleteAll(NewChatMsgIndicator.class, "db_id = ?", rideId2);
-
         notVisible = false;
 
         if (scheduledToClose)

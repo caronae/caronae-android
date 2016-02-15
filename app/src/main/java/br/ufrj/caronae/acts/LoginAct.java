@@ -100,12 +100,12 @@ public class LoginAct extends AppCompatActivity {
             public void failure(RetrofitError retrofitError) {
                 pd.dismiss();
 
-                if (retrofitError.getResponse().getStatus() == 403)
-                    Util.toast(R.string.act_login_invalidLogin);
-                else
-                    Util.toast(R.string.act_login_loginFail);
-
                 try {
+                    if (retrofitError.getResponse().getStatus() == 403)
+                        Util.toast(R.string.act_login_invalidLogin);
+                    else
+                        Util.toast(R.string.act_login_loginFail);
+
                     Log.e("login", retrofitError.getMessage());
                 } catch (Exception e) {//sometimes RetrofitError is null
                     Log.e("signUp", e.getMessage());

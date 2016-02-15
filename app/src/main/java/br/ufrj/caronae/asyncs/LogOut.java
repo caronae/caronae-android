@@ -67,7 +67,7 @@ public class LogOut extends AsyncTask<Void, Void, Void> {
         RideRequestSent.deleteAll(RideRequestSent.class);
         RideRequestReceived.deleteAll(RideRequestReceived.class);
         ActiveRideId.deleteAll(ActiveRideId.class);
-        ChatMessageReceived.deleteAll(ChatMessageReceived.class);
+        //ChatMessageReceived.deleteAll(ChatMessageReceived.class);
         ChatAssets.deleteAll(ChatAssets.class);
 
         return null;
