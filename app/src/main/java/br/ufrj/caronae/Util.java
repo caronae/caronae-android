@@ -108,7 +108,7 @@ public class Util {
             return new String[]{"Abolição", "Acari", "Água Santa", "Alto da Boa Vista",
                     "Anchieta", "Andaraí", "Bancários", "Barros Filho", "Bento Ribeiro",
                     "Bonsucesso", "Brás de Pina", "Cachambi", "Cacuia", "Campinho", "Cascadura",
-                    "Cavalcanti", "Cidade Universitária", "Cocotá", "Coelho Neto", "Colégio",
+                    "Cavalcanti", "Cocotá", "Coelho Neto", "Colégio",
                     "Complexo do Alemão", "Cordovil", "Costa Barros", "Del Castilho", "Encantado",
                     "Engenheiro Leal", "Engenho Novo", "Engenho da Rainha", "Engenho de Dentro",
                     "Freguesia (Ilha do Governador)", "Galeão", "Grajaú", "Guadalupe",
