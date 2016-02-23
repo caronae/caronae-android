@@ -13,11 +13,11 @@ import br.ufrj.caronae.R;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class AboutFrag extends Fragment {
+public class TermsOfUseFrag extends Fragment {
     @Bind(R.id.webview)
     WebView webView;
 
-    public AboutFrag() {
+    public TermsOfUseFrag() {
     }
 
     @Override
@@ -26,7 +26,7 @@ public class AboutFrag extends Fragment {
         ButterKnife.bind(this, view);
 
         webView.setWebViewClient(new WebViewClient());
-        webView.loadUrl(App.getHost() + "/static_pages/sobre.html");
+        webView.loadUrl(App.getHost() + "/static_pages/termos.html");
 
         return view;
     }

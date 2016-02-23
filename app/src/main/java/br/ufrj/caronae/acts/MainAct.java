@@ -47,6 +47,7 @@ import br.ufrj.caronae.frags.MyRidesFrag;
 import br.ufrj.caronae.frags.RideOfferFrag;
 import br.ufrj.caronae.frags.RideSearchFrag;
 import br.ufrj.caronae.frags.RidesHistoryFrag;
+import br.ufrj.caronae.frags.TermsOfUseFrag;
 import br.ufrj.caronae.gcm.RegistrationIntentService;
 import br.ufrj.caronae.models.User;
 
@@ -219,7 +220,7 @@ public class MainAct extends AppCompatActivity {
                 fragmentClass = FalaeFrag.class;
                 break;
             case R.id.nav_seventh_fragment:
-                fragmentClass = AboutFrag.class;
+                fragmentClass = TermsOfUseFrag.class;
                 break;
             case R.id.nav_eigth_fragment:
                 fragmentClass = AboutFrag.class;

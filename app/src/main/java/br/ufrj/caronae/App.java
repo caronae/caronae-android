@@ -52,12 +52,16 @@ public class App extends SugarApp {
         return user;
     }
 
+    public static String getHost() {
+        //return MEUDIGOCEAN_DEV_ENDPOINT;
+        //return MEUDIGOCEAN_PROD_ENDPOINT;
+        //return LOCAL_SERV_ENDPOINT;
+        return TIC_ENDPOINT;
+    }
+
     public static NetworkService getNetworkService() {
         if (networkService == null) {
-            //String endpoint = MEUDIGOCEAN_DEV_ENDPOINT;
-            //String endpoint = MEUDIGOCEAN_PROD_ENDPOINT;
-            //String endpoint = LOCAL_SERV_ENDPOINT;
-            String endpoint = TIC_ENDPOINT;
+            String endpoint = getHost();
 
             networkService = new RestAdapter.Builder()
                     .setEndpoint(endpoint)
