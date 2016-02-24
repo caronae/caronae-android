@@ -114,7 +114,7 @@ public class LoginAct extends AppCompatActivity {
         });
     }
 
-    @OnClick(R.id.logo)
+    //@OnClick(R.id.logo)
     public void signUp() {
         startActivity(new Intent(LoginAct.this, SignUpAct.class));
     }
