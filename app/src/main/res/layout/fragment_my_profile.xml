@@ -41,10 +41,11 @@
                 android:layout_alignTop="@+id/user_pic"
                 android:layout_marginLeft="10dp"
                 android:layout_marginStart="10dp"
+                android:maxWidth="210dp"
                 android:layout_toEndOf="@+id/user_pic"
                 android:layout_toRightOf="@+id/user_pic"
                 android:paddingTop="15dp"
-                android:text="Fulano da Silva"
+                android:text="Fulano da Silva Teixeira Da Silva de Novo"
                 android:textStyle="bold" />
 
             <TextView
@@ -62,8 +63,9 @@
                 android:layout_height="wrap_content"
                 android:layout_alignLeft="@+id/name_tv"
                 android:layout_alignStart="@+id/name_tv"
+                android:maxWidth="210dp"
                 android:layout_below="@+id/profile_tv"
-                android:text="Ciência da computação" />
+                android:text="Bacharelado em Ciência da computação" />
 
             <com.rey.material.widget.Button
                 android:id="@+id/logout_iv"
