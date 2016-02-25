@@ -11,7 +11,7 @@
     <item name="zone_sul" type="color">#17b270</item>
     <item name="zone_centro" type="color">#ed8024</item>
     <item name="zone_baixada" type="color">#eb3d38</item>
-    <item name="zone_outros" type="color">#949499</item>
+    <item name="zone_outros" type="color">#000</item>
 
     <item name="dark_gray" type="color">#6e6e70</item>
     <item name="gray" type="color">#949499</item>
