@@ -32,6 +32,7 @@
             android:layout_marginStart="8dp"
             android:layout_toEndOf="@+id/photo_iv"
             android:layout_toRightOf="@+id/photo_iv"
+            android:maxWidth="150dp"
             android:paddingTop="8dp"
             android:text="COPACABANA -> CT"
             android:textStyle="bold" />
