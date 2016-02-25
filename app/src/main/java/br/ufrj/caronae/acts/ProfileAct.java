@@ -171,7 +171,7 @@ public class ProfileAct extends AppCompatActivity {
         }
 
         String from = getIntent().getExtras().getString("from");
-        if (from != null && !from.equals("requesters") && !from.equals("rideOffer")) {
+        if (from != null && (from.equals("activeRides") || from.equals("riders"))) {
             call_tv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
