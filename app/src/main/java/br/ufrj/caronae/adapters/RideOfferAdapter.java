@@ -80,6 +80,8 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
                     .error(R.drawable.user_pic)
                     .transform(new RoundedTransformation(0))
                     .into(viewHolder.photo_iv);
+        } else {
+            viewHolder.photo_iv.setImageResource(R.drawable.user_pic);
         }
 
         if (rideOffer.getDriver().getDbId() != App.getUser().getDbId())

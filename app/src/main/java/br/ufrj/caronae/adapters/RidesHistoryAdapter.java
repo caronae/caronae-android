@@ -104,12 +104,15 @@ public class RidesHistoryAdapter extends RecyclerView.Adapter<RidesHistoryAdapte
         User driver = historyRide.getDriver();
         if (driver != null) {
             String driverPic = driver.getProfilePicUrl();
-            if (driverPic != null && !driverPic.isEmpty())
+            if (driverPic != null && !driverPic.isEmpty()) {
                 Picasso.with(activity).load(driverPic)
                         .placeholder(R.drawable.user_pic)
                         .error(R.drawable.user_pic)
                         .transform(new RoundedTransformation(0))
                         .into(holder.photo_iv);
+            } else {
+                holder.photo_iv.setImageResource(R.drawable.user_pic);
+            }
         }
         if (historyRide.getFeedback() != null) {
             holder.feedback_bt.setVisibility(View.INVISIBLE);

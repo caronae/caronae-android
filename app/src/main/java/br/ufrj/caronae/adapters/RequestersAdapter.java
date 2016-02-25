@@ -61,12 +61,15 @@ public class RequestersAdapter extends RecyclerView.Adapter<RequestersAdapter.Vi
         holder.course_tv.setText(user.getCourse());
 
         String profilePicUrl = user.getProfilePicUrl();
-        if (profilePicUrl != null && !profilePicUrl.isEmpty())
+        if (profilePicUrl != null && !profilePicUrl.isEmpty()) {
             Picasso.with(activity).load(profilePicUrl)
-                .placeholder(R.drawable.user_pic)
-                .error(R.drawable.user_pic)
-                .transform(new RoundedTransformation(0))
-                .into(holder.photo_iv);
+                    .placeholder(R.drawable.user_pic)
+                    .error(R.drawable.user_pic)
+                    .transform(new RoundedTransformation(0))
+                    .into(holder.photo_iv);
+        } else {
+            holder.photo_iv.setImageResource(R.drawable.user_pic);
+        }
         holder.photo_iv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
