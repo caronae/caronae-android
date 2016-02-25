@@ -66,7 +66,7 @@
             android:layout_below="@+id/time_tv"
             android:layout_toEndOf="@+id/photo_iv"
             android:layout_toRightOf="@+id/photo_iv"
-            android:text="3 caronistas" />
+            android:text="3 vagas" />
 
         <com.rey.material.widget.Button
             android:id="@+id/feedback_bt"
