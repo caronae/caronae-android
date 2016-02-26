@@ -104,31 +104,33 @@ public class MyRidesFrag extends Fragment {
 
         final ProgressDialog pd = ProgressDialog.show(getContext(), "", getResources().getString(R.string.wait), true, true);
 
-        for (final Ride ride : rides) {
-            App.getNetworkService().deleteRide(ride.getDbId() + "", new Callback<Response>() {
-                @Override
-                public void success(Response response, Response response2) {
-                    Log.i("deleteRide", "ride " + ride.getDbId() + " deleted");
-                    ride.delete();
+        App.getNetworkService().deleteAllRidesFromUser(App.getUser().getDbId() + "", new Callback<Response>() {
+            @Override
+            public void success(Response response, Response response2) {
+                Log.i("deleteAllRidesFromUser", "all rides deleted");
+
+                Ride.deleteAll(Ride.class);
+                Util.toast(R.string.frag_myrides_ridesDeleted);
+                rides.clear();
+                myRidesList.getAdapter().notifyDataSetChanged();
+                norides_tv.setVisibility(View.VISIBLE);
+                deleteAll_bt.setVisibility(View.INVISIBLE);
+                helpText_tv.setVisibility(View.INVISIBLE);
+
+                pd.dismiss();
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Util.toast(getString(R.string.frag_myrides_errorDeleteAllRIdes));
+                try {
+                    Log.e("deleteRide", error.getMessage());
+                } catch (Exception e) {//sometimes RetrofitError is null
+                    Log.e("deleteRide", e.getMessage());
                 }
 
-                @Override
-                public void failure(RetrofitError error) {
-                    try {
-                        Log.e("deleteRide", error.getMessage());
-                    } catch (Exception e) {//sometimes RetrofitError is null
-                        Log.e("deleteRide", e.getMessage());
-                    }
-                }
-            });
-        }
-
-        pd.dismiss();
-        Util.toast(R.string.frag_myrides_ridesDeleted);
-        rides.clear();
-        myRidesList.getAdapter().notifyDataSetChanged();
-        norides_tv.setVisibility(View.VISIBLE);
-        deleteAll_bt.setVisibility(View.INVISIBLE);
-        helpText_tv.setVisibility(View.INVISIBLE);
+                pd.dismiss();
+            }
+        });
     }
 }

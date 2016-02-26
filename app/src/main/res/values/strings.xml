@@ -193,5 +193,6 @@
     <string name="act_rideoffer_requested">Solicitação Enviada!</string>
     <string name="act_activeride_quitBtn">Desistir</string>
     <string name="act_activeride_seeProfile">Ver perfil</string>
+    <string name="frag_myrides_errorDeleteAllRIdes">Erro ao deletar todas as caronas</string>
 
 </resources>
