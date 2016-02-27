@@ -455,8 +455,13 @@ public class RideOfferFrag extends Fragment {
             repeatsUntil = simpleDateFormat.format(c.getTime());
         }
 
-
         final Ride ride = new Ride(zone, neighborhood, place, way, etDateString, time, slots, hub, description, go, routine, weekDays, repeatsUntil);
+
+        List<Ride> rides3 = Ride.find(Ride.class, "date = ? and going = ?", etDateString, go ? "1" : "0");
+        if (rides3 != null && !rides3.isEmpty()) {
+            Util.toast(getString(R.string.frag_rideoofer_rieOfferConflict));
+            return;
+        }
 
         String lastRideOffer = new Gson().toJson(ride);
         SharedPref.saveLastRidePref(lastRideOffer);

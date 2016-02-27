@@ -21,7 +21,7 @@ public class DeleteConflictingRequests extends AsyncTask<String, Void, Void> {
         if (rideRequest == null || rideRequest.isEmpty())
             return null;
         String date = rideRequest.get(0).getDate();
-        String going = rideRequest.get(0).isGoing() ? "true" : "false";
+        String going = rideRequest.get(0).isGoing() ? "1" : "0";
         rideRequest = RideRequestSent.find(RideRequestSent.class, "date = ? and going = ?", date, going);
         if (rideRequest == null || rideRequest.isEmpty())
             return null;
