@@ -227,37 +227,62 @@ public class ActiveRideAct extends AppCompatActivity {
         leave_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final ProgressDialog pd = ProgressDialog.show(ActiveRideAct.this, "", getString(R.string.wait), true, true);
-                App.getNetworkService().leaveRide(new RideIdForJson(rideWithUsers.getDbId()), new Callback<Response>() {
+
+                Dialog.Builder builder = new SimpleDialog.Builder(R.style.SimpleDialogLight) {
+
                     @Override
-                    public void success(Response response, Response response2) {
-                        pd.dismiss();
-                        if (isDriver)
-                            Util.toast(getString(R.string.act_activeride_cancelledRide));
-                        else
-                            Util.toast(getString(R.string.act_activeride_quitRide));
+                    public void onPositiveActionClicked(DialogFragment fragment) {
+                        final ProgressDialog pd = ProgressDialog.show(ActiveRideAct.this, "", getString(R.string.wait), true, true);
+                        App.getNetworkService().leaveRide(new RideIdForJson(rideWithUsers.getDbId()), new Callback<Response>() {
+                            @Override
+                            public void success(Response response, Response response2) {
+                                pd.dismiss();
+                                if (isDriver)
+                                    Util.toast(getString(R.string.act_activeride_cancelledRide));
+                                else
+                                    Util.toast(getString(R.string.act_activeride_quitRide));
 
-                        new UnsubGcmTopic(ActiveRideAct.this, rideId).execute();
+                                new UnsubGcmTopic(ActiveRideAct.this, rideId).execute();
 
-                        List<Ride> rides = Ride.find(Ride.class, "db_id = ?", rideId);
-                        if (rides != null && !rides.isEmpty())
-                            rides.get(0).delete();
+                                List<Ride> rides = Ride.find(Ride.class, "db_id = ?", rideId);
+                                if (rides != null && !rides.isEmpty())
+                                    rides.get(0).delete();
 
-                        SharedPref.saveRemoveRideFromList(rideId);
-                        finish();
+                                SharedPref.saveRemoveRideFromList(rideId);
+                                finish();
+                            }
+
+                            @Override
+                            public void failure(RetrofitError error) {
+                                pd.dismiss();
+                                Util.toast(R.string.errorRideDeleted);
+                                try {
+                                    Log.e("leaveRide", error.getMessage());
+                                } catch (Exception e) {//sometimes RetrofitError is null
+                                    Log.e("leaveRide", e.getMessage());
+                                }
+                            }
+                        });
+
+                        super.onPositiveActionClicked(fragment);
                     }
 
                     @Override
-                    public void failure(RetrofitError error) {
-                        pd.dismiss();
-                        Util.toast(R.string.errorRideDeleted);
-                        try {
-                            Log.e("leaveRide", error.getMessage());
-                        } catch (Exception e) {//sometimes RetrofitError is null
-                            Log.e("leaveRide", e.getMessage());
-                        }
+                    public void onNegativeActionClicked(DialogFragment fragment) {
+                        super.onNegativeActionClicked(fragment);
                     }
-                });
+                };
+                String title;
+                if (isDriver)
+                    title = getString(R.string.act_activeRide_sureWantToCancel);
+                else
+                    title = getString(R.string.act_activeRide_sureWantToQuit);
+                builder.title(title)
+                        .positiveAction(getString(R.string.ok))
+                        .negativeAction(getString(R.string.cancel));
+
+                DialogFragment fragment = DialogFragment.newInstance(builder);
+                fragment.show(getSupportFragmentManager(), null);
             }
         });
 
@@ -267,35 +292,56 @@ public class ActiveRideAct extends AppCompatActivity {
         finish_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final ProgressDialog pd = ProgressDialog.show(ActiveRideAct.this, "", getString(R.string.wait), true, true);
-                App.getNetworkService().finishRide(new RideIdForJson(rideWithUsers.getDbId()), new Callback<Response>() {
+
+                Dialog.Builder builder = new SimpleDialog.Builder(R.style.SimpleDialogLight) {
+
                     @Override
-                    public void success(Response response, Response response2) {
-                        pd.dismiss();
-                        Util.toast(R.string.rideFinished);
+                    public void onPositiveActionClicked(DialogFragment fragment) {
+                        final ProgressDialog pd = ProgressDialog.show(ActiveRideAct.this, "", getString(R.string.wait), true, true);
+                        App.getNetworkService().finishRide(new RideIdForJson(rideWithUsers.getDbId()), new Callback<Response>() {
+                            @Override
+                            public void success(Response response, Response response2) {
+                                pd.dismiss();
+                                Util.toast(R.string.rideFinished);
 
-                        new UnsubGcmTopic(ActiveRideAct.this, rideId).execute();
+                                new UnsubGcmTopic(ActiveRideAct.this, rideId).execute();
 
-                        List<Ride> rides = Ride.find(Ride.class, "db_id = ?", rideId);
-                        if (rides != null && !rides.isEmpty())
-                            rides.get(0).delete();
+                                List<Ride> rides = Ride.find(Ride.class, "db_id = ?", rideId);
+                                if (rides != null && !rides.isEmpty())
+                                    rides.get(0).delete();
 
-                        SharedPref.saveRemoveRideFromList(rideId);
-                        finish();
+                                SharedPref.saveRemoveRideFromList(rideId);
+                                finish();
+                            }
+
+                            @Override
+                            public void failure(RetrofitError error) {
+                                pd.dismiss();
+                                Util.toast(R.string.errorFinishRide);
+
+                                try {
+                                    Log.e("finish_bt", error.getMessage());
+                                } catch (Exception e) {//sometimes RetrofitError is null
+                                    Log.e("finish_bt", e.getMessage());
+                                }
+                            }
+                        });
+
+                        super.onPositiveActionClicked(fragment);
                     }
 
                     @Override
-                    public void failure(RetrofitError error) {
-                        pd.dismiss();
-                        Util.toast(R.string.errorFinishRide);
-
-                        try {
-                            Log.e("finish_bt", error.getMessage());
-                        } catch (Exception e) {//sometimes RetrofitError is null
-                            Log.e("finish_bt", e.getMessage());
-                        }
+                    public void onNegativeActionClicked(DialogFragment fragment) {
+                        super.onNegativeActionClicked(fragment);
                     }
-                });
+                };
+
+                builder.title(getString(R.string.act_activeride_sureWantToFinish))
+                        .positiveAction(getString(R.string.ok))
+                        .negativeAction(getString(R.string.cancel));
+
+                DialogFragment fragment = DialogFragment.newInstance(builder);
+                fragment.show(getSupportFragmentManager(), null);
             }
         });
 
