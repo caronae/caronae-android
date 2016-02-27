@@ -13,6 +13,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.rey.material.app.Dialog;
+import com.rey.material.app.DialogFragment;
+import com.rey.material.app.SimpleDialog;
 import com.rey.material.widget.Button;
 
 import java.util.ArrayList;
@@ -102,35 +105,61 @@ public class MyRidesFrag extends Fragment {
         if (rides == null || rides.isEmpty())
             return;
 
-        final ProgressDialog pd = ProgressDialog.show(getContext(), "", getResources().getString(R.string.wait), true, true);
+        Dialog.Builder builder = new SimpleDialog.Builder(R.style.SimpleDialogLight) {
 
-        App.getNetworkService().deleteAllRidesFromUser(App.getUser().getDbId() + "", new Callback<Response>() {
             @Override
-            public void success(Response response, Response response2) {
-                Log.i("deleteAllRidesFromUser", "all rides deleted");
-
-                Ride.deleteAll(Ride.class);
-                Util.toast(R.string.frag_myrides_ridesDeleted);
-                rides.clear();
-                myRidesList.getAdapter().notifyDataSetChanged();
-                norides_tv.setVisibility(View.VISIBLE);
-                deleteAll_bt.setVisibility(View.INVISIBLE);
-                helpText_tv.setVisibility(View.INVISIBLE);
-
-                pd.dismiss();
+            protected void onBuildDone(Dialog dialog) {
+                dialog.layoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             }
 
             @Override
-            public void failure(RetrofitError error) {
-                Util.toast(getString(R.string.frag_myrides_errorDeleteAllRIdes));
-                try {
-                    Log.e("deleteRide", error.getMessage());
-                } catch (Exception e) {//sometimes RetrofitError is null
-                    Log.e("deleteRide", e.getMessage());
-                }
+            public void onPositiveActionClicked(DialogFragment fragment) {
+                final ProgressDialog pd = ProgressDialog.show(getContext(), "", getResources().getString(R.string.wait), true, true);
 
-                pd.dismiss();
+                App.getNetworkService().deleteAllRidesFromUser(App.getUser().getDbId() + "", new Callback<Response>() {
+                    @Override
+                    public void success(Response response, Response response2) {
+                        Log.i("deleteAllRidesFromUser", "all rides deleted");
+
+                        Ride.deleteAll(Ride.class);
+                        Util.toast(R.string.frag_myrides_ridesDeleted);
+                        rides.clear();
+                        myRidesList.getAdapter().notifyDataSetChanged();
+                        norides_tv.setVisibility(View.VISIBLE);
+                        deleteAll_bt.setVisibility(View.INVISIBLE);
+                        helpText_tv.setVisibility(View.INVISIBLE);
+
+                        pd.dismiss();
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        Util.toast(getString(R.string.frag_myrides_errorDeleteAllRIdes));
+                        try {
+                            Log.e("deleteRide", error.getMessage());
+                        } catch (Exception e) {//sometimes RetrofitError is null
+                            Log.e("deleteRide", e.getMessage());
+                        }
+
+                        pd.dismiss();
+                    }
+                });
+
+                super.onPositiveActionClicked(fragment);
             }
-        });
+
+            @Override
+            public void onNegativeActionClicked(DialogFragment fragment) {
+                super.onNegativeActionClicked(fragment);
+            }
+        };
+
+        ((SimpleDialog.Builder)builder).message(getString(R.string.warnDeleteRidesCouldBeActive))
+                .title(getString(R.string.attention))
+                .positiveAction(getString(R.string.ok))
+                .negativeAction(getString(R.string.cancel));
+
+        DialogFragment fragment = DialogFragment.newInstance(builder);
+        fragment.show(getActivity().getSupportFragmentManager(), null);
     }
 }

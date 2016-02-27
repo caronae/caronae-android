@@ -66,6 +66,9 @@ public interface NetworkService {
     @DELETE("/ride/allFromUser/{userId}")
     void deleteAllRidesFromUser(@Path("userId") String userId, Callback<Response> cb);
 
+    @DELETE("/ride/allFromRoutine/{routineId}")
+    void deleteAllRidesFromRoutine(@Path("routineId") String routineId, Callback<Response> cb);
+
     @POST("/ride/listFiltered")
     void listFiltered(@Body RideSearchFiltersForJson rideSearchFilters, Callback<List<RideForJson>> cb);
 

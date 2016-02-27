@@ -34,6 +34,7 @@
     <string name="leavingAt">"Saindo às %1$s"</string>
     <string name="leftAt">"Saiu às %1$s"</string>
     <string name="rideDeleted">Carona excluída</string>
+    <string name="ridesDeleted">Caronas excluídas</string>
     <string name="errorRideDeleted">Erro ao desistir de carona</string>
     <string name="Xslots">"%1$s vaga%2$s"</string>
     <string name="notRoutine">Não é rotina</string>
@@ -194,5 +195,9 @@
     <string name="act_activeride_quitBtn">Desistir</string>
     <string name="act_activeride_seeProfile">Ver perfil</string>
     <string name="frag_myrides_errorDeleteAllRIdes">Erro ao deletar todas as caronas</string>
+    <string name="errorDeleteRide">Erro ao excluir carona</string>
+    <string name="warnDeleteRidesCouldBeActive">Se alguma dessas caronas estiver ativa ela será cancelada.\nDeseja mesmo excluir?</string>
+    <string name="warnDeleteRideCouldBeActive">Se essa carona estiver ativa ela será cancelada.\nDeseja mesmo excluir?</string>
+    <string name="attention">Atenção</string>
 
 </resources>

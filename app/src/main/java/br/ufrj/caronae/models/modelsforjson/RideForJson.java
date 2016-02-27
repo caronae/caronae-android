@@ -29,7 +29,7 @@ public class RideForJson extends Ride implements Parcelable {
     }
 
     public RideForJson(Parcel in) {
-        String[] data = new String[11];
+        String[] data = new String[12];
         in.readStringArray(data);
 
         zone = data[0];
@@ -43,6 +43,7 @@ public class RideForJson extends Ride implements Parcelable {
         description = data[8];
         weekDays = data[9];
         repeatsUntil = data[10];
+        routineId = data[11];
 
         int[] intData = new int[3];
         in.readIntArray(intData);
@@ -72,7 +73,8 @@ public class RideForJson extends Ride implements Parcelable {
                 hub,
                 description,
                 weekDays,
-                repeatsUntil});
+                repeatsUntil,
+                routineId});
         parcel.writeIntArray(new int[]{
                 going ? 1 : 0,
                 routine ? 1 : 0,

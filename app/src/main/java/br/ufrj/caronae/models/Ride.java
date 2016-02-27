@@ -24,6 +24,8 @@ public class Ride extends SugarRecord<Ride> {
     protected String repeatsUntil;
     protected boolean going, routine;
     protected int dbId;
+    @SerializedName("routine_id")
+    protected String routineId;
 
     public Ride() {
     }
@@ -59,6 +61,7 @@ public class Ride extends SugarRecord<Ride> {
         routine = weekDays != null && !weekDays.isEmpty();
         repeatsUntil = ride.getRepeatsUntil();
         dbId = ride.getId().intValue();
+        routineId = ride.getRoutineId();
     }
 
     public String getZone() {
@@ -171,5 +174,13 @@ public class Ride extends SugarRecord<Ride> {
 
     public void setDbId(int dbId) {
         this.dbId = dbId;
+    }
+
+    public String getRoutineId() {
+        return routineId;
+    }
+
+    public void setRoutineId(String routineId) {
+        this.routineId = routineId;
     }
 }
