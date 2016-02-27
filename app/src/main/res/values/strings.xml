@@ -113,7 +113,7 @@
     <string name="act_profile_openFbProfile">Veja o perfil de %1$s no Facebook</string>
     <string name="act_profile_openProfile">Veja o perfil de Fulano no Facebook</string>
     <string name="frag_myactiverides_noRides">Você não tem caronas ativas</string>
-    <string name="frag_myrides_noRides">Você não tem anúncios de caronas</string>
+    <string name="frag_myrides_noRides">Você não tem ofertas de caronas</string>
     <string name="frag_rideoffer_neighborHint">Escolha o bairro (Obrigatório)</string>
     <string name="frag_rideoffer_placeHint">Ponto de referência</string>
     <string name="frag_rideoffer_wayhint">Por onde passa</string>
