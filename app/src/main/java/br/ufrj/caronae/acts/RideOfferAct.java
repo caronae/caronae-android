@@ -54,12 +54,6 @@ public class RideOfferAct extends AppCompatActivity {
     public TextView way_tv;
     @Bind(R.id.place_tv)
     public TextView place_tv;
-    @Bind(R.id.carModel_tv)
-    public TextView carModel_tv;
-    @Bind(R.id.carColor_tv)
-    public TextView carColor_tv;
-    @Bind(R.id.carPlate_tv)
-    public TextView carPlate_tv;
     @Bind(R.id.description_tv)
     public TextView description_tv;
     @Bind(R.id.requested_tv)
@@ -167,9 +161,6 @@ public class RideOfferAct extends AppCompatActivity {
         time_tv.setTextColor(color);
         date_tv.setText(Util.formatBadDateWithoutYear(rideWithUsers.getDate()));
         date_tv.setTextColor(color);
-        carModel_tv.setText(driver.getCarModel());
-        carColor_tv.setText(driver.getCarColor());
-        carPlate_tv.setText(driver.getCarPlate());
         description_tv.setText(rideWithUsers.getDescription());
 
         if (isDriver) {

@@ -213,91 +213,10 @@
                 android:text="Na frente do shopping" />
 
             <TextView
-                android:id="@+id/car_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/place_tv"
-                android:layout_marginLeft="30dp"
-                android:layout_marginStart="30dp"
-                android:layout_marginTop="20dp"
-                android:text="@string/myactiveride_carTv"
-                android:textAllCaps="true"
-                android:textStyle="bold" />
-
-            <ImageView
-                android:id="@+id/car_plate_iv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/car_tv"
-                android:layout_marginLeft="30dp"
-                android:layout_marginStart="30dp"
-                android:layout_marginTop="5dp"
-                android:src="@drawable/ic_directions_car_black_24dp" />
-
-            <TextView
-                android:id="@+id/carPlate_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/car_plate_iv"
-                android:layout_alignTop="@+id/car_plate_iv"
-                android:layout_marginLeft="5dp"
-                android:layout_marginStart="5dp"
-                android:layout_toEndOf="@+id/car_plate_iv"
-                android:layout_toRightOf="@+id/car_plate_iv"
-                android:gravity="center"
-                android:text="PSR 4567" />
-
-            <ImageView
-                android:id="@+id/car_model_iv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/carPlate_tv"
-                android:layout_marginLeft="30dp"
-                android:layout_marginStart="30dp"
-                android:layout_marginTop="5dp"
-                android:src="@drawable/ic_directions_car_black_24dp" />
-
-            <TextView
-                android:id="@+id/carModel_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/car_model_iv"
-                android:layout_alignTop="@+id/car_model_iv"
-                android:layout_marginLeft="5dp"
-                android:layout_marginStart="5dp"
-                android:layout_toEndOf="@+id/car_plate_iv"
-                android:layout_toRightOf="@+id/car_plate_iv"
-                android:gravity="center"
-                android:text="Honda Civic" />
-
-            <ImageView
-                android:id="@+id/car_color_iv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/carModel_tv"
-                android:layout_marginLeft="30dp"
-                android:layout_marginStart="30dp"
-                android:layout_marginTop="5dp"
-                android:src="@drawable/ic_directions_car_black_24dp" />
-
-            <TextView
-                android:id="@+id/carColor_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/car_color_iv"
-                android:layout_alignTop="@+id/car_color_iv"
-                android:layout_marginLeft="5dp"
-                android:layout_marginStart="5dp"
-                android:layout_toEndOf="@+id/car_plate_iv"
-                android:layout_toRightOf="@+id/car_plate_iv"
-                android:gravity="center"
-                android:text="Vermelho" />
-
-            <TextView
                 android:id="@+id/description_text_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/carColor_tv"
+                android:layout_below="@+id/place_tv"
                 android:layout_marginLeft="30dp"
                 android:layout_marginStart="30dp"
                 android:layout_marginTop="20dp"
