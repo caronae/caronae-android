@@ -34,8 +34,8 @@ import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.adapters.RidersAdapter;
 import br.ufrj.caronae.asyncs.UnsubGcmTopic;
+import br.ufrj.caronae.models.ActiveRide;
 import br.ufrj.caronae.models.ChatAssets;
-import br.ufrj.caronae.models.NewChatMsgIndicator;
 import br.ufrj.caronae.models.Ride;
 import br.ufrj.caronae.models.RideEndedEvent;
 import br.ufrj.caronae.models.User;
@@ -248,6 +248,8 @@ public class ActiveRideAct extends AppCompatActivity {
                                 if (rides != null && !rides.isEmpty())
                                     rides.get(0).delete();
 
+                                ActiveRide.deleteAll(ActiveRide.class, "db_id = ?", rideId);
+
                                 SharedPref.saveRemoveRideFromList(rideId);
                                 finish();
                             }
@@ -309,6 +311,8 @@ public class ActiveRideAct extends AppCompatActivity {
                                 List<Ride> rides = Ride.find(Ride.class, "db_id = ?", rideId);
                                 if (rides != null && !rides.isEmpty())
                                     rides.get(0).delete();
+
+                                ActiveRide.deleteAll(ActiveRide.class, "db_id = ?", rideId);
 
                                 SharedPref.saveRemoveRideFromList(rideId);
                                 finish();

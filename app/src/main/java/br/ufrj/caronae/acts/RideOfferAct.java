@@ -18,10 +18,13 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
+import java.util.List;
+
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.RoundedTransformation;
 import br.ufrj.caronae.Util;
+import br.ufrj.caronae.models.ActiveRide;
 import br.ufrj.caronae.models.RideRequestSent;
 import br.ufrj.caronae.models.User;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
@@ -173,6 +176,11 @@ public class RideOfferAct extends AppCompatActivity {
                 join_bt.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        List<ActiveRide> list = ActiveRide.find(ActiveRide.class, "date = ? and going = ?", rideWithUsers.getDate(), rideWithUsers.isGoing() ? "1" : "0");
+                        if (list != null && !list.isEmpty()) {
+                            Util.toast("Você já possui uma carona ativa nesse dia e sentido!");
+                            return;
+                        }
                         final ProgressDialog pd = ProgressDialog.show(RideOfferAct.this, "", getString(R.string.wait), true, true);
                         App.getNetworkService().requestJoin(new RideIdForJson(rideWithUsers.getDbId()), new Callback<Response>() {
                             @Override

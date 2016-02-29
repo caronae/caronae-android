@@ -23,6 +23,7 @@ import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.adapters.MyActiveRidesAdapter;
 import br.ufrj.caronae.asyncs.CheckSubGcmTopic;
 import br.ufrj.caronae.comparators.RideOfferComparatorByDateAndTime;
+import br.ufrj.caronae.models.ActiveRide;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -67,6 +68,7 @@ public class MyActiveRidesFrag extends Fragment {
                     return;
                 }
 
+                ActiveRide.deleteAll(ActiveRide.class);
                 //subscribe to ride id topic
                 if (!SharedPref.getUserGcmToken().equals(SharedPref.MISSING_PREF)) {
                     Log.i("getMyActiveRides", "i have gcm token");
@@ -74,6 +76,8 @@ public class MyActiveRidesFrag extends Fragment {
                         int rideId = rideWithUsers.getId().intValue();
                         rideWithUsers.setDbId(rideId);
                         new CheckSubGcmTopic().execute(rideId + "");
+
+                        new ActiveRide(rideWithUsers.getDbId(),rideWithUsers.isGoing(), rideWithUsers.getDate()).save();
                     }
                 } else {
                     Log.i("getMyActiveRides", "i DO NOT have gcm token");

@@ -22,6 +22,7 @@ import br.ufrj.caronae.acts.ChatAct;
 import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.asyncs.CheckSubGcmTopic;
 import br.ufrj.caronae.asyncs.UnsubGcmTopic;
+import br.ufrj.caronae.models.ActiveRide;
 import br.ufrj.caronae.models.ChatAssets;
 import br.ufrj.caronae.models.ChatMessageReceived;
 import br.ufrj.caronae.models.NewChatMsgIndicator;
@@ -89,11 +90,13 @@ public class MyGCMIntentService extends IntentService {
         if (msgType != null && msgType.equals("finished")) {
             new UnsubGcmTopic(getApplicationContext(), rideId).execute();
             App.getBus().post(new RideEndedEvent(rideId));
+            ActiveRide.deleteAll(ActiveRide.class, "db_id = ?", rideId);
         }
 
         if (msgType != null && msgType.equals("cancelled")) {
             new UnsubGcmTopic(getApplicationContext(), rideId).execute();
             App.getBus().post(new RideEndedEvent(rideId));
+            ActiveRide.deleteAll(ActiveRide.class, "db_id = ?", rideId);
         }
 
         if (msgType != null && msgType.equals("accepted")) {
