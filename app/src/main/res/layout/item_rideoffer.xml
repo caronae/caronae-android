@@ -8,14 +8,14 @@
     android:clickable="true"
     android:foreground="?android:attr/selectableItemBackground"
     card_view:cardBackgroundColor="@color/blue"
-    card_view:cardCornerRadius="@dimen/cardview_default_radius"
+    card_view:cardCornerRadius="10dp"
     card_view:cardElevation="@dimen/cardview_default_elevation"
     card_view:cardUseCompatPadding="true">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="6dp"
+        android:layout_margin="10dp"
         android:orientation="vertical">
 
         <ImageView
