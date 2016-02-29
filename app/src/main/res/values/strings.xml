@@ -203,5 +203,6 @@
     <string name="act_activeRide_sureWantToCancel">Tem certeza que deseja cancelar a carona?</string>
     <string name="act_activeRide_sureWantToQuit">Tem certeza que deseja desistir da carona?</string>
     <string name="frag_rideoofer_rieOfferConflict">Você já possui uma carona nesse dia e sentido!</string>
+    <string name="act_rideOffer_rideConflict">Você já possui uma carona ativa nesse dia e sentido!</string>
 
 </resources>

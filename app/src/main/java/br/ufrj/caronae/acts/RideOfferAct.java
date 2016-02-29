@@ -178,7 +178,7 @@ public class RideOfferAct extends AppCompatActivity {
                     public void onClick(View view) {
                         List<ActiveRide> list = ActiveRide.find(ActiveRide.class, "date = ? and going = ?", rideWithUsers.getDate(), rideWithUsers.isGoing() ? "1" : "0");
                         if (list != null && !list.isEmpty()) {
-                            Util.toast("Você já possui uma carona ativa nesse dia e sentido!");
+                            Util.toast(getString(R.string.act_rideOffer_rideConflict));
                             return;
                         }
                         final ProgressDialog pd = ProgressDialog.show(RideOfferAct.this, "", getString(R.string.wait), true, true);
