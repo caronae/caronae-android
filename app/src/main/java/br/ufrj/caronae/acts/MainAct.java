@@ -47,6 +47,7 @@ import br.ufrj.caronae.frags.MyRidesFrag;
 import br.ufrj.caronae.frags.RideOfferFrag;
 import br.ufrj.caronae.frags.RideSearchFrag;
 import br.ufrj.caronae.frags.RidesHistoryFrag;
+import br.ufrj.caronae.frags.TabbedRideOfferFrag;
 import br.ufrj.caronae.frags.TermsOfUseFrag;
 import br.ufrj.caronae.gcm.RegistrationIntentService;
 import br.ufrj.caronae.models.User;
@@ -326,7 +327,7 @@ public class MainAct extends AppCompatActivity {
             return R.string.frag_history_title;
         if (fragmentClass.equals(FalaeFrag.class.toString()))
             return R.string.frag_falae_title;
-        if (fragmentClass.equals(RideOfferFrag.class.toString()))
+        if (fragmentClass.equals(TabbedRideOfferFrag.class.toString()))
             return R.string.act_main_setRideOfferFragTitle;
         if (fragmentClass.equals(RideSearchFrag.class.toString()))
             return R.string.frag_searchride_title;
@@ -397,10 +398,10 @@ public class MainAct extends AppCompatActivity {
 
     public void showRideOfferFrag() {
         backstackSafeCheck();
-        backstack.remove(RideOfferFrag.class);
-        backstack.add(RideOfferFrag.class);
+        backstack.remove(TabbedRideOfferFrag.class);
+        backstack.add(TabbedRideOfferFrag.class);
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.flContent, new RideOfferFrag()).commit();
+        fragmentManager.beginTransaction().replace(R.id.flContent, new TabbedRideOfferFrag()).commit();
         setTitle(getString(R.string.act_main_setRideOfferFragTitle));
     }
 }

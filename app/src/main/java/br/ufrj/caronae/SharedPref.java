@@ -10,7 +10,8 @@ import br.ufrj.caronae.models.User;
 public class SharedPref {
 
     private static final String USER_PREF_KEY                        = "user";
-    private static final String LAST_RIDE_OFFER_PREF_KEY             = "lastRideOffer";
+    private static final String LAST_RIDE_OFFER_GOING_PREF_KEY       = "lastRideOfferGoing";
+    private static final String LAST_RIDE_OFFER_NOT_GOING_PREF_KEY   = "lastRideOfferNotGoing";
     private static final String LAST_RIDE_SEARCH_FILTERS_PREF_KEY    = "lastRideSearchFilters";
     private static final String TOKEN_PREF_KEY                       = "token";
     private static final String GCM_TOKEN_PREF_KEY                   = "gcmToken";
@@ -47,12 +48,20 @@ public class SharedPref {
         return getPref(NOTIFICATIONS_ON_PREF_KEY);
     }
 
-    public static String getLastRidePref() {
-        return getPref(LAST_RIDE_OFFER_PREF_KEY);
+    public static void saveLastRideGoingPref(String lastRideOffer) {
+        putPref(LAST_RIDE_OFFER_GOING_PREF_KEY, lastRideOffer);
     }
 
-    public static void saveLastRidePref(String lastRideOffer) {
-        putPref(LAST_RIDE_OFFER_PREF_KEY, lastRideOffer);
+    public static String getLastRideGoingPref() {
+        return getPref(LAST_RIDE_OFFER_GOING_PREF_KEY);
+    }
+
+    public static void saveLastRideNotGoingPref(String lastRideOffer) {
+        putPref(LAST_RIDE_OFFER_NOT_GOING_PREF_KEY, lastRideOffer);
+    }
+
+    public static String getLastRideNotGoingPref() {
+        return getPref(LAST_RIDE_OFFER_NOT_GOING_PREF_KEY);
     }
 
     public static String getUserPref() {
@@ -109,7 +118,8 @@ public class SharedPref {
 
     public static void removeAllPrefButGcm() {
         removePref(USER_PREF_KEY);
-        removePref(LAST_RIDE_OFFER_PREF_KEY);
+        removePref(LAST_RIDE_OFFER_GOING_PREF_KEY);
+        removePref(LAST_RIDE_OFFER_NOT_GOING_PREF_KEY);
         removePref(LAST_RIDE_SEARCH_FILTERS_PREF_KEY);
         removePref(TOKEN_PREF_KEY);
         removePref(NOTIFICATIONS_ON_PREF_KEY);

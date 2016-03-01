@@ -46,9 +46,6 @@ import retrofit.client.Response;
 
 public class RideOfferFrag extends Fragment {
 
-    @Bind(R.id.radioGroup)
-    RadioGroup radioGroup;
-
     @Bind(R.id.radioGroup2)
     RadioGroup radioGroup2;
 
@@ -92,6 +89,7 @@ public class RideOfferFrag extends Fragment {
     ScrollView scrollView;
 
     private String zone;
+    private boolean going;
 
     public RideOfferFrag() {
         // Required empty public constructor
@@ -103,21 +101,10 @@ public class RideOfferFrag extends Fragment {
         View view = inflater.inflate(R.layout.fragment_ride_offer, container, false);
         ButterKnife.bind(this, view);
 
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
-                switch (checkedId) {
-                    case R.id.go_rb:
-                        center_et.setHint(R.string.frag_rideSearch_hintPickCenter);
-                        center_et.setText("");
-                        break;
-                    case R.id.back_rb:
-                        center_et.setHint(R.string.frag_rideOffer_hintPickHub);
-                        center_et.setText("");
-                        break;
-                }
-            }
-        });
+        Bundle bundle = getArguments();
+        going = bundle.getBoolean("going");
+
+        center_et.setHint(going ? R.string.frag_rideSearch_hintPickCenter : R.string.frag_rideOffer_hintPickHub);
 
         String[] items = new String[6];
         for (int i = 0; i < items.length; i++)
@@ -126,7 +113,7 @@ public class RideOfferFrag extends Fragment {
         adapter.setDropDownViewResource(R.layout.row_spn_dropdown);
         slots_et.setAdapter(adapter);
 
-        String lastRideOffer = SharedPref.getLastRidePref();
+        String lastRideOffer = going ? SharedPref.getLastRideGoingPref() : SharedPref.getLastRideNotGoingPref();
         if (!lastRideOffer.equals(SharedPref.MISSING_PREF)) {
             loadLastRide(lastRideOffer);
         }
@@ -159,11 +146,10 @@ public class RideOfferFrag extends Fragment {
         slots_et.setSelection(Integer.parseInt(ride.getSlots()) - 1);
         center_et.setText(ride.getHub());
         description_et.setText(ride.getDescription());
-        radioGroup.check(ride.isGoing() ? R.id.go_rb : R.id.back_rb);
         boolean isRoutine = ride.isRoutine();
         routine_cb.setChecked(isRoutine);
         if (isRoutine) {
-            routineCb();
+            days_lo.setVisibility(routine_cb.isChecked() ? View.VISIBLE : View.GONE);
             monday_cb.setChecked(ride.getWeekDays().contains("1"));
             tuesday_cb.setChecked(ride.getWeekDays().contains("2"));
             wednesday_cb.setChecked(ride.getWeekDays().contains("3"));
@@ -274,7 +260,7 @@ public class RideOfferFrag extends Fragment {
             }
         };
 
-        if (radioGroup.getCheckedRadioButtonId() == R.id.go_rb) {
+        if (going) {
             builder.items(Util.getCenters(), 0)
                     .title(getContext().getString(R.string.frag_rideOffer_pickCenter))
                     .positiveAction(getContext().getString(R.string.ok))
@@ -400,12 +386,10 @@ public class RideOfferFrag extends Fragment {
         }
         String slots = slots_et.getSelectedItemPosition() + 1 + "";
         String description = description_et.getText().toString();
-        int id = radioGroup.getCheckedRadioButtonId();
-        boolean go = id == R.id.go_rb;
 
         String hub = center_et.getText().toString();
         if (hub.isEmpty()) {
-            if (go) {
+            if (going) {
                 center_et.setText(Util.getCenters()[0]);
                 hub = center_et.getText().toString();
             } else {
@@ -455,16 +439,19 @@ public class RideOfferFrag extends Fragment {
             repeatsUntil = simpleDateFormat.format(c.getTime());
         }
 
-        final Ride ride = new Ride(zone, neighborhood, place, way, etDateString, time, slots, hub, description, go, routine, weekDays, repeatsUntil);
+        final Ride ride = new Ride(zone, neighborhood, place, way, etDateString, time, slots, hub, description, going, routine, weekDays, repeatsUntil);
 
-        List<Ride> rides3 = Ride.find(Ride.class, "date = ? and going = ?", etDateString, go ? "1" : "0");
+        List<Ride> rides3 = Ride.find(Ride.class, "date = ? and going = ?", etDateString, going ? "1" : "0");
         if (rides3 != null && !rides3.isEmpty()) {
             Util.toast(getString(R.string.frag_rideoofer_rieOfferConflict));
             return;
         }
 
         String lastRideOffer = new Gson().toJson(ride);
-        SharedPref.saveLastRidePref(lastRideOffer);
+        if (going)
+            SharedPref.saveLastRideGoingPref(lastRideOffer);
+        else
+            SharedPref.saveLastRideNotGoingPref(lastRideOffer);
 
         final ProgressDialog pd = ProgressDialog.show(getContext(), "", getString(R.string.wait), true, true);
         App.getNetworkService().offerRide(ride, new Callback<List<Ride>>() {
