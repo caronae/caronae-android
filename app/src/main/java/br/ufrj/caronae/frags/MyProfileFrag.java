@@ -86,7 +86,6 @@ public class MyProfileFrag extends Fragment {
     TextView ridesTaken_tv;
 
     private CallbackManager callbackManager;
-    private boolean logOut = false;
 
     public MyProfileFrag() {
         // Required empty public constructor
@@ -415,7 +414,6 @@ public class MyProfileFrag extends Fragment {
         new LogOut().execute();
         startActivity(new Intent(getContext(), LoginAct.class));
         getActivity().finish();
-        logOut = true;
     }
 
     @OnClick(R.id.carOwner_sw)
@@ -519,10 +517,9 @@ public class MyProfileFrag extends Fragment {
         fragment.show(getFragmentManager(), null);
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        if (logOut || App.getUser() == null)
+    @OnClick(R.id.save_profile_btn)
+    public void saveProfileBtn() {
+        if (App.getUser() == null)
             return;
 
         final User editedUser = new User();
@@ -546,7 +543,7 @@ public class MyProfileFrag extends Fragment {
                         try {
                             Log.e("updateUser", error.getMessage());
                         } catch (Exception e) {//sometimes RetrofitError is null
-                            Log.e("signUp", e.getMessage());
+                            Log.e("updateUser", e.getMessage());
                         }
                         Util.toast(R.string.frag_myprofile_errorUpdated);
                     }
@@ -554,6 +551,8 @@ public class MyProfileFrag extends Fragment {
             } else {
                 Util.toast(getString(R.string.frag_myprofile_invalidFields));
             }
+        } else {
+            Util.toast(getString(R.string.frag_myprofile_SameFieldsState));
         }
     }
 

@@ -41,9 +41,9 @@
                 android:layout_alignTop="@+id/user_pic"
                 android:layout_marginLeft="10dp"
                 android:layout_marginStart="10dp"
-                android:maxWidth="210dp"
                 android:layout_toEndOf="@+id/user_pic"
                 android:layout_toRightOf="@+id/user_pic"
+                android:maxWidth="210dp"
                 android:paddingTop="15dp"
                 android:text="Fulano da Silva Teixeira Da Silva de Novo"
                 android:textStyle="bold" />
@@ -63,8 +63,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignLeft="@+id/name_tv"
                 android:layout_alignStart="@+id/name_tv"
-                android:maxWidth="210dp"
                 android:layout_below="@+id/profile_tv"
+                android:maxWidth="210dp"
                 android:text="Bacharelado em Ciência da computação" />
 
             <com.rey.material.widget.Button
@@ -135,9 +135,9 @@
             android:id="@+id/notif_text_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/color_bar"
-            android:paddingBottom="15dp"
-            android:paddingTop="15dp"
+            android:layout_below="@+id/login_button"
+            android:paddingBottom="5dp"
+            android:paddingTop="10dp"
             android:text="@string/frag_myprofile_notif"
             android:textStyle="bold" />
 
@@ -150,20 +150,35 @@
             android:layout_alignParentRight="true"
             android:checked="true" />
 
+        <com.rey.material.widget.Button
+            android:id="@+id/save_profile_btn"
+            style="@style/LightRaiseColorButtonRippleStyle"
+            android:layout_width="180dp"
+            android:layout_height="30dp"
+            android:layout_below="@id/color_bar"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/bg_bt_raise"
+            android:gravity="center"
+            android:text="Salvar perfil"
+            android:textColor="@color/blue"
+            app:rd_enable="true" />
+
         <com.facebook.login.widget.LoginButton
             android:id="@+id/login_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/notif_text_tv"
+            android:layout_below="@+id/save_profile_btn"
             android:layout_centerHorizontal="true"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="5dp" />
 
         <TextView
             android:id="@+id/contact_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/login_button"
-            android:paddingTop="10dp"
+            android:layout_below="@+id/notif_text_tv"
+            android:paddingTop="5dp"
             android:text="@string/frag_myprofile_contacts"
             android:textStyle="bold" />
 

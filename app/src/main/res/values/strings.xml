@@ -205,5 +205,6 @@
     <string name="frag_rideoofer_rieOfferConflict">Você já possui uma carona nesse dia e sentido!</string>
     <string name="act_rideOffer_rideConflict">Você já possui uma carona ativa nesse dia e sentido!</string>
     <string name="frag_allRidesList_Helper">Toque nas caronas para mais informações</string>
+    <string name="frag_myprofile_SameFieldsState">Nenhum campo alterado</string>
 
 </resources>
