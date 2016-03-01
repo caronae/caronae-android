@@ -63,8 +63,8 @@ public interface NetworkService {
     @DELETE("/ride/{rideId}")
     void deleteRide(@Path("rideId") String rideId, Callback<Response> cb);
 
-    @DELETE("/ride/allFromUser/{userId}")
-    void deleteAllRidesFromUser(@Path("userId") String userId, Callback<Response> cb);
+    @DELETE("/ride/allFromUser/{userId}/{going}")
+    void deleteAllRidesFromUser(@Path("userId") String userId, @Path("going") boolean going, Callback<Response> cb);
 
     @DELETE("/ride/allFromRoutine/{routineId}")
     void deleteAllRidesFromRoutine(@Path("routineId") String routineId, Callback<Response> cb);
