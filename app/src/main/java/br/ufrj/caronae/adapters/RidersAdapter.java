@@ -18,6 +18,7 @@ import java.util.List;
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.RoundedTransformation;
+import br.ufrj.caronae.acts.ActiveRideAct;
 import br.ufrj.caronae.acts.ProfileAct;
 import br.ufrj.caronae.models.User;
 
@@ -60,7 +61,10 @@ public class RidersAdapter extends RecyclerView.Adapter<RidersAdapter.ViewHolder
                 public void onClick(View view) {
                     Intent intent = new Intent(activity, ProfileAct.class);
                     intent.putExtra("user", new Gson().toJson(user));
-                    intent.putExtra("from", "riders");
+                    Class openScreenClass = activity.getClass();
+
+                    String riders = openScreenClass == ActiveRideAct.class ? "activeRides" : openScreenClass.getSimpleName();
+                    intent.putExtra("from", riders);
                     activity.startActivity(intent);
                 }
             });
