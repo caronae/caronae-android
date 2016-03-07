@@ -10,12 +10,16 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.rey.material.app.Dialog;
+import com.rey.material.app.DialogFragment;
+import com.rey.material.app.SimpleDialog;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -39,6 +43,8 @@ public class RideOfferAct extends AppCompatActivity {
 
     @Bind(R.id.user_pic)
     public ImageView user_pic;
+    @Bind(R.id.seeProfile_iv)
+    public TextView seeProfile_iv;
     @Bind(R.id.location_tv)
     public TextView location_tv;
     @Bind(R.id.name_tv)
@@ -168,6 +174,7 @@ public class RideOfferAct extends AppCompatActivity {
 
         if (isDriver) {
             join_bt.setVisibility(View.INVISIBLE);
+            seeProfile_iv.setVisibility(View.GONE);
         } else {
             if (requested) {
                 join_bt.setVisibility(View.INVISIBLE);
@@ -181,33 +188,60 @@ public class RideOfferAct extends AppCompatActivity {
                             Util.toast(getString(R.string.act_rideOffer_rideConflict));
                             return;
                         }
-                        final ProgressDialog pd = ProgressDialog.show(RideOfferAct.this, "", getString(R.string.wait), true, true);
-                        App.getNetworkService().requestJoin(new RideIdForJson(rideWithUsers.getDbId()), new Callback<Response>() {
+
+                        Dialog.Builder builder = new SimpleDialog.Builder(R.style.SimpleDialogLight) {
+
                             @Override
-                            public void success(Response response, Response response2) {
-                                RideRequestSent rideRequest = new RideRequestSent(rideWithUsers.getDbId(), rideWithUsers.isGoing(), rideWithUsers.getDate());
-                                rideRequest.save();
-
-                                join_bt.setVisibility(View.INVISIBLE);
-                                requested_tv.setVisibility(View.VISIBLE);
-                                App.getBus().post(rideRequest);
-
-                                pd.dismiss();
-                                Util.toast(R.string.requestSent);
+                            protected void onBuildDone(Dialog dialog) {
+                                dialog.layoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                             }
 
                             @Override
-                            public void failure(RetrofitError error) {
-                                pd.dismiss();
-                                Util.toast(R.string.errorRequestSent);
+                            public void onPositiveActionClicked(DialogFragment fragment) {
+                                final ProgressDialog pd = ProgressDialog.show(RideOfferAct.this, "", getString(R.string.wait), true, true);
+                                App.getNetworkService().requestJoin(new RideIdForJson(rideWithUsers.getDbId()), new Callback<Response>() {
+                                    @Override
+                                    public void success(Response response, Response response2) {
+                                        RideRequestSent rideRequest = new RideRequestSent(rideWithUsers.getDbId(), rideWithUsers.isGoing(), rideWithUsers.getDate());
+                                        rideRequest.save();
 
-                                try {
-                                    Log.e("requestJoin", error.getMessage());
-                                } catch (Exception e) {//sometimes RetrofitError is null
-                                    Log.e("requestJoin", e.getMessage());
-                                }
+                                        join_bt.setVisibility(View.INVISIBLE);
+                                        requested_tv.setVisibility(View.VISIBLE);
+                                        App.getBus().post(rideRequest);
+
+                                        pd.dismiss();
+                                        Util.toast(R.string.requestSent);
+                                    }
+
+                                    @Override
+                                    public void failure(RetrofitError error) {
+                                        pd.dismiss();
+                                        Util.toast(R.string.errorRequestSent);
+
+                                        try {
+                                            Log.e("requestJoin", error.getMessage());
+                                        } catch (Exception e) {//sometimes RetrofitError is null
+                                            Log.e("requestJoin", e.getMessage());
+                                        }
+                                    }
+                                });
+
+                                super.onPositiveActionClicked(fragment);
                             }
-                        });
+
+                            @Override
+                            public void onNegativeActionClicked(DialogFragment fragment) {
+                                super.onNegativeActionClicked(fragment);
+                            }
+                        };
+
+                        ((SimpleDialog.Builder) builder).message("Ao solicitar você está ocupando uma vaga na carona até que tenha uma resposta, faça isso com responsabilidade.\nDeseja mesmo solicitar participação nessa carona?")
+                                .title(getString(R.string.attention))
+                                .positiveAction(getString(R.string.ok))
+                                .negativeAction(getString(R.string.cancel));
+
+                        DialogFragment fragment = DialogFragment.newInstance(builder);
+                        fragment.show(getSupportFragmentManager(), null);
                     }
                 });
             }

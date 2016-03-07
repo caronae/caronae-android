@@ -17,8 +17,13 @@ import com.rey.material.app.DialogFragment;
 import com.rey.material.app.SimpleDialog;
 import com.rey.material.widget.Button;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.Locale;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
@@ -70,10 +75,37 @@ public class MyRidesListFrag extends Fragment {
         new LoadRides().execute();
     }
 
+    public class TimeIgnoringComparator implements Comparator<Date> {
+        public int compare(Date d1, Date d2) {
+            if (d1.getYear() != d2.getYear())
+                return d1.getYear() - d2.getYear();
+            if (d1.getMonth() != d2.getMonth())
+                return d1.getMonth() - d2.getMonth();
+            return d1.getDate() - d2.getDate();
+        }
+    }
+
     public class LoadRides extends AsyncTask<String, Void, Void> {
         @Override
         protected Void doInBackground(String... arg0) {
             rides = (ArrayList<Ride>) Ride.find(Ride.class, "going = ?", going ? "1" : "0");
+
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
+            Date todayDate = new Date();
+
+            Iterator<Ride> it = rides.iterator();
+            while (it.hasNext()) {
+                Ride ride = it.next();
+                try {
+                    Date rideDate = simpleDateFormat.parse(ride.getDate());
+                    if (new TimeIgnoringComparator().compare(rideDate, todayDate) < 0) {
+                        ride.delete();
+                        it.remove();
+                    }
+                } catch (Exception e) {
+                    Log.e("LoadRides", e.getMessage());
+                }
+            }
 
             return null;
         }

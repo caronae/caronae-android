@@ -91,18 +91,19 @@ public class RidesHistoryAdapter extends RecyclerView.Adapter<RidesHistoryAdapte
         holder.time_tv.setTextColor(color);
         holder.date_tv.setText(Util.formatDateRemoveYear(historyRide.getDate()));
         holder.date_tv.setTextColor(color);
-        holder.slots_tv.setText(activity.getString(R.string.Xriders, historyRide.getRiders().size(), historyRide.getRiders().size() > 1 ? "s" : ""));
-        holder.slots_tv.setTextColor(color);
+        holder.name_tv.setTextColor(color);
         String location;
-        if (historyRide.isGoing())
+        if (historyRide.isGoing()) {
             location = historyRide.getNeighborhood() + " ➜ " + historyRide.getHub();
-        else
+        } else {
             location = historyRide.getHub() + " ➜ " + historyRide.getNeighborhood();
+        }
         holder.location_tv.setText(location);
         holder.location_tv.setTextColor(color);
 
         User driver = historyRide.getDriver();
         if (driver != null) {
+            holder.name_tv.setText(driver.getName());
             String driverPic = driver.getProfilePicUrl();
             if (driverPic != null && !driverPic.isEmpty()) {
                 Picasso.with(activity).load(driverPic)
@@ -197,7 +198,7 @@ public class RidesHistoryAdapter extends RecyclerView.Adapter<RidesHistoryAdapte
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView time_tv;
         public TextView location_tv;
-        public TextView slots_tv;
+        public TextView name_tv;
         public TextView date_tv;
         public ImageView photo_iv;
         public Button feedback_bt;
@@ -207,7 +208,7 @@ public class RidesHistoryAdapter extends RecyclerView.Adapter<RidesHistoryAdapte
 
             time_tv = (TextView) itemView.findViewById(R.id.time_tv);
             location_tv = (TextView) itemView.findViewById(R.id.location_tv);
-            slots_tv = (TextView) itemView.findViewById(R.id.slots_tv);
+            name_tv = (TextView) itemView.findViewById(R.id.name_tv);
             date_tv = (TextView) itemView.findViewById(R.id.date_tv);
             photo_iv = (ImageView) itemView.findViewById(R.id.photo_iv);
             feedback_bt = (Button) itemView.findViewById(R.id.feedback_bt);

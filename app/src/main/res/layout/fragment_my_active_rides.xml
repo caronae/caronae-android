@@ -35,4 +35,16 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:visibility="gone" />
 
+    <TextView
+        android:id="@+id/helpText2_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:background="@color/white"
+        android:layout_marginTop="5dp"
+        android:text="Se você for o motorista de uma carona, lembre-se de \nconcluí-la após seu término."
+        android:visibility="invisible" />
+
 </RelativeLayout>

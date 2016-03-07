@@ -102,8 +102,7 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
             timeText = context.getResources().getString(R.string.leavingAt, Util.formatTime(rideOffer.getTime()));
         viewHolder.time_tv.setText(timeText);
         viewHolder.date_tv.setText(Util.formatBadDateWithoutYear(rideOffer.getDate()));
-        String slots = context.getString(R.string.Xslots, rideOffer.getSlots(), (Integer.parseInt(rideOffer.getSlots()) > 1 ? "s" : ""));
-        viewHolder.slots_tv.setText(slots);
+        viewHolder.name_tv.setText(rideOffer.getDriver().getName());
         String location;
         if (rideOffer.isGoing())
             location = rideOffer.getNeighborhood() + " ➜ " + rideOffer.getHub();
@@ -154,7 +153,7 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
         public TextView time_tv;
         public TextView date_tv;
         public TextView location_tv;
-        public TextView slots_tv;
+        public TextView name_tv;
         public CardView cardView;
 
         public ViewHolder(View itemView) {
@@ -165,7 +164,7 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
             time_tv = (TextView) itemView.findViewById(R.id.time_tv);
             date_tv = (TextView) itemView.findViewById(R.id.date_tv);
             location_tv = (TextView) itemView.findViewById(R.id.location_tv);
-            slots_tv = (TextView) itemView.findViewById(R.id.slots_tv);
+            name_tv = (TextView) itemView.findViewById(R.id.name_tv);
             cardView = (CardView) itemView.findViewById(R.id.cardView);
         }
     }

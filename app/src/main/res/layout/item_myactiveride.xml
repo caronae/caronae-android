@@ -69,30 +69,13 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/slots_tv"
+            android:id="@+id/name_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/location_tv"
             android:layout_alignStart="@+id/location_tv"
             android:layout_below="@+id/time_tv"
-            android:text="3 vagas"
-            android:textColor="@color/white" />
-
-        <TextView
-            android:id="@+id/name_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/photo_iv"
-            android:paddingTop="5dp"
             android:text="Leonardo Marques"
-            android:textColor="@color/white" />
-
-        <TextView
-            android:id="@+id/course_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/name_tv"
-            android:text="Computação"
             android:textColor="@color/white" />
 
         <ImageView

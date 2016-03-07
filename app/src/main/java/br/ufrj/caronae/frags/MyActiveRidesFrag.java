@@ -39,6 +39,8 @@ public class MyActiveRidesFrag extends Fragment {
     TextView norides_tv;
     @Bind(R.id.helpText_tv)
     TextView helpText_tv;
+    @Bind(R.id.helpText2_tv)
+    TextView helpText2_tv;
 
     private MyActiveRidesAdapter adapter;
 
@@ -90,6 +92,7 @@ public class MyActiveRidesFrag extends Fragment {
                 myRidesList.setLayoutManager(new LinearLayoutManager(getActivity()));
 
                 helpText_tv.setVisibility(View.VISIBLE);
+                helpText2_tv.setVisibility(View.VISIBLE);
                 pd.dismiss();
             }
 

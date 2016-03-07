@@ -11,6 +11,10 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.SharedPref;
@@ -130,7 +134,10 @@ public class LoginAct extends AppCompatActivity {
         protected Void doInBackground(Void... arg0) {
             for (Ride ride : userWithRides.getRides()) {
                 ride.setTime(Util.formatTime(ride.getTime()));
-                new Ride(ride).save();
+                String format = new SimpleDateFormat("yyyy-MM-dd", Locale.US).format(new Date());
+                int c = ride.getDate().compareTo(format);
+                if (c >= 0)
+                    new Ride(ride).save();
             }
 
             return null;

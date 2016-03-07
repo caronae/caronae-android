@@ -105,10 +105,7 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
             timeText = activity.getResources().getString(R.string.leavingAt, Util.formatTime(rideOffer.getTime()));
         viewHolder.time_tv.setText(timeText);
         viewHolder.date_tv.setText(Util.formatBadDateWithoutYear(rideOffer.getDate()));
-        viewHolder.course_tv.setText(rideOffer.getDriver().getCourse());
         viewHolder.name_tv.setText(rideOffer.getDriver().getName());
-        String slots = activity.getString(R.string.Xslots, rideOffer.getSlots(), (Integer.parseInt(rideOffer.getSlots()) > 1 ? "s" : ""));
-        viewHolder.slots_tv.setText(slots);
         String location;
         if (rideOffer.isGoing())
             location = rideOffer.getNeighborhood() + " ➜ " + rideOffer.getHub();
@@ -159,10 +156,8 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
         public ImageView photo_iv;
         public TextView time_tv;
         public TextView date_tv;
-        public TextView course_tv;
-        public TextView location_tv;
         public TextView name_tv;
-        public TextView slots_tv;
+        public TextView location_tv;
         public CardView cardView;
         public ImageView newMsgIndicator_iv;
 
@@ -172,10 +167,8 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
             photo_iv = (ImageView) itemView.findViewById(R.id.photo_iv);
             time_tv = (TextView) itemView.findViewById(R.id.time_tv);
             date_tv = (TextView) itemView.findViewById(R.id.date_tv);
-            course_tv = (TextView) itemView.findViewById(R.id.course_tv);
             location_tv = (TextView) itemView.findViewById(R.id.location_tv);
             name_tv = (TextView) itemView.findViewById(R.id.name_tv);
-            slots_tv = (TextView) itemView.findViewById(R.id.slots_tv);
             cardView = (CardView) itemView.findViewById(R.id.cardView);
             newMsgIndicator_iv = (ImageView) itemView.findViewById(R.id.newMsgIndicator_iv);
         }

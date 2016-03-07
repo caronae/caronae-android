@@ -51,6 +51,8 @@ public class ActiveRideAct extends AppCompatActivity {
 
     @Bind(R.id.user_pic)
     public ImageView user_pic;
+    @Bind(R.id.seeProfile_iv)
+    public TextView seeProfile_iv;
     @Bind(R.id.location_tv)
     public TextView location_tv;
     @Bind(R.id.name_tv)
@@ -223,6 +225,7 @@ public class ActiveRideAct extends AppCompatActivity {
 
         if (isDriver) {
             leave_bt.setText(R.string.cancelCaps);
+            seeProfile_iv.setVisibility(View.GONE);
         }
         leave_bt.setOnClickListener(new View.OnClickListener() {
             @Override
