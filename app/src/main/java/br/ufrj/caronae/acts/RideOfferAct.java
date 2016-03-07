@@ -235,7 +235,7 @@ public class RideOfferAct extends AppCompatActivity {
                             }
                         };
 
-                        ((SimpleDialog.Builder) builder).message("Ao solicitar você está ocupando uma vaga na carona até que tenha uma resposta, faça isso com responsabilidade.\nDeseja mesmo solicitar participação nessa carona?")
+                        ((SimpleDialog.Builder) builder).message(getString(R.string.act_rideOffer_requestWarn))
                                 .title(getString(R.string.attention))
                                 .positiveAction(getString(R.string.ok))
                                 .negativeAction(getString(R.string.cancel));
