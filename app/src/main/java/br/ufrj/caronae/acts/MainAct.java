@@ -92,7 +92,7 @@ public class MainAct extends AppCompatActivity {
                         Picasso.with(MainAct.this).load(profilePicUrl)
                                 .placeholder(R.drawable.user_pic)
                                 .error(R.drawable.user_pic)
-                                .transform(new RoundedTransformation(0))
+                                .transform(new RoundedTransformation())
                                 .into(user_pic);
                     } else {
                         Picasso.with(MainAct.this).load(R.drawable.user_pic)
@@ -181,7 +181,7 @@ public class MainAct extends AppCompatActivity {
             Picasso.with(this).load(profilePicUrl)
                     .placeholder(R.drawable.user_pic)
                     .error(R.drawable.user_pic)
-                    .transform(new RoundedTransformation(0))
+                    .transform(new RoundedTransformation())
                     .into(user_pic);
 
         nvDrawer.addHeaderView(nvHeader);

@@ -83,7 +83,7 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
             Picasso.with(activity).load(profilePicUrl)
                     .placeholder(R.drawable.user_pic)
                     .error(R.drawable.user_pic)
-                    .transform(new RoundedTransformation(0))
+                    .transform(new RoundedTransformation())
                     .into(viewHolder.photo_iv);
         }
 

@@ -78,7 +78,7 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
             Picasso.with(context).load(profilePicUrl)
                     .placeholder(R.drawable.user_pic)
                     .error(R.drawable.user_pic)
-                    .transform(new RoundedTransformation(0))
+                    .transform(new RoundedTransformation())
                     .into(viewHolder.photo_iv);
         } else {
             viewHolder.photo_iv.setImageResource(R.drawable.user_pic);

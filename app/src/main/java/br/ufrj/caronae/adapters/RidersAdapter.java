@@ -51,7 +51,7 @@ public class RidersAdapter extends RecyclerView.Adapter<RidersAdapter.ViewHolder
             Picasso.with(activity).load(profilePicUrl)
                 .placeholder(R.drawable.user_pic)
                 .error(R.drawable.user_pic)
-                .transform(new RoundedTransformation(0))
+                .transform(new RoundedTransformation())
                 .into(holder.photo_iv);
         holder.name_tv.setText(user.getName().split(" ")[0]);
 

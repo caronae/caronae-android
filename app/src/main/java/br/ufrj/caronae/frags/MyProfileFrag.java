@@ -304,7 +304,7 @@ public class MyProfileFrag extends Fragment {
             Picasso.with(getContext()).load(user.getProfilePicUrl())
                     .placeholder(R.drawable.user_pic)
                     .error(R.drawable.user_pic)
-                    .transform(new RoundedTransformation(0))
+                    .transform(new RoundedTransformation())
                     .into(user_pic);
     }
 
@@ -324,7 +324,7 @@ public class MyProfileFrag extends Fragment {
                             user.setProfilePicUrl(profilePicUrl);
                             Picasso.with(getContext()).load(profilePicUrl)
                                     .error(R.drawable.user_pic)
-                                    .transform(new RoundedTransformation(0))
+                                    .transform(new RoundedTransformation())
                                     .into(user_pic);
 
                             App.getNetworkService().saveProfilePicUrl(new UrlForJson(profilePicUrl), new Callback<Response>() {
@@ -359,7 +359,7 @@ public class MyProfileFrag extends Fragment {
                                 user.setProfilePicUrl(profilePicUrl);
                                 Picasso.with(getContext()).load(profilePicUrl)
                                         .error(R.drawable.user_pic)
-                                        .transform(new RoundedTransformation(0))
+                                        .transform(new RoundedTransformation())
                                         .into(user_pic);
 
                                 App.getNetworkService().saveProfilePicUrl(new UrlForJson(profilePicUrl), new Callback<Response>() {

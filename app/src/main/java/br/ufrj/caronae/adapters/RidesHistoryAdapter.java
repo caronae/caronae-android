@@ -109,7 +109,7 @@ public class RidesHistoryAdapter extends RecyclerView.Adapter<RidesHistoryAdapte
                 Picasso.with(activity).load(driverPic)
                         .placeholder(R.drawable.user_pic)
                         .error(R.drawable.user_pic)
-                        .transform(new RoundedTransformation(0))
+                        .transform(new RoundedTransformation())
                         .into(holder.photo_iv);
             } else {
                 holder.photo_iv.setImageResource(R.drawable.user_pic);

@@ -97,7 +97,7 @@ public class ProfileAct extends AppCompatActivity {
             Picasso.with(this).load(profilePicUrl)
                     .placeholder(R.drawable.user_pic)
                     .error(R.drawable.user_pic)
-                    .transform(new RoundedTransformation(0))
+                    .transform(new RoundedTransformation())
                     .into(user_pic_iv);
 
         try {
