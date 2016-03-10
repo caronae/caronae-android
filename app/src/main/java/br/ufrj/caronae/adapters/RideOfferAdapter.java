@@ -102,7 +102,16 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
             timeText = context.getResources().getString(R.string.leavingAt, Util.formatTime(rideOffer.getTime()));
         viewHolder.time_tv.setText(timeText);
         viewHolder.date_tv.setText(Util.formatBadDateWithoutYear(rideOffer.getDate()));
-        viewHolder.name_tv.setText(rideOffer.getDriver().getName());
+
+        String name = rideOffer.getDriver().getName();
+        try {
+            String[] split = name.split(" ");
+            String shortName = split[0] + " " + split[split.length - 1];
+            viewHolder.name_tv.setText(shortName);
+        } catch (Exception e) {
+            viewHolder.name_tv.setText(name);
+        }
+
         String location;
         if (rideOffer.isGoing())
             location = rideOffer.getNeighborhood() + " ➜ " + rideOffer.getHub();
