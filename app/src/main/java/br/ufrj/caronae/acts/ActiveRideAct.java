@@ -278,13 +278,19 @@ public class ActiveRideAct extends AppCompatActivity {
                     }
                 };
                 String title;
-                if (isDriver)
+                if (isDriver) {
                     title = getString(R.string.act_activeRide_sureWantToCancel);
-                else
+
+                    ((SimpleDialog.Builder) builder).message(getString(R.string.act_activeRide_cancelRideMsg))
+                            .title(title)
+                            .positiveAction(getString(R.string.ok))
+                            .negativeAction(getString(R.string.cancel));
+                } else {
                     title = getString(R.string.act_activeRide_sureWantToQuit);
-                builder.title(title)
-                        .positiveAction(getString(R.string.ok))
-                        .negativeAction(getString(R.string.cancel));
+                    builder.title(title)
+                            .positiveAction(getString(R.string.ok))
+                            .negativeAction(getString(R.string.cancel));
+                }
 
                 DialogFragment fragment = DialogFragment.newInstance(builder);
                 fragment.show(getSupportFragmentManager(), null);

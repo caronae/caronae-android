@@ -179,7 +179,8 @@ public class RidesHistoryAdapter extends RecyclerView.Adapter<RidesHistoryAdapte
                         }
                     };
 
-                    builder.title(activity.getString(R.string.rideHistory_DialogTitle))
+                    ((SimpleDialog.Builder) builder).message(activity.getString(R.string.rideHistory_DialogMsg))
+                            .title(activity.getString(R.string.rideHistory_DialogTitle))
                             .positiveAction(activity.getString(R.string.yes))
                             .negativeAction(activity.getString(R.string.no));
 

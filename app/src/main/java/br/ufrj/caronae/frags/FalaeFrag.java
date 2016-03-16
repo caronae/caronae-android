@@ -87,9 +87,6 @@ public class FalaeFrag extends Fragment {
             case R.id.question_rb:
                 subject = getActivity().getString(R.string.frag_falae_questionRb);
                 break;
-            case R.id.critique_rb:
-                subject = getActivity().getString(R.string.frag_falae_critiqueRb);
-                break;
             case R.id.report_rb:
                 subject = getActivity().getString(R.string.frag_falae_reportRb);
                 break;

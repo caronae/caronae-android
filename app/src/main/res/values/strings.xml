@@ -149,7 +149,7 @@
     <string name="rideoffer_joinBt">Participar</string>
     <string name="myactiveride_openchatBt">Abrir bate-papo</string>
     <string name="myactiveride_finishrideBt">Concluir carona</string>
-    <string name="myactiveride_wayTv">Passa por:</string>
+    <string name="myactiveride_wayTv">Passando por:</string>
     <string name="myactiveride_placeTv">Ponto de referência:</string>
     <string name="myactiveride_carTv">DETALHES DO CARRO</string>
     <string name="myactiveride_descriptionTv">RECADO DO MOTORISTA</string>
@@ -199,13 +199,15 @@
     <string name="warnDeleteRidesCouldBeActive">Se alguma dessas caronas estiver ativa ela será cancelada.\nDeseja mesmo excluir?</string>
     <string name="warnDeleteRideCouldBeActive">Se essa carona estiver ativa ela será cancelada.\nDeseja mesmo excluir?</string>
     <string name="attention">Atenção</string>
-    <string name="act_activeride_sureWantToFinish">Tem certeza que deseja concluir a carona?</string>
-    <string name="act_activeRide_sureWantToCancel">Tem certeza que deseja cancelar a carona?</string>
-    <string name="act_activeRide_sureWantToQuit">Tem certeza que deseja desistir da carona?</string>
+    <string name="act_activeride_sureWantToFinish">Deseja mesmo concluir da carona?</string>
+    <string name="act_activeRide_sureWantToCancel">Deseja mesmo cancelar carona?</string>
+    <string name="act_activeRide_sureWantToQuit">Deseja mesmo desistir da carona?</string>
     <string name="frag_rideoofer_rieOfferConflict">Você já possui uma carona nesse dia e sentido!</string>
     <string name="act_rideOffer_rideConflict">Você já possui uma carona ativa nesse dia e sentido!</string>
     <string name="frag_allRidesList_Helper">Toque nas caronas para mais informações</string>
     <string name="frag_myprofile_SameFieldsState">Nenhum campo alterado</string>
     <string name="act_rideOffer_requestWarn">Ao solicitar você está ocupando uma vaga na carona até que obtenha uma resposta, faça isso com responsabilidade.\nDeseja mesmo solicitar participação nessa carona?</string>
+    <string name="rideHistory_DialogMsg">Caso tenha havido algum problema, entre em contato conosco através do Falaê e conte o que aconteceu.</string>
+    <string name="act_activeRide_cancelRideMsg">Você é livre para cancelar caronas caso não possa participar, mas é importante fazer isso com responsabilidade. Caso haja outros usuários na carona, eles serão notificados.</string>
 
 </resources>

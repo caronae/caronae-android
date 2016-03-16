@@ -156,47 +156,13 @@
                     android:visibility="gone"
                     android:textColor="@color/green"
                     android:textStyle="bold" />
-
-                <com.rey.material.widget.Button
-                    android:id="@+id/join_bt"
-                    style="@style/LightRaiseColorButtonRippleStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/time_tv"
-                    android:layout_centerHorizontal="true"
-                    android:background="@null"
-                    android:gravity="center"
-                    android:text="@string/rideoffer_joinBt"
-                    android:textColor="@color/white"
-                    app:rd_enable="true" />
             </RelativeLayout>
-
-            <TextView
-                android:id="@+id/way_text_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/lay3"
-                android:layout_marginLeft="30dp"
-                android:layout_marginStart="30dp"
-                android:layout_marginTop="10dp"
-                android:text="@string/myactiveride_wayTv"
-                android:textAllCaps="true"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/way_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/way_text_tv"
-                android:layout_marginLeft="50dp"
-                android:layout_marginStart="50dp"
-                android:text="Leopoldina" />
 
             <TextView
                 android:id="@+id/place_text_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/way_tv"
+                android:layout_below="@+id/lay3"
                 android:layout_marginLeft="30dp"
                 android:layout_marginStart="30dp"
                 android:layout_marginTop="10dp"
@@ -214,10 +180,31 @@
                 android:text="Na frente do shopping" />
 
             <TextView
+                android:id="@+id/way_text_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_below="@+id/place_tv"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/myactiveride_wayTv"
+                android:textAllCaps="true"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/way_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/way_text_tv"
+                android:layout_marginLeft="50dp"
+                android:layout_marginStart="50dp"
+                android:text="Leopoldina" />
+
+            <TextView
                 android:id="@+id/description_text_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/place_tv"
+                android:layout_below="@+id/way_tv"
                 android:layout_marginLeft="30dp"
                 android:layout_marginStart="30dp"
                 android:layout_marginTop="20dp"
@@ -234,6 +221,20 @@
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
                 android:text="Lorem ipsum dolor sit amet" />
+
+            <com.rey.material.widget.Button
+                android:id="@+id/join_bt"
+                style="@style/LightRaiseColorButtonRippleStyle"
+                android:layout_width="116dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/description_tv"
+                android:layout_centerHorizontal="true"
+                android:background="@null"
+                android:gravity="center"
+                android:text="@string/rideoffer_joinBt"
+                android:textColor="@color/white"
+                app:rd_enable="true" />
         </RelativeLayout>
     </ScrollView>
 
