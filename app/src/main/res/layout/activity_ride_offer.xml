@@ -145,6 +145,20 @@
                     android:text="16/10"
                     android:textStyle="bold" />
 
+                <com.rey.material.widget.Button
+                    android:id="@+id/join_bt"
+                    style="@style/LightRaiseColorButtonRippleStyle"
+                    android:layout_width="116dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_below="@+id/time_tv"
+                    android:layout_centerHorizontal="true"
+                    android:background="@null"
+                    android:gravity="center"
+                    android:text="@string/rideoffer_joinBt"
+                    android:textColor="@color/white"
+                    app:rd_enable="true" />
+
                 <TextView
                     android:id="@+id/requested_tv"
                     android:layout_width="wrap_content"
@@ -221,20 +235,6 @@
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
                 android:text="Lorem ipsum dolor sit amet" />
-
-            <com.rey.material.widget.Button
-                android:id="@+id/join_bt"
-                style="@style/LightRaiseColorButtonRippleStyle"
-                android:layout_width="116dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_below="@+id/description_tv"
-                android:layout_centerHorizontal="true"
-                android:background="@null"
-                android:gravity="center"
-                android:text="@string/rideoffer_joinBt"
-                android:textColor="@color/white"
-                app:rd_enable="true" />
         </RelativeLayout>
     </ScrollView>
 
