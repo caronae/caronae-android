@@ -20,6 +20,7 @@ import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.adapters.RidesHistoryAdapter;
 import br.ufrj.caronae.comparators.RideComparatorByDateAndTime;
+import br.ufrj.caronae.comparators.RideComparatorByDateAndTimeReverse;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
 import br.ufrj.caronae.models.modelsforjson.RideHistoryForJson;
 import butterknife.Bind;
@@ -59,7 +60,7 @@ public class RidesHistoryFrag extends Fragment {
                     rideHistory.setTime(Util.formatTime(rideHistory.getTime()));
                     rideHistory.setDate(Util.formatBadDateWithYear(rideHistory.getDate()));
                 }
-                Collections.sort(historyRides, new RideComparatorByDateAndTime());
+                Collections.sort(historyRides, new RideComparatorByDateAndTimeReverse());
                 myRidesList.setAdapter(new RidesHistoryAdapter(historyRides, (MainAct) getActivity()));
                 myRidesList.setHasFixedSize(true);
                 myRidesList.setLayoutManager(new LinearLayoutManager(getActivity()));
