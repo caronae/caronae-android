@@ -41,18 +41,29 @@
             android:text="@string/welcome"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
+        <Button
+            android:id="@+id/getToken_bt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textView2"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
+            android:gravity="center"
+            android:text="@string/act_login_tokenBtn"
+            android:textColor="@color/blue" />
+
         <EditText
             android:id="@+id/idUfrj_et"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/textView2"
+            android:layout_below="@id/getToken_bt"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:ems="8"
             android:gravity="center"
             android:hint="@string/idUfrjHint_et"
             android:inputType="number"
-            android:paddingTop="20dp"
+            android:paddingTop="10dp"
             android:singleLine="true" />
 
         <EditText
@@ -67,7 +78,7 @@
             android:hint="@string/tokenHint_et"
             android:imeActionLabel="@string/send_bt"
             android:imeOptions="actionSend"
-            android:paddingTop="20dp"
+            android:paddingTop="10dp"
             android:singleLine="true" />
 
         <com.rey.material.widget.Button

@@ -84,7 +84,7 @@ public class Util {
 
     public static String[] getNeighborhoods(String zone) {
         if (zone.equals("Centro")) {
-            return new String[]{"Benfica", "Caju", "Catumbi", "Centro", "Cidade Nova",
+            return new String[]{"Benfica", "Caju", "Catumbi", "Centro (Bairro)", "Cidade Nova",
                     "Estácio", "Gamboa", "Glória", "Lapa", "Mangueira", "Paquetá", "Rio Comprido",
                     "Santa Teresa", "Santo Cristo", "São Cristóvão", "Saúde", "Vasco da Gama"};
         }
@@ -130,8 +130,8 @@ public class Util {
                     "Queimados", "São João de Meriti", "Seropédica",};
         }
         if (zone.equals("Grande Niterói")) {
-            return new String[]{"Centro", "Itaboraí", "Maricá", "Região oceânica",
-                    "Rio Bonito", "São Gonçalo", "Tanguá"};
+            return new String[]{"Itaboraí", "Maricá", "Centro (Niterói)",
+                    "Região oceânica (Niterói)", "Rio Bonito", "São Gonçalo", "Tanguá"};
         }
         return null;
     }

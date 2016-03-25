@@ -2,6 +2,7 @@ package br.ufrj.caronae.acts;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -116,6 +117,11 @@ public class LoginAct extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @OnClick(R.id.getToken_bt)
+    public void getTokenBt() {
+        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(App.getHost() + "token")));
     }
 
     //@OnClick(R.id.logo)
