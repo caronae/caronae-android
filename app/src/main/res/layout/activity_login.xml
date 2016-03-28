@@ -41,22 +41,24 @@
             android:text="@string/welcome"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
-        <Button
-            android:id="@+id/getToken_bt"
+        <TextView
+            android:id="@+id/getToken_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/textView2"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
             android:gravity="center"
-            android:text="@string/act_login_tokenBtn"
-            android:textColor="@color/blue" />
+            android:text="@string/act_login_getTokenBtn"
+            android:textColor="@color/darkblue2"
+            android:textSize="15sp"
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/idUfrj_et"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/getToken_bt"
+            android:layout_below="@id/getToken_tv"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:ems="8"

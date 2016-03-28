@@ -119,9 +119,9 @@ public class LoginAct extends AppCompatActivity {
         });
     }
 
-    @OnClick(R.id.getToken_bt)
+    @OnClick(R.id.getToken_tv)
     public void getTokenBt() {
-        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(App.getHost() + "token")));
+        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(App.getHost() + "chave")));
     }
 
     //@OnClick(R.id.logo)
