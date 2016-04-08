@@ -143,7 +143,7 @@ public class MyRidesListFrag extends Fragment {
             public void onPositiveActionClicked(DialogFragment fragment) {
                 final ProgressDialog pd = ProgressDialog.show(getContext(), "", getResources().getString(R.string.wait), true, true);
 
-                App.getNetworkService().deleteAllRidesFromUser(App.getUser().getDbId() + "", going, new Callback<Response>() {
+                App.getNetworkService().deleteAllRidesFromUser(going, new Callback<Response>() {
                     @Override
                     public void success(Response response, Response response2) {
                         Log.i("deleteAllRidesFromUser", "all rides deleted");
