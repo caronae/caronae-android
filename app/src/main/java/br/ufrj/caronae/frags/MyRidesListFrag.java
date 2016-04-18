@@ -148,7 +148,7 @@ public class MyRidesListFrag extends Fragment {
                     public void success(Response response, Response response2) {
                         Log.i("deleteAllRidesFromUser", "all rides deleted");
 
-                        Ride.deleteAll(Ride.class);
+                        Ride.deleteAll(Ride.class, "going = ?", going ? "1" : "0");
                         Util.toast(R.string.frag_myrides_ridesDeleted);
                         rides.clear();
                         myRidesList.getAdapter().notifyDataSetChanged();
