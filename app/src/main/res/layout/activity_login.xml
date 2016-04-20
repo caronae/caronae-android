@@ -64,7 +64,6 @@
             android:ems="8"
             android:gravity="center"
             android:hint="@string/idUfrjHint_et"
-            android:inputType="number"
             android:paddingTop="10dp"
             android:singleLine="true" />
 
