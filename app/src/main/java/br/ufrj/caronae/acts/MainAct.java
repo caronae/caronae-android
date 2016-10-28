@@ -29,6 +29,7 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -72,6 +73,10 @@ public class MainAct extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        //TODO: CHECK TOPICS MENSSAGING
+        FirebaseMessaging.getInstance().subscribeToTopic(App.getUser().getDbId() + "");
+        FirebaseMessaging.getInstance().subscribeToTopic(SharedPref.TOPIC_GERAL);
 
         mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 

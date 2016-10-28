@@ -2,7 +2,7 @@ package br.ufrj.caronae.models;
 
 import com.orm.SugarRecord;
 
-public class NewChatMsgIndicator extends SugarRecord<RideRequestReceived> {
+public class NewChatMsgIndicator extends SugarRecord {
 
     private int dbId;
 

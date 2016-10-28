@@ -33,7 +33,7 @@ import br.ufrj.caronae.RoundedTransformation;
 import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.adapters.RidersAdapter;
-import br.ufrj.caronae.asyncs.UnsubGcmTopic;
+import br.ufrj.caronae.gcm.FirebaseTopicsHandler;
 import br.ufrj.caronae.models.ActiveRide;
 import br.ufrj.caronae.models.ChatAssets;
 import br.ufrj.caronae.models.Ride;
@@ -245,7 +245,10 @@ public class ActiveRideAct extends AppCompatActivity {
                                 else
                                     Util.toast(getString(R.string.act_activeride_quitRide));
 
-                                new UnsubGcmTopic(ActiveRideAct.this, rideId).execute();
+//                                TODO: Remove old gcm code
+//                                new UnsubGcmTopic(ActiveRideAct.this, rideId).execute();
+
+                                FirebaseTopicsHandler.unsubscribeToTopic(rideId + "");
 
                                 List<Ride> rides = Ride.find(Ride.class, "db_id = ?", rideId);
                                 if (rides != null && !rides.isEmpty())
@@ -315,7 +318,10 @@ public class ActiveRideAct extends AppCompatActivity {
                                 pd.dismiss();
                                 Util.toast(R.string.rideFinished);
 
-                                new UnsubGcmTopic(ActiveRideAct.this, rideId).execute();
+//                                TODO: remove old gcm code
+//                                new UnsubGcmTopic(ActiveRideAct.this, rideId).execute();
+
+                                FirebaseTopicsHandler.unsubscribeToTopic(rideId + "");
 
                                 List<Ride> rides = Ride.find(Ride.class, "db_id = ?", rideId);
                                 if (rides != null && !rides.isEmpty())

@@ -2,7 +2,7 @@ package br.ufrj.caronae.models;
 
 import com.orm.SugarRecord;
 
-public class ChatAssets extends SugarRecord<ChatAssets> {
+public class ChatAssets extends SugarRecord{
     private String rideId;
     private String location;
     private int color;

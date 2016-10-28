@@ -21,8 +21,8 @@ import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.adapters.MyActiveRidesAdapter;
-import br.ufrj.caronae.asyncs.CheckSubGcmTopic;
 import br.ufrj.caronae.comparators.RideOfferComparatorByDateAndTime;
+import br.ufrj.caronae.gcm.FirebaseTopicsHandler;
 import br.ufrj.caronae.models.ActiveRide;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
 import butterknife.Bind;
@@ -72,18 +72,22 @@ public class MyActiveRidesFrag extends Fragment {
 
                 ActiveRide.deleteAll(ActiveRide.class);
                 //subscribe to ride id topic
-                if (!SharedPref.getUserGcmToken().equals(SharedPref.MISSING_PREF)) {
-                    Log.i("getMyActiveRides", "i have gcm token");
+                //TODO: if statement not required, firebase does not stores token, remove old gcm code
+//                if (!SharedPref.getUserGcmToken().equals(SharedPref.MISSING_PREF)) {
+//                    Log.i("getMyActiveRides", "i have gcm token");
                     for (RideForJson rideWithUsers : rideWithUsersList) {
                         int rideId = rideWithUsers.getId().intValue();
                         rideWithUsers.setDbId(rideId);
-                        new CheckSubGcmTopic().execute(rideId + "");
+                        //TODO: remove old gcm code
+//                        new CheckSubGcmTopic().execute(rideId + "");
+
+                        FirebaseTopicsHandler.subscribeToTopic(rideId + "");
 
                         new ActiveRide(rideWithUsers.getDbId(),rideWithUsers.isGoing(), rideWithUsers.getDate()).save();
                     }
-                } else {
-                    Log.i("getMyActiveRides", "i DO NOT have gcm token");
-                }
+//                } else {
+//                    Log.i("getMyActiveRides", "i DO NOT have gcm token");
+//                }
 
                 Collections.sort(rideWithUsersList, new RideOfferComparatorByDateAndTime());
                 adapter = new MyActiveRidesAdapter(rideWithUsersList, (MainAct) getActivity());

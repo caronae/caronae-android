@@ -23,7 +23,7 @@ import br.ufrj.caronae.R;
 import br.ufrj.caronae.RoundedTransformation;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.ProfileAct;
-import br.ufrj.caronae.asyncs.CheckSubGcmTopic;
+import br.ufrj.caronae.gcm.FirebaseTopicsHandler;
 import br.ufrj.caronae.models.User;
 import br.ufrj.caronae.models.modelsforjson.JoinRequestIDsForJson;
 import retrofit.Callback;
@@ -95,8 +95,10 @@ public class RequestersAdapter extends RecyclerView.Adapter<RequestersAdapter.Vi
 
                         if (users.isEmpty())
                             activity.finish();
+                        //TODO: Remove old Gcm code
+//                        new CheckSubGcmTopic().execute(rideId + "");
 
-                        new CheckSubGcmTopic().execute(rideId + "");
+                        FirebaseTopicsHandler.subscribeToTopic(rideId + "");
                     }
 
                     @Override
