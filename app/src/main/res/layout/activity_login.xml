@@ -65,7 +65,7 @@
             android:gravity="center"
             android:hint="@string/idUfrjHint_et"
             android:paddingTop="10dp"
-            android:singleLine="true" />
+            android:maxLines="1" />
 
         <EditText
             android:id="@+id/token_et"
@@ -80,7 +80,7 @@
             android:imeActionLabel="@string/send_bt"
             android:imeOptions="actionSend"
             android:paddingTop="10dp"
-            android:singleLine="true" />
+            android:maxLines="1" />
 
         <com.rey.material.widget.Button
             android:id="@+id/send_bt"
