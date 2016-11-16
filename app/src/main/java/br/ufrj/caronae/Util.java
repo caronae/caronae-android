@@ -191,4 +191,8 @@ public class Util {
     public static String formatDateRemoveYear(String date) {
         return date.substring(0, 5);
     }
+
+    public static String fixBlankSpace(String word){
+        return word.replace(" ", "");
+    }
 }

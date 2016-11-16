@@ -60,8 +60,9 @@ public class LoginAct extends AppCompatActivity {
     public void sendBt() {
         final ProgressDialog pd = ProgressDialog.show(this, "", getString(R.string.wait), true, true);
 
-        final String token = token_et.getText().toString();
+        String tokenHolder = token_et.getText().toString();
         final String idUfrj = idUfrj_et.getText().toString();
+        final String token = Util.fixBlankSpace(tokenHolder);
         App.getNetworkService().login(new LoginForJson(token, idUfrj), new Callback<UserWithRidesForJson>() {
             @Override
             public void success(UserWithRidesForJson userWithRides, Response response) {
