@@ -63,7 +63,9 @@ public class LoginAct extends AppCompatActivity {
         String tokenHolder = token_et.getText().toString();
         final String idUfrj = idUfrj_et.getText().toString();
         final String token = Util.fixBlankSpace(tokenHolder);
-        App.getNetworkService().login(new LoginForJson(token, idUfrj), new Callback<UserWithRidesForJson>() {
+
+        // Busca usuário no servidor, token deve ser com carcteres maiusculos
+        App.getNetworkService().login(new LoginForJson(token.toUpperCase(), idUfrj), new Callback<UserWithRidesForJson>() {
             @Override
             public void success(UserWithRidesForJson userWithRides, Response response) {
                 if (userWithRides == null || userWithRides.getUser() == null) {
