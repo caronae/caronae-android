@@ -54,6 +54,11 @@
             android:textSize="15sp"
             android:textStyle="bold" />
 
+        <!-- Use "paddingLeft" instead of "gravity" atribute to avoid
+          the keyboard overlap the text when clicked 2 times.
+          Bug not fixed by google reffered in:
+          http://stackoverflow.com/questions/27247836/keyboard-over-edittext-on-second-click-->
+
         <EditText
             android:id="@+id/idUfrj_et"
             android:layout_width="wrap_content"
@@ -62,11 +67,11 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:ems="8"
-            android:gravity="center"
-            android:hint="@string/idUfrjHint_et"
             android:paddingTop="10dp"
             android:maxLines="1"
-            android:singleLine="true"/>
+            android:singleLine="true"
+            android:hint="@string/idUfrjHint_et"
+            android:paddingLeft="32dp"/>
 
         <EditText
             android:id="@+id/token_et"
@@ -76,13 +81,13 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:ems="8"
-            android:gravity="center"
             android:hint="@string/tokenHint_et"
             android:imeActionLabel="@string/send_bt"
             android:imeOptions="actionSend"
             android:paddingTop="10dp"
             android:maxLines="1"
-            android:singleLine="true"/>
+            android:singleLine="true"
+            android:paddingLeft="24dp"/>
 
         <com.rey.material.widget.Button
             android:id="@+id/send_bt"
