@@ -1,5 +1,7 @@
 package br.ufrj.caronae;
 
+import android.content.Context;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
@@ -194,5 +196,9 @@ public class Util {
 
     public static String fixBlankSpace(String word){
         return word.replace(" ", "");
+    }
+
+    public static int convertDpToPixel(Context context, int dp){
+        return (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, context.getResources().getDisplayMetrics());
     }
 }
