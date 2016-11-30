@@ -10,6 +10,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
@@ -97,6 +98,13 @@ public class MyProfileFrag extends Fragment {
         ButterKnife.bind(this, view);
 
         callbackManager = ((MainAct) getActivity()).getFbCallbackManager();
+
+        carOwner_sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                carOwnerSw();
+            }
+        });
 
         loginButton.setReadPermissions("user_friends");
         loginButton.setFragment(this);
@@ -269,8 +277,8 @@ public class MyProfileFrag extends Fragment {
     }
 
     private boolean validatePhone(String phone) {
-        if (phone.length() == 12) {
-            for (int i = 0; i < phone.length() && i < 12; i++) {
+        if (phone.length() == 12 || phone.length() == 11) {
+            for (int i = 0; i < phone.length(); i++) {
                 if (!Character.isDigit(phone.charAt(i))) {
                     return false;
                 }
@@ -526,7 +534,8 @@ public class MyProfileFrag extends Fragment {
         prepEditedUser(editedUser);
 
         if (!App.getUser().sameFieldsState(editedUser)) {
-            if (fieldsValidated()) {
+            int validation = fieldsValidated();
+            if (validation == 0) {
                 App.getNetworkService().updateUser(editedUser, new Callback<Response>() {
                     @Override
                     public void success(Response response, Response response2) {
@@ -548,27 +557,33 @@ public class MyProfileFrag extends Fragment {
                         Util.toast(R.string.frag_myprofile_errorUpdated);
                     }
                 });
-            } else {
-                Util.toast(getString(R.string.frag_myprofile_invalidFields));
+            } else if(validation ==1) {
+                Util.toast(getString(R.string.frag_myprofile_invalidFieldsTelephone));
+            }  else if(validation ==2) {
+                Util.toast(getString(R.string.frag_myprofile_invalidFieldsEmail));
+            }  else if(validation ==3) {
+                Util.toast(getString(R.string.frag_myprofile_invalidFieldsPlate));
             }
         } else {
             Util.toast(getString(R.string.frag_myprofile_SameFieldsState));
         }
     }
 
-    private boolean fieldsValidated() {
+    private int fieldsValidated() {
         String phone = phoneNumber_et.getText().toString();
         String mail = email_et.getText().toString();
         boolean result = validatePhone(phone) && validateMail(mail);
-        if (!result) {
-            return false;
-        }
+        if (!validatePhone(phone))
+            return 1;
+        if (!validateMail(mail))
+            return 2;
         if (carOwner_sw.isChecked()) {
             String plate = carPlate_et.getText().toString();
-            return validatePlate(plate);
+            if(!validatePlate(plate))
+                return 3;
         }
 
-        return true;
+        return 0;
     }
 
     private void prepEditedUser(User editedUser) {

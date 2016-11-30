@@ -11,7 +11,7 @@ import retrofit.RestAdapter;
 
 public class App extends SugarApp {
 
-    private static final String APIARY_ENDPOINT              = "http://private-5b9ed6-caronae.apiary-mock.com";
+    private static final String DEV_SERVER_ENDPOINT          = "http://dev.caronae.tic.ufrj.br/";
     private static final String MEUDIGOCEAN_PROD_ENDPOINT    = "http://45.55.46.90:80/";
     private static final String MEUDIGOCEAN_DEV_ENDPOINT     = "http://45.55.46.90:8080/";
     private static final String LOCAL_SERV_ENDPOINT          = "http://192.168.0.13/";
@@ -61,7 +61,8 @@ public class App extends SugarApp {
         //return MEUDIGOCEAN_DEV_ENDPOINT;
         //return MEUDIGOCEAN_PROD_ENDPOINT;
         //return LOCAL_SERV_ENDPOINT;
-        return TIC_ENDPOINT;
+        return DEV_SERVER_ENDPOINT;
+        //return TIC_ENDPOINT;
     }
 
     public static NetworkService getNetworkService() {

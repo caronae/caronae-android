@@ -12,6 +12,12 @@
         android:layout_marginTop="5dp"
         android:text="@string/frag_allRidesList_Helper" />
 
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="24dp">
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvRides"
         android:layout_width="match_parent"
@@ -19,8 +25,9 @@
         android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp" />
+        android:layout_marginStart="8dp" />
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 
     <TextView
         android:id="@+id/norides_tv"

@@ -364,6 +364,8 @@ public class RideSearchFrag extends Fragment {
             time = format;
         }
         String center = center_et.getText().toString();
+        if (center.equals("Todos"))
+            center = "";
         boolean go = radioGroup.getCheckedRadioButtonId() == R.id.go_rb;
         RideSearchFiltersForJson rideSearchFilters = new RideSearchFiltersForJson(location, etDateString, time, center, go, location_et.getText().toString());
 
