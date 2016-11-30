@@ -2,7 +2,7 @@ package br.ufrj.caronae.models;
 
 import com.orm.SugarRecord;
 
-public class RideRequestSent extends SugarRecord<RideRequestSent> {
+public class RideRequestSent extends SugarRecord {
 
     private int dbId;
 

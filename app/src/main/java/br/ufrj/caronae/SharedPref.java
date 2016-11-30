@@ -19,6 +19,7 @@ public class SharedPref {
     private static final String DRAWER_PIC_PREF                      = "drawerPic";
     private static final String RM_RIDE_LIST                         = "removeRideFromList";
     public static final String MISSING_PREF                          = "missing";
+    public static final String TOPIC_GERAL                           = "1";
 
     private static SharedPreferences getSharedPreferences() {
         return PreferenceManager.getDefaultSharedPreferences(App.inst());

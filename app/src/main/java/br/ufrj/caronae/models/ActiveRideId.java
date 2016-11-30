@@ -2,7 +2,7 @@ package br.ufrj.caronae.models;
 
 import com.orm.SugarRecord;
 
-public class ActiveRideId extends SugarRecord<Ride> {
+public class ActiveRideId extends SugarRecord {
     private String rideId;
 
     public ActiveRideId() {

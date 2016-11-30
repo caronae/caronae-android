@@ -2,7 +2,7 @@ package br.ufrj.caronae.models;
 
 import com.orm.SugarRecord;
 
-public class ChatMessageReceived extends SugarRecord<ChatMessageReceived> {
+public class ChatMessageReceived extends SugarRecord {
     private String senderName;
     private String senderId;
     private String message;

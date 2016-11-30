@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.facebook.login.LoginManager;
 import com.google.android.gms.gcm.GcmPubSub;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.io.IOException;
 import java.util.List;
@@ -25,6 +26,11 @@ import retrofit.client.Response;
 public class LogOut extends AsyncTask<Void, Void, Void> {
     @Override
     protected void onPreExecute() {
+
+        //Unsubscribe from lists
+        FirebaseMessaging.getInstance().unsubscribeFromTopic(SharedPref.TOPIC_GERAL);
+        FirebaseMessaging.getInstance().unsubscribeFromTopic(App.getUser().getDbId() + "");
+
         App.getNetworkService().saveGcmToken(new TokenForJson(""), new Callback<Response>() {
             @Override
             public void success(Response response, Response response2) {

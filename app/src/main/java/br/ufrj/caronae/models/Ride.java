@@ -5,7 +5,7 @@ import com.orm.SugarRecord;
 
 import br.ufrj.caronae.Util;
 
-public class Ride extends SugarRecord<Ride> {
+public class Ride extends SugarRecord{
     @SerializedName("myzone")
     protected String zone;
     protected String neighborhood;

@@ -1,8 +1,10 @@
 <resources>
     <string name="app_name">Caronaê UFRJ</string>
 
-    <string name="gcm_defaultSenderId">1012033032693</string>
+    <string name="gcm_defaultSenderIdOnValues">1012033032693</string>
     <string name="facebook_app_id">933455893356973</string>
+
+    <string name="topic_geral">1</string>
 
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>

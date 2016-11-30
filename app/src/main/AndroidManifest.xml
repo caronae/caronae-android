@@ -6,11 +6,12 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
 
-    <permission
-        android:name="br.ufrj.caronae.permission.C2D_MESSAGE"
-        android:protectionLevel="signature" />
+    <!--GCM previous code-->
+    <!--<permission-->
+        <!--android:name="br.ufrj.caronae.permission.C2D_MESSAGE"-->
+        <!--android:protectionLevel="signature" />-->
 
-    <uses-permission android:name="br.ufrj.caronae.permission.C2D_MESSAGE" />
+    <!--<uses-permission android:name="br.ufrj.caronae.permission.C2D_MESSAGE" />-->
 
     <application
         android:name=".App"
@@ -96,11 +97,20 @@
         <service
             android:name=".gcm.RegistrationIntentService"
             android:exported="false" />
+
+        <!--GCM previous code-->
+        <!--<service-->
+            <!--android:name=".gcm.MyFirebaseInstanceIdService"-->
+            <!--android:exported="false">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="com.google.android.gms.iid.InstanceID" />-->
+            <!--</intent-filter>-->
+        <!--</service>-->
+
         <service
-            android:name=".gcm.MyInstanceIDListenerService"
-            android:exported="false">
+            android:name=".gcm.MyFirebaseInstanceIdService">
             <intent-filter>
-                <action android:name="com.google.android.gms.iid.InstanceID" />
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
 
@@ -108,15 +118,22 @@
             android:name=".gcm.MyGCMIntentService"
             android:exported="false" />
 
-        <receiver
-            android:name=".gcm.MyGCMBroadcastReceiver"
-            android:exported="true"
-            android:permission="com.google.android.c2dm.permission.SEND">
+        <service android:name=".gcm.MyFirebaseMessagingService">
             <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-                <category android:name="br.ufrj.caronae" />
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
-        </receiver>
+        </service>
+
+        <!--GCM previous code-->
+        <!--<receiver-->
+            <!--android:name=".gcm.MyGCMBroadcastReceiver"-->
+            <!--android:exported="true"-->
+            <!--android:permission="com.google.android.c2dm.permission.SEND">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="com.google.android.c2dm.intent.RECEIVE" />-->
+                <!--<category android:name="br.ufrj.caronae" />-->
+            <!--</intent-filter>-->
+        <!--</receiver>-->
     </application>
 
 </manifest>
