@@ -454,7 +454,8 @@ public class RideOfferFrag extends Fragment {
             SharedPref.saveLastRideNotGoingPref(lastRideOffer);
 
         final ProgressDialog pd = ProgressDialog.show(getContext(), "", getString(R.string.wait), true, true);
-        App.getNetworkService().offerRide(ride, new Callback<List<Ride>>() {
+        //TODO: Check Header
+        App.getNetworkService().offerRide(Util.getHeaderForHttp(getContext()), ride, new Callback<List<Ride>>() {
             @Override
             public void success(List<Ride> rides, Response response) {
                 for (Ride ride : rides) {

@@ -1,6 +1,9 @@
 package br.ufrj.caronae;
 
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
@@ -200,5 +203,16 @@ public class Util {
 
     public static int convertDpToPixel(Context context, int dp){
         return (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, context.getResources().getDisplayMetrics());
+    }
+
+    public static String getHeaderForHttp(Context context){
+        PackageInfo pInfo = null;
+        try {
+            pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return "Caronae/" + pInfo.versionCode + "(Android; " + Build.VERSION.CODENAME + ";";
     }
 }

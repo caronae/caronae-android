@@ -28,6 +28,9 @@ import retrofit.http.PUT;
 import retrofit.http.Path;
 
 public interface NetworkService {
+
+    int versionCode = 10;
+
     //user routes
     @GET("/user/signup/{name}/{token}")
     void signUp(@Path("name") String name, @Path("token") String token, Callback<User> cb);
@@ -57,8 +60,10 @@ public interface NetworkService {
     void getIntranetPhotoUrl(Callback<UrlForJson> cb);
 
     //ride routes
+//    @Headers("Caronae/4 (Android; 6.0)")
+    //TODO: Check Header
     @POST("/ride")
-    void offerRide(@Body Ride ride, Callback<List<Ride>> cb);
+    void offerRide(@Header("Header") String header, @Body Ride ride, Callback<List<Ride>> cb);
 
     @DELETE("/ride/{rideId}")
     void deleteRide(@Path("rideId") String rideId, Callback<Response> cb);
