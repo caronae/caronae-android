@@ -24,12 +24,12 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
-import com.google.firebase.messaging.FirebaseMessaging;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -45,11 +45,11 @@ import br.ufrj.caronae.frags.FalaeFrag;
 import br.ufrj.caronae.frags.MyActiveRidesFrag;
 import br.ufrj.caronae.frags.MyProfileFrag;
 import br.ufrj.caronae.frags.MyRidesFrag;
-import br.ufrj.caronae.frags.RideOfferFrag;
 import br.ufrj.caronae.frags.RideSearchFrag;
 import br.ufrj.caronae.frags.RidesHistoryFrag;
 import br.ufrj.caronae.frags.TabbedRideOfferFrag;
 import br.ufrj.caronae.frags.TermsOfUseFrag;
+import br.ufrj.caronae.gcm.FirebaseUtils;
 import br.ufrj.caronae.gcm.RegistrationIntentService;
 import br.ufrj.caronae.models.User;
 
@@ -75,8 +75,9 @@ public class MainAct extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         //TODO: CHECK TOPICS MENSSAGING
-        FirebaseMessaging.getInstance().subscribeToTopic(App.getUser().getDbId() + "");
-        FirebaseMessaging.getInstance().subscribeToTopic(SharedPref.TOPIC_GERAL);
+        FirebaseUtils.SubscribeToTopic("user-" + App.getUser().getDbId());
+        FirebaseUtils.SubscribeToTopic(SharedPref.TOPIC_GERAL);
+        Toast.makeText(getApplicationContext(), "user-" + App.getUser().getDbId(), Toast.LENGTH_SHORT).show();
 
         mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
@@ -134,9 +135,11 @@ public class MainAct extends AppCompatActivity {
 
         backstack = new ArrayList<>();
 
+        //TODO: Receive message
         String msgType = getIntent().getStringExtra("msgType");
         if (msgType != null && !msgType.isEmpty()) {
             openFragFromNotif(getIntent());
+
         } else {
             User user = App.getUser();
             Fragment fragment;
