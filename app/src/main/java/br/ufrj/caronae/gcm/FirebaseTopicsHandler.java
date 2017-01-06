@@ -2,16 +2,10 @@ package br.ufrj.caronae.gcm;
 
 import android.util.Log;
 
-import com.google.android.gms.gcm.GcmPubSub;
 import com.google.firebase.messaging.FirebaseMessaging;
 
-import java.io.IOException;
 import java.util.List;
 
-import br.ufrj.caronae.App;
-import br.ufrj.caronae.SharedPref;
-import br.ufrj.caronae.acts.ActiveRideAct;
-import br.ufrj.caronae.models.ActiveRide;
 import br.ufrj.caronae.models.ActiveRideId;
 
 /**
@@ -19,7 +13,7 @@ import br.ufrj.caronae.models.ActiveRideId;
  */
 public class FirebaseTopicsHandler {
 
-    public static void subscribeToTopic(String rideId) {
+    public static void subscribeFirebaseTopic(String rideId) {
 
         List<ActiveRideId> activeRideId = ActiveRideId.find(ActiveRideId.class, "ride_id = ?", rideId);
         if (activeRideId == null || activeRideId.isEmpty()) {
@@ -34,10 +28,26 @@ public class FirebaseTopicsHandler {
         }
     }
 
-    public static void unsubscribeToTopic(String dbId) {
+    public static void unsubscribeFirebaseTopic(String dbId) {
 
         FirebaseMessaging.getInstance().unsubscribeFromTopic("/topics/" + dbId);
 
         ActiveRideId.deleteAll(ActiveRideId.class, "ride_id = ?", dbId);
     }
+
+    public static void CheckSubFirebaseTopic(String dbId) {
+
+            List<ActiveRideId> activeRideId = ActiveRideId.find(ActiveRideId.class, "ride_id = ?", dbId);
+            if (activeRideId == null || activeRideId.isEmpty()) {
+                    Log.i("CheckSubGcmTopic", "i'll subscribe to ride " + dbId);
+
+//                   GcmPubSub.getInstance(App.inst()).subscribe(SharedPref.getUserGcmToken(), "/topics/" + dbId, null);
+                    subscribeFirebaseTopic(dbId);
+                    new ActiveRideId(dbId).save();
+
+                    Log.i("CheckSubGcmTopic", "subscribed to ride " + dbId);
+            } else {
+                Log.i("CheckSubGcmTopic", "ALREADY subscribed to ride " + dbId);
+            }
+        }
 }

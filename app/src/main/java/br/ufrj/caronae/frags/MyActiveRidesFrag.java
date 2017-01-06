@@ -81,7 +81,7 @@ public class MyActiveRidesFrag extends Fragment {
                         //TODO: remove old gcm code
 //                        new CheckSubGcmTopic().execute(rideId + "");
 
-                        FirebaseTopicsHandler.subscribeToTopic(rideId + "");
+                        FirebaseTopicsHandler.subscribeFirebaseTopic(rideId + "");
 
                         new ActiveRide(rideWithUsers.getDbId(),rideWithUsers.isGoing(), rideWithUsers.getDate()).save();
                     }

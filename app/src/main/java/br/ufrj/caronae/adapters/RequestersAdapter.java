@@ -98,7 +98,7 @@ public class RequestersAdapter extends RecyclerView.Adapter<RequestersAdapter.Vi
                         //TODO: Remove old Gcm code
 //                        new CheckSubGcmTopic().execute(rideId + "");
 
-                        FirebaseTopicsHandler.subscribeToTopic(rideId + "");
+                        FirebaseTopicsHandler.subscribeFirebaseTopic(rideId + "");
                     }
 
                     @Override

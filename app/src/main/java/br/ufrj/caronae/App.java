@@ -103,8 +103,24 @@ public class App extends SugarApp {
 //                        }
 //                    })
 //                    .setLogLevel(RestAdapter.LogLevel.BASIC)
+//            chatService = new RestAdapter.Builder()
+//                    .setEndpoint(FIREBASE_ENDPOINT)
+//                    .setRequestInterceptor(new RequestInterceptor() {
+//                        @Override
+//                        public void intercept(RequestFacade request) {
+//                            request.addHeader("Content-Type", "application/json");
+//                            request.addHeader("Authorization", "key=" + FIREBASE_API_KEY);
+//                        }
+//                    })
+//                    .setLogLevel(RestAdapter.LogLevel.BASIC)
+//                    //.setLogLevel(RestAdapter.LogLevel.HEADERS)
+//                    //.setLogLevel(RestAdapter.LogLevel.HEADERS_AND_ARGS)
+//                    //.setLogLevel(RestAdapter.LogLevel.FULL)
+//                    .build()
+//                    .create(ChatService.class);
+
             chatService = new RestAdapter.Builder()
-                    .setEndpoint(FIREBASE_ENDPOINT)
+                    .setEndpoint(DEV_SERVER_ENDPOINT)
                     .setRequestInterceptor(new RequestInterceptor() {
                         @Override
                         public void intercept(RequestFacade request) {
@@ -113,9 +129,9 @@ public class App extends SugarApp {
                         }
                     })
                     .setLogLevel(RestAdapter.LogLevel.BASIC)
-                    //.setLogLevel(RestAdapter.LogLevel.HEADERS)
-                    //.setLogLevel(RestAdapter.LogLevel.HEADERS_AND_ARGS)
-                    //.setLogLevel(RestAdapter.LogLevel.FULL)
+                            //.setLogLevel(RestAdapter.LogLevel.HEADERS)
+                            //.setLogLevel(RestAdapter.LogLevel.HEADERS_AND_ARGS)
+                            //.setLogLevel(RestAdapter.LogLevel.FULL)
                     .build()
                     .create(ChatService.class);
         }

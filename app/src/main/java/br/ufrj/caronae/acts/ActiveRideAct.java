@@ -248,7 +248,7 @@ public class ActiveRideAct extends AppCompatActivity {
 //                                TODO: Remove old gcm code
 //                                new UnsubGcmTopic(ActiveRideAct.this, rideId).execute();
 
-                                FirebaseTopicsHandler.unsubscribeToTopic(rideId + "");
+                                FirebaseTopicsHandler.unsubscribeFirebaseTopic(rideId + "");
 
                                 List<Ride> rides = Ride.find(Ride.class, "db_id = ?", rideId);
                                 if (rides != null && !rides.isEmpty())
@@ -321,7 +321,7 @@ public class ActiveRideAct extends AppCompatActivity {
 //                                TODO: remove old gcm code
 //                                new UnsubGcmTopic(ActiveRideAct.this, rideId).execute();
 
-                                FirebaseTopicsHandler.unsubscribeToTopic(rideId + "");
+                                FirebaseTopicsHandler.unsubscribeFirebaseTopic(rideId + "");
 
                                 List<Ride> rides = Ride.find(Ride.class, "db_id = ?", rideId);
                                 if (rides != null && !rides.isEmpty())

@@ -12,9 +12,17 @@ import android.util.Log;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import java.util.Map;
+
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
+import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.acts.MainAct;
+import br.ufrj.caronae.models.ActiveRide;
+import br.ufrj.caronae.models.ChatMessageReceived;
+import br.ufrj.caronae.models.NewChatMsgIndicator;
+import br.ufrj.caronae.models.RideEndedEvent;
+import br.ufrj.caronae.models.RideRequestReceived;
 
 /**
  * Created by Luis-DELL on 10/28/2016.
@@ -23,61 +31,64 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private static final int MESSAGE_NOTIFICATION_ID = 435345;
 
+//    @Override
+//    public void onMessageReceived(RemoteMessage remoteMessage) {
+//       // TODO: HANDLE MENSSAGES
+//        Log.v("MSG", "From: " + remoteMessage.getFrom() + " Message Received: " + remoteMessage.getData() + "Get that data: " + remoteMessage.getData().get("senderName"));
+//        createNotification("chat", "Luis", remoteMessage.toString(), "");
+//        super.onMessageReceived(remoteMessage);
+//    }
+
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
-       // TODO: HANDLE MENSSAGES
-        Log.v("MSG", "Message Received");
-        createNotification("chat", "Luis", remoteMessage.toString(), "");
-        super.onMessageReceived(remoteMessage);
-    }
+        Map data = remoteMessage.getData();
+        String message = (String)data.get("message");
+        String msgType = (String)data.get("msgType");
+        String senderName = (String)data.get("senderName");
+        String rideId = (String)data.get("rideId");
 
-//    public void onMessageReceived(RemoteMessage remoteMessage) {
-//        Map data = remoteMessage.getData();
-//        String message = data.getString("message");
-//        String msgType = data.getString("msgType");
-//        String senderName = data.getString("senderName");
-//        String rideId = data.getString("rideId");
-//
-//        Log.i("onMessageReceived", message);
-//
-//        if (msgType != null && msgType.equals("chat")) {
-//            String senderId = data.getString("senderId");
-//            //noinspection ConstantConditions
-//            if (senderId.equals(App.getUser().getDbId() + "")) {
-//                return;
-//            }
-//
-//            String time = data.getString("time");
-//            ChatMessageReceived cmr = new ChatMessageReceived(senderName, senderId, message, rideId, time);
-//            cmr.save();
-//            App.getBus().post(cmr);
-//            new NewChatMsgIndicator(Integer.valueOf(rideId)).save();
-//        }
-//
-//        if (msgType != null && msgType.equals("joinRequest")) {
-//            new RideRequestReceived(Integer.valueOf(rideId)).save();
-//        }
-//
-//        if (msgType != null && msgType.equals("finished")) {
-//            new UnsubGcmTopic(getApplicationContext(), rideId).execute();
-//            App.getBus().post(new RideEndedEvent(rideId));
-//            ActiveRide.deleteAll(ActiveRide.class, "db_id = ?", rideId);
-//        }
-//
-//        if (msgType != null && msgType.equals("cancelled")) {
-//            new UnsubGcmTopic(getApplicationContext(), rideId).execute();
-//            App.getBus().post(new RideEndedEvent(rideId));
-//            ActiveRide.deleteAll(ActiveRide.class, "db_id = ?", rideId);
-//        }
-//
-//        if (msgType != null && msgType.equals("accepted")) {
-//            new CheckSubGcmTopic().execute(rideId);
-//            //new DeleteConflictingRequests().execute(rideId);
-//        }
-//
-//        if (SharedPref.getNotifPref().equals("true"))
-//            createNotification(msgType, senderName, message, rideId);
-//    }
+        Log.i("onMessageReceived", message);
+
+        if (msgType != null && msgType.equals("chat")) {
+            String senderId = (String)data.get("senderId");
+            //noinspection ConstantConditions
+            if (senderId.equals(App.getUser().getDbId() + "")) {
+                return;
+            }
+
+            String time = (String)data.get("time");
+            ChatMessageReceived cmr = new ChatMessageReceived(senderName, senderId, message, rideId, time);
+            cmr.save();
+            App.getBus().post(cmr);
+            new NewChatMsgIndicator(Integer.valueOf(rideId)).save();
+        }
+
+        if (msgType != null && msgType.equals("joinRequest")) {
+            new RideRequestReceived(Integer.valueOf(rideId)).save();
+        }
+
+        if (msgType != null && msgType.equals("finished")) {
+            FirebaseTopicsHandler.unsubscribeFirebaseTopic(rideId);
+            App.getBus().post(new RideEndedEvent(rideId));
+            ActiveRide.deleteAll(ActiveRide.class, "db_id = ?", rideId);
+        }
+
+        if (msgType != null && msgType.equals("cancelled")) {
+            FirebaseTopicsHandler.unsubscribeFirebaseTopic(rideId);
+            App.getBus().post(new RideEndedEvent(rideId));
+            ActiveRide.deleteAll(ActiveRide.class, "db_id = ?", rideId);
+        }
+
+        if (msgType != null && msgType.equals("accepted")) {
+            FirebaseTopicsHandler.CheckSubFirebaseTopic(rideId);
+            //new DeleteConflictingRequests().execute(rideId);
+        }
+
+        // TODO: Check msgType = "refused" e "quitter"
+
+        if (SharedPref.getNotifPref().equals("true"))
+            createNotification(msgType, senderName, message, rideId);
+    }
 
     private void createNotification(String msgType, String senderName, String message, String rideId) {
         String title;
