@@ -125,10 +125,9 @@ public class App extends SugarApp {
                         @Override
                         public void intercept(RequestFacade request) {
                             request.addHeader("Content-Type", "application/json");
-                            request.addHeader("Authorization", "key=" + FIREBASE_API_KEY);
+                            request.addHeader("token", SharedPref.getUserToken());
                         }
                     })
-                    .setLogLevel(RestAdapter.LogLevel.BASIC)
                             //.setLogLevel(RestAdapter.LogLevel.HEADERS)
                             //.setLogLevel(RestAdapter.LogLevel.HEADERS_AND_ARGS)
                             //.setLogLevel(RestAdapter.LogLevel.FULL)

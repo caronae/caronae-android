@@ -20,6 +20,7 @@ public class SharedPref {
     private static final String RM_RIDE_LIST                         = "removeRideFromList";
     public static final String MISSING_PREF                          = "missing";
     public static final String TOPIC_GERAL                           = "1";
+    public static String CHAT_ACT_STATUS                            = "chatStatus";
 
     private static SharedPreferences getSharedPreferences() {
         return PreferenceManager.getDefaultSharedPreferences(App.inst());
@@ -33,8 +34,16 @@ public class SharedPref {
         getSharedPrefEditor().putString(key, value).apply();
     }
 
+    private static void putBooleanPref(String key, boolean value) {
+        getSharedPrefEditor().putBoolean(key, value).apply();
+    }
+
     private static String getPref(String key) {
         return getSharedPreferences().getString(key, MISSING_PREF);
+    }
+
+    private static boolean getBooleanPref(String key) {
+        return getSharedPreferences().getBoolean(key, false);
     }
 
     private static void removePref(String key) {
@@ -126,5 +135,13 @@ public class SharedPref {
         removePref(NOTIFICATIONS_ON_PREF_KEY);
         removePref(DRAWER_PIC_PREF);
         removePref(RM_RIDE_LIST);
+    }
+
+    public static void setChatActIsForeground(boolean isForeground){
+        putBooleanPref(CHAT_ACT_STATUS, isForeground);
+    }
+
+    public static boolean getChatActIsForeground(){
+        return getBooleanPref(CHAT_ACT_STATUS);
     }
 }

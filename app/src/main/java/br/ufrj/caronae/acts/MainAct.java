@@ -68,6 +68,8 @@ public class MainAct extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        SharedPref.setChatActIsForeground(false);
+
         FacebookSdk.sdkInitialize(getApplicationContext());
         getFbCallbackManager();
 

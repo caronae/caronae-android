@@ -1,12 +1,23 @@
 package br.ufrj.caronae.models;
 
+import com.google.gson.annotations.SerializedName;
 import com.orm.SugarRecord;
 
 public class ChatMessageReceived extends SugarRecord {
+
+    @SerializedName("name")
     private String senderName;
+
+    @SerializedName("id")
     private String senderId;
+
+    @SerializedName("body")
     private String message;
+
+    @SerializedName("id")
     private String rideId;
+
+    @SerializedName("date")
     private String time;
 
     public ChatMessageReceived(String senderName, String senderId, String message, String rideId, String time) {

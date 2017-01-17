@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import com.google.gson.annotations.SerializedName;
 
 public class User implements Parcelable {
+
     private String name;
     private String profile;
     private String course;

@@ -114,6 +114,11 @@
             </intent-filter>
         </service>
 
+        <service android:name=".gcm.FetchReceivedMessagesService"
+            android:exported="false"
+            android:process=":remote">
+        </service>
+
         <service
             android:name=".gcm.MyGCMIntentService"
             android:exported="false" />
