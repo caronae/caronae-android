@@ -112,16 +112,22 @@
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
+            <meta-data
+                android:name="com.google.firebase.messaging.default_notification_icon"
+                android:resource="@drawable/ic_stat_name" />
+            <meta-data android:name="com.google.firebase.messaging.default_notification_color"
+                android:resource="@android:color/holo_blue_bright" />
+
         </service>
 
-        <service android:name=".gcm.FetchReceivedMessagesService"
-            android:exported="false"
-            android:process=":remote">
-        </service>
+        <!--<service android:name=".gcm.FetchReceivedMessagesService"-->
+            <!--android:exported="false"-->
+            <!--android:process=":remote">-->
+        <!--</service>-->
 
-        <service
-            android:name=".gcm.MyGCMIntentService"
-            android:exported="false" />
+        <!--<service-->
+            <!--android:name=".gcm.MyGCMIntentService"-->
+            <!--android:exported="false" />-->
 
         <service android:name=".gcm.MyFirebaseMessagingService">
             <intent-filter>

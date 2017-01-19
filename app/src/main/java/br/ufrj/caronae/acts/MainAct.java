@@ -24,7 +24,6 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
@@ -79,7 +78,6 @@ public class MainAct extends AppCompatActivity {
         //TODO: CHECK TOPICS MENSSAGING
         FirebaseUtils.SubscribeToTopic("user-" + App.getUser().getDbId());
         FirebaseUtils.SubscribeToTopic(SharedPref.TOPIC_GERAL);
-        Toast.makeText(getApplicationContext(), "user-" + App.getUser().getDbId(), Toast.LENGTH_SHORT).show();
 
         mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 

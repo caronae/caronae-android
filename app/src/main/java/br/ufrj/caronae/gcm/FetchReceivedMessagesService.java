@@ -28,6 +28,7 @@ public class FetchReceivedMessagesService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
+        Log.v("SIRVICE", "Entered Service");
         String rideId = intent.getStringExtra("ride_id");
         String since = intent.getStringExtra("since");
         App.getChatService().requestChatMsgs(rideId, since, new Callback<ModelReceivedFromChat>() {
@@ -43,6 +44,7 @@ public class FetchReceivedMessagesService extends IntentService {
                             listMessages.get(mensagesNum).getTime());
                     cmr.save();
                     App.getBus().post(cmr);
+                    Log.v("SIRVICE", cmr.getMessage());
                 }
                 new NewChatMsgIndicator(Integer.valueOf(listMessages.get(0).getRideId())).save();
             }

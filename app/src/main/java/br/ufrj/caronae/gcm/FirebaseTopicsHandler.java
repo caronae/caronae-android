@@ -19,7 +19,7 @@ public class FirebaseTopicsHandler {
         if (activeRideId == null || activeRideId.isEmpty()) {
             Log.i("CheckSubscribeFBTopic", "I'll subscribe to ride " + rideId);
 
-            FirebaseMessaging.getInstance().subscribeToTopic("/topics/" + rideId);
+            FirebaseMessaging.getInstance().subscribeToTopic(rideId);
             new ActiveRideId(rideId).save();
 
             Log.i("CheckSubscribeFBTopic", "subscribed to ride " + rideId);
@@ -30,7 +30,7 @@ public class FirebaseTopicsHandler {
 
     public static void unsubscribeFirebaseTopic(String dbId) {
 
-        FirebaseMessaging.getInstance().unsubscribeFromTopic("/topics/" + dbId);
+        FirebaseMessaging.getInstance().unsubscribeFromTopic(dbId);
 
         ActiveRideId.deleteAll(ActiveRideId.class, "ride_id = ?", dbId);
     }

@@ -36,6 +36,7 @@ import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.Util;
+import br.ufrj.caronae.gcm.FirebaseUtils;
 import br.ufrj.caronae.models.Ride;
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -461,6 +462,7 @@ public class RideOfferFrag extends Fragment {
                 for (Ride ride : rides) {
                     Ride ride2 = new Ride(ride);
                     ride2.setDbId(ride.getId().intValue());
+                    FirebaseUtils.SubscribeToTopic(String.valueOf(ride.getId().intValue()));
                     ride2.save();
                 }
                 pd.dismiss();

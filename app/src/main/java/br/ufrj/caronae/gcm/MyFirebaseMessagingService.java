@@ -44,15 +44,15 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         Map data = remoteMessage.getData();
-        String message = (String)data.get("message");
-        String msgType = (String)data.get("msgType");
-        String senderName = (String)data.get("senderName");
-        String rideId = (String)data.get("rideId");
+        String message = (String) data.get("message");
+        String msgType = (String) data.get("msgType");
+        String senderName = (String) data.get("senderName");
+        String rideId = (String) data.get("rideId");
 
         Log.i("onMessageReceived", message);
 
         if (msgType != null && msgType.equals("chat")) {
-            String senderId = (String)data.get("senderId");
+            String senderId = (String) data.get("senderId");
             //noinspection ConstantConditions
             if (senderId.equals(App.getUser().getDbId() + "")) {
                 return;
@@ -61,25 +61,26 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             List<ChatMessageReceived> listOldMessages = ChatMessageReceived.find(ChatMessageReceived.class, "ride_id = ?", rideId);
 
             ChatMessageReceived lastMessage = null;
-            if(listOldMessages.size() != 0) {
+            if (listOldMessages.size() != 0) {
                 lastMessage = listOldMessages.get(listOldMessages.size() - 1);
             }
 
             String since;
-            if (lastMessage == null){
+            if (lastMessage == null) {
                 since = null;
-            } else{
+            } else {
                 since = lastMessage.getTime();
             }
 
-            startService(new Intent(this, FetchReceivedMessagesService.class).putExtra("ride_id", rideId).putExtra("since", since));
+            if (!SharedPref.getChatActIsForeground()) {
+//            startService(new Intent(this, FetchReceivedMessagesService.class).putExtra("ride_id", rideId).putExtra("since", since));
 
-            App.getChatService().requestChatMsgs(rideId, since, new Callback<ModelReceivedFromChat>() {
+                App.getChatService().requestChatMsgs(rideId, since, new Callback<ModelReceivedFromChat>() {
                     @Override
                     public void success(ModelReceivedFromChat chatMessagesReceived, Response response) {
                         Log.i("GetMessages", "Sulcefully Retrieved Chat Messages");
                         List<ChatMessageReceivedFromJson> listMessages = chatMessagesReceived.getMessages();
-                        for (int mensagesNum = 0; mensagesNum < listMessages.size(); mensagesNum++){
+                        for (int mensagesNum = 0; mensagesNum < listMessages.size(); mensagesNum++) {
                             ChatMessageReceived cmr = new ChatMessageReceived(listMessages.get(mensagesNum).getUser().getName(),
                                     String.valueOf(listMessages.get(mensagesNum).getUser().getId()),
                                     listMessages.get(mensagesNum).getMessage(),
@@ -101,6 +102,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                         }
                     }
                 });
+            }
         }
 
 
@@ -128,8 +130,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         // TODO: Check msgType = "refused" e "quitter" e Tratar quando msg chat falhar em ser recebida
 
         if (SharedPref.getNotifPref().equals("true"))
-            if (msgType != null && msgType.equals("chat")){
-                if (!SharedPref.getChatActIsForeground()){
+            if (msgType != null && msgType.equals("chat")) {
+                if (!SharedPref.getChatActIsForeground()) {
                     createNotification(msgType, senderName, message, rideId);
                 } else {
                     App.getBus().post(rideId);
@@ -137,7 +139,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             } else
                 createNotification(msgType, senderName, message, rideId);
 
-        startService(new Intent(getApplicationContext(), FetchReceivedMessagesService.class));
+//        startService(new Intent(getApplicationContext(), FetchReceivedMessagesService.class));
     }
 
     private void createNotification(String msgType, String senderName, String message, String rideId) {

@@ -109,12 +109,12 @@ public class ChatAct extends AppCompatActivity {
         chatMsgsList = ChatMessageReceived.find(ChatMessageReceived.class, "ride_id = ?", rideId);
         Collections.sort(chatMsgsList, new ChatMsgComparator());
 
-        String since;
-        if(chatMsgsList.size() != 0){
-            since = chatMsgsList.get(chatMsgsList.size() - 1).getTime();
-        } else {
-            since = null;
-        }
+        chatMsgsAdapter = new ChatMsgsAdapter(chatMsgsList, color);
+        chatMsgs_rv.setAdapter(chatMsgsAdapter);
+        chatMsgs_rv.setLayoutManager(new LinearLayoutManager(context));
+
+        if (!chatMsgsList.isEmpty())
+            chatMsgs_rv.scrollToPosition(chatMsgsList.size() - 1);
 
         swipeRefreshLayout.post(new Runnable() {
             @Override
@@ -130,26 +130,32 @@ public class ChatAct extends AppCompatActivity {
             }
         });
 
+        String since;
+        if(chatMsgsList.size() != 0){
+            since = chatMsgsList.get(chatMsgsList.size() - 1).getTime();
+        } else {
+            since = null;
+        }
 
         /************************************************************/
-//        App.getChatService().requestChatMsgs(rideId, since, new Callback<ModelReceivedFromChat>() {
-//            @Override
-//            public void success(ModelReceivedFromChat chatMessagesReceived, Response response) {
-//                Log.i("GetMessages", "Sulcefully Retrieved Chat Messages on Chat Act");
-//                if (chatMessagesReceived != null){
-//                    Log.i("GetMessages", "messages are not null");
-//
-//                    List<ChatMessageReceivedFromJson> listMessages = chatMessagesReceived.getMessages();
-//                    for (int mensagesNum = 0; mensagesNum < listMessages.size(); mensagesNum++) {
-//                        ChatMessageReceived cmr = new ChatMessageReceived(listMessages.get(mensagesNum).getUser().getName(),
-//                                String.valueOf(listMessages.get(mensagesNum).getUser().getId()),
-//                                listMessages.get(mensagesNum).getMessage(),
-//                                listMessages.get(mensagesNum).getRideId(),
-//                                listMessages.get(mensagesNum).getTime());
+        App.getChatService().requestChatMsgs(rideId, since, new Callback<ModelReceivedFromChat>() {
+            @Override
+            public void success(ModelReceivedFromChat chatMessagesReceived, Response response) {
+
+                if (chatMessagesReceived != null && chatMessagesReceived.getMessages().size() != 0){
+
+                    List<ChatMessageReceivedFromJson> listMessages = chatMessagesReceived.getMessages();
+                    for (int mensagesNum = 0; mensagesNum < listMessages.size(); mensagesNum++) {
+                        ChatMessageReceived cmr = new ChatMessageReceived(listMessages.get(mensagesNum).getUser().getName(),
+                                String.valueOf(listMessages.get(mensagesNum).getUser().getId()),
+                                listMessages.get(mensagesNum).getMessage(),
+                                rideId,
+                                listMessages.get(mensagesNum).getTime());
 //                        chatMsgsList.add(cmr);
-//                        cmr.save();
-//                        App.getBus().post(cmr);
-//                    }
+                        cmr.save();
+
+                        updateMsgsList(cmr);
+                    }
 //                    new NewChatMsgIndicator(Integer.valueOf(listMessages.get(0).getRideId())).save();
 //                    chatMsgsAdapter = new ChatMsgsAdapter(chatMsgsList, color);
 //                    chatMsgs_rv.setAdapter(chatMsgsAdapter);
@@ -157,23 +163,32 @@ public class ChatAct extends AppCompatActivity {
 //
 //                    if (!chatMsgsList.isEmpty())
 //                        chatMsgs_rv.scrollToPosition(chatMsgsList.size() - 1);
-//
-//                    App.getBus().register(context);
-//                }
-//                swipeRefreshLayout.setRefreshing(false);
-//            }
-//
-//            @Override
-//            public void failure(RetrofitError error) {
-//                Util.toast("Erro ao Recuperar mensagem de chat");
-//                try {
-//                    Log.e("GetMessages", error.getMessage());
-//                } catch (Exception e) {
-//                    Log.e("GetMessages", e.getMessage());
-//                }
-//                swipeRefreshLayout.setRefreshing(false);
-//            }
-//        });
+
+                }
+
+                swipeRefreshLayout.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
+                });
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Util.toast("Erro ao Recuperar mensagem de chat");
+                try {
+                    Log.e("GetMessages", error.getMessage());
+                } catch (Exception e) {
+                    Log.e("GetMessages", e.getMessage());
+                }
+                swipeRefreshLayout.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
+                });            }
+        });
 
          /************************************************************/
 
@@ -183,7 +198,7 @@ public class ChatAct extends AppCompatActivity {
 //        if (!chatMsgsList.isEmpty())
 //            chatMsgs_rv.scrollToPosition(chatMsgsList.size() - 1);
 //
-//        App.getBus().register(this);
+        App.getBus().register(this);
     }
 
     @OnClick(R.id.send_bt)
@@ -239,17 +254,24 @@ public class ChatAct extends AppCompatActivity {
 
     @Subscribe
     public void updateMsgsList(ChatMessageReceived msg) {
-        if (!msg.getRideId().equals(rideId))
-            return;
 
-        Log.i("updateMsgsList", msg.getMessage());
+        Log.i("GetMessages", "Updatando");
 
         chatMsgsList.add(msg);
+
+//        msg.save();
 
         ChatMsgsAdapter adapter = (ChatMsgsAdapter) chatMsgs_rv.getAdapter();
         adapter.notifyItemInserted(chatMsgsList.size() - 1);
 
         chatMsgs_rv.scrollToPosition(chatMsgsList.size() - 1);
+
+        swipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
     }
 
     public void updateMsgsList() {
@@ -265,10 +287,73 @@ public class ChatAct extends AppCompatActivity {
     }
 
     @Subscribe
-    public void updateMsgsListWithServer(String rideId) {
+    public void updateMsgsListWithServer(final String rideId) {
 
-        chatMsgsList = ChatMessageReceived.find(ChatMessageReceived.class, "ride_id = ?", rideId);
-        Collections.sort(chatMsgsList, new ChatMsgComparator());
+//        chatMsgsList = ChatMessageReceived.find(ChatMessageReceived.class, "ride_id = ?", rideId);
+//        Collections.sort(chatMsgsList, new ChatMsgComparator());
+//
+//        final int listMsgSizeBefore = chatMsgsList.size();
+//        Log.i("GetMessages", "Msg List Size Before: " + listMsgSizeBefore);
+//
+//        String since;
+//        if(chatMsgsList.size() != 0){
+//            since = chatMsgsList.get(chatMsgsList.size() - 1).getTime();
+//        } else {
+//            since = null;
+//        }
+//
+//        Log.i("GetMessages", "message since: " + chatMsgsList.get(chatMsgsList.size() - 1).getMessage());
+//        Log.i("GetMessages", "since: " + since);
+//
+//        /************************************************************/
+//        App.getChatService().requestChatMsgs(rideId, since, new Callback<ModelReceivedFromChat>() {
+//            @Override
+//            public void success(ModelReceivedFromChat chatMessagesReceived, Response response) {
+//                Log.i("GetMessages", "Entered in msglastwithserver");
+//
+//                Log.i("GetMessages", "Sulcefully Retrieved Chat Messages on Chat Act");
+//                if (chatMessagesReceived != null) {
+//                    Log.i("GetMessages", "messages are not null");
+//
+//                    List<ChatMessageReceivedFromJson> listMessages = chatMessagesReceived.getMessages();
+//                    for (int mensagesNum = 0; mensagesNum < listMessages.size(); mensagesNum++) {
+//                        ChatMessageReceived cmr = new ChatMessageReceived(listMessages.get(mensagesNum).getUser().getName(),
+//                                String.valueOf(listMessages.get(mensagesNum).getUser().getId()),
+//                                listMessages.get(mensagesNum).getMessage(),
+//                                String.valueOf(listMessages.get(mensagesNum).getRideId()),
+//                                listMessages.get(mensagesNum).getTime());
+//
+//                        Log.i("GetMessages", cmr.getMessage());
+//                        Log.i("GetMessages", cmr.getTime());
+//
+//
+////                        chatMsgsList.add(cmr);
+////                        cmr.save();
+////                        App.getBus().post(cmr);
+//                        updateMsgsList(chatMsgsList.get(chatMsgsList.size() - 1));
+//                    }
+//
+//                    int listMsgSizeAfter = chatMsgsList.size();
+//                    Log.i("GetMessages", "Msg List Size after: " + listMsgSizeAfter);
+//
+//                    for (int counter = listMsgSizeBefore; counter < listMsgSizeAfter; counter++){
+//                        ChatMessageReceived cmr = chatMsgsList.get(counter);
+//                        cmr.save();
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void failure(RetrofitError error) {
+//                Util.toast("Erro ao Recuperar mensagem de chat");
+//                try {
+//                    Log.e("GetMessages", error.getMessage());
+//                } catch (Exception e) {
+//                    Log.e("GetMessages", e.getMessage());
+//                }
+//            }
+//        });
+//        /************************************************************/
 
         String since;
         if(chatMsgsList.size() != 0){
@@ -281,21 +366,38 @@ public class ChatAct extends AppCompatActivity {
         App.getChatService().requestChatMsgs(rideId, since, new Callback<ModelReceivedFromChat>() {
             @Override
             public void success(ModelReceivedFromChat chatMessagesReceived, Response response) {
-                Log.i("GetMessages", "Sulcefully Retrieved Chat Messages on Chat Act");
-                if (chatMessagesReceived != null) {
+
+                if (chatMessagesReceived != null && chatMessagesReceived.getMessages().size() != 0){
 
                     List<ChatMessageReceivedFromJson> listMessages = chatMessagesReceived.getMessages();
                     for (int mensagesNum = 0; mensagesNum < listMessages.size(); mensagesNum++) {
                         ChatMessageReceived cmr = new ChatMessageReceived(listMessages.get(mensagesNum).getUser().getName(),
                                 String.valueOf(listMessages.get(mensagesNum).getUser().getId()),
                                 listMessages.get(mensagesNum).getMessage(),
-                                listMessages.get(mensagesNum).getRideId(),
+                                rideId,
                                 listMessages.get(mensagesNum).getTime());
-                        chatMsgsList.add(cmr);
+
+//                        chatMsgsList.add(cmr);
                         cmr.save();
-                        App.getBus().post(cmr);
+
+                        updateMsgsList(cmr);
                     }
+//                    new NewChatMsgIndicator(Integer.valueOf(listMessages.get(0).getRideId())).save();
+//                    chatMsgsAdapter = new ChatMsgsAdapter(chatMsgsList, color);
+//                    chatMsgs_rv.setAdapter(chatMsgsAdapter);
+//                    chatMsgs_rv.setLayoutManager(new LinearLayoutManager(context));
+
+//                    if (!chatMsgsList.isEmpty())
+//                        chatMsgs_rv.scrollToPosition(chatMsgsList.size() - 1);
+
                 }
+
+                swipeRefreshLayout.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
+                });
             }
 
             @Override
@@ -306,12 +408,25 @@ public class ChatAct extends AppCompatActivity {
                 } catch (Exception e) {
                     Log.e("GetMessages", e.getMessage());
                 }
-            }
+                swipeRefreshLayout.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
+                });            }
         });
+
         /************************************************************/
 
-        updateMsgsList();
+        swipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
+
     }
+
 
     @Override
     protected void onNewIntent(Intent intent) {
