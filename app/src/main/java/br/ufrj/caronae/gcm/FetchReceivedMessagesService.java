@@ -40,13 +40,13 @@ public class FetchReceivedMessagesService extends IntentService {
                     ChatMessageReceived cmr = new ChatMessageReceived(listMessages.get(mensagesNum).getUser().getName(),
                             String.valueOf(listMessages.get(mensagesNum).getUser().getId()),
                             listMessages.get(mensagesNum).getMessage(),
-                            listMessages.get(mensagesNum).getRideId(),
+                            listMessages.get(mensagesNum).getMessageId(),
                             listMessages.get(mensagesNum).getTime());
                     cmr.save();
                     App.getBus().post(cmr);
                     Log.v("SIRVICE", cmr.getMessage());
                 }
-                new NewChatMsgIndicator(Integer.valueOf(listMessages.get(0).getRideId())).save();
+                new NewChatMsgIndicator(Integer.valueOf(listMessages.get(0).getMessageId())).save();
             }
 
             @Override

@@ -19,7 +19,7 @@ public class SharedPref {
     private static final String DRAWER_PIC_PREF                      = "drawerPic";
     private static final String RM_RIDE_LIST                         = "removeRideFromList";
     public static final String MISSING_PREF                          = "missing";
-    public static final String TOPIC_GERAL                           = "1";
+    public static final String TOPIC_GERAL                           = "general";
     public static String CHAT_ACT_STATUS                            = "chatStatus";
 
     private static SharedPreferences getSharedPreferences() {

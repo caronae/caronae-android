@@ -11,6 +11,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
@@ -70,6 +72,11 @@ public class ChatAct extends AppCompatActivity {
     Context context;
     static ChatMsgsAdapter chatMsgsAdapter;
 
+    private final String MESSAGE_WITH_USER_BUNDLE_KEY         = "message";
+    private final String SENDER_ID_BUNDLE_KEY                 = "senderId";
+    private final String SENT_TIME_BUNDLE_KEY                 = "google.sent_time";
+    private final String RIDE_ID_BUNDLE_KEY                 = "rideId";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,6 +120,18 @@ public class ChatAct extends AppCompatActivity {
         chatMsgs_rv.setAdapter(chatMsgsAdapter);
         chatMsgs_rv.setLayoutManager(new LinearLayoutManager(context));
 
+        //TODO: Check multiples notifications
+//        if (getIntent().getExtras().get(SENDER_ID_BUNDLE_KEY) != null){
+//            ChatMessageReceived cmr = new ChatMessageReceived(
+//                    getSenderNameFromNotification(getIntent().getExtras().getString(MESSAGE_WITH_USER_BUNDLE_KEY)),
+//                    getIntent().getExtras().getString(SENDER_ID_BUNDLE_KEY),
+//                    getMessageFromNotification(getIntent().getExtras().getString(MESSAGE_WITH_USER_BUNDLE_KEY)),
+//                    getIntent().getExtras().getString(RIDE_ID_BUNDLE_KEY),
+//                    getTimeFromNotification(getIntent().getExtras().getLong(SENT_TIME_BUNDLE_KEY)));
+//
+//            chatMsgsList.add(cmr);
+//        }
+
         if (!chatMsgsList.isEmpty())
             chatMsgs_rv.scrollToPosition(chatMsgsList.size() - 1);
 
@@ -130,74 +149,85 @@ public class ChatAct extends AppCompatActivity {
             }
         });
 
-        String since;
-        if(chatMsgsList.size() != 0){
-            since = chatMsgsList.get(chatMsgsList.size() - 1).getTime();
-        } else {
-            since = null;
-        }
 
-        /************************************************************/
-        App.getChatService().requestChatMsgs(rideId, since, new Callback<ModelReceivedFromChat>() {
-            @Override
-            public void success(ModelReceivedFromChat chatMessagesReceived, Response response) {
-
-                if (chatMessagesReceived != null && chatMessagesReceived.getMessages().size() != 0){
-
-                    List<ChatMessageReceivedFromJson> listMessages = chatMessagesReceived.getMessages();
-                    for (int mensagesNum = 0; mensagesNum < listMessages.size(); mensagesNum++) {
-                        ChatMessageReceived cmr = new ChatMessageReceived(listMessages.get(mensagesNum).getUser().getName(),
-                                String.valueOf(listMessages.get(mensagesNum).getUser().getId()),
-                                listMessages.get(mensagesNum).getMessage(),
-                                rideId,
-                                listMessages.get(mensagesNum).getTime());
-//                        chatMsgsList.add(cmr);
-                        cmr.save();
-
-                        updateMsgsList(cmr);
-                    }
-//                    new NewChatMsgIndicator(Integer.valueOf(listMessages.get(0).getRideId())).save();
-//                    chatMsgsAdapter = new ChatMsgsAdapter(chatMsgsList, color);
-//                    chatMsgs_rv.setAdapter(chatMsgsAdapter);
-//                    chatMsgs_rv.setLayoutManager(new LinearLayoutManager(context));
+//        String since = null;
+//        if(chatMsgsList.size() != 0){
+//            boolean lastMessageisMine = true;
+//            int counter = chatMsgsList.size() - 1;
+//            while (lastMessageisMine && counter >= 0) {
+//                if(!chatMsgsList.get(counter).getSenderId().equals(String.valueOf(App.getUser().getDbId()))) {
+//                    since = chatMsgsList.get(counter).getTime();
+//                    lastMessageisMine = false;
+//                }
+//                counter--;
+//            }
+//        }
 //
-//                    if (!chatMsgsList.isEmpty())
-//                        chatMsgs_rv.scrollToPosition(chatMsgsList.size() - 1);
-
-                }
-
-                swipeRefreshLayout.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        swipeRefreshLayout.setRefreshing(false);
-                    }
-                });
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                Util.toast("Erro ao Recuperar mensagem de chat");
-                try {
-                    Log.e("GetMessages", error.getMessage());
-                } catch (Exception e) {
-                    Log.e("GetMessages", e.getMessage());
-                }
-                swipeRefreshLayout.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        swipeRefreshLayout.setRefreshing(false);
-                    }
-                });            }
-        });
-
-         /************************************************************/
-
-//        chatMsgs_rv.setAdapter(new ChatMsgsAdapter(chatMsgsList, color));
-//        chatMsgs_rv.setLayoutManager(new LinearLayoutManager(this));
+//        /************************************************************/
+//        App.getChatService().requestChatMsgs(rideId, since, new Callback<ModelReceivedFromChat>() {
+//            @Override
+//            public void success(ModelReceivedFromChat chatMessagesReceived, Response response) {
 //
-//        if (!chatMsgsList.isEmpty())
-//            chatMsgs_rv.scrollToPosition(chatMsgsList.size() - 1);
+//                if (chatMessagesReceived != null && chatMessagesReceived.getMessages().size() != 0){
 //
+//                    List<ChatMessageReceivedFromJson> listMessages = chatMessagesReceived.getMessages();
+//                    for (int mensagesNum = 0; mensagesNum < listMessages.size(); mensagesNum++) {
+//                        ChatMessageReceived cmr = new ChatMessageReceived(listMessages.get(mensagesNum).getUser().getName(),
+//                                String.valueOf(listMessages.get(mensagesNum).getUser().getId()),
+//                                listMessages.get(mensagesNum).getMessage(),
+//                                rideId,
+//                                listMessages.get(mensagesNum).getTime());
+////                        chatMsgsList.add(cmr);
+//
+//                        cmr.setId(Long.parseLong(listMessages.get(mensagesNum).getMessageId()));
+//
+//                        cmr.save();
+//
+//                        updateMsgsList(cmr);
+//                    }
+////                    new NewChatMsgIndicator(Integer.valueOf(listMessages.get(0).getMessageId())).save();
+////                    chatMsgsAdapter = new ChatMsgsAdapter(chatMsgsList, color);
+////                    chatMsgs_rv.setAdapter(chatMsgsAdapter);
+////                    chatMsgs_rv.setLayoutManager(new LinearLayoutManager(context));
+////
+////                    if (!chatMsgsList.isEmpty())
+////                        chatMsgs_rv.scrollToPosition(chatMsgsList.size() - 1);
+//
+//                }
+//
+//                swipeRefreshLayout.post(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        swipeRefreshLayout.setRefreshing(false);
+//                    }
+//                });
+//            }
+//
+//            @Override
+//            public void failure(RetrofitError error) {
+//                Util.toast("Erro ao Recuperar mensagem de chat");
+//                try {
+//                    Log.e("GetMessages", error.getMessage());
+//                } catch (Exception e) {
+//                    Log.e("GetMessages", e.getMessage());
+//                }
+//                swipeRefreshLayout.post(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        swipeRefreshLayout.setRefreshing(false);
+//                    }
+//                });            }
+//        });
+//         /************************************************************/
+//
+////        chatMsgs_rv.setAdapter(new ChatMsgsAdapter(chatMsgsList, color));
+////        chatMsgs_rv.setLayoutManager(new LinearLayoutManager(this));
+////
+////        if (!chatMsgsList.isEmpty())
+////            chatMsgs_rv.scrollToPosition(chatMsgsList.size() - 1);
+////
+        updateMsgsListWithServer(rideId);
+
         App.getBus().register(this);
     }
 
@@ -206,42 +236,28 @@ public class ChatAct extends AppCompatActivity {
         final String message = msg_et.getText().toString();
         if (message.isEmpty())
             return;
-        msg_et.setText("");
 
         String time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US).format(new Date());
         final ChatMessageReceived msg = new ChatMessageReceived(App.getUser().getName(), App.getUser().getDbId() + "", message, rideId, time);
-        msg.save();
-        updateMsgsList(msg);
-
-//        App.getChatService().sendChatMsg(new ChatMessageSent(rideId, message, time), new Callback<Response>() {
-//            @Override
-//            public void success(Response response, Response response2) {
-//                Log.i("sendChatMsg", msg_et.getText().toString());
-//            }
-//
-//            @Override
-//            public void failure(RetrofitError error) {
-//                Util.toast("Erro ao enviar mensagem de chat");
-//                try {
-//                    Log.e("sendChatMsg", error.getMessage());
-//                } catch (Exception e) {
-//                    Log.e("sendChatMsg", e.getMessage());
-//                }
-//
-//                msg.delete();
-//            }
-//        });
 
         App.getChatService().sendChatMsg(rideId, new ChatSendMessageForJson(message), new Callback<ChatMessageSendResponse>() {
             @Override
             public void success(ChatMessageSendResponse chatMessageSendResponse, Response response) {
                 Log.i("Message Sent", "Sulcefully Send Chat Messages");
+                msg_et.setText("");
+                msg.save();
+                updateMsgsList(msg);
                 Util.toast("Mensagem enviada");
             }
 
             @Override
             public void failure(RetrofitError error) {
-                Util.toast("Erro ao enviar mensagem de chat");
+                Util.toast("Erro ao enviar mensagem de chat, verifique sua conexão");
+                View view = ChatAct.this.getCurrentFocus();
+                if (view != null) {
+                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                }
                 try {
                     Log.e("SendMessages", error.getMessage());
                 } catch (Exception e) {
@@ -320,7 +336,7 @@ public class ChatAct extends AppCompatActivity {
 //                        ChatMessageReceived cmr = new ChatMessageReceived(listMessages.get(mensagesNum).getUser().getName(),
 //                                String.valueOf(listMessages.get(mensagesNum).getUser().getId()),
 //                                listMessages.get(mensagesNum).getMessage(),
-//                                String.valueOf(listMessages.get(mensagesNum).getRideId()),
+//                                String.valueOf(listMessages.get(mensagesNum).getMessageId()),
 //                                listMessages.get(mensagesNum).getTime());
 //
 //                        Log.i("GetMessages", cmr.getMessage());
@@ -355,11 +371,17 @@ public class ChatAct extends AppCompatActivity {
 //        });
 //        /************************************************************/
 
-        String since;
+        String since = null;
         if(chatMsgsList.size() != 0){
-            since = chatMsgsList.get(chatMsgsList.size() - 1).getTime();
-        } else {
-            since = null;
+            boolean lastMessageisMine = true;
+            int counter = chatMsgsList.size() - 1;
+            while (lastMessageisMine && counter >= 0) {
+                if(!chatMsgsList.get(counter).getSenderId().equals(String.valueOf(App.getUser().getDbId()))) {
+                    since = chatMsgsList.get(counter).getTime();
+                    lastMessageisMine = false;
+                }
+                counter--;
+            }
         }
 
         /************************************************************/
@@ -376,13 +398,15 @@ public class ChatAct extends AppCompatActivity {
                                 listMessages.get(mensagesNum).getMessage(),
                                 rideId,
                                 listMessages.get(mensagesNum).getTime());
-
+                        cmr.setId(Long.parseLong(listMessages.get(mensagesNum).getMessageId()));
 //                        chatMsgsList.add(cmr);
-                        cmr.save();
 
-                        updateMsgsList(cmr);
+                        if (!messageAlrealdyExist(Long.parseLong(listMessages.get(mensagesNum).getMessageId()))) {
+                            cmr.save();
+                            updateMsgsList(cmr);
+                        }
                     }
-//                    new NewChatMsgIndicator(Integer.valueOf(listMessages.get(0).getRideId())).save();
+//                    new NewChatMsgIndicator(Integer.valueOf(rideId)).save();
 //                    chatMsgsAdapter = new ChatMsgsAdapter(chatMsgsList, color);
 //                    chatMsgs_rv.setAdapter(chatMsgsAdapter);
 //                    chatMsgs_rv.setLayoutManager(new LinearLayoutManager(context));
@@ -425,6 +449,17 @@ public class ChatAct extends AppCompatActivity {
             }
         });
 
+    }
+
+    private boolean messageAlrealdyExist(long messageId) {
+        boolean messageAlreadyExist = false;
+        int counter = chatMsgsList.size() - 1;
+        while (!messageAlreadyExist && counter >= 0){
+            if (chatMsgsList.get(counter).getId() == messageId)
+                messageAlreadyExist = true;
+            counter--;
+        }
+        return messageAlreadyExist;
     }
 
 
@@ -473,5 +508,17 @@ public class ChatAct extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         SharedPref.setChatActIsForeground(false);
+    }
+
+    private String getSenderNameFromNotification(String message) {
+        return message.split(":")[0];
+    }
+
+    private String getMessageFromNotification(String message) {
+        return message.split(":")[1];
+    }
+
+    private String getTimeFromNotification(Long timeInMillis) {
+        return Util.formatTime(String.valueOf(timeInMillis));
     }
 }

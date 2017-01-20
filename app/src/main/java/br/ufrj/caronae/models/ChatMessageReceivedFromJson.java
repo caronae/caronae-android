@@ -11,7 +11,7 @@ public class ChatMessageReceivedFromJson {
     private String message;
 
     @SerializedName("id")
-    private String rideId;
+    private String messageId;
 
     @SerializedName("date")
     private String time;
@@ -21,7 +21,7 @@ public class ChatMessageReceivedFromJson {
 
     public ChatMessageReceivedFromJson(UserChatMessageReceived user, String message, String rideId, String time){
         this.message = message;
-        this.rideId = rideId;
+        this.messageId = rideId;
         this.time = time;
         this.user = user;
     }
@@ -30,8 +30,8 @@ public class ChatMessageReceivedFromJson {
         return message;
     }
 
-    public String getRideId() {
-        return rideId;
+    public String getMessageId() {
+        return messageId;
     }
 
     public String getTime() {
@@ -46,8 +46,8 @@ public class ChatMessageReceivedFromJson {
         this.message = message;
     }
 
-    public void setRideId(String rideId) {
-        this.rideId = rideId;
+    public void setMessageId(String messageId) {
+        this.messageId = messageId;
     }
 
     public void setTime(String time) {
