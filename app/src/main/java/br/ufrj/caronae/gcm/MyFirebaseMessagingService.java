@@ -11,6 +11,8 @@ import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.util.List;
 import java.util.Map;
@@ -29,6 +31,7 @@ import br.ufrj.caronae.models.ModelReceivedFromChat;
 import br.ufrj.caronae.models.NewChatMsgIndicator;
 import br.ufrj.caronae.models.RideEndedEvent;
 import br.ufrj.caronae.models.RideRequestReceived;
+import br.ufrj.caronae.models.UserChatMessageReceived;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -47,7 +50,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         String message = (String) data.get("message");
         String msgType = (String) data.get("msgType");
         String senderName = (String) data.get("senderName");
-        String rideId = (String) data.get("rideId");
+
+        final String rideId = (String) data.get("rideId");
 
         Log.i("onMessageReceived", message);
 
@@ -89,7 +93,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                             cmr.save();
                             App.getBus().post(cmr);
                         }
-                        new NewChatMsgIndicator(Integer.valueOf(listMessages.get(0).getMessageId())).save();
+                        new NewChatMsgIndicator(Integer.valueOf(rideId)).save();
                     }
 
                     @Override
@@ -147,7 +151,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Intent resultIntent;
         if (msgType.equals("chat")) {
             title = "Nova mensagem";
-            message = senderName + ": " + message;
+//            message = senderName + ": " + message;
 
             List<ChatAssets> l = ChatAssets.find(ChatAssets.class, "ride_id = ?", rideId);
             if (l != null && !l.isEmpty()) {

@@ -9,13 +9,13 @@ android {
         minSdkVersion 15
         //noinspection OldTargetApi
         targetSdkVersion 22
-        versionCode 4
-        versionName "1.0.2"
+        versionCode 6
+        versionName "1.0.9"
     }
     buildTypes {
         release {
-            minifyEnabled true
-            shrinkResources true
+            minifyEnabled false
+            shrinkResources false
             proguardFile 'proguard-butterknife.pro'
             proguardFile 'proguard-google-play-services.pro'
             proguardFile 'proguard-gson.pro'

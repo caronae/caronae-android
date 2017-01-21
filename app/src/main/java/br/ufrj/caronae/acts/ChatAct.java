@@ -72,10 +72,10 @@ public class ChatAct extends AppCompatActivity {
     Context context;
     static ChatMsgsAdapter chatMsgsAdapter;
 
-    private final String MESSAGE_WITH_USER_BUNDLE_KEY         = "message";
-    private final String SENDER_ID_BUNDLE_KEY                 = "senderId";
-    private final String SENT_TIME_BUNDLE_KEY                 = "google.sent_time";
-    private final String RIDE_ID_BUNDLE_KEY                 = "rideId";
+    private final String MESSAGE_WITH_USER_BUNDLE_KEY = "message";
+    private final String SENDER_ID_BUNDLE_KEY = "senderId";
+    private final String SENT_TIME_BUNDLE_KEY = "google.sent_time";
+    private final String RIDE_ID_BUNDLE_KEY = "rideId";
 
 
     @Override
@@ -234,30 +234,45 @@ public class ChatAct extends AppCompatActivity {
     @OnClick(R.id.send_bt)
     public void sendBt() {
         final String message = msg_et.getText().toString();
+
+        msg_et.setText("");
+
         if (message.isEmpty())
             return;
 
         String time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US).format(new Date());
         final ChatMessageReceived msg = new ChatMessageReceived(App.getUser().getName(), App.getUser().getDbId() + "", message, rideId, time);
 
+        updateMsgsList(msg);
+
         App.getChatService().sendChatMsg(rideId, new ChatSendMessageForJson(message), new Callback<ChatMessageSendResponse>() {
             @Override
             public void success(ChatMessageSendResponse chatMessageSendResponse, Response response) {
                 Log.i("Message Sent", "Sulcefully Send Chat Messages");
-                msg_et.setText("");
+                Log.d("CHAT", "mesage: " + chatMessageSendResponse.getResponseMessage() + " ID: " + chatMessageSendResponse.getMessageId() + "");
+                msg.setId(Long.parseLong(chatMessageSendResponse.getMessageId()));
+                chatMsgsList.get(chatMsgsList.size() - 1).setId(Long.parseLong(chatMessageSendResponse.getMessageId()));
                 msg.save();
-                updateMsgsList(msg);
                 Util.toast("Mensagem enviada");
             }
 
             @Override
             public void failure(RetrofitError error) {
                 Util.toast("Erro ao enviar mensagem de chat, verifique sua conexão");
+
+                chatMsgsList.remove(chatMsgsList.size() - 1);
+                chatMsgsAdapter.notifyItemRemoved(chatMsgsList.size());
+
+                msg_et.setText(msg.getMessage());
+
+                /************* Esconde o teclado ***********/
+
                 View view = ChatAct.this.getCurrentFocus();
                 if (view != null) {
-                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                 }
+                /*********/
                 try {
                     Log.e("SendMessages", error.getMessage());
                 } catch (Exception e) {
@@ -305,78 +320,13 @@ public class ChatAct extends AppCompatActivity {
     @Subscribe
     public void updateMsgsListWithServer(final String rideId) {
 
-//        chatMsgsList = ChatMessageReceived.find(ChatMessageReceived.class, "ride_id = ?", rideId);
-//        Collections.sort(chatMsgsList, new ChatMsgComparator());
-//
-//        final int listMsgSizeBefore = chatMsgsList.size();
-//        Log.i("GetMessages", "Msg List Size Before: " + listMsgSizeBefore);
-//
-//        String since;
-//        if(chatMsgsList.size() != 0){
-//            since = chatMsgsList.get(chatMsgsList.size() - 1).getTime();
-//        } else {
-//            since = null;
-//        }
-//
-//        Log.i("GetMessages", "message since: " + chatMsgsList.get(chatMsgsList.size() - 1).getMessage());
-//        Log.i("GetMessages", "since: " + since);
-//
-//        /************************************************************/
-//        App.getChatService().requestChatMsgs(rideId, since, new Callback<ModelReceivedFromChat>() {
-//            @Override
-//            public void success(ModelReceivedFromChat chatMessagesReceived, Response response) {
-//                Log.i("GetMessages", "Entered in msglastwithserver");
-//
-//                Log.i("GetMessages", "Sulcefully Retrieved Chat Messages on Chat Act");
-//                if (chatMessagesReceived != null) {
-//                    Log.i("GetMessages", "messages are not null");
-//
-//                    List<ChatMessageReceivedFromJson> listMessages = chatMessagesReceived.getMessages();
-//                    for (int mensagesNum = 0; mensagesNum < listMessages.size(); mensagesNum++) {
-//                        ChatMessageReceived cmr = new ChatMessageReceived(listMessages.get(mensagesNum).getUser().getName(),
-//                                String.valueOf(listMessages.get(mensagesNum).getUser().getId()),
-//                                listMessages.get(mensagesNum).getMessage(),
-//                                String.valueOf(listMessages.get(mensagesNum).getMessageId()),
-//                                listMessages.get(mensagesNum).getTime());
-//
-//                        Log.i("GetMessages", cmr.getMessage());
-//                        Log.i("GetMessages", cmr.getTime());
-//
-//
-////                        chatMsgsList.add(cmr);
-////                        cmr.save();
-////                        App.getBus().post(cmr);
-//                        updateMsgsList(chatMsgsList.get(chatMsgsList.size() - 1));
-//                    }
-//
-//                    int listMsgSizeAfter = chatMsgsList.size();
-//                    Log.i("GetMessages", "Msg List Size after: " + listMsgSizeAfter);
-//
-//                    for (int counter = listMsgSizeBefore; counter < listMsgSizeAfter; counter++){
-//                        ChatMessageReceived cmr = chatMsgsList.get(counter);
-//                        cmr.save();
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void failure(RetrofitError error) {
-//                Util.toast("Erro ao Recuperar mensagem de chat");
-//                try {
-//                    Log.e("GetMessages", error.getMessage());
-//                } catch (Exception e) {
-//                    Log.e("GetMessages", e.getMessage());
-//                }
-//            }
-//        });
-//        /************************************************************/
 
         String since = null;
-        if(chatMsgsList.size() != 0){
+        if (chatMsgsList.size() != 0) {
             boolean lastMessageisMine = true;
             int counter = chatMsgsList.size() - 1;
             while (lastMessageisMine && counter >= 0) {
-                if(!chatMsgsList.get(counter).getSenderId().equals(String.valueOf(App.getUser().getDbId()))) {
+                if (!chatMsgsList.get(counter).getSenderId().equals(String.valueOf(App.getUser().getDbId()))) {
                     since = chatMsgsList.get(counter).getTime();
                     lastMessageisMine = false;
                 }
@@ -389,7 +339,7 @@ public class ChatAct extends AppCompatActivity {
             @Override
             public void success(ModelReceivedFromChat chatMessagesReceived, Response response) {
 
-                if (chatMessagesReceived != null && chatMessagesReceived.getMessages().size() != 0){
+                if (chatMessagesReceived != null && chatMessagesReceived.getMessages().size() != 0) {
 
                     List<ChatMessageReceivedFromJson> listMessages = chatMessagesReceived.getMessages();
                     for (int mensagesNum = 0; mensagesNum < listMessages.size(); mensagesNum++) {
@@ -437,7 +387,8 @@ public class ChatAct extends AppCompatActivity {
                     public void run() {
                         swipeRefreshLayout.setRefreshing(false);
                     }
-                });            }
+                });
+            }
         });
 
         /************************************************************/
@@ -454,7 +405,7 @@ public class ChatAct extends AppCompatActivity {
     private boolean messageAlrealdyExist(long messageId) {
         boolean messageAlreadyExist = false;
         int counter = chatMsgsList.size() - 1;
-        while (!messageAlreadyExist && counter >= 0){
+        while (!messageAlreadyExist && counter >= 0) {
             if (chatMsgsList.get(counter).getId() == messageId)
                 messageAlreadyExist = true;
             counter--;
