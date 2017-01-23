@@ -9,7 +9,7 @@ android {
         minSdkVersion 15
         //noinspection OldTargetApi
         targetSdkVersion 22
-        versionCode 6
+        versionCode 7
         versionName "1.0.9"
     }
     buildTypes {

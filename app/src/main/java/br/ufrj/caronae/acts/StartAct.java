@@ -5,8 +5,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
-import java.util.Set;
-
 import br.ufrj.caronae.App;
 
 public class StartAct extends AppCompatActivity {
@@ -42,7 +40,10 @@ public class StartAct extends AppCompatActivity {
         }
 
         if (App.isUserLoggedIn())
-            if(bundle != null && bundle.get(MSG_TYPE_BUNDLE_KEY).equals("chat")){
+            if(bundle != null
+                    && bundle.get(MSG_TYPE_BUNDLE_KEY) != null
+                    && bundle.get(MSG_TYPE_BUNDLE_KEY).equals("chat")){
+
                 Intent intent = new Intent(this, ChatAct.class);
                 intent.putExtra(RIDE_ID_BUNDLE_KEY, (String) bundle.get(RIDE_ID_BUNDLE_KEY));
                 intent.putExtras(bundle);

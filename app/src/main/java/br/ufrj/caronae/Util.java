@@ -3,7 +3,6 @@ package br.ufrj.caronae;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.os.Build;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
@@ -220,7 +219,7 @@ public class Util {
                 + android.os.Build.MODEL
                 +"; "
                 + android.os.Build.VERSION.SDK_INT
-                + " )";
+                + ")";
     }
 
     public static String getAppVersionName(Context context){

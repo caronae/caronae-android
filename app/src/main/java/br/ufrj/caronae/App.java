@@ -79,14 +79,10 @@ public class App extends SugarApp {
                         @Override
                         public void intercept(RequestFacade request) {
                             if (App.isUserLoggedIn()) {
+                                request.addHeader("Content-Type", "application/json");
                                 request.addHeader("token", SharedPref.getUserToken());
+                                request.addHeader("User-Agent", Util.getHeaderForHttp(context));
                             }
-                        }
-                    })
-                    .setRequestInterceptor(new RequestInterceptor() {
-                        @Override
-                        public void intercept(RequestFacade request) {
-                            request.addHeader("User-Agent", Util.getHeaderForHttp(context));
                         }
                     })
                     //.setLogLevel(RestAdapter.LogLevel.BASIC)
@@ -96,7 +92,7 @@ public class App extends SugarApp {
                     .build()
                     .create(NetworkService.class);
         }
-
+        
         return networkService;
     }
 
@@ -110,8 +106,8 @@ public class App extends SugarApp {
                     .setRequestInterceptor(new RequestInterceptor() {
                         @Override
                         public void intercept(RequestFacade request) {
-                            request.addHeader("Content-Type", "application/json");
                             request.addHeader("token", SharedPref.getUserToken());
+                            request.addHeader("Content-Type", "application/json");
                         }
                     })
                             //.setLogLevel(RestAdapter.LogLevel.HEADERS)

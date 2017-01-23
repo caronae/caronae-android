@@ -95,7 +95,7 @@ public class SharedPref {
     }
 
     public static void saveUserToken(String token) {
-        putPref(TOKEN_PREF_KEY, token);
+        putPref(TOKEN_PREF_KEY, token.toUpperCase());
     }
 
     public static String getUserGcmToken() {
