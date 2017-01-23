@@ -1,6 +1,7 @@
 package br.ufrj.caronae.acts;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -29,6 +30,7 @@ import br.ufrj.caronae.R;
 import br.ufrj.caronae.RoundedTransformation;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.models.ActiveRide;
+import br.ufrj.caronae.models.ChatAssets;
 import br.ufrj.caronae.models.RideRequestSent;
 import br.ufrj.caronae.models.User;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
@@ -206,6 +208,8 @@ public class RideOfferAct extends AppCompatActivity {
                                         RideRequestSent rideRequest = new RideRequestSent(rideWithUsers.getDbId(), rideWithUsers.isGoing(), rideWithUsers.getDate());
                                         rideRequest.save();
 
+                                        createChatAssets(rideWithUsers);
+
                                         join_bt.setVisibility(View.INVISIBLE);
                                         requested_tv.setVisibility(View.VISIBLE);
                                         App.getBus().post(rideRequest);
@@ -258,5 +262,54 @@ public class RideOfferAct extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void createChatAssets(RideForJson rideWithUsers){
+
+        Context context = getApplicationContext();
+
+        int color = 0, bgRes = 0;
+        if (rideWithUsers.getZone().equals("Centro")) {
+            color = ContextCompat.getColor(context, R.color.zone_centro);
+            bgRes = R.drawable.bg_bt_raise_zone_centro;
+        }
+        if (rideWithUsers.getZone().equals("Zona Sul")) {
+            color = ContextCompat.getColor(context, R.color.zone_sul);
+            bgRes = R.drawable.bg_bt_raise_zone_sul;
+        }
+        if (rideWithUsers.getZone().equals("Zona Oeste")) {
+            color = ContextCompat.getColor(context, R.color.zone_oeste);
+            bgRes = R.drawable.bg_bt_raise_zone_oeste;
+        }
+        if (rideWithUsers.getZone().equals("Zona Norte")) {
+            color = ContextCompat.getColor(context, R.color.zone_norte);
+            bgRes = R.drawable.bg_bt_raise_zone_norte;
+        }
+        if (rideWithUsers.getZone().equals("Baixada")) {
+            color = ContextCompat.getColor(context, R.color.zone_baixada);
+            bgRes = R.drawable.bg_bt_raise_zone_baixada;
+        }
+        if (rideWithUsers.getZone().equals("Grande Niterói")) {
+            color = ContextCompat.getColor(context, R.color.zone_niteroi);
+            bgRes = R.drawable.bg_bt_raise_zone_niteroi;
+        }
+        if (rideWithUsers.getZone().equals("Outros")) {
+            color = ContextCompat.getColor(context, R.color.zone_outros);
+            bgRes = R.drawable.bg_bt_raise_zone_outros;
+        }
+
+        final String location;
+        if (rideWithUsers.isGoing())
+            location = rideWithUsers.getNeighborhood() + " ➜ " + rideWithUsers.getHub();
+        else
+            location = rideWithUsers.getHub() + " ➜ " + rideWithUsers.getNeighborhood();
+
+        final int finalColor = color, finalBgRes = bgRes;
+
+        List<ChatAssets> l = ChatAssets.find(ChatAssets.class, "ride_id = ?", rideWithUsers.getDbId() + "");
+        if (l == null || l.isEmpty())
+            new ChatAssets(rideWithUsers.getDbId() + "", location, finalColor, finalBgRes,
+                    Util.formatBadDateWithoutYear(rideWithUsers.getDate()),
+                    Util.formatTime(rideWithUsers.getTime())).save();
     }
 }

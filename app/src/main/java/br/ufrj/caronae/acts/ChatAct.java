@@ -349,7 +349,6 @@ public class ChatAct extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.e("DANDO RUIM", "Passou Aqui 6");
 
         try {
             App.getBus().unregister(this);
