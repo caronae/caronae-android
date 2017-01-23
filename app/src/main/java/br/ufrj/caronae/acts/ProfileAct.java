@@ -108,7 +108,7 @@ public class ProfileAct extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        App.getNetworkService().getRidesHistoryCount(user.getDbId() + "", new Callback<HistoryRideCountForJson>() {
+        App.getNetworkService(getApplicationContext()).getRidesHistoryCount(user.getDbId() + "", new Callback<HistoryRideCountForJson>() {
             @Override
             public void success(HistoryRideCountForJson historyRideCountForJson, Response response) {
                 ridesOffered_tv.setText(String.valueOf(historyRideCountForJson.getOfferedCount()));
@@ -133,7 +133,7 @@ public class ProfileAct extends AppCompatActivity {
                     String name = user.getName().split(" ")[0];
                     openProfile_tv.setText(getString(R.string.act_profile_openFbProfile, name));
                     openProfile_tv.setVisibility(View.VISIBLE);
-                    App.getNetworkService().getMutualFriends(token.getToken(), user.getFaceId(), new Callback<FacebookFriendForJson>() {
+                    App.getNetworkService(getApplicationContext()).getMutualFriends(token.getToken(), user.getFaceId(), new Callback<FacebookFriendForJson>() {
                         @Override
                         public void success(FacebookFriendForJson mutualFriends, Response response) {
                             if (mutualFriends.getTotalCount() < 1)
@@ -213,7 +213,7 @@ public class ProfileAct extends AppCompatActivity {
                 if (msg.isEmpty())
                     return;
 
-                App.getNetworkService().falaeSendMessage(new FalaeMsgForJson(getString(R.string.frag_falae_reportRb) + user.getName() + " - ID:" + user.getDbId(), msg), new Callback<Response>() {
+                App.getNetworkService(getApplicationContext()).falaeSendMessage(new FalaeMsgForJson(getString(R.string.frag_falae_reportRb) + user.getName() + " - ID:" + user.getDbId(), msg), new Callback<Response>() {
                     @Override
                     public void success(Response response, Response response2) {
                         Util.toast(getString(R.string.act_profile_reportOk));

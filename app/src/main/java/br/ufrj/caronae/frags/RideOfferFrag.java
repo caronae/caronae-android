@@ -456,7 +456,7 @@ public class RideOfferFrag extends Fragment {
 
         final ProgressDialog pd = ProgressDialog.show(getContext(), "", getString(R.string.wait), true, true);
         //TODO: Check Header
-        App.getNetworkService().offerRide(Util.getHeaderForHttp(getContext()), ride, new Callback<List<Ride>>() {
+        App.getNetworkService(getContext()).offerRide(Util.getHeaderForHttp(getContext()), ride, new Callback<List<Ride>>() {
             @Override
             public void success(List<Ride> rides, Response response) {
                 for (Ride ride : rides) {

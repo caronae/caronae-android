@@ -94,7 +94,7 @@ public class FalaeFrag extends Fragment {
         subject = subject.concat(subject_et.getText().toString());
 
         final ProgressDialog pd = ProgressDialog.show(getContext(), "", getString(R.string.wait), true, true);
-        App.getNetworkService().falaeSendMessage(new FalaeMsgForJson(subject, message), new Callback<Response>() {
+        App.getNetworkService(getContext()).falaeSendMessage(new FalaeMsgForJson(subject, message), new Callback<Response>() {
             @Override
             public void success(Response response, Response response2) {
                 pd.dismiss();

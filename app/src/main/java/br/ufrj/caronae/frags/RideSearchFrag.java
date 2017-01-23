@@ -373,7 +373,7 @@ public class RideSearchFrag extends Fragment {
         SharedPref.saveLastRideSearchFiltersPref(lastRideSearchFilters);
 
         final ProgressDialog pd = ProgressDialog.show(getActivity(), "", getContext().getString(R.string.wait), true, true);
-        App.getNetworkService().listFiltered(rideSearchFilters, new Callback<List<RideForJson>>() {
+        App.getNetworkService(getContext()).listFiltered(rideSearchFilters, new Callback<List<RideForJson>>() {
             @Override
             public void success(List<RideForJson> rideOffers, Response response) {
                 if (rideOffers != null && !rideOffers.isEmpty()) {

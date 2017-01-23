@@ -46,7 +46,7 @@ public class RidesHistoryFrag extends Fragment {
         ButterKnife.bind(this, view);
 
         final ProgressDialog pd = ProgressDialog.show(getActivity(), "", getContext().getString(R.string.wait), true, true);
-        App.getNetworkService().getRidesHistory(new Callback<List<RideHistoryForJson>>() {
+        App.getNetworkService(getContext()).getRidesHistory(new Callback<List<RideHistoryForJson>>() {
             @Override
             public void success(List<RideHistoryForJson> historyRides, Response response) {
                 if (historyRides == null || historyRides.isEmpty()) {

@@ -199,7 +199,7 @@ public class RideOfferAct extends AppCompatActivity {
                             @Override
                             public void onPositiveActionClicked(DialogFragment fragment) {
                                 final ProgressDialog pd = ProgressDialog.show(RideOfferAct.this, "", getString(R.string.wait), true, true);
-                                App.getNetworkService().requestJoin(new RideIdForJson(rideWithUsers.getDbId()), new Callback<Response>() {
+                                App.getNetworkService(getApplicationContext()).requestJoin(new RideIdForJson(rideWithUsers.getDbId()), new Callback<Response>() {
                                     //TODO: Motorista nao recebe a notificacao
                                     @Override
                                     public void success(Response response, Response response2) {

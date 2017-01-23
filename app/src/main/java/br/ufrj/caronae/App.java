@@ -13,7 +13,7 @@ import retrofit.RestAdapter;
 
 public class App extends SugarApp {
 
-    private static final String DEV_SERVER_ENDPOINT          = "http://dev.caronae.tic.ufrj.br/";
+    private static final String DEV_SERVER_ENDPOINT          = "https://dev.caronae.tic.ufrj.br/";
     private static final String DEV_SERVER_IP                = "http://54.243.7.207/";
     private static final String MEUDIGOCEAN_PROD_ENDPOINT    = "http://45.55.46.90:80/";
     private static final String MEUDIGOCEAN_DEV_ENDPOINT     = "http://45.55.46.90:8080/";
@@ -86,13 +86,7 @@ public class App extends SugarApp {
                     .setRequestInterceptor(new RequestInterceptor() {
                         @Override
                         public void intercept(RequestFacade request) {
-                            request.addHeader("User-Agent", "Caronae/"
-                                    + Util.getAppVersionName(context)
-                                    + "("
-                                    + android.os.Build.MODEL
-                                    +"; "
-                                    + android.os.Build.VERSION.SDK_INT
-                                    + " )");
+                            request.addHeader("User-Agent", Util.getHeaderForHttp(context));
                         }
                     })
                     //.setLogLevel(RestAdapter.LogLevel.BASIC)
@@ -108,35 +102,11 @@ public class App extends SugarApp {
 
     public static ChatService getChatService() {
         if (chatService == null) {
-            //TODO: REMOVE OLD GCM CODE
-//            chatService = new RestAdapter.Builder()
-//                    .setEndpoint(GCM_ENDPOINT)
-//                    .setRequestInterceptor(new RequestInterceptor() {
-//                        @Override
-//                        public void intercept(RequestFacade request) {
-//                            request.addHeader("Content-Type", "application/json");
-//                            request.addHeader("Authorization", "key=" + GCM_API_KEY);
-//                        }
-//                    })
-//                    .setLogLevel(RestAdapter.LogLevel.BASIC)
-//            chatService = new RestAdapter.Builder()
-//                    .setEndpoint(FIREBASE_ENDPOINT)
-//                    .setRequestInterceptor(new RequestInterceptor() {
-//                        @Override
-//                        public void intercept(RequestFacade request) {
-//                            request.addHeader("Content-Type", "application/json");
-//                            request.addHeader("Authorization", "key=" + FIREBASE_API_KEY);
-//                        }
-//                    })
-//                    .setLogLevel(RestAdapter.LogLevel.BASIC)
-//                    //.setLogLevel(RestAdapter.LogLevel.HEADERS)
-//                    //.setLogLevel(RestAdapter.LogLevel.HEADERS_AND_ARGS)
-//                    //.setLogLevel(RestAdapter.LogLevel.FULL)
-//                    .build()
-//                    .create(ChatService.class);
+
+            String endpoint = getHost();
 
             chatService = new RestAdapter.Builder()
-                    .setEndpoint(DEV_SERVER_ENDPOINT)
+                    .setEndpoint(endpoint)
                     .setRequestInterceptor(new RequestInterceptor() {
                         @Override
                         public void intercept(RequestFacade request) {

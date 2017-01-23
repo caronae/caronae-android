@@ -1,5 +1,6 @@
 package br.ufrj.caronae.asyncs;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -24,6 +25,13 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 public class LogOut extends AsyncTask<Void, Void, Void> {
+
+    Context context;
+
+    public LogOut(Context context) {
+        this.context = context;
+    }
+
     @Override
     protected void onPreExecute() {
 
@@ -31,7 +39,7 @@ public class LogOut extends AsyncTask<Void, Void, Void> {
         FirebaseMessaging.getInstance().unsubscribeFromTopic(SharedPref.TOPIC_GERAL);
         FirebaseMessaging.getInstance().unsubscribeFromTopic(App.getUser().getDbId() + "");
 
-        App.getNetworkService().saveGcmToken(new TokenForJson(""), new Callback<Response>() {
+        App.getNetworkService(context).saveGcmToken(new TokenForJson(""), new Callback<Response>() {
             @Override
             public void success(Response response, Response response2) {
                 Log.i("saveGcmToken", "gcm token cleared");

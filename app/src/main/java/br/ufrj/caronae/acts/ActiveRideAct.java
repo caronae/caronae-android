@@ -236,7 +236,7 @@ public class ActiveRideAct extends AppCompatActivity {
                     @Override
                     public void onPositiveActionClicked(DialogFragment fragment) {
                         final ProgressDialog pd = ProgressDialog.show(ActiveRideAct.this, "", getString(R.string.wait), true, true);
-                        App.getNetworkService().leaveRide(new RideIdForJson(rideWithUsers.getDbId()), new Callback<Response>() {
+                        App.getNetworkService(getApplicationContext()).leaveRide(new RideIdForJson(rideWithUsers.getDbId()), new Callback<Response>() {
                             @Override
                             public void success(Response response, Response response2) {
                                 pd.dismiss();
@@ -312,7 +312,7 @@ public class ActiveRideAct extends AppCompatActivity {
                     @Override
                     public void onPositiveActionClicked(DialogFragment fragment) {
                         final ProgressDialog pd = ProgressDialog.show(ActiveRideAct.this, "", getString(R.string.wait), true, true);
-                        App.getNetworkService().finishRide(new RideIdForJson(rideWithUsers.getDbId()), new Callback<Response>() {
+                        App.getNetworkService(getApplicationContext()).finishRide(new RideIdForJson(rideWithUsers.getDbId()), new Callback<Response>() {
                             @Override
                             public void success(Response response, Response response2) {
                                 pd.dismiss();

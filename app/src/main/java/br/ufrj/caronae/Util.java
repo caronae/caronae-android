@@ -213,7 +213,14 @@ public class Util {
             e.printStackTrace();
         }
 
-        return "Caronae/" + pInfo.versionCode + "(Android; " + Build.VERSION.CODENAME + ";";
+//        return "Caronae/" + pInfo.versionCode + "(Android; " + Build.VERSION.CODENAME + ";";
+        return "Caronae/"
+                + Util.getAppVersionName(context)
+                + "("
+                + android.os.Build.MODEL
+                +"; "
+                + android.os.Build.VERSION.SDK_INT
+                + " )";
     }
 
     public static String getAppVersionName(Context context){

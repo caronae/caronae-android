@@ -132,7 +132,7 @@ public class RidesHistoryAdapter extends RecyclerView.Adapter<RidesHistoryAdapte
 
                         @Override
                         public void onPositiveActionClicked(DialogFragment fragment) {
-                            App.getNetworkService().saveFeedback(new RideFeedbackForJson(App.getUser().getDbId(), historyRide.getDbId(), "good"), new Callback<Response>() {
+                            App.getNetworkService(activity.getApplicationContext()).saveFeedback(new RideFeedbackForJson(App.getUser().getDbId(), historyRide.getDbId(), "good"), new Callback<Response>() {
                                 @Override
                                 public void success(Response response, Response response2) {
                                     Util.toast(activity.getString(R.string.rideHistory_Feedback));
@@ -156,7 +156,7 @@ public class RidesHistoryAdapter extends RecyclerView.Adapter<RidesHistoryAdapte
 
                         @Override
                         public void onNegativeActionClicked(DialogFragment fragment) {
-                            App.getNetworkService().saveFeedback(new RideFeedbackForJson(App.getUser().getDbId(), historyRide.getDbId(), "bad"), new Callback<Response>() {
+                            App.getNetworkService(activity.getApplicationContext()).saveFeedback(new RideFeedbackForJson(App.getUser().getDbId(), historyRide.getDbId(), "bad"), new Callback<Response>() {
                                 @Override
                                 public void success(Response response, Response response2) {
                                     Util.toast(activity.getString(R.string.rideHistory_Feedback));

@@ -47,7 +47,7 @@ public class RegistrationIntentService extends IntentService {
 
     private void sendRegistrationToServer(final String token) {
         // send network request
-        App.getNetworkService().saveGcmToken(new TokenForJson(token), new Callback<Response>() {
+        App.getNetworkService(getApplicationContext()).saveGcmToken(new TokenForJson(token), new Callback<Response>() {
             @Override
             public void success(Response response, Response response2) {
                 Log.i("saveGcmToken", "gcm token sent to server");

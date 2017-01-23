@@ -46,7 +46,7 @@ public class SignUpAct extends AppCompatActivity {
     @OnClick(R.id.button)
     public void button() {
         if (checkBox.isChecked())
-            App.getNetworkService().signUpIntranet(nome_et.getText().toString(), token_et.getText().toString(), new Callback<User>() {
+            App.getNetworkService(getApplicationContext()).signUpIntranet(nome_et.getText().toString(), token_et.getText().toString(), new Callback<User>() {
                 @Override
                 public void success(User user, Response response) {
                     Util.toast(user.getName() + " cadastrado");
@@ -63,7 +63,7 @@ public class SignUpAct extends AppCompatActivity {
                 }
             });
         else
-            App.getNetworkService().signUp(nome_et.getText().toString(), token_et.getText().toString(), new Callback<User>() {
+            App.getNetworkService(getApplicationContext()).signUp(nome_et.getText().toString(), token_et.getText().toString(), new Callback<User>() {
                 @Override
                 public void success(User user, Response response) {
                     Util.toast(user.getName() + " cadastrado");

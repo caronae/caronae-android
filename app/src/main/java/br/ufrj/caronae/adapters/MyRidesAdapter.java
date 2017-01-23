@@ -165,7 +165,7 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
                     public void onPositiveActionClicked(DialogFragment fragment) {
                         final ProgressDialog pd = ProgressDialog.show(activity, "", activity.getString(R.string.wait), true, true);
                         final String routineId = ride.getRoutineId();
-                        App.getNetworkService().deleteAllRidesFromRoutine(routineId, new Callback<Response>() {
+                        App.getNetworkService(activity.getApplicationContext()).deleteAllRidesFromRoutine(routineId, new Callback<Response>() {
                             @Override
                             public void success(Response response, Response response2) {
                                 pd.dismiss();
@@ -216,7 +216,7 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
                     @Override
                     public void onPositiveActionClicked(DialogFragment fragment) {
                         final ProgressDialog pd = ProgressDialog.show(activity, "", activity.getString(R.string.wait), true, true);
-                        App.getNetworkService().deleteRide(ride.getDbId() + "", new Callback<Response>() {
+                        App.getNetworkService(activity.getApplicationContext()).deleteRide(ride.getDbId() + "", new Callback<Response>() {
                             @Override
                             public void success(Response response, Response response2) {
                                 pd.dismiss();
@@ -266,7 +266,7 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
                 RideRequestReceived.deleteAll(RideRequestReceived.class, "db_id = ?", ride.getDbId() + "");
                 holder.newRequest_iv.setVisibility(View.INVISIBLE);
 
-                App.getNetworkService().getRequesters(ride.getDbId() + "", new Callback<List<User>>() {
+                App.getNetworkService(activity.getApplicationContext()).getRequesters(ride.getDbId() + "", new Callback<List<User>>() {
                     @Override
                     public void success(List<User> users, Response response) {
                         pd.dismiss();

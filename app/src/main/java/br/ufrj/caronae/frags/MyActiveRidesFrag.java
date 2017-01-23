@@ -56,7 +56,7 @@ public class MyActiveRidesFrag extends Fragment {
         App.getBus().register(this);
 
         final ProgressDialog pd = ProgressDialog.show(getContext(), "", getActivity().getString(R.string.wait), true, true);
-        App.getNetworkService().getMyActiveRides(new Callback<List<RideForJson>>() {
+        App.getNetworkService(getContext()).getMyActiveRides(new Callback<List<RideForJson>>() {
             @Override
             public void success(List<RideForJson> rideWithUsersList, Response response) {
                 if (rideWithUsersList == null || rideWithUsersList.isEmpty()) {

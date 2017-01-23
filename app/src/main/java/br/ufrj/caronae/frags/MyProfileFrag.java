@@ -116,7 +116,7 @@ public class MyProfileFrag extends Fragment {
                 Profile profile = Profile.getCurrentProfile();
                 if (profile != null) {
                     final String faceId = profile.getId();
-                    App.getNetworkService().saveFaceId(new IdForJson(faceId), new Callback<Response>() {
+                    App.getNetworkService(getContext()).saveFaceId(new IdForJson(faceId), new Callback<Response>() {
                         @Override
                         public void success(Response response, Response response2) {
                             Log.i("saveFaceId", "face id saved");
@@ -156,7 +156,7 @@ public class MyProfileFrag extends Fragment {
         if (user != null) {
             fillUserFields(user);
 
-            App.getNetworkService().getRidesHistoryCount(user.getDbId() + "", new Callback<HistoryRideCountForJson>() {
+            App.getNetworkService(getContext()).getRidesHistoryCount(user.getDbId() + "", new Callback<HistoryRideCountForJson>() {
                 @Override
                 public void success(HistoryRideCountForJson historyRideCountForJson, Response response) {
                     ridesOffered_tv.setText(String.valueOf(historyRideCountForJson.getOfferedCount()));
@@ -335,7 +335,7 @@ public class MyProfileFrag extends Fragment {
                                     .transform(new RoundedTransformation())
                                     .into(user_pic);
 
-                            App.getNetworkService().saveProfilePicUrl(new UrlForJson(profilePicUrl), new Callback<Response>() {
+                            App.getNetworkService(getContext()).saveProfilePicUrl(new UrlForJson(profilePicUrl), new Callback<Response>() {
                                 @Override
                                 public void success(Response response, Response response2) {
                                     Log.i("saveProfilePicUrl", "profile pic url saved");
@@ -356,7 +356,7 @@ public class MyProfileFrag extends Fragment {
                         Util.toast(R.string.frag_myprofile_facePickChoiceNotOnFace);
                     }
                 } else {
-                    App.getNetworkService().getIntranetPhotoUrl(new Callback<UrlForJson>() {
+                    App.getNetworkService(getContext()).getIntranetPhotoUrl(new Callback<UrlForJson>() {
                         @Override
                         public void success(UrlForJson urlForJson, Response response) {
                             if (urlForJson == null)
@@ -370,7 +370,7 @@ public class MyProfileFrag extends Fragment {
                                         .transform(new RoundedTransformation())
                                         .into(user_pic);
 
-                                App.getNetworkService().saveProfilePicUrl(new UrlForJson(profilePicUrl), new Callback<Response>() {
+                                App.getNetworkService(getContext()).saveProfilePicUrl(new UrlForJson(profilePicUrl), new Callback<Response>() {
                                     @Override
                                     public void success(Response response, Response response2) {
                                         Log.i("saveProfilePicUrl", "profile pic url saved");
@@ -419,7 +419,7 @@ public class MyProfileFrag extends Fragment {
 
     @OnClick(R.id.logout_iv)
     public void logoutIv() {
-        new LogOut().execute();
+        new LogOut(getContext()).execute();
         startActivity(new Intent(getContext(), LoginAct.class));
         getActivity().finish();
     }
@@ -536,7 +536,7 @@ public class MyProfileFrag extends Fragment {
         if (!App.getUser().sameFieldsState(editedUser)) {
             int validation = fieldsValidated();
             if (validation == 0) {
-                App.getNetworkService().updateUser(editedUser, new Callback<Response>() {
+                App.getNetworkService(getContext()).updateUser(editedUser, new Callback<Response>() {
                     @Override
                     public void success(Response response, Response response2) {
                         User user = App.getUser();

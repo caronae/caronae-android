@@ -85,7 +85,7 @@ public class RequestersAdapter extends RecyclerView.Adapter<RequestersAdapter.Vi
             @Override
             public void onClick(View view) {
                 final ProgressDialog pd = ProgressDialog.show(activity, "", activity.getString(R.string.wait), true, true);
-                App.getNetworkService().answerJoinRequest(new JoinRequestIDsForJson(user.getDbId(), rideId, true), new Callback<Response>() {
+                App.getNetworkService(activity.getApplicationContext()).answerJoinRequest(new JoinRequestIDsForJson(user.getDbId(), rideId, true), new Callback<Response>() {
                     @Override
                     public void success(Response response, Response response2) {
                         pd.dismiss();
@@ -120,7 +120,7 @@ public class RequestersAdapter extends RecyclerView.Adapter<RequestersAdapter.Vi
             @Override
             public void onClick(View view) {
                 final ProgressDialog pd = ProgressDialog.show(activity, "", activity.getString(R.string.wait), true, true);
-                App.getNetworkService().answerJoinRequest(new JoinRequestIDsForJson(user.getDbId(), rideId, false), new Callback<Response>() {
+                App.getNetworkService(activity.getApplicationContext()).answerJoinRequest(new JoinRequestIDsForJson(user.getDbId(), rideId, false), new Callback<Response>() {
                     @Override
                     public void success(Response response, Response response2) {
                         pd.dismiss();

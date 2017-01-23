@@ -1,6 +1,7 @@
 package br.ufrj.caronae.acts;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -92,7 +93,7 @@ public class LoginAct extends AppCompatActivity {
         final String token = Util.fixBlankSpace(tokenHolder);
 
         // Busca usuário no servidor, token deve ser com carcteres maiusculos
-        App.getNetworkService().login(new LoginForJson(token.toUpperCase(), idUfrj), new Callback<UserWithRidesForJson>() {
+        App.getNetworkService(getApplicationContext()).login(new LoginForJson(token.toUpperCase(), idUfrj), new Callback<UserWithRidesForJson>() {
             @Override
             public void success(UserWithRidesForJson userWithRides, Response response) {
                 if (userWithRides == null || userWithRides.getUser() == null) {
@@ -108,7 +109,7 @@ public class LoginAct extends AppCompatActivity {
 
                 String gcmToken = SharedPref.getUserGcmToken();
                 if (!gcmToken.equals(SharedPref.MISSING_PREF)) {
-                    App.getNetworkService().saveGcmToken(new TokenForJson(gcmToken), new Callback<Response>() {
+                    App.getNetworkService(getApplicationContext()).saveGcmToken(new TokenForJson(gcmToken), new Callback<Response>() {
                         @Override
                         public void success(Response response, Response response2) {
                             Log.i("saveGcmToken", "gcm token sent to server");

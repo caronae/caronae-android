@@ -54,7 +54,7 @@ public class AllRidesFrag extends Fragment {
 
         final ArrayList<RideForJson> goingRides = new ArrayList<>(), notGoingRides = new ArrayList<>();
 
-        App.getNetworkService().listAllRides(new Callback<List<RideForJson>>() {
+        App.getNetworkService(getContext()).listAllRides(new Callback<List<RideForJson>>() {
             @Override
             public void success(List<RideForJson> rideOffers, Response response) {
                 progressBar2.setVisibility(View.GONE);

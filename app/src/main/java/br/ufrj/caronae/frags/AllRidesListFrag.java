@@ -104,7 +104,7 @@ public class AllRidesListFrag extends Fragment implements Callback {
     }
 
     void refreshRideList(){
-        App.getNetworkService().listAllRides(new retrofit.Callback<List<RideForJson>>() {
+        App.getNetworkService(getContext()).listAllRides(new retrofit.Callback<List<RideForJson>>() {
             @Override
             public void success(List<RideForJson> rideOffers, Response response) {
 
