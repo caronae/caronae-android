@@ -215,4 +215,17 @@ public class Util {
 
         return "Caronae/" + pInfo.versionCode + "(Android; " + Build.VERSION.CODENAME + ";";
     }
+
+    public static String getAppVersionName(Context context){
+        PackageManager manager = context.getPackageManager();
+        PackageInfo info = null;
+        try {
+            info = manager.getPackageInfo(
+                    context.getPackageName(), 0);
+            return info.versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+            return "Version Not Found";
+        }
+    }
 }

@@ -1,5 +1,7 @@
 package br.ufrj.caronae;
 
+import android.content.Context;
+
 import com.google.gson.Gson;
 import com.orm.SugarApp;
 
@@ -66,7 +68,8 @@ public class App extends SugarApp {
         //return TIC_ENDPOINT;
     }
 
-    public static NetworkService getNetworkService() {
+    public static NetworkService getNetworkService(final Context context) {
+
         if (networkService == null) {
             String endpoint = getHost();
 
@@ -78,6 +81,18 @@ public class App extends SugarApp {
                             if (App.isUserLoggedIn()) {
                                 request.addHeader("token", SharedPref.getUserToken());
                             }
+                        }
+                    })
+                    .setRequestInterceptor(new RequestInterceptor() {
+                        @Override
+                        public void intercept(RequestFacade request) {
+                            request.addHeader("User-Agent", "Caronae/"
+                                    + Util.getAppVersionName(context)
+                                    + "("
+                                    + android.os.Build.MODEL
+                                    +"; "
+                                    + android.os.Build.VERSION.SDK_INT
+                                    + " )");
                         }
                     })
                     //.setLogLevel(RestAdapter.LogLevel.BASIC)
