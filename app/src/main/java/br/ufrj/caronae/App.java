@@ -56,8 +56,8 @@ public class App extends SugarApp {
         //return MEUDIGOCEAN_DEV_ENDPOINT;
         //return MEUDIGOCEAN_PROD_ENDPOINT;
         //return LOCAL_SERV_ENDPOINT;
-        return DEV_SERVER_ENDPOINT;
-        //return TIC_ENDPOINT;
+        //return DEV_SERVER_ENDPOINT;
+        return TIC_ENDPOINT;
     }
 
     public static NetworkService getNetworkService() {

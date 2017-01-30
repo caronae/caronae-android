@@ -89,10 +89,10 @@ public class LoginAct extends AppCompatActivity {
 
         String tokenHolder = token_et.getText().toString();
         final String idUfrj = idUfrj_et.getText().toString();
-        final String token = Util.fixBlankSpace(tokenHolder);
+        final String token = Util.fixBlankSpace(tokenHolder).toUpperCase();
 
         // Busca usuário no servidor, token deve ser com carcteres maiusculos
-        App.getNetworkService().login(new LoginForJson(token.toUpperCase(), idUfrj), new Callback<UserWithRidesForJson>() {
+        App.getNetworkService().login(new LoginForJson(token, idUfrj), new Callback<UserWithRidesForJson>() {
             @Override
             public void success(UserWithRidesForJson userWithRides, Response response) {
                 if (userWithRides == null || userWithRides.getUser() == null) {
@@ -143,7 +143,7 @@ public class LoginAct extends AppCompatActivity {
 
                     Log.e("login", retrofitError.getMessage());
                 } catch (Exception e) {//sometimes RetrofitError is null
-                    Log.e("signUp", e.getMessage());
+                    Log.e("signUp", e.getMessage() == null? "Mensagem de erro null" : e.getMessage());
                 }
             }
         });
