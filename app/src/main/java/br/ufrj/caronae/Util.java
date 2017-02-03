@@ -3,6 +3,7 @@ package br.ufrj.caronae;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
@@ -88,7 +89,7 @@ public class Util {
     public static String[] getNeighborhoods(String zone) {
         if (zone.equals("Centro")) {
             return new String[]{"Benfica", "Caju", "Catumbi", "Centro (Bairro)", "Cidade Nova",
-                    "Estácio", "Gamboa", "Glória", "Lapa", "Mangueira", "Paquetá", "Rio Comprido",
+                    "Estácio", "Gamboa", "Glória", "Lapa", "Mangueira", "Rio Comprido",
                     "Santa Teresa", "Santo Cristo", "São Cristóvão", "Saúde", "Vasco da Gama"};
         }
         if (zone.equals("Zona Sul")) {
@@ -215,9 +216,12 @@ public class Util {
         return "Caronae/"
                 + Util.getAppVersionName(context)
                 + "("
+                + Build.BRAND
+                + ": "
                 + android.os.Build.MODEL
-                +"; "
-                + android.os.Build.VERSION.SDK_INT
+                + "; "
+                + "Android: "
+                + Build.VERSION.RELEASE
                 + ")";
     }
 
