@@ -46,9 +46,9 @@ import br.ufrj.caronae.models.modelsforjson.RideSearchFiltersForJson;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class RideSearchFrag extends Fragment {
     @Bind(R.id.radioGroup)
@@ -373,35 +373,40 @@ public class RideSearchFrag extends Fragment {
         SharedPref.saveLastRideSearchFiltersPref(lastRideSearchFilters);
 
         final ProgressDialog pd = ProgressDialog.show(getActivity(), "", getContext().getString(R.string.wait), true, true);
-        App.getNetworkService(getContext()).listFiltered(rideSearchFilters, new Callback<List<RideForJson>>() {
-            @Override
-            public void success(List<RideForJson> rideOffers, Response response) {
-                if (rideOffers != null && !rideOffers.isEmpty()) {
-                    Util.expandOrCollapse(lay, false);
-                    anotherSearch_bt.setVisibility(View.VISIBLE);
-                    Collections.sort(rideOffers, new RideOfferComparatorByDateAndTime());
-                    for (RideForJson rideOffer : rideOffers) {
-                        rideOffer.setDbId(rideOffer.getId().intValue());
+        App.getNetworkService(getContext()).listFiltered(rideSearchFilters)
+                .enqueue(new Callback<List<RideForJson>>() {
+                    @Override
+                    public void onResponse(Call<List<RideForJson>> call, Response<List<RideForJson>> response) {
+                        if (response.isSuccessful()) {
+                            List<RideForJson> rideOffers = response.body();
+                            if (rideOffers != null && !rideOffers.isEmpty()) {
+                                Util.expandOrCollapse(lay, false);
+                                anotherSearch_bt.setVisibility(View.VISIBLE);
+                                Collections.sort(rideOffers, new RideOfferComparatorByDateAndTime());
+                                for (RideForJson rideOffer : rideOffers) {
+                                    rideOffer.setDbId(rideOffer.getId().intValue());
+                                }
+                                adapter.makeList(rideOffers);
+                            } else {
+                                Util.toast(R.string.frag_rideSearch_noRideFound);
+                                adapter.makeList(new ArrayList<RideForJson>());
+                            }
+                            pd.dismiss();
+                        } else {
+                            pd.dismiss();
+                            Util.toast(R.string.frag_rideSearch_errorListFiltered);
+                            Log.e("listFiltered", response.message());
+                        }
                     }
-                    adapter.makeList(rideOffers);
-                } else {
-                    Util.toast(R.string.frag_rideSearch_noRideFound);
-                    adapter.makeList(new ArrayList<RideForJson>());
-                }
-                pd.dismiss();
-            }
 
-            @Override
-            public void failure(RetrofitError error) {
-                pd.dismiss();
-                Util.toast(R.string.frag_rideSearch_errorListFiltered);
-                try {
-                    Log.e("listFiltered", error.getMessage());
-                } catch (Exception e) {//sometimes RetrofitError is null
-                    Log.e("listFiltered", e.getMessage());
-                }
-            }
-        });
+                    @Override
+                    public void onFailure(Call<List<RideForJson>> call, Throwable t) {
+                        pd.dismiss();
+                        Util.toast(R.string.frag_rideSearch_errorListFiltered);
+                        Log.e("listFiltered", t.getMessage());
+                    }
+                });
+
     }
 
     @Subscribe

@@ -16,9 +16,9 @@ import br.ufrj.caronae.models.User;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class SignUpAct extends AppCompatActivity {
 
@@ -45,40 +45,45 @@ public class SignUpAct extends AppCompatActivity {
 
     @OnClick(R.id.button)
     public void button() {
-        if (checkBox.isChecked())
-            App.getNetworkService(getApplicationContext()).signUpIntranet(nome_et.getText().toString(), token_et.getText().toString(), new Callback<User>() {
+        if (checkBox.isChecked()) {
+            App.getNetworkService(getApplicationContext()).signUpIntranet(nome_et.getText().toString(), token_et.getText().toString())
+                    .enqueue(new Callback<User>() {
+                        @Override
+                        public void onResponse(Call<User> call, Response<User> response) {
+                            if (response.isSuccessful()) {
+                                User user = response.body();
+                                Util.toast(user.getName() + " cadastrado");
+                            } else {
+                                Util.toast("Erro ao cadastrar");
+                                Log.e("signUp", response.message());
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<User> call, Throwable t) {
+                            Log.e("signUp", t.getMessage());
+                        }
+                    });
+        } else {
+            App.getNetworkService(getApplicationContext()).signUp(nome_et.getText().toString(), token_et.getText().toString())
+            .enqueue(new Callback<User>() {
                 @Override
-                public void success(User user, Response response) {
-                    Util.toast(user.getName() + " cadastrado");
+                public void onResponse(Call<User> call, Response<User> response) {
+                    if (response.isSuccessful()) {
+                        User user = response.body();
+                        Util.toast(user.getName() + " cadastrado");
+                    } else {
+                        Util.toast("Erro ao cadastrar");
+                        Log.e("signUp", response.message());
+                    }
                 }
 
                 @Override
-                public void failure(RetrofitError error) {
-                    Util.toast("Erro ao cadastrar");
-                    try {
-                        Log.e("signUp", error.getMessage());
-                    } catch (Exception e) {//sometimes RetrofitError is null
-                        Log.e("signUp", e.getMessage());
-                    }
+                public void onFailure(Call<User> call, Throwable t) {
+                    Log.e("signUp", t.getMessage());
                 }
             });
-        else
-            App.getNetworkService(getApplicationContext()).signUp(nome_et.getText().toString(), token_et.getText().toString(), new Callback<User>() {
-                @Override
-                public void success(User user, Response response) {
-                    Util.toast(user.getName() + " cadastrado");
-                }
+        }
 
-                @Override
-                public void failure(RetrofitError error) {
-                    Util.toast("Erro ao cadastrar");
-                    try {
-                        Log.e("signUp", error.getMessage());
-                    } catch (Exception e) {//sometimes RetrofitError is null
-                        Log.e("signUp", e.getMessage());
-                    }
-                }
-            });
     }
-
 }

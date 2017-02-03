@@ -37,9 +37,9 @@ import br.ufrj.caronae.models.modelsforjson.RideForJson;
 import br.ufrj.caronae.models.modelsforjson.RideIdForJson;
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class RideOfferAct extends AppCompatActivity {
 
@@ -201,35 +201,36 @@ public class RideOfferAct extends AppCompatActivity {
                             @Override
                             public void onPositiveActionClicked(DialogFragment fragment) {
                                 final ProgressDialog pd = ProgressDialog.show(RideOfferAct.this, "", getString(R.string.wait), true, true);
-                                App.getNetworkService(getApplicationContext()).requestJoin(new RideIdForJson(rideWithUsers.getDbId()), new Callback<Response>() {
-                                    //TODO: Motorista nao recebe a notificacao
-                                    @Override
-                                    public void success(Response response, Response response2) {
-                                        RideRequestSent rideRequest = new RideRequestSent(rideWithUsers.getDbId(), rideWithUsers.isGoing(), rideWithUsers.getDate());
-                                        rideRequest.save();
+                                App.getNetworkService(getApplicationContext()).requestJoin(new RideIdForJson(rideWithUsers.getDbId()))
+                                        .enqueue(new Callback<Response>() {
+                                            @Override
+                                            public void onResponse(Call<Response> call, Response<Response> response) {
+                                                if (response.isSuccessful()){
+                                                    RideRequestSent rideRequest = new RideRequestSent(rideWithUsers.getDbId(), rideWithUsers.isGoing(), rideWithUsers.getDate());
+                                                    rideRequest.save();
 
-                                        createChatAssets(rideWithUsers);
+                                                    createChatAssets(rideWithUsers);
 
-                                        join_bt.setVisibility(View.INVISIBLE);
-                                        requested_tv.setVisibility(View.VISIBLE);
-                                        App.getBus().post(rideRequest);
+                                                    join_bt.setVisibility(View.INVISIBLE);
+                                                    requested_tv.setVisibility(View.VISIBLE);
+                                                    App.getBus().post(rideRequest);
 
-                                        pd.dismiss();
-                                        Util.toast(R.string.requestSent);
-                                    }
+                                                    pd.dismiss();
+                                                    Util.toast(R.string.requestSent);
+                                                } else {
+                                                    pd.dismiss();
+                                                    Util.toast(R.string.errorRequestSent);
+                                                    Log.e("requestJoin", response.message());
+                                                }
+                                            }
 
-                                    @Override
-                                    public void failure(RetrofitError error) {
-                                        pd.dismiss();
-                                        Util.toast(R.string.errorRequestSent);
-
-                                        try {
-                                            Log.e("requestJoin", error.getMessage());
-                                        } catch (Exception e) {//sometimes RetrofitError is null
-                                            Log.e("requestJoin", e.getMessage());
-                                        }
-                                    }
-                                });
+                                            @Override
+                                            public void onFailure(Call<Response> call, Throwable t) {
+                                                pd.dismiss();
+                                                Util.toast(R.string.errorRequestSent);
+                                                Log.e("requestJoin", t.getMessage());
+                                            }
+                                        });
 
                                 super.onPositiveActionClicked(fragment);
                             }

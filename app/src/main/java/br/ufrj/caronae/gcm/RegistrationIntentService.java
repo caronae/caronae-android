@@ -13,9 +13,9 @@ import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.models.modelsforjson.TokenForJson;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class RegistrationIntentService extends IntentService {
     // abbreviated tag name
@@ -47,25 +47,25 @@ public class RegistrationIntentService extends IntentService {
 
     private void sendRegistrationToServer(final String token) {
         // send network request
-        App.getNetworkService(getApplicationContext()).saveGcmToken(new TokenForJson(token), new Callback<Response>() {
-            @Override
-            public void success(Response response, Response response2) {
-                Log.i("saveGcmToken", "gcm token sent to server");
+        App.getNetworkService(getApplicationContext()).saveGcmToken(new TokenForJson(token))
+                .enqueue(new Callback<Response>() {
+                    @Override
+                    public void onResponse(Call<Response> call, Response<Response> response) {
+                        if (response.isSuccessful()) {
+                            Log.i("saveGcmToken", "gcm token sent to server");
 
-                // save token
-                SharedPref.saveUserGcmToken(token);
-            }
+                            // save token
+                            SharedPref.saveUserGcmToken(token);
+                        } else {
+                            Log.e("saveGcmToken", response.message());
+                        }
+                    }
 
-            @Override
-            public void failure(RetrofitError error) {
-                try {
-                    Log.e("saveGcmToken", error.getMessage());
-                } catch (Exception e) {//sometimes RetrofitError is null
-                    Log.e("saveGcmToken", e.getMessage());
-                }
-            }
-        });
-
+                    @Override
+                    public void onFailure(Call<Response> call, Throwable t) {
+                        Log.e("saveGcmToken", t.getMessage());
+                    }
+                });
         // if registration sent was successful, store a boolean that indicates whether the generated token has been sent to server
         //sharedPreferences.edit().putBoolean(SENT_TOKEN_TO_SERVER, true).apply();
     }

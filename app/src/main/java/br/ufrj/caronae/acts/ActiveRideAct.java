@@ -43,9 +43,9 @@ import br.ufrj.caronae.models.modelsforjson.RideForJson;
 import br.ufrj.caronae.models.modelsforjson.RideIdForJson;
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ActiveRideAct extends AppCompatActivity {
 
@@ -236,41 +236,42 @@ public class ActiveRideAct extends AppCompatActivity {
                     @Override
                     public void onPositiveActionClicked(DialogFragment fragment) {
                         final ProgressDialog pd = ProgressDialog.show(ActiveRideAct.this, "", getString(R.string.wait), true, true);
-                        App.getNetworkService(getApplicationContext()).leaveRide(new RideIdForJson(rideWithUsers.getDbId()), new Callback<Response>() {
-                            @Override
-                            public void success(Response response, Response response2) {
-                                pd.dismiss();
-                                if (isDriver)
-                                    Util.toast(getString(R.string.act_activeride_cancelledRide));
-                                else
-                                    Util.toast(getString(R.string.act_activeride_quitRide));
+                        App.getNetworkService(getApplicationContext()).leaveRide(new RideIdForJson(rideWithUsers.getDbId()))
+                                .enqueue(new Callback<Response>() {
+                                    @Override
+                                    public void onResponse(Call<Response> call, Response<Response> response) {
+                                        if (response.isSuccessful()){
+                                            pd.dismiss();
+                                            if (isDriver)
+                                                Util.toast(getString(R.string.act_activeride_cancelledRide));
+                                            else
+                                                Util.toast(getString(R.string.act_activeride_quitRide));
 
-//                                TODO: Remove old gcm code
-//                                new UnsubGcmTopic(ActiveRideAct.this, rideId).execute();
 
-                                FirebaseTopicsHandler.unsubscribeFirebaseTopic(rideId + "");
+                                            FirebaseTopicsHandler.unsubscribeFirebaseTopic(rideId + "");
 
-                                List<Ride> rides = Ride.find(Ride.class, "db_id = ?", rideId);
-                                if (rides != null && !rides.isEmpty())
-                                    rides.get(0).delete();
+                                            List<Ride> rides = Ride.find(Ride.class, "db_id = ?", rideId);
+                                            if (rides != null && !rides.isEmpty())
+                                                rides.get(0).delete();
 
-                                ActiveRide.deleteAll(ActiveRide.class, "db_id = ?", rideId);
+                                            ActiveRide.deleteAll(ActiveRide.class, "db_id = ?", rideId);
 
-                                SharedPref.saveRemoveRideFromList(rideId);
-                                finish();
-                            }
+                                            SharedPref.saveRemoveRideFromList(rideId);
+                                            finish();
+                                        } else {
+                                            pd.dismiss();
+                                            Util.toast(R.string.errorRideDeleted);
+                                            Log.e("leaveRide", response.message());
+                                        }
+                                    }
 
-                            @Override
-                            public void failure(RetrofitError error) {
-                                pd.dismiss();
-                                Util.toast(R.string.errorRideDeleted);
-                                try {
-                                    Log.e("leaveRide", error.getMessage());
-                                } catch (Exception e) {//sometimes RetrofitError is null
-                                    Log.e("leaveRide", e.getMessage());
-                                }
-                            }
-                        });
+                                    @Override
+                                    public void onFailure(Call<Response> call, Throwable t) {
+                                        pd.dismiss();
+                                        Util.toast(R.string.errorRideDeleted);
+                                        Log.e("leaveRide", t.getMessage());
+                                    }
+                                });
 
                         super.onPositiveActionClicked(fragment);
                     }
@@ -312,39 +313,40 @@ public class ActiveRideAct extends AppCompatActivity {
                     @Override
                     public void onPositiveActionClicked(DialogFragment fragment) {
                         final ProgressDialog pd = ProgressDialog.show(ActiveRideAct.this, "", getString(R.string.wait), true, true);
-                        App.getNetworkService(getApplicationContext()).finishRide(new RideIdForJson(rideWithUsers.getDbId()), new Callback<Response>() {
-                            @Override
-                            public void success(Response response, Response response2) {
-                                pd.dismiss();
-                                Util.toast(R.string.rideFinished);
+                        App.getNetworkService(getApplicationContext()).finishRide(new RideIdForJson(rideWithUsers.getDbId()))
+                                .enqueue(new Callback<Response>() {
+                                    @Override
+                                    public void onResponse(Call<Response> call, Response<Response> response) {
+                                        if (response.isSuccessful()){
+                                            pd.dismiss();
+                                            Util.toast(R.string.rideFinished);
 
-//                                TODO: remove old gcm code
-//                                new UnsubGcmTopic(ActiveRideAct.this, rideId).execute();
+                                            FirebaseTopicsHandler.unsubscribeFirebaseTopic(rideId + "");
 
-                                FirebaseTopicsHandler.unsubscribeFirebaseTopic(rideId + "");
+                                            List<Ride> rides = Ride.find(Ride.class, "db_id = ?", rideId);
+                                            if (rides != null && !rides.isEmpty())
+                                                rides.get(0).delete();
 
-                                List<Ride> rides = Ride.find(Ride.class, "db_id = ?", rideId);
-                                if (rides != null && !rides.isEmpty())
-                                    rides.get(0).delete();
+                                            ActiveRide.deleteAll(ActiveRide.class, "db_id = ?", rideId);
 
-                                ActiveRide.deleteAll(ActiveRide.class, "db_id = ?", rideId);
+                                            SharedPref.saveRemoveRideFromList(rideId);
+                                            finish();
+                                        } else {
+                                            pd.dismiss();
+                                            Util.toast(R.string.errorFinishRide);
 
-                                SharedPref.saveRemoveRideFromList(rideId);
-                                finish();
-                            }
+                                            Log.e("finish_bt", response.message());
+                                        }
+                                    }
 
-                            @Override
-                            public void failure(RetrofitError error) {
-                                pd.dismiss();
-                                Util.toast(R.string.errorFinishRide);
+                                    @Override
+                                    public void onFailure(Call<Response> call, Throwable t) {
+                                        pd.dismiss();
+                                        Util.toast(R.string.errorFinishRide);
 
-                                try {
-                                    Log.e("finish_bt", error.getMessage());
-                                } catch (Exception e) {//sometimes RetrofitError is null
-                                    Log.e("finish_bt", e.getMessage());
-                                }
-                            }
-                        });
+                                        Log.e("finish_bt", t.getMessage());
+                                    }
+                                });
 
                         super.onPositiveActionClicked(fragment);
                     }

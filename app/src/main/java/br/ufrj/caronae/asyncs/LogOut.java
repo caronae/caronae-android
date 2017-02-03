@@ -20,9 +20,9 @@ import br.ufrj.caronae.models.RideRequestReceived;
 import br.ufrj.caronae.models.ActiveRide;
 import br.ufrj.caronae.models.RideRequestSent;
 import br.ufrj.caronae.models.modelsforjson.TokenForJson;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class LogOut extends AsyncTask<Void, Void, Void> {
 
@@ -39,21 +39,22 @@ public class LogOut extends AsyncTask<Void, Void, Void> {
         FirebaseMessaging.getInstance().unsubscribeFromTopic(SharedPref.TOPIC_GERAL);
         FirebaseMessaging.getInstance().unsubscribeFromTopic(App.getUser().getDbId() + "");
 
-        App.getNetworkService(context).saveGcmToken(new TokenForJson(""), new Callback<Response>() {
-            @Override
-            public void success(Response response, Response response2) {
-                Log.i("saveGcmToken", "gcm token cleared");
-            }
+        App.getNetworkService(context).saveGcmToken(new TokenForJson(""))
+                .enqueue(new Callback<Response>() {
+                    @Override
+                    public void onResponse(Call<Response> call, Response<Response> response) {
+                        if (response.isSuccessful()){
+                            Log.i("saveGcmToken", "gcm token cleared");
+                        } else {
+                            Log.e("saveGcmToken", response.message());
+                        }
+                    }
 
-            @Override
-            public void failure(RetrofitError error) {
-                try {
-                    Log.e("saveGcmToken", error.getMessage());
-                } catch (Exception e) {//sometimes RetrofitError is null
-                    Log.e("saveGcmToken", e.getMessage());
-                }
-            }
-        });
+                    @Override
+                    public void onFailure(Call<Response> call, Throwable t) {
+                        Log.e("saveGcmToken", t.getMessage());
+                    }
+                });
     }
 
     @Override

@@ -18,7 +18,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import retrofit.client.Response;
 
 public class Util {
 
@@ -52,27 +51,27 @@ public class Util {
         v.startAnimation(anim);
     }
 
-    public static String getResponseBody(Response response) {
-        BufferedReader reader;
-        StringBuilder sb = new StringBuilder();
-        try {
-            reader = new BufferedReader(new InputStreamReader(response.getBody().in()));
-
-            String line;
-
-            try {
-                while ((line = reader.readLine()) != null) {
-                    sb.append(line);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return sb.toString();
-    }
+//    public static String getResponseBody(Response response) {
+//        BufferedReader reader;
+//        StringBuilder sb = new StringBuilder();
+//        try {
+//            reader = new BufferedReader(new InputStreamReader(response.getBody().in()));
+//
+//            String line;
+//
+//            try {
+//                while ((line = reader.readLine()) != null) {
+//                    sb.append(line);
+//                }
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//        return sb.toString();
+//    }
 
     public static void toast(int msg) {
         Toast.makeText(App.inst(), App.inst().getString(msg), Toast.LENGTH_SHORT).show();

@@ -38,6 +38,9 @@ import butterknife.OnClick;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MyRidesListFrag extends Fragment {
 
@@ -143,35 +146,34 @@ public class MyRidesListFrag extends Fragment {
             public void onPositiveActionClicked(DialogFragment fragment) {
                 final ProgressDialog pd = ProgressDialog.show(getContext(), "", getResources().getString(R.string.wait), true, true);
 
-                App.getNetworkService(getContext()).deleteAllRidesFromUser("stub", going, new Callback<Response>() {
-                    @Override
-                    public void success(Response response, Response response2) {
-                        Log.i("deleteAllRidesFromUser", "all rides deleted");
+                App.getNetworkService(getContext()).deleteAllRidesFromUser("stub", going)
+                        .enqueue(new Callback<Response>() {
+                            @Override
+                            public void onResponse(Call<Response> call, Response<Response> response) {
+                                if(response.isSuccessful()){
+                                    Log.i("deleteAllRidesFromUser", "all rides deleted");
 
-                        Ride.deleteAll(Ride.class, "going = ?", going ? "1" : "0");
-                        Util.toast(R.string.frag_myrides_ridesDeleted);
-                        rides.clear();
-                        myRidesList.getAdapter().notifyDataSetChanged();
-                        norides_tv.setVisibility(View.VISIBLE);
-                        deleteAll_bt.setVisibility(View.INVISIBLE);
-                        helpText_tv.setVisibility(View.INVISIBLE);
+                                    Ride.deleteAll(Ride.class, "going = ?", going ? "1" : "0");
+                                    Util.toast(R.string.frag_myrides_ridesDeleted);
+                                    rides.clear();
+                                    myRidesList.getAdapter().notifyDataSetChanged();
+                                    norides_tv.setVisibility(View.VISIBLE);
+                                    deleteAll_bt.setVisibility(View.INVISIBLE);
+                                    helpText_tv.setVisibility(View.INVISIBLE);
 
-                        pd.dismiss();
-                    }
+                                    pd.dismiss();
+                                } else {
+                                    Util.toast(getString(R.string.frag_myrides_errorDeleteAllRIdes));
+                                    Log.e("deleteRide", response.message());
+                                }
+                            }
 
-                    @Override
-                    public void failure(RetrofitError error) {
-                        Util.toast(getString(R.string.frag_myrides_errorDeleteAllRIdes));
-                        try {
-                            Log.e("deleteRide", error.getMessage());
-                        } catch (Exception e) {//sometimes RetrofitError is null
-                            Log.e("deleteRide", e.getMessage());
-                        }
-
-                        pd.dismiss();
-                    }
-                });
-
+                            @Override
+                            public void onFailure(Call<Response> call, Throwable t) {
+                                Util.toast(getString(R.string.frag_myrides_errorDeleteAllRIdes));
+                                Log.e("deleteRide", t.getMessage());
+                            }
+                        });
                 super.onPositiveActionClicked(fragment);
             }
 

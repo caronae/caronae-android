@@ -26,9 +26,9 @@ import br.ufrj.caronae.acts.ProfileAct;
 import br.ufrj.caronae.gcm.FirebaseTopicsHandler;
 import br.ufrj.caronae.models.User;
 import br.ufrj.caronae.models.modelsforjson.JoinRequestIDsForJson;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class RequestersAdapter extends RecyclerView.Adapter<RequestersAdapter.ViewHolder> {
     private final ArrayList<User> users;
@@ -85,34 +85,34 @@ public class RequestersAdapter extends RecyclerView.Adapter<RequestersAdapter.Vi
             @Override
             public void onClick(View view) {
                 final ProgressDialog pd = ProgressDialog.show(activity, "", activity.getString(R.string.wait), true, true);
-                App.getNetworkService(activity.getApplicationContext()).answerJoinRequest(new JoinRequestIDsForJson(user.getDbId(), rideId, true), new Callback<Response>() {
-                    @Override
-                    public void success(Response response, Response response2) {
-                        pd.dismiss();
-                        Util.toast(R.string.requestAccepted);
-                        users.remove(user);
-                        notifyItemRemoved(holder.getAdapterPosition());
+                App.getNetworkService(activity.getApplicationContext()).answerJoinRequest(new JoinRequestIDsForJson(user.getDbId(), rideId, true))
+                        .enqueue(new Callback<Response>() {
+                            @Override
+                            public void onResponse(Call<Response> call, Response<Response> response) {
+                                if (response.isSuccessful()) {
+                                    pd.dismiss();
+                                    Util.toast(R.string.requestAccepted);
+                                    users.remove(user);
+                                    notifyItemRemoved(holder.getAdapterPosition());
 
-                        if (users.isEmpty())
-                            activity.finish();
-                        //TODO: Remove old Gcm code
-//                        new CheckSubGcmTopic().execute(rideId + "");
+                                    if (users.isEmpty())
+                                        activity.finish();
 
-                        FirebaseTopicsHandler.subscribeFirebaseTopic(rideId + "");
-                    }
+                                    FirebaseTopicsHandler.subscribeFirebaseTopic(rideId + "");
+                                } else {
+                                    pd.dismiss();
+                                    Log.e("answerJoinRequest", response.message());
+                                    Util.toast(R.string.errorAnsweRequest);
+                                }
+                            }
 
-                    @Override
-                    public void failure(RetrofitError error) {
-                        pd.dismiss();
-                        try {
-                            Log.e("answerJoinRequest", error.getMessage());
-                        } catch (Exception e) {//sometimes RetrofitError is null
-                            Log.e("answerJoinRequest", e.getMessage());
-                        }
-
-                        Util.toast(R.string.errorAnsweRequest);
-                    }
-                });
+                            @Override
+                            public void onFailure(Call<Response> call, Throwable t) {
+                                pd.dismiss();
+                                Log.e("answerJoinRequest", t.getMessage());
+                                Util.toast(R.string.errorAnsweRequest);
+                            }
+                        });
             }
         });
 
@@ -120,27 +120,29 @@ public class RequestersAdapter extends RecyclerView.Adapter<RequestersAdapter.Vi
             @Override
             public void onClick(View view) {
                 final ProgressDialog pd = ProgressDialog.show(activity, "", activity.getString(R.string.wait), true, true);
-                App.getNetworkService(activity.getApplicationContext()).answerJoinRequest(new JoinRequestIDsForJson(user.getDbId(), rideId, false), new Callback<Response>() {
-                    @Override
-                    public void success(Response response, Response response2) {
-                        pd.dismiss();
-                        Util.toast(R.string.requestRejected);
-                        users.remove(user);
-                        notifyItemRemoved(holder.getAdapterPosition());
-                    }
+                App.getNetworkService(activity.getApplicationContext()).answerJoinRequest(new JoinRequestIDsForJson(user.getDbId(), rideId, false))
+                        .enqueue(new Callback<Response>() {
+                                     @Override
+                                     public void onResponse(Call<Response> call, Response<Response> response) {
+                                         if (response.isSuccessful()) {
+                                             pd.dismiss();
+                                             Util.toast(R.string.requestRejected);
+                                             users.remove(user);
+                                             notifyItemRemoved(holder.getAdapterPosition());
+                                         } else {
+                                             pd.dismiss();
+                                             Log.e("answerJoinRequest", response.message());
+                                         }
 
-                    @Override
-                    public void failure(RetrofitError error) {
-                        pd.dismiss();
-                        try {
-                            Log.e("answerJoinRequest", error.getMessage());
-                        } catch (Exception e) {//sometimes RetrofitError is null
-                            Log.e("answerJoinRequest", e.getMessage());
-                        }
+                                     }
 
-                        Util.toast(R.string.errorAnsweRequest);
-                    }
-                });
+                                     @Override
+                                     public void onFailure(Call<Response> call, Throwable t) {
+                                         pd.dismiss();
+                                         Log.e("answerJoinRequest", t.getMessage());
+                                     }
+                                 }
+                        );
             }
         });
     }

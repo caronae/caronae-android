@@ -39,6 +39,9 @@ import butterknife.OnClick;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ProfileAct extends AppCompatActivity {
 
@@ -133,35 +136,39 @@ public class ProfileAct extends AppCompatActivity {
                     String name = user.getName().split(" ")[0];
                     openProfile_tv.setText(getString(R.string.act_profile_openFbProfile, name));
                     openProfile_tv.setVisibility(View.VISIBLE);
-                    App.getNetworkService(getApplicationContext()).getMutualFriends(token.getToken(), user.getFaceId(), new Callback<FacebookFriendForJson>() {
-                        @Override
-                        public void success(FacebookFriendForJson mutualFriends, Response response) {
-                            if (mutualFriends.getTotalCount() < 1)
-                                return;
+                    App.getNetworkService(getApplicationContext()).getMutualFriends(token.getToken(), user.getFaceId())
+                            .enqueue(new Callback<FacebookFriendForJson>() {
+                                @Override
+                                public void onResponse(Call<FacebookFriendForJson> call, Response<FacebookFriendForJson> response) {
+                                    if (response.isSuccessful()) {
 
-                            mutualFriends_lay.setVisibility(View.VISIBLE);
+                                        FacebookFriendForJson mutualFriends = response.body();
+                                        if (mutualFriends.getTotalCount() < 1)
+                                            return;
 
-                            int totalCount = mutualFriends.getTotalCount();
-                            String s = mutualFriends.getTotalCount() > 1 ? "s" : "";
-                            int size = mutualFriends.getMutualFriends().size();
-                            String s1 = mutualFriends.getMutualFriends().size() != 1 ? "m" : "";
-                            mutualFriends_tv.setText(getString(R.string.act_profile_mutualFriends, totalCount, s, size, s1));
+                                        mutualFriends_lay.setVisibility(View.VISIBLE);
 
-                            mutualFriendsList.setAdapter(new RidersAdapter(mutualFriends.getMutualFriends(), ProfileAct.this));
-                            mutualFriendsList.setHasFixedSize(true);
-                            mutualFriendsList.setLayoutManager(new LinearLayoutManager(ProfileAct.this, LinearLayoutManager.HORIZONTAL, false));
-                        }
+                                        int totalCount = mutualFriends.getTotalCount();
+                                        String s = mutualFriends.getTotalCount() > 1 ? "s" : "";
+                                        int size = mutualFriends.getMutualFriends().size();
+                                        String s1 = mutualFriends.getMutualFriends().size() != 1 ? "m" : "";
+                                        mutualFriends_tv.setText(getString(R.string.act_profile_mutualFriends, totalCount, s, size, s1));
 
-                        @Override
-                        public void failure(RetrofitError error) {
-                            //Util.toast(getString(R.string.act_profile_errorMutualFriends));
-                            try {
-                                Log.e("getMutualFriends", error.getMessage());
-                            } catch (Exception e) {//sometimes RetrofitError is null
-                                Log.e("getMutualFriends", e.getMessage());
-                            }
-                        }
-                    });
+                                        mutualFriendsList.setAdapter(new RidersAdapter(mutualFriends.getMutualFriends(), ProfileAct.this));
+                                        mutualFriendsList.setHasFixedSize(true);
+                                        mutualFriendsList.setLayoutManager(new LinearLayoutManager(ProfileAct.this, LinearLayoutManager.HORIZONTAL, false));
+                                    } else {
+                                        //Util.toast(getString(R.string.act_profile_errorMutualFriends));
+                                        Log.e("getMutualFriends", response.message());
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<FacebookFriendForJson> call, Throwable t) {
+                                    Log.e("getMutualFriends", t.getMessage());
+                                }
+                            });
+
                 } else {
                     Log.i("profileact,facebook", "user face id is null");
                 }

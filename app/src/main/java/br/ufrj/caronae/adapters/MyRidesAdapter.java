@@ -31,9 +31,9 @@ import br.ufrj.caronae.acts.RequestersListAct;
 import br.ufrj.caronae.models.Ride;
 import br.ufrj.caronae.models.RideRequestReceived;
 import br.ufrj.caronae.models.User;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHolder> {
     private final List<Ride> rides;
@@ -165,32 +165,35 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
                     public void onPositiveActionClicked(DialogFragment fragment) {
                         final ProgressDialog pd = ProgressDialog.show(activity, "", activity.getString(R.string.wait), true, true);
                         final String routineId = ride.getRoutineId();
-                        App.getNetworkService(activity.getApplicationContext()).deleteAllRidesFromRoutine(routineId, new Callback<Response>() {
-                            @Override
-                            public void success(Response response, Response response2) {
-                                pd.dismiss();
-                                Util.toast(R.string.ridesDeleted);
-                                Iterator<Ride> it = rides.iterator();
-                                while (it.hasNext()) {
-                                    Ride ride2 = it.next();
-                                    if (ride2.getRoutineId().equals(routineId))
-                                        it.remove();
-                                }
-                                notifyDataSetChanged();
-                                Ride.deleteAll(Ride.class, "routine_id = ?", routineId);
-                            }
+                        App.getNetworkService(activity.getApplicationContext()).deleteAllRidesFromRoutine(routineId)
+                                .enqueue(new Callback<Response>() {
+                                    @Override
+                                    public void onResponse(Call<Response> call, Response<Response> response) {
+                                        if (response.isSuccessful()) {
+                                            pd.dismiss();
+                                            Util.toast(R.string.ridesDeleted);
+                                            Iterator<Ride> it = rides.iterator();
+                                            while (it.hasNext()) {
+                                                Ride ride2 = it.next();
+                                                if (ride2.getRoutineId().equals(routineId))
+                                                    it.remove();
+                                            }
+                                            notifyDataSetChanged();
+                                            Ride.deleteAll(Ride.class, "routine_id = ?", routineId);
+                                        } else {
+                                            pd.dismiss();
+                                            Util.toast(activity.getString(R.string.errorDeleteRide));
+                                            Log.e("deleteAllFromRoutine", response.message());
+                                        }
+                                    }
 
-                            @Override
-                            public void failure(RetrofitError error) {
-                                pd.dismiss();
-                                Util.toast(activity.getString(R.string.errorDeleteRide));
-                                try {
-                                    Log.e("deleteAllFromRoutine", error.getMessage());
-                                } catch (Exception e) {//sometimes RetrofitError is null
-                                    Log.e("deleteAllFromRoutine", e.getMessage());
-                                }
-                            }
-                        });
+                                    @Override
+                                    public void onFailure(Call<Response> call, Throwable t) {
+                                        pd.dismiss();
+                                        Util.toast(activity.getString(R.string.errorDeleteRide));
+                                        Log.e("deleteAllFromRoutine", t.getMessage());
+                                    }
+                                });
 
                         super.onPositiveActionClicked(fragment);
                     }
@@ -216,27 +219,31 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
                     @Override
                     public void onPositiveActionClicked(DialogFragment fragment) {
                         final ProgressDialog pd = ProgressDialog.show(activity, "", activity.getString(R.string.wait), true, true);
-                        App.getNetworkService(activity.getApplicationContext()).deleteRide(ride.getDbId() + "", new Callback<Response>() {
-                            @Override
-                            public void success(Response response, Response response2) {
-                                pd.dismiss();
-                                Util.toast(R.string.rideDeleted);
-                                rides.remove(ride);
-                                notifyItemRemoved(holder.getAdapterPosition());
-                                ride.delete();
-                            }
+                        App.getNetworkService(activity.getApplicationContext()).deleteRide(ride.getDbId() + "")
+                                .enqueue(new Callback<Response>() {
+                                    @Override
+                                    public void onResponse(Call<Response> call, Response<Response> response) {
+                                        if (response.isSuccessful()) {
+                                            pd.dismiss();
+                                            Util.toast(R.string.rideDeleted);
+                                            rides.remove(ride);
+                                            notifyItemRemoved(holder.getAdapterPosition());
+                                            ride.delete();
+                                        } else {
+                                            pd.dismiss();
+                                            Util.toast(activity.getString(R.string.errorDeleteRide));
+                                            Log.e("deleteRide", response.message());
+                                        }
+                                    }
 
-                            @Override
-                            public void failure(RetrofitError error) {
-                                pd.dismiss();
-                                Util.toast(activity.getString(R.string.errorDeleteRide));
-                                try {
-                                    Log.e("deleteRide", error.getMessage());
-                                } catch (Exception e) {//sometimes RetrofitError is null
-                                    Log.e("deleteRide", e.getMessage());
-                                }
-                            }
-                        });
+                                    @Override
+                                    public void onFailure(Call<Response> call, Throwable t) {
+                                        pd.dismiss();
+                                        Util.toast(activity.getString(R.string.errorDeleteRide));
+                                        Log.e("deleteRide", t.getMessage());
+
+                                    }
+                                });
 
                         super.onPositiveActionClicked(fragment);
                     }
@@ -266,35 +273,39 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
                 RideRequestReceived.deleteAll(RideRequestReceived.class, "db_id = ?", ride.getDbId() + "");
                 holder.newRequest_iv.setVisibility(View.INVISIBLE);
 
-                App.getNetworkService(activity.getApplicationContext()).getRequesters(ride.getDbId() + "", new Callback<List<User>>() {
-                    @Override
-                    public void success(List<User> users, Response response) {
-                        pd.dismiss();
+                App.getNetworkService(activity.getApplicationContext()).getRequesters(ride.getDbId() + "")
+                        .enqueue(new Callback<List<User>>() {
+                            @Override
+                            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
+                                if (response.isSuccessful()) {
+                                    pd.dismiss();
+                                    List<User> users = response.body();
 
-                        if (users.isEmpty()) {
-                            Util.toast(R.string.noRequesters);
-                        } else {
-                            Intent intent = new Intent(activity, RequestersListAct.class);
-                            intent.putParcelableArrayListExtra("users", (ArrayList<User>) users);
-                            intent.putExtra("rideId", ride.getDbId());
-                            intent.putExtra("color", colorToSend);
-                            activity.startActivity(intent);
-                        }
-                    }
+                                    if (users.isEmpty()) {
+                                        Util.toast(R.string.noRequesters);
+                                    } else {
+                                        Intent intent = new Intent(activity, RequestersListAct.class);
+                                        intent.putParcelableArrayListExtra("users", (ArrayList<User>) users);
+                                        intent.putExtra("rideId", ride.getDbId());
+                                        intent.putExtra("color", colorToSend);
+                                        activity.startActivity(intent);
+                                    }
+                                } else {
+                                    pd.dismiss();
+                                    Util.toast(R.string.errorGetRequesters);
+                                    Log.e("getRequesters", response.message());
+                                }
+                            }
 
-                    @Override
-                    public void failure(RetrofitError error) {
-                        pd.dismiss();
+                            @Override
+                            public void onFailure(Call<List<User>> call, Throwable t) {
+                                pd.dismiss();
+                                Util.toast(R.string.errorGetRequesters);
+                                Log.e("getRequesters", t.getMessage());
+                            }
+                        });
 
-                        Util.toast(R.string.errorGetRequesters);
 
-                        try {
-                            Log.e("getRequesters", error.getMessage());
-                        } catch (Exception e) {//sometimes RetrofitError is null
-                            Log.e("getRequesters", e.getMessage());
-                        }
-                    }
-                });
             }
         });
 

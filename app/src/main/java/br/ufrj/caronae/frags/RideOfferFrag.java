@@ -44,9 +44,9 @@ import br.ufrj.caronae.models.Ride;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class RideOfferFrag extends Fragment {
 
@@ -459,34 +459,40 @@ public class RideOfferFrag extends Fragment {
 
         final ProgressDialog pd = ProgressDialog.show(getContext(), "", getString(R.string.wait), true, true);
         //TODO: Check Header
-        App.getNetworkService(getContext()).offerRide(Util.getHeaderForHttp(getContext()), ride, new Callback<List<Ride>>() {
-            @Override
-            public void success(List<Ride> rides, Response response) {
-                for (Ride ride : rides) {
-                    Ride ride2 = new Ride(ride);
-                    ride2.setDbId(ride.getId().intValue());
-                    FirebaseUtils.SubscribeToTopic(String.valueOf(ride.getId().intValue()));
-                    ride2.save();
-                    createChatAssets(ride2);
-                }
-                pd.dismiss();
-                Util.toast(R.string.frag_rideOffer_rideSaved);
-            }
+        App.getNetworkService(getContext()).offerRide(Util.getHeaderForHttp(getContext()), ride)
+                .enqueue(new Callback<List<Ride>>() {
+                    @Override
+                    public void onResponse(Call<List<Ride>> call, Response<List<Ride>> response) {
+                        if (response.isSuccessful()) {
 
-            @Override
-            public void failure(RetrofitError error) {
-                pd.dismiss();
-                Util.toast(R.string.frag_rideOffer_errorRideSaved);
-                try {
-                    Log.e("offerRide", error.getMessage());
-                } catch (Exception e) {//sometimes RetrofitError is null
-                    Log.e("offerRide", e.getMessage());
-                }
-            }
-        });
+                            List<Ride> rides = response.body();
+
+                            for (Ride ride : rides) {
+                                Ride ride2 = new Ride(ride);
+                                ride2.setDbId(ride.getId().intValue());
+                                FirebaseUtils.SubscribeToTopic(String.valueOf(ride.getId().intValue()));
+                                ride2.save();
+                                createChatAssets(ride2);
+                            }
+                            pd.dismiss();
+                            Util.toast(R.string.frag_rideOffer_rideSaved);
+                        } else {
+                            pd.dismiss();
+                            Util.toast(R.string.frag_rideOffer_errorRideSaved);
+                            Log.e("offerRide", response.message());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<Ride>> call, Throwable t) {
+                        pd.dismiss();
+                        Util.toast(R.string.frag_rideOffer_errorRideSaved);
+                        Log.e("offerRide", t.getMessage());
+                    }
+                });
     }
 
-    private void createChatAssets(Ride ride){
+    private void createChatAssets(Ride ride) {
         Ride rideWithUsers = ride;
 
         Context context = getContext();

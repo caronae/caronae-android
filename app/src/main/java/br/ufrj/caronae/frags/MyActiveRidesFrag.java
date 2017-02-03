@@ -27,9 +27,9 @@ import br.ufrj.caronae.models.ActiveRide;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MyActiveRidesFrag extends Fragment {
 
@@ -56,64 +56,65 @@ public class MyActiveRidesFrag extends Fragment {
         App.getBus().register(this);
 
         final ProgressDialog pd = ProgressDialog.show(getContext(), "", getActivity().getString(R.string.wait), true, true);
-        App.getNetworkService(getContext()).getMyActiveRides(new Callback<List<RideForJson>>() {
-            @Override
-            public void success(List<RideForJson> rideWithUsersList, Response response) {
-                if (rideWithUsersList == null || rideWithUsersList.isEmpty()) {
-                    pd.dismiss();
+        App.getNetworkService(getContext()).getMyActiveRides()
+                .enqueue(new Callback<List<RideForJson>>() {
+                    @Override
+                    public void onResponse(Call<List<RideForJson>> call, Response<List<RideForJson>> response) {
 
-                    myRidesList.setAdapter(new MyActiveRidesAdapter(new ArrayList<RideForJson>(), (MainAct) getActivity()));
-                    myRidesList.setHasFixedSize(true);
-                    myRidesList.setLayoutManager(new LinearLayoutManager(getActivity()));
+                        if (response.isSuccessful()){
 
-                    norides_tv.setVisibility(View.VISIBLE);
-                    return;
-                }
+                            List<RideForJson> rideWithUsersList = response.body();
+                            if (rideWithUsersList == null || rideWithUsersList.isEmpty()) {
+                                pd.dismiss();
 
-                ActiveRide.deleteAll(ActiveRide.class);
-                //subscribe to ride id topic
-                //TODO: if statement not required, firebase does not stores token, remove old gcm code
-//                if (!SharedPref.getUserGcmToken().equals(SharedPref.MISSING_PREF)) {
-//                    Log.i("getMyActiveRides", "i have gcm token");
-                    for (RideForJson rideWithUsers : rideWithUsersList) {
-                        int rideId = rideWithUsers.getId().intValue();
-                        rideWithUsers.setDbId(rideId);
-                        //TODO: remove old gcm code
-//                        new CheckSubGcmTopic().execute(rideId + "");
+                                myRidesList.setAdapter(new MyActiveRidesAdapter(new ArrayList<RideForJson>(), (MainAct) getActivity()));
+                                myRidesList.setHasFixedSize(true);
+                                myRidesList.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-                        FirebaseTopicsHandler.subscribeFirebaseTopic(rideId + "");
+                                norides_tv.setVisibility(View.VISIBLE);
+                                return;
+                            }
 
-                        new ActiveRide(rideWithUsers.getDbId(),rideWithUsers.isGoing(), rideWithUsers.getDate()).save();
+                            ActiveRide.deleteAll(ActiveRide.class);
+                            //subscribe to ride id topic
+                            for (RideForJson rideWithUsers : rideWithUsersList) {
+                                int rideId = rideWithUsers.getId().intValue();
+                                rideWithUsers.setDbId(rideId);
+
+                                FirebaseTopicsHandler.subscribeFirebaseTopic(rideId + "");
+
+                                new ActiveRide(rideWithUsers.getDbId(),rideWithUsers.isGoing(), rideWithUsers.getDate()).save();
+                            }
+
+                            Collections.sort(rideWithUsersList, new RideOfferComparatorByDateAndTime());
+                            adapter = new MyActiveRidesAdapter(rideWithUsersList, (MainAct) getActivity());
+                            myRidesList.setAdapter(adapter);
+                            myRidesList.setHasFixedSize(true);
+                            myRidesList.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+                            helpText_tv.setVisibility(View.VISIBLE);
+                            helpText2_tv.setVisibility(View.VISIBLE);
+                            pd.dismiss();
+                        } else {
+                            pd.dismiss();
+
+                            norides_tv.setVisibility(View.VISIBLE);
+                            Util.toast(R.string.frag_myactiverides_errorGetActiveRides);
+
+                            Log.e("getMyActiveRides", response.message());
+                        }
                     }
-//                } else {
-//                    Log.i("getMyActiveRides", "i DO NOT have gcm token");
-//                }
 
-                Collections.sort(rideWithUsersList, new RideOfferComparatorByDateAndTime());
-                adapter = new MyActiveRidesAdapter(rideWithUsersList, (MainAct) getActivity());
-                myRidesList.setAdapter(adapter);
-                myRidesList.setHasFixedSize(true);
-                myRidesList.setLayoutManager(new LinearLayoutManager(getActivity()));
+                    @Override
+                    public void onFailure(Call<List<RideForJson>> call, Throwable t) {
+                        pd.dismiss();
 
-                helpText_tv.setVisibility(View.VISIBLE);
-                helpText2_tv.setVisibility(View.VISIBLE);
-                pd.dismiss();
-            }
+                        norides_tv.setVisibility(View.VISIBLE);
+                        Util.toast(R.string.frag_myactiverides_errorGetActiveRides);
 
-            @Override
-            public void failure(RetrofitError error) {
-                pd.dismiss();
-
-                norides_tv.setVisibility(View.VISIBLE);
-                Util.toast(R.string.frag_myactiverides_errorGetActiveRides);
-
-                try {
-                    Log.e("getMyActiveRides", error.getMessage());
-                } catch (Exception e) {//sometimes RetrofitError is null
-                    Log.e("getMyActiveRides", e.getMessage());
-                }
-            }
-        });
+                        Log.e("getMyActiveRides", t.getMessage());
+                    }
+                });
 
         return view;
     }

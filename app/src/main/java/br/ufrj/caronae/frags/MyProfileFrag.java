@@ -43,9 +43,9 @@ import br.ufrj.caronae.models.modelsforjson.UrlForJson;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MyProfileFrag extends Fragment {
 
@@ -116,25 +116,28 @@ public class MyProfileFrag extends Fragment {
                 Profile profile = Profile.getCurrentProfile();
                 if (profile != null) {
                     final String faceId = profile.getId();
-                    App.getNetworkService(getContext()).saveFaceId(new IdForJson(faceId), new Callback<Response>() {
-                        @Override
-                        public void success(Response response, Response response2) {
-                            Log.i("saveFaceId", "face id saved");
-                            User user = App.getUser();
-                            user.setFaceId(faceId);
-                            SharedPref.saveUser(user);
-                        }
+                    App.getNetworkService(getContext()).saveFaceId(new IdForJson(faceId))
+                            .enqueue(new Callback<Response>() {
+                                @Override
+                                public void onResponse(Call<Response> call, Response<Response> response) {
+                                    if (response.isSuccessful()) {
+                                        Log.i("saveFaceId", "face id saved");
+                                        User user = App.getUser();
+                                        user.setFaceId(faceId);
+                                        SharedPref.saveUser(user);
+                                    } else {
+                                        Util.toast(R.string.frag_myprofile_errorSaveFaceId);
+                                        Log.e("saveFaceId", response.message());
+                                    }
+                                }
 
-                        @Override
-                        public void failure(RetrofitError error) {//need to save id later
-                            Util.toast(R.string.frag_myprofile_errorSaveFaceId);
-                            try {
-                                Log.e("saveFaceId", error.getMessage());
-                            } catch (Exception e) {//sometimes RetrofitError is null
-                                Log.e("saveFaceId", e.getMessage());
-                            }
-                        }
-                    });
+                                @Override
+                                public void onFailure(Call<Response> call, Throwable t) {
+                                    Util.toast(R.string.frag_myprofile_errorSaveFaceId);
+                                    Log.e("saveFaceId", t.getMessage());
+                                }
+                            });
+
                 }
             }
 
@@ -335,70 +338,44 @@ public class MyProfileFrag extends Fragment {
                                     .transform(new RoundedTransformation())
                                     .into(user_pic);
 
-                            App.getNetworkService(getContext()).saveProfilePicUrl(new UrlForJson(profilePicUrl), new Callback<Response>() {
-                                @Override
-                                public void success(Response response, Response response2) {
-                                    Log.i("saveProfilePicUrl", "profile pic url saved");
-                                    SharedPref.saveUser(App.getUser());
-                                }
-
-                                @Override
-                                public void failure(RetrofitError error) {//need to save it later
-                                    try {
-                                        Log.e("saveProfilePicUrl", error.getMessage());
-                                    } catch (Exception e) {//sometimes RetrofitError is null
-                                        Log.e("saveProfilePicUrl", e.getMessage());
-                                    }
-                                }
-                            });
+                           saveProfilePicUrl(profilePicUrl);
                         }
                     } else {
                         Util.toast(R.string.frag_myprofile_facePickChoiceNotOnFace);
                     }
                 } else {
-                    App.getNetworkService(getContext()).getIntranetPhotoUrl(new Callback<UrlForJson>() {
-                        @Override
-                        public void success(UrlForJson urlForJson, Response response) {
-                            if (urlForJson == null)
-                                return;
+                    App.getNetworkService(getContext()).getIntranetPhotoUrl()
+                            .enqueue(new Callback<UrlForJson>() {
+                                @Override
+                                public void onResponse(Call<UrlForJson> call, Response<UrlForJson> response) {
+                                    if (response.isSuccessful()){
+                                        UrlForJson urlForJson = response.body();
+                                        if (urlForJson == null)
+                                            return;
 
-                            String profilePicUrl = urlForJson.getUrl();
-                            if (profilePicUrl != null && !profilePicUrl.isEmpty()) {
-                                user.setProfilePicUrl(profilePicUrl);
-                                Picasso.with(getContext()).load(profilePicUrl)
-                                        .error(R.drawable.user_pic)
-                                        .transform(new RoundedTransformation())
-                                        .into(user_pic);
+                                        String profilePicUrl = urlForJson.getUrl();
+                                        if (profilePicUrl != null && !profilePicUrl.isEmpty()) {
+                                            user.setProfilePicUrl(profilePicUrl);
+                                            Picasso.with(getContext()).load(profilePicUrl)
+                                                    .error(R.drawable.user_pic)
+                                                    .transform(new RoundedTransformation())
+                                                    .into(user_pic);
 
-                                App.getNetworkService(getContext()).saveProfilePicUrl(new UrlForJson(profilePicUrl), new Callback<Response>() {
-                                    @Override
-                                    public void success(Response response, Response response2) {
-                                        Log.i("saveProfilePicUrl", "profile pic url saved");
-                                        SharedPref.saveUser(App.getUser());
-                                    }
-
-                                    @Override
-                                    public void failure(RetrofitError error) {//need to save it later
-                                        try {
-                                            Log.e("saveProfilePicUrl", error.getMessage());
-                                        } catch (Exception e) {//sometimes RetrofitError is null
-                                            Log.e("saveProfilePicUrl", e.getMessage());
+                                            saveProfilePicUrl(profilePicUrl);
                                         }
+                                    } else {
+                                        Util.toast(R.string.frag_myprofile_errorGetIntranetPhoto);
+                                        Log.e("getIntranetPhotoUrl", response.message());
                                     }
-                                });
-                            }
-                        }
+                                }
 
-                        @Override
-                        public void failure(RetrofitError error) {
-                            Util.toast(R.string.frag_myprofile_errorGetIntranetPhoto);
-                            try {
-                                Log.e("getIntranetPhotoUrl", error.getMessage());
-                            } catch (Exception e) {//sometimes RetrofitError is null
-                                Log.e("getIntranetPhotoUrl", e.getMessage());
-                            }
-                        }
-                    });
+                                @Override
+                                public void onFailure(Call<UrlForJson> call, Throwable t) {
+                                    Util.toast(R.string.frag_myprofile_errorGetIntranetPhoto);
+                                    Log.e("getIntranetPhotoUrl", t.getMessage());
+                                }
+                            });
+
                 }
                 super.onPositiveActionClicked(fragment);
             }
@@ -536,32 +513,34 @@ public class MyProfileFrag extends Fragment {
         if (!App.getUser().sameFieldsState(editedUser)) {
             int validation = fieldsValidated();
             if (validation == 0) {
-                App.getNetworkService(getContext()).updateUser(editedUser, new Callback<Response>() {
-                    @Override
-                    public void success(Response response, Response response2) {
-                        User user = App.getUser();
-                        if (user == null)
-                            return;
-                        user.setUser(editedUser);
-                        SharedPref.saveUser(user);
-                        Util.toast(R.string.frag_myprofile_updated);
-                    }
+                App.getNetworkService(getContext()).updateUser(editedUser)
+                        .enqueue(new Callback<Response>() {
+                            @Override
+                            public void onResponse(Call<Response> call, Response<Response> response) {
+                                if (response.isSuccessful()) {
+                                    User user = App.getUser();
+                                    if (user == null)
+                                        return;
+                                    user.setUser(editedUser);
+                                    SharedPref.saveUser(user);
+                                    Util.toast(R.string.frag_myprofile_updated);
+                                } else {
+                                    Log.e("updateUser", response.message());
+                                    Util.toast(R.string.frag_myprofile_errorUpdated);
+                                }
+                            }
 
-                    @Override
-                    public void failure(RetrofitError error) {
-                        try {
-                            Log.e("updateUser", error.getMessage());
-                        } catch (Exception e) {//sometimes RetrofitError is null
-                            Log.e("updateUser", e.getMessage());
-                        }
-                        Util.toast(R.string.frag_myprofile_errorUpdated);
-                    }
-                });
-            } else if(validation ==1) {
+                            @Override
+                            public void onFailure(Call<Response> call, Throwable t) {
+                                Log.e("updateUser", t.getMessage());
+                                Util.toast(R.string.frag_myprofile_errorUpdated);
+                            }
+                        });
+            } else if (validation == 1) {
                 Util.toast(getString(R.string.frag_myprofile_invalidFieldsTelephone));
-            }  else if(validation ==2) {
+            } else if (validation == 2) {
                 Util.toast(getString(R.string.frag_myprofile_invalidFieldsEmail));
-            }  else if(validation ==3) {
+            } else if (validation == 3) {
                 Util.toast(getString(R.string.frag_myprofile_invalidFieldsPlate));
             }
         } else {
@@ -579,7 +558,7 @@ public class MyProfileFrag extends Fragment {
             return 2;
         if (carOwner_sw.isChecked()) {
             String plate = carPlate_et.getText().toString();
-            if(!validatePlate(plate))
+            if (!validatePlate(plate))
                 return 3;
         }
 
@@ -603,5 +582,26 @@ public class MyProfileFrag extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
+    }
+
+    public void saveProfilePicUrl(String profilePicUrl) {
+        App.getNetworkService(getContext()).saveProfilePicUrl(new UrlForJson(profilePicUrl))
+                .enqueue(new Callback<Response>() {
+                    @Override
+                    public void onResponse(Call<Response> call, Response<Response> response) {
+                        if (response.isSuccessful()) {
+                            Log.i("saveProfilePicUrl", "profile pic url saved");
+                            SharedPref.saveUser(App.getUser());
+                        } else { //need to save it later
+                            Log.e("saveProfilePicUrl", response.message());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Response> call, Throwable t) { //need to save it later
+                        Log.e("saveProfilePicUrl", t.getMessage());
+                    }
+                });
+
     }
 }

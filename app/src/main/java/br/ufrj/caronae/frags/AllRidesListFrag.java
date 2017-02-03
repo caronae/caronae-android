@@ -37,8 +37,8 @@ import br.ufrj.caronae.models.RideRequestSent;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
+import retrofit2.Call;
+import retrofit2.Response;
 
 public class AllRidesListFrag extends Fragment implements Callback {
     @Bind(R.id.rvRides)
@@ -103,71 +103,80 @@ public class AllRidesListFrag extends Fragment implements Callback {
         App.getBus().unregister(this);
     }
 
-    void refreshRideList(){
-        App.getNetworkService(getContext()).listAllRides(new retrofit.Callback<List<RideForJson>>() {
-            @Override
-            public void success(List<RideForJson> rideOffers, Response response) {
+    void refreshRideList() {
 
-                ArrayList<RideForJson> goingRides = new ArrayList<RideForJson>();
-                ArrayList<RideForJson> notGoingRides = new ArrayList<RideForJson>();
+        App.getNetworkService(getContext()).listAllRides()
+                .enqueue(new retrofit2.Callback<List<RideForJson>>() {
+                    @Override
+                    public void onResponse(Call<List<RideForJson>> call, Response<List<RideForJson>> response) {
+                        if (response.isSuccessful()) {
 
-                if (rideOffers != null && !rideOffers.isEmpty()) {
-                    Collections.sort(rideOffers, new RideOfferComparatorByDateAndTime());
+                            ArrayList<RideForJson> goingRides = new ArrayList<RideForJson>();
+                            ArrayList<RideForJson> notGoingRides = new ArrayList<RideForJson>();
 
-                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
-                    Date todayDate = new Date();
-                    String todayString = simpleDateFormat.format(todayDate);
-                    simpleDateFormat = new SimpleDateFormat("HH:mm", Locale.US);
-                    String time = simpleDateFormat.format(todayDate);
+                            List<RideForJson> rideOffers = response.body();
 
-                    Iterator<RideForJson> it = rideOffers.iterator();
-                    while (it.hasNext()) {
-                        RideForJson rideOffer = it.next();
-                        if (Util.formatBadDateWithYear(rideOffer.getDate()).equals(todayString) && Util.formatTime(rideOffer.getTime()).compareTo(time) < 0)
-                            it.remove();
-                        else {
-                            rideOffer.setDbId(rideOffer.getId().intValue());
-                            if (rideOffer.isGoing())
-                                goingRides.add(rideOffer);
-                            else
-                                notGoingRides.add(rideOffer);
+                            if (rideOffers != null && !rideOffers.isEmpty()) {
+                                Collections.sort(rideOffers, new RideOfferComparatorByDateAndTime());
+
+                                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
+                                Date todayDate = new Date();
+                                String todayString = simpleDateFormat.format(todayDate);
+                                simpleDateFormat = new SimpleDateFormat("HH:mm", Locale.US);
+                                String time = simpleDateFormat.format(todayDate);
+
+                                Iterator<RideForJson> it = rideOffers.iterator();
+                                while (it.hasNext()) {
+                                    RideForJson rideOffer = it.next();
+                                    if (Util.formatBadDateWithYear(rideOffer.getDate()).equals(todayString) && Util.formatTime(rideOffer.getTime()).compareTo(time) < 0)
+                                        it.remove();
+                                    else {
+                                        rideOffer.setDbId(rideOffer.getId().intValue());
+                                        if (rideOffer.isGoing())
+                                            goingRides.add(rideOffer);
+                                        else
+                                            notGoingRides.add(rideOffer);
+                                    }
+                                }
+                            }
+
+                            adapter = new RideOfferAdapter(new ArrayList<RideForJson>(), getContext());
+                            rvRides.setAdapter(adapter);
+                            rvRides.setHasFixedSize(true);
+                            rvRides.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+                            if (pageIdentifier == 0) {
+                                if (goingRides == null || goingRides.isEmpty()) {
+                                    norides_tv.setVisibility(View.VISIBLE);
+                                    helpText_tv.setVisibility(View.INVISIBLE);
+                                } else {
+                                    adapter.makeList(goingRides);
+                                }
+                            } else {
+                                if (notGoingRides == null || notGoingRides.isEmpty()) {
+                                    norides_tv.setVisibility(View.VISIBLE);
+                                    helpText_tv.setVisibility(View.INVISIBLE);
+                                } else {
+                                    adapter.makeList(notGoingRides);
+                                }
+                            }
+                            refreshLayout.setRefreshing(false);
+                        } else {
+                            Util.toast(R.string.frag_allrides_errorGetRides);
+                            refreshLayout.setRefreshing(false);
+                            Log.e("listAllRides", response.message());
                         }
-                    }
-                }
 
-                adapter = new RideOfferAdapter(new ArrayList<RideForJson>(), getContext());
-                rvRides.setAdapter(adapter);
-                rvRides.setHasFixedSize(true);
-                rvRides.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-                if (pageIdentifier == 0) {
-                    if (goingRides == null || goingRides.isEmpty()) {
-                        norides_tv.setVisibility(View.VISIBLE);
-                        helpText_tv.setVisibility(View.INVISIBLE);
-                    } else {
-                        adapter.makeList(goingRides);
                     }
-                } else {
-                    if (notGoingRides == null || notGoingRides.isEmpty()) {
-                        norides_tv.setVisibility(View.VISIBLE);
-                        helpText_tv.setVisibility(View.INVISIBLE);
-                    } else {
-                        adapter.makeList(notGoingRides);
-                    }
-                }
-                refreshLayout.setRefreshing(false);
-            }
 
-            @Override
-            public void failure(RetrofitError error) {
-                try {
-                    Log.e("listAllRides", error.getMessage());
-                } catch (Exception e) {//sometimes RetrofitError is null
-                    Log.e("listAllRides", e.getMessage());
-                }
-                Util.toast(R.string.frag_allrides_errorGetRides);
-                refreshLayout.setRefreshing(false);
-            }
-        });
+                    @Override
+                    public void onFailure(Call<List<RideForJson>> call, Throwable t) {
+                        Util.toast(R.string.frag_allrides_errorGetRides);
+                        refreshLayout.setRefreshing(false);
+                        Log.e("listAllRides", t.getMessage());
+                    }
+                });
+
+
     }
 }

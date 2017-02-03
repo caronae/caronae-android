@@ -5,11 +5,16 @@ import android.content.Context;
 import com.google.gson.Gson;
 import com.orm.SugarApp;
 
+import java.io.IOException;
+
 import br.ufrj.caronae.httpapis.ChatService;
 import br.ufrj.caronae.httpapis.NetworkService;
 import br.ufrj.caronae.models.User;
-import retrofit.RequestInterceptor;
-import retrofit.RestAdapter;
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import retrofit2.Retrofit;
 
 public class App extends SugarApp {
 
@@ -73,22 +78,32 @@ public class App extends SugarApp {
         if (networkService == null) {
             String endpoint = getHost();
 
-            networkService = new RestAdapter.Builder()
-                    .setEndpoint(endpoint)
-                    .setRequestInterceptor(new RequestInterceptor() {
-                        @Override
-                        public void intercept(RequestFacade request) {
-                            if (App.isUserLoggedIn()) {
-                                request.addHeader("Content-Type", "application/json");
-                                request.addHeader("token", SharedPref.getUserToken());
-                                request.addHeader("User-Agent", Util.getHeaderForHttp(context));
-                            }
-                        }
-                    })
-                    //.setLogLevel(RestAdapter.LogLevel.BASIC)
-                    //.setLogLevel(RestAdapter.LogLevel.HEADERS)
-                    //.setLogLevel(RestAdapter.LogLevel.HEADERS_AND_ARGS)
-                    .setLogLevel(RestAdapter.LogLevel.FULL)
+            OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+            httpClient.addInterceptor(new Interceptor() {
+                @Override
+                public Response intercept(Chain chain) throws IOException {
+                    okhttp3.Request original = chain.request();
+                    if (App.isUserLoggedIn()) {
+                        Request request = original.newBuilder()
+                                .header("Content-Type", "application/json")
+                                .header("token", SharedPref.getUserToken())
+                                .header("User-Agent", Util.getHeaderForHttp(context))
+                                .method(original.method(), original.body())
+                                .build();
+
+                        Response response = chain.proceed(request);
+
+                        return response;
+                    }
+                    return chain.proceed(original);
+                }
+            });
+
+            OkHttpClient client = httpClient.build();
+
+            networkService = new Retrofit.Builder()
+                    .baseUrl(endpoint)
+                    .client(client)
                     .build()
                     .create(NetworkService.class);
         }
@@ -101,20 +116,33 @@ public class App extends SugarApp {
 
             String endpoint = getHost();
 
-            chatService = new RestAdapter.Builder()
-                    .setEndpoint(endpoint)
-                    .setRequestInterceptor(new RequestInterceptor() {
-                        @Override
-                        public void intercept(RequestFacade request) {
-                            request.addHeader("token", SharedPref.getUserToken());
-                            request.addHeader("Content-Type", "application/json");
-                        }
-                    })
-                            //.setLogLevel(RestAdapter.LogLevel.HEADERS)
-                            //.setLogLevel(RestAdapter.LogLevel.HEADERS_AND_ARGS)
-                            //.setLogLevel(RestAdapter.LogLevel.FULL)
+            OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+            httpClient.addInterceptor(new Interceptor() {
+                @Override
+                public Response intercept(Chain chain) throws IOException {
+                    okhttp3.Request original = chain.request();
+                    if (App.isUserLoggedIn()) {
+                        Request request = original.newBuilder()
+                                .header("Content-Type", "application/json")
+                                .header("token", SharedPref.getUserToken())
+                                .method(original.method(), original.body())
+                                .build();
+
+                        Response response = chain.proceed(request);
+
+                        return response;
+                    }
+                    return chain.proceed(original);
+                }
+            });
+
+            OkHttpClient client = httpClient.build();
+
+            networkService = new Retrofit.Builder()
+                    .baseUrl(endpoint)
+                    .client(client)
                     .build()
-                    .create(ChatService.class);
+                    .create(NetworkService.class);
         }
 
         return chatService;

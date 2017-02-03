@@ -29,9 +29,9 @@ import br.ufrj.caronae.models.modelsforjson.RideForJson;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class AllRidesFrag extends Fragment {
 
@@ -44,6 +44,8 @@ public class AllRidesFrag extends Fragment {
     @Bind(R.id.progressBar2)
     ProgressBar progressBar2;
 
+    ArrayList<RideForJson> goingRides = new ArrayList<>(), notGoingRides = new ArrayList<>();
+
     public AllRidesFrag() {
     }
 
@@ -52,52 +54,7 @@ public class AllRidesFrag extends Fragment {
         View view = inflater.inflate(R.layout.fragment_all_rides, container, false);
         ButterKnife.bind(this, view);
 
-        final ArrayList<RideForJson> goingRides = new ArrayList<>(), notGoingRides = new ArrayList<>();
-
-        App.getNetworkService(getContext()).listAllRides(new Callback<List<RideForJson>>() {
-            @Override
-            public void success(List<RideForJson> rideOffers, Response response) {
-                progressBar2.setVisibility(View.GONE);
-
-                if (rideOffers != null && !rideOffers.isEmpty()) {
-                    Collections.sort(rideOffers, new RideOfferComparatorByDateAndTime());
-
-                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
-                    Date todayDate = new Date();
-                    String todayString = simpleDateFormat.format(todayDate);
-                    simpleDateFormat = new SimpleDateFormat("HH:mm", Locale.US);
-                    String time = simpleDateFormat.format(todayDate);
-
-                    Iterator<RideForJson> it = rideOffers.iterator();
-                    while (it.hasNext()) {
-                        RideForJson rideOffer = it.next();
-                        if (Util.formatBadDateWithYear(rideOffer.getDate()).equals(todayString) && Util.formatTime(rideOffer.getTime()).compareTo(time) < 0)
-                            it.remove();
-                        else {
-                            rideOffer.setDbId(rideOffer.getId().intValue());
-                            if (rideOffer.isGoing())
-                                goingRides.add(rideOffer);
-                            else
-                                notGoingRides.add(rideOffer);
-                        }
-                    }
-                }
-
-                viewPager.setAdapter(new AllRidesFragmentPagerAdapter(getChildFragmentManager(), goingRides, notGoingRides));
-                tabLayout.setupWithViewPager(viewPager);
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                progressBar2.setVisibility(View.GONE);
-                try {
-                    Log.e("listAllRides", error.getMessage());
-                } catch (Exception e) {//sometimes RetrofitError is null
-                    Log.e("listAllRides", e.getMessage());
-                }
-                Util.toast(R.string.frag_allrides_errorGetRides);
-            }
-        });
+        listAllRides();
 
         return view;
     }
@@ -105,5 +62,59 @@ public class AllRidesFrag extends Fragment {
     @OnClick(R.id.fab)
     public void fab() {
         ((MainAct) getActivity()).showRideOfferFrag();
+    }
+
+
+
+    private void listAllRides() {
+
+        App.getNetworkService(getContext()).listAllRides()
+                .enqueue(new Callback<List<RideForJson>>() {
+                    @Override
+                    public void onResponse(Call<List<RideForJson>> call, Response<List<RideForJson>> response) {
+                        if (response.isSuccessful()) {
+                            progressBar2.setVisibility(View.GONE);
+
+                            List<RideForJson> rideOffers = response.body();
+
+                            if (rideOffers != null && !rideOffers.isEmpty()) {
+                                Collections.sort(rideOffers, new RideOfferComparatorByDateAndTime());
+
+                                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
+                                Date todayDate = new Date();
+                                String todayString = simpleDateFormat.format(todayDate);
+                                simpleDateFormat = new SimpleDateFormat("HH:mm", Locale.US);
+                                String time = simpleDateFormat.format(todayDate);
+
+                                Iterator<RideForJson> it = rideOffers.iterator();
+                                while (it.hasNext()) {
+                                    RideForJson rideOffer = it.next();
+                                    if (Util.formatBadDateWithYear(rideOffer.getDate()).equals(todayString) && Util.formatTime(rideOffer.getTime()).compareTo(time) < 0)
+                                        it.remove();
+                                    else {
+                                        rideOffer.setDbId(rideOffer.getId().intValue());
+                                        if (rideOffer.isGoing())
+                                            goingRides.add(rideOffer);
+                                        else
+                                            notGoingRides.add(rideOffer);
+                                    }
+                                }
+                            }
+
+                            viewPager.setAdapter(new AllRidesFragmentPagerAdapter(getChildFragmentManager(), goingRides, notGoingRides));
+                            tabLayout.setupWithViewPager(viewPager);
+                        } else {
+                            progressBar2.setVisibility(View.GONE);
+                            Log.e("listAllRides", response.message());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<RideForJson>> call, Throwable t) {
+                        progressBar2.setVisibility(View.GONE);
+                        Log.e("listAllRides", t.getMessage());
+                    }
+                });
+
     }
 }
