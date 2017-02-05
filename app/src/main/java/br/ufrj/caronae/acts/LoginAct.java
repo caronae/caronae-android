@@ -24,7 +24,6 @@ import br.ufrj.caronae.R;
 import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.models.Ride;
-import br.ufrj.caronae.models.User;
 import br.ufrj.caronae.models.modelsforjson.LoginForJson;
 import br.ufrj.caronae.models.modelsforjson.TokenForJson;
 import br.ufrj.caronae.models.modelsforjson.UserWithRidesForJson;
@@ -160,11 +159,13 @@ public class LoginAct extends AppCompatActivity {
             @Override
             public void onFailure(Call<UserWithRidesForJson> call, Throwable t) {
                 // handle execution failures like no internet connectivity
-                Log.e("saveGcmToken", "Failure");
+                Log.e("saveGcmToken", "Failure: " + t.getMessage());
                 Util.toast(R.string.act_login_loginFail);
 
             }
         });
+
+        pd.dismiss();
 
         // Busca usuário no servidor, token deve ser com carcteres maiusculos
 //        App.getNetworkService(getApplicationContext()).login(new LoginForJson(token.toUpperCase(), idUfrj), new Callback<UserWithRidesForJson>() {

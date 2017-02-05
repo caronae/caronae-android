@@ -118,18 +118,22 @@ public interface NetworkService {
     Call<Response> finishRide(@Body RideIdForJson rideId);
 
     @GET("ride/getRidesHistory")
-    void getRidesHistory(Callback<List<RideHistoryForJson>> cb);
+//    void getRidesHistory(Callback<List<RideHistoryForJson>> cb);
+    Call<List<RideHistoryForJson>> getRidesHistory();
 
     @GET("ride/getRidesHistoryCount/{userId}")
-    void getRidesHistoryCount(@Path("userId") String userId, Callback<HistoryRideCountForJson> cb);
+//    void getRidesHistoryCount(@Path("userId") String userId, Callback<HistoryRideCountForJson> cb);
+    Call<HistoryRideCountForJson> getRidesHistoryCount(@Path("userId") String userId);
 
     @POST("ride/saveFeedback")
-    void saveFeedback(@Body RideFeedbackForJson rideFeedbackForJson, Callback<Response> cb);
+//    void saveFeedback(@Body RideFeedbackForJson rideFeedbackForJson, Callback<Response> cb);
+    Call<Response> saveFeedback(@Body RideFeedbackForJson rideFeedbackForJson);
 
     @DELETE("ride/joinRequests")
     void deleteJoinRequests(@Body List<RideIdForJson> rideIdsList, Callback<Response> cb);
 
     //falae route
     @POST("falae/sendMessage")
-    void falaeSendMessage(@Body FalaeMsgForJson msg, Callback<Response> cb);
+//    void falaeSendMessage(@Body FalaeMsgForJson msg, Callback<Response> cb);
+    Call<Response> falaeSendMessage(@Body FalaeMsgForJson msg);
 }

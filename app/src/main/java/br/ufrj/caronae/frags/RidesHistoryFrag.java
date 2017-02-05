@@ -19,15 +19,14 @@ import br.ufrj.caronae.R;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.adapters.RidesHistoryAdapter;
-import br.ufrj.caronae.comparators.RideComparatorByDateAndTime;
 import br.ufrj.caronae.comparators.RideComparatorByDateAndTimeReverse;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
 import br.ufrj.caronae.models.modelsforjson.RideHistoryForJson;
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class RidesHistoryFrag extends Fragment {
 
@@ -46,40 +45,46 @@ public class RidesHistoryFrag extends Fragment {
         ButterKnife.bind(this, view);
 
         final ProgressDialog pd = ProgressDialog.show(getActivity(), "", getContext().getString(R.string.wait), true, true);
-        App.getNetworkService(getContext()).getRidesHistory(new Callback<List<RideHistoryForJson>>() {
-            @Override
-            public void success(List<RideHistoryForJson> historyRides, Response response) {
-                if (historyRides == null || historyRides.isEmpty()) {
-                    norides_tv.setVisibility(View.VISIBLE);
-                    pd.dismiss();
-                    return;
-                }
+        App.getNetworkService(getContext()).getRidesHistory()
+                .enqueue(new Callback<List<RideHistoryForJson>>() {
+                    @Override
+                    public void onResponse(Call<List<RideHistoryForJson>> call, Response<List<RideHistoryForJson>> response) {
+                        if (response.isSuccessful()) {
+                            List<RideHistoryForJson> historyRides = response.body();
 
-                for (RideForJson rideHistory : historyRides) {
-                    rideHistory.setDbId(rideHistory.getId().intValue());
-                    rideHistory.setTime(Util.formatTime(rideHistory.getTime()));
-                    rideHistory.setDate(Util.formatBadDateWithYear(rideHistory.getDate()));
-                }
-                Collections.sort(historyRides, new RideComparatorByDateAndTimeReverse());
-                myRidesList.setAdapter(new RidesHistoryAdapter(historyRides, (MainAct) getActivity()));
-                myRidesList.setHasFixedSize(true);
-                myRidesList.setLayoutManager(new LinearLayoutManager(getActivity()));
+                            if (historyRides == null || historyRides.isEmpty()) {
+                                norides_tv.setVisibility(View.VISIBLE);
+                                pd.dismiss();
+                                return;
+                            }
 
-                pd.dismiss();
-            }
+                            for (RideForJson rideHistory : historyRides) {
+                                rideHistory.setDbId(rideHistory.getId().intValue());
+                                rideHistory.setTime(Util.formatTime(rideHistory.getTime()));
+                                rideHistory.setDate(Util.formatBadDateWithYear(rideHistory.getDate()));
+                            }
+                            Collections.sort(historyRides, new RideComparatorByDateAndTimeReverse());
+                            myRidesList.setAdapter(new RidesHistoryAdapter(historyRides, (MainAct) getActivity()));
+                            myRidesList.setHasFixedSize(true);
+                            myRidesList.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-            @Override
-            public void failure(RetrofitError error) {
-                norides_tv.setVisibility(View.VISIBLE);
-                pd.dismiss();
-                Util.toast(R.string.frag_rideshistory_errorGetRides);
-                try {
-                    Log.e("getRidesHistory", error.getMessage());
-                } catch (Exception e) {//sometimes RetrofitError is null
-                    Log.e("getRidesHistory", e.getMessage());
-                }
-            }
-        });
+                            pd.dismiss();
+                        } else {
+                            norides_tv.setVisibility(View.VISIBLE);
+                            pd.dismiss();
+                            Util.toast(R.string.frag_rideshistory_errorGetRides);
+                            Log.e("getRidesHistory", response.message());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<RideHistoryForJson>> call, Throwable t) {
+                        norides_tv.setVisibility(View.VISIBLE);
+                        pd.dismiss();
+                        Util.toast(R.string.frag_rideshistory_errorGetRides);
+                        Log.e("getRidesHistory", t.getMessage());
+                    }
+                });
 
         return view;
     }

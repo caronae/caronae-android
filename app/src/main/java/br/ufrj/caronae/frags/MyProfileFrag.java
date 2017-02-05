@@ -159,23 +159,27 @@ public class MyProfileFrag extends Fragment {
         if (user != null) {
             fillUserFields(user);
 
-            App.getNetworkService(getContext()).getRidesHistoryCount(user.getDbId() + "", new Callback<HistoryRideCountForJson>() {
-                @Override
-                public void success(HistoryRideCountForJson historyRideCountForJson, Response response) {
-                    ridesOffered_tv.setText(String.valueOf(historyRideCountForJson.getOfferedCount()));
-                    ridesTaken_tv.setText(String.valueOf(historyRideCountForJson.getTakenCount()));
-                }
+            App.getNetworkService(getContext()).getRidesHistoryCount(user.getDbId() + "")
+                    .enqueue(new Callback<HistoryRideCountForJson>() {
+                        @Override
+                        public void onResponse(Call<HistoryRideCountForJson> call, Response<HistoryRideCountForJson> response) {
 
-                @Override
-                public void failure(RetrofitError error) {
-                    Util.toast(R.string.act_profile_errorCountRidesHistory);
-                    try {
-                        Log.e("getRidesHistoryCount", error.getMessage());
-                    } catch (Exception e) {//sometimes RetrofitError is null
-                        Log.e("getRidesHistoryCount", e.getMessage());
-                    }
-                }
-            });
+                            if (response.isSuccessful()) {
+                                HistoryRideCountForJson historyRideCountForJson = response.body();
+                                ridesOffered_tv.setText(String.valueOf(historyRideCountForJson.getOfferedCount()));
+                                ridesTaken_tv.setText(String.valueOf(historyRideCountForJson.getTakenCount()));
+                            } else {
+                                Util.toast(R.string.act_profile_errorCountRidesHistory);
+                                Log.e("getRidesHistoryCount", response.message());
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<HistoryRideCountForJson> call, Throwable t) {
+                            Util.toast(R.string.act_profile_errorCountRidesHistory);
+                            Log.e("getRidesHistoryCount", t.getMessage());
+                        }
+                    });
         }
 
         return view;
@@ -338,7 +342,7 @@ public class MyProfileFrag extends Fragment {
                                     .transform(new RoundedTransformation())
                                     .into(user_pic);
 
-                           saveProfilePicUrl(profilePicUrl);
+                            saveProfilePicUrl(profilePicUrl);
                         }
                     } else {
                         Util.toast(R.string.frag_myprofile_facePickChoiceNotOnFace);
@@ -348,7 +352,7 @@ public class MyProfileFrag extends Fragment {
                             .enqueue(new Callback<UrlForJson>() {
                                 @Override
                                 public void onResponse(Call<UrlForJson> call, Response<UrlForJson> response) {
-                                    if (response.isSuccessful()){
+                                    if (response.isSuccessful()) {
                                         UrlForJson urlForJson = response.body();
                                         if (urlForJson == null)
                                             return;

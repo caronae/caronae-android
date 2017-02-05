@@ -26,9 +26,9 @@ import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.models.User;
 import br.ufrj.caronae.models.modelsforjson.RideFeedbackForJson;
 import br.ufrj.caronae.models.modelsforjson.RideHistoryForJson;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class RidesHistoryAdapter extends RecyclerView.Adapter<RidesHistoryAdapter.ViewHolder> {
 
@@ -132,23 +132,7 @@ public class RidesHistoryAdapter extends RecyclerView.Adapter<RidesHistoryAdapte
 
                         @Override
                         public void onPositiveActionClicked(DialogFragment fragment) {
-                            App.getNetworkService(activity.getApplicationContext()).saveFeedback(new RideFeedbackForJson(App.getUser().getDbId(), historyRide.getDbId(), "good"), new Callback<Response>() {
-                                @Override
-                                public void success(Response response, Response response2) {
-                                    Util.toast(activity.getString(R.string.rideHistory_Feedback));
-                                    Log.i("saveFeedback", "rated good, ride id = " + historyRide.getDbId());
-                                }
-
-                                @Override
-                                public void failure(RetrofitError error) {
-                                    Util.toast(activity.getString(R.string.errorRideHistory_Feedback));
-                                    try {
-                                        Log.e("saveFeedback", error.getMessage());
-                                    } catch (Exception e) {//sometimes RetrofitError is null
-                                        Log.e("saveFeedback", e.getMessage());
-                                    }
-                                }
-                            });
+                            saveFeedback("good", historyRide);
 
                             super.onPositiveActionClicked(fragment);
                             holder.feedback_bt.setVisibility(View.INVISIBLE);
@@ -156,23 +140,7 @@ public class RidesHistoryAdapter extends RecyclerView.Adapter<RidesHistoryAdapte
 
                         @Override
                         public void onNegativeActionClicked(DialogFragment fragment) {
-                            App.getNetworkService(activity.getApplicationContext()).saveFeedback(new RideFeedbackForJson(App.getUser().getDbId(), historyRide.getDbId(), "bad"), new Callback<Response>() {
-                                @Override
-                                public void success(Response response, Response response2) {
-                                    Util.toast(activity.getString(R.string.rideHistory_Feedback));
-                                    Log.i("saveFeedback", "rated bad, ride id = " + historyRide.getDbId());
-                                }
-
-                                @Override
-                                public void failure(RetrofitError error) {
-                                    Util.toast(activity.getString(R.string.errorRideHistory_Feedback));
-                                    try {
-                                        Log.e("saveFeedback", error.getMessage());
-                                    } catch (Exception e) {//sometimes RetrofitError is null
-                                        Log.e("saveFeedback", e.getMessage());
-                                    }
-                                }
-                            });
+                            saveFeedback("bad", historyRide);
 
                             super.onNegativeActionClicked(fragment);
                             holder.feedback_bt.setVisibility(View.INVISIBLE);
@@ -214,5 +182,28 @@ public class RidesHistoryAdapter extends RecyclerView.Adapter<RidesHistoryAdapte
             photo_iv = (ImageView) itemView.findViewById(R.id.photo_iv);
             feedback_bt = (Button) itemView.findViewById(R.id.feedback_bt);
         }
+    }
+
+    private void saveFeedback(final String rate, final RideHistoryForJson historyRide){
+            App.getNetworkService(activity.getApplicationContext()).saveFeedback(new RideFeedbackForJson(App.getUser().getDbId(), historyRide.getDbId(), "good"))
+                    .enqueue(new Callback<Response>() {
+                        @Override
+                        public void onResponse(Call<Response> call, Response<Response> response) {
+                            if (response.isSuccessful()) {
+                                Util.toast(activity.getString(R.string.rideHistory_Feedback));
+                                Log.i("saveFeedback", "rated " + rate + ", ride id = " + historyRide.getDbId());
+                            } else {
+                                Util.toast(activity.getString(R.string.errorRideHistory_Feedback));
+                                Log.e("saveFeedback", response.message());
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<Response> call, Throwable t) {
+                            Util.toast(activity.getString(R.string.errorRideHistory_Feedback));
+                            Log.e("saveFeedback", t.getMessage());
+                        }
+                    });
+
     }
 }

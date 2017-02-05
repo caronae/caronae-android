@@ -24,9 +24,9 @@ import br.ufrj.caronae.models.modelsforjson.FalaeMsgForJson;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class FalaeFrag extends Fragment {
 
@@ -94,26 +94,29 @@ public class FalaeFrag extends Fragment {
         subject = subject.concat(subject_et.getText().toString());
 
         final ProgressDialog pd = ProgressDialog.show(getContext(), "", getString(R.string.wait), true, true);
-        App.getNetworkService(getContext()).falaeSendMessage(new FalaeMsgForJson(subject, message), new Callback<Response>() {
-            @Override
-            public void success(Response response, Response response2) {
-                pd.dismiss();
-                Util.toast(getActivity().getString(R.string.frag_falae_thanksSent));
-                subject_et.setText("");
-                message_et.setText("");
-                Log.i("falaeSendMessage", "falae message sent succesfully");
-            }
+        App.getNetworkService(getContext()).falaeSendMessage(new FalaeMsgForJson(subject, message))
+                .enqueue(new Callback<Response>() {
+                    @Override
+                    public void onResponse(Call<Response> call, Response<Response> response) {
+                        if (response.isSuccessful()) {
+                            pd.dismiss();
+                            Util.toast(getActivity().getString(R.string.frag_falae_thanksSent));
+                            subject_et.setText("");
+                            message_et.setText("");
+                            Log.i("falaeSendMessage", "falae message sent succesfully");
+                        } else {
+                            pd.dismiss();
+                            Util.toast(getActivity().getString(R.string.frag_falae_errorSent));
+                            Log.e("falaeSendMessage", response.message());
+                        }
+                    }
 
-            @Override
-            public void failure(RetrofitError error) {
-                pd.dismiss();
-                Util.toast(getActivity().getString(R.string.frag_falae_errorSent));
-                try {
-                    Log.e("falaeSendMessage", error.getMessage());
-                } catch (Exception e) {//sometimes RetrofitError is null
-                    Log.e("falaeSendMessage", e.getMessage());
-                }
-            }
-        });
+                    @Override
+                    public void onFailure(Call<Response> call, Throwable t) {
+                        pd.dismiss();
+                        Util.toast(getActivity().getString(R.string.frag_falae_errorSent));
+                        Log.e("falaeSendMessage", t.getMessage());
+                    }
+                });
     }
 }

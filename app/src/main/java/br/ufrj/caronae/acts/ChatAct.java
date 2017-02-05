@@ -43,9 +43,10 @@ import br.ufrj.caronae.models.modelsforjson.ChatSendMessageForJson;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 
 public class ChatAct extends AppCompatActivity {
 
@@ -170,41 +171,58 @@ public class ChatAct extends AppCompatActivity {
 
         updateMsgsList(msg);
 
-        App.getChatService().sendChatMsg(rideId, new ChatSendMessageForJson(message), new Callback<ChatMessageSendResponse>() {
-            @Override
-            public void success(ChatMessageSendResponse chatMessageSendResponse, Response response) {
-                Log.i("Message Sent", "Sulcefully Send Chat Messages");
-                Log.d("CHAT", "mesage: " + chatMessageSendResponse.getResponseMessage() + " ID: " + chatMessageSendResponse.getMessageId() + "");
-                msg.setId(Long.parseLong(chatMessageSendResponse.getMessageId()));
-                chatMsgsList.get(chatMsgsList.size() - 1).setId(Long.parseLong(chatMessageSendResponse.getMessageId()));
-                msg.save();
-                Util.toast("Mensagem enviada");
-            }
+        App.getChatService().sendChatMsg(rideId, new ChatSendMessageForJson(message))
+                .enqueue(new Callback<ChatMessageSendResponse>() {
+                    @Override
+                    public void onResponse(Call<ChatMessageSendResponse> call, Response<ChatMessageSendResponse> response) {
+                        if (response.isSuccessful()) {
+                            ChatMessageSendResponse chatMessageSendResponse = response.body();
+                            Log.i("Message Sent", "Sulcefully Send Chat Messages");
+                            Log.d("CHAT", "mesage: " + chatMessageSendResponse.getResponseMessage() + " ID: " + chatMessageSendResponse.getMessageId() + "");
+                            msg.setId(Long.parseLong(chatMessageSendResponse.getMessageId()));
+                            chatMsgsList.get(chatMsgsList.size() - 1).setId(Long.parseLong(chatMessageSendResponse.getMessageId()));
+                            msg.save();
+                            Util.toast("Mensagem enviada");
+                        } else {
+                            Util.toast("Erro ao enviar mensagem de chat, verifique sua conexão");
 
-            @Override
-            public void failure(RetrofitError error) {
-                Util.toast("Erro ao enviar mensagem de chat, verifique sua conexão");
+                            chatMsgsList.remove(chatMsgsList.size() - 1);
+                            chatMsgsAdapter.notifyItemRemoved(chatMsgsList.size());
 
-                chatMsgsList.remove(chatMsgsList.size() - 1);
-                chatMsgsAdapter.notifyItemRemoved(chatMsgsList.size());
+                            msg_et.setText(msg.getMessage());
 
-                msg_et.setText(msg.getMessage());
+                            /************* Esconde o teclado ***********/
 
-                /************* Esconde o teclado ***********/
+                            View view = ChatAct.this.getCurrentFocus();
+                            if (view != null) {
+                                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                            }
+                            /*********/
+                            Log.e("SendMessages", response.message());
+                        }
+                    }
 
-                View view = ChatAct.this.getCurrentFocus();
-                if (view != null) {
-                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                }
-                /*********/
-                try {
-                    Log.e("SendMessages", error.getMessage());
-                } catch (Exception e) {
-                    Log.e("SendMessages", e.getMessage());
-                }
-            }
-        });
+                    @Override
+                    public void onFailure(Call<ChatMessageSendResponse> call, Throwable t) {
+                        Util.toast("Erro ao enviar mensagem de chat, verifique sua conexão");
+
+                        chatMsgsList.remove(chatMsgsList.size() - 1);
+                        chatMsgsAdapter.notifyItemRemoved(chatMsgsList.size());
+
+                        msg_et.setText(msg.getMessage());
+
+                        /************* Esconde o teclado ***********/
+
+                        View view = ChatAct.this.getCurrentFocus();
+                        if (view != null) {
+                            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                        }
+                        /*********/
+                        Log.e("SendMessages", t.getMessage());
+                    }
+                });
     }
 
 
@@ -259,54 +277,61 @@ public class ChatAct extends AppCompatActivity {
         }
 
         /************************************************************/
-        App.getChatService().requestChatMsgs(rideId, since, new Callback<ModelReceivedFromChat>() {
-            @Override
-            public void success(ModelReceivedFromChat chatMessagesReceived, Response response) {
+        App.getChatService().requestChatMsgs(rideId, since)
+                .enqueue(new Callback<ModelReceivedFromChat>() {
+                    @Override
+                    public void onResponse(Call<ModelReceivedFromChat> call, Response<ModelReceivedFromChat> response) {
+                        if (response.isSuccessful()) {
+                            ModelReceivedFromChat chatMessagesReceived = response.body();
+                            if (chatMessagesReceived != null && chatMessagesReceived.getMessages().size() != 0) {
 
-                if (chatMessagesReceived != null && chatMessagesReceived.getMessages().size() != 0) {
-
-                    List<ChatMessageReceivedFromJson> listMessages = chatMessagesReceived.getMessages();
-                    for (int mensagesNum = 0; mensagesNum < listMessages.size(); mensagesNum++) {
-                        ChatMessageReceived cmr = new ChatMessageReceived(listMessages.get(mensagesNum).getUser().getName(),
-                                String.valueOf(listMessages.get(mensagesNum).getUser().getId()),
-                                listMessages.get(mensagesNum).getMessage(),
-                                rideId,
-                                listMessages.get(mensagesNum).getTime());
-                        cmr.setId(Long.parseLong(listMessages.get(mensagesNum).getMessageId()));
+                                List<ChatMessageReceivedFromJson> listMessages = chatMessagesReceived.getMessages();
+                                for (int mensagesNum = 0; mensagesNum < listMessages.size(); mensagesNum++) {
+                                    ChatMessageReceived cmr = new ChatMessageReceived(listMessages.get(mensagesNum).getUser().getName(),
+                                            String.valueOf(listMessages.get(mensagesNum).getUser().getId()),
+                                            listMessages.get(mensagesNum).getMessage(),
+                                            rideId,
+                                            listMessages.get(mensagesNum).getTime());
+                                    cmr.setId(Long.parseLong(listMessages.get(mensagesNum).getMessageId()));
 //                        chatMsgsList.add(cmr);
 
-                        if (!messageAlrealdyExist(Long.parseLong(listMessages.get(mensagesNum).getMessageId()))) {
-                            cmr.save();
-                            updateMsgsList(cmr);
+                                    if (!messageAlrealdyExist(Long.parseLong(listMessages.get(mensagesNum).getMessageId()))) {
+                                        cmr.save();
+                                        updateMsgsList(cmr);
+                                    }
+                                }
+                            }
+
+                            swipeRefreshLayout.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    swipeRefreshLayout.setRefreshing(false);
+                                }
+                            });
+                        } else {
+                            Util.toast("Erro ao Recuperar mensagem de chat");
+                            Log.e("GetMessages", response.message());
+                            swipeRefreshLayout.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    swipeRefreshLayout.setRefreshing(false);
+                                }
+                            });
                         }
                     }
-                }
 
-                swipeRefreshLayout.post(new Runnable() {
                     @Override
-                    public void run() {
-                        swipeRefreshLayout.setRefreshing(false);
+                    public void onFailure(Call<ModelReceivedFromChat> call, Throwable t) {
+                        Util.toast("Erro ao Recuperar mensagem de chat");
+                        Log.e("GetMessages", t.getMessage());
+                        swipeRefreshLayout.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                swipeRefreshLayout.setRefreshing(false);
+                            }
+                        });
                     }
                 });
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                Util.toast("Erro ao Recuperar mensagem de chat");
-                try {
-                    Log.e("GetMessages", error.getMessage());
-                } catch (Exception e) {
-                    Log.e("GetMessages", e.getMessage());
-                }
-                swipeRefreshLayout.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        swipeRefreshLayout.setRefreshing(false);
-                    }
-                });
-            }
-        });
-
         /************************************************************/
 
         swipeRefreshLayout.post(new Runnable() {

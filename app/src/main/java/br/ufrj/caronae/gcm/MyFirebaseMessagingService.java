@@ -28,9 +28,9 @@ import br.ufrj.caronae.models.ModelReceivedFromChat;
 import br.ufrj.caronae.models.NewChatMsgIndicator;
 import br.ufrj.caronae.models.RideEndedEvent;
 import br.ufrj.caronae.models.RideRequestReceived;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by Luis-DELL on 10/28/2016.
@@ -41,7 +41,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
 
     @Override
-    public void onMessageReceived(RemoteMessage remoteMessage) {
+    public void onMessageReceived(final RemoteMessage remoteMessage) {
         Map data = remoteMessage.getData();
         String message = (String) data.get("message");
         String msgType = (String) data.get("msgType");
@@ -75,33 +75,36 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             if (!SharedPref.getChatActIsForeground()) {
 //            startService(new Intent(this, FetchReceivedMessagesService.class).putExtra("ride_id", rideId).putExtra("since", since));
 
-                App.getChatService().requestChatMsgs(rideId, since, new Callback<ModelReceivedFromChat>() {
-                    @Override
-                    public void success(ModelReceivedFromChat chatMessagesReceived, Response response) {
-                        Log.i("GetMessages", "Sulcefully Retrieved Chat Messages");
-                        List<ChatMessageReceivedFromJson> listMessages = chatMessagesReceived.getMessages();
-                        for (int mensagesNum = 0; mensagesNum < listMessages.size(); mensagesNum++) {
-                            ChatMessageReceived cmr = new ChatMessageReceived(listMessages.get(mensagesNum).getUser().getName(),
-                                    String.valueOf(listMessages.get(mensagesNum).getUser().getId()),
-                                    listMessages.get(mensagesNum).getMessage(),
-                                    listMessages.get(mensagesNum).getMessageId(),
-                                    listMessages.get(mensagesNum).getTime());
-                            cmr.save();
-                            App.getBus().post(cmr);
-                        }
-                        new NewChatMsgIndicator(Integer.valueOf(rideId)).save();
-                    }
+                App.getChatService().requestChatMsgs(rideId, since)
+                        .enqueue(new Callback<ModelReceivedFromChat>() {
+                            @Override
+                            public void onResponse(Call<ModelReceivedFromChat> call, Response<ModelReceivedFromChat> response) {
+                                if (response.isSuccessful()) {
+                                    ModelReceivedFromChat chatMessagesReceived = response.body();
+                                    Log.i("GetMessages", "Sulcefully Retrieved Chat Messages");
+                                    List<ChatMessageReceivedFromJson> listMessages = chatMessagesReceived.getMessages();
+                                    for (int mensagesNum = 0; mensagesNum < listMessages.size(); mensagesNum++) {
+                                        ChatMessageReceived cmr = new ChatMessageReceived(listMessages.get(mensagesNum).getUser().getName(),
+                                                String.valueOf(listMessages.get(mensagesNum).getUser().getId()),
+                                                listMessages.get(mensagesNum).getMessage(),
+                                                listMessages.get(mensagesNum).getMessageId(),
+                                                listMessages.get(mensagesNum).getTime());
+                                        cmr.save();
+                                        App.getBus().post(cmr);
+                                    }
+                                    new NewChatMsgIndicator(Integer.valueOf(rideId)).save();
+                                } else {
+                                    Util.toast("Erro ao Recuperar mensagem de chat");
+                                    Log.e("GetMessages", response.message());
+                                }
+                            }
 
-                    @Override
-                    public void failure(RetrofitError error) {
-                        Util.toast("Erro ao Recuperar mensagem de chat");
-                        try {
-                            Log.e("GetMessages", error.getMessage());
-                        } catch (Exception e) {
-                            Log.e("GetMessages", e.getMessage());
-                        }
-                    }
-                });
+                            @Override
+                            public void onFailure(Call<ModelReceivedFromChat> call, Throwable t) {
+                                Util.toast("Erro ao Recuperar mensagem de chat");
+                                Log.e("GetMessages", t.getMessage());
+                            }
+                        });
             }
         }
 

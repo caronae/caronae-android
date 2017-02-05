@@ -3,6 +3,7 @@ package br.ufrj.caronae;
 import android.content.Context;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.orm.SugarApp;
 
 import java.io.IOException;
@@ -15,6 +16,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class App extends SugarApp {
 
@@ -78,12 +80,17 @@ public class App extends SugarApp {
         if (networkService == null) {
             String endpoint = getHost();
 
+            Gson gson = new GsonBuilder()
+                    .setLenient()
+                    .create();
+
             OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
             httpClient.addInterceptor(new Interceptor() {
                 @Override
                 public Response intercept(Chain chain) throws IOException {
                     okhttp3.Request original = chain.request();
                     if (App.isUserLoggedIn()) {
+
                         Request request = original.newBuilder()
                                 .header("Content-Type", "application/json")
                                 .header("token", SharedPref.getUserToken())
@@ -103,6 +110,7 @@ public class App extends SugarApp {
 
             networkService = new Retrofit.Builder()
                     .baseUrl(endpoint)
+                    .addConverterFactory(GsonConverterFactory.create(gson))
                     .client(client)
                     .build()
                     .create(NetworkService.class);

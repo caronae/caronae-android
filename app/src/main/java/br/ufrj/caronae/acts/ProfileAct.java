@@ -36,9 +36,6 @@ import br.ufrj.caronae.models.modelsforjson.HistoryRideCountForJson;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -111,23 +108,29 @@ public class ProfileAct extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        App.getNetworkService(getApplicationContext()).getRidesHistoryCount(user.getDbId() + "", new Callback<HistoryRideCountForJson>() {
-            @Override
-            public void success(HistoryRideCountForJson historyRideCountForJson, Response response) {
-                ridesOffered_tv.setText(String.valueOf(historyRideCountForJson.getOfferedCount()));
-                ridesTaken_tv.setText(String.valueOf(historyRideCountForJson.getTakenCount()));
-            }
+        App.getNetworkService(getApplicationContext()).getRidesHistoryCount(user.getDbId() + "")
+                .enqueue(new Callback<HistoryRideCountForJson>() {
+                             @Override
+                             public void onResponse(Call<HistoryRideCountForJson> call, Response<HistoryRideCountForJson> response) {
+                                 if (response.isSuccessful()) {
+                                     HistoryRideCountForJson historyRideCountForJson = response.body();
+                                     ridesOffered_tv.setText(String.valueOf(historyRideCountForJson.getOfferedCount()));
+                                     ridesTaken_tv.setText(String.valueOf(historyRideCountForJson.getTakenCount()));
+                                 } else {
+                                     Util.toast(R.string.act_profile_errorCountRidesHistory);
+                                     Log.e("getRidesHistoryCount", response.message());
+                                 }
 
-            @Override
-            public void failure(RetrofitError error) {
-                Util.toast(R.string.act_profile_errorCountRidesHistory);
-                try {
-                    Log.e("getRidesHistoryCount", error.getMessage());
-                } catch (Exception e) {//sometimes RetrofitError is null
-                    Log.e("getRidesHistoryCount", e.getMessage());
-                }
-            }
-        });
+                             }
+
+                             @Override
+                             public void onFailure(Call<HistoryRideCountForJson> call, Throwable t) {
+                                 Util.toast(R.string.act_profile_errorCountRidesHistory);
+                                 Log.e("getRidesHistoryCount", t.getMessage());
+                             }
+                         }
+
+                    );
 
         try {
             AccessToken token = AccessToken.getCurrentAccessToken();
@@ -220,19 +223,25 @@ public class ProfileAct extends AppCompatActivity {
                 if (msg.isEmpty())
                     return;
 
-                App.getNetworkService(getApplicationContext()).falaeSendMessage(new FalaeMsgForJson(getString(R.string.frag_falae_reportRb) + user.getName() + " - ID:" + user.getDbId(), msg), new Callback<Response>() {
-                    @Override
-                    public void success(Response response, Response response2) {
-                        Util.toast(getString(R.string.act_profile_reportOk));
-                        Log.i("falaeSendMessage", "falae message sent succesfully");
-                    }
+                App.getNetworkService(getApplicationContext()).falaeSendMessage(new FalaeMsgForJson(getString(R.string.frag_falae_reportRb) + user.getName() + " - ID:" + user.getDbId(), msg))
+                        .enqueue(new Callback<Response>() {
+                            @Override
+                            public void onResponse(Call<Response> call, Response<Response> response) {
+                                if (response.isSuccessful()) {
+                                    Util.toast(getString(R.string.act_profile_reportOk));
+                                    Log.i("falaeSendMessage", "falae message sent succesfully");
+                                } else {
+                                    Util.toast(getString(R.string.frag_falae_errorSent));
+                                    Log.e("falaeSendMessage", response.message());
+                                }
+                            }
 
-                    @Override
-                    public void failure(RetrofitError error) {
-                        Util.toast(getString(R.string.frag_falae_errorSent));
-                        Log.e("falaeSendMessage", error.getMessage());
-                    }
-                });
+                            @Override
+                            public void onFailure(Call<Response> call, Throwable t) {
+                                Util.toast(getString(R.string.frag_falae_errorSent));
+                                Log.e("falaeSendMessage", t.getMessage());
+                            }
+                        });
 
                 super.onPositiveActionClicked(fragment);
             }

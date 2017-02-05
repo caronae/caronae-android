@@ -3,7 +3,7 @@ package br.ufrj.caronae.httpapis;
 import br.ufrj.caronae.models.ChatMessageSendResponse;
 import br.ufrj.caronae.models.ModelReceivedFromChat;
 import br.ufrj.caronae.models.modelsforjson.ChatSendMessageForJson;
-import retrofit2.Callback;
+import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
@@ -16,9 +16,11 @@ public interface ChatService {
 //    void sendChatMsg(@Body ChatMessageSent chatMessageSent, Callback<Response> cb);
 
     @POST("ride/{rideId}/chat")
-    void sendChatMsg(@Path("rideId") String rideId, @Body ChatSendMessageForJson message, Callback<ChatMessageSendResponse> cb);
+//    void sendChatMsg(@Path("rideId") String rideId, @Body ChatSendMessageForJson message, Callback<ChatMessageSendResponse> cb);
+    Call<ChatMessageSendResponse> sendChatMsg(@Path("rideId") String rideId, @Body ChatSendMessageForJson message);
 
 
     @GET("ride/{rideId}/chat")
-    void requestChatMsgs(@Path("rideId") String rideId, @Query("since") String since, Callback<ModelReceivedFromChat> cb);
+//    void requestChatMsgs(@Path("rideId") String rideId, @Query("since") String since, Callback<ModelReceivedFromChat> cb);
+    Call<ModelReceivedFromChat> requestChatMsgs(@Path("rideId") String rideId, @Query("since") String since);
 }
