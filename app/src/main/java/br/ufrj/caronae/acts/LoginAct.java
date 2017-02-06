@@ -159,7 +159,7 @@ public class LoginAct extends AppCompatActivity {
             @Override
             public void onFailure(Call<UserWithRidesForJson> call, Throwable t) {
                 // handle execution failures like no internet connectivity
-                Log.e("saveGcmToken", "Failure: " + t.getMessage());
+                Log.e("Login", "Failure: " + t.getMessage());
                 Util.toast(R.string.act_login_loginFail);
 
             }

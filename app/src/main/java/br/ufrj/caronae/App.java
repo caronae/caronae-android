@@ -1,6 +1,7 @@
 package br.ufrj.caronae;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -15,6 +16,7 @@ import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -72,7 +74,7 @@ public class App extends SugarApp {
         //return MEUDIGOCEAN_PROD_ENDPOINT;
 //        return DEV_SERVER_IP;
         return DEV_SERVER_ENDPOINT;
-        //return TIC_ENDPOINT;
+//        return TIC_ENDPOINT;
     }
 
     public static NetworkService getNetworkService(final Context context) {
@@ -88,7 +90,7 @@ public class App extends SugarApp {
             httpClient.addInterceptor(new Interceptor() {
                 @Override
                 public Response intercept(Chain chain) throws IOException {
-                    okhttp3.Request original = chain.request();
+                    Request original = chain.request();
                     if (App.isUserLoggedIn()) {
 
                         Request request = original.newBuilder()
@@ -102,9 +104,20 @@ public class App extends SugarApp {
 
                         return response;
                     }
-                    return chain.proceed(original);
+                    Request request = original.newBuilder()
+                            .header("Content-Type", "application/json")
+                            .header("User-Agent", Util.getHeaderForHttp(context))
+                            .method(original.method(), original.body())
+                            .build();
+                    Response response = chain.proceed(request);
+                    return response;
                 }
             });
+
+            HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+            logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+
+            httpClient.addInterceptor(logging);
 
             OkHttpClient client = httpClient.build();
 
@@ -114,8 +127,8 @@ public class App extends SugarApp {
                     .client(client)
                     .build()
                     .create(NetworkService.class);
+
         }
-        
         return networkService;
     }
 

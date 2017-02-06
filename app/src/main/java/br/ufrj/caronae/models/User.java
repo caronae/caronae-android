@@ -7,11 +7,15 @@ import com.google.gson.annotations.SerializedName;
 
 public class User implements Parcelable {
 
+    @SerializedName("name")
     private String name;
+    @SerializedName("profile")
     private String profile;
+    @SerializedName("course")
     private String course;
     @SerializedName("phone_number")
     private String phoneNumber;
+    @SerializedName("email")
     private String email;
     @SerializedName("car_owner")
     private boolean carOwner;
@@ -25,6 +29,7 @@ public class User implements Parcelable {
     private int dbId;
     @SerializedName("created_at")
     private String createdAt;
+    @SerializedName("location")
     private String location;
     @SerializedName("profile_pic_url")
     private String profilePicUrl;

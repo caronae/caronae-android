@@ -9,6 +9,7 @@ import br.ufrj.caronae.models.modelsforjson.FalaeMsgForJson;
 import br.ufrj.caronae.models.modelsforjson.HistoryRideCountForJson;
 import br.ufrj.caronae.models.modelsforjson.IdForJson;
 import br.ufrj.caronae.models.modelsforjson.JoinRequestIDsForJson;
+import br.ufrj.caronae.models.modelsforjson.LoginForJson;
 import br.ufrj.caronae.models.modelsforjson.RideFeedbackForJson;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
 import br.ufrj.caronae.models.modelsforjson.RideHistoryForJson;
@@ -42,8 +43,8 @@ public interface NetworkService {
     Call<User> signUpIntranet(@Path("id") String id, @Path("token") String token);
 
     @POST("user/login")
-//    void login(@Body TokenForJson token, Callback<UserWithRidesForJson> cb);
-    Call<UserWithRidesForJson> login(@Body TokenForJson token);
+//    void login(@Body LoginForJson token, Callback<UserWithRidesForJson> cb);
+    Call<UserWithRidesForJson> login(@Body LoginForJson token);
 
     @PUT("user")
 //    void updateUser(@Body User user, Callback<Response> cb);
