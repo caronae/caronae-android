@@ -38,7 +38,7 @@ import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.Util;
-import br.ufrj.caronae.gcm.FirebaseUtils;
+import br.ufrj.caronae.firebase.FirebaseUtils;
 import br.ufrj.caronae.models.ChatAssets;
 import br.ufrj.caronae.models.Ride;
 import butterknife.Bind;

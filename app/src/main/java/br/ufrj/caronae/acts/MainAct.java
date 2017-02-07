@@ -48,8 +48,8 @@ import br.ufrj.caronae.frags.RideSearchFrag;
 import br.ufrj.caronae.frags.RidesHistoryFrag;
 import br.ufrj.caronae.frags.TabbedRideOfferFrag;
 import br.ufrj.caronae.frags.TermsOfUseFrag;
-import br.ufrj.caronae.gcm.FirebaseUtils;
-import br.ufrj.caronae.gcm.RegistrationIntentService;
+import br.ufrj.caronae.firebase.FirebaseUtils;
+import br.ufrj.caronae.firebase.RegistrationIntentService;
 import br.ufrj.caronae.models.User;
 
 public class MainAct extends AppCompatActivity {
@@ -76,7 +76,7 @@ public class MainAct extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        //TODO: CHECK TOPICS MENSSAGING
+        //Subscripe to topics
         FirebaseUtils.SubscribeToTopic("user-" + App.getUser().getDbId());
         FirebaseUtils.SubscribeToTopic(SharedPref.TOPIC_GERAL);
 
@@ -136,26 +136,19 @@ public class MainAct extends AppCompatActivity {
 
         backstack = new ArrayList<>();
 
-        //TODO: Receive message
-        String msgType = getIntent().getStringExtra("msgType");
-        if (msgType != null && !msgType.isEmpty()) {
-            openFragFromNotif(getIntent());
-
+        User user = App.getUser();
+        Fragment fragment;
+        if (user.getEmail() == null || user.getEmail().isEmpty() ||
+                user.getPhoneNumber() == null || user.getPhoneNumber().isEmpty() ||
+                user.getLocation() == null || user.getLocation().isEmpty()) {
+            fragment = new MyProfileFrag();
+            Util.toast(getString(R.string.act_main_profileIncomplete));
         } else {
-            User user = App.getUser();
-            Fragment fragment;
-            if (user.getEmail() == null || user.getEmail().isEmpty() ||
-                    user.getPhoneNumber() == null || user.getPhoneNumber().isEmpty() ||
-                    user.getLocation() == null || user.getLocation().isEmpty()) {
-                fragment = new MyProfileFrag();
-                Util.toast(getString(R.string.act_main_profileIncomplete));
-            } else {
-                fragment = new AllRidesFrag();
-            }
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
-            backstack.add(fragment.getClass());
+            fragment = new AllRidesFrag();
         }
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+        backstack.add(fragment.getClass());
     }
 
     private void checkGPlay() {

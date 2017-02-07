@@ -32,11 +32,10 @@ import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.adapters.ChatMsgsAdapter;
 import br.ufrj.caronae.comparators.ChatMsgComparator;
+import br.ufrj.caronae.firebase.FetchReceivedMessagesService;
 import br.ufrj.caronae.models.ChatAssets;
 import br.ufrj.caronae.models.ChatMessageReceived;
-import br.ufrj.caronae.models.ChatMessageReceivedFromJson;
 import br.ufrj.caronae.models.ChatMessageSendResponse;
-import br.ufrj.caronae.models.ModelReceivedFromChat;
 import br.ufrj.caronae.models.NewChatMsgIndicator;
 import br.ufrj.caronae.models.RideEndedEvent;
 import br.ufrj.caronae.models.modelsforjson.ChatSendMessageForJson;
@@ -233,8 +232,6 @@ public class ChatAct extends AppCompatActivity {
 
         chatMsgsList.add(msg);
 
-//        msg.save();
-
         ChatMsgsAdapter adapter = (ChatMsgsAdapter) chatMsgs_rv.getAdapter();
         adapter.notifyItemInserted(chatMsgsList.size() - 1);
 
@@ -248,16 +245,15 @@ public class ChatAct extends AppCompatActivity {
         });
     }
 
-    public void updateMsgsList() {
+    @Subscribe
+    public void failureToUpdate(boolean succes) {
 
-        chatMsgsAdapter = new ChatMsgsAdapter(chatMsgsList, color);
-        chatMsgs_rv.setAdapter(chatMsgsAdapter);
-        chatMsgs_rv.setLayoutManager(new LinearLayoutManager(context));
-        if (!chatMsgsList.isEmpty())
-            chatMsgs_rv.scrollToPosition(chatMsgsList.size() - 1);
-
-        swipeRefreshLayout.setRefreshing(false);
-
+        swipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
     }
 
     @Subscribe
@@ -276,83 +272,85 @@ public class ChatAct extends AppCompatActivity {
             }
         }
 
+        Intent fetchMessageService = new Intent(getApplicationContext(), FetchReceivedMessagesService.class);
+        fetchMessageService.putExtra("rideId", rideId);
+        startService(fetchMessageService);
         /************************************************************/
-        App.getChatService().requestChatMsgs(rideId, since)
-                .enqueue(new Callback<ModelReceivedFromChat>() {
-                    @Override
-                    public void onResponse(Call<ModelReceivedFromChat> call, Response<ModelReceivedFromChat> response) {
-                        if (response.isSuccessful()) {
-                            ModelReceivedFromChat chatMessagesReceived = response.body();
-                            if (chatMessagesReceived != null && chatMessagesReceived.getMessages().size() != 0) {
-
-                                List<ChatMessageReceivedFromJson> listMessages = chatMessagesReceived.getMessages();
-                                for (int mensagesNum = 0; mensagesNum < listMessages.size(); mensagesNum++) {
-                                    ChatMessageReceived cmr = new ChatMessageReceived(listMessages.get(mensagesNum).getUser().getName(),
-                                            String.valueOf(listMessages.get(mensagesNum).getUser().getId()),
-                                            listMessages.get(mensagesNum).getMessage(),
-                                            rideId,
-                                            listMessages.get(mensagesNum).getTime());
-                                    cmr.setId(Long.parseLong(listMessages.get(mensagesNum).getMessageId()));
-//                        chatMsgsList.add(cmr);
-
-                                    if (!messageAlrealdyExist(Long.parseLong(listMessages.get(mensagesNum).getMessageId()))) {
-                                        cmr.save();
-                                        updateMsgsList(cmr);
-                                    }
-                                }
-                            }
-
-                            swipeRefreshLayout.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    swipeRefreshLayout.setRefreshing(false);
-                                }
-                            });
-                        } else {
-                            Util.toast("Erro ao Recuperar mensagem de chat");
-                            Log.e("GetMessages", response.message());
-                            swipeRefreshLayout.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    swipeRefreshLayout.setRefreshing(false);
-                                }
-                            });
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<ModelReceivedFromChat> call, Throwable t) {
-                        Util.toast("Erro ao Recuperar mensagem de chat");
-                        Log.e("GetMessages", t.getMessage());
-                        swipeRefreshLayout.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                swipeRefreshLayout.setRefreshing(false);
-                            }
-                        });
-                    }
-                });
+//        App.getChatService().requestChatMsgs(rideId, since)
+//                .enqueue(new Callback<ModelReceivedFromChat>() {
+//                    @Override
+//                    public void onResponse(Call<ModelReceivedFromChat> call, Response<ModelReceivedFromChat> response) {
+//                        if (response.isSuccessful()) {
+//                            ModelReceivedFromChat chatMessagesReceived = response.body();
+//                            if (chatMessagesReceived != null && chatMessagesReceived.getMessages().size() != 0) {
+//
+//                                List<ChatMessageReceivedFromJson> listMessages = chatMessagesReceived.getMessages();
+//                                for (int mensagesNum = 0; mensagesNum < listMessages.size(); mensagesNum++) {
+//                                    ChatMessageReceived cmr = new ChatMessageReceived(listMessages.get(mensagesNum).getUser().getName(),
+//                                            String.valueOf(listMessages.get(mensagesNum).getUser().getId()),
+//                                            listMessages.get(mensagesNum).getMessage(),
+//                                            rideId,
+//                                            listMessages.get(mensagesNum).getTime());
+//                                    cmr.setId(Long.parseLong(listMessages.get(mensagesNum).getMessageId()));
+//
+//                                    if (!messageAlrealdyExist(Long.parseLong(listMessages.get(mensagesNum).getMessageId()))) {
+//                                        cmr.save();
+//                                        updateMsgsList(cmr);
+//                                    }
+//                                }
+//                            }
+//
+//                            swipeRefreshLayout.post(new Runnable() {
+//                                @Override
+//                                public void run() {
+//                                    swipeRefreshLayout.setRefreshing(false);
+//                                }
+//                            });
+//                        } else {
+//                            Util.toast("Erro ao Recuperar mensagem de chat");
+//                            Log.e("GetMessages", response.message());
+//                            swipeRefreshLayout.post(new Runnable() {
+//                                @Override
+//                                public void run() {
+//                                    swipeRefreshLayout.setRefreshing(false);
+//                                }
+//                            });
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Call<ModelReceivedFromChat> call, Throwable t) {
+//                        Util.toast("Erro ao Recuperar mensagem de chat");
+//                        Log.e("GetMessages", t.getMessage());
+//                        swipeRefreshLayout.post(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                swipeRefreshLayout.setRefreshing(false);
+//                            }
+//                        });
+//                    }
+//                });
         /************************************************************/
 
-        swipeRefreshLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                swipeRefreshLayout.setRefreshing(false);
-            }
-        });
+//        swipeRefreshLayout.post(new Runnable() {
+//            @Override
+//            public void run() {
+//                swipeRefreshLayout.setRefreshing(false);
+//            }
+//        });
 
     }
 
-    private boolean messageAlrealdyExist(long messageId) {
-        boolean messageAlreadyExist = false;
-        int counter = chatMsgsList.size() - 1;
-        while (!messageAlreadyExist && counter >= 0) {
-            if (chatMsgsList.get(counter).getId() == messageId)
-                messageAlreadyExist = true;
-            counter--;
-        }
-        return messageAlreadyExist;
-    }
+//    private boolean messageAlrealdyExist(long messageId) {
+//        boolean messageAlreadyExist = false;
+//        int counter = chatMsgsList.size() - 1;
+//        while (!messageAlreadyExist && counter >= 0) {
+//            if (chatMsgsList.get(counter).getId() == messageId)
+//                messageAlreadyExist = true;
+//            counter--;
+//        }
+//        return messageAlreadyExist;
+//    }
 
 
     @Override

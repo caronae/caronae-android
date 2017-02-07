@@ -22,7 +22,7 @@ import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.adapters.MyActiveRidesAdapter;
 import br.ufrj.caronae.comparators.RideOfferComparatorByDateAndTime;
-import br.ufrj.caronae.gcm.FirebaseTopicsHandler;
+import br.ufrj.caronae.firebase.FirebaseTopicsHandler;
 import br.ufrj.caronae.models.ActiveRide;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
 import butterknife.Bind;

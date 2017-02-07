@@ -1,4 +1,4 @@
-package br.ufrj.caronae.gcm;
+package br.ufrj.caronae.firebase;
 
 import com.google.firebase.messaging.FirebaseMessaging;
 

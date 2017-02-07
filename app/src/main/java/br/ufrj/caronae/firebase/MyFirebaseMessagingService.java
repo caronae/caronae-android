@@ -1,4 +1,4 @@
-package br.ufrj.caronae.gcm;
+package br.ufrj.caronae.firebase;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -188,7 +188,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 );
 
         Context context = App.inst();
-//        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         Uri alarmSound = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.beep_beep);
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
                 .setSmallIcon(R.drawable.ic_stat_name)

@@ -5,13 +5,9 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
-    <!--GCM previous code-->
-    <!--<permission-->
-        <!--android:name="br.ufrj.caronae.permission.C2D_MESSAGE"-->
-        <!--android:protectionLevel="signature" />-->
-
-    <!--<uses-permission android:name="br.ufrj.caronae.permission.C2D_MESSAGE" />-->
 
     <application
         android:name=".App"
@@ -55,7 +51,7 @@
             android:name=".acts.LoginAct"
             android:label="@string/title_activity_login"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateVisible"/>
+            android:windowSoftInputMode="stateVisible" />
         <activity
             android:name=".acts.OpeningAct"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -95,56 +91,30 @@
             android:screenOrientation="portrait" />
 
         <service
-            android:name=".gcm.RegistrationIntentService"
+            android:name=".firebase.RegistrationIntentService"
             android:exported="false" />
-
-        <!--GCM previous code-->
-        <!--<service-->
-            <!--android:name=".gcm.MyFirebaseInstanceIdService"-->
-            <!--android:exported="false">-->
-            <!--<intent-filter>-->
-                <!--<action android:name="com.google.android.gms.iid.InstanceID" />-->
-            <!--</intent-filter>-->
-        <!--</service>-->
-
-        <service
-            android:name=".gcm.MyFirebaseInstanceIdService">
+        <service android:name=".firebase.MyFirebaseInstanceIdService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
-            <meta-data
-                android:name="com.google.firebase.messaging.default_notification_icon"
-                android:resource="@drawable/ic_stat_name" />
-            <meta-data android:name="com.google.firebase.messaging.default_notification_color"
-                android:resource="@android:color/holo_blue_bright" />
-
         </service>
-
-        <!--<service android:name=".gcm.FetchReceivedMessagesService"-->
-            <!--android:exported="false"-->
-            <!--android:process=":remote">-->
-        <!--</service>-->
-
-        <!--<service-->
-            <!--android:name=".gcm.MyGCMIntentService"-->
-            <!--android:exported="false" />-->
-
-        <service android:name=".gcm.MyFirebaseMessagingService">
+        <service android:name=".firebase.MyFirebaseMessagingService">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
 
-        <!--GCM previous code-->
-        <!--<receiver-->
-            <!--android:name=".gcm.MyGCMBroadcastReceiver"-->
-            <!--android:exported="true"-->
-            <!--android:permission="com.google.android.c2dm.permission.SEND">-->
-            <!--<intent-filter>-->
-                <!--<action android:name="com.google.android.c2dm.intent.RECEIVE" />-->
-                <!--<category android:name="br.ufrj.caronae" />-->
-            <!--</intent-filter>-->
-        <!--</receiver>-->
+        <receiver android:name=".firebase.BroadcastReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"></action>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"></action>
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name=".firebase.MyService"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>
