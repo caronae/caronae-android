@@ -76,9 +76,6 @@ public class FetchReceivedMessagesService extends IntentService {
                         } else {
                             Util.toast("Erro ao Recuperar mensagem de chat");
                             Log.e("GetMessages", response.message());
-                            if(SharedPref.getChatActIsForeground()){
-                                App.getBus().post(true);
-                                }
                         }
                     }
 
@@ -86,9 +83,6 @@ public class FetchReceivedMessagesService extends IntentService {
                     public void onFailure(Call<ModelReceivedFromChat> call, Throwable t) {
                         Util.toast("Erro ao Recuperar mensagem de chat");
                         Log.e("GetMessages", t.getMessage());
-                        if(SharedPref.getChatActIsForeground()){
-                            App.getBus().post(true);
-                        }
                     }
                 });
     }

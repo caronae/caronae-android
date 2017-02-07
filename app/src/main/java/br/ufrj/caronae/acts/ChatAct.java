@@ -3,7 +3,6 @@ package br.ufrj.caronae.acts;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -63,8 +62,6 @@ public class ChatAct extends AppCompatActivity {
     TextView time_tv;
     @Bind(R.id.lay1)
     RelativeLayout lay1;
-    @Bind(R.id.swipe_refresh_chat)
-    SwipeRefreshLayout swipeRefreshLayout;
 
     private String rideId;
     private static List<ChatMessageReceived> chatMsgsList;
@@ -124,23 +121,18 @@ public class ChatAct extends AppCompatActivity {
         chatMsgs_rv.setAdapter(chatMsgsAdapter);
         chatMsgs_rv.setLayoutManager(new LinearLayoutManager(context));
 
+        chatMsgsAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onChanged() {
+                super.onChanged();
+                Util.toast("mudou");
+            }
+        });
+
 
         if (!chatMsgsList.isEmpty())
             chatMsgs_rv.scrollToPosition(chatMsgsList.size() - 1);
 
-        swipeRefreshLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                swipeRefreshLayout.setRefreshing(true);
-            }
-        });
-
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                updateMsgsListWithServer(rideId);
-            }
-        });
 
         updateMsgsListWithServer(rideId);
 
@@ -175,10 +167,7 @@ public class ChatAct extends AppCompatActivity {
                             Log.i("Message Sent", "Sulcefully Send Chat Messages");
                             Log.d("CHAT", "mesage: " + chatMessageSendResponse.getResponseMessage() + " ID: " + chatMessageSendResponse.getMessageId() + "");
                             msg.setId(Long.parseLong(chatMessageSendResponse.getMessageId()));
-                            int listPosition = getMessagePositionWithId(chatMsgsList, msg.getId());
-                            chatMsgsList.get(listPosition).setId(Long.parseLong(chatMessageSendResponse.getMessageId()));
-                            adapter.notifyDataSetChanged();
-//                            chatMsgsList.get(chatMsgsList.size() - 1).setId(Long.parseLong(chatMessageSendResponse.getMessageId()));
+                            chatMsgsList.get(getMessagePositionWithId(chatMsgsList, msg.getId())).setId(Long.parseLong(chatMessageSendResponse.getMessageId()));
                             msg.save();
                             Util.toast("Mensagem enviada");
                         } else {
@@ -227,39 +216,14 @@ public class ChatAct extends AppCompatActivity {
     @Subscribe
     public void updateMsgsList(ChatMessageReceived msg) {
 
-        chatMsgsList = ChatMessageReceived.find(ChatMessageReceived.class, "ride_id = ?", rideId);
+        if (msg != null) {
 
-        chatMsgsAdapter = new ChatMsgsAdapter(chatMsgsList, color);
-        chatMsgs_rv.setAdapter(chatMsgsAdapter);
-        chatMsgs_rv.setLayoutManager(new LinearLayoutManager(context));
-        chatMsgs_rv.scrollToPosition(chatMsgsList.size() - 1);
+            chatMsgsList = ChatMessageReceived.find(ChatMessageReceived.class, "ride_id = ?", rideId);
 
-
-//        if (!messageAlrealdyExist(msg.getId())) {
-//            chatMsgsList.add(msg);
-//
-//            ChatMsgsAdapter adapter = (ChatMsgsAdapter) chatMsgs_rv.getAdapter();
-//            adapter.notifyItemInserted(chatMsgsList.size() - 1);
-//
-//            chatMsgs_rv.scrollToPosition(chatMsgsList.size() - 1);
-        swipeRefreshLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                swipeRefreshLayout.setRefreshing(false);
-            }
-        });
-//        }
-    }
-
-    @Subscribe
-    public void failureToUpdate(boolean succes) {
-
-        swipeRefreshLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                swipeRefreshLayout.setRefreshing(false);
-            }
-        });
+            chatMsgsAdapter.updateList(chatMsgsList);
+            chatMsgsAdapter.notifyItemRangeInserted(chatMsgsAdapter.getItemCount(), chatMsgsList.size() - chatMsgsAdapter.getItemCount());
+            chatMsgs_rv.scrollToPosition(chatMsgsList.size() - 1);
+        }
     }
 
     @Subscribe
@@ -282,83 +246,7 @@ public class ChatAct extends AppCompatActivity {
         fetchMessageService.putExtra(RIDE_ID_BUNDLE_KEY, rideId);
         fetchMessageService.putExtra("since", since);
         getApplicationContext().startService(fetchMessageService);
-        /************************************************************/
-//        App.getChatService().requestChatMsgs(rideId, since)
-//                .enqueue(new Callback<ModelReceivedFromChat>() {
-//                    @Override
-//                    public void onResponse(Call<ModelReceivedFromChat> call, Response<ModelReceivedFromChat> response) {
-//                        if (response.isSuccessful()) {
-//                            ModelReceivedFromChat chatMessagesReceived = response.body();
-//                            if (chatMessagesReceived != null && chatMessagesReceived.getMessages().size() != 0) {
-//
-//                                List<ChatMessageReceivedFromJson> listMessages = chatMessagesReceived.getMessages();
-//                                for (int mensagesNum = 0; mensagesNum < listMessages.size(); mensagesNum++) {
-//                                    ChatMessageReceived cmr = new ChatMessageReceived(listMessages.get(mensagesNum).getUser().getName(),
-//                                            String.valueOf(listMessages.get(mensagesNum).getUser().getId()),
-//                                            listMessages.get(mensagesNum).getMessage(),
-//                                            rideId,
-//                                            listMessages.get(mensagesNum).getTime());
-//                                    cmr.setId(Long.parseLong(listMessages.get(mensagesNum).getMessageId()));
-//
-//                                    if (!messageAlrealdyExist(Long.parseLong(listMessages.get(mensagesNum).getMessageId()))) {
-//                                        cmr.save();
-//                                        updateMsgsList(cmr);
-//                                    }
-//                                }
-//                            }
-//
-//                            swipeRefreshLayout.post(new Runnable() {
-//                                @Override
-//                                public void run() {
-//                                    swipeRefreshLayout.setRefreshing(false);
-//                                }
-//                            });
-//                        } else {
-//                            Util.toast("Erro ao Recuperar mensagem de chat");
-//                            Log.e("GetMessages", response.message());
-//                            swipeRefreshLayout.post(new Runnable() {
-//                                @Override
-//                                public void run() {
-//                                    swipeRefreshLayout.setRefreshing(false);
-//                                }
-//                            });
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onFailure(Call<ModelReceivedFromChat> call, Throwable t) {
-//                        Util.toast("Erro ao Recuperar mensagem de chat");
-//                        Log.e("GetMessages", t.getMessage());
-//                        swipeRefreshLayout.post(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                swipeRefreshLayout.setRefreshing(false);
-//                            }
-//                        });
-//                    }
-//                });
-        /************************************************************/
-
-//        swipeRefreshLayout.post(new Runnable() {
-//            @Override
-//            public void run() {
-//                swipeRefreshLayout.setRefreshing(false);
-//            }
-//        });
-
     }
-
-//    private boolean messageAlrealdyExist(long messageId) {
-//        boolean messageAlreadyExist = false;
-//        int counter = chatMsgsList.size() - 1;
-//        while (!messageAlreadyExist && counter >= 0) {
-//            if (chatMsgsList.get(counter).getId() == messageId)
-//                messageAlreadyExist = true;
-//            counter--;
-//        }
-//        return messageAlreadyExist;
-//    }
-
 
     @Override
     protected void onNewIntent(Intent intent) {
@@ -413,16 +301,6 @@ public class ChatAct extends AppCompatActivity {
         super.onPause();
 
         SharedPref.setChatActIsForeground(false);
-    }
-
-    private boolean messageAlrealdyExist(long messageId) {
-        int counter = chatMsgsList.size() - 1;
-        while (counter >= 0) {
-            if (chatMsgsList.get(counter).getId() == messageId)
-                return true;
-            counter--;
-        }
-        return false;
     }
 
     private int getMessagePositionWithId(List<ChatMessageReceived> chatMsgsList, long id) {

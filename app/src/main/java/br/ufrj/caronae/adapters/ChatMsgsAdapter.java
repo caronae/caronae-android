@@ -17,7 +17,7 @@ import br.ufrj.caronae.models.ChatMessageReceived;
 
 public class ChatMsgsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private final List<ChatMessageReceived> chatMsgsList;
+    private List<ChatMessageReceived> chatMsgsList;
     private final int color;
 
     public ChatMsgsAdapter(List<ChatMessageReceived> chatMsgsList, int color) {
@@ -58,7 +58,6 @@ public class ChatMsgsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             }
             viewHolderRight.time_tv.setText(time);
 
-            viewHolderRight.sent_tv.setImageResource(R.drawable.bg_bt_raise_zone_centro);
         } else {
             ViewHolderLeft viewHolderLeft = (ViewHolderLeft) holder;
 
@@ -111,7 +110,11 @@ public class ChatMsgsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
             msg_tv = (TextView) itemView.findViewById(R.id.msg_tv);
             time_tv = (TextView) itemView.findViewById(R.id.time_tv);
-            sent_tv = (ImageView) itemView.findViewById(R.id.msg_read_status_tv);
         }
+    }
+
+    public void updateList(List<ChatMessageReceived> newList){
+        chatMsgsList = newList;
+
     }
 }

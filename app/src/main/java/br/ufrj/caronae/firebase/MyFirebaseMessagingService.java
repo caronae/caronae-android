@@ -35,6 +35,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     @Override
     public void onMessageReceived(final RemoteMessage remoteMessage) {
+        Log.i("onMessageReceived", "onMessageReceived");
 
         if (App.isUserLoggedIn()) {
             Map data = remoteMessage.getData();

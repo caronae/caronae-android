@@ -112,11 +112,6 @@
             </intent-filter>
         </receiver>
 
-        <service
-            android:name=".firebase.MyService"
-            android:enabled="true"
-            android:exported="true"></service>
-
         <service android:name=".firebase.FetchReceivedMessagesService"
             android:enabled="true"
             android:exported="true">

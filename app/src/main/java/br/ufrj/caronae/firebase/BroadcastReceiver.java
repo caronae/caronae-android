@@ -15,7 +15,6 @@ public class BroadcastReceiver extends android.content.BroadcastReceiver {
         ConnectivityManager connectivityManager = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
         boolean conected = !intent.getBooleanExtra(connectivityManager.EXTRA_NO_CONNECTIVITY, false);
         if(conected) {
-            context.startService(new Intent(context, MyService.class));
         }
     }
 }
