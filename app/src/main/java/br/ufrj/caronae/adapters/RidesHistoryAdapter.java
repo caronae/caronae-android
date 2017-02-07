@@ -26,6 +26,7 @@ import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.models.User;
 import br.ufrj.caronae.models.modelsforjson.RideFeedbackForJson;
 import br.ufrj.caronae.models.modelsforjson.RideHistoryForJson;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -186,9 +187,9 @@ public class RidesHistoryAdapter extends RecyclerView.Adapter<RidesHistoryAdapte
 
     private void saveFeedback(final String rate, final RideHistoryForJson historyRide){
             App.getNetworkService(activity.getApplicationContext()).saveFeedback(new RideFeedbackForJson(App.getUser().getDbId(), historyRide.getDbId(), "good"))
-                    .enqueue(new Callback<Response>() {
+                    .enqueue(new Callback<ResponseBody>() {
                         @Override
-                        public void onResponse(Call<Response> call, Response<Response> response) {
+                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                             if (response.isSuccessful()) {
                                 Util.toast(activity.getString(R.string.rideHistory_Feedback));
                                 Log.i("saveFeedback", "rated " + rate + ", ride id = " + historyRide.getDbId());
@@ -199,7 +200,7 @@ public class RidesHistoryAdapter extends RecyclerView.Adapter<RidesHistoryAdapte
                         }
 
                         @Override
-                        public void onFailure(Call<Response> call, Throwable t) {
+                        public void onFailure(Call<ResponseBody> call, Throwable t) {
                             Util.toast(activity.getString(R.string.errorRideHistory_Feedback));
                             Log.e("saveFeedback", t.getMessage());
                         }

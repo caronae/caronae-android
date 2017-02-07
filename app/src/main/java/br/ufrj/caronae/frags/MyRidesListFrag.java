@@ -35,6 +35,7 @@ import br.ufrj.caronae.models.Ride;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -144,9 +145,9 @@ public class MyRidesListFrag extends Fragment {
                 final ProgressDialog pd = ProgressDialog.show(getContext(), "", getResources().getString(R.string.wait), true, true);
 
                 App.getNetworkService(getContext()).deleteAllRidesFromUser("stub", going)
-                        .enqueue(new Callback<Response>() {
+                        .enqueue(new Callback<ResponseBody>() {
                             @Override
-                            public void onResponse(Call<Response> call, Response<Response> response) {
+                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                                 if(response.isSuccessful()){
                                     Log.i("deleteAllRidesFromUser", "all rides deleted");
 
@@ -166,7 +167,7 @@ public class MyRidesListFrag extends Fragment {
                             }
 
                             @Override
-                            public void onFailure(Call<Response> call, Throwable t) {
+                            public void onFailure(Call<ResponseBody> call, Throwable t) {
                                 Util.toast(getString(R.string.frag_myrides_errorDeleteAllRIdes));
                                 Log.e("deleteRide", t.getMessage());
                             }

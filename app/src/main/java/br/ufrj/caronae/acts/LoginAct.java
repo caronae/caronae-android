@@ -113,10 +113,10 @@ public class LoginAct extends AppCompatActivity {
 
                     String gcmToken = SharedPref.getUserGcmToken();
                     if (!gcmToken.equals(SharedPref.MISSING_PREF)) {
-                        Call<Response> saveGcmtokenCall = App.getNetworkService(getApplicationContext()).saveGcmToken(new TokenForJson(gcmToken));
-                        saveGcmtokenCall.enqueue(new Callback<Response>() {
+                        Call<ResponseBody> saveGcmtokenCall = App.getNetworkService(getApplicationContext()).saveGcmToken(new TokenForJson(gcmToken));
+                        saveGcmtokenCall.enqueue(new Callback<ResponseBody>() {
                             @Override
-                            public void onResponse(Call<Response> call, Response<Response> response) {
+                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                                 if (response.isSuccessful()) {
                                     Log.i("saveGcmToken", "gcm token sent to server");
                                 } else {
@@ -127,7 +127,7 @@ public class LoginAct extends AppCompatActivity {
                             }
 
                             @Override
-                            public void onFailure(Call<Response> call, Throwable t) {
+                            public void onFailure(Call<ResponseBody> call, Throwable t) {
                                 Log.e("saveGcmToken", "Failure");
                             }
                         });

@@ -31,6 +31,7 @@ import br.ufrj.caronae.acts.RequestersListAct;
 import br.ufrj.caronae.models.Ride;
 import br.ufrj.caronae.models.RideRequestReceived;
 import br.ufrj.caronae.models.User;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -166,9 +167,9 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
                         final ProgressDialog pd = ProgressDialog.show(activity, "", activity.getString(R.string.wait), true, true);
                         final String routineId = ride.getRoutineId();
                         App.getNetworkService(activity.getApplicationContext()).deleteAllRidesFromRoutine(routineId)
-                                .enqueue(new Callback<Response>() {
+                                .enqueue(new Callback<ResponseBody>() {
                                     @Override
-                                    public void onResponse(Call<Response> call, Response<Response> response) {
+                                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                                         if (response.isSuccessful()) {
                                             pd.dismiss();
                                             Util.toast(R.string.ridesDeleted);
@@ -188,7 +189,7 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
                                     }
 
                                     @Override
-                                    public void onFailure(Call<Response> call, Throwable t) {
+                                    public void onFailure(Call<ResponseBody> call, Throwable t) {
                                         pd.dismiss();
                                         Util.toast(activity.getString(R.string.errorDeleteRide));
                                         Log.e("deleteAllFromRoutine", t.getMessage());
@@ -220,9 +221,9 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
                     public void onPositiveActionClicked(DialogFragment fragment) {
                         final ProgressDialog pd = ProgressDialog.show(activity, "", activity.getString(R.string.wait), true, true);
                         App.getNetworkService(activity.getApplicationContext()).deleteRide(ride.getDbId() + "")
-                                .enqueue(new Callback<Response>() {
+                                .enqueue(new Callback<ResponseBody>() {
                                     @Override
-                                    public void onResponse(Call<Response> call, Response<Response> response) {
+                                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                                         if (response.isSuccessful()) {
                                             pd.dismiss();
                                             Util.toast(R.string.rideDeleted);
@@ -237,7 +238,7 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
                                     }
 
                                     @Override
-                                    public void onFailure(Call<Response> call, Throwable t) {
+                                    public void onFailure(Call<ResponseBody> call, Throwable t) {
                                         pd.dismiss();
                                         Util.toast(activity.getString(R.string.errorDeleteRide));
                                         Log.e("deleteRide", t.getMessage());

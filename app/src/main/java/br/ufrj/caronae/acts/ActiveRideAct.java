@@ -43,6 +43,7 @@ import br.ufrj.caronae.models.modelsforjson.RideForJson;
 import br.ufrj.caronae.models.modelsforjson.RideIdForJson;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -237,9 +238,9 @@ public class ActiveRideAct extends AppCompatActivity {
                     public void onPositiveActionClicked(DialogFragment fragment) {
                         final ProgressDialog pd = ProgressDialog.show(ActiveRideAct.this, "", getString(R.string.wait), true, true);
                         App.getNetworkService(getApplicationContext()).leaveRide(new RideIdForJson(rideWithUsers.getDbId()))
-                                .enqueue(new Callback<Response>() {
+                                .enqueue(new Callback<ResponseBody>() {
                                     @Override
-                                    public void onResponse(Call<Response> call, Response<Response> response) {
+                                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                                         if (response.isSuccessful()){
                                             pd.dismiss();
                                             if (isDriver)
@@ -266,7 +267,7 @@ public class ActiveRideAct extends AppCompatActivity {
                                     }
 
                                     @Override
-                                    public void onFailure(Call<Response> call, Throwable t) {
+                                    public void onFailure(Call<ResponseBody> call, Throwable t) {
                                         pd.dismiss();
                                         Util.toast(R.string.errorRideDeleted);
                                         Log.e("leaveRide", t.getMessage());
@@ -314,9 +315,9 @@ public class ActiveRideAct extends AppCompatActivity {
                     public void onPositiveActionClicked(DialogFragment fragment) {
                         final ProgressDialog pd = ProgressDialog.show(ActiveRideAct.this, "", getString(R.string.wait), true, true);
                         App.getNetworkService(getApplicationContext()).finishRide(new RideIdForJson(rideWithUsers.getDbId()))
-                                .enqueue(new Callback<Response>() {
+                                .enqueue(new Callback<ResponseBody>() {
                                     @Override
-                                    public void onResponse(Call<Response> call, Response<Response> response) {
+                                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                                         if (response.isSuccessful()){
                                             pd.dismiss();
                                             Util.toast(R.string.rideFinished);
@@ -340,7 +341,7 @@ public class ActiveRideAct extends AppCompatActivity {
                                     }
 
                                     @Override
-                                    public void onFailure(Call<Response> call, Throwable t) {
+                                    public void onFailure(Call<ResponseBody> call, Throwable t) {
                                         pd.dismiss();
                                         Util.toast(R.string.errorFinishRide);
 

@@ -37,6 +37,7 @@ import br.ufrj.caronae.models.modelsforjson.RideForJson;
 import br.ufrj.caronae.models.modelsforjson.RideIdForJson;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -202,9 +203,9 @@ public class RideOfferAct extends AppCompatActivity {
                             public void onPositiveActionClicked(DialogFragment fragment) {
                                 final ProgressDialog pd = ProgressDialog.show(RideOfferAct.this, "", getString(R.string.wait), true, true);
                                 App.getNetworkService(getApplicationContext()).requestJoin(new RideIdForJson(rideWithUsers.getDbId()))
-                                        .enqueue(new Callback<Response>() {
+                                        .enqueue(new Callback<ResponseBody>() {
                                             @Override
-                                            public void onResponse(Call<Response> call, Response<Response> response) {
+                                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                                                 if (response.isSuccessful()){
                                                     RideRequestSent rideRequest = new RideRequestSent(rideWithUsers.getDbId(), rideWithUsers.isGoing(), rideWithUsers.getDate());
                                                     rideRequest.save();
@@ -225,7 +226,7 @@ public class RideOfferAct extends AppCompatActivity {
                                             }
 
                                             @Override
-                                            public void onFailure(Call<Response> call, Throwable t) {
+                                            public void onFailure(Call<ResponseBody> call, Throwable t) {
                                                 pd.dismiss();
                                                 Util.toast(R.string.errorRequestSent);
                                                 Log.e("requestJoin", t.getMessage());

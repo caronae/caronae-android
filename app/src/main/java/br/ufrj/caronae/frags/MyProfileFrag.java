@@ -43,6 +43,7 @@ import br.ufrj.caronae.models.modelsforjson.UrlForJson;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -117,9 +118,9 @@ public class MyProfileFrag extends Fragment {
                 if (profile != null) {
                     final String faceId = profile.getId();
                     App.getNetworkService(getContext()).saveFaceId(new IdForJson(faceId))
-                            .enqueue(new Callback<Response>() {
+                            .enqueue(new Callback<ResponseBody>() {
                                 @Override
-                                public void onResponse(Call<Response> call, Response<Response> response) {
+                                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                                     if (response.isSuccessful()) {
                                         Log.i("saveFaceId", "face id saved");
                                         User user = App.getUser();
@@ -132,7 +133,7 @@ public class MyProfileFrag extends Fragment {
                                 }
 
                                 @Override
-                                public void onFailure(Call<Response> call, Throwable t) {
+                                public void onFailure(Call<ResponseBody> call, Throwable t) {
                                     Util.toast(R.string.frag_myprofile_errorSaveFaceId);
                                     Log.e("saveFaceId", t.getMessage());
                                 }
@@ -518,9 +519,9 @@ public class MyProfileFrag extends Fragment {
             int validation = fieldsValidated();
             if (validation == 0) {
                 App.getNetworkService(getContext()).updateUser(editedUser)
-                        .enqueue(new Callback<Response>() {
+                        .enqueue(new Callback<ResponseBody>() {
                             @Override
-                            public void onResponse(Call<Response> call, Response<Response> response) {
+                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                                 if (response.isSuccessful()) {
                                     User user = App.getUser();
                                     if (user == null)
@@ -535,7 +536,7 @@ public class MyProfileFrag extends Fragment {
                             }
 
                             @Override
-                            public void onFailure(Call<Response> call, Throwable t) {
+                            public void onFailure(Call<ResponseBody> call, Throwable t) {
                                 Log.e("updateUser", t.getMessage());
                                 Util.toast(R.string.frag_myprofile_errorUpdated);
                             }
@@ -590,9 +591,9 @@ public class MyProfileFrag extends Fragment {
 
     public void saveProfilePicUrl(String profilePicUrl) {
         App.getNetworkService(getContext()).saveProfilePicUrl(new UrlForJson(profilePicUrl))
-                .enqueue(new Callback<Response>() {
+                .enqueue(new Callback<ResponseBody>() {
                     @Override
-                    public void onResponse(Call<Response> call, Response<Response> response) {
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                         if (response.isSuccessful()) {
                             Log.i("saveProfilePicUrl", "profile pic url saved");
                             SharedPref.saveUser(App.getUser());
@@ -602,7 +603,7 @@ public class MyProfileFrag extends Fragment {
                     }
 
                     @Override
-                    public void onFailure(Call<Response> call, Throwable t) { //need to save it later
+                    public void onFailure(Call<ResponseBody> call, Throwable t) { //need to save it later
                         Log.e("saveProfilePicUrl", t.getMessage());
                     }
                 });

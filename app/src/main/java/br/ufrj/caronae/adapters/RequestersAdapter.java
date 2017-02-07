@@ -26,6 +26,7 @@ import br.ufrj.caronae.acts.ProfileAct;
 import br.ufrj.caronae.gcm.FirebaseTopicsHandler;
 import br.ufrj.caronae.models.User;
 import br.ufrj.caronae.models.modelsforjson.JoinRequestIDsForJson;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -86,9 +87,9 @@ public class RequestersAdapter extends RecyclerView.Adapter<RequestersAdapter.Vi
             public void onClick(View view) {
                 final ProgressDialog pd = ProgressDialog.show(activity, "", activity.getString(R.string.wait), true, true);
                 App.getNetworkService(activity.getApplicationContext()).answerJoinRequest(new JoinRequestIDsForJson(user.getDbId(), rideId, true))
-                        .enqueue(new Callback<Response>() {
+                        .enqueue(new Callback<ResponseBody>() {
                             @Override
-                            public void onResponse(Call<Response> call, Response<Response> response) {
+                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                                 if (response.isSuccessful()) {
                                     pd.dismiss();
                                     Util.toast(R.string.requestAccepted);
@@ -107,7 +108,7 @@ public class RequestersAdapter extends RecyclerView.Adapter<RequestersAdapter.Vi
                             }
 
                             @Override
-                            public void onFailure(Call<Response> call, Throwable t) {
+                            public void onFailure(Call<ResponseBody> call, Throwable t) {
                                 pd.dismiss();
                                 Log.e("answerJoinRequest", t.getMessage());
                                 Util.toast(R.string.errorAnsweRequest);
@@ -121,9 +122,9 @@ public class RequestersAdapter extends RecyclerView.Adapter<RequestersAdapter.Vi
             public void onClick(View view) {
                 final ProgressDialog pd = ProgressDialog.show(activity, "", activity.getString(R.string.wait), true, true);
                 App.getNetworkService(activity.getApplicationContext()).answerJoinRequest(new JoinRequestIDsForJson(user.getDbId(), rideId, false))
-                        .enqueue(new Callback<Response>() {
+                        .enqueue(new Callback<ResponseBody>() {
                                      @Override
-                                     public void onResponse(Call<Response> call, Response<Response> response) {
+                                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                                          if (response.isSuccessful()) {
                                              pd.dismiss();
                                              Util.toast(R.string.requestRejected);
@@ -137,7 +138,7 @@ public class RequestersAdapter extends RecyclerView.Adapter<RequestersAdapter.Vi
                                      }
 
                                      @Override
-                                     public void onFailure(Call<Response> call, Throwable t) {
+                                     public void onFailure(Call<ResponseBody> call, Throwable t) {
                                          pd.dismiss();
                                          Log.e("answerJoinRequest", t.getMessage());
                                      }

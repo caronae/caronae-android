@@ -20,9 +20,10 @@ import br.ufrj.caronae.models.RideRequestReceived;
 import br.ufrj.caronae.models.ActiveRide;
 import br.ufrj.caronae.models.RideRequestSent;
 import br.ufrj.caronae.models.modelsforjson.TokenForJson;
+import okhttp3.Response;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
-import retrofit2.Response;
 
 public class LogOut extends AsyncTask<Void, Void, Void> {
 
@@ -40,9 +41,9 @@ public class LogOut extends AsyncTask<Void, Void, Void> {
         FirebaseMessaging.getInstance().unsubscribeFromTopic(App.getUser().getDbId() + "");
 
         App.getNetworkService(context).saveGcmToken(new TokenForJson(""))
-                .enqueue(new Callback<Response>() {
+                .enqueue(new Callback<ResponseBody>() {
                     @Override
-                    public void onResponse(Call<Response> call, Response<Response> response) {
+                    public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
                         if (response.isSuccessful()){
                             Log.i("saveGcmToken", "gcm token cleared");
                         } else {
@@ -51,7 +52,7 @@ public class LogOut extends AsyncTask<Void, Void, Void> {
                     }
 
                     @Override
-                    public void onFailure(Call<Response> call, Throwable t) {
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
                         Log.e("saveGcmToken", t.getMessage());
                     }
                 });
