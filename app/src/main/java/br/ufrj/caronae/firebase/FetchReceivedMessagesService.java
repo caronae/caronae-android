@@ -40,10 +40,10 @@ public class FetchReceivedMessagesService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        Log.v("SIRVICE", "Entered Service");
-        rideId = intent.getStringExtra("ride_id");
+        Log.v("onMessageReceived", "Entered Service");
+        rideId = intent.getStringExtra("rideId");
         String since = intent.getStringExtra("since");
-        App.getChatService().requestChatMsgs(rideId, since)
+        App.getNetworkService(getApplicationContext()).requestChatMsgs(rideId, since)
                 .enqueue(new Callback<ModelReceivedFromChat>() {
                     @Override
                     public void onResponse(Call<ModelReceivedFromChat> call, Response<ModelReceivedFromChat> response) {
@@ -60,9 +60,14 @@ public class FetchReceivedMessagesService extends IntentService {
                                             listMessages.get(mensagesNum).getTime());
                                     cmr.setId(Long.parseLong(listMessages.get(mensagesNum).getMessageId()));
 
+                                    Log.v("onMessageReceived", "id1:" + cmr.getId() + " " + cmr.getMessage());
+
+
                                     if (!messageAlrealdyExist(Long.parseLong(listMessages.get(mensagesNum).getMessageId()))) {
+                                        Log.v("onMessageReceived", "Salvou mensgaem");
                                         cmr.save();
                                         if(SharedPref.getChatActIsForeground()) {
+                                            Log.v("onMessageReceived", "Postou");
                                             App.getBus().post(cmr);
                                         }
                                     }
@@ -89,13 +94,12 @@ public class FetchReceivedMessagesService extends IntentService {
     }
 
     private boolean messageAlrealdyExist(long messageId) {
-        boolean messageAlreadyExist = false;
         int counter = chatMsgsList.size() - 1;
-        while (!messageAlreadyExist && counter >= 0) {
+        while (counter >= 0) {
             if (chatMsgsList.get(counter).getId() == messageId)
-                messageAlreadyExist = true;
+                return true;
             counter--;
         }
-        return messageAlreadyExist;
+        return false;
     }
 }

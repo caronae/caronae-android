@@ -36,6 +36,7 @@ import br.ufrj.caronae.models.modelsforjson.HistoryRideCountForJson;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -224,9 +225,9 @@ public class ProfileAct extends AppCompatActivity {
                     return;
 
                 App.getNetworkService(getApplicationContext()).falaeSendMessage(new FalaeMsgForJson(getString(R.string.frag_falae_reportRb) + user.getName() + " - ID:" + user.getDbId(), msg))
-                        .enqueue(new Callback<Response>() {
+                        .enqueue(new Callback<ResponseBody>() {
                             @Override
-                            public void onResponse(Call<Response> call, Response<Response> response) {
+                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                                 if (response.isSuccessful()) {
                                     Util.toast(getString(R.string.act_profile_reportOk));
                                     Log.i("falaeSendMessage", "falae message sent succesfully");
@@ -237,7 +238,7 @@ public class ProfileAct extends AppCompatActivity {
                             }
 
                             @Override
-                            public void onFailure(Call<Response> call, Throwable t) {
+                            public void onFailure(Call<ResponseBody> call, Throwable t) {
                                 Util.toast(getString(R.string.frag_falae_errorSent));
                                 Log.e("falaeSendMessage", t.getMessage());
                             }

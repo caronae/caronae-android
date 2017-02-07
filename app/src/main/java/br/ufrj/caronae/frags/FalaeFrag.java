@@ -24,6 +24,7 @@ import br.ufrj.caronae.models.modelsforjson.FalaeMsgForJson;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -95,9 +96,9 @@ public class FalaeFrag extends Fragment {
 
         final ProgressDialog pd = ProgressDialog.show(getContext(), "", getString(R.string.wait), true, true);
         App.getNetworkService(getContext()).falaeSendMessage(new FalaeMsgForJson(subject, message))
-                .enqueue(new Callback<Response>() {
+                .enqueue(new Callback<ResponseBody>() {
                     @Override
-                    public void onResponse(Call<Response> call, Response<Response> response) {
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                         if (response.isSuccessful()) {
                             pd.dismiss();
                             Util.toast(getActivity().getString(R.string.frag_falae_thanksSent));
@@ -112,7 +113,7 @@ public class FalaeFrag extends Fragment {
                     }
 
                     @Override
-                    public void onFailure(Call<Response> call, Throwable t) {
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
                         pd.dismiss();
                         Util.toast(getActivity().getString(R.string.frag_falae_errorSent));
                         Log.e("falaeSendMessage", t.getMessage());

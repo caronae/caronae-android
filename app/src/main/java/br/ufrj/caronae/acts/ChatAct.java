@@ -84,6 +84,8 @@ public class ChatAct extends AppCompatActivity {
         setContentView(R.layout.activity_chat);
         ButterKnife.bind(this);
 
+        Log.v("onMessageReceived", "onCreate");
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -94,7 +96,7 @@ public class ChatAct extends AppCompatActivity {
             ab.setDisplayHomeAsUpEnabled(true);
         }
 
-        rideId = getIntent().getExtras().getString("rideId");
+        rideId = getIntent().getExtras().getString(RIDE_ID_BUNDLE_KEY);
         List<ChatAssets> l = ChatAssets.find(ChatAssets.class, "ride_id = ?", rideId);
         if (l == null || l.isEmpty()) {
             finish();
@@ -122,18 +124,6 @@ public class ChatAct extends AppCompatActivity {
         chatMsgs_rv.setAdapter(chatMsgsAdapter);
         chatMsgs_rv.setLayoutManager(new LinearLayoutManager(context));
 
-
-        //TODO: Check multiples notifications
-//        if (getIntent().getExtras().get(SENDER_ID_BUNDLE_KEY) != null){
-//            ChatMessageReceived cmr = new ChatMessageReceived(
-//                    getSenderNameFromNotification(getIntent().getExtras().getString(MESSAGE_WITH_USER_BUNDLE_KEY)),
-//                    getIntent().getExtras().getString(SENDER_ID_BUNDLE_KEY),
-//                    getMessageFromNotification(getIntent().getExtras().getString(MESSAGE_WITH_USER_BUNDLE_KEY)),
-//                    getIntent().getExtras().getString(RIDE_ID_BUNDLE_KEY),
-//                    getTimeFromNotification(getIntent().getExtras().getLong(SENT_TIME_BUNDLE_KEY)));
-//
-//            chatMsgsList.add(cmr);
-//        }
 
         if (!chatMsgsList.isEmpty())
             chatMsgs_rv.scrollToPosition(chatMsgsList.size() - 1);
@@ -167,10 +157,16 @@ public class ChatAct extends AppCompatActivity {
 
         String time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US).format(new Date());
         final ChatMessageReceived msg = new ChatMessageReceived(App.getUser().getName(), App.getUser().getDbId() + "", message, rideId, time);
+        msg.setId((long) -1);
 
-        updateMsgsList(msg);
+        chatMsgsList.add(msg);
 
-        App.getChatService().sendChatMsg(rideId, new ChatSendMessageForJson(message))
+        final ChatMsgsAdapter adapter = (ChatMsgsAdapter) chatMsgs_rv.getAdapter();
+        adapter.notifyItemInserted(chatMsgsList.size() - 1);
+
+        chatMsgs_rv.scrollToPosition(chatMsgsList.size() - 1);
+
+        App.getNetworkService(getApplicationContext()).sendChatMsg(rideId, new ChatSendMessageForJson(message))
                 .enqueue(new Callback<ChatMessageSendResponse>() {
                     @Override
                     public void onResponse(Call<ChatMessageSendResponse> call, Response<ChatMessageSendResponse> response) {
@@ -179,7 +175,10 @@ public class ChatAct extends AppCompatActivity {
                             Log.i("Message Sent", "Sulcefully Send Chat Messages");
                             Log.d("CHAT", "mesage: " + chatMessageSendResponse.getResponseMessage() + " ID: " + chatMessageSendResponse.getMessageId() + "");
                             msg.setId(Long.parseLong(chatMessageSendResponse.getMessageId()));
-                            chatMsgsList.get(chatMsgsList.size() - 1).setId(Long.parseLong(chatMessageSendResponse.getMessageId()));
+                            int listPosition = getMessagePositionWithId(chatMsgsList, msg.getId());
+                            chatMsgsList.get(listPosition).setId(Long.parseLong(chatMessageSendResponse.getMessageId()));
+                            adapter.notifyDataSetChanged();
+//                            chatMsgsList.get(chatMsgsList.size() - 1).setId(Long.parseLong(chatMessageSendResponse.getMessageId()));
                             msg.save();
                             Util.toast("Mensagem enviada");
                         } else {
@@ -228,21 +227,28 @@ public class ChatAct extends AppCompatActivity {
     @Subscribe
     public void updateMsgsList(ChatMessageReceived msg) {
 
-        Log.i("GetMessages", "Updatando");
+        chatMsgsList = ChatMessageReceived.find(ChatMessageReceived.class, "ride_id = ?", rideId);
 
-        chatMsgsList.add(msg);
-
-        ChatMsgsAdapter adapter = (ChatMsgsAdapter) chatMsgs_rv.getAdapter();
-        adapter.notifyItemInserted(chatMsgsList.size() - 1);
-
+        chatMsgsAdapter = new ChatMsgsAdapter(chatMsgsList, color);
+        chatMsgs_rv.setAdapter(chatMsgsAdapter);
+        chatMsgs_rv.setLayoutManager(new LinearLayoutManager(context));
         chatMsgs_rv.scrollToPosition(chatMsgsList.size() - 1);
 
+
+//        if (!messageAlrealdyExist(msg.getId())) {
+//            chatMsgsList.add(msg);
+//
+//            ChatMsgsAdapter adapter = (ChatMsgsAdapter) chatMsgs_rv.getAdapter();
+//            adapter.notifyItemInserted(chatMsgsList.size() - 1);
+//
+//            chatMsgs_rv.scrollToPosition(chatMsgsList.size() - 1);
         swipeRefreshLayout.post(new Runnable() {
             @Override
             public void run() {
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
+//        }
     }
 
     @Subscribe
@@ -261,20 +267,21 @@ public class ChatAct extends AppCompatActivity {
 
         String since = null;
         if (chatMsgsList.size() != 0) {
-            boolean lastMessageisMine = true;
+            boolean lastMessageIsMine = true;
             int counter = chatMsgsList.size() - 1;
-            while (lastMessageisMine && counter >= 0) {
+            while (lastMessageIsMine && counter >= 0) {
                 if (!chatMsgsList.get(counter).getSenderId().equals(String.valueOf(App.getUser().getDbId()))) {
                     since = chatMsgsList.get(counter).getTime();
-                    lastMessageisMine = false;
+                    lastMessageIsMine = false;
                 }
                 counter--;
             }
         }
 
         Intent fetchMessageService = new Intent(getApplicationContext(), FetchReceivedMessagesService.class);
-        fetchMessageService.putExtra("rideId", rideId);
-        startService(fetchMessageService);
+        fetchMessageService.putExtra(RIDE_ID_BUNDLE_KEY, rideId);
+        fetchMessageService.putExtra("since", since);
+        getApplicationContext().startService(fetchMessageService);
         /************************************************************/
 //        App.getChatService().requestChatMsgs(rideId, since)
 //                .enqueue(new Callback<ModelReceivedFromChat>() {
@@ -375,7 +382,7 @@ public class ChatAct extends AppCompatActivity {
 
         try {
             App.getBus().unregister(this);
-        } catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             e.printStackTrace();
         }
         NewChatMsgIndicator.deleteAll(NewChatMsgIndicator.class, "db_id = ?", rideId);
@@ -398,6 +405,7 @@ public class ChatAct extends AppCompatActivity {
         super.onResume();
 
         SharedPref.setChatActIsForeground(true);
+        updateMsgsListWithServer(rideId);
     }
 
     @Override
@@ -405,5 +413,23 @@ public class ChatAct extends AppCompatActivity {
         super.onPause();
 
         SharedPref.setChatActIsForeground(false);
+    }
+
+    private boolean messageAlrealdyExist(long messageId) {
+        int counter = chatMsgsList.size() - 1;
+        while (counter >= 0) {
+            if (chatMsgsList.get(counter).getId() == messageId)
+                return true;
+            counter--;
+        }
+        return false;
+    }
+
+    private int getMessagePositionWithId(List<ChatMessageReceived> chatMsgsList, long id) {
+        for (int position = chatMsgsList.size() - 1; position >= 0; position--) {
+            if (chatMsgsList.get(position).getId() == id)
+                return position;
+        }
+        return -1;
     }
 }

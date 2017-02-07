@@ -13,6 +13,7 @@ import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.models.modelsforjson.TokenForJson;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -48,9 +49,9 @@ public class RegistrationIntentService extends IntentService {
     private void sendRegistrationToServer(final String token) {
         // send network request
         App.getNetworkService(getApplicationContext()).saveGcmToken(new TokenForJson(token))
-                .enqueue(new Callback<Response>() {
+                .enqueue(new Callback<ResponseBody>() {
                     @Override
-                    public void onResponse(Call<Response> call, Response<Response> response) {
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                         if (response.isSuccessful()) {
                             Log.i("saveGcmToken", "gcm token sent to server");
 
@@ -62,7 +63,7 @@ public class RegistrationIntentService extends IntentService {
                     }
 
                     @Override
-                    public void onFailure(Call<Response> call, Throwable t) {
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
                         Log.e("saveGcmToken", t.getMessage());
                     }
                 });

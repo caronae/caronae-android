@@ -17,20 +17,13 @@ import java.util.Map;
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.SharedPref;
-import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.ChatAct;
 import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.models.ActiveRide;
 import br.ufrj.caronae.models.ChatAssets;
 import br.ufrj.caronae.models.ChatMessageReceived;
-import br.ufrj.caronae.models.ChatMessageReceivedFromJson;
-import br.ufrj.caronae.models.ModelReceivedFromChat;
-import br.ufrj.caronae.models.NewChatMsgIndicator;
 import br.ufrj.caronae.models.RideEndedEvent;
 import br.ufrj.caronae.models.RideRequestReceived;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * Created by Luis-DELL on 10/28/2016.
@@ -42,96 +35,67 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     @Override
     public void onMessageReceived(final RemoteMessage remoteMessage) {
-        Map data = remoteMessage.getData();
-        String message = (String) data.get("message");
-        String msgType = (String) data.get("msgType");
-        String senderName = (String) data.get("senderName");
 
-        final String rideId = (String) data.get("rideId");
+        if (App.isUserLoggedIn()) {
+            Map data = remoteMessage.getData();
+            String message = (String) data.get("message");
+            String msgType = (String) data.get("msgType");
+            String senderName = (String) data.get("senderName");
 
-        Log.i("onMessageReceived", message);
+            final String rideId = (String) data.get("rideId");
 
-        if (msgType != null && msgType.equals("chat")) {
-            String senderId = (String) data.get("senderId");
-            //noinspection ConstantConditions
-            if (senderId.equals(App.getUser().getDbId() + "")) {
-                return;
+            Log.i("onMessageReceived", message);
+
+            if (msgType != null && msgType.equals("chat")) {
+                String senderId = (String) data.get("senderId");
+                //noinspection ConstantConditions
+                if (senderId.equals(App.getUser().getDbId() + "")) {
+                    return;
+                }
+
+                List<ChatMessageReceived> listOldMessages = ChatMessageReceived.find(ChatMessageReceived.class, "ride_id = ?", rideId);
+
+                ChatMessageReceived lastMessage = null;
+                if (listOldMessages.size() != 0) {
+                    lastMessage = listOldMessages.get(listOldMessages.size() - 1);
+                }
+
+                String since;
+                if (lastMessage == null) {
+                    since = null;
+                } else {
+                    since = lastMessage.getTime();
+                }
+
+                if (!SharedPref.getChatActIsForeground()) {
+                    startService(new Intent(this, FetchReceivedMessagesService.class).putExtra("rideId", rideId).putExtra("since", since));
+                }
             }
 
-            List<ChatMessageReceived> listOldMessages = ChatMessageReceived.find(ChatMessageReceived.class, "ride_id = ?", rideId);
 
-            ChatMessageReceived lastMessage = null;
-            if (listOldMessages.size() != 0) {
-                lastMessage = listOldMessages.get(listOldMessages.size() - 1);
+            // TODO: Check msgType = melhorar informacoes na notificacao
+
+            if (msgType != null && msgType.equals("joinRequest")) {
+                new RideRequestReceived(Integer.valueOf(rideId)).save();
             }
 
-            String since;
-            if (lastMessage == null) {
-                since = null;
-            } else {
-                since = lastMessage.getTime();
+            if (msgType != null && msgType.equals("finished")) {
+                FirebaseTopicsHandler.unsubscribeFirebaseTopic(rideId);
+                App.getBus().post(new RideEndedEvent(rideId));
+                ActiveRide.deleteAll(ActiveRide.class, "db_id = ?", rideId);
             }
 
-            if (!SharedPref.getChatActIsForeground()) {
-//            startService(new Intent(this, FetchReceivedMessagesService.class).putExtra("ride_id", rideId).putExtra("since", since));
-
-                App.getChatService().requestChatMsgs(rideId, since)
-                        .enqueue(new Callback<ModelReceivedFromChat>() {
-                            @Override
-                            public void onResponse(Call<ModelReceivedFromChat> call, Response<ModelReceivedFromChat> response) {
-                                if (response.isSuccessful()) {
-                                    ModelReceivedFromChat chatMessagesReceived = response.body();
-                                    Log.i("GetMessages", "Sulcefully Retrieved Chat Messages");
-                                    List<ChatMessageReceivedFromJson> listMessages = chatMessagesReceived.getMessages();
-                                    for (int mensagesNum = 0; mensagesNum < listMessages.size(); mensagesNum++) {
-                                        ChatMessageReceived cmr = new ChatMessageReceived(listMessages.get(mensagesNum).getUser().getName(),
-                                                String.valueOf(listMessages.get(mensagesNum).getUser().getId()),
-                                                listMessages.get(mensagesNum).getMessage(),
-                                                listMessages.get(mensagesNum).getMessageId(),
-                                                listMessages.get(mensagesNum).getTime());
-                                        cmr.save();
-                                        App.getBus().post(cmr);
-                                    }
-                                    new NewChatMsgIndicator(Integer.valueOf(rideId)).save();
-                                } else {
-                                    Util.toast("Erro ao Recuperar mensagem de chat");
-                                    Log.e("GetMessages", response.message());
-                                }
-                            }
-
-                            @Override
-                            public void onFailure(Call<ModelReceivedFromChat> call, Throwable t) {
-                                Util.toast("Erro ao Recuperar mensagem de chat");
-                                Log.e("GetMessages", t.getMessage());
-                            }
-                        });
+            // TODO:Carona cancelada Nao esta rebendo notificacao
+            if (msgType != null && msgType.equals("cancelled")) {
+                FirebaseTopicsHandler.unsubscribeFirebaseTopic(rideId);
+                App.getBus().post(new RideEndedEvent(rideId));
+                ActiveRide.deleteAll(ActiveRide.class, "db_id = ?", rideId);
             }
-        }
 
-
-        // TODO: Check msgType = melhorar informacoes na notificacao
-
-        if (msgType != null && msgType.equals("joinRequest")) {
-            new RideRequestReceived(Integer.valueOf(rideId)).save();
-        }
-
-        if (msgType != null && msgType.equals("finished")) {
-            FirebaseTopicsHandler.unsubscribeFirebaseTopic(rideId);
-            App.getBus().post(new RideEndedEvent(rideId));
-            ActiveRide.deleteAll(ActiveRide.class, "db_id = ?", rideId);
-        }
-
-        // TODO:Carona cancelada Nao esta rebendo notificacao
-        if (msgType != null && msgType.equals("cancelled")) {
-            FirebaseTopicsHandler.unsubscribeFirebaseTopic(rideId);
-            App.getBus().post(new RideEndedEvent(rideId));
-            ActiveRide.deleteAll(ActiveRide.class, "db_id = ?", rideId);
-        }
-
-        if (msgType != null && msgType.equals("accepted")) {
-            FirebaseTopicsHandler.CheckSubFirebaseTopic(rideId);
-            //new DeleteConflictingRequests().execute(rideId);
-        }
+            if (msgType != null && msgType.equals("accepted")) {
+                FirebaseTopicsHandler.CheckSubFirebaseTopic(rideId);
+                //new DeleteConflictingRequests().execute(rideId);
+            }
 
 //        if (msgType != null && msgType.equals("refused")) {
 //            FirebaseTopicsHandler.CheckSubFirebaseTopic(rideId);
@@ -143,17 +107,18 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 //            //new DeleteConflictingRequests().execute(rideId);
 //        }
 
-        if (SharedPref.getNotifPref().equals("true"))
-            if (msgType != null && msgType.equals("chat")) {
-                if (!SharedPref.getChatActIsForeground()) {
+            if (SharedPref.getNotifPref().equals("true"))
+                if (msgType != null && msgType.equals("chat")) {
+                    if (!SharedPref.getChatActIsForeground()) {
+                        createNotification(msgType, senderName, message, rideId);
+                    } else {
+                        App.getBus().post(rideId);
+                    }
+                } else
                     createNotification(msgType, senderName, message, rideId);
-                } else {
-                    App.getBus().post(rideId);
-                }
-            } else
-                createNotification(msgType, senderName, message, rideId);
 
 //        startService(new Intent(getApplicationContext(), FetchReceivedMessagesService.class));
+        }
     }
 
     private void createNotification(String msgType, String senderName, String message, String rideId) {

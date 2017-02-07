@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -56,6 +57,8 @@ public class ChatMsgsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 Log.e("ChatMsgsAdapter", e.getMessage());
             }
             viewHolderRight.time_tv.setText(time);
+
+            viewHolderRight.sent_tv.setImageResource(R.drawable.bg_bt_raise_zone_centro);
         } else {
             ViewHolderLeft viewHolderLeft = (ViewHolderLeft) holder;
 
@@ -101,12 +104,14 @@ public class ChatMsgsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public static class ViewHolderRight extends RecyclerView.ViewHolder {
         public TextView msg_tv;
         public TextView time_tv;
+        public ImageView sent_tv;
 
         public ViewHolderRight(View itemView) {
             super(itemView);
 
             msg_tv = (TextView) itemView.findViewById(R.id.msg_tv);
             time_tv = (TextView) itemView.findViewById(R.id.time_tv);
+            sent_tv = (ImageView) itemView.findViewById(R.id.msg_read_status_tv);
         }
     }
 }

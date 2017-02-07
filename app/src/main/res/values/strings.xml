@@ -28,6 +28,7 @@
     <string name="title_activity_profile">Perfil do usuário</string>
 
     <string name="wait">Aguarde</string>
+    <string name="act_login_notFound">Usuário não encontrado</string>
     <string name="act_login_invalidLogin">CPF ou chave inválida</string>
     <string name="act_login_loginFail">Erro ao fazer login</string>
     <string name="act_main_oknogplay">OK</string>

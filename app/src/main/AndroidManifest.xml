@@ -98,6 +98,7 @@
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
+
         <service android:name=".firebase.MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
@@ -115,6 +116,11 @@
             android:name=".firebase.MyService"
             android:enabled="true"
             android:exported="true"></service>
+
+        <service android:name=".firebase.FetchReceivedMessagesService"
+            android:enabled="true"
+            android:exported="true">
+        </service>
     </application>
 
 </manifest>
