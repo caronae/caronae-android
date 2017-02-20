@@ -171,7 +171,7 @@ public class ChatAct extends AppCompatActivity {
 
         updateMsgsList(msg);
 
-        App.getChatService().sendChatMsg(rideId, new ChatSendMessageForJson(message))
+        App.getChatService(getApplicationContext()).sendChatMsg(rideId, new ChatSendMessageForJson(message))
                 .enqueue(new Callback<ChatMessageSendResponse>() {
                     @Override
                     public void onResponse(Call<ChatMessageSendResponse> call, Response<ChatMessageSendResponse> response) {
@@ -277,7 +277,7 @@ public class ChatAct extends AppCompatActivity {
         }
 
         /************************************************************/
-        App.getChatService().requestChatMsgs(rideId, since)
+        App.getChatService(getApplicationContext()).requestChatMsgs(rideId, since)
                 .enqueue(new Callback<ModelReceivedFromChat>() {
                     @Override
                     public void onResponse(Call<ModelReceivedFromChat> call, Response<ModelReceivedFromChat> response) {

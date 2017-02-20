@@ -31,7 +31,7 @@ public class FetchReceivedMessagesService extends IntentService {
         Log.v("SIRVICE", "Entered Service");
         String rideId = intent.getStringExtra("ride_id");
         String since = intent.getStringExtra("since");
-        App.getChatService().requestChatMsgs(rideId, since)
+        App.getChatService(getApplicationContext()).requestChatMsgs(rideId, since)
                 .enqueue(new Callback<ModelReceivedFromChat>() {
                     @Override
                     public void onResponse(Call<ModelReceivedFromChat> call, Response<ModelReceivedFromChat> response) {

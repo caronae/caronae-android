@@ -1,7 +1,6 @@
 package br.ufrj.caronae;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -132,20 +131,25 @@ public class App extends SugarApp {
         return networkService;
     }
 
-    public static ChatService getChatService() {
+    public static ChatService getChatService(final Context context) {
         if (chatService == null) {
-
             String endpoint = getHost();
+
+            Gson gson = new GsonBuilder()
+                    .setLenient()
+                    .create();
 
             OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
             httpClient.addInterceptor(new Interceptor() {
                 @Override
                 public Response intercept(Chain chain) throws IOException {
-                    okhttp3.Request original = chain.request();
+                    Request original = chain.request();
                     if (App.isUserLoggedIn()) {
+
                         Request request = original.newBuilder()
                                 .header("Content-Type", "application/json")
                                 .header("token", SharedPref.getUserToken())
+                                .header("User-Agent", Util.getHeaderForHttp(context))
                                 .method(original.method(), original.body())
                                 .build();
 
@@ -153,19 +157,31 @@ public class App extends SugarApp {
 
                         return response;
                     }
-                    return chain.proceed(original);
+                    Request request = original.newBuilder()
+                            .header("Content-Type", "application/json")
+                            .header("User-Agent", Util.getHeaderForHttp(context))
+                            .method(original.method(), original.body())
+                            .build();
+                    Response response = chain.proceed(request);
+                    return response;
                 }
             });
 
+            HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+            logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+
+            httpClient.addInterceptor(logging);
+
             OkHttpClient client = httpClient.build();
 
-            networkService = new Retrofit.Builder()
+            chatService = new Retrofit.Builder()
                     .baseUrl(endpoint)
+                    .addConverterFactory(GsonConverterFactory.create(gson))
                     .client(client)
                     .build()
-                    .create(NetworkService.class);
-        }
+                    .create(ChatService.class);
 
+        }
         return chatService;
     }
 

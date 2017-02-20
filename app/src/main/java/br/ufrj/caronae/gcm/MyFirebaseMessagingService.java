@@ -75,7 +75,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             if (!SharedPref.getChatActIsForeground()) {
 //            startService(new Intent(this, FetchReceivedMessagesService.class).putExtra("ride_id", rideId).putExtra("since", since));
 
-                App.getChatService().requestChatMsgs(rideId, since)
+                App.getChatService(getApplicationContext()).requestChatMsgs(rideId, since)
                         .enqueue(new Callback<ModelReceivedFromChat>() {
                             @Override
                             public void onResponse(Call<ModelReceivedFromChat> call, Response<ModelReceivedFromChat> response) {
