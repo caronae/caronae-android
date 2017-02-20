@@ -333,6 +333,8 @@ public class RideSearchFrag extends Fragment {
         }
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
+//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM0dd", Locale.US);
+
         String etDateString = date_et.getText().toString();
         Date todayDate = new Date();
         String todayString = simpleDateFormat.format(todayDate);
@@ -367,6 +369,7 @@ public class RideSearchFrag extends Fragment {
         if (center.equals("Todos"))
             center = "";
         boolean go = radioGroup.getCheckedRadioButtonId() == R.id.go_rb;
+        etDateString = Util.formatBadDateWithYear(etDateString);
         RideSearchFiltersForJson rideSearchFilters = new RideSearchFiltersForJson(location, etDateString, time, center, go, location_et.getText().toString());
 
         String lastRideSearchFilters = new Gson().toJson(rideSearchFilters);
