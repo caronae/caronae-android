@@ -1,9 +1,11 @@
 package br.ufrj.caronae.frags;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -195,7 +197,7 @@ public class RideSearchFrag extends Fragment {
                     String resumedField = "";
                     neighborhoods = "";
                     for (int i = 0; i < selectedNeighborhoods.length; i++) {
-                        if (selectedNeighborhoods[i].equals(getResources().getString(R.string.all_UFRJ_CT_centers))) {
+                        if (selectedNeighborhoods[i].equals(Util.getCenters()[0])) {
                             super.onPositiveActionClicked(fragment);
                             return;
                         }
@@ -228,7 +230,7 @@ public class RideSearchFrag extends Fragment {
 
         @SuppressWarnings("ConstantConditions")
         ArrayList<String> neighborhoods = new ArrayList<>(Arrays.asList(Util.getNeighborhoods(zone)));
-        neighborhoods.add(0, getResources().getString(R.string.all_UFRJ_CT_centers));
+        neighborhoods.add(0, Util.getCenters()[0]);
         String[] neighborhoodsArray = new String[neighborhoods.size()];
         neighborhoods.toArray(neighborhoodsArray);
         builder.multiChoiceItems(neighborhoodsArray, -1)
@@ -287,25 +289,87 @@ public class RideSearchFrag extends Fragment {
 
     @OnClick(R.id.center_et)
     public void centerEt() {
-        SimpleDialog.Builder builder = new SimpleDialog.Builder(R.style.SimpleDialogLight) {
-            @Override
-            public void onPositiveActionClicked(DialogFragment fragment) {
-                center_et.setText(getSelectedValue());
-                super.onPositiveActionClicked(fragment);
-            }
+        final ArrayList<String> selectedItems = new ArrayList();
 
-            @Override
-            public void onNegativeActionClicked(DialogFragment fragment) {
-                super.onNegativeActionClicked(fragment);
+        String[] selectedCenters = center_et.getText().toString().split(", ");
+        boolean[] ifCentersAreSelected = new boolean[Util.getCenters().length];
+        for (int centers = 0; centers < Util.getCenters().length; centers++) {
+            ifCentersAreSelected[centers] = false;
+            for (int selecteds = 0; selecteds < selectedCenters.length; selecteds++) {
+                if (Util.getCenters()[centers].equals(selectedCenters[selecteds])) {
+                    ifCentersAreSelected[centers] = true;
+                    selectedItems.add(Util.getCenters()[centers]);
+                }
             }
-        };
+        }
 
-        builder.items(Util.getCenters(), 0)
-                .title(getContext().getString(R.string.frag_rideSearch_hintPickCenter))
-                .positiveAction(getContext().getString(R.string.ok))
-                .negativeAction(getContext().getString(R.string.cancel));
-        DialogFragment fragment = DialogFragment.newInstance(builder);
-        fragment.show(getFragmentManager(), null);
+        AlertDialog builder = new AlertDialog.Builder(getContext())
+                .setTitle(getContext().getString(R.string.frag_rideSearch_hintPickCenter))
+                .setMultiChoiceItems(Util.getCenters(), ifCentersAreSelected, new DialogInterface.OnMultiChoiceClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                        if (isChecked) {
+                            // If the user checked the item, add it to the selected items
+                            selectedItems.add(Util.getCenters()[which]);
+                        } else if (selectedItems.contains(Util.getCenters()[which])) {
+                            // Else, if the item is already in the array, remove it
+                            for (int item = 0; item < selectedItems.size(); item++) {
+                                if (Util.getCenters()[which].equals(selectedItems.get(item)))
+                                    selectedItems.remove(item);
+                            }
+                        }
+                    }
+                })
+                .setPositiveButton(getContext().getString(R.string.ok), new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String centers = "";
+                        for (int selectedValues = 0; selectedValues < selectedItems.size(); selectedValues++) {
+                            if (selectedItems.get(selectedValues).equals(Util.getCenters()[0])
+                                    || selectedItems.size() == Util.getCenters().length - 1) {
+                                selectedItems.clear();
+                                selectedItems.add(Util.getCenters()[0]);
+                                centers = selectedItems.get(0) + ", ";
+                                break;
+                            }
+                            centers = centers + selectedItems.get(selectedValues) + ", ";
+                        }
+
+                        if (!centers.equals("")) {
+                            centers = centers.substring(0, centers.length() - 2);
+                        }
+                        center_et.setText(centers);
+                    }
+                })
+                .setNegativeButton(getContext().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                })
+                .create();
+
+        builder.show();
+//        SimpleDialog.Builder builder = new SimpleDialog.Builder(R.style.SimpleDialogLight) {
+//            @Override
+//            public void onPositiveActionClicked(DialogFragment fragment) {
+//                center_et.setText(getSelectedValue());
+//                super.onPositiveActionClicked(fragment);
+//            }
+//
+//            @Override
+//            public void onNegativeActionClicked(DialogFragment fragment) {
+//                super.onNegativeActionClicked(fragment);
+//            }
+//        };
+
+//        builder.items(Util.getCenters(), 0)
+//                .title(getContext().getString(R.string.frag_rideSearch_hintPickCenter))
+//                .positiveAction(getContext().getString(R.string.ok))
+//                .negativeAction(getContext().getString(R.string.cancel));
+//        DialogFragment fragment = DialogFragment.newInstance(builder);
+//        fragment.show(getFragmentManager(), null);
     }
 
     @OnClick(R.id.fab)
@@ -366,15 +430,16 @@ public class RideSearchFrag extends Fragment {
             time = format;
         }
         String center = center_et.getText().toString();
-        if (center.equals(getResources().getString(R.string.all_UFRJ_CT_centers)));
-            center = "";
+        if (center.equals(Util.getCenters()[0])) ;
+        center = "";
         boolean go = radioGroup.getCheckedRadioButtonId() == R.id.go_rb;
-        etDateString = Util.formatBadDateWithYear(etDateString);
         RideSearchFiltersForJson rideSearchFilters = new RideSearchFiltersForJson(location, etDateString, time, center, go, location_et.getText().toString());
 
         String lastRideSearchFilters = new Gson().toJson(rideSearchFilters);
         SharedPref.saveLastRideSearchFiltersPref(lastRideSearchFilters);
 
+        rideSearchFilters.setDate(Util.formatBadDateWithYear(etDateString));
+        
         final ProgressDialog pd = ProgressDialog.show(getActivity(), "", getContext().getString(R.string.wait), true, true);
         App.getNetworkService(getContext()).listFiltered(rideSearchFilters)
                 .enqueue(new Callback<List<RideForJson>>() {
