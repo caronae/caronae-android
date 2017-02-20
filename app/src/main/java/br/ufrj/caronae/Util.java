@@ -142,7 +142,7 @@ public class Util {
     }
 
     public static String[] getCenters() {
-        return new String[]{"CCMN", "CCS", "CT", "EEFD", "Letras", "Reitoria", "Todos"};
+        return new String[]{"Todos os Centros", "CCMN", "CCS", "CT", "EEFD", "Letras", "Reitoria"};
     }
 
     public static String formatTime(String time) {

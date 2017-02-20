@@ -195,7 +195,7 @@ public class RideSearchFrag extends Fragment {
                     String resumedField = "";
                     neighborhoods = "";
                     for (int i = 0; i < selectedNeighborhoods.length; i++) {
-                        if (selectedNeighborhoods[i].equals("Todos")) {
+                        if (selectedNeighborhoods[i].equals(getResources().getString(R.string.all_UFRJ_CT_centers))) {
                             super.onPositiveActionClicked(fragment);
                             return;
                         }
@@ -228,7 +228,7 @@ public class RideSearchFrag extends Fragment {
 
         @SuppressWarnings("ConstantConditions")
         ArrayList<String> neighborhoods = new ArrayList<>(Arrays.asList(Util.getNeighborhoods(zone)));
-        neighborhoods.add(0, "Todos");
+        neighborhoods.add(0, getResources().getString(R.string.all_UFRJ_CT_centers));
         String[] neighborhoodsArray = new String[neighborhoods.size()];
         neighborhoods.toArray(neighborhoodsArray);
         builder.multiChoiceItems(neighborhoodsArray, -1)
@@ -366,7 +366,7 @@ public class RideSearchFrag extends Fragment {
             time = format;
         }
         String center = center_et.getText().toString();
-        if (center.equals("Todos"))
+        if (center.equals(getResources().getString(R.string.all_UFRJ_CT_centers)));
             center = "";
         boolean go = radioGroup.getCheckedRadioButtonId() == R.id.go_rb;
         etDateString = Util.formatBadDateWithYear(etDateString);
