@@ -1,4 +1,4 @@
-﻿package br.ufrj.caronae.acts;
+package br.ufrj.caronae.acts;
 
 import android.content.Context;
 import android.content.Intent;
@@ -80,8 +80,6 @@ public class ChatAct extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
         ButterKnife.bind(this);
-
-        Log.v("onMessageReceived", "onCreate");
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -171,7 +169,7 @@ public class ChatAct extends AppCompatActivity {
                             msg.save();
                             Util.toast("Mensagem enviada");
                         } else {
-                            Util.toast("Erro ao enviar mensagem de chat, verifique sua conexão");
+                            Util.toast("Erro ao enviar mensagem de chat, verifique sua conexao");
 
                             chatMsgsList.remove(chatMsgsList.size() - 1);
                             chatMsgsAdapter.notifyItemRemoved(chatMsgsList.size());
@@ -192,7 +190,7 @@ public class ChatAct extends AppCompatActivity {
 
                     @Override
                     public void onFailure(Call<ChatMessageSendResponse> call, Throwable t) {
-                        Util.toast("Erro ao enviar mensagem de chat, verifique sua conexão");
+                        Util.toast("Erro ao enviar mensagem de chat, verifique sua conexao");
 
                         chatMsgsList.remove(chatMsgsList.size() - 1);
                         chatMsgsAdapter.notifyItemRemoved(chatMsgsList.size());
@@ -246,7 +244,6 @@ public class ChatAct extends AppCompatActivity {
         fetchMessageService.putExtra(RIDE_ID_BUNDLE_KEY, rideId);
         fetchMessageService.putExtra("since", since);
         getApplicationContext().startService(fetchMessageService);
-
     }
 
     @Override

@@ -4,6 +4,7 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import br.ufrj.caronae.App;
@@ -43,48 +44,64 @@ public class FetchReceivedMessagesService extends IntentService {
         Log.v("onMessageReceived", "Entered Service");
         rideId = intent.getStringExtra("rideId");
         String since = intent.getStringExtra("since");
-        App.getNetworkService(getApplicationContext()).requestChatMsgs(rideId, since)
+        App.getChatService(getApplicationContext()).requestChatMsgs(rideId, since)
                 .enqueue(new Callback<ModelReceivedFromChat>() {
-                    @Override
-                    public void onResponse(Call<ModelReceivedFromChat> call, Response<ModelReceivedFromChat> response) {
-                        if (response.isSuccessful()) {
-                            ModelReceivedFromChat chatMessagesReceived = response.body();
-                            if (chatMessagesReceived != null && chatMessagesReceived.getMessages().size() != 0) {
+                             @Override
+                             public void onResponse(Call<ModelReceivedFromChat> call, Response<ModelReceivedFromChat> response) {
+                                 if (response.isSuccessful()) {
+                                     ModelReceivedFromChat chatMessagesReceived = response.body();
+                                     if (chatMessagesReceived != null && chatMessagesReceived.getMessages().size() != 0) {
 
-                                List<ChatMessageReceivedFromJson> listMessages = chatMessagesReceived.getMessages();
-                                for (int mensagesNum = 0; mensagesNum < listMessages.size(); mensagesNum++) {
-                                    ChatMessageReceived cmr = new ChatMessageReceived(listMessages.get(mensagesNum).getUser().getName(),
-                                            String.valueOf(listMessages.get(mensagesNum).getUser().getId()),
-                                            listMessages.get(mensagesNum).getMessage(),
-                                            rideId,
-                                            listMessages.get(mensagesNum).getTime());
-                                    cmr.setId(Long.parseLong(listMessages.get(mensagesNum).getMessageId()));
+                                         final List<ChatMessageReceived> messagesFetched = new ArrayList<ChatMessageReceived>();
 
-                                    Log.v("onMessageReceived", "id1:" + cmr.getId() + " " + cmr.getMessage());
+                                         List<ChatMessageReceivedFromJson> listMessages = chatMessagesReceived.getMessages();
+                                         for (int mensagesNum = 0; mensagesNum < listMessages.size(); mensagesNum++) {
+                                             ChatMessageReceived cmr = new ChatMessageReceived(listMessages.get(mensagesNum).getUser().getName(),
+                                                     String.valueOf(listMessages.get(mensagesNum).getUser().getId()),
+                                                     listMessages.get(mensagesNum).getMessage(),
+                                                     rideId,
+                                                     listMessages.get(mensagesNum).getTime());
+                                             cmr.setId(Long.parseLong(listMessages.get(mensagesNum).getMessageId()));
+
+                                             messagesFetched.add(cmr);
 
 
-                                    if (!messageAlrealdyExist(Long.parseLong(listMessages.get(mensagesNum).getMessageId()))) {
-                                        Log.v("onMessageReceived", "Salvou mensgaem");
-                                        cmr.save();
-                                        if(SharedPref.getChatActIsForeground()) {
-                                            Log.v("onMessageReceived", "Postou");
-                                            App.getBus().post(cmr);
-                                        }
-                                    }
-                                }
-                            }
-                        } else {
-                            Util.toast("Erro ao Recuperar mensagem de chat");
-                            Log.e("GetMessages", response.message());
-                        }
-                    }
+//                                    if (!messageAlrealdyExist(Long.parseLong(listMessages.get(mensagesNum).getMessageId()))) {
+//                                        cmr.save();
+//                                        if (SharedPref.getChatActIsForeground()) {
+//                                            App.getBus().post(cmr);
+//                                        }
+//                                    }
+                                         }
+                                         new Thread(new Runnable() {
+                                             @Override
+                                             public void run() {
+                                                 Log.v("onMessageReceived", "Veio Thread");
+                                                 for (int messageIndex = 0; messageIndex < messagesFetched.size(); messageIndex++) {
+                                                     if (!messageAlrealdyExist(messagesFetched.get(messageIndex).getId())) {
+                                                         messagesFetched.get(messageIndex).save();
+                                                     }
+                                                 }
+                                                 if (SharedPref.getChatActIsForeground() && messagesFetched.size() != 0) {
+                                                     App.getBus().post(messagesFetched.get(0));
+                                                 }
+                                             }
+                                         }).start();
+                                     }
+                                 } else {
+                                     Util.toast("Erro ao Recuperar mensagem de chat");
+                                     Log.e("GetMessages", response.message());
+                                 }
+                             }
 
-                    @Override
-                    public void onFailure(Call<ModelReceivedFromChat> call, Throwable t) {
-                        Util.toast("Erro ao Recuperar mensagem de chat");
-                        Log.e("GetMessages", t.getMessage());
-                    }
-                });
+                             @Override
+                             public void onFailure(Call<ModelReceivedFromChat> call, Throwable t) {
+                                 Util.toast("Erro ao Recuperar mensagem de chat");
+                                 Log.e("GetMessages", t.getMessage());
+                             }
+                         }
+
+                );
     }
 
     private boolean messageAlrealdyExist(long messageId) {
