@@ -131,47 +131,59 @@ public class App extends SugarApp {
         return networkService;
     }
 
-//    public static ChatService getChatService() {
-//        if (chatService == null) {
-//
-//            String endpoint = getHost();
-//
-//            Gson gson = new GsonBuilder()
-//                    .setLenient()
-//                    .create();
-//
-//            OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-//
-//            httpClient.addInterceptor(new Interceptor() {
-//                @Override
-//                public Response intercept(Chain chain) throws IOException {
-//                    okhttp3.Request original = chain.request();
-//                    if (App.isUserLoggedIn()) {
-//                        Request request = original.newBuilder()
-//                                .header("Content-Type", "application/json")
-//                                .header("token", SharedPref.getUserToken())
-//                                .method(original.method(), original.body())
-//                                .build();
-//
-//                        Response response = chain.proceed(request);
-//
-//                        return response;
-//                    }
-//                    return chain.proceed(original);
-//                }
-//            });
-//
-//            OkHttpClient client = httpClient.build();
-//
-//            networkService = new Retrofit.Builder()
-//                    .baseUrl(endpoint)
-//                    .client(client)
-//                    .build()
-//                    .create(NetworkService.class);
-//        }
-//
-//        return chatService;
-//    }
+    public static ChatService getChatService(final Context context) {
+        if (chatService == null) {
+            String endpoint = getHost();
+
+            Gson gson = new GsonBuilder()
+                    .setLenient()
+                    .create();
+
+            OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+            httpClient.addInterceptor(new Interceptor() {
+                @Override
+                public Response intercept(Chain chain) throws IOException {
+                    Request original = chain.request();
+                    if (App.isUserLoggedIn()) {
+
+                        Request request = original.newBuilder()
+                                .header("Content-Type", "application/json")
+                                .header("token", SharedPref.getUserToken())
+                                .header("User-Agent", Util.getHeaderForHttp(context))
+                                .method(original.method(), original.body())
+                                .build();
+
+                        Response response = chain.proceed(request);
+
+                        return response;
+                    }
+                    Request request = original.newBuilder()
+                            .header("Content-Type", "application/json")
+                            .header("User-Agent", Util.getHeaderForHttp(context))
+                            .method(original.method(), original.body())
+                            .build();
+                    Response response = chain.proceed(request);
+                    return response;
+                }
+            });
+
+            HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+            logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+
+            httpClient.addInterceptor(logging);
+
+            OkHttpClient client = httpClient.build();
+
+            chatService = new Retrofit.Builder()
+                    .baseUrl(endpoint)
+                    .addConverterFactory(GsonConverterFactory.create(gson))
+                    .client(client)
+                    .build()
+                    .create(ChatService.class);
+
+        }
+        return chatService;
+    }
 
     public static MainThreadBus getBus() {
         if (bus == null) {

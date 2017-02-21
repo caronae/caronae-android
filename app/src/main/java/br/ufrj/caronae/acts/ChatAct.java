@@ -1,4 +1,4 @@
-package br.ufrj.caronae.acts;
+﻿package br.ufrj.caronae.acts;
 
 import android.content.Context;
 import android.content.Intent;
@@ -158,7 +158,7 @@ public class ChatAct extends AppCompatActivity {
 
         chatMsgs_rv.scrollToPosition(chatMsgsList.size() - 1);
 
-        App.getNetworkService(getApplicationContext()).sendChatMsg(rideId, new ChatSendMessageForJson(message))
+        App.getChatService(getApplicationContext()).sendChatMsg(rideId, new ChatSendMessageForJson(message))
                 .enqueue(new Callback<ChatMessageSendResponse>() {
                     @Override
                     public void onResponse(Call<ChatMessageSendResponse> call, Response<ChatMessageSendResponse> response) {
@@ -246,6 +246,7 @@ public class ChatAct extends AppCompatActivity {
         fetchMessageService.putExtra(RIDE_ID_BUNDLE_KEY, rideId);
         fetchMessageService.putExtra("since", since);
         getApplicationContext().startService(fetchMessageService);
+
     }
 
     @Override

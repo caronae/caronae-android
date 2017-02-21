@@ -11,9 +11,6 @@ import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.Toast;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -145,7 +142,7 @@ public class Util {
     }
 
     public static String[] getCenters() {
-        return new String[]{"CCMN", "CCS", "CT", "EEFD", "Letras", "Reitoria", "Todos"};
+        return new String[]{"Todos os Centros", "CCMN", "CCS", "CT", "EEFD", "Letras", "Reitoria"};
     }
 
     public static String formatTime(String time) {
@@ -162,8 +159,10 @@ public class Util {
     public static String formatBadDateWithYear(String date) {
         String formattedTime = "";
         try {
-            Date date2 = new SimpleDateFormat("yyyy-MM-dd", Locale.US).parse(date);
-            formattedTime = new SimpleDateFormat("dd/MM/yyyy", Locale.US).format(date2);
+//            Date date2 = new SimpleDateFormat("yyyy-MM-dd", Locale.US).parse(date);
+//            formattedTime = new SimpleDateFormat("dd/MM/yyyy", Locale.US).format(date2);
+            Date date2 = new SimpleDateFormat("dd/MM/yyyy", Locale.US).parse(date);
+            formattedTime = new SimpleDateFormat("yyyy-MM-dd", Locale.US).format(date2);
         } catch (ParseException e) {
             e.printStackTrace();
         }
