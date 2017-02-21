@@ -2,15 +2,19 @@ package br.ufrj.caronae.acts;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,6 +24,7 @@ import android.widget.TextView;
 import com.squareup.otto.Subscribe;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -31,6 +36,7 @@ import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.adapters.ChatMsgsAdapter;
 import br.ufrj.caronae.comparators.ChatMsgComparator;
+import br.ufrj.caronae.firebase.BroadcastReceiver;
 import br.ufrj.caronae.firebase.FetchReceivedMessagesService;
 import br.ufrj.caronae.models.ChatAssets;
 import br.ufrj.caronae.models.ChatMessageReceived;
@@ -62,6 +68,13 @@ public class ChatAct extends AppCompatActivity {
     TextView time_tv;
     @Bind(R.id.lay1)
     RelativeLayout lay1;
+    @Bind(R.id.card_loading_menssages_sign)
+    CardView cardLoadingMessages;
+    @Bind(R.id.loading_message_text)
+    TextView loadMessageText;
+
+    int textCounter = 0;
+
 
     private String rideId;
     private static List<ChatMessageReceived> chatMsgsList;
@@ -69,9 +82,12 @@ public class ChatAct extends AppCompatActivity {
     Context context;
     static ChatMsgsAdapter chatMsgsAdapter;
 
-    private final String MESSAGE_WITH_USER_BUNDLE_KEY = "message";
-    private final String SENDER_ID_BUNDLE_KEY = "senderId";
-    private final String SENT_TIME_BUNDLE_KEY = "google.sent_time";
+    Animation translate;
+
+    ReceiveBroadcastNewMessagesNull myReceiver = null;
+    Boolean myReceiverIsRegistered = false;
+
+    private final String BROADCAST_NEW_MESSAGES_NULL = "messagesNull";
     private final String RIDE_ID_BUNDLE_KEY = "rideId";
 
 
@@ -85,6 +101,13 @@ public class ChatAct extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         App.getBus().register(this);
+
+        myReceiver = new ReceiveBroadcastNewMessagesNull();
+
+        if (!myReceiverIsRegistered) {
+            registerReceiver(myReceiver, new IntentFilter("br.ufrj.caronae.acts.ChatAct.BROADCAST_NEW_MESSAGES_NULL"));
+            myReceiverIsRegistered = true;
+        }
 
         final ActionBar ab = getSupportActionBar();
         if (ab != null) {
@@ -131,8 +154,7 @@ public class ChatAct extends AppCompatActivity {
         if (!chatMsgsList.isEmpty())
             chatMsgs_rv.scrollToPosition(chatMsgsList.size() - 1);
 
-
-        updateMsgsListWithServer(rideId);
+//        updateMsgsListWithServer(rideId);
 
     }
 
@@ -214,18 +236,50 @@ public class ChatAct extends AppCompatActivity {
     @Subscribe
     public void updateMsgsList(ChatMessageReceived msg) {
 
-        if (msg != null) {
+        chatMsgsList = ChatMessageReceived.find(ChatMessageReceived.class, "ride_id = ?", rideId);
 
-            chatMsgsList = ChatMessageReceived.find(ChatMessageReceived.class, "ride_id = ?", rideId);
+        chatMsgsAdapter.updateList(chatMsgsList);
+        chatMsgsAdapter.notifyItemRangeInserted(chatMsgsAdapter.getItemCount(), chatMsgsList.size() - chatMsgsAdapter.getItemCount());
+        chatMsgs_rv.scrollToPosition(chatMsgsList.size() - 1);
 
-            chatMsgsAdapter.updateList(chatMsgsList);
-            chatMsgsAdapter.notifyItemRangeInserted(chatMsgsAdapter.getItemCount(), chatMsgsList.size() - chatMsgsAdapter.getItemCount());
-            chatMsgs_rv.scrollToPosition(chatMsgsList.size() - 1);
+        Log.e("BROADCASTER", "missage nova");
+
+        if (translate.hasEnded()) {
+            translate = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim_loading_messages_up);
+            cardLoadingMessages.startAnimation(translate);
+        } else {
+            translate.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    translate = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim_loading_messages_up);
+                    cardLoadingMessages.startAnimation(translate);
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+                }
+            });
+        }
+    }
+
+    public void updateLoadText(ArrayList<String> textToLoad) {
+        loadMessageText.setText(textToLoad.get(textCounter));
+        textCounter++;
+        if (textCounter >= 3) {
+            textCounter = 0;
         }
     }
 
     @Subscribe
     public void updateMsgsListWithServer(final String rideId) {
+        
+        translate = AnimationUtils.loadAnimation(this, R.anim.anim_loading_messages_down);
+        cardLoadingMessages.startAnimation(translate);
+
 
         String since = null;
         if (chatMsgsList.size() != 0) {
@@ -290,14 +344,25 @@ public class ChatAct extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
+        if (!myReceiverIsRegistered) {
+            registerReceiver(myReceiver, new IntentFilter("br.ufrj.caronae.acts.ChatAct.BROADCAST_NEW_MESSAGES_NULL"));
+            myReceiverIsRegistered = true;
+        }
+
         SharedPref.setChatActIsForeground(true);
+
         updateMsgsListWithServer(rideId);
+
     }
 
     @Override
     protected void onPause() {
         super.onPause();
 
+        if (myReceiverIsRegistered) {
+            unregisterReceiver(myReceiver);
+            myReceiverIsRegistered = false;
+        }
         SharedPref.setChatActIsForeground(false);
     }
 
@@ -307,5 +372,33 @@ public class ChatAct extends AppCompatActivity {
                 return position;
         }
         return -1;
+    }
+
+    private class ReceiveBroadcastNewMessagesNull extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (translate.hasEnded()) {
+                translate = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim_loading_messages_up);
+                cardLoadingMessages.startAnimation(translate);
+            } else {
+                translate.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        translate = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim_loading_messages_up);
+                        cardLoadingMessages.startAnimation(translate);
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+                    }
+                });
+            }
+
+        }
     }
 }

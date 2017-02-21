@@ -82,11 +82,13 @@ public class FetchReceivedMessagesService extends IntentService {
                                                          messagesFetched.get(messageIndex).save();
                                                      }
                                                  }
-                                                 if (SharedPref.getChatActIsForeground() && messagesFetched.size() != 0) {
+                                                 if (SharedPref.getChatActIsForeground()) {
                                                      App.getBus().post(messagesFetched.get(0));
                                                  }
                                              }
                                          }).start();
+                                     } else {
+                                         getApplicationContext().sendBroadcast(new Intent("br.ufrj.caronae.acts.ChatAct.BROADCAST_NEW_MESSAGES_NULL"));
                                      }
                                  } else {
                                      Util.toast("Erro ao Recuperar mensagem de chat");
