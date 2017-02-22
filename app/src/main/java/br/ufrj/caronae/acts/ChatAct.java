@@ -242,7 +242,6 @@ public class ChatAct extends AppCompatActivity {
         chatMsgsAdapter.notifyItemRangeInserted(chatMsgsAdapter.getItemCount(), chatMsgsList.size() - chatMsgsAdapter.getItemCount());
         chatMsgs_rv.scrollToPosition(chatMsgsList.size() - 1);
 
-        Log.e("BROADCASTER", "missage nova");
 
         if (translate.hasEnded()) {
             translate = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim_loading_messages_up);
@@ -276,7 +275,7 @@ public class ChatAct extends AppCompatActivity {
 
     @Subscribe
     public void updateMsgsListWithServer(final String rideId) {
-        
+
         translate = AnimationUtils.loadAnimation(this, R.anim.anim_loading_messages_down);
         cardLoadingMessages.startAnimation(translate);
 

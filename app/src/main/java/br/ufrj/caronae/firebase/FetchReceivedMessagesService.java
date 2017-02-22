@@ -65,18 +65,10 @@ public class FetchReceivedMessagesService extends IntentService {
 
                                              messagesFetched.add(cmr);
 
-
-//                                    if (!messageAlrealdyExist(Long.parseLong(listMessages.get(mensagesNum).getMessageId()))) {
-//                                        cmr.save();
-//                                        if (SharedPref.getChatActIsForeground()) {
-//                                            App.getBus().post(cmr);
-//                                        }
-//                                    }
                                          }
                                          new Thread(new Runnable() {
                                              @Override
                                              public void run() {
-                                                 Log.v("onMessageReceived", "Veio Thread");
                                                  for (int messageIndex = 0; messageIndex < messagesFetched.size(); messageIndex++) {
                                                      if (!messageAlrealdyExist(messagesFetched.get(messageIndex).getId())) {
                                                          messagesFetched.get(messageIndex).save();

@@ -159,12 +159,15 @@ public class Util {
     public static String formatBadDateWithYear(String date) {
         String formattedTime = "";
         try {
-//            Date date2 = new SimpleDateFormat("yyyy-MM-dd", Locale.US).parse(date);
-//            formattedTime = new SimpleDateFormat("dd/MM/yyyy", Locale.US).format(date2);
             Date date2 = new SimpleDateFormat("dd/MM/yyyy", Locale.US).parse(date);
             formattedTime = new SimpleDateFormat("yyyy-MM-dd", Locale.US).format(date2);
         } catch (ParseException e) {
-            e.printStackTrace();
+            try{
+                Date date2 = new SimpleDateFormat("yyyy-MM-dd", Locale.US).parse(date);
+                formattedTime = new SimpleDateFormat("dd/MM/yyyy", Locale.US).format(date2);
+            } catch (ParseException ex) {
+                e.printStackTrace();
+            }
         }
         return formattedTime;
     }
@@ -195,15 +198,15 @@ public class Util {
         return date.substring(0, 5);
     }
 
-    public static String fixBlankSpace(String word){
+    public static String fixBlankSpace(String word) {
         return word.replace(" ", "");
     }
 
-    public static int convertDpToPixel(Context context, int dp){
-        return (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, context.getResources().getDisplayMetrics());
+    public static int convertDpToPixel(Context context, int dp) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, context.getResources().getDisplayMetrics());
     }
 
-    public static String getHeaderForHttp(Context context){
+    public static String getHeaderForHttp(Context context) {
         PackageInfo pInfo = null;
         try {
             pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
@@ -224,7 +227,7 @@ public class Util {
                 + ")";
     }
 
-    public static String getAppVersionName(Context context){
+    public static String getAppVersionName(Context context) {
         PackageManager manager = context.getPackageManager();
         PackageInfo info = null;
         try {
