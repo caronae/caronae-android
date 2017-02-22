@@ -27,5 +27,8 @@
         <item
             android:id="@+id/nav_eigth_fragment"
             android:title="@string/frag_about_title" />
+        <item
+            android:id="@+id/nav_tenth_fragment"
+            android:title="@string/frag_logout_title" />
     </group>
 </menu>

@@ -38,8 +38,12 @@ import br.ufrj.caronae.R;
 import br.ufrj.caronae.RoundedTransformation;
 import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.Util;
+import br.ufrj.caronae.asyncs.LogOut;
+import br.ufrj.caronae.firebase.FirebaseUtils;
+import br.ufrj.caronae.firebase.RegistrationIntentService;
 import br.ufrj.caronae.frags.AboutFrag;
 import br.ufrj.caronae.frags.AllRidesFrag;
+import br.ufrj.caronae.frags.FAQFrag;
 import br.ufrj.caronae.frags.FalaeFrag;
 import br.ufrj.caronae.frags.MyActiveRidesFrag;
 import br.ufrj.caronae.frags.MyProfileFrag;
@@ -48,8 +52,6 @@ import br.ufrj.caronae.frags.RideSearchFrag;
 import br.ufrj.caronae.frags.RidesHistoryFrag;
 import br.ufrj.caronae.frags.TabbedRideOfferFrag;
 import br.ufrj.caronae.frags.TermsOfUseFrag;
-import br.ufrj.caronae.firebase.FirebaseUtils;
-import br.ufrj.caronae.firebase.RegistrationIntentService;
 import br.ufrj.caronae.models.User;
 
 public class MainAct extends AppCompatActivity {
@@ -228,24 +230,38 @@ public class MainAct extends AppCompatActivity {
             case R.id.nav_eigth_fragment:
                 fragmentClass = AboutFrag.class;
                 break;
+            case R.id.nav_ninth_fragment:
+                fragmentClass = FAQFrag.class;
+                break;
+            case R.id.nav_tenth_fragment:
+                fragmentClass = null;
+                new LogOut(getApplicationContext()).execute();
+                Intent intent = new Intent(getApplicationContext(), LoginAct.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                break;
             default:
                 fragmentClass = AllRidesFrag.class;
         }
 
-        try {
-            fragment = (Fragment) fragmentClass.newInstance();
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (fragmentClass == null)
+            finish();
+        else {
+            try {
+                fragment = (Fragment) fragmentClass.newInstance();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            backstackSafeCheck();
+            backstack.remove(fragmentClass);
+            backstack.add(fragmentClass);
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+
+            setTitle(menuItem.getTitle());
+            mDrawer.closeDrawers();
         }
-
-        backstackSafeCheck();
-        backstack.remove(fragmentClass);
-        backstack.add(fragmentClass);
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
-
-        setTitle(menuItem.getTitle());
-        mDrawer.closeDrawers();
     }
 
     @Override
