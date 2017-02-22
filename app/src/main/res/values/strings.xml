@@ -183,6 +183,7 @@
     <string name="frag_myrides_title">Minhas Ofertas</string>
     <string name="frag_myactiverides_title">Caronas Ativas</string>
     <string name="frag_history_title">Histórico</string>
+    <string name="frag_faq_title">FAQ</string>
     <string name="frag_falae_title">Falaê</string>
     <string name="frag_searchride_title">Buscar carona</string>
     <string name="frag_termsofuse_title">Termos de uso</string>
@@ -217,5 +218,8 @@
     <string name="act_activeRide_cancelRideMsg">Você é livre para cancelar caronas caso não possa participar, mas é importante fazer isso com responsabilidade. Caso haja outros usuários na carona, eles serão notificados.</string>
     <string name="act_login_tokenBtn">Obtenha sua chave de acesso aqui</string>
     <string name="act_login_getTokenBtn"><u>OBTENHA SUA CHAVE AQUI</u></string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
