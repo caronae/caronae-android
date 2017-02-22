@@ -2,17 +2,14 @@ package br.ufrj.caronae.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.database.sqlite.SQLiteException;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
@@ -28,7 +25,7 @@ import br.ufrj.caronae.acts.RideOfferAct;
 import br.ufrj.caronae.models.RideRequestSent;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
 
-public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.ViewHolder> {
+public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.ViewHolder>{
 
     private final Context context;
     private List<RideForJson> rideOffers;
@@ -143,6 +140,11 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
 
     public void makeList(List<RideForJson> rideOffers) {
         this.rideOffers = rideOffers;
+        notifyDataSetChanged();
+    }
+
+    public void addToList(List<RideForJson> rideOffers) {
+        this.rideOffers.addAll(rideOffers);
         notifyDataSetChanged();
     }
 

@@ -97,7 +97,7 @@ public interface NetworkService {
 
     @GET("ride/all")
 //    void listAllRides(Callback<List<RideForJson>> cb);
-    Call<List<RideForJson>> listAllRides();
+    Call<List<RideForJson>> listAllRides(@Query("page") String pageNum);
 
     @POST("ride/requestJoin")
 //    void requestJoin(@Body RideIdForJson rideId, Callback<Response> cb);

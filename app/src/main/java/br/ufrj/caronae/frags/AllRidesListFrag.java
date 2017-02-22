@@ -24,6 +24,7 @@ import java.util.Locale;
 import javax.security.auth.callback.Callback;
 
 import br.ufrj.caronae.App;
+import br.ufrj.caronae.EndlessRecyclerViewScrollListener;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.adapters.RideOfferAdapter;
@@ -47,7 +48,16 @@ public class AllRidesListFrag extends Fragment implements Callback {
 
     RideOfferAdapter adapter;
 
+    int listCounter = 1;
+
+    private EndlessRecyclerViewScrollListener scrollListener;
+
+    LinearLayoutManager mLayoutManager;
+
     int pageIdentifier;
+
+    ArrayList<RideForJson> goingRides = new ArrayList<RideForJson>();
+    ArrayList<RideForJson> notGoingRides = new ArrayList<RideForJson>();
 
     public AllRidesListFrag() {
     }
@@ -64,14 +74,29 @@ public class AllRidesListFrag extends Fragment implements Callback {
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                refreshRideList();
+                refreshRideList(listCounter);
             }
         });
 
         adapter = new RideOfferAdapter(new ArrayList<RideForJson>(), getContext());
+
+        mLayoutManager = new LinearLayoutManager(getContext());
+        rvRides.setLayoutManager(mLayoutManager);
+
+        scrollListener = new EndlessRecyclerViewScrollListener(mLayoutManager) {
+
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                Log.e("LOAD", "load: " + totalItemsCount);
+                listCounter++;
+                refreshRideList(listCounter);
+            }
+        };
+        rvRides.addOnScrollListener(scrollListener);
+
+
         rvRides.setAdapter(adapter);
-        rvRides.setHasFixedSize(true);
-        rvRides.setLayoutManager(new LinearLayoutManager(getActivity()));
+//        rvRides.setHasFixedSize(true);
 
         if (rideOffers == null || rideOffers.isEmpty()) {
             norides_tv.setVisibility(View.VISIBLE);
@@ -100,24 +125,24 @@ public class AllRidesListFrag extends Fragment implements Callback {
     @Override
     public void onResume() {
         super.onResume();
-        refreshRideList();
+        refreshRideList(listCounter);
     }
 
-    void refreshRideList() {
+    void refreshRideList(final int pageNumber) {
 
-        App.getNetworkService(getContext()).listAllRides()
+        App.getNetworkService(getContext()).listAllRides(pageNumber + "")
                 .enqueue(new retrofit2.Callback<List<RideForJson>>() {
                     @Override
                     public void onResponse(Call<List<RideForJson>> call, Response<List<RideForJson>> response) {
                         if (response.isSuccessful()) {
 
-                            ArrayList<RideForJson> goingRides = new ArrayList<RideForJson>();
-                            ArrayList<RideForJson> notGoingRides = new ArrayList<RideForJson>();
+                            boolean newGoingRides = false;
+                            boolean newNotGoindRides = false;
 
                             List<RideForJson> rideOffers = response.body();
 
                             if (rideOffers != null && !rideOffers.isEmpty()) {
-                                Collections.sort(rideOffers, new RideOfferComparatorByDateAndTime());
+//                                Collections.sort(rideOffers, new RideOfferComparatorByDateAndTime());
 
                                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
                                 Date todayDate = new Date();
@@ -133,31 +158,47 @@ public class AllRidesListFrag extends Fragment implements Callback {
                                     else {
                                         rideOffer.setDbId(rideOffer.getId().intValue());
                                         if (rideOffer.isGoing())
-                                            goingRides.add(rideOffer);
+                                            if (!checkIfRideIsInList(goingRides, rideOffer)) {
+                                                goingRides.add(rideOffer);
+                                                newGoingRides = true;
+                                            }
                                         else
-                                            notGoingRides.add(rideOffer);
+                                            if (!checkIfRideIsInList(goingRides, rideOffer)) {
+                                                notGoingRides.add(rideOffer);
+                                                newNotGoindRides = true;
+                                            }
                                     }
                                 }
+
+                                Collections.sort(goingRides, new RideOfferComparatorByDateAndTime());
+                                Collections.sort(notGoingRides, new RideOfferComparatorByDateAndTime());
+
                             }
 
-                            adapter = new RideOfferAdapter(new ArrayList<RideForJson>(), getContext());
-                            rvRides.setAdapter(adapter);
-                            rvRides.setHasFixedSize(true);
-                            rvRides.setLayoutManager(new LinearLayoutManager(getActivity()));
+//                            adapter = new RideOfferAdapter(new ArrayList<RideForJson>(), getContext());
+//                            rvRides.setAdapter(adapter);
+//                            rvRides.setHasFixedSize(true);
+//                            rvRides.setLayoutManager(new LinearLayoutManager(getActivity()));
 
                             if (pageIdentifier == 0) {
                                 if (goingRides == null || goingRides.isEmpty()) {
                                     norides_tv.setVisibility(View.VISIBLE);
                                     helpText_tv.setVisibility(View.INVISIBLE);
                                 } else {
-                                    adapter.makeList(goingRides);
+                                    if (newGoingRides) {
+                                        adapter.makeList(goingRides);
+                                    }
+                                    scrollListener.resetState();
                                 }
                             } else {
                                 if (notGoingRides == null || notGoingRides.isEmpty()) {
                                     norides_tv.setVisibility(View.VISIBLE);
                                     helpText_tv.setVisibility(View.INVISIBLE);
                                 } else {
-                                    adapter.makeList(notGoingRides);
+                                    if (newNotGoindRides) {
+                                        adapter.makeList(notGoingRides);
+                                    }
+                                    scrollListener.resetState();
                                 }
                             }
                             refreshLayout.setRefreshing(false);
@@ -178,5 +219,14 @@ public class AllRidesListFrag extends Fragment implements Callback {
                 });
 
 
+    }
+
+    private boolean checkIfRideIsInList(ArrayList<RideForJson> list, RideForJson ride){
+        boolean contains = false;
+        for (int counter = 0; counter < list.size(); counter++){
+            if (list.get(counter).getDbId() == ride.getId().intValue())
+                contains = true;
+        }
+        return contains;
     }
 }

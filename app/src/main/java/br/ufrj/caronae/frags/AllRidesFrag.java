@@ -54,7 +54,7 @@ public class AllRidesFrag extends Fragment {
         View view = inflater.inflate(R.layout.fragment_all_rides, container, false);
         ButterKnife.bind(this, view);
 
-        listAllRides();
+        listAllRides(1);
 
         return view;
     }
@@ -68,9 +68,9 @@ public class AllRidesFrag extends Fragment {
 
 
 
-    private void listAllRides() {
+    private void listAllRides(int pageNum) {
 
-        App.getNetworkService(getContext()).listAllRides()
+        App.getNetworkService(getContext()).listAllRides(pageNum + "")
                 .enqueue(new Callback<List<RideForJson>>() {
                     @Override
                     public void onResponse(Call<List<RideForJson>> call, Response<List<RideForJson>> response) {
