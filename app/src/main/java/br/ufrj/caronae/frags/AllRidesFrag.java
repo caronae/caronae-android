@@ -59,6 +59,8 @@ public class AllRidesFrag extends Fragment {
         return view;
     }
 
+
+
     @OnClick(R.id.fab)
     public void fab() {
         ((MainAct) getActivity()).showRideOfferFrag();

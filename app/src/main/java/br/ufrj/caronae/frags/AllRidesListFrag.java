@@ -1,7 +1,5 @@
 package br.ufrj.caronae.frags;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -12,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.otto.Subscribe;
 
@@ -29,8 +26,6 @@ import javax.security.auth.callback.Callback;
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.Util;
-import br.ufrj.caronae.acts.MainAct;
-import br.ufrj.caronae.adapters.AllRidesFragmentPagerAdapter;
 import br.ufrj.caronae.adapters.RideOfferAdapter;
 import br.ufrj.caronae.comparators.RideOfferComparatorByDateAndTime;
 import br.ufrj.caronae.models.RideRequestSent;
@@ -66,7 +61,6 @@ public class AllRidesListFrag extends Fragment implements Callback {
         ArrayList<RideForJson> rideOffers = bundle.getParcelableArrayList("rides");
         pageIdentifier = bundle.getInt("ID");
 
-        //No Refresh incializa a activity principal novamente para atualizar as caronas
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -101,6 +95,12 @@ public class AllRidesListFrag extends Fragment implements Callback {
     public void onDestroy() {
         super.onDestroy();
         App.getBus().unregister(this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        refreshRideList();
     }
 
     void refreshRideList() {

@@ -265,7 +265,7 @@ public class RideOfferFrag extends Fragment {
         };
 
         if (going) {
-            builder.items(Util.getCenters(), 0)
+            builder.items(Util.getCentersWithoutAllCenters(), 0)
                     .title(getContext().getString(R.string.frag_rideOffer_pickCenter))
                     .positiveAction(getContext().getString(R.string.ok))
                     .negativeAction(getContext().getString(R.string.cancel));
