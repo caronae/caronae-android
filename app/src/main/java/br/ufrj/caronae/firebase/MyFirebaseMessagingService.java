@@ -154,7 +154,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 );
 
         Context context = App.inst();
-        Uri alarmSound = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.beep_beep);
+        Uri alarmSound = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.beep);
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
                 .setSmallIcon(R.drawable.ic_stat_name)
                 .setContentTitle(title)
