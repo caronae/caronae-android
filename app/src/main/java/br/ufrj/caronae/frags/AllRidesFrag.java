@@ -39,8 +39,6 @@ public class AllRidesFrag extends Fragment {
     TabLayout tabLayout;
     @Bind(R.id.viewpager)
     ViewPager viewPager;
-    @Bind(R.id.fab)
-    FloatingActionButton fab;
     @Bind(R.id.progressBar2)
     ProgressBar progressBar2;
 
@@ -58,15 +56,6 @@ public class AllRidesFrag extends Fragment {
 
         return view;
     }
-
-
-
-    @OnClick(R.id.fab)
-    public void fab() {
-        ((MainAct) getActivity()).showRideOfferFrag();
-    }
-
-
 
     private void listAllRides(int pageNum) {
 

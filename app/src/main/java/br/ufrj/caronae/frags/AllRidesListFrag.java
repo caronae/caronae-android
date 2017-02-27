@@ -1,15 +1,20 @@
 package br.ufrj.caronae.frags;
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.otto.Subscribe;
 
@@ -27,12 +32,15 @@ import br.ufrj.caronae.App;
 import br.ufrj.caronae.EndlessRecyclerViewScrollListener;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.Util;
+import br.ufrj.caronae.acts.MainAct;
+import br.ufrj.caronae.adapters.AllRidesFragmentPagerAdapter;
 import br.ufrj.caronae.adapters.RideOfferAdapter;
 import br.ufrj.caronae.comparators.RideOfferComparatorByDateAndTime;
 import br.ufrj.caronae.models.RideRequestSent;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -45,6 +53,10 @@ public class AllRidesListFrag extends Fragment implements Callback {
     TextView helpText_tv;
     @Bind(R.id.swipeRefreshLayout)
     SwipeRefreshLayout refreshLayout;
+    @Bind(R.id.fab)
+    FloatingActionButton fab;
+    @Bind(R.id.list_all_rides_search_text)
+    EditText searchText;
 
     RideOfferAdapter adapter;
 
@@ -107,6 +119,32 @@ public class AllRidesListFrag extends Fragment implements Callback {
 
         App.getBus().register(this);
 
+        searchText.addTextChangedListener(new TextWatcher() {
+            RideOfferAdapter searchAdapter;
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                if (pageIdentifier == AllRidesFragmentPagerAdapter.PAGE_GOING)
+                    searchAdapter = new RideOfferAdapter(filterList(goingRides, s), getContext());
+                else
+                    searchAdapter = new RideOfferAdapter(filterList(notGoingRides, s), getContext());
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() > 0) {
+                    rvRides.setAdapter(searchAdapter);
+                } else {
+                    rvRides.setAdapter(adapter);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
         return view;
     }
 
@@ -157,16 +195,18 @@ public class AllRidesListFrag extends Fragment implements Callback {
                                         it.remove();
                                     else {
                                         rideOffer.setDbId(rideOffer.getId().intValue());
-                                        if (rideOffer.isGoing())
+                                        if (rideOffer.isGoing()) {
                                             if (!checkIfRideIsInList(goingRides, rideOffer)) {
                                                 goingRides.add(rideOffer);
                                                 newGoingRides = true;
                                             }
-                                        else
-                                            if (!checkIfRideIsInList(goingRides, rideOffer)) {
+                                        }
+                                        else {
+                                            if (!checkIfRideIsInList(notGoingRides, rideOffer)) {
                                                 notGoingRides.add(rideOffer);
                                                 newNotGoindRides = true;
                                             }
+                                        }
                                     }
                                 }
 
@@ -180,11 +220,13 @@ public class AllRidesListFrag extends Fragment implements Callback {
 //                            rvRides.setHasFixedSize(true);
 //                            rvRides.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-                            if (pageIdentifier == 0) {
+                            if (pageIdentifier == AllRidesFragmentPagerAdapter.PAGE_GOING) {
                                 if (goingRides == null || goingRides.isEmpty()) {
                                     norides_tv.setVisibility(View.VISIBLE);
                                     helpText_tv.setVisibility(View.INVISIBLE);
                                 } else {
+                                    norides_tv.setVisibility(View.INVISIBLE);
+                                    helpText_tv.setVisibility(View.VISIBLE);
                                     if (newGoingRides) {
                                         adapter.makeList(goingRides);
                                     }
@@ -195,6 +237,8 @@ public class AllRidesListFrag extends Fragment implements Callback {
                                     norides_tv.setVisibility(View.VISIBLE);
                                     helpText_tv.setVisibility(View.INVISIBLE);
                                 } else {
+                                    norides_tv.setVisibility(View.INVISIBLE);
+                                    helpText_tv.setVisibility(View.VISIBLE);
                                     if (newNotGoindRides) {
                                         adapter.makeList(notGoingRides);
                                     }
@@ -228,5 +272,19 @@ public class AllRidesListFrag extends Fragment implements Callback {
                 contains = true;
         }
         return contains;
+    }
+
+    private ArrayList<RideForJson> filterList(ArrayList<RideForJson> listToFilter, CharSequence searchText){
+        ArrayList<RideForJson> listFiltered = new ArrayList<>();
+        for (int ride = 0; ride < listToFilter.size(); ride++){
+            if (listToFilter.get(ride).getNeighborhood().toLowerCase().contains(searchText.toString().toLowerCase()))
+                listFiltered.add(listToFilter.get(ride));
+        }
+        return listFiltered;
+    }
+
+    @OnClick(R.id.fab)
+    public void fab() {
+        ((MainAct) getActivity()).showRideOfferFrag();
     }
 }

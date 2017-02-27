@@ -12,8 +12,8 @@ import br.ufrj.caronae.models.modelsforjson.RideForJson;
 
 public class AllRidesFragmentPagerAdapter extends FragmentPagerAdapter {
     final int PAGE_COUNT = 2;
-    final int PAGE_GOING = 0;
-    final int PAGE_NOT_GOING = 1;
+    final public static int PAGE_GOING = 0;
+    final public static int PAGE_NOT_GOING = 1;
     private String tabTitles[] = new String[]{"Ida", "Volta"};
     private Fragment frags[];
 
