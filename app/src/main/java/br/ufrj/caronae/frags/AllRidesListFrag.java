@@ -1,11 +1,8 @@
 package br.ufrj.caronae.frags;
 
-import android.app.Activity;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,11 +13,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.github.clans.fab.FloatingActionMenu;
 import com.squareup.otto.Subscribe;
 
 import java.text.SimpleDateFormat;
@@ -30,6 +26,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Random;
 
 import javax.security.auth.callback.Callback;
 
@@ -37,7 +34,6 @@ import br.ufrj.caronae.App;
 import br.ufrj.caronae.EndlessRecyclerViewScrollListener;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.Util;
-import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.adapters.AllRidesFragmentPagerAdapter;
 import br.ufrj.caronae.adapters.RideOfferAdapter;
 import br.ufrj.caronae.comparators.RideOfferComparatorByDateAndTime;
@@ -45,7 +41,6 @@ import br.ufrj.caronae.models.RideRequestSent;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -58,12 +53,16 @@ public class AllRidesListFrag extends Fragment implements Callback {
     TextView helpText_tv;
     @Bind(R.id.swipeRefreshLayout)
     SwipeRefreshLayout refreshLayout;
-    @Bind(R.id.fab)
-    FloatingActionButton fab;
     @Bind(R.id.list_all_rides_search_text)
     EditText searchText;
     @Bind(R.id.search_card_view)
     CardView searchCardView;
+    @Bind(R.id.fab_menu)
+    FloatingActionMenu fab_menu;
+    @Bind(R.id.fab_add_ride)
+    com.github.clans.fab.FloatingActionButton fab_add_ride;
+    @Bind(R.id.fab_active_rides)
+    com.github.clans.fab.FloatingActionButton fab_active_rides;
 
     RideOfferAdapter adapter;
 
@@ -153,22 +152,38 @@ public class AllRidesListFrag extends Fragment implements Callback {
             }
         });
 
-//        final Activity activity = getActivity();
-//        final View content = view;
-//        if (content.getWidth() > 0) {
-//            Bitmap image = Util.BlurBuilder.blur(content);
-//            searchCardView.setBackgroundDrawable(new BitmapDrawable(activity.getResources(), image));
-//        } else {
-//            content.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-//                @Override
-//                public void onGlobalLayout() {
-//                    Bitmap image = Util.BlurBuilder.blur(content);
-//                    searchCardView.setBackgroundDrawable(new BitmapDrawable(activity.getResources(), image));
-//                }
-//            });
-//        }
-
         return view;
+    }
+
+    private void prepareFloatingActionMenu() {
+        ArrayList<Integer> colorOptions = new ArrayList<>();
+        colorOptions.add(R.color.zone_baixada);
+        colorOptions.add(R.color.zone_niteroi);
+        colorOptions.add(R.color.zone_sul);
+        colorOptions.add(R.color.zone_centro);
+        Random randomGenerator = new Random();
+        int randomInt = randomGenerator.nextInt(4);
+
+        fab_menu.setMenuButtonColorNormal(ContextCompat.getColor(getContext(), colorOptions.get(randomInt)));
+        fab_menu.setMenuButtonColorPressed(ContextCompat.getColor(getContext(), colorOptions.get(randomInt) - 5));
+
+        randomInt++;
+
+        if (randomInt >= 4){
+            randomInt = 0;
+        }
+
+        fab_add_ride.setColorNormal(ContextCompat.getColor(getContext(), colorOptions.get(randomInt)));
+        fab_add_ride.setColorPressed(ContextCompat.getColor(getContext(), colorOptions.get(randomInt) - 5));
+
+        randomInt++;
+
+        if (randomInt >= 4){
+            randomInt = 0;
+        }
+
+        fab_active_rides.setColorNormal(ContextCompat.getColor(getContext(), colorOptions.get(randomInt)));
+        fab_active_rides.setColorPressed(ContextCompat.getColor(getContext(), colorOptions.get(randomInt) - 5));
     }
 
     @Subscribe
@@ -187,6 +202,7 @@ public class AllRidesListFrag extends Fragment implements Callback {
     public void onResume() {
         super.onResume();
         refreshRideList(listCounter);
+        prepareFloatingActionMenu();
     }
 
     void refreshRideList(final int pageNumber) {
@@ -311,8 +327,8 @@ public class AllRidesListFrag extends Fragment implements Callback {
         return listFiltered;
     }
 
-    @OnClick(R.id.fab)
-    public void fab() {
-        ((MainAct) getActivity()).showRideOfferFrag();
-    }
+//    @OnClick(R.id.fab)
+//    public void fab() {
+//        ((MainAct) getActivity()).showRideOfferFrag();
+//    }
 }
