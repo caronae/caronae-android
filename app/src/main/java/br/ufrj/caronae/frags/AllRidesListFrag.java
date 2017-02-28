@@ -93,6 +93,7 @@ public class AllRidesListFrag extends Fragment implements Callback {
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                listCounter = 1;
                 refreshRideList(listCounter);
             }
         });
@@ -198,6 +199,11 @@ public class AllRidesListFrag extends Fragment implements Callback {
 
                             boolean newGoingRides = false;
                             boolean newNotGoindRides = false;
+
+                            if (listCounter == 1){
+                                goingRides = new ArrayList<RideForJson>();
+                                notGoingRides = new ArrayList<RideForJson>();
+                            }
 
                             List<RideForJson> rideOffers = response.body();
 
