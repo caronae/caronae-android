@@ -1,9 +1,13 @@
 package br.ufrj.caronae.frags;
 
+import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -12,6 +16,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -57,6 +62,8 @@ public class AllRidesListFrag extends Fragment implements Callback {
     FloatingActionButton fab;
     @Bind(R.id.list_all_rides_search_text)
     EditText searchText;
+    @Bind(R.id.search_card_view)
+    CardView searchCardView;
 
     RideOfferAdapter adapter;
 
@@ -144,6 +151,21 @@ public class AllRidesListFrag extends Fragment implements Callback {
 
             }
         });
+
+//        final Activity activity = getActivity();
+//        final View content = view;
+//        if (content.getWidth() > 0) {
+//            Bitmap image = Util.BlurBuilder.blur(content);
+//            searchCardView.setBackgroundDrawable(new BitmapDrawable(activity.getResources(), image));
+//        } else {
+//            content.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+//                @Override
+//                public void onGlobalLayout() {
+//                    Bitmap image = Util.BlurBuilder.blur(content);
+//                    searchCardView.setBackgroundDrawable(new BitmapDrawable(activity.getResources(), image));
+//                }
+//            });
+//        }
 
         return view;
     }
