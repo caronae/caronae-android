@@ -94,6 +94,17 @@ public class AllRidesFrag extends Fragment {
 
                             viewPager.setAdapter(new AllRidesFragmentPagerAdapter(getChildFragmentManager(), goingRides, notGoingRides));
                             tabLayout.setupWithViewPager(viewPager);
+
+                            View tab = ((ViewGroup) tabLayout.getChildAt(0)).getChildAt(0);
+                            ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) tab.getLayoutParams();
+                            p.setMargins(0, 0, 25, 0);
+                            tab.requestLayout();
+
+                            tab = ((ViewGroup) tabLayout.getChildAt(0)).getChildAt(1);
+                            p = (ViewGroup.MarginLayoutParams) tab.getLayoutParams();
+                            p.setMargins(25, 0, 0, 0);
+                            tab.requestLayout();
+
                         } else {
                             progressBar2.setVisibility(View.GONE);
                             Log.e("listAllRides", response.message());

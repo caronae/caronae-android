@@ -14,7 +14,7 @@ public class AllRidesFragmentPagerAdapter extends FragmentPagerAdapter {
     final int PAGE_COUNT = 2;
     final public static int PAGE_GOING = 0;
     final public static int PAGE_NOT_GOING = 1;
-    private String tabTitles[] = new String[]{"Ida", "Volta"};
+    private String tabTitles[] = new String[]{"Chegando na UFRJ", "Saindo da UFRJ"};
     private Fragment frags[];
 
     public AllRidesFragmentPagerAdapter(FragmentManager fm, ArrayList<RideForJson> goingRides, ArrayList<RideForJson> notGoingRides) {
