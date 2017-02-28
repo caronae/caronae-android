@@ -2,6 +2,9 @@ package br.ufrj.caronae.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
+import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -49,29 +52,39 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
     public void onBindViewHolder(final RideOfferAdapter.ViewHolder viewHolder, int position) {
         final RideForJson rideOffer = rideOffers.get(position);
 
+        int backgroundDrawable = 0;
         int color = 0;
         if (rideOffer.getZone().equals("Centro")) {
+            backgroundDrawable = R.drawable.card_list_bg_zone_centro;
             color = ContextCompat.getColor(context, R.color.zone_centro);
         }
         if (rideOffer.getZone().equals("Zona Sul")) {
+            backgroundDrawable = R.drawable.card_list_bg_zone_sul;
             color = ContextCompat.getColor(context, R.color.zone_sul);
         }
         if (rideOffer.getZone().equals("Zona Oeste")) {
+            backgroundDrawable = R.drawable.card_list_bg_zone_oeste;
             color = ContextCompat.getColor(context, R.color.zone_oeste);
         }
         if (rideOffer.getZone().equals("Zona Norte")) {
+            backgroundDrawable = R.drawable.card_list_bg_zone_norte;
             color = ContextCompat.getColor(context, R.color.zone_norte);
         }
         if (rideOffer.getZone().equals("Baixada")) {
+            backgroundDrawable = R.drawable.card_list_bg_zone_baixada;
             color = ContextCompat.getColor(context, R.color.zone_baixada);
         }
         if (rideOffer.getZone().equals("Grande Niterói")) {
+            backgroundDrawable = R.drawable.card_list_bg_zone_niteroi;
             color = ContextCompat.getColor(context, R.color.zone_niteroi);
         }
         if (rideOffer.getZone().equals("Outros")) {
+            backgroundDrawable = R.drawable.card_list_bg_zone_outros;
             color = ContextCompat.getColor(context, R.color.zone_outros);
         }
-        viewHolder.cardView.setCardBackgroundColor(color);
+        viewHolder.cardView.setBackground(context.getDrawable(backgroundDrawable));
+
+        viewHolder.location_tv.setTextColor(color);
 
         String profilePicUrl = rideOffer.getDriver().getProfilePicUrl();
         if (profilePicUrl != null && !profilePicUrl.isEmpty()) {

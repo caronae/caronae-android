@@ -1,9 +1,11 @@
 package br.ufrj.caronae.frags;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -95,15 +97,7 @@ public class AllRidesFrag extends Fragment {
                             viewPager.setAdapter(new AllRidesFragmentPagerAdapter(getChildFragmentManager(), goingRides, notGoingRides));
                             tabLayout.setupWithViewPager(viewPager);
 
-                            View tab = ((ViewGroup) tabLayout.getChildAt(0)).getChildAt(0);
-                            ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) tab.getLayoutParams();
-                            p.setMargins(0, 0, 25, 0);
-                            tab.requestLayout();
-
-                            tab = ((ViewGroup) tabLayout.getChildAt(0)).getChildAt(1);
-                            p = (ViewGroup.MarginLayoutParams) tab.getLayoutParams();
-                            p.setMargins(25, 0, 0, 0);
-                            tab.requestLayout();
+                            configureTabIndicators();
 
                         } else {
                             progressBar2.setVisibility(View.GONE);
@@ -117,6 +111,18 @@ public class AllRidesFrag extends Fragment {
                         Log.e("listAllRides", t.getMessage());
                     }
                 });
+    }
 
+    private void configureTabIndicators() {
+
+        View tab = ((ViewGroup) tabLayout.getChildAt(0)).getChildAt(0);
+        ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) tab.getLayoutParams();
+        p.setMargins(0, 0, 25, 0);
+        tab.requestLayout();
+
+        tab = ((ViewGroup) tabLayout.getChildAt(0)).getChildAt(1);
+        p = (ViewGroup.MarginLayoutParams) tab.getLayoutParams();
+        p.setMargins(25, 0, 0, 0);
+        tab.requestLayout();
     }
 }

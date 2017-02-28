@@ -3,15 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/opening"
     android:orientation="vertical">
 
     <android.support.v7.widget.CardView
         android:id="@+id/sliding_tabs_card"
         android:layout_width="match_parent"
-        android:layout_marginTop="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         app:cardElevation="0dp"
+        android:background="@android:color/white"
         android:layout_height="@dimen/tab_indicator_height"
         app:cardCornerRadius="8dp">
 
@@ -19,10 +20,8 @@
             android:id="@+id/sliding_tabs"
             android:layout_width="match_parent"
             android:layout_height="@dimen/tab_indicator_height"
-            app:tabBackground="@drawable/tab_indicator_background"
-            app:tabIndicatorHeight="0dp"
-            app:tabPaddingEnd="10dp"
-            app:tabPaddingStart="10dp" />
+            app:tabBackground="@drawable/tab_background_selector"
+            app:tabIndicatorHeight="0dp"/>
     </android.support.v7.widget.CardView>
 
     <android.support.v4.view.ViewPager
@@ -30,7 +29,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/sliding_tabs_card"
-        android:background="@android:color/white" />
+        android:background="@android:color/transparent" />
 
     <ProgressBar
         android:id="@+id/progressBar2"

@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -84,7 +85,11 @@ public class MainAct extends AppCompatActivity {
 
         mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
-        drawerToggle = new ActionBarDrawerToggle(this, mDrawer, toolbar, R.string.drawer_open, R.string.drawer_close) {
+        drawerToggle = new ActionBarDrawerToggle(this,
+                mDrawer,
+                toolbar,
+                R.string.drawer_open,
+                R.string.drawer_close) {
             @Override
             public void onDrawerOpened(View drawerView) {
                 //update user pic on drawer if it changed

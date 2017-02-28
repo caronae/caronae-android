@@ -7,8 +7,9 @@
     android:layout_height="wrap_content"
     android:clickable="true"
     android:foreground="?android:attr/selectableItemBackground"
-    card_view:cardBackgroundColor="@color/blue"
+    card_view:cardBackgroundColor="@color/default_white_transparency"
     card_view:cardCornerRadius="10dp"
+    android:layout_margin="4dp"
     card_view:cardElevation="@dimen/cardview_default_elevation"
     card_view:cardUseCompatPadding="true">
 
@@ -43,8 +44,7 @@
             android:layout_alignLeft="@+id/location_tv"
             android:layout_alignStart="@+id/location_tv"
             android:layout_below="@+id/location_tv"
-            android:text="Chegando ás 16:45"
-            android:textColor="@color/white" />
+            android:text="Chegando ás 16:45" />
 
         <TextView
             android:id="@+id/separator1"
@@ -54,7 +54,6 @@
             android:layout_toEndOf="@+id/time_tv"
             android:layout_toRightOf="@+id/time_tv"
             android:text=" | "
-            android:textColor="@color/white"
             android:textStyle="bold" />
 
         <TextView
@@ -65,7 +64,6 @@
             android:layout_toEndOf="@+id/separator1"
             android:layout_toRightOf="@+id/separator1"
             android:text="03/11"
-            android:textColor="@color/white"
             android:textStyle="bold" />
 
         <TextView
@@ -75,8 +73,7 @@
             android:layout_alignLeft="@+id/location_tv"
             android:layout_alignStart="@+id/location_tv"
             android:layout_below="@+id/time_tv"
-            android:text="Fulano da Silva"
-            android:textColor="@color/white" />
+            android:text="Fulano da Silva" />
 
         <ImageView
             android:id="@+id/requestIndicator_iv"
