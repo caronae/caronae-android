@@ -34,8 +34,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
                 android:layout_below="@id/location_dt"
-                android:background="@color/zone_sul"
-                />
+                android:background="@color/zone_sul" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -204,39 +203,60 @@
             android:text="Lorem ipsum dolor sit amet" />
     </RelativeLayout>
 
-    <RelativeLayout
+    <TextView
+        android:id="@+id/requested_dt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/activity_horizontal_margin">
+        android:gravity="center"
+        android:text="@string/act_rideoffer_requested"
+        android:textColor="@color/green"
+        android:textStyle="bold"
+        android:visibility="invisible"
+         />
 
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/join_bt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginBottom="8dp"
-            android:src="@drawable/ic_done_white_24dp"
-            android:layout_marginRight="48dp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:orientation="horizontal">
 
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/dissmis_bt"
-            style="@style/LightRaiseColorButtonRippleStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            app:fab_colorNormal="@color/gray"
-            app:fab_colorPressed="@color/dark_gray"
-            android:src="@drawable/ic_clear_white_24dp"
-            android:layout_marginLeft="48dp" />
+        <FrameLayout
+            android:id="@+id/dissmis_bt_frame"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:layout_weight="1">
 
-        <TextView
-            android:id="@+id/requested_dt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="@string/act_rideoffer_requested"
-            android:textColor="@color/green"
-            android:textStyle="bold"
-            android:visibility="gone" />
-    </RelativeLayout>
+            <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/dissmis_bt"
+                style="@style/LightRaiseColorButtonRippleStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_clear_white_24dp"
+                app:fab_colorNormal="@color/gray"
+                app:fab_colorPressed="@color/dark_gray" />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/join_bt_frame"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:layout_weight="1">
+
+            <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/join_bt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="8dp"
+                android:src="@drawable/ic_done_white_24dp" />
+
+        </FrameLayout>
+
+    </LinearLayout>
 </LinearLayout>

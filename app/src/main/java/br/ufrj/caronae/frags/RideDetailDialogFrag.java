@@ -14,11 +14,18 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.DecelerateInterpolator;
+import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.rey.material.app.SimpleDialog;
+import com.rey.material.widget.FrameLayout;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -64,6 +71,10 @@ public class RideDetailDialogFrag extends DialogFragment {
     public com.github.clans.fab.FloatingActionButton join_bt;
     @Bind(R.id.dissmis_bt)
     public com.github.clans.fab.FloatingActionButton dissmis_bt;
+    @Bind(R.id.join_bt_frame)
+    public android.widget.FrameLayout join_bt_frame;
+    @Bind(R.id.dissmis_bt_frame)
+    public android.widget.FrameLayout dissmis_bt_frame;
     @Bind(R.id.way_dt)
     public TextView way_dt;
     @Bind(R.id.place_dt)
@@ -186,13 +197,13 @@ public class RideDetailDialogFrag extends DialogFragment {
         description_dt.setText(rideWithUsers.getDescription());
 
         if (isDriver) {
-            join_bt.setVisibility(View.INVISIBLE);
-            dissmis_bt.setVisibility(View.INVISIBLE);
+//            join_bt.setVisibility(View.INVISIBLE);
+            join_bt_frame.setVisibility(View.GONE);
             seeProfile_dt.setVisibility(View.GONE);
         } else {
             if (requested) {
-                join_bt.setVisibility(View.INVISIBLE);
-                dissmis_bt.setVisibility(View.INVISIBLE);
+//                join_bt.setVisibility(View.INVISIBLE);
+                join_bt_frame.setVisibility(View.GONE);
                 requested_dt.setVisibility(View.VISIBLE);
             } else {
                 join_bt.setOnClickListener(new View.OnClickListener() {
@@ -208,8 +219,8 @@ public class RideDetailDialogFrag extends DialogFragment {
 
                             @Override
                             protected void onBuildDone(com.rey.material.app.Dialog dialog) {
-                                dialog.layoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                                dialog.getWindow().getAttributes().windowAnimations = R.style.SlideInDialog;
+                                dialog.layoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                                dialog.getWindow().getAttributes().windowAnimations = R.style.SlideInRightDialog;
                             }
 
                             @Override
@@ -225,9 +236,16 @@ public class RideDetailDialogFrag extends DialogFragment {
 
                                                     createChatAssets(rideWithUsers);
 
-                                                    join_bt.setVisibility(View.INVISIBLE);
-                                                    dissmis_bt.setVisibility(View.INVISIBLE);
-                                                    requested_dt.setVisibility(View.VISIBLE);
+//                                                    join_bt.setVisibility(View.INVISIBLE);
+
+//                                                    join_bt_frame.setVisibility(View.INVISIBLE);
+//                                                    requested_dt.setVisibility(View.VISIBLE);
+                                                    dissmis_bt_frame.startAnimation(getAnimationForDissmisButton());
+
+                                                    join_bt_frame.startAnimation(getAnimationForSendButton());
+
+                                                    requested_dt.startAnimation(getAnimationForResquestedText());
+
                                                     App.getBus().post(rideRequest);
 
                                                     pd.dismiss();
@@ -325,5 +343,55 @@ public class RideDetailDialogFrag extends DialogFragment {
         final Dialog dialog = super.onCreateDialog(savedInstanceState);
         dialog.getWindow().getAttributes().windowAnimations = R.style.SlideInDialog;
         return dialog;
+    }
+
+    public Animation getAnimationForDissmisButton(){
+//        TranslateAnimation anim = new TranslateAnimation(
+//                TranslateAnimation.RELATIVE_TO_SELF, 0.0f,
+//                TranslateAnimation.RELATIVE_TO_SELF, 1,
+//                TranslateAnimation.RELATIVE_TO_SELF,0.0f,
+//                TranslateAnimation.RELATIVE_TO_SELF,0.0f
+//        );
+//        anim.setDuration(1000);
+//        anim.setFillBefore(true);
+        Animation anim = AnimationUtils.loadAnimation(getContext(), R.anim.anim_button_dissmis);
+        anim.setInterpolator(new DecelerateInterpolator());
+        anim.setFillEnabled(true);
+
+        anim.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                join_bt_frame.setVisibility(View.GONE);
+                join_bt.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        return anim;
+    }
+
+    public Animation getAnimationForSendButton(){
+        Animation anim = new AlphaAnimation(1, 0);
+        anim.setDuration(1000);
+        anim.setFillEnabled(true);
+        anim.setFillAfter(true);
+
+        return anim;
+    }
+
+    public Animation getAnimationForResquestedText(){
+        Animation anim = new AlphaAnimation(0, 1);
+        anim.setDuration(1000);
+        anim.setFillEnabled(true);
+        anim.setFillAfter(true);
+        return anim;
     }
 }

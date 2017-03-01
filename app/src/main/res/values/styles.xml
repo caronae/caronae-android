@@ -17,6 +17,11 @@
         <item name="android:windowExitAnimation">@anim/anim_down_slide_out</item>
     </style>
 
+    <style name="SlideInRightDialog" parent="Material.App.Dialog.Simple.Light">
+        <item name="android:windowEnterAnimation">@anim/anim_right_slide_in</item>
+        <item name="android:windowExitAnimation">@anim/anim_right_slide_out</item>
+    </style>
+
     <style name="FullscreenTheme" parent="AppTheme">
         <item name="android:actionBarStyle">@style/FullscreenActionBarStyle</item>
         <item name="android:windowActionBarOverlay">true</item>
