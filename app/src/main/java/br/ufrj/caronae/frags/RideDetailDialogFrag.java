@@ -1,5 +1,6 @@
 package br.ufrj.caronae.frags;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.ProgressDialog;
@@ -7,15 +8,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -76,6 +75,13 @@ public class RideDetailDialogFrag extends DialogFragment {
     @Bind(R.id.header_line)
     ImageView header_line;
 
+    FragmentActivity myContext;
+
+    @Override
+    public void onAttach(Activity activity) {
+        myContext = (FragmentActivity) activity;
+        super.onAttach(activity);
+    }
 
     @Nullable
     @Override
@@ -181,10 +187,12 @@ public class RideDetailDialogFrag extends DialogFragment {
 
         if (isDriver) {
             join_bt.setVisibility(View.INVISIBLE);
+            dissmis_bt.setVisibility(View.INVISIBLE);
             seeProfile_dt.setVisibility(View.GONE);
         } else {
             if (requested) {
                 join_bt.setVisibility(View.INVISIBLE);
+                dissmis_bt.setVisibility(View.INVISIBLE);
                 requested_dt.setVisibility(View.VISIBLE);
             } else {
                 join_bt.setOnClickListener(new View.OnClickListener() {
@@ -196,11 +204,12 @@ public class RideDetailDialogFrag extends DialogFragment {
                             return;
                         }
 
-                        com.rey.material.app.Dialog.Builder builder = new SimpleDialog.Builder(R.style.SimpleDialogLight) {
+                        com.rey.material.app.Dialog.Builder builder = new SimpleDialog.Builder(R.style.SlideInDialog) {
 
                             @Override
                             protected void onBuildDone(com.rey.material.app.Dialog dialog) {
                                 dialog.layoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                                dialog.getWindow().getAttributes().windowAnimations = R.style.SlideInDialog;
                             }
 
                             @Override
@@ -217,6 +226,7 @@ public class RideDetailDialogFrag extends DialogFragment {
                                                     createChatAssets(rideWithUsers);
 
                                                     join_bt.setVisibility(View.INVISIBLE);
+                                                    dissmis_bt.setVisibility(View.INVISIBLE);
                                                     requested_dt.setVisibility(View.VISIBLE);
                                                     App.getBus().post(rideRequest);
 
@@ -246,13 +256,13 @@ public class RideDetailDialogFrag extends DialogFragment {
                             }
                         };
 
-//                        ((SimpleDialog.Builder) builder).message(getString(R.string.act_rideOffer_requestWarn))
-//                                .title(getString(R.string.attention))
-//                                .positiveAction(getString(R.string.ok))
-//                                .negativeAction(getString(R.string.cancel));
-//
-//                        com.rey.material.app.DialogFragment fragment = com.rey.material.app.DialogFragment.newInstance(builder);
-//                        fragment.show(getSupportFragmentManager(), null);
+                        ((SimpleDialog.Builder) builder).message(getString(R.string.act_rideOffer_requestWarn))
+                                .title(getString(R.string.attention))
+                                .positiveAction(getString(R.string.ok))
+                                .negativeAction(getString(R.string.cancel));
+
+                        com.rey.material.app.DialogFragment fragment = com.rey.material.app.DialogFragment.newInstance(builder);
+                        fragment.show(myContext.getSupportFragmentManager(), null);
                     }
                 });
             }

@@ -54,7 +54,7 @@ public class AllRidesListFrag extends Fragment implements Callback {
     @Bind(R.id.swipeRefreshLayout)
     SwipeRefreshLayout refreshLayout;
     @Bind(R.id.list_all_rides_search_text)
-    AutoCompleteTextView searchText;
+    EditText searchText;
     @Bind(R.id.search_card_view)
     CardView searchCardView;
 
@@ -159,10 +159,15 @@ public class AllRidesListFrag extends Fragment implements Callback {
         return view;
     }
 
+//    @Subscribe
+//    public void removeRideFromList(RideRequestSent ride) {
+//        adapter.remove(ride.getDbId());
+//        Log.i("removeRideFromList,all", "remove called");
+//    }
+
     @Subscribe
-    public void removeRideFromList(RideRequestSent ride) {
-        adapter.remove(ride.getDbId());
-        Log.i("removeRideFromList,all", "remove called");
+    public void updateAfterResquest(RideRequestSent ride) {
+        adapter.notifyDataSetChanged();
     }
 
     @Override
