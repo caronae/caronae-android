@@ -1,10 +1,8 @@
 package br.ufrj.caronae.frags;
 
+import android.graphics.Rect;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,13 +10,16 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.github.clans.fab.FloatingActionMenu;
 import com.squareup.otto.Subscribe;
 
 import java.text.SimpleDateFormat;
@@ -28,7 +29,6 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-import java.util.Random;
 
 import javax.security.auth.callback.Callback;
 
@@ -36,7 +36,6 @@ import br.ufrj.caronae.App;
 import br.ufrj.caronae.EndlessRecyclerViewScrollListener;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.Util;
-import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.adapters.AllRidesFragmentPagerAdapter;
 import br.ufrj.caronae.adapters.RideOfferAdapter;
 import br.ufrj.caronae.comparators.RideOfferComparatorByDateAndTime;
@@ -55,7 +54,7 @@ public class AllRidesListFrag extends Fragment implements Callback {
     @Bind(R.id.swipeRefreshLayout)
     SwipeRefreshLayout refreshLayout;
     @Bind(R.id.list_all_rides_search_text)
-    EditText searchText;
+    AutoCompleteTextView searchText;
     @Bind(R.id.search_card_view)
     CardView searchCardView;
 
@@ -120,6 +119,10 @@ public class AllRidesListFrag extends Fragment implements Callback {
 
         App.getBus().register(this);
 
+//        String[] neighborhoods = Util.getAllNeighborhoods();
+//        ArrayAdapter<String> autoCompleteAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, neighborhoods);
+//        searchText.setAdapter(autoCompleteAdapter);
+
         searchText.addTextChangedListener(new TextWatcher() {
             RideOfferAdapter searchAdapter;
             @Override
@@ -145,6 +148,13 @@ public class AllRidesListFrag extends Fragment implements Callback {
 
             }
         });
+
+        // After setting layout manager, adapter, etc...
+        float offsetBottonPx = getResources().getDimension(R.dimen.recycler_view_botton_offset);
+        float offsetTopPx = getResources().getDimension(R.dimen.recycler_view_top_offset);
+        OffsetDecoration OffsetDecoration = new OffsetDecoration((int) offsetBottonPx, (int)offsetTopPx);
+        rvRides.addItemDecoration(OffsetDecoration);
+
 
         return view;
     }
@@ -284,5 +294,28 @@ public class AllRidesListFrag extends Fragment implements Callback {
                 listFiltered.add(listToFilter.get(ride));
         }
         return listFiltered;
+    }
+
+    static class OffsetDecoration extends RecyclerView.ItemDecoration {
+        private int mBottomOffset;
+        private int mTopOffset;
+
+        public OffsetDecoration(int bottomOffset, int topOffset) {
+            mBottomOffset = bottomOffset;
+            mTopOffset = topOffset;
+        }
+
+        @Override
+        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+            super.getItemOffsets(outRect, view, parent, state);
+            int dataSize = state.getItemCount();
+            int position = parent.getChildAdapterPosition(view);
+            if (dataSize > 0 && position == dataSize - 1) {
+                outRect.set(0, 0, 0, mBottomOffset);
+            } else if(dataSize > 0 && position == 0) {
+                outRect.set(0, mTopOffset, 0, 0);
+            } else
+                outRect.set(0, 0, 0, 0);
+        }
     }
 }

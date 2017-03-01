@@ -6,30 +6,21 @@
     android:background="@drawable/opening"
     android:orientation="vertical">
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/sliding_tabs_card"
-        android:layout_width="match_parent"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        app:cardElevation="0dp"
-        android:background="@android:color/white"
-        android:layout_height="@dimen/tab_indicator_height"
-        app:cardCornerRadius="8dp">
-
-        <android.support.design.widget.TabLayout
-            android:id="@+id/sliding_tabs"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/tab_indicator_height"
-            app:tabBackground="@drawable/tab_background_selector"
-            app:tabIndicatorHeight="0dp"/>
-    </android.support.v7.widget.CardView>
-
     <android.support.v4.view.ViewPager
         android:id="@+id/viewpager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/sliding_tabs_card"
         android:background="@android:color/transparent" />
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/sliding_tabs"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/tab_indicator_height"
+        android:paddingBottom="@dimen/tab_indicator_padding_botton"
+        android:paddingTop="8dp"
+        android:layout_alignParentTop="true"
+        app:tabBackground="@drawable/tab_background_selector"
+        app:tabIndicatorHeight="0dp" />
 
     <ProgressBar
         android:id="@+id/progressBar2"
@@ -39,8 +30,7 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true" />
 
-    <com.github.clans.fab.FloatingActionMenu
-        xmlns:fab="http://schemas.android.com/apk/res-auto"
+    <com.github.clans.fab.FloatingActionMenu xmlns:fab="http://schemas.android.com/apk/res-auto"
         android:id="@+id/fab_menu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

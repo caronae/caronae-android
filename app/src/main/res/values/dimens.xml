@@ -5,5 +5,10 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="chat_ride_info_size">46dp</dimen>
     <dimen name="search_list_bar">36dp</dimen>
-    <dimen name="tab_indicator_height">24dp</dimen>
+    <dimen name="tab_indicator_height">64dp</dimen>
+    <!-- padding botton is connected to tab height because of gradient -->
+    <dimen name="tab_indicator_padding_botton">32dp</dimen>
+    <dimen name="recycler_view_botton_offset">48dp</dimen>
+    <dimen name="recycler_view_top_offset">40dp</dimen>
+
 </resources>

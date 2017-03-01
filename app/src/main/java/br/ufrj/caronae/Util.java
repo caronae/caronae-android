@@ -109,7 +109,7 @@ public class Util {
                     "Pedra de Guaratiba", "Praça Seca ", "Pechincha", "Realengo",
                     "Recreio dos Bandeirantes", "Santa Cruz", "Santíssimo", "Senador Camará",
                     "Senador Vasconcelos", "Sepetiba", "Tanque", "Taquara", "Vargem Grande",
-                    "Vargem Pequena", "Vila Militar", "Vila Valqueire",};
+                    "Vargem Pequena", "Vila Militar", "Vila Valqueire"};
         }
         if (zone.equals("Zona Norte")) {
             return new String[]{"Abolição", "Acari", "Água Santa", "Alto da Boa Vista",
@@ -134,13 +134,54 @@ public class Util {
         if (zone.equals("Baixada")) {
             return new String[]{"Belford Roxo", "Duque de Caxias", "Guapimirim", "Itaguai",
                     "Japeri", "Magé", "Mesquita", "Nilópolis", "Nova Iguaçu", "Paracambi",
-                    "Queimados", "São João de Meriti", "Seropédica",};
+                    "Queimados", "São João de Meriti", "Seropédica"};
         }
         if (zone.equals("Grande Niterói")) {
             return new String[]{"Itaboraí", "Maricá", "Centro (Niterói)",
                     "Região oceânica (Niterói)", "Rio Bonito", "São Gonçalo", "Tanguá"};
         }
         return null;
+    }
+
+    public static String[] getAllNeighborhoods(){
+        return new String[]{"Benfica", "Caju", "Catumbi", "Centro (Bairro)", "Cidade Nova",
+                "Estácio", "Gamboa", "Glória", "Lapa", "Mangueira", "Rio Comprido",
+                "Santa Teresa", "Santo Cristo", "São Cristóvão", "Saúde", "Vasco da Gama",
+                "Botafogo", "Catete", "Copacabana", "Cosme Velho",
+                "Flamengo", "Gávea", "Humaitá", "Ipanema", "Jardim Botânico", "Lagoa",
+                "Laranjeiras", "Leblon", "Leme", "Rocinha", "São Conrado", "Urca", "Vidigal",
+                "Anil", "Bangu", "Barra de Guaratiba",
+                "Barra da Tijuca", "Camorim", "Campo Grande", "Cidade de Deus", "Cosmos",
+                "Curicica", "Deodoro", "Freguesia de Jacarepaguá", "Gardênia Azul", "Gericinó",
+                "Grumari", "Guaratiba", "Inhoaíba", "Itanhangá", "Jacarepaguá",
+                "Jardim Sulacap", "Joá", "Magalhães Bastos", "Paciência", "Padre Miguel",
+                "Pedra de Guaratiba", "Praça Seca ", "Pechincha", "Realengo",
+                "Recreio dos Bandeirantes", "Santa Cruz", "Santíssimo", "Senador Camará",
+                "Senador Vasconcelos", "Sepetiba", "Tanque", "Taquara", "Vargem Grande",
+                "Vargem Pequena", "Vila Militar", "Vila Valqueire",
+                "Abolição", "Acari", "Água Santa", "Alto da Boa Vista",
+                "Anchieta", "Andaraí", "Bancários", "Barros Filho", "Bento Ribeiro",
+                "Bonsucesso", "Brás de Pina", "Cachambi", "Cacuia", "Campinho", "Cascadura",
+                "Cavalcanti", "Cocotá", "Coelho Neto", "Colégio",
+                "Complexo do Alemão", "Cordovil", "Costa Barros", "Del Castilho", "Encantado",
+                "Engenheiro Leal", "Engenho Novo", "Engenho da Rainha", "Engenho de Dentro",
+                "Freguesia (Ilha do Governador)", "Galeão", "Grajaú", "Guadalupe",
+                "Higienópolis", "Honório Gurgel", "Inhaúma", "Irajá", "Jacarezinho", "Jacaré",
+                "Jardim América", "Jardim Carioca", "Jardim Guanabara", "Lins de Vasconcelos",
+                "Madureira", "Manguinhos", "Maracanã", "Marechal Hermes", "Maria da Graça",
+                "Maré", "Monero", "Méier", "Olaria", "Oswaldo Cruz", "Parada de Lucas",
+                "Parque Colúmbia", "Pavuna", "Penha", "Penha Circular", "Piedade", "Pilares",
+                "Pitangueiras", "Portuguesa", "Praia da Bandeira", "Praça da Bandeira",
+                "Quintino Bocaiuva", "Ramos", "Riachuelo", "Ribeira", "Ricardo de Albuquerque",
+                "Rocha", "Rocha Miranda", "Sampaio", "São Francisco Xavier", "Tauá", "Tijuca",
+                "Todos os Santos", "Tomás Coelho", "Turiaçu", "Vaz Lobo",
+                "Vicente de Carvalho", "Vigário Geral", "Vila Isabel", "Vila Kosmos",
+                "Vila da Penha", "Vista Alegre", "Zumbi",
+                "Belford Roxo", "Duque de Caxias", "Guapimirim", "Itaguai",
+                "Japeri", "Magé", "Mesquita", "Nilópolis", "Nova Iguaçu", "Paracambi",
+                "Queimados", "São João de Meriti", "Seropédica",
+                "Itaboraí", "Maricá", "Centro (Niterói)",
+                "Região oceânica (Niterói)", "Rio Bonito", "São Gonçalo", "Tanguá"};
     }
 
     public static String[] getHubs() {

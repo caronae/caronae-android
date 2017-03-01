@@ -17,8 +17,7 @@
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="24dp">
+        android:layout_height="match_parent">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rvRides"
@@ -63,11 +62,15 @@
             android:paddingLeft="@dimen/activity_horizontal_margin"
             android:paddingRight="@dimen/activity_horizontal_margin">
 
-            <EditText
+            <AutoCompleteTextView
                 android:id="@+id/list_all_rides_search_text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="6"
+                android:imeOptions="actionDone"
+                android:maxLines="1"
+                android:lines="1"
+                android:inputType="textAutoComplete"
                 android:background="@android:color/transparent"
                 android:hint="Search"
                 android:textSize="16sp" />

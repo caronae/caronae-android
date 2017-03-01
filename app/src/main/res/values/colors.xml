@@ -36,6 +36,7 @@
 
     <color name="default_white_transparency">#CCFFFFFF</color>
     <color name="list_white_transparency">#EEFFFFFF</color>
+    <color name="light_gray_transparency" type="color">#CCEEEEEE</color>
 
     <item name="light_gray" type="color">#EEEEEE</item>
 

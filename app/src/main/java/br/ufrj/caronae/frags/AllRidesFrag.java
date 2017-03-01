@@ -107,6 +107,8 @@ public class AllRidesFrag extends Fragment {
                             viewPager.setAdapter(new AllRidesFragmentPagerAdapter(getChildFragmentManager(), goingRides, notGoingRides));
                             tabLayout.setupWithViewPager(viewPager);
 
+                            tabLayout.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.transparency_gradient));
+
                             configureTabIndicators();
 
                         } else {
@@ -129,12 +131,12 @@ public class AllRidesFrag extends Fragment {
 
         View tab = ((ViewGroup) tabLayout.getChildAt(0)).getChildAt(0);
         ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) tab.getLayoutParams();
-        p.setMargins(0, 0, 25, 0);
+        p.setMargins(25, 0, 25, 0);
         tab.requestLayout();
 
         tab = ((ViewGroup) tabLayout.getChildAt(0)).getChildAt(1);
         p = (ViewGroup.MarginLayoutParams) tab.getLayoutParams();
-        p.setMargins(25, 0, 0, 0);
+        p.setMargins(25, 0, 25, 0);
         tab.requestLayout();
     }
 
