@@ -12,14 +12,6 @@
         app:cardCornerRadius="0dp"
         app:cardElevation="4dp">
 
-    <TextView
-        android:id="@+id/helpText_tv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_marginTop="5dp"
-        android:text="@string/frag_allRidesList_Helper" />
-
     </android.support.v7.widget.CardView>
 
     <android.support.v4.widget.SwipeRefreshLayout

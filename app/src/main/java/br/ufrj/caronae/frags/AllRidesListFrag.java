@@ -1,6 +1,7 @@
 package br.ufrj.caronae.frags;
 
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
@@ -43,19 +44,14 @@ import br.ufrj.caronae.models.RideRequestSent;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Response;
-
-import static android.R.attr.fragment;
 
 public class AllRidesListFrag extends Fragment implements Callback {
     @Bind(R.id.rvRides)
     RecyclerView rvRides;
     @Bind(R.id.norides_tv)
     TextView norides_tv;
-    @Bind(R.id.helpText_tv)
-    TextView helpText_tv;
     @Bind(R.id.swipeRefreshLayout)
     SwipeRefreshLayout refreshLayout;
     @Bind(R.id.list_all_rides_search_text)
@@ -96,7 +92,7 @@ public class AllRidesListFrag extends Fragment implements Callback {
             }
         });
 
-        adapter = new RideOfferAdapter(new ArrayList<RideForJson>(), getContext());
+        adapter = new RideOfferAdapter(new ArrayList<RideForJson>(), getContext(), getActivity().getFragmentManager());
 
         mLayoutManager = new LinearLayoutManager(getContext());
         rvRides.setLayoutManager(mLayoutManager);
@@ -118,7 +114,6 @@ public class AllRidesListFrag extends Fragment implements Callback {
 
         if (rideOffers == null || rideOffers.isEmpty()) {
             norides_tv.setVisibility(View.VISIBLE);
-            helpText_tv.setVisibility(View.INVISIBLE);
         } else {
             adapter.makeList(rideOffers);
         }
@@ -130,9 +125,9 @@ public class AllRidesListFrag extends Fragment implements Callback {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 if (pageIdentifier == AllRidesFragmentPagerAdapter.PAGE_GOING)
-                    searchAdapter = new RideOfferAdapter(filterList(goingRides, s), getContext());
+                    searchAdapter = new RideOfferAdapter(filterList(goingRides, s), getContext(), getActivity().getFragmentManager());
                 else
-                    searchAdapter = new RideOfferAdapter(filterList(notGoingRides, s), getContext());
+                    searchAdapter = new RideOfferAdapter(filterList(notGoingRides, s), getContext(), getActivity().getFragmentManager());
 
             }
 
@@ -235,10 +230,8 @@ public class AllRidesListFrag extends Fragment implements Callback {
                             if (pageIdentifier == AllRidesFragmentPagerAdapter.PAGE_GOING) {
                                 if (goingRides == null || goingRides.isEmpty()) {
                                     norides_tv.setVisibility(View.VISIBLE);
-                                    helpText_tv.setVisibility(View.INVISIBLE);
                                 } else {
                                     norides_tv.setVisibility(View.INVISIBLE);
-                                    helpText_tv.setVisibility(View.VISIBLE);
                                     if (newGoingRides) {
                                         adapter.makeList(goingRides);
                                     }
@@ -247,10 +240,8 @@ public class AllRidesListFrag extends Fragment implements Callback {
                             } else {
                                 if (notGoingRides == null || notGoingRides.isEmpty()) {
                                     norides_tv.setVisibility(View.VISIBLE);
-                                    helpText_tv.setVisibility(View.INVISIBLE);
                                 } else {
                                     norides_tv.setVisibility(View.INVISIBLE);
-                                    helpText_tv.setVisibility(View.VISIBLE);
                                     if (newNotGoindRides) {
                                         adapter.makeList(notGoingRides);
                                     }

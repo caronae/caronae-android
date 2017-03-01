@@ -48,8 +48,6 @@ public class MyRidesListFrag extends Fragment {
     TextView norides_tv;
     @Bind(R.id.deleteAll_bt)
     Button deleteAll_bt;
-    @Bind(R.id.helpText_tv)
-    TextView helpText_tv;
 
     ArrayList<Ride> rides;
     private boolean going;
@@ -121,7 +119,6 @@ public class MyRidesListFrag extends Fragment {
                 myRidesList.setLayoutManager(new LinearLayoutManager(getActivity()));
 
                 deleteAll_bt.setVisibility(View.VISIBLE);
-                helpText_tv.setVisibility(View.VISIBLE);
             } else {
                 norides_tv.setVisibility(View.VISIBLE);
             }
@@ -157,7 +154,6 @@ public class MyRidesListFrag extends Fragment {
                                     myRidesList.getAdapter().notifyDataSetChanged();
                                     norides_tv.setVisibility(View.VISIBLE);
                                     deleteAll_bt.setVisibility(View.INVISIBLE);
-                                    helpText_tv.setVisibility(View.INVISIBLE);
 
                                     pd.dismiss();
                                 } else {

@@ -87,7 +87,7 @@ public class RideSearchFrag extends Fragment {
         View view = inflater.inflate(R.layout.fragment_ride_search, container, false);
         ButterKnife.bind(this, view);
 
-        adapter = new RideOfferAdapter(new ArrayList<RideForJson>(), getActivity());
+        adapter = new RideOfferAdapter(new ArrayList<RideForJson>(), getActivity(), getActivity().getFragmentManager());
         rvRides.setAdapter(adapter);
         rvRides.setHasFixedSize(true);
         rvRides.setLayoutManager(new LinearLayoutManager(getActivity()));

@@ -55,6 +55,8 @@ public class AllRidesFrag extends Fragment {
 
     ArrayList<RideForJson> goingRides = new ArrayList<>(), notGoingRides = new ArrayList<>();
 
+    boolean isFabPrepared = false;
+
     public AllRidesFrag() {
     }
 
@@ -62,7 +64,6 @@ public class AllRidesFrag extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_all_rides, container, false);
         ButterKnife.bind(this, view);
-
         listAllRides(1);
 
         return view;
@@ -140,7 +141,14 @@ public class AllRidesFrag extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        prepareFloatingActionMenu();
+        if (!isFabPrepared)
+            prepareFloatingActionMenu();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        isFabPrepared = false;
     }
 
     @OnClick(R.id.fab_add_ride)
@@ -182,5 +190,8 @@ public class AllRidesFrag extends Fragment {
 
         fab_active_rides.setColorNormal(ContextCompat.getColor(getContext(), colorOptions.get(randomInt)));
         fab_active_rides.setColorPressed(ContextCompat.getColor(getContext(), colorOptions.get(randomInt) - 5));
+
+        fab_menu.showMenu(true);
+        isFabPrepared = true;
     }
 }

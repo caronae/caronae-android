@@ -71,8 +71,7 @@
         fab:menu_labels_textColor="@android:color/black"
         fab:menu_labels_textSize="14sp"
         fab:menu_openDirection="up"
-        fab:menu_shadowColor="#66000000"
-        android:visibility="invisible">
+        fab:menu_shadowColor="#66000000">
 
 
         <com.github.clans.fab.FloatingActionButton

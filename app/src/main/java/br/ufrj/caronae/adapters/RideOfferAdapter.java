@@ -1,10 +1,9 @@
 package br.ufrj.caronae.adapters;
 
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
-import android.os.Build;
+import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -25,6 +24,7 @@ import br.ufrj.caronae.RoundedTransformation;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.ProfileAct;
 import br.ufrj.caronae.acts.RideOfferAct;
+import br.ufrj.caronae.frags.RideDetailDialogFrag;
 import br.ufrj.caronae.models.RideRequestSent;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
 
@@ -32,10 +32,12 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
 
     private final Context context;
     private List<RideForJson> rideOffers;
+    private FragmentManager fm;
 
-    public RideOfferAdapter(List<RideForJson> rideOffers, Context context) {
+    public RideOfferAdapter(List<RideForJson> rideOffers, Context context, FragmentManager fm) {
         this.rideOffers = rideOffers;
         this.context = context;
+        this.fm = fm;
     }
 
     @Override
@@ -143,10 +145,17 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
         viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, RideOfferAct.class);
-                intent.putExtra("ride", rideOffer);
-                intent.putExtra("requested", finalRequested);
-                context.startActivity(intent);
+//                Intent intent = new Intent(context, RideOfferAct.class);
+//                intent.putExtra("ride", rideOffer);
+//                intent.putExtra("requested", finalRequested);
+//                context.startActivity(intent);
+
+                RideDetailDialogFrag detailFrag = new RideDetailDialogFrag();
+                Bundle args = new Bundle();
+                args.putParcelable("ride", rideOffer);
+                args.putBoolean("requested", finalRequested);
+                detailFrag.setArguments(args);
+                detailFrag.show(fm, "a");
             }
         });
     }
