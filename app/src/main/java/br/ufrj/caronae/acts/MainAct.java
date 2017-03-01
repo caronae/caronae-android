@@ -427,4 +427,13 @@ public class MainAct extends AppCompatActivity {
         fragmentManager.beginTransaction().replace(R.id.flContent, new TabbedRideOfferFrag()).commit();
         setTitle(getString(R.string.act_main_setRideOfferFragTitle));
     }
+
+    public void showActiveRidesFrag() {
+        backstackSafeCheck();
+        backstack.remove(MyActiveRidesFrag.class);
+        backstack.add(MyActiveRidesFrag.class);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.flContent, new MyActiveRidesFrag()).commit();
+        setTitle(getString(R.string.act_main_setRideOfferFragTitle));
+    }
 }

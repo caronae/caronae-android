@@ -2,6 +2,7 @@ package br.ufrj.caronae.frags;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.CardView;
@@ -34,6 +35,7 @@ import br.ufrj.caronae.App;
 import br.ufrj.caronae.EndlessRecyclerViewScrollListener;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.Util;
+import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.adapters.AllRidesFragmentPagerAdapter;
 import br.ufrj.caronae.adapters.RideOfferAdapter;
 import br.ufrj.caronae.comparators.RideOfferComparatorByDateAndTime;
@@ -41,8 +43,11 @@ import br.ufrj.caronae.models.RideRequestSent;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Response;
+
+import static android.R.attr.fragment;
 
 public class AllRidesListFrag extends Fragment implements Callback {
     @Bind(R.id.rvRides)
@@ -327,8 +332,13 @@ public class AllRidesListFrag extends Fragment implements Callback {
         return listFiltered;
     }
 
-//    @OnClick(R.id.fab)
-//    public void fab() {
-//        ((MainAct) getActivity()).showRideOfferFrag();
-//    }
+    @OnClick(R.id.fab_add_ride)
+    public void fab_add_ride() {
+        ((MainAct) getActivity()).showRideOfferFrag();
+    }
+
+    @OnClick(R.id.fab_active_rides)
+    public void fab_active_rides() {
+        ((MainAct) getActivity()).showActiveRidesFrag();
+    }
 }
