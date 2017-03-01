@@ -62,12 +62,6 @@ public class AllRidesListFrag extends Fragment implements Callback {
     EditText searchText;
     @Bind(R.id.search_card_view)
     CardView searchCardView;
-    @Bind(R.id.fab_menu)
-    FloatingActionMenu fab_menu;
-    @Bind(R.id.fab_add_ride)
-    com.github.clans.fab.FloatingActionButton fab_add_ride;
-    @Bind(R.id.fab_active_rides)
-    com.github.clans.fab.FloatingActionButton fab_active_rides;
 
     RideOfferAdapter adapter;
 
@@ -160,37 +154,6 @@ public class AllRidesListFrag extends Fragment implements Callback {
         return view;
     }
 
-    private void prepareFloatingActionMenu() {
-        ArrayList<Integer> colorOptions = new ArrayList<>();
-        colorOptions.add(R.color.zone_baixada);
-        colorOptions.add(R.color.zone_niteroi);
-        colorOptions.add(R.color.zone_sul);
-        colorOptions.add(R.color.zone_centro);
-        Random randomGenerator = new Random();
-        int randomInt = randomGenerator.nextInt(4);
-
-        fab_menu.setMenuButtonColorNormal(ContextCompat.getColor(getContext(), colorOptions.get(randomInt)));
-        fab_menu.setMenuButtonColorPressed(ContextCompat.getColor(getContext(), colorOptions.get(randomInt) - 5));
-
-        randomInt++;
-
-        if (randomInt >= 4){
-            randomInt = 0;
-        }
-
-        fab_add_ride.setColorNormal(ContextCompat.getColor(getContext(), colorOptions.get(randomInt)));
-        fab_add_ride.setColorPressed(ContextCompat.getColor(getContext(), colorOptions.get(randomInt) - 5));
-
-        randomInt++;
-
-        if (randomInt >= 4){
-            randomInt = 0;
-        }
-
-        fab_active_rides.setColorNormal(ContextCompat.getColor(getContext(), colorOptions.get(randomInt)));
-        fab_active_rides.setColorPressed(ContextCompat.getColor(getContext(), colorOptions.get(randomInt) - 5));
-    }
-
     @Subscribe
     public void removeRideFromList(RideRequestSent ride) {
         adapter.remove(ride.getDbId());
@@ -207,7 +170,7 @@ public class AllRidesListFrag extends Fragment implements Callback {
     public void onResume() {
         super.onResume();
         refreshRideList(listCounter);
-        prepareFloatingActionMenu();
+//        AllRidesFrag.prepareFloatingActionMenu(getContext());
     }
 
     void refreshRideList(final int pageNumber) {
@@ -330,15 +293,5 @@ public class AllRidesListFrag extends Fragment implements Callback {
                 listFiltered.add(listToFilter.get(ride));
         }
         return listFiltered;
-    }
-
-    @OnClick(R.id.fab_add_ride)
-    public void fab_add_ride() {
-        ((MainAct) getActivity()).showRideOfferFrag();
-    }
-
-    @OnClick(R.id.fab_active_rides)
-    public void fab_active_rides() {
-        ((MainAct) getActivity()).showActiveRidesFrag();
     }
 }

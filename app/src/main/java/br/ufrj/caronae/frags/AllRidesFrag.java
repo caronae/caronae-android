@@ -13,6 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import com.github.clans.fab.FloatingActionMenu;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,6 +22,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Random;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
@@ -43,6 +46,12 @@ public class AllRidesFrag extends Fragment {
     ViewPager viewPager;
     @Bind(R.id.progressBar2)
     ProgressBar progressBar2;
+    @Bind(R.id.fab_menu)
+    FloatingActionMenu fab_menu;
+    @Bind(R.id.fab_add_ride)
+    com.github.clans.fab.FloatingActionButton fab_add_ride;
+    @Bind(R.id.fab_active_rides)
+    com.github.clans.fab.FloatingActionButton fab_active_rides;
 
     ArrayList<RideForJson> goingRides = new ArrayList<>(), notGoingRides = new ArrayList<>();
 
@@ -103,12 +112,14 @@ public class AllRidesFrag extends Fragment {
                             progressBar2.setVisibility(View.GONE);
                             Log.e("listAllRides", response.message());
                         }
+                        prepareFloatingActionMenu();
                     }
 
                     @Override
                     public void onFailure(Call<List<RideForJson>> call, Throwable t) {
                         progressBar2.setVisibility(View.GONE);
                         Log.e("listAllRides", t.getMessage());
+                        prepareFloatingActionMenu();
                     }
                 });
     }
@@ -124,5 +135,52 @@ public class AllRidesFrag extends Fragment {
         p = (ViewGroup.MarginLayoutParams) tab.getLayoutParams();
         p.setMargins(25, 0, 0, 0);
         tab.requestLayout();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        prepareFloatingActionMenu();
+    }
+
+    @OnClick(R.id.fab_add_ride)
+    public void fab_add_ride() {
+        ((MainAct) getActivity()).showRideOfferFrag();
+    }
+
+    @OnClick(R.id.fab_active_rides)
+    public void fab_active_rides() {
+        ((MainAct) getActivity()).showActiveRidesFrag();
+    }
+
+    private void prepareFloatingActionMenu() {
+        ArrayList<Integer> colorOptions = new ArrayList<>();
+        colorOptions.add(R.color.zone_baixada);
+        colorOptions.add(R.color.zone_niteroi);
+        colorOptions.add(R.color.zone_sul);
+        colorOptions.add(R.color.zone_centro);
+        Random randomGenerator = new Random();
+        int randomInt = randomGenerator.nextInt(4);
+
+        fab_menu.setMenuButtonColorNormal(ContextCompat.getColor(getContext(), colorOptions.get(randomInt)));
+        fab_menu.setMenuButtonColorPressed(ContextCompat.getColor(getContext(), colorOptions.get(randomInt) - 5));
+
+        randomInt++;
+
+        if (randomInt >= 4){
+            randomInt = 0;
+        }
+
+        fab_add_ride.setColorNormal(ContextCompat.getColor(getContext(), colorOptions.get(randomInt)));
+        fab_add_ride.setColorPressed(ContextCompat.getColor(getContext(), colorOptions.get(randomInt) - 5));
+
+        randomInt++;
+
+        if (randomInt >= 4){
+            randomInt = 0;
+        }
+
+        fab_active_rides.setColorNormal(ContextCompat.getColor(getContext(), colorOptions.get(randomInt)));
+        fab_active_rides.setColorPressed(ContextCompat.getColor(getContext(), colorOptions.get(randomInt) - 5));
     }
 }
