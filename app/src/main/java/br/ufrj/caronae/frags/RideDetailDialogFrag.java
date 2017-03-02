@@ -11,16 +11,14 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
-import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -200,11 +198,15 @@ public class RideDetailDialogFrag extends DialogFragment {
 //            join_bt.setVisibility(View.INVISIBLE);
             join_bt_frame.setVisibility(View.GONE);
             seeProfile_dt.setVisibility(View.GONE);
+
+            setDissmisBtInMiddle();
         } else {
             if (requested) {
 //                join_bt.setVisibility(View.INVISIBLE);
                 join_bt_frame.setVisibility(View.GONE);
                 requested_dt.setVisibility(View.VISIBLE);
+
+                setDissmisBtInMiddle();
             } else {
                 join_bt.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -240,11 +242,13 @@ public class RideDetailDialogFrag extends DialogFragment {
 
 //                                                    join_bt_frame.setVisibility(View.INVISIBLE);
 //                                                    requested_dt.setVisibility(View.VISIBLE);
-                                                    dissmis_bt_frame.startAnimation(getAnimationForDissmisButton());
 
                                                     join_bt_frame.startAnimation(getAnimationForSendButton());
 
                                                     requested_dt.startAnimation(getAnimationForResquestedText());
+
+                                                    animateDissmisButton();
+
 
                                                     App.getBus().post(rideRequest);
 
@@ -345,18 +349,20 @@ public class RideDetailDialogFrag extends DialogFragment {
         return dialog;
     }
 
-    public Animation getAnimationForDissmisButton(){
-//        TranslateAnimation anim = new TranslateAnimation(
-//                TranslateAnimation.RELATIVE_TO_SELF, 0.0f,
-//                TranslateAnimation.RELATIVE_TO_SELF, 1,
-//                TranslateAnimation.RELATIVE_TO_SELF,0.0f,
-//                TranslateAnimation.RELATIVE_TO_SELF,0.0f
-//        );
-//        anim.setDuration(1000);
-//        anim.setFillBefore(true);
-        Animation anim = AnimationUtils.loadAnimation(getContext(), R.anim.anim_button_dissmis);
-        anim.setInterpolator(new DecelerateInterpolator());
+    public void animateDissmisButton(){
+
+        int xButtonPositionToGo = (dissmis_bt_frame.getWidth() / 2) - (dissmis_bt.getWidth() / 2);
+        dissmis_bt.animate()
+                .x(xButtonPositionToGo)
+                .setInterpolator(new DecelerateInterpolator())
+                .setDuration(getContext().getResources().getInteger(R.integer.button_anim_duration));
+    }
+
+    public Animation getAnimationForSendButton(){
+        Animation anim = new AlphaAnimation(1, 0);
+        anim.setDuration(getContext().getResources().getInteger(R.integer.button_anim_duration));
         anim.setFillEnabled(true);
+        anim.setFillAfter(true);
 
         anim.setAnimationListener(new Animation.AnimationListener() {
             @Override
@@ -375,23 +381,22 @@ public class RideDetailDialogFrag extends DialogFragment {
 
             }
         });
-        return anim;
-    }
-
-    public Animation getAnimationForSendButton(){
-        Animation anim = new AlphaAnimation(1, 0);
-        anim.setDuration(1000);
-        anim.setFillEnabled(true);
-        anim.setFillAfter(true);
 
         return anim;
     }
 
     public Animation getAnimationForResquestedText(){
         Animation anim = new AlphaAnimation(0, 1);
-        anim.setDuration(1000);
+        anim.setDuration(getContext().getResources().getInteger(R.integer.button_anim_duration));
         anim.setFillEnabled(true);
         anim.setFillAfter(true);
         return anim;
+    }
+
+    private void setDissmisBtInMiddle(){
+        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.gravity = Gravity.TOP|Gravity.CENTER;
+
+        dissmis_bt.setLayoutParams(params);
     }
 }

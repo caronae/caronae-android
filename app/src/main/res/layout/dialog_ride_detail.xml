@@ -7,201 +7,207 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-        <RelativeLayout
-            android:id="@+id/lay1_dt"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white">
-
-            <TextView
-                android:id="@+id/location_dt"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="15dp"
-                android:gravity="center"
-                android:text="COPACABANA -> CT"
-                android:textColor="@color/dark_gray"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <ImageView
-                android:id="@+id/header_line"
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:layout_below="@id/location_dt"
-                android:background="@color/zone_sul" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/lay2"
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/layout"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/lay1_dt"
-            android:layout_marginLeft="25dp"
-            android:layout_marginStart="25dp"
-            android:layout_marginTop="5dp">
-
-            <ImageView
-                android:id="@+id/user_pic"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_centerVertical="true"
-                android:src="@drawable/user_pic" />
-
-            <TextView
-                android:id="@+id/seeProfile_dt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/user_pic"
-                android:layout_marginLeft="5dp"
-                android:layout_marginStart="5dp"
-                android:background="@color/gray"
-                android:padding="1dp"
-                android:text="Ver perfil"
-                android:textColor="@color/white" />
+            android:layout_height="wrap_content">
 
             <RelativeLayout
-                android:id="@+id/lay21"
-                android:layout_width="wrap_content"
+                android:id="@+id/lay1_dt"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="20dp"
-                android:layout_marginStart="20dp"
-                android:layout_toEndOf="@+id/user_pic"
-                android:layout_toRightOf="@+id/user_pic">
+                android:background="@color/white">
 
                 <TextView
-                    android:id="@+id/name_dt"
+                    android:id="@+id/location_dt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="15dp"
+                    android:gravity="center"
+                    android:text="COPACABANA -> CT"
+                    android:textColor="@color/dark_gray"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/header_line"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_below="@id/location_dt"
+                    android:background="@color/zone_sul" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/lay2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lay1_dt"
+                android:layout_marginLeft="25dp"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="5dp">
+
+                <ImageView
+                    android:id="@+id/user_pic"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/user_pic" />
+
+                <TextView
+                    android:id="@+id/seeProfile_dt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Fulano da Silva"
+                    android:layout_below="@+id/user_pic"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
+                    android:background="@color/gray"
+                    android:padding="1dp"
+                    android:text="Ver perfil"
+                    android:textColor="@color/white" />
+
+                <RelativeLayout
+                    android:id="@+id/lay21"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_toEndOf="@+id/user_pic"
+                    android:layout_toRightOf="@+id/user_pic">
+
+                    <TextView
+                        android:id="@+id/name_dt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Fulano da Silva"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/profile_dt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/name_dt"
+                        android:text="Aluno" />
+
+                    <TextView
+                        android:id="@+id/course_dt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/profile_dt"
+                        android:text="Ciência da computação" />
+                </RelativeLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/lay3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lay2"
+                android:layout_centerHorizontal="true">
+
+                <TextView
+                    android:id="@+id/time_dt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/ic_access_time_black_24dp"
+                    android:drawablePadding="5dp"
+                    android:drawableStart="@drawable/ic_access_time_black_24dp"
+                    android:gravity="center"
+                    android:text="Chegando ás 16:45"
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/profile_dt"
+                    android:id="@+id/separator"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/name_dt"
-                    android:text="Aluno" />
+                    android:layout_alignBaseline="@+id/time_dt"
+                    android:layout_toEndOf="@+id/time_dt"
+                    android:layout_toRightOf="@+id/time_dt"
+                    android:gravity="center"
+                    android:text=" | " />
 
                 <TextView
-                    android:id="@+id/course_dt"
+                    android:id="@+id/date_dt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/profile_dt"
-                    android:text="Ciência da computação" />
+                    android:layout_alignBaseline="@+id/time_dt"
+                    android:layout_toEndOf="@+id/separator"
+                    android:layout_toRightOf="@+id/separator"
+                    android:gravity="center"
+                    android:text="16/10"
+                    android:textStyle="bold" />
             </RelativeLayout>
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/lay3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/lay2"
-            android:layout_centerHorizontal="true">
 
             <TextView
-                android:id="@+id/time_dt"
+                android:id="@+id/place_text_dt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_access_time_black_24dp"
-                android:drawablePadding="5dp"
-                android:drawableStart="@drawable/ic_access_time_black_24dp"
-                android:gravity="center"
-                android:text="Chegando ás 16:45"
+                android:layout_below="@+id/lay3"
+                android:layout_marginLeft="30dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/myactiveride_placeTv"
+                android:textAllCaps="true"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/separator"
+                android:id="@+id/place_dt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/time_dt"
-                android:layout_toEndOf="@+id/time_dt"
-                android:layout_toRightOf="@+id/time_dt"
-                android:gravity="center"
-                android:text=" | " />
+                android:layout_below="@+id/place_text_dt"
+                android:layout_marginLeft="50dp"
+                android:layout_marginStart="50dp"
+                android:text="Na frente do shopping" />
 
             <TextView
-                android:id="@+id/date_dt"
+                android:id="@+id/way_text_dt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/time_dt"
-                android:layout_toEndOf="@+id/separator"
-                android:layout_toRightOf="@+id/separator"
-                android:gravity="center"
-                android:text="16/10"
+                android:layout_below="@+id/place_dt"
+                android:layout_marginLeft="30dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/myactiveride_wayTv"
+                android:textAllCaps="true"
                 android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/way_dt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/way_text_dt"
+                android:layout_marginLeft="50dp"
+                android:layout_marginStart="50dp"
+                android:text="Leopoldina" />
+
+            <TextView
+                android:id="@+id/description_text_dt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/way_dt"
+                android:layout_marginLeft="30dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="20dp"
+                android:text="@string/myactiveride_descriptionTv"
+                android:textAllCaps="true"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/description_dt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/description_text_dt"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:text="Lorem ipsum dolor sit amet" />
         </RelativeLayout>
 
-        <TextView
-            android:id="@+id/place_text_dt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/lay3"
-            android:layout_marginLeft="30dp"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="10dp"
-            android:text="@string/myactiveride_placeTv"
-            android:textAllCaps="true"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/place_dt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/place_text_dt"
-            android:layout_marginLeft="50dp"
-            android:layout_marginStart="50dp"
-            android:text="Na frente do shopping" />
-
-        <TextView
-            android:id="@+id/way_text_dt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/place_dt"
-            android:layout_marginLeft="30dp"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="10dp"
-            android:text="@string/myactiveride_wayTv"
-            android:textAllCaps="true"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/way_dt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/way_text_dt"
-            android:layout_marginLeft="50dp"
-            android:layout_marginStart="50dp"
-            android:text="Leopoldina" />
-
-        <TextView
-            android:id="@+id/description_text_dt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/way_dt"
-            android:layout_marginLeft="30dp"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="20dp"
-            android:text="@string/myactiveride_descriptionTv"
-            android:textAllCaps="true"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/description_dt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/description_text_dt"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:text="Lorem ipsum dolor sit amet" />
-    </RelativeLayout>
+    </ScrollView>
 
     <TextView
         android:id="@+id/requested_dt"
@@ -211,29 +217,28 @@
         android:text="@string/act_rideoffer_requested"
         android:textColor="@color/green"
         android:textStyle="bold"
-        android:visibility="invisible"
-         />
+        android:visibility="invisible" />
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
         android:orientation="horizontal">
 
         <FrameLayout
             android:id="@+id/dissmis_bt_frame"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:background="@android:color/transparent"
-            android:layout_weight="1">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent">
 
             <com.github.clans.fab.FloatingActionButton
                 android:id="@+id/dissmis_bt"
                 style="@style/LightRaiseColorButtonRippleStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="56dp"
+                android:layout_gravity="left|top"
                 android:layout_marginBottom="8dp"
-                android:layout_gravity="center"
                 android:src="@drawable/ic_clear_white_24dp"
                 app:fab_colorNormal="@color/gray"
                 app:fab_colorPressed="@color/dark_gray" />
@@ -242,21 +247,22 @@
 
         <FrameLayout
             android:id="@+id/join_bt_frame"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:background="@android:color/transparent"
-            android:layout_weight="1">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:background="@android:color/transparent">
 
             <com.github.clans.fab.FloatingActionButton
                 android:id="@+id/join_bt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
                 android:layout_alignParentRight="true"
+                android:layout_marginRight="56dp"
+                android:layout_gravity="right|top"
                 android:layout_marginBottom="8dp"
                 android:src="@drawable/ic_done_white_24dp" />
 
         </FrameLayout>
 
-    </LinearLayout>
+    </RelativeLayout>
 </LinearLayout>
