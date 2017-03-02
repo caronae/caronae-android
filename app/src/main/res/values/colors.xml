@@ -13,6 +13,21 @@
     <item name="zone_baixada" type="color">#eb3d38</item>
     <item name="zone_outros" type="color">#000</item>
 
+    <item name="zone_norte_transparency" type="color">#EE6e361f</item>
+    <item name="zone_oeste_transparency" type="color">#EE2b388a</item>
+    <item name="zone_niteroi_transparency" type="color">#EEeb72ac</item>
+    <item name="zone_sul_transparency" type="color">#EE17b270</item>
+    <item name="zone_centro_transparency" type="color">#EEed8024</item>
+    <item name="zone_baixada_transparency" type="color">#EEeb3d38</item>
+    <item name="zone_outros_transparency" type="color">#EE000000</item>
+
+    <item name="light_zone_norte_transparency" type="color">#EED7CCC8</item>
+    <item name="light_zone_oeste_transparency" type="color">#EEC5CAE9</item>
+    <item name="light_zone_niteroi_transparency" type="color">#EEF8BBD0</item>
+    <item name="light_zone_sul_transparency" type="color">#EEDCEDC8</item>
+    <item name="light_zone_centro_transparency" type="color">#EEFFE0B2</item>
+    <item name="light_zone_baixada_transparency" type="color">#EEFFCDD2</item>
+
     <item name="dark_gray" type="color">#6e6e70</item>
     <item name="gray" type="color">#949499</item>
 
@@ -37,6 +52,8 @@
     <color name="default_white_transparency">#CCFFFFFF</color>
     <color name="list_white_transparency">#EEFFFFFF</color>
     <color name="light_gray_transparency" type="color">#CCEEEEEE</color>
+    <color name="gray_transparency" type="color">#CC949499</color>
+
 
     <item name="light_gray" type="color">#EEEEEE</item>
 

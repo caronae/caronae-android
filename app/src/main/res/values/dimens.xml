@@ -11,4 +11,7 @@
     <dimen name="recycler_view_botton_offset">48dp</dimen>
     <dimen name="recycler_view_top_offset">40dp</dimen>
 
+    <dimen name="card_stroke_thickness">3dip</dimen>
+    <dimen name="card_stroke_radius">20dip</dimen>
+
 </resources>

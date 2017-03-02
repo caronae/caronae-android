@@ -19,8 +19,10 @@ import android.widget.Toast;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 
 public class Util {
@@ -247,6 +249,72 @@ public class Util {
 
     public static String formatDateRemoveYear(String date) {
         return date.substring(0, 5);
+    }
+
+    // Input Date Format: "YYYY-MM-DD"
+    public static int getDayFromDate(String date){
+        return Integer.parseInt(date.substring(8, 10));
+    }
+
+    // Input Date Format: "YYYY-MM-DD"
+    // Return DD/MM
+    public static String getDayWithMonthFromDate(String date){
+        return date.substring(8, 10) + "/" + date.substring(5, 7);
+    }
+
+    // Input Date Format: "YYYY-MM-DD"
+    public static String getWeekDayFromDate(String dateString){
+        int dayOfWeekInt = -1;
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Date date = format.parse(dateString);
+            Calendar c = Calendar.getInstance();
+            c.setTime(date);
+            dayOfWeekInt = c.get(Calendar.DAY_OF_WEEK);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        String dayOfWeek = "";
+
+        switch (dayOfWeekInt){
+            case 0:
+                dayOfWeek = "Sábado";
+                break;
+            case 1:
+                dayOfWeek = "Domingo";
+                break;
+            case 2:
+                dayOfWeek = "Segunda-Feira";
+                break;
+            case 3:
+                dayOfWeek = "Terça-Feira";
+                break;
+            case 4:
+                dayOfWeek = "Quarta-Feira";
+                break;
+            case 5:
+                dayOfWeek = "Quinta-Feira";
+                break;
+            case 6:
+                dayOfWeek = "Sexta-Feira";
+                break;
+        }
+        return " - " + dayOfWeek;
+    }
+
+    // Input Date Format: "YYYY-MM-DD"
+    public static int getDaysBetweenTwoDates(String date1String, String date2String){
+        try {
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+            Date date1 = format.parse(date1String);
+            Date date2 = format.parse(date2String);
+            long diff = date2.getTime() - date1.getTime();
+            return (int)TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return 0;
+        }
     }
 
     public static String fixBlankSpace(String word) {

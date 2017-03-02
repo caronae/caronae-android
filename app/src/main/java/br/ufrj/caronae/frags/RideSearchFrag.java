@@ -482,4 +482,15 @@ public class RideSearchFrag extends Fragment {
         adapter.remove(ride.getDbId());
         Log.i("removeRideFromList,srch", "remove called");
     }
+
+    private List<Integer> getHeaderPositionsOnList(List<RideForJson> rides){
+        List<Integer> headersPositions = new ArrayList<>();
+        headersPositions.add(0);
+        for (int rideIndex = 1; rideIndex < rides.size(); rideIndex++){
+            if (Util.getDayFromDate(rides.get(rideIndex).getDate()) > Util.getDayFromDate(rides.get(rideIndex - 1).getDate())){
+                headersPositions.add(rideIndex);
+            }
+        }
+        return headersPositions;
+    }
 }

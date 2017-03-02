@@ -125,10 +125,14 @@ public class AllRidesListFrag extends Fragment implements Callback {
             RideOfferAdapter searchAdapter;
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                if (pageIdentifier == AllRidesFragmentPagerAdapter.PAGE_GOING)
-                    searchAdapter = new RideOfferAdapter(filterList(goingRides, s), getContext(), getActivity().getFragmentManager());
-                else
-                    searchAdapter = new RideOfferAdapter(filterList(notGoingRides, s), getContext(), getActivity().getFragmentManager());
+                if (pageIdentifier == AllRidesFragmentPagerAdapter.PAGE_GOING) {
+                    ArrayList<RideForJson> listFiltered = filterList(goingRides, s);
+                    searchAdapter = new RideOfferAdapter(listFiltered, getContext(), getActivity().getFragmentManager());
+                }
+                else {
+                    ArrayList<RideForJson> listFiltered = filterList(notGoingRides, s);
+                    searchAdapter = new RideOfferAdapter(listFiltered, getContext(), getActivity().getFragmentManager());
+                }
 
             }
 

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="275dp"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="8dp"
+    app:cardBackgroundColor="@android:color/transparent"
+    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:id="@+id/card_list_separator"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/list_separator_text"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textColor="@color/white"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"/>
+
+    </FrameLayout>
+
+</android.support.v7.widget.CardView>
