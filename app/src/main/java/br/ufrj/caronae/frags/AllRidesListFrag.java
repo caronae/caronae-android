@@ -328,7 +328,5 @@ public class AllRidesListFrag extends Fragment implements Callback {
         anim.setFillEnabled(true);
         anim.setFillAfter(true);
         rvRides.startAnimation(anim);
-        anim.setDuration(400);
-        searchCardView.startAnimation(anim);
     }
 }
