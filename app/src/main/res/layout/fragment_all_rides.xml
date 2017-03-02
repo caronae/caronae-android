@@ -36,6 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
+        android:visibility="invisible"
         android:layout_marginBottom="@dimen/search_list_bar"
         android:paddingBottom="8dp"
         fab:menu_animationDelayPerItem="50"

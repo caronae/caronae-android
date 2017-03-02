@@ -1,8 +1,6 @@
 package br.ufrj.caronae.frags;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -11,6 +9,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.ProgressBar;
 
 import com.github.clans.fab.FloatingActionMenu;
@@ -111,18 +111,20 @@ public class AllRidesFrag extends Fragment {
 
                             configureTabIndicators();
 
+                            showFAB();
+
                         } else {
                             progressBar2.setVisibility(View.GONE);
                             Log.e("listAllRides", response.message());
                         }
-                        prepareFloatingActionMenu();
+                        showFAB();
                     }
 
                     @Override
                     public void onFailure(Call<List<RideForJson>> call, Throwable t) {
                         progressBar2.setVisibility(View.GONE);
                         Log.e("listAllRides", t.getMessage());
-                        prepareFloatingActionMenu();
+                        showFAB();
                     }
                 });
     }
@@ -164,7 +166,7 @@ public class AllRidesFrag extends Fragment {
     }
 
     private void prepareFloatingActionMenu() {
-        ArrayList<Integer> colorOptions = new ArrayList<>();
+        final ArrayList<Integer> colorOptions = new ArrayList<>();
         colorOptions.add(R.color.zone_baixada);
         colorOptions.add(R.color.zone_niteroi);
         colorOptions.add(R.color.zone_sul);
@@ -175,9 +177,10 @@ public class AllRidesFrag extends Fragment {
         fab_menu.setMenuButtonColorNormal(ContextCompat.getColor(getContext(), colorOptions.get(randomInt)));
         fab_menu.setMenuButtonColorPressed(ContextCompat.getColor(getContext(), colorOptions.get(randomInt) - 5));
 
+
         randomInt++;
 
-        if (randomInt >= 4){
+        if (randomInt >= 4) {
             randomInt = 0;
         }
 
@@ -186,14 +189,21 @@ public class AllRidesFrag extends Fragment {
 
         randomInt++;
 
-        if (randomInt >= 4){
+        if (randomInt >= 4) {
             randomInt = 0;
         }
 
         fab_active_rides.setColorNormal(ContextCompat.getColor(getContext(), colorOptions.get(randomInt)));
         fab_active_rides.setColorPressed(ContextCompat.getColor(getContext(), colorOptions.get(randomInt) - 5));
 
-        fab_menu.showMenu(true);
         isFabPrepared = true;
+    }
+
+    private void showFAB() {
+        Animation anim = new AlphaAnimation(0, 1);
+        anim.setDuration(getContext().getResources().getInteger(R.integer.button_anim_duration));
+        anim.setFillEnabled(true);
+        anim.setFillAfter(true);
+        fab_menu.startAnimation(anim);
     }
 }
