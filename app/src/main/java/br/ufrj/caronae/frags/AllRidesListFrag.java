@@ -98,7 +98,6 @@ public class AllRidesListFrag extends Fragment implements Callback {
 
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                Log.e("LOAD", "load: " + totalItemsCount);
                 listCounter++;
                 refreshRideList(listCounter);
             }
@@ -128,10 +127,12 @@ public class AllRidesListFrag extends Fragment implements Callback {
                 if (pageIdentifier == AllRidesFragmentPagerAdapter.PAGE_GOING) {
                     ArrayList<RideForJson> listFiltered = filterList(goingRides, s);
                     searchAdapter = new RideOfferAdapter(listFiltered, getContext(), getActivity().getFragmentManager());
+                    searchAdapter.makeList(listFiltered);
                 }
                 else {
                     ArrayList<RideForJson> listFiltered = filterList(notGoingRides, s);
                     searchAdapter = new RideOfferAdapter(listFiltered, getContext(), getActivity().getFragmentManager());
+                    searchAdapter.makeList(listFiltered);
                 }
 
             }
