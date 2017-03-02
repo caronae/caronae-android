@@ -10,13 +10,11 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -155,6 +153,7 @@ public class AllRidesListFrag extends Fragment implements Callback {
         OffsetDecoration OffsetDecoration = new OffsetDecoration((int) offsetBottonPx, (int)offsetTopPx);
         rvRides.addItemDecoration(OffsetDecoration);
 
+        animateListFadeIn();
 
         return view;
     }
@@ -269,7 +268,6 @@ public class AllRidesListFrag extends Fragment implements Callback {
                             refreshLayout.setRefreshing(false);
                             Log.e("listAllRides", response.message());
                         }
-
                     }
 
                     @Override
@@ -322,5 +320,15 @@ public class AllRidesListFrag extends Fragment implements Callback {
             } else
                 outRect.set(0, 0, 0, 0);
         }
+    }
+
+    private void animateListFadeIn(){
+        Animation anim = new AlphaAnimation(0, 1);
+        anim.setDuration(300);
+        anim.setFillEnabled(true);
+        anim.setFillAfter(true);
+        rvRides.startAnimation(anim);
+        anim.setDuration(400);
+        searchCardView.startAnimation(anim);
     }
 }

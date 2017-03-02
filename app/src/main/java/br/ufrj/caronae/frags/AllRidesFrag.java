@@ -201,7 +201,7 @@ public class AllRidesFrag extends Fragment {
 
     private void showFAB() {
         Animation anim = new AlphaAnimation(0, 1);
-        anim.setDuration(getContext().getResources().getInteger(R.integer.button_anim_duration));
+        anim.setDuration(600);
         anim.setFillEnabled(true);
         anim.setFillAfter(true);
         fab_menu.startAnimation(anim);
