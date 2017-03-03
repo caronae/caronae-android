@@ -5,11 +5,13 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Rect;
 import android.os.Build;
 import android.renderscript.Allocation;
 import android.renderscript.Element;
 import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
+import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
@@ -278,9 +280,6 @@ public class Util {
         String dayOfWeek = "";
 
         switch (dayOfWeekInt){
-            case 0:
-                dayOfWeek = "Sábado";
-                break;
             case 1:
                 dayOfWeek = "Domingo";
                 break;
@@ -298,6 +297,9 @@ public class Util {
                 break;
             case 6:
                 dayOfWeek = "Sexta-Feira";
+                break;
+            case 7:
+                dayOfWeek = "Sábado";
                 break;
         }
         return " - " + dayOfWeek;
@@ -391,6 +393,29 @@ public class Util {
             Canvas c = new Canvas(b);
             v.draw(c);
             return b;
+        }
+    }
+
+    public static class OffsetDecoration extends RecyclerView.ItemDecoration {
+        private int mBottomOffset;
+        private int mTopOffset;
+
+        public OffsetDecoration(int bottomOffset, int topOffset) {
+            mBottomOffset = bottomOffset;
+            mTopOffset = topOffset;
+        }
+
+        @Override
+        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+            super.getItemOffsets(outRect, view, parent, state);
+            int dataSize = state.getItemCount();
+            int position = parent.getChildAdapterPosition(view);
+            if (dataSize > 0 && position == dataSize - 1) {
+                outRect.set(0, 0, 0, mBottomOffset);
+            } else if(dataSize > 0 && position == 0) {
+                outRect.set(0, mTopOffset, 0, 0);
+            } else
+                outRect.set(0, 0, 0, 0);
         }
     }
 }

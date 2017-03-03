@@ -38,6 +38,7 @@
         android:layout_alignParentRight="true"
         android:visibility="invisible"
         android:layout_marginBottom="42dp"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:paddingBottom="8dp"
         fab:menu_animationDelayPerItem="50"
         fab:menu_backgroundColor="@android:color/transparent"
@@ -46,8 +47,8 @@
         fab:menu_fab_size="normal"
         fab:menu_icon="@drawable/fab_add"
         fab:menu_labels_colorNormal="@color/default_white_transparency"
-        fab:menu_labels_colorPressed="#444444"
-        fab:menu_labels_colorRipple="#66FFFFFF"
+        fab:menu_labels_colorPressed="@android:color/white"
+        fab:menu_labels_colorRipple="@color/gray_transparency"
         fab:menu_labels_cornerRadius="3dp"
         fab:menu_labels_ellipsize="none"
         fab:menu_labels_hideAnimation="@anim/fab_slide_out_to_right"
@@ -70,6 +71,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_directions_car_white_24dp"
+            fab:fab_colorPressed="@android:color/white"
             fab:fab_label="Caronas Ativas"
             fab:fab_size="mini" />
 

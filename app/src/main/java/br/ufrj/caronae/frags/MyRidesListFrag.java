@@ -74,6 +74,7 @@ public class MyRidesListFrag extends Fragment {
         new LoadRides().execute();
     }
 
+    //TODO: Remove Deprecated functions
     public class TimeIgnoringComparator implements Comparator<Date> {
         public int compare(Date d1, Date d2) {
             if (d1.getYear() != d2.getYear())
@@ -117,6 +118,12 @@ public class MyRidesListFrag extends Fragment {
                 myRidesList.setAdapter(new MyRidesAdapter(rides, (MainAct) getActivity()));
                 myRidesList.setHasFixedSize(true);
                 myRidesList.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+                float offsetBottonPx = getResources().getDimension(R.dimen.recycler_view_botton_offset);
+                float offsetTopPx = getResources().getDimension(R.dimen.recycler_view_top_offset);
+                Util.OffsetDecoration OffsetDecoration = new Util.OffsetDecoration((int) offsetBottonPx, (int)offsetTopPx);
+
+                myRidesList.addItemDecoration(OffsetDecoration);
 
                 deleteAll_bt.setVisibility(View.VISIBLE);
             } else {

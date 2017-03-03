@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -434,6 +433,15 @@ public class MainAct extends AppCompatActivity {
         backstack.add(MyActiveRidesFrag.class);
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.flContent, new MyActiveRidesFrag()).commit();
-        setTitle(getString(R.string.act_main_setRideOfferFragTitle));
+        setTitle(getString(R.string.frag_myactiverides_title));
+    }
+
+    public void showRidesOfferListFrag() {
+        backstackSafeCheck();
+        backstack.remove(AllRidesFrag.class);
+        backstack.add(AllRidesFrag.class);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.flContent, new AllRidesFrag()).commit();
+        setTitle(getString(R.string.frag_allrides_title));
     }
 }

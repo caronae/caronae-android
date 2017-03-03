@@ -19,6 +19,11 @@
     <string name="back_rb">Voltar do fundão</string>
     <string name="routine_cb">Repetir</string>
 
+    <string-array name="tab_tags">
+        <item>CHEGANDO NA UFRJ</item>
+        <item>SAINDO DA UFRJ</item>
+    </string-array>
+
     <string name="title_activity_opening">OpeningAct</string>
 
     <string name="title_activity_sign_up">SignUpAct</string>

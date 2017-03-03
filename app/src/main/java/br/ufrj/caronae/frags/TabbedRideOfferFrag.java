@@ -27,7 +27,7 @@ public class TabbedRideOfferFrag extends Fragment {
         View view = inflater.inflate(R.layout.fragment_tabbed_ride_offer, container, false);
         ButterKnife.bind(this, view);
 
-        viewPager.setAdapter(new RideDirectionFragmentPagerAdapter(getChildFragmentManager(), RideOfferFrag.class));
+        viewPager.setAdapter(new RideDirectionFragmentPagerAdapter(getChildFragmentManager(), RideOfferFrag.class,  getResources().getStringArray(R.array.tab_tags)));
         tabLayout.setupWithViewPager(viewPager);
 
         return view;

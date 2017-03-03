@@ -6,15 +6,15 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.util.Log;
 
-import br.ufrj.caronae.frags.MyRidesListFrag;
-
 public class RideDirectionFragmentPagerAdapter extends FragmentPagerAdapter {
     final int PAGE_COUNT = 2;
-    private String tabTitles[] = new String[]{"Ida", "Volta"};
+    private String tabTitles[];
     private Fragment frags[];
 
-    public RideDirectionFragmentPagerAdapter(FragmentManager fm, Class framentClass) {
+    public RideDirectionFragmentPagerAdapter(FragmentManager fm, Class framentClass, String[] tabTitles) {
         super(fm);
+
+        this.tabTitles = tabTitles;
 
         try {
             Bundle bundle1 = new Bundle(), bundle2 = new Bundle();

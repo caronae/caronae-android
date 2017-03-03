@@ -1,6 +1,5 @@
 package br.ufrj.caronae.frags;
 
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -155,7 +154,7 @@ public class AllRidesListFrag extends Fragment implements Callback {
         // After setting layout manager, adapter, etc...
         float offsetBottonPx = getResources().getDimension(R.dimen.recycler_view_botton_offset);
         float offsetTopPx = getResources().getDimension(R.dimen.recycler_view_top_offset);
-        OffsetDecoration OffsetDecoration = new OffsetDecoration((int) offsetBottonPx, (int)offsetTopPx);
+        Util.OffsetDecoration OffsetDecoration = new Util.OffsetDecoration((int) offsetBottonPx, (int)offsetTopPx);
         rvRides.addItemDecoration(OffsetDecoration);
 
         animateListFadeIn();
@@ -302,29 +301,6 @@ public class AllRidesListFrag extends Fragment implements Callback {
                 listFiltered.add(listToFilter.get(ride));
         }
         return listFiltered;
-    }
-
-    static class OffsetDecoration extends RecyclerView.ItemDecoration {
-        private int mBottomOffset;
-        private int mTopOffset;
-
-        public OffsetDecoration(int bottomOffset, int topOffset) {
-            mBottomOffset = bottomOffset;
-            mTopOffset = topOffset;
-        }
-
-        @Override
-        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-            super.getItemOffsets(outRect, view, parent, state);
-            int dataSize = state.getItemCount();
-            int position = parent.getChildAdapterPosition(view);
-            if (dataSize > 0 && position == dataSize - 1) {
-                outRect.set(0, 0, 0, mBottomOffset);
-            } else if(dataSize > 0 && position == 0) {
-                outRect.set(0, mTopOffset, 0, 0);
-            } else
-                outRect.set(0, 0, 0, 0);
-        }
     }
 
     private void animateListFadeIn(){
