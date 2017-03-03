@@ -107,7 +107,7 @@ public class AllRidesFrag extends Fragment {
                             viewPager.setAdapter(new AllRidesFragmentPagerAdapter(getChildFragmentManager(), goingRides, notGoingRides,  getResources().getStringArray(R.array.tab_tags)));
                             tabLayout.setupWithViewPager(viewPager);
 
-                            tabLayout.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.transparency_gradient));
+                            tabLayout.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.transparency_gradient_top_botton));
 
                             configureTabIndicators();
 

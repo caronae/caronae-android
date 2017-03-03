@@ -429,10 +429,10 @@ public class MainAct extends AppCompatActivity {
 
     public void showActiveRidesFrag() {
         backstackSafeCheck();
-        backstack.remove(MyActiveRidesFrag.class);
-        backstack.add(MyActiveRidesFrag.class);
+        backstack.remove(MyRidesFrag.class);
+        backstack.add(MyRidesFrag.class);
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.flContent, new MyActiveRidesFrag()).commit();
+        fragmentManager.beginTransaction().replace(R.id.flContent, new MyRidesFrag()).commit();
         setTitle(getString(R.string.frag_myactiverides_title));
     }
 
