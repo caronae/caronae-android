@@ -3,6 +3,7 @@ package br.ufrj.caronae.adapters;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -62,29 +63,34 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
     public void onBindViewHolder(final MyRidesAdapter.ViewHolder holder, final int position) {
         final Ride ride = rides.get(position);
 
-        int color = 0;
+        Drawable background = ContextCompat.getDrawable(activity, R.drawable.card_list_bg_zone_outros);
+        int color = ContextCompat.getColor(activity, R.color.zone_outros);
         if (ride.getZone().equals("Centro")) {
+            background = ContextCompat.getDrawable(activity, R.drawable.card_list_bg_zone_centro);
             color = ContextCompat.getColor(activity, R.color.zone_centro);
         }
         if (ride.getZone().equals("Zona Sul")) {
+            background = ContextCompat.getDrawable(activity, R.drawable.card_list_bg_zone_sul);
             color = ContextCompat.getColor(activity, R.color.zone_sul);
         }
         if (ride.getZone().equals("Zona Oeste")) {
+            background = ContextCompat.getDrawable(activity, R.drawable.card_list_bg_zone_oeste);
             color = ContextCompat.getColor(activity, R.color.zone_oeste);
         }
         if (ride.getZone().equals("Zona Norte")) {
+            background = ContextCompat.getDrawable(activity, R.drawable.card_list_bg_zone_norte);
             color = ContextCompat.getColor(activity, R.color.zone_norte);
         }
         if (ride.getZone().equals("Baixada")) {
+            background = ContextCompat.getDrawable(activity, R.drawable.card_list_bg_zone_baixada);
             color = ContextCompat.getColor(activity, R.color.zone_baixada);
         }
         if (ride.getZone().equals("Grande Niterói")) {
+            background = ContextCompat.getDrawable(activity, R.drawable.card_list_bg_zone_niteroi);
             color = ContextCompat.getColor(activity, R.color.zone_niteroi);
         }
-        if (ride.getZone().equals("Outros")) {
-            color = ContextCompat.getColor(activity, R.color.zone_outros);
-        }
-        holder.cardView.setCardBackgroundColor(color);
+        holder.cardView.setBackground(background);
+        holder.location_tv.setTextColor(color);
 
         if (ride.isGoing())
             holder.time_tv.setText(activity.getString(R.string.arrivingAt, ride.getTime()));

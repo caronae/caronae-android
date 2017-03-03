@@ -7,9 +7,9 @@
     android:layout_height="wrap_content"
     android:clickable="true"
     android:foreground="?android:attr/selectableItemBackground"
-    card_view:cardBackgroundColor="@color/blue"
     card_view:cardCornerRadius="10dp"
     card_view:cardElevation="@dimen/cardview_default_elevation"
+    android:layout_margin="@dimen/card_list_margin"
     card_view:cardUseCompatPadding="true">
 
     <RelativeLayout
@@ -33,7 +33,6 @@
             android:layout_toEndOf="@+id/photo_iv"
             android:layout_toRightOf="@+id/photo_iv"
             android:text="COPACABANA -> CT"
-            android:textColor="@color/white"
             android:textStyle="bold" />
 
         <TextView
@@ -43,8 +42,7 @@
             android:layout_alignLeft="@+id/location_tv"
             android:layout_alignStart="@+id/location_tv"
             android:layout_below="@+id/location_tv"
-            android:text="Chegando ás 16:45"
-            android:textColor="@color/white" />
+            android:text="Chegando ás 16:45" />
 
         <TextView
             android:id="@+id/separator1"
@@ -54,7 +52,6 @@
             android:layout_toEndOf="@+id/time_tv"
             android:layout_toRightOf="@+id/time_tv"
             android:text=" | "
-            android:textColor="@color/white"
             android:textStyle="bold" />
 
         <TextView
@@ -65,7 +62,6 @@
             android:layout_toEndOf="@+id/separator1"
             android:layout_toRightOf="@+id/separator1"
             android:text="03/11"
-            android:textColor="@color/white"
             android:textStyle="bold" />
 
         <TextView
@@ -75,8 +71,7 @@
             android:layout_alignLeft="@+id/location_tv"
             android:layout_alignStart="@+id/location_tv"
             android:layout_below="@+id/time_tv"
-            android:text="Leonardo Marques"
-            android:textColor="@color/white" />
+            android:text="Leonardo Marques" />
 
         <ImageView
             android:id="@+id/newMsgIndicator_iv"

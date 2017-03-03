@@ -21,12 +21,12 @@
     <item name="zone_baixada_transparency" type="color">#EEeb3d38</item>
     <item name="zone_outros_transparency" type="color">#EE000000</item>
 
-    <item name="light_zone_norte_transparency" type="color">#EED7CCC8</item>
-    <item name="light_zone_oeste_transparency" type="color">#EEC5CAE9</item>
-    <item name="light_zone_niteroi_transparency" type="color">#EEF8BBD0</item>
-    <item name="light_zone_sul_transparency" type="color">#EEDCEDC8</item>
-    <item name="light_zone_centro_transparency" type="color">#EEFFE0B2</item>
-    <item name="light_zone_baixada_transparency" type="color">#EEFFCDD2</item>
+    <item name="light_zone_norte_transparency" type="color">#EEBCAAA4</item>
+    <item name="light_zone_oeste_transparency" type="color">#EE9FA8DA</item>
+    <item name="light_zone_niteroi_transparency" type="color">#EEF48FB1</item>
+    <item name="light_zone_sul_transparency" type="color">#EEC5E1A5</item>
+    <item name="light_zone_centro_transparency" type="color">#EEFFCC80</item>
+    <item name="light_zone_baixada_transparency" type="color">#EEEF9A9A</item>
 
     <item name="dark_gray" type="color">#6e6e70</item>
     <item name="gray" type="color">#949499</item>

@@ -8,7 +8,7 @@
     android:layout_height="wrap_content"
     android:clickable="true"
     android:foreground="?android:attr/selectableItemBackground"
-    card_view:cardBackgroundColor="@color/zone_sul"
+    android:layout_margin="@dimen/card_list_margin"
     card_view:cardCornerRadius="10dp"
     card_view:cardElevation="@dimen/cardview_default_elevation"
     card_view:cardUseCompatPadding="true">
@@ -26,7 +26,6 @@
             android:layout_marginLeft="5dp"
             android:layout_marginStart="5dp"
             android:text="COPACABANA -> CT"
-            android:textColor="@color/white"
             android:textStyle="bold" />
 
         <TextView
@@ -36,8 +35,7 @@
             android:layout_below="@+id/location_tv"
             android:layout_marginLeft="5dp"
             android:layout_marginStart="5dp"
-            android:text="Chegando ás 16:45"
-            android:textColor="@color/white" />
+            android:text="Chegando ás 16:45" />
 
         <TextView
             android:id="@+id/separator1"
@@ -47,7 +45,6 @@
             android:layout_toEndOf="@+id/time_tv"
             android:layout_toRightOf="@+id/time_tv"
             android:text=" | "
-            android:textColor="@color/white"
             android:textStyle="bold" />
 
         <TextView
@@ -58,7 +55,6 @@
             android:layout_toEndOf="@+id/separator1"
             android:layout_toRightOf="@+id/separator1"
             android:text="03/11"
-            android:textColor="@color/white"
             android:textStyle="bold" />
 
         <TextView
@@ -68,8 +64,7 @@
             android:layout_below="@+id/time_tv"
             android:layout_marginLeft="5dp"
             android:layout_marginStart="5dp"
-            android:text="3 vagas"
-            android:textColor="@color/white" />
+            android:text="3 vagas" />
 
         <TextView
             android:id="@+id/separator2"
@@ -78,8 +73,7 @@
             android:layout_below="@+id/time_tv"
             android:layout_toEndOf="@+id/slots_tv"
             android:layout_toRightOf="@+id/slots_tv"
-            android:text=" | "
-            android:textColor="@color/white" />
+            android:text=" | " />
 
         <TextView
             android:id="@+id/routine_tv"
@@ -88,8 +82,7 @@
             android:layout_below="@+id/time_tv"
             android:layout_toEndOf="@+id/separator2"
             android:layout_toRightOf="@+id/separator2"
-            android:text="Repete Seg-Qua-Sex"
-            android:textColor="@color/white" />
+            android:text="Repete Seg-Qua-Sex" />
 
         <ImageView
             android:id="@+id/newRequest_iv"
@@ -114,7 +107,6 @@
             android:background="@null"
             android:gravity="center"
             android:text="EXCLUIR"
-            android:textColor="@color/white"
             tools:rd_enable="true" />
 
     </RelativeLayout>
