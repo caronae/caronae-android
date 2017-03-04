@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -177,7 +177,7 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
                 viewHolder.requestIndicator_iv.setVisibility(requested ? View.VISIBLE : View.INVISIBLE);
 
                 final boolean finalRequested = requested;
-                viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
+                viewHolder.parentLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
 //                Intent intent = new Intent(context, RideOfferAct.class);
@@ -196,7 +196,7 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
             } else {
                 viewHolder.header_text.setText(getDateText((RideForJson) mixedList.get(position + 1)));
 
-                viewHolder.header_card.setBackground(ContextCompat.getDrawable(context, getRandomColor()));
+//                viewHolder.header_card.setBackground(ContextCompat.getDrawable(context, getRandomColor()));
             }
         }
     }
@@ -243,7 +243,7 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
         public TextView date_tv;
         public TextView location_tv;
         public TextView name_tv;
-        public CardView cardView;
+        public RelativeLayout parentLayout;
 
         public TextView header_text;
         public FrameLayout header_card;
@@ -257,7 +257,7 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
             date_tv = (TextView) itemView.findViewById(R.id.date_tv);
             location_tv = (TextView) itemView.findViewById(R.id.location_tv);
             name_tv = (TextView) itemView.findViewById(R.id.name_tv);
-            cardView = (CardView) itemView.findViewById(R.id.cardView);
+            parentLayout = (RelativeLayout) itemView.findViewById(R.id.item_rideoffer_parent_layout);
 
             header_text = (TextView) itemView.findViewById(R.id.list_separator_text);
             header_card = (FrameLayout) itemView.findViewById(R.id.card_list_separator);
