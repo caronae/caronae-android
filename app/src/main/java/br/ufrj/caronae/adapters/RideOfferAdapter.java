@@ -30,6 +30,7 @@ import br.ufrj.caronae.acts.ProfileAct;
 import br.ufrj.caronae.frags.RideDetailDialogFrag;
 import br.ufrj.caronae.models.RideRequestSent;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.ViewHolder> {
 
@@ -59,7 +60,7 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
         if (viewType == TYPE_HEADER) {
             contactView = inflater.inflate(R.layout.list_separator, parent, false);
         } else if (viewType == TYPE_BODY) {
-            contactView = inflater.inflate(R.layout.item_rideoffer, parent, false);
+            contactView = inflater.inflate(R.layout.item_rideoffer_flat, parent, false);
         } else {
             contactView = inflater.inflate(R.layout.list_no_rides, parent, false);
         }
@@ -116,9 +117,11 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
                     backgroundDrawable = R.drawable.card_list_bg_zone_outros;
                     color = ContextCompat.getColor(context, R.color.zone_outros);
                 }
-                viewHolder.cardView.setBackground(context.getDrawable(backgroundDrawable));
+//                viewHolder.cardView.setBackground(context.getDrawable(backgroundDrawable));
 
                 viewHolder.location_tv.setTextColor(color);
+
+                viewHolder.photo_iv.setBorderColor(color);
 
                 String profilePicUrl = rideOffer.getDriver().getProfilePicUrl();
                 if (profilePicUrl != null && !profilePicUrl.isEmpty()) {
@@ -234,7 +237,7 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public ImageView photo_iv;
+        public CircleImageView photo_iv;
         public ImageView requestIndicator_iv;
         public TextView time_tv;
         public TextView date_tv;
@@ -248,7 +251,7 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
         public ViewHolder(View itemView) {
             super(itemView);
 
-            photo_iv = (ImageView) itemView.findViewById(R.id.photo_iv);
+            photo_iv = (CircleImageView) itemView.findViewById(R.id.photo_iv);
             requestIndicator_iv = (ImageView) itemView.findViewById(R.id.requestIndicator_iv);
             time_tv = (TextView) itemView.findViewById(R.id.time_tv);
             date_tv = (TextView) itemView.findViewById(R.id.date_tv);

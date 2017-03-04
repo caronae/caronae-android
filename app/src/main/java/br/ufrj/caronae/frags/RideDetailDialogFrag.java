@@ -119,31 +119,31 @@ public class RideDetailDialogFrag extends DialogFragment {
 
         int color = 0, bgRes = 0;
         if (rideWithUsers.getZone().equals("Centro")) {
-            color = ContextCompat.getColor(getContext(), R.color.zone_centro);
+            color = ContextCompat.getColor(getActivity().getApplicationContext(), R.color.zone_centro);
             bgRes = R.drawable.bg_bt_raise_zone_centro;
         }
         if (rideWithUsers.getZone().equals("Zona Sul")) {
-            color = ContextCompat.getColor(getContext(), R.color.zone_sul);
+            color = ContextCompat.getColor(getActivity().getApplicationContext(), R.color.zone_sul);
             bgRes = R.drawable.bg_bt_raise_zone_sul;
         }
         if (rideWithUsers.getZone().equals("Zona Oeste")) {
-            color = ContextCompat.getColor(getContext(), R.color.zone_oeste);
+            color = ContextCompat.getColor(getActivity().getApplicationContext(), R.color.zone_oeste);
             bgRes = R.drawable.bg_bt_raise_zone_oeste;
         }
         if (rideWithUsers.getZone().equals("Zona Norte")) {
-            color = ContextCompat.getColor(getContext(), R.color.zone_norte);
+            color = ContextCompat.getColor(getActivity().getApplicationContext(), R.color.zone_norte);
             bgRes = R.drawable.bg_bt_raise_zone_norte;
         }
         if (rideWithUsers.getZone().equals("Baixada")) {
-            color = ContextCompat.getColor(getContext(), R.color.zone_baixada);
+            color = ContextCompat.getColor(getActivity().getApplicationContext(), R.color.zone_baixada);
             bgRes = R.drawable.bg_bt_raise_zone_baixada;
         }
         if (rideWithUsers.getZone().equals("Grande Niterói")) {
-            color = ContextCompat.getColor(getContext(), R.color.zone_niteroi);
+            color = ContextCompat.getColor(getActivity().getApplicationContext(), R.color.zone_niteroi);
             bgRes = R.drawable.bg_bt_raise_zone_niteroi;
         }
         if (rideWithUsers.getZone().equals("Outros")) {
-            color = ContextCompat.getColor(getContext(), R.color.zone_outros);
+            color = ContextCompat.getColor(getActivity().getApplicationContext(), R.color.zone_outros);
             bgRes = R.drawable.bg_bt_raise_zone_outros;
         }
         header_line.setBackgroundColor(color);
@@ -159,10 +159,10 @@ public class RideDetailDialogFrag extends DialogFragment {
 
         String profilePicUrl = driver.getProfilePicUrl();
         if (profilePicUrl == null || profilePicUrl.isEmpty()) {
-            Picasso.with(getContext()).load(R.drawable.user_pic)
+            Picasso.with(getActivity().getApplicationContext()).load(R.drawable.user_pic)
                     .into(user_pic);
         } else {
-            Picasso.with(getContext()).load(profilePicUrl)
+            Picasso.with(getActivity().getApplicationContext()).load(profilePicUrl)
                     .placeholder(R.drawable.user_pic)
                     .error(R.drawable.user_pic)
                     .transform(new RoundedTransformation())
@@ -172,7 +172,7 @@ public class RideDetailDialogFrag extends DialogFragment {
             @Override
             public void onClick(View view) {
                 if (!isDriver) {//dont allow user to open own profile
-                    Intent intent = new Intent(getContext(), ProfileAct.class);
+                    Intent intent = new Intent(getActivity().getApplicationContext(), ProfileAct.class);
                     intent.putExtra("user", new Gson().toJson(driver));
                     intent.putExtra("from", "rideoffer");
                     startActivity(intent);
@@ -227,8 +227,8 @@ public class RideDetailDialogFrag extends DialogFragment {
 
                             @Override
                             public void onPositiveActionClicked(com.rey.material.app.DialogFragment fragment) {
-                                final ProgressDialog pd = ProgressDialog.show(getContext(), "", getString(R.string.wait), true, true);
-                                App.getNetworkService(getContext()).requestJoin(new RideIdForJson(rideWithUsers.getDbId()))
+                                final ProgressDialog pd = ProgressDialog.show(getActivity().getApplicationContext(), "", getString(R.string.wait), true, true);
+                                App.getNetworkService(getActivity().getApplicationContext()).requestJoin(new RideIdForJson(rideWithUsers.getDbId()))
                                         .enqueue(new Callback<ResponseBody>() {
                                             @Override
                                             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -295,7 +295,7 @@ public class RideDetailDialogFrag extends DialogFragment {
 
     private void createChatAssets(RideForJson rideWithUsers){
 
-        Context context = getContext();
+        Context context = getActivity().getApplicationContext();
 
         int color = 0, bgRes = 0;
         if (rideWithUsers.getZone().equals("Centro")) {
@@ -355,12 +355,12 @@ public class RideDetailDialogFrag extends DialogFragment {
         dissmis_bt.animate()
                 .x(xButtonPositionToGo)
                 .setInterpolator(new DecelerateInterpolator())
-                .setDuration(getContext().getResources().getInteger(R.integer.button_anim_duration));
+                .setDuration(getActivity().getApplicationContext().getResources().getInteger(R.integer.button_anim_duration));
     }
 
     public Animation getAnimationForSendButton(){
         Animation anim = new AlphaAnimation(1, 0);
-        anim.setDuration(getContext().getResources().getInteger(R.integer.button_anim_duration));
+        anim.setDuration(getActivity().getApplicationContext().getResources().getInteger(R.integer.button_anim_duration));
         anim.setFillEnabled(true);
         anim.setFillAfter(true);
 
@@ -387,7 +387,7 @@ public class RideDetailDialogFrag extends DialogFragment {
 
     public Animation getAnimationForResquestedText(){
         Animation anim = new AlphaAnimation(0, 1);
-        anim.setDuration(getContext().getResources().getInteger(R.integer.button_anim_duration));
+        anim.setDuration(getActivity().getApplicationContext().getResources().getInteger(R.integer.button_anim_duration));
         anim.setFillEnabled(true);
         anim.setFillAfter(true);
         return anim;
