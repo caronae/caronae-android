@@ -45,7 +45,6 @@ import br.ufrj.caronae.frags.AboutFrag;
 import br.ufrj.caronae.frags.AllRidesFrag;
 import br.ufrj.caronae.frags.FAQFrag;
 import br.ufrj.caronae.frags.FalaeFrag;
-import br.ufrj.caronae.frags.MyActiveRidesFrag;
 import br.ufrj.caronae.frags.MyProfileFrag;
 import br.ufrj.caronae.frags.MyRidesFrag;
 import br.ufrj.caronae.frags.RideSearchFrag;
@@ -219,9 +218,6 @@ public class MainAct extends AppCompatActivity {
             case R.id.nav_third_fragment:
                 fragmentClass = MyRidesFrag.class;
                 break;
-            case R.id.nav_fourth_fragment:
-                fragmentClass = MyActiveRidesFrag.class;
-                break;
             case R.id.nav_fifth_fragment:
                 fragmentClass = RidesHistoryFrag.class;
                 break;
@@ -285,7 +281,7 @@ public class MainAct extends AppCompatActivity {
                 msgType.equals("quitter") ||
                 msgType.equals("chat") ||
                 msgType.equals("cancelled")) {
-            fragmentClass = MyActiveRidesFrag.class;
+            fragmentClass = MyRidesFrag.class;
         }
         if (msgType.equals("joinRequest")) {
             fragmentClass = MyRidesFrag.class;
@@ -342,8 +338,6 @@ public class MainAct extends AppCompatActivity {
         if (fragmentClass.equals(AllRidesFrag.class.toString()))
             return R.string.frag_allrides_title;
         if (fragmentClass.equals(MyRidesFrag.class.toString()))
-            return R.string.frag_myrides_title;
-        if (fragmentClass.equals(MyActiveRidesFrag.class.toString()))
             return R.string.frag_myactiverides_title;
         if (fragmentClass.equals(RidesHistoryFrag.class.toString()))
             return R.string.frag_history_title;

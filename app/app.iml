@@ -98,23 +98,22 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="butterknife-7.0.1" level="project" />
     <orderEntry type="library" exported="" name="okio-1.8.0" level="project" />
+    <orderEntry type="library" exported="" name="design-25.0.0" level="project" />
     <orderEntry type="library" exported="" name="firebase-analytics-10.2.0" level="project" />
     <orderEntry type="library" exported="" name="firebase-core-10.2.0" level="project" />
     <orderEntry type="library" exported="" name="picasso-2.5.2" level="project" />
     <orderEntry type="library" exported="" name="play-services-tasks-10.2.0" level="project" />
     <orderEntry type="library" exported="" name="sugar-1.4" level="project" />
     <orderEntry type="library" exported="" name="material-1.2.2" level="project" />
-    <orderEntry type="library" exported="" name="support-v4-24.0.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-base-10.2.0" level="project" />
-    <orderEntry type="library" exported="" name="animated-vector-drawable-23.4.0" level="project" />
+    <orderEntry type="library" exported="" name="support-fragment-25.0.0" level="project" />
+    <orderEntry type="library" exported="" name="support-core-ui-25.0.0" level="project" />
     <orderEntry type="library" exported="" name="renderscript-v8" level="project" />
-    <orderEntry type="library" exported="" name="recyclerview-v7-23.4.0" level="project" />
-    <orderEntry type="library" exported="" name="support-vector-drawable-23.4.0" level="project" />
+    <orderEntry type="library" exported="" name="support-core-utils-25.0.0" level="project" />
     <orderEntry type="library" exported="" name="firebase-iid-10.2.0" level="project" />
     <orderEntry type="library" exported="" name="otto-1.3.8" level="project" />
     <orderEntry type="library" exported="" name="bolts-android-1.2.1" level="project" />
-    <orderEntry type="library" exported="" name="appcompat-v7-23.4.0" level="project" />
-    <orderEntry type="library" exported="" name="design-23.4.0" level="project" />
+    <orderEntry type="library" exported="" name="support-annotations-25.0.0" level="project" />
     <orderEntry type="library" exported="" name="guava-18.0" level="project" />
     <orderEntry type="library" exported="" name="rxjava-1.1.5" level="project" />
     <orderEntry type="library" exported="" name="firebase-messaging-10.2.0" level="project" />
@@ -125,14 +124,22 @@
     <orderEntry type="library" exported="" name="firebase-analytics-impl-10.2.0" level="project" />
     <orderEntry type="library" exported="" name="converter-gson-2.1.0" level="project" />
     <orderEntry type="library" exported="" name="firebase-common-10.2.0" level="project" />
-    <orderEntry type="library" exported="" name="support-annotations-24.0.0" level="project" />
+    <orderEntry type="library" exported="" name="circleimageview-2.1.0" level="project" />
     <orderEntry type="library" exported="" name="cardview-v7-23.4.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-iid-10.2.0" level="project" />
+    <orderEntry type="library" exported="" name="support-v4-25.0.0" level="project" />
+    <orderEntry type="library" exported="" name="support-media-compat-25.0.0" level="project" />
+    <orderEntry type="library" exported="" name="transition-25.0.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-basement-10.2.0" level="project" />
+    <orderEntry type="library" exported="" name="support-compat-25.0.0" level="project" />
+    <orderEntry type="library" exported="" name="animated-vector-drawable-25.0.0" level="project" />
     <orderEntry type="library" exported="" name="fab-1.6.4" level="project" />
     <orderEntry type="library" exported="" name="okhttp-3.3.1" level="project" />
     <orderEntry type="library" exported="" name="multidex-1.0.1" level="project" />
     <orderEntry type="library" exported="" name="logging-interceptor-3.3.1" level="project" />
+    <orderEntry type="library" exported="" name="appcompat-v7-25.0.0" level="project" />
+    <orderEntry type="library" exported="" name="support-vector-drawable-25.0.0" level="project" />
+    <orderEntry type="library" exported="" name="recyclerview-v7-25.0.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-gcm-10.2.0" level="project" />
     <orderEntry type="library" exported="" name="facebook-android-sdk-4.8.2" level="project" />
   </component>

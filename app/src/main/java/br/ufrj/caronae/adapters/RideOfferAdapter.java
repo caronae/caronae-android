@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,10 +31,11 @@ import br.ufrj.caronae.frags.RideDetailDialogFrag;
 import br.ufrj.caronae.models.RideRequestSent;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
 
-public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.ViewHolder>{
+public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.ViewHolder> {
 
     private final int TYPE_HEADER = 0;
     private final int TYPE_BODY = 1;
+    private final int TYPE_ZERO = 2;
 
     private final Context context;
     private List<RideForJson> rideOffers;
@@ -54,10 +56,12 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
         LayoutInflater inflater = LayoutInflater.from(context);
         View contactView = null;
 
-        if (viewType == TYPE_HEADER){
+        if (viewType == TYPE_HEADER) {
             contactView = inflater.inflate(R.layout.list_separator, parent, false);
-        } else {
+        } else if (viewType == TYPE_BODY) {
             contactView = inflater.inflate(R.layout.item_rideoffer, parent, false);
+        } else {
+            contactView = inflater.inflate(R.layout.list_no_rides, parent, false);
         }
 
         return new ViewHolder(contactView);
@@ -65,235 +69,132 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
 
     @Override
     public int getItemViewType(int position) {
-        if (mixedList.get(position).getClass() == Integer.class){
+        Log.e("LISTA", mixedList.size() + "");
+        if (mixedList == null || mixedList.size() == 0){
+            return TYPE_ZERO;
+        }
+        if (mixedList.get(position).getClass() == Integer.class) {
             return TYPE_HEADER;
         }
         return TYPE_BODY;
     }
 
-//    @Override
-//    public void onBindViewHolder(final RideOfferAdapter.ViewHolder viewHolder, int position) {
-//        final RideForJson rideOffer = rideOffers.get(position);
-//
-//        int backgroundDrawable = 0;
-//        int color = 0;
-//        if (rideOffer.getZone().equals("Centro")) {
-//            backgroundDrawable = R.drawable.card_list_bg_zone_centro;
-//            color = ContextCompat.getColor(context, R.color.zone_centro);
-//        }
-//        if (rideOffer.getZone().equals("Zona Sul")) {
-//            backgroundDrawable = R.drawable.card_list_bg_zone_sul;
-//            color = ContextCompat.getColor(context, R.color.zone_sul);
-//        }
-//        if (rideOffer.getZone().equals("Zona Oeste")) {
-//            backgroundDrawable = R.drawable.card_list_bg_zone_oeste;
-//            color = ContextCompat.getColor(context, R.color.zone_oeste);
-//        }
-//        if (rideOffer.getZone().equals("Zona Norte")) {
-//            backgroundDrawable = R.drawable.card_list_bg_zone_norte;
-//            color = ContextCompat.getColor(context, R.color.zone_norte);
-//        }
-//        if (rideOffer.getZone().equals("Baixada")) {
-//            backgroundDrawable = R.drawable.card_list_bg_zone_baixada;
-//            color = ContextCompat.getColor(context, R.color.zone_baixada);
-//        }
-//        if (rideOffer.getZone().equals("Grande Niterói")) {
-//            backgroundDrawable = R.drawable.card_list_bg_zone_niteroi;
-//            color = ContextCompat.getColor(context, R.color.zone_niteroi);
-//        }
-//        if (rideOffer.getZone().equals("Outros")) {
-//            backgroundDrawable = R.drawable.card_list_bg_zone_outros;
-//            color = ContextCompat.getColor(context, R.color.zone_outros);
-//        }
-//        viewHolder.cardView.setBackground(context.getDrawable(backgroundDrawable));
-//
-//        viewHolder.location_tv.setTextColor(color);
-//
-//        String profilePicUrl = rideOffer.getDriver().getProfilePicUrl();
-//        if (profilePicUrl != null && !profilePicUrl.isEmpty()) {
-//            Picasso.with(context).load(profilePicUrl)
-//                    .placeholder(R.drawable.user_pic)
-//                    .error(R.drawable.user_pic)
-//                    .transform(new RoundedTransformation())
-//                    .into(viewHolder.photo_iv);
-//        } else {
-//            viewHolder.photo_iv.setImageResource(R.drawable.user_pic);
-//        }
-//
-//        if (rideOffer.getDriver().getDbId() != App.getUser().getDbId())
-//            viewHolder.photo_iv.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    Intent intent = new Intent(context, ProfileAct.class);
-//                    intent.putExtra("user", new Gson().toJson(rideOffer.getDriver()));
-//                    intent.putExtra("from", "rideOffer");
-//                    context.startActivity(intent);
-//                }
-//            });
-//
-//        String timeText;
-//        if (rideOffer.isGoing())
-//            timeText = context.getResources().getString(R.string.arrivingAt, Util.formatTime(rideOffer.getTime()));
-//        else
-//            timeText = context.getResources().getString(R.string.leavingAt, Util.formatTime(rideOffer.getTime()));
-//        viewHolder.time_tv.setText(timeText);
-//        viewHolder.date_tv.setText(Util.formatBadDateWithoutYear(rideOffer.getDate()));
-//
-//        String name = rideOffer.getDriver().getName();
-//        try {
-//            String[] split = name.split(" ");
-//            String shortName = split[0] + " " + split[split.length - 1];
-//            viewHolder.name_tv.setText(shortName);
-//        } catch (Exception e) {
-//            viewHolder.name_tv.setText(name);
-//        }
-//
-//        String location;
-//        if (rideOffer.isGoing())
-//            location = rideOffer.getNeighborhood() + " ➜ " + rideOffer.getHub();
-//        else
-//            location = rideOffer.getHub() + " ➜ " + rideOffer.getNeighborhood();
-//        viewHolder.location_tv.setText(location);
-//
-//        List<RideRequestSent> rideRequests = RideRequestSent.find(RideRequestSent.class, "db_id = ?", rideOffer.getDbId() + "");
-//        boolean requested = false;
-//        if (rideRequests != null && !rideRequests.isEmpty())
-//            requested = true;
-//
-//        viewHolder.requestIndicator_iv.setVisibility(requested ? View.VISIBLE : View.INVISIBLE);
-//
-//        final boolean finalRequested = requested;
-//        viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-////                Intent intent = new Intent(context, RideOfferAct.class);
-////                intent.putExtra("ride", rideOffer);
-////                intent.putExtra("requested", finalRequested);
-////                context.startActivity(intent);
-//
-//                RideDetailDialogFrag detailFrag = new RideDetailDialogFrag();
-//                Bundle args = new Bundle();
-//                args.putParcelable("ride", rideOffer);
-//                args.putBoolean("requested", finalRequested);
-//                detailFrag.setArguments(args);
-//                detailFrag.show(fm, "a");
-//            }
-//        });
-//    }
 
     @Override
     public void onBindViewHolder(final RideOfferAdapter.ViewHolder viewHolder, int position) {
-        if (mixedList.get(position).getClass().equals(RideForJson.class)) {
-            final RideForJson rideOffer = (RideForJson) mixedList.get(position);
+        if (!(mixedList == null || mixedList.size() == 0)) {
+            if (mixedList.get(position).getClass().equals(RideForJson.class)) {
+                final RideForJson rideOffer = (RideForJson) mixedList.get(position);
 
-            int backgroundDrawable = 0;
-            int color = 0;
-            if (rideOffer.getZone().equals("Centro")) {
-                backgroundDrawable = R.drawable.card_list_bg_zone_centro;
-                color = ContextCompat.getColor(context, R.color.zone_centro);
-            }
-            if (rideOffer.getZone().equals("Zona Sul")) {
-                backgroundDrawable = R.drawable.card_list_bg_zone_sul;
-                color = ContextCompat.getColor(context, R.color.zone_sul);
-            }
-            if (rideOffer.getZone().equals("Zona Oeste")) {
-                backgroundDrawable = R.drawable.card_list_bg_zone_oeste;
-                color = ContextCompat.getColor(context, R.color.zone_oeste);
-            }
-            if (rideOffer.getZone().equals("Zona Norte")) {
-                backgroundDrawable = R.drawable.card_list_bg_zone_norte;
-                color = ContextCompat.getColor(context, R.color.zone_norte);
-            }
-            if (rideOffer.getZone().equals("Baixada")) {
-                backgroundDrawable = R.drawable.card_list_bg_zone_baixada;
-                color = ContextCompat.getColor(context, R.color.zone_baixada);
-            }
-            if (rideOffer.getZone().equals("Grande Niterói")) {
-                backgroundDrawable = R.drawable.card_list_bg_zone_niteroi;
-                color = ContextCompat.getColor(context, R.color.zone_niteroi);
-            }
-            if (rideOffer.getZone().equals("Outros")) {
-                backgroundDrawable = R.drawable.card_list_bg_zone_outros;
-                color = ContextCompat.getColor(context, R.color.zone_outros);
-            }
-            viewHolder.cardView.setBackground(context.getDrawable(backgroundDrawable));
+                int backgroundDrawable = 0;
+                int color = 0;
+                if (rideOffer.getZone().equals("Centro")) {
+                    backgroundDrawable = R.drawable.card_list_bg_zone_centro;
+                    color = ContextCompat.getColor(context, R.color.zone_centro);
+                }
+                if (rideOffer.getZone().equals("Zona Sul")) {
+                    backgroundDrawable = R.drawable.card_list_bg_zone_sul;
+                    color = ContextCompat.getColor(context, R.color.zone_sul);
+                }
+                if (rideOffer.getZone().equals("Zona Oeste")) {
+                    backgroundDrawable = R.drawable.card_list_bg_zone_oeste;
+                    color = ContextCompat.getColor(context, R.color.zone_oeste);
+                }
+                if (rideOffer.getZone().equals("Zona Norte")) {
+                    backgroundDrawable = R.drawable.card_list_bg_zone_norte;
+                    color = ContextCompat.getColor(context, R.color.zone_norte);
+                }
+                if (rideOffer.getZone().equals("Baixada")) {
+                    backgroundDrawable = R.drawable.card_list_bg_zone_baixada;
+                    color = ContextCompat.getColor(context, R.color.zone_baixada);
+                }
+                if (rideOffer.getZone().equals("Grande Niterói")) {
+                    backgroundDrawable = R.drawable.card_list_bg_zone_niteroi;
+                    color = ContextCompat.getColor(context, R.color.zone_niteroi);
+                }
+                if (rideOffer.getZone().equals("Outros")) {
+                    backgroundDrawable = R.drawable.card_list_bg_zone_outros;
+                    color = ContextCompat.getColor(context, R.color.zone_outros);
+                }
+                viewHolder.cardView.setBackground(context.getDrawable(backgroundDrawable));
 
-            viewHolder.location_tv.setTextColor(color);
+                viewHolder.location_tv.setTextColor(color);
 
-            String profilePicUrl = rideOffer.getDriver().getProfilePicUrl();
-            if (profilePicUrl != null && !profilePicUrl.isEmpty()) {
-                Picasso.with(context).load(profilePicUrl)
-                        .placeholder(R.drawable.user_pic)
-                        .error(R.drawable.user_pic)
-                        .transform(new RoundedTransformation())
-                        .into(viewHolder.photo_iv);
-            } else {
-                viewHolder.photo_iv.setImageResource(R.drawable.user_pic);
-            }
+                String profilePicUrl = rideOffer.getDriver().getProfilePicUrl();
+                if (profilePicUrl != null && !profilePicUrl.isEmpty()) {
+                    Picasso.with(context).load(profilePicUrl)
+                            .placeholder(R.drawable.user_pic)
+                            .error(R.drawable.user_pic)
+                            .transform(new RoundedTransformation())
+                            .into(viewHolder.photo_iv);
+                } else {
+                    viewHolder.photo_iv.setImageResource(R.drawable.user_pic);
+                }
 
-            if (rideOffer.getDriver().getDbId() != App.getUser().getDbId())
-                viewHolder.photo_iv.setOnClickListener(new View.OnClickListener() {
+                if (rideOffer.getDriver().getDbId() != App.getUser().getDbId())
+                    viewHolder.photo_iv.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent intent = new Intent(context, ProfileAct.class);
+                            intent.putExtra("user", new Gson().toJson(rideOffer.getDriver()));
+                            intent.putExtra("from", "rideOffer");
+                            context.startActivity(intent);
+                        }
+                    });
+
+                String timeText;
+                if (rideOffer.isGoing())
+                    timeText = context.getResources().getString(R.string.arrivingAt, Util.formatTime(rideOffer.getTime()));
+                else
+                    timeText = context.getResources().getString(R.string.leavingAt, Util.formatTime(rideOffer.getTime()));
+                viewHolder.time_tv.setText(timeText);
+                viewHolder.date_tv.setText(Util.formatBadDateWithoutYear(rideOffer.getDate()));
+
+                String name = rideOffer.getDriver().getName();
+                try {
+                    String[] split = name.split(" ");
+                    String shortName = split[0] + " " + split[split.length - 1];
+                    viewHolder.name_tv.setText(shortName);
+                } catch (Exception e) {
+                    viewHolder.name_tv.setText(name);
+                }
+
+                String location;
+                if (rideOffer.isGoing())
+                    location = rideOffer.getNeighborhood() + " ➜ " + rideOffer.getHub();
+                else
+                    location = rideOffer.getHub() + " ➜ " + rideOffer.getNeighborhood();
+                viewHolder.location_tv.setText(location);
+
+                List<RideRequestSent> rideRequests = RideRequestSent.find(RideRequestSent.class, "db_id = ?", rideOffer.getDbId() + "");
+                boolean requested = false;
+                if (rideRequests != null && !rideRequests.isEmpty())
+                    requested = true;
+
+                viewHolder.requestIndicator_iv.setVisibility(requested ? View.VISIBLE : View.INVISIBLE);
+
+                final boolean finalRequested = requested;
+                viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent intent = new Intent(context, ProfileAct.class);
-                        intent.putExtra("user", new Gson().toJson(rideOffer.getDriver()));
-                        intent.putExtra("from", "rideOffer");
-                        context.startActivity(intent);
-                    }
-                });
-
-            String timeText;
-            if (rideOffer.isGoing())
-                timeText = context.getResources().getString(R.string.arrivingAt, Util.formatTime(rideOffer.getTime()));
-            else
-                timeText = context.getResources().getString(R.string.leavingAt, Util.formatTime(rideOffer.getTime()));
-            viewHolder.time_tv.setText(timeText);
-            viewHolder.date_tv.setText(Util.formatBadDateWithoutYear(rideOffer.getDate()));
-
-            String name = rideOffer.getDriver().getName();
-            try {
-                String[] split = name.split(" ");
-                String shortName = split[0] + " " + split[split.length - 1];
-                viewHolder.name_tv.setText(shortName);
-            } catch (Exception e) {
-                viewHolder.name_tv.setText(name);
-            }
-
-            String location;
-            if (rideOffer.isGoing())
-                location = rideOffer.getNeighborhood() + " ➜ " + rideOffer.getHub();
-            else
-                location = rideOffer.getHub() + " ➜ " + rideOffer.getNeighborhood();
-            viewHolder.location_tv.setText(location);
-
-            List<RideRequestSent> rideRequests = RideRequestSent.find(RideRequestSent.class, "db_id = ?", rideOffer.getDbId() + "");
-            boolean requested = false;
-            if (rideRequests != null && !rideRequests.isEmpty())
-                requested = true;
-
-            viewHolder.requestIndicator_iv.setVisibility(requested ? View.VISIBLE : View.INVISIBLE);
-
-            final boolean finalRequested = requested;
-            viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
 //                Intent intent = new Intent(context, RideOfferAct.class);
 //                intent.putExtra("ride", rideOffer);
 //                intent.putExtra("requested", finalRequested);
 //                context.startActivity(intent);
 
-                    RideDetailDialogFrag detailFrag = new RideDetailDialogFrag();
-                    Bundle args = new Bundle();
-                    args.putParcelable("ride", rideOffer);
-                    args.putBoolean("requested", finalRequested);
-                    detailFrag.setArguments(args);
-                    detailFrag.show(fm, "a");
-                }
-            });
-        } else {
-            viewHolder.header_text.setText(getDateText((RideForJson) mixedList.get(position + 1)));
+                        RideDetailDialogFrag detailFrag = new RideDetailDialogFrag();
+                        Bundle args = new Bundle();
+                        args.putParcelable("ride", rideOffer);
+                        args.putBoolean("requested", finalRequested);
+                        detailFrag.setArguments(args);
+                        detailFrag.show(fm, "a");
+                    }
+                });
+            } else {
+                viewHolder.header_text.setText(getDateText((RideForJson) mixedList.get(position + 1)));
 
-            viewHolder.header_card.setBackground(ContextCompat.getDrawable(context, getRandomColor()));
+                viewHolder.header_card.setBackground(ContextCompat.getDrawable(context, getRandomColor()));
+            }
         }
     }
 
@@ -302,8 +203,10 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
         List<Integer> headerPositions = getHeaderPositionsOnList(rideOffers);
         mixedList = new ArrayList<>();
         mixedList.addAll(rideOffers);
-        for (int headerCount = 0; headerCount < headerPositions.size(); headerCount++){
-            mixedList.add(headerPositions.get(headerCount) + headerCount, headerPositions.get(headerCount));
+        if (headerPositions != null && headerPositions.size() > 0) {
+            for (int headerCount = 0; headerCount < headerPositions.size(); headerCount++) {
+                mixedList.add(headerPositions.get(headerCount) + headerCount, headerPositions.get(headerCount));
+            }
         }
         notifyDataSetChanged();
     }
@@ -324,6 +227,9 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
     @Override
     public int getItemCount() {
 //        return rideOffers.size()
+        if (mixedList == null || mixedList.size() == 0) {
+            return 1;
+        }
         return mixedList.size();
     }
 
@@ -355,27 +261,32 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
         }
     }
 
-    private List<Integer> getHeaderPositionsOnList(List<RideForJson> rides){
+    private List<Integer> getHeaderPositionsOnList(List<RideForJson> rides) {
         List<Integer> headersPositions = new ArrayList<>();
-        headersPositions.add(0);
-        for (int rideIndex = 1; rideIndex < rides.size(); rideIndex++){
-            if (Util.getDayFromDate(rides.get(rideIndex).getDate()) > Util.getDayFromDate(rides.get(rideIndex - 1).getDate())){
-                headersPositions.add(rideIndex);
+        if (rides != null) {
+            if (rides.size() > 0) {
+                headersPositions.add(0);
+                for (int rideIndex = 1; rideIndex < rides.size(); rideIndex++) {
+                    if (Util.getDayFromDate(rides.get(rideIndex).getDate()) > Util.getDayFromDate(rides.get(rideIndex - 1).getDate())) {
+                        headersPositions.add(rideIndex);
+                    }
+                }
+                return headersPositions;
             }
         }
-        return headersPositions;
+        return null;
     }
 
-    private String getDateText(RideForJson ride){
+    private String getDateText(RideForJson ride) {
         String dateString = ride.getDate();
         return Util.getDayWithMonthFromDate(dateString) + Util.getWeekDayFromDate(dateString);
     }
 
-    private int getRandomColor(){
+    private int getRandomColor() {
         Random random = new Random();
         int color = random.nextInt(5);
 
-        switch (color){
+        switch (color) {
             case 0:
                 return R.drawable.zone_centro_gradient;
             case 1:

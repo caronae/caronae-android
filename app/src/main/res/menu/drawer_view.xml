@@ -10,9 +10,6 @@
             android:id="@+id/nav_third_fragment"
             android:title="@string/frag_myrides_title" />
         <item
-            android:id="@+id/nav_fourth_fragment"
-            android:title="@string/frag_myactiverides_title" />
-        <item
             android:id="@+id/nav_fifth_fragment"
             android:title="@string/frag_history_title" />
         <item
