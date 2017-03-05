@@ -4,27 +4,28 @@
     android:id="@+id/item_rideoffer_parent_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="8dp"
     android:background="@color/list_white_transparency"
     android:clickable="true"
-    android:foreground="?android:attr/selectableItemBackground">
+    android:foreground="?android:attr/selectableItemBackground"
+    android:padding="8dp">
 
     <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/photo_iv"
         android:layout_width="72dp"
         android:layout_height="72dp"
-        android:src="@drawable/user_pic"
         android:layout_centerVertical="true"
         android:paddingBottom="4dp"
+        android:src="@drawable/user_pic"
         app:civ_border_width="2dp" />
 
     <LinearLayout
         android:id="@+id/linear_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="16dp"
+        android:layout_marginLeft="8dp"
         android:layout_toRightOf="@id/photo_iv"
         android:gravity="center_vertical"
+        android:layout_marginBottom="16dp"
         android:orientation="vertical">
 
         <TextView
@@ -85,7 +86,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginLeft="72dp"
+        android:layout_marginLeft="88dp"
         android:background="@color/gray" />
 
     <ImageView

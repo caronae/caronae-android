@@ -15,6 +15,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
@@ -100,6 +101,8 @@ public class RideDetailDialogFrag extends DialogFragment {
 
         final RideForJson rideWithUsers = getArguments().getParcelable("ride");
         final boolean requested = getArguments().getBoolean("requested");
+
+        getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
 
         if (rideWithUsers == null) {
             Util.toast(getString(R.string.act_activeride_rideNUll));
@@ -227,7 +230,7 @@ public class RideDetailDialogFrag extends DialogFragment {
 
                             @Override
                             public void onPositiveActionClicked(com.rey.material.app.DialogFragment fragment) {
-                                final ProgressDialog pd = ProgressDialog.show(getContext(), "", getString(R.string.wait), true, true);
+                                final ProgressDialog pd = ProgressDialog.show(myContext, "", getString(R.string.wait), true, true);
                                 App.getNetworkService(getActivity().getApplicationContext()).requestJoin(new RideIdForJson(rideWithUsers.getDbId()))
                                         .enqueue(new Callback<ResponseBody>() {
                                             @Override

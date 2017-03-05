@@ -1,19 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/layout"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <RelativeLayout
@@ -113,20 +111,22 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_alignParentBottom="true"
-                    android:src="@color/gray"/>
+                    android:layout_below="@+id/rel1"
+                    android:src="@color/light_gray"/>
 
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:src="@color/gray"
+                    android:src="@color/light_gray"
                     android:layout_alignParentTop="true"/>
 
                 <RelativeLayout
+                    android:id="@+id/rel1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    >
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="4dp"
+                    android:layout_centerHorizontal="true">
                 <TextView
                     android:id="@+id/time_dt"
                     android:layout_width="wrap_content"
@@ -168,15 +168,17 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/lay3">
 
-                <RelativeLayout
+                <LinearLayout
                     android:id="@+id/place_way_text_frame"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
                 <android.support.v7.widget.CardView
                     android:id="@+id/place_text_frame"
-                    android:layout_width="170dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:layout_marginLeft="8dp"
                     app:cardUseCompatPadding="true"
                     app:contentPadding="8dp">
@@ -201,6 +203,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/place_text_dt"
+                            android:textColor="@color/gray"
                             android:text="Na frente fasffasdasdasdasdas" />
                     </RelativeLayout>
 
@@ -208,8 +211,10 @@
 
                 <android.support.v7.widget.CardView
                     android:id="@+id/way_text_frame"
-                    android:layout_width="170dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_toLeftOf="@id/place_text_frame"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="8dp"
                     app:cardUseCompatPadding="true"
@@ -240,7 +245,7 @@
                     </RelativeLayout>
                 </android.support.v7.widget.CardView>
 
-                </RelativeLayout>
+                </LinearLayout>
 
 
                 <android.support.v7.widget.CardView
