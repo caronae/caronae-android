@@ -439,7 +439,14 @@ public class RideSearchFrag extends Fragment {
         SharedPref.saveLastRideSearchFiltersPref(lastRideSearchFilters);
 
         rideSearchFilters.setDate(Util.formatBadDateWithYear(etDateString));
-        
+
+        Log.e("INPUT", "location: " + location);
+        Log.e("INPUT", "data: " + etDateString);
+        Log.e("INPUT", "hora: " + time);
+        Log.e("INPUT", "center: " + center);
+        Log.e("INPUT", "locationResumeField: " + location_et.getText().toString());
+
+
         final ProgressDialog pd = ProgressDialog.show(getActivity(), "", getContext().getString(R.string.wait), true, true);
         App.getNetworkService(getContext()).listFiltered(rideSearchFilters)
                 .enqueue(new Callback<List<RideForJson>>() {

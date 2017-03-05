@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,8 +69,9 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
 
     @Override
     public int getItemViewType(int position) {
-        Log.e("LISTA", mixedList.size() + "");
-        if (mixedList == null || mixedList.size() == 0){
+        if (mixedList == null){
+            return TYPE_ZERO;
+        } else if (mixedList.size() == 0){
             return TYPE_ZERO;
         }
         if (mixedList.get(position).getClass() == Integer.class) {

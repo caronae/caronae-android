@@ -16,9 +16,9 @@
         android:id="@+id/sliding_tabs"
         android:layout_width="match_parent"
         android:layout_height="@dimen/tab_indicator_height"
+        android:layout_alignParentTop="true"
         android:paddingBottom="@dimen/tab_indicator_padding_botton"
         android:paddingTop="8dp"
-        android:layout_alignParentTop="true"
         app:tabBackground="@drawable/tab_background_selector"
         app:tabIndicatorHeight="0dp" />
 
@@ -36,13 +36,14 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:visibility="invisible"
         android:layout_marginBottom="42dp"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:paddingBottom="8dp"
+        android:visibility="invisible"
         fab:menu_animationDelayPerItem="50"
         fab:menu_backgroundColor="@android:color/transparent"
         fab:menu_buttonSpacing="0dp"
+        fab:menu_colorPressed="@color/fab_red"
         fab:menu_colorRipple="#99FFFFFF"
         fab:menu_fab_size="normal"
         fab:menu_icon="@drawable/fab_add"
@@ -71,6 +72,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_directions_car_white_24dp"
+            fab:fab_colorNormal="@color/green"
             fab:fab_colorPressed="@android:color/white"
             fab:fab_label="Caronas Ativas"
             fab:fab_size="mini" />
@@ -81,9 +83,52 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_add_white_24dp"
+            fab:fab_colorNormal="@color/yellow"
             fab:fab_label="Criar Carona"
             fab:fab_size="mini" />
 
     </com.github.clans.fab.FloatingActionMenu>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/search_card_view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/search_list_bar"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="8dp"
+        app:cardBackgroundColor="@android:color/transparent"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="2dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/search_bar_background"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin">
+
+            <EditText
+                android:id="@+id/list_all_rides_search_text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="6"
+                android:background="@android:color/transparent"
+                android:hint="Search"
+                android:imeOptions="actionDone"
+                android:inputType="textAutoComplete"
+                android:lines="1"
+                android:maxLines="1"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_weight="1"
+                android:src="@drawable/ic_search_black_24dp" />
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
 
 </RelativeLayout>

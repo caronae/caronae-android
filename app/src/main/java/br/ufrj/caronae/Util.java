@@ -147,7 +147,7 @@ public class Util {
         return null;
     }
 
-    public static String[] getAllNeighborhoods(){
+    public static String[] getAllNeighborhoods() {
         return new String[]{"Benfica", "Caju", "Catumbi", "Centro (Bairro)", "Cidade Nova",
                 "Estácio", "Gamboa", "Glória", "Lapa", "Mangueira", "Rio Comprido",
                 "Santa Teresa", "Santo Cristo", "São Cristóvão", "Saúde", "Vasco da Gama",
@@ -188,12 +188,28 @@ public class Util {
                 "Região oceânica (Niterói)", "Rio Bonito", "São Gonçalo", "Tanguá"};
     }
 
+    public static String[] getAllNeighborhoodsLowerCase() {
+        String[] neighborhoods = getAllNeighborhoods();
+        for (int index = 0; index < neighborhoods.length; index++) {
+            neighborhoods[index] = neighborhoods[index].toLowerCase();
+        }
+        return neighborhoods;
+    }
+
     public static String[] getHubs() {
         return new String[]{"CCMN: Frente", "CCMN: Fundos", "CCS: Frente", "CCS: HUCFF", "CT: Bloco A", "CT: Bloco D", "CT: Bloco H", "EEFD", "Letras", "Reitoria"};
     }
 
     public static String[] getCenters() {
         return new String[]{"Todos os Centros", "CCMN", "CCS", "CT", "EEFD", "Letras", "Reitoria"};
+    }
+
+    public static String[] getCentersLowerCase() {
+        String[] center = getCenters();
+        for (int index = 0; index < center.length; index++) {
+            center[index] = center[index].toLowerCase();
+        }
+        return center;
     }
 
     public static String[] getCentersWithoutAllCenters() {
@@ -217,7 +233,7 @@ public class Util {
             Date date2 = new SimpleDateFormat("dd/MM/yyyy", Locale.US).parse(date);
             formattedTime = new SimpleDateFormat("yyyy-MM-dd", Locale.US).format(date2);
         } catch (ParseException e) {
-            try{
+            try {
                 Date date2 = new SimpleDateFormat("yyyy-MM-dd", Locale.US).parse(date);
                 formattedTime = new SimpleDateFormat("dd/MM/yyyy", Locale.US).format(date2);
             } catch (ParseException ex) {
@@ -254,18 +270,18 @@ public class Util {
     }
 
     // Input Date Format: "YYYY-MM-DD"
-    public static int getDayFromDate(String date){
+    public static int getDayFromDate(String date) {
         return Integer.parseInt(date.substring(8, 10));
     }
 
     // Input Date Format: "YYYY-MM-DD"
     // Return DD/MM
-    public static String getDayWithMonthFromDate(String date){
+    public static String getDayWithMonthFromDate(String date) {
         return date.substring(8, 10) + "/" + date.substring(5, 7);
     }
 
     // Input Date Format: "YYYY-MM-DD"
-    public static String getWeekDayFromDate(String dateString){
+    public static String getWeekDayFromDate(String dateString) {
         int dayOfWeekInt = -1;
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         try {
@@ -279,7 +295,7 @@ public class Util {
 
         String dayOfWeek = "";
 
-        switch (dayOfWeekInt){
+        switch (dayOfWeekInt) {
             case 1:
                 dayOfWeek = "Domingo";
                 break;
@@ -306,13 +322,13 @@ public class Util {
     }
 
     // Input Date Format: "YYYY-MM-DD"
-    public static int getDaysBetweenTwoDates(String date1String, String date2String){
+    public static int getDaysBetweenTwoDates(String date1String, String date2String) {
         try {
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
             Date date1 = format.parse(date1String);
             Date date2 = format.parse(date2String);
             long diff = date2.getTime() - date1.getTime();
-            return (int)TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+            return (int) TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
         } catch (ParseException e) {
             e.printStackTrace();
             return 0;
@@ -412,10 +428,111 @@ public class Util {
             int position = parent.getChildAdapterPosition(view);
             if (dataSize > 0 && position == dataSize - 1) {
                 outRect.set(0, 0, 0, mBottomOffset);
-            } else if(dataSize > 0 && position == 0) {
+            } else if (dataSize > 0 && position == 0) {
                 outRect.set(0, mTopOffset, 0, 0);
             } else
                 outRect.set(0, 0, 0, 0);
         }
+    }
+
+    // Return String[]{Bairro, dia, hora, centro}
+    public static String[] searchAlgorithin(String input, String[] list) {
+        input = input.toLowerCase();
+        String[] inputs = input.split(" ");
+        String[] results = new String[4];
+        String[] neighborhoods = getAllNeighborhoods();
+        String[] neighborhoodsLowerCase = getAllNeighborhoodsLowerCase();
+        String[] centers = getCenters();
+        String[] centersLowerCase = getCentersLowerCase();
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
+        Date todayDate = new Date();
+        String date = simpleDateFormat.format(todayDate);
+
+        simpleDateFormat = new SimpleDateFormat("HH:mm", Locale.US);
+        String hour = simpleDateFormat.format(new Date());
+
+
+        for (int i = 0; i < inputs.length; i++) {
+//            inputs[i] = inputs[i].replace(" ", "");
+            char[] c = inputs[i].toCharArray();
+            boolean isNumber = false;
+
+            for (int j = 0; j < c.length; j++) {
+                if (Character.isDigit(c[j])) {
+                    isNumber = true;
+                }
+            }
+            if (inputs[i].contains(":") && isNumber) {
+                String[] hourAndMinute = inputs[i].split(":");
+                for (int j = 0; j <  hourAndMinute.length; j++){
+                    if (j == 0 && Integer.parseInt(hourAndMinute[j]) > 23){
+                        hourAndMinute[j] = "23";
+                    } else if (j == 1 && Integer.parseInt(hourAndMinute[j]) > 59){
+                        hourAndMinute[j] = "59";
+                    }
+                    if (hourAndMinute.length == 1){
+                        hour = hourAndMinute[0] + ":00";
+                    } else {
+                        hour = hourAndMinute[0] + ":" + hourAndMinute[1];
+                    }
+                }
+            }
+
+            if (inputs[i].contains("/") && isNumber) {
+                String[] dayAndMonth = inputs[i].split("/");
+                for (int j = 0; i <  dayAndMonth.length; j++){
+                    if (j == 0 && Integer.parseInt(dayAndMonth[j]) > 31){
+                        dayAndMonth[j] = "31";
+                        date = dayAndMonth[j] + "/";
+                    }
+                    if (j == 1 && Integer.parseInt(dayAndMonth[j]) > 12){
+                        dayAndMonth[j] = "12";
+                        date = date + dayAndMonth[j];
+                    }
+                    if (j == 1 && Integer.parseInt(dayAndMonth[j]) == 0){
+                        dayAndMonth[j] = "1";
+                        date = date + dayAndMonth[j];
+                    }
+                    if (dayAndMonth.length == 1){
+                        date = dayAndMonth[0] + "/01/2017";
+                    } else {
+                        date = dayAndMonth[0] + "/" + dayAndMonth[1] + "/" + "2017";
+                    }
+                }
+            }
+
+            if (!(inputs[i].contains(":")) && !(inputs[i].contains("/")) && isNumber){
+                hour = inputs[i] + ":00";
+                date = inputs[i] + date.substring(2, date.length());
+            }
+        }
+
+        for (int j = 0; j < inputs.length; j++) {
+            for (int i = 0; i < neighborhoodsLowerCase.length; i++) {
+                if (neighborhoodsLowerCase[i].contains(inputs[j])) {
+                    results[0] = neighborhoods[i];
+                }
+            }
+        }
+
+        for (int j = 0; j < inputs.length; j++) {
+            for (int i = 0; i < centersLowerCase.length; i++) {
+                if (centersLowerCase[i].contains(inputs[j])) {
+                    results[3] = centers[i];
+                }
+            }
+        }
+
+        for (int i = 0; i < results.length; i++) {
+            if (results[i] == null) {
+                results[i] = "";
+            }
+        }
+
+        results[1] = date;
+        results[2] = hour;
+
+        return results;
     }
 }

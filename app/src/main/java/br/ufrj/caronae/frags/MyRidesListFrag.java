@@ -12,8 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.rey.material.widget.Button;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -47,8 +45,8 @@ public class MyRidesListFrag extends Fragment {
     RecyclerView myRidesList;
     @Bind(R.id.norides_tv)
     TextView norides_tv;
-    @Bind(R.id.deleteAll_bt)
-    Button deleteAll_bt;
+//    @Bind(R.id.deleteAll_bt)
+//    Button deleteAll_bt;
 
 
     ArrayList<Ride> rides;
@@ -132,7 +130,7 @@ public class MyRidesListFrag extends Fragment {
 
                 addAllMyRidesToList(rides);
 
-                deleteAll_bt.setVisibility(View.VISIBLE);
+//                deleteAll_bt.setVisibility(View.VISIBLE);
             } else {
                 norides_tv.setVisibility(View.VISIBLE);
             }

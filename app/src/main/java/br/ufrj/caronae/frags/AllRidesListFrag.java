@@ -1,20 +1,19 @@
 package br.ufrj.caronae.frags;
 
+import android.app.ProgressDialog;
+import android.net.TrafficStats;
 import android.os.Bundle;
+import android.os.Process;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.squareup.otto.Subscribe;
@@ -38,6 +37,7 @@ import br.ufrj.caronae.adapters.RideOfferAdapter;
 import br.ufrj.caronae.comparators.RideOfferComparatorByDateAndTime;
 import br.ufrj.caronae.models.RideRequestSent;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
+import br.ufrj.caronae.models.modelsforjson.RideSearchFiltersForJson;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import retrofit2.Call;
@@ -50,10 +50,12 @@ public class AllRidesListFrag extends Fragment implements Callback {
     TextView norides_tv;
     @Bind(R.id.swipeRefreshLayout)
     SwipeRefreshLayout refreshLayout;
-    @Bind(R.id.list_all_rides_search_text)
-    EditText searchText;
-    @Bind(R.id.search_card_view)
-    CardView searchCardView;
+//    @Bind(R.id.list_all_rides_search_text)
+//    EditText searchText;
+//    @Bind(R.id.search_card_view)
+//    CardView searchCardView;
+
+    long totalBytesConsumed = 0;
 
     RideOfferAdapter adapter;
 
@@ -65,8 +67,13 @@ public class AllRidesListFrag extends Fragment implements Callback {
 
     int pageIdentifier;
 
+    CharSequence filter;
+
     ArrayList<RideForJson> goingRides = new ArrayList<RideForJson>();
     ArrayList<RideForJson> notGoingRides = new ArrayList<RideForJson>();
+
+    ArrayList<RideForJson> filteredGoingList = new ArrayList<>();
+    ArrayList<RideForJson> filteredNotGoingList = new ArrayList<>();
 
     public AllRidesListFrag() {
     }
@@ -83,8 +90,10 @@ public class AllRidesListFrag extends Fragment implements Callback {
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                listCounter = 1;
-                refreshRideList(listCounter);
+//                listCounter = 1;
+                for (int counter = 1; counter <= listCounter; counter++) {
+                    refreshRideList(counter);
+                }
             }
         });
 
@@ -97,8 +106,7 @@ public class AllRidesListFrag extends Fragment implements Callback {
 
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                listCounter++;
-                refreshRideList(listCounter);
+                loadOneMorePage();
             }
         };
         rvRides.addOnScrollListener(scrollListener);
@@ -119,42 +127,53 @@ public class AllRidesListFrag extends Fragment implements Callback {
 //        ArrayAdapter<String> autoCompleteAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, neighborhoods);
 //        searchText.setAdapter(autoCompleteAdapter);
 
-        searchText.addTextChangedListener(new TextWatcher() {
-            RideOfferAdapter searchAdapter;
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                if (pageIdentifier == AllRidesFragmentPagerAdapter.PAGE_GOING) {
-                    ArrayList<RideForJson> listFiltered = filterList(goingRides, s);
-                    searchAdapter = new RideOfferAdapter(listFiltered, getContext(), getActivity().getFragmentManager());
-                    searchAdapter.makeList(listFiltered);
-                }
-                else {
-                    ArrayList<RideForJson> listFiltered = filterList(notGoingRides, s);
-                    searchAdapter = new RideOfferAdapter(listFiltered, getContext(), getActivity().getFragmentManager());
-                    searchAdapter.makeList(listFiltered);
-                }
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.length() > 0) {
-                    rvRides.setAdapter(searchAdapter);
-                } else {
-                    rvRides.setAdapter(adapter);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
+//        searchText.addTextChangedListener(new TextWatcher() {
+//            RideOfferAdapter searchAdapter;
+//            boolean isGoing = true;
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//                switch (AllRidesFragmentPagerAdapter.PAGE_GOING){
+//                    case 0:
+//                        isGoing = true;
+//                        break;
+//                    case 1:
+//                        isGoing = false;
+//                        break;
+//                }
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                if (s.length() == 0) {
+//                    rvRides.setAdapter(adapter);
+//                } else {
+////                    String[] filters = Util.searchAlgorithin(s.toString(), Util.getAllNeighborhoods());
+////
+////                    List<RideForJson> listFiltered = makeSearchOnline(filters[0], filters[1], filters[2], filters[3], isGoing, filters[0]);
+//
+//                    if (pageIdentifier == AllRidesFragmentPagerAdapter.PAGE_GOING) {
+//                        ArrayList<RideForJson> listFiltered = filterList(goingRides, s);
+//                        searchAdapter = new RideOfferAdapter(listFiltered, getContext(), getActivity().getFragmentManager());
+//                        searchAdapter.makeList(listFiltered);
+//                    } else {
+//                        ArrayList<RideForJson> listFiltered = filterList(notGoingRides, s);
+//                        searchAdapter = new RideOfferAdapter(listFiltered, getContext(), getActivity().getFragmentManager());
+//                        searchAdapter.makeList(listFiltered);
+//                    }
+//                    rvRides.setAdapter(searchAdapter);
+//                }
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//
+//            }
+//        });
 
         // After setting layout manager, adapter, etc...
         float offsetBottonPx = getResources().getDimension(R.dimen.recycler_view_botton_offset);
         float offsetTopPx = getResources().getDimension(R.dimen.recycler_view_top_offset);
-        Util.OffsetDecoration OffsetDecoration = new Util.OffsetDecoration((int) offsetBottonPx, (int)offsetTopPx);
+        Util.OffsetDecoration OffsetDecoration = new Util.OffsetDecoration((int) offsetBottonPx, (int) offsetTopPx);
         rvRides.addItemDecoration(OffsetDecoration);
 
         animateListFadeIn();
@@ -188,16 +207,26 @@ public class AllRidesListFrag extends Fragment implements Callback {
 
     void refreshRideList(final int pageNumber) {
 
+        final long bytesSoFar = TrafficStats.getUidRxBytes(Process.myUid());
         App.getNetworkService(getContext()).listAllRides(pageNumber + "")
                 .enqueue(new retrofit2.Callback<List<RideForJson>>() {
                     @Override
                     public void onResponse(Call<List<RideForJson>> call, Response<List<RideForJson>> response) {
+                        totalBytesConsumed = totalBytesConsumed + TrafficStats.getUidRxBytes(Process.myUid()) - bytesSoFar;
+                        Log.e("CONSUMPTION", "Bytes Consumed: " + totalBytesConsumed);
+                        Log.e("CONSUMPTION", "valor do pacote: " + TrafficStats.getUidRxBytes(Process.myUid()));
+
+                        switch (pageIdentifier){
+                            case 0:
+                                Log.e("CONSUMPTION", "Tamanho da lista " + goingRides.size());
+                                break;
+                            case 1:
+                                Log.e("CONSUMPTION", "Tamanho da lista " + notGoingRides.size());
+                                break;
+                        }
                         if (response.isSuccessful()) {
 
-                            boolean newGoingRides = false;
-                            boolean newNotGoindRides = false;
-
-                            if (listCounter == 1){
+                            if (listCounter == 1) {
                                 goingRides = new ArrayList<RideForJson>();
                                 notGoingRides = new ArrayList<RideForJson>();
                             }
@@ -221,16 +250,9 @@ public class AllRidesListFrag extends Fragment implements Callback {
                                     else {
                                         rideOffer.setDbId(rideOffer.getId().intValue());
                                         if (rideOffer.isGoing()) {
-                                            if (!checkIfRideIsInList(goingRides, rideOffer)) {
                                                 goingRides.add(rideOffer);
-                                                newGoingRides = true;
-                                            }
-                                        }
-                                        else {
-                                            if (!checkIfRideIsInList(notGoingRides, rideOffer)) {
+                                        } else {
                                                 notGoingRides.add(rideOffer);
-                                                newNotGoindRides = true;
-                                            }
                                         }
                                     }
                                 }
@@ -250,8 +272,10 @@ public class AllRidesListFrag extends Fragment implements Callback {
                                     norides_tv.setVisibility(View.VISIBLE);
                                 } else {
                                     norides_tv.setVisibility(View.INVISIBLE);
-                                    if (newGoingRides) {
+                                    if (filter == null) {
                                         adapter.makeList(goingRides);
+                                    } else {
+                                        adapter.makeList(filterList(goingRides, filter));
                                     }
                                     scrollListener.resetState();
                                 }
@@ -260,8 +284,10 @@ public class AllRidesListFrag extends Fragment implements Callback {
                                     norides_tv.setVisibility(View.VISIBLE);
                                 } else {
                                     norides_tv.setVisibility(View.INVISIBLE);
-                                    if (newNotGoindRides) {
+                                    if (filter == null) {
                                         adapter.makeList(notGoingRides);
+                                    } else {
+                                        adapter.makeList(filterList(notGoingRides, filter));
                                     }
                                     scrollListener.resetState();
                                 }
@@ -282,32 +308,136 @@ public class AllRidesListFrag extends Fragment implements Callback {
                     }
                 });
 
+        if (filter != null){
+            switch (pageNumber){
+                case 0:
+                    if (filteredGoingList.size() <= 8){
+                        loadOneMorePage();
+                    }
+                    break;
+                case 1:
+                    if (filteredNotGoingList.size() <= 8){
+                        loadOneMorePage();
+                    }
+                    break;
+            }
+        }
 
     }
 
-    private boolean checkIfRideIsInList(ArrayList<RideForJson> list, RideForJson ride){
+    private boolean checkIfRideIsInList(ArrayList<RideForJson> list, RideForJson ride) {
         boolean contains = false;
-        for (int counter = 0; counter < list.size(); counter++){
+        for (int counter = 0; counter < list.size(); counter++) {
             if (list.get(counter).getDbId() == ride.getId().intValue())
                 contains = true;
         }
         return contains;
     }
 
-    private ArrayList<RideForJson> filterList(ArrayList<RideForJson> listToFilter, CharSequence searchText){
+    private ArrayList<RideForJson> filterList(ArrayList<RideForJson> listToFilter, CharSequence searchText) {
         ArrayList<RideForJson> listFiltered = new ArrayList<>();
-        for (int ride = 0; ride < listToFilter.size(); ride++){
+        for (int ride = 0; ride < listToFilter.size(); ride++) {
             if (listToFilter.get(ride).getNeighborhood().toLowerCase().contains(searchText.toString().toLowerCase()))
                 listFiltered.add(listToFilter.get(ride));
         }
         return listFiltered;
     }
 
-    private void animateListFadeIn(){
+    private void animateListFadeIn() {
         Animation anim = new AlphaAnimation(0, 1);
         anim.setDuration(300);
         anim.setFillEnabled(true);
         anim.setFillAfter(true);
         rvRides.startAnimation(anim);
+    }
+
+    private List<RideForJson> makeSearchOnline(String location, String date, String time, String center, boolean go, String locationResumedField) {
+        final List<RideForJson> listFiltered = new ArrayList<>();
+        RideSearchFiltersForJson rideSearchFilters = new RideSearchFiltersForJson(location, date, time, center, go, locationResumedField);
+
+        Log.e("INPUT", "location: " + location);
+        Log.e("INPUT", "data: " + date);
+        Log.e("INPUT", "hora: " + time);
+        Log.e("INPUT", "center: " + center);
+        Log.e("INPUT", "locationResumeField: " + locationResumedField);
+
+        final ProgressDialog pd = ProgressDialog.show(getActivity(), "", getContext().getString(R.string.wait), true, true);
+        App.getNetworkService(getContext()).listFiltered(rideSearchFilters)
+                .enqueue(new retrofit2.Callback<List<RideForJson>>() {
+                    @Override
+                    public void onResponse(Call<List<RideForJson>> call, Response<List<RideForJson>> response) {
+                        if (response.isSuccessful()) {
+                            List<RideForJson> rideOffers = response.body();
+                            if (rideOffers != null && !rideOffers.isEmpty()) {
+                                Collections.sort(rideOffers, new RideOfferComparatorByDateAndTime());
+                                for (RideForJson rideOffer : rideOffers) {
+                                    rideOffer.setDbId(rideOffer.getId().intValue());
+                                }
+                                listFiltered.addAll(rideOffers);
+                            } else {
+                                Util.toast(R.string.frag_rideSearch_noRideFound);
+                                adapter.makeList(new ArrayList<RideForJson>());
+                            }
+                            pd.dismiss();
+                        } else {
+                            pd.dismiss();
+                            Util.toast(R.string.frag_rideSearch_errorListFiltered);
+                            Log.e("listFiltered", response.message());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<RideForJson>> call, Throwable t) {
+                        pd.dismiss();
+                        Util.toast(R.string.frag_rideSearch_errorListFiltered);
+                        Log.e("listFiltered", t.getMessage());
+                    }
+                });
+        return listFiltered;
+    }
+
+    @Subscribe
+    public void updateAdapter(ArrayList<Object> listFiltered) {
+        filteredGoingList.clear();
+        filteredNotGoingList.clear();
+
+        for (int rides = 1 ; rides < listFiltered.size(); rides++){
+            RideForJson ride = (RideForJson) listFiltered.get(rides);
+            if (ride.isGoing()){
+                filteredGoingList.add((RideForJson)listFiltered.get(rides));
+            } else {
+                filteredNotGoingList.add((RideForJson)listFiltered.get(rides));
+            }
+        }
+
+        if (pageIdentifier == AllRidesFragmentPagerAdapter.PAGE_GOING) {
+            if (filteredGoingList.size() == 0){
+                filter = null;
+                adapter.makeList(goingRides);
+                Util.toast("Nenhuma carona encontrada para esta busca");
+            } else {
+                filter = (CharSequence) listFiltered.get(0);
+//                searchAdapter = new RideOfferAdapter(listFiltered, context, activity.getFragmentManager());
+//                searchAdapter.makeList(listFiltered);
+                adapter.makeList(filteredGoingList);
+            }
+        } else {
+            if (filteredNotGoingList.size() == 0){
+                filter = null;
+                adapter.makeList(notGoingRides);
+                Util.toast("Nenhuma carona encontrada para esta busca");
+            } else {
+                filter = (CharSequence) listFiltered.get(0);
+//                searchAdapter = new RideOfferAdapter(listFiltered, context, activity.getFragmentManager());
+//                searchAdapter.makeList(listFiltered);
+                adapter.makeList(filteredNotGoingList);
+            }
+        }
+
+    }
+
+    private void loadOneMorePage(){
+        listCounter++;
+        refreshRideList(listCounter);
     }
 }
