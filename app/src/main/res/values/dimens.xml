@@ -14,7 +14,10 @@
 
     <dimen name="recycler_view_botton_offset_my_rides">64dp</dimen>
 
-    <dimen name="card_stroke_thickness">3dip</dimen>
+    <dimen name="card_stroke_thickness">2dip</dimen>
     <dimen name="card_stroke_radius">20dip</dimen>
+
+    <dimen name="post_it_height">200dp</dimen>
+    <dimen name="post_it_width">180dp</dimen>
 
 </resources>

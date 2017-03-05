@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/layout"
@@ -18,7 +18,7 @@
 
             <RelativeLayout
                 android:id="@+id/lay1_dt"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white">
 
@@ -43,12 +43,11 @@
 
             <RelativeLayout
                 android:id="@+id/lay2"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/lay1_dt"
-                android:layout_marginLeft="25dp"
-                android:layout_marginStart="25dp"
-                android:layout_marginTop="5dp">
+                android:layout_marginEnd="14dp"
+                android:layout_marginRight="14dp">
 
                 <ImageView
                     android:id="@+id/user_pic"
@@ -71,7 +70,7 @@
 
                 <RelativeLayout
                     android:id="@+id/lay21"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="20dp"
@@ -81,7 +80,7 @@
 
                     <TextView
                         android:id="@+id/name_dt"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Fulano da Silva"
                         android:textStyle="bold" />
@@ -107,8 +106,27 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/lay2"
-                android:layout_centerHorizontal="true">
+                android:layout_marginTop="8dp"
+                android:layout_centerHorizontal="true"
+                android:paddingBottom="16dp">
 
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_alignParentBottom="true"
+                    android:src="@color/gray"/>
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:src="@color/gray"
+                    android:layout_alignParentTop="true"/>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    >
                 <TextView
                     android:id="@+id/time_dt"
                     android:layout_width="wrap_content"
@@ -140,129 +158,186 @@
                     android:gravity="center"
                     android:text="16/10"
                     android:textStyle="bold" />
+                </RelativeLayout>
+
+
             </RelativeLayout>
 
-            <TextView
-                android:id="@+id/place_text_dt"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/lay3"
-                android:layout_marginLeft="30dp"
-                android:layout_marginStart="30dp"
-                android:layout_marginTop="10dp"
-                android:text="@string/myactiveride_placeTv"
-                android:textAllCaps="true"
-                android:textStyle="bold" />
+                android:layout_below="@+id/lay3">
 
-            <TextView
-                android:id="@+id/place_dt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/place_text_dt"
-                android:layout_marginLeft="50dp"
-                android:layout_marginStart="50dp"
-                android:text="Na frente do shopping" />
+                <RelativeLayout
+                    android:id="@+id/place_way_text_frame"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/way_text_dt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/place_dt"
-                android:layout_marginLeft="30dp"
-                android:layout_marginStart="30dp"
-                android:layout_marginTop="10dp"
-                android:text="@string/myactiveride_wayTv"
-                android:textAllCaps="true"
-                android:textStyle="bold" />
+                <android.support.v7.widget.CardView
+                    android:id="@+id/place_text_frame"
+                    android:layout_width="170dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    app:cardUseCompatPadding="true"
+                    app:contentPadding="8dp">
 
-            <TextView
-                android:id="@+id/way_dt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/way_text_dt"
-                android:layout_marginLeft="50dp"
-                android:layout_marginStart="50dp"
-                android:text="Leopoldina" />
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/description_text_dt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/way_dt"
-                android:layout_marginLeft="30dp"
-                android:layout_marginStart="30dp"
-                android:layout_marginTop="20dp"
-                android:text="@string/myactiveride_descriptionTv"
-                android:textAllCaps="true"
-                android:textStyle="bold" />
+                        <TextView
+                            android:id="@+id/place_text_dt"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
+                            android:gravity="center"
+                            android:text="@string/myactiveride_placeTv"
+                            android:textAllCaps="true"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/description_dt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/description_text_dt"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp"
-                android:text="Lorem ipsum dolor sit amet" />
+                        <TextView
+                            android:id="@+id/place_dt"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/place_text_dt"
+                            android:text="Na frente fasffasdasdasdasdas" />
+                    </RelativeLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/way_text_frame"
+                    android:layout_width="170dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="8dp"
+                    app:cardUseCompatPadding="true"
+                    app:contentPadding="8dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/way_text_dt"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
+                            android:gravity="center"
+                            android:text="@string/myactiveride_wayTv"
+                            android:textAllCaps="true"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/way_dt"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/way_text_dt"
+                            android:gravity="center"
+                            android:text="Leopoldina" />
+                    </RelativeLayout>
+                </android.support.v7.widget.CardView>
+
+                </RelativeLayout>
+
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/description_text_frame"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/place_way_text_frame"
+                    app:cardUseCompatPadding="true"
+                    app:contentPadding="8dp"
+                    android:paddingTop="16dp">
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/description_text_dt"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:paddingBottom="8dp"
+                            android:text="@string/myactiveride_descriptionTv"
+                            android:textAllCaps="true"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/description_dt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_below="@id/description_text_dt"
+                            android:paddingLeft="8dp"
+                            android:paddingRight="8dp"
+                            android:text="Lorem ipsum dolor sit aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbccccc" />
+                    </RelativeLayout>
+                </android.support.v7.widget.CardView>
+
+
+            </RelativeLayout>
         </RelativeLayout>
 
-    </ScrollView>
-
-    <TextView
-        android:id="@+id/requested_dt"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/act_rideoffer_requested"
-        android:textColor="@color/green"
-        android:textStyle="bold"
-        android:visibility="invisible" />
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/activity_vertical_margin"
-        android:orientation="horizontal">
-
-        <FrameLayout
-            android:id="@+id/dissmis_bt_frame"
+        <TextView
+            android:id="@+id/requested_dt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/transparent">
+            android:gravity="center"
+            android:text="@string/act_rideoffer_requested"
+            android:textColor="@color/green"
+            android:textStyle="bold"
+            android:visibility="invisible" />
 
-            <com.github.clans.fab.FloatingActionButton
-                android:id="@+id/dissmis_bt"
-                style="@style/LightRaiseColorButtonRippleStyle"
-                android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:orientation="horizontal">
+
+            <FrameLayout
+                android:id="@+id/dissmis_bt_frame"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="56dp"
-                android:layout_gravity="left|top"
-                android:layout_marginBottom="8dp"
-                android:src="@drawable/ic_clear_white_24dp"
-                app:fab_colorNormal="@color/gray"
-                app:fab_colorPressed="@color/dark_gray" />
+                android:background="@android:color/transparent">
 
-        </FrameLayout>
+                <com.github.clans.fab.FloatingActionButton
+                    android:id="@+id/dissmis_bt"
+                    style="@style/LightRaiseColorButtonRippleStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left|top"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginLeft="56dp"
+                    android:src="@drawable/ic_clear_white_24dp"
+                    app:fab_colorNormal="@color/gray"
+                    app:fab_colorPressed="@color/dark_gray" />
 
-        <FrameLayout
-            android:id="@+id/join_bt_frame"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:background="@android:color/transparent">
+            </FrameLayout>
 
-            <com.github.clans.fab.FloatingActionButton
-                android:id="@+id/join_bt"
-                android:layout_width="wrap_content"
+            <FrameLayout
+                android:id="@+id/join_bt_frame"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="56dp"
-                android:layout_gravity="right|top"
-                android:layout_marginBottom="8dp"
-                android:src="@drawable/ic_done_white_24dp" />
+                android:background="@android:color/transparent">
 
-        </FrameLayout>
+                <com.github.clans.fab.FloatingActionButton
+                    android:id="@+id/join_bt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_gravity="right|top"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginRight="56dp"
+                    android:src="@drawable/ic_done_white_24dp" />
 
-    </RelativeLayout>
-</LinearLayout>
+            </FrameLayout>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+</ScrollView>

@@ -58,4 +58,23 @@
         <item name="android:textColor">@color/black</item>
     </style>
 
+    <style name="post_it_text_header">
+        <item name="android:layout_marginLeft">32dp</item>
+        <item name="android:layout_marginStart">32dp</item>
+        <item name="android:paddingRight">50dp</item>
+        <item name="android:layout_marginTop">22dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="post_it_text">
+        <item name="android:layout_marginLeft">28dp</item>
+        <item name="android:layout_marginStart">28dp</item>
+        <item name="android:paddingRight">32dp</item>
+        <item name="android:maxHeight">96dp</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
+
 </resources>

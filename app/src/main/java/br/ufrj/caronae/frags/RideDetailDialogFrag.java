@@ -227,7 +227,7 @@ public class RideDetailDialogFrag extends DialogFragment {
 
                             @Override
                             public void onPositiveActionClicked(com.rey.material.app.DialogFragment fragment) {
-                                final ProgressDialog pd = ProgressDialog.show(getActivity().getApplicationContext(), "", getString(R.string.wait), true, true);
+                                final ProgressDialog pd = ProgressDialog.show(getContext(), "", getString(R.string.wait), true, true);
                                 App.getNetworkService(getActivity().getApplicationContext()).requestJoin(new RideIdForJson(rideWithUsers.getDbId()))
                                         .enqueue(new Callback<ResponseBody>() {
                                             @Override

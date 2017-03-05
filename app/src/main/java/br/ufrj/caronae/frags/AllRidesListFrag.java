@@ -214,7 +214,6 @@ public class AllRidesListFrag extends Fragment implements Callback {
                     public void onResponse(Call<List<RideForJson>> call, Response<List<RideForJson>> response) {
                         totalBytesConsumed = totalBytesConsumed + TrafficStats.getUidRxBytes(Process.myUid()) - bytesSoFar;
                         Log.e("CONSUMPTION", "Bytes Consumed: " + totalBytesConsumed);
-                        Log.e("CONSUMPTION", "valor do pacote: " + TrafficStats.getUidRxBytes(Process.myUid()));
 
                         switch (pageIdentifier){
                             case 0:
