@@ -4,7 +4,7 @@
     android:id="@+id/item_rideoffer_parent_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/list_white_transparency"
+    android:background="@android:color/transparent"
     android:clickable="true"
     android:foreground="?android:attr/selectableItemBackground"
     android:padding="8dp">
