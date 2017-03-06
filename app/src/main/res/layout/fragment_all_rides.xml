@@ -19,6 +19,7 @@
         android:layout_alignParentTop="true"
         android:paddingBottom="@dimen/tab_indicator_padding_botton"
         android:paddingTop="8dp"
+        app:tabTextAppearance="@style/TabLayoutTextAppearance"
         app:tabBackground="@drawable/tab_background_selector"
         app:tabIndicatorHeight="0dp" />
 
