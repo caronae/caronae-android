@@ -1,6 +1,9 @@
 package br.ufrj.caronae.frags;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -49,8 +52,8 @@ public class AllRidesFrag extends Fragment {
     ViewPager viewPager;
     @Bind(R.id.progressBar2)
     ProgressBar progressBar2;
-    @Bind(R.id.fab_menu)
-    FloatingActionMenu fab_menu;
+    //    @Bind(R.id.fab_menu)
+    static FloatingActionMenu fab_menu;
     @Bind(R.id.fab_add_ride)
     com.github.clans.fab.FloatingActionButton fab_add_ride;
     @Bind(R.id.fab_active_rides)
@@ -59,6 +62,9 @@ public class AllRidesFrag extends Fragment {
     EditText searchText;
     @Bind(R.id.search_card_view)
     CardView searchCardView;
+//    @Bind(R.id.all_rides_coordinator)
+
+    static CoordinatorLayout coordinatorLayout;
 
     ArrayList<RideForJson> goingRides = new ArrayList<>(), notGoingRides = new ArrayList<>();
 
@@ -72,6 +78,10 @@ public class AllRidesFrag extends Fragment {
         View view = inflater.inflate(R.layout.fragment_all_rides, container, false);
         ButterKnife.bind(this, view);
         listAllRides(1);
+
+        coordinatorLayout = (CoordinatorLayout) view.findViewById(R.id.all_rides_coordinator);
+
+        fab_menu = (FloatingActionMenu) view.findViewById(R.id.fab_menu);
 
         searchText.addTextChangedListener(new TextWatcher() {
 
@@ -254,5 +264,29 @@ public class AllRidesFrag extends Fragment {
                 listFiltered.add(listToFilter.get(ride));
         }
         return listFiltered;
+    }
+
+    public static Snackbar makeLoadingRidesSnack() {
+        Snackbar snackbar = Snackbar.make(coordinatorLayout, coordinatorLayout.getResources().getString(R.string.load_more_rides), Snackbar.LENGTH_INDEFINITE);
+        return snackbar;
+    }
+
+    public static void showSnack(Snackbar snackbar) {
+        fab_menu.animate().translationY(-Util.convertDpToPixel(snackbar.getView().getContext(), 32));
+        snackbar.show();
+    }
+
+    public static void dismissSnack(Snackbar snackbar) {
+        fab_menu.animate().translationY(Util.convertDpToPixel(snackbar.getView().getContext(), 32));
+        snackbar.dismiss();
+    }
+
+    public static Snackbar makeNoConexionSnack() {
+        Snackbar snackbar = Snackbar.make(coordinatorLayout, coordinatorLayout.getResources().getString(R.string.no_conexion), Snackbar.LENGTH_LONG);
+        return snackbar;
+    }
+
+    public static void pushDownFab(Context context){
+        fab_menu.animate().translationY(Util.convertDpToPixel(context, 32));
     }
 }

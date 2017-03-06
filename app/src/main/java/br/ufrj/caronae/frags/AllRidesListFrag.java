@@ -45,6 +45,13 @@ import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Response;
 
+import static br.ufrj.caronae.frags.AllRidesFrag.dismissSnack;
+import static br.ufrj.caronae.frags.AllRidesFrag.makeLoadingRidesSnack;
+import static br.ufrj.caronae.frags.AllRidesFrag.makeNoConexionSnack;
+import static br.ufrj.caronae.frags.AllRidesFrag.pushDownFab;
+import static br.ufrj.caronae.frags.AllRidesFrag.showSnack;
+
+
 public class AllRidesListFrag extends Fragment implements Callback {
     @Bind(R.id.rvRides)
     RecyclerView rvRides;
@@ -164,8 +171,12 @@ public class AllRidesListFrag extends Fragment implements Callback {
 
     void refreshRideList(final int pageNumber) {
 
-        final Snackbar snackbar = Snackbar.make(coordinatorLayout, "Carregando mais caronas", Snackbar.LENGTH_INDEFINITE);
-        snackbar.show();
+        final Snackbar snackbar = makeLoadingRidesSnack();
+        final Snackbar snackbar1 = makeNoConexionSnack();
+        if (snackbar1.isShown()){
+            dismissSnack(snackbar1);
+        }
+        showSnack(snackbar);
         final long bytesSoFar = TrafficStats.getUidRxBytes(Process.myUid());
         App.getNetworkService(getContext()).listAllRides(pageNumber + "")
                 .enqueue(new retrofit2.Callback<List<RideForJson>>() {
@@ -174,7 +185,7 @@ public class AllRidesListFrag extends Fragment implements Callback {
                         totalBytesConsumed = totalBytesConsumed + TrafficStats.getUidRxBytes(Process.myUid()) - bytesSoFar;
                         Log.e("CONSUMPTION", "Bytes Consumed: " + totalBytesConsumed);
 
-                        switch (pageIdentifier){
+                        switch (pageIdentifier) {
                             case 0:
                                 Log.e("CONSUMPTION", "Tamanho da lista " + goingRides.size());
                                 break;
@@ -208,9 +219,9 @@ public class AllRidesListFrag extends Fragment implements Callback {
                                     else {
                                         rideOffer.setDbId(rideOffer.getId().intValue());
                                         if (rideOffer.isGoing()) {
-                                                goingRides.add(rideOffer);
+                                            goingRides.add(rideOffer);
                                         } else {
-                                                notGoingRides.add(rideOffer);
+                                            notGoingRides.add(rideOffer);
                                         }
                                     }
                                 }
@@ -256,27 +267,44 @@ public class AllRidesListFrag extends Fragment implements Callback {
                             refreshLayout.setRefreshing(false);
                             Log.e("listAllRides", response.message());
                         }
-                        snackbar.dismiss();
+                        dismissSnack(snackbar);
+                        scrollListener.resetState();
                     }
 
                     @Override
                     public void onFailure(Call<List<RideForJson>> call, Throwable t) {
-                        Util.toast(R.string.frag_allrides_errorGetRides);
+                        dismissSnack(snackbar);
+                        snackbar1.setAction("CONECTAR", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                refreshRideList(pageNumber);
+                            }
+                        });
+
+                        snackbar1.setCallback(new Snackbar.Callback() {
+                            @Override
+                            public void onDismissed(Snackbar snackbar, int event) {
+                                pushDownFab(getContext());
+                            }
+                        });
+
+                        showSnack(snackbar1);
+//                        Util.toast(R.string.frag_allrides_errorGetRides);
                         refreshLayout.setRefreshing(false);
                         Log.e("listAllRides", t.getMessage());
-                        snackbar.dismiss();
+                        scrollListener.resetState();
                     }
                 });
 
-        if (filter != null){
-            switch (pageNumber){
+        if (filter != null) {
+            switch (pageNumber) {
                 case 0:
-                    if (filteredGoingList.size() <= 8){
+                    if (filteredGoingList.size() <= 8) {
                         loadOneMorePage();
                     }
                     break;
                 case 1:
-                    if (filteredNotGoingList.size() <= 8){
+                    if (filteredNotGoingList.size() <= 8) {
                         loadOneMorePage();
                     }
                     break;
@@ -361,17 +389,17 @@ public class AllRidesListFrag extends Fragment implements Callback {
         filteredGoingList.clear();
         filteredNotGoingList.clear();
 
-        for (int rides = 1 ; rides < listFiltered.size(); rides++){
+        for (int rides = 1; rides < listFiltered.size(); rides++) {
             RideForJson ride = (RideForJson) listFiltered.get(rides);
-            if (ride.isGoing()){
-                filteredGoingList.add((RideForJson)listFiltered.get(rides));
+            if (ride.isGoing()) {
+                filteredGoingList.add((RideForJson) listFiltered.get(rides));
             } else {
-                filteredNotGoingList.add((RideForJson)listFiltered.get(rides));
+                filteredNotGoingList.add((RideForJson) listFiltered.get(rides));
             }
         }
 
         if (pageIdentifier == AllRidesFragmentPagerAdapter.PAGE_GOING) {
-            if (filteredGoingList.size() == 0){
+            if (filteredGoingList.size() == 0) {
                 filter = null;
                 adapter.makeList(goingRides);
                 Util.toast("Nenhuma carona encontrada para esta busca");
@@ -382,7 +410,7 @@ public class AllRidesListFrag extends Fragment implements Callback {
                 adapter.makeList(filteredGoingList);
             }
         } else {
-            if (filteredNotGoingList.size() == 0){
+            if (filteredNotGoingList.size() == 0) {
                 filter = null;
                 adapter.makeList(notGoingRides);
                 Util.toast("Nenhuma carona encontrada para esta busca");
@@ -396,7 +424,7 @@ public class AllRidesListFrag extends Fragment implements Callback {
 
     }
 
-    private void loadOneMorePage(){
+    private void loadOneMorePage() {
         listCounter++;
         refreshRideList(listCounter);
     }
