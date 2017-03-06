@@ -277,12 +277,16 @@ public class MyRidesListFrag extends Fragment {
     }
 
     private void addAllActiveRidesToList(List<RideForJson> rideWithUsersList) {
-        for (int allRidesIndex = 0; allRidesIndex < allRides.size(); allRidesIndex++) {
-            if (allRides.get(allRidesIndex).getClass() == RideForJson.class) {
-                allRides.remove(allRidesIndex);
-            }
-        }
+//        for (int allRidesIndex = 0; allRidesIndex < allRides.size(); allRidesIndex++) {
+//            if (allRides.get(allRidesIndex).getClass() == RideForJson.class) {
+//                allRides.remove(allRidesIndex);
+//            }
+//        }
+
+        allRides = new ArrayList<>();
 //        allRides.addAll(rideWithUsersList);
+
+
         for (int ridesIndex = 0; ridesIndex < rideWithUsersList.size(); ridesIndex++) {
             if (rideWithUsersList.get(ridesIndex).isGoing() == going) {
                 allRides.add(rideWithUsersList.get(ridesIndex));
@@ -291,11 +295,18 @@ public class MyRidesListFrag extends Fragment {
     }
 
     private void addAllMyRidesToList(List<Ride> rides) {
-        for (int allRidesIndex = 0; allRidesIndex < allRides.size(); allRidesIndex++) {
-            if (allRides.get(allRidesIndex).getClass() == RideForJson.class) {
-                allRides.remove(allRidesIndex);
+//        for (int allRidesIndex = 0; allRidesIndex < allRides.size(); allRidesIndex++) {
+//            if (allRides.get(allRidesIndex).getClass() == RideForJson.class) {
+//                allRides.remove(allRidesIndex);
+//            }
+//        }
+
+        for (int ridesIndex = 0; ridesIndex < rides.size(); ridesIndex++) {
+            if (rides.get(ridesIndex).isGoing() == going) {
+                allRides.add(rides.get(ridesIndex));
             }
         }
-        allRides.addAll(rides);
+
+//        allRides.addAll(rides);
     }
 }
