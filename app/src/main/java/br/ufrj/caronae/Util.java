@@ -428,10 +428,10 @@ public class Util {
             int position = parent.getChildAdapterPosition(view);
             if (dataSize > 0 && position == dataSize - 1) {
                 outRect.set(0, 0, 0, mBottomOffset);
-            } else if (dataSize > 0 && position == 0) {
+            }
+            if (dataSize > 0 && position == 0) {
                 outRect.set(0, mTopOffset, 0, 0);
-            } else
-                outRect.set(0, 0, 0, 0);
+            }
         }
     }
 

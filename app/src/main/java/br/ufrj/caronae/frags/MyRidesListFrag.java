@@ -71,11 +71,11 @@ public class MyRidesListFrag extends Fragment {
 
         float offsetBottonPx = getResources().getDimension(R.dimen.recycler_view_botton_offset_my_rides);
         float offsetTopPx = getResources().getDimension(R.dimen.recycler_view_top_offset);
-        Util.OffsetDecoration OffsetDecoration = new Util.OffsetDecoration((int) offsetBottonPx, (int)offsetTopPx);
+        Util.OffsetDecoration OffsetDecoration = new Util.OffsetDecoration((int) offsetBottonPx, (int) offsetTopPx);
 
         myRidesList.addItemDecoration(OffsetDecoration);
 
-        new LoadRides().execute();
+        getActiveRides();
 
         return view;
     }
@@ -115,7 +115,6 @@ public class MyRidesListFrag extends Fragment {
                 }
             }
 
-            getActiveRides();
             return null;
         }
 
@@ -124,15 +123,18 @@ public class MyRidesListFrag extends Fragment {
             if (!rides.isEmpty()) {
                 Collections.sort(rides, new RideComparatorByDateAndTime());
 
-                for (int i = 0; i < rides.size(); i++){
+                for (int i = 0; i < rides.size(); i++) {
                     Log.e("ERROu", "My RIdes: " + rides.get(i).getHub());
                 }
 
                 addAllMyRidesToList(rides);
 
 //                deleteAll_bt.setVisibility(View.VISIBLE);
-            } else {
+            }
+            if (allRides.size() == 0) {
                 norides_tv.setVisibility(View.VISIBLE);
+            } else {
+                updateAdapter();
             }
         }
     }
@@ -198,7 +200,7 @@ public class MyRidesListFrag extends Fragment {
 //        fragment.show(getActivity().getSupportFragmentManager(), null);
 //    }
 
-    private void getActiveRides(){
+    private void getActiveRides() {
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -208,7 +210,7 @@ public class MyRidesListFrag extends Fragment {
                             @Override
                             public void onResponse(Call<List<RideForJson>> call, Response<List<RideForJson>> response) {
 
-                                if (response.isSuccessful()){
+                                if (response.isSuccessful()) {
 
                                     List<RideForJson> rideWithUsersList = response.body();
                                     if (rideWithUsersList == null || rideWithUsersList.isEmpty()) {
@@ -230,12 +232,11 @@ public class MyRidesListFrag extends Fragment {
 
                                         FirebaseTopicsHandler.subscribeFirebaseTopic(rideId + "");
 
-                                        new ActiveRide(rideWithUsers.getDbId(),rideWithUsers.isGoing(), rideWithUsers.getDate()).save();
+                                        new ActiveRide(rideWithUsers.getDbId(), rideWithUsers.isGoing(), rideWithUsers.getDate()).save();
                                     }
 
                                     Collections.sort(rideWithUsersList, new RideOfferComparatorByDateAndTime());
                                     addAllActiveRidesToList(rideWithUsersList);
-                                    updateAdapter();
 
                                     for (int i = 0; i < rideWithUsersList.size(); i++) {
                                         Log.e("ERROu", "My Active RIdes: " + rideWithUsersList.get(i).getId());
@@ -250,6 +251,7 @@ public class MyRidesListFrag extends Fragment {
 
                                     Log.e("getMyActiveRides", response.message());
                                 }
+                                new LoadRides().execute();
                             }
 
                             @Override
@@ -259,6 +261,8 @@ public class MyRidesListFrag extends Fragment {
                                 norides_tv.setVisibility(View.VISIBLE);
                                 Util.toast(R.string.frag_myactiverides_errorGetActiveRides);
 
+                                new LoadRides().execute();
+
                                 Log.e("getMyActiveRides", t.getMessage());
                             }
                         });
@@ -266,15 +270,15 @@ public class MyRidesListFrag extends Fragment {
         });
     }
 
-    private void updateAdapter(){
+    private void updateAdapter() {
         adapter = new MyRidesAdapter(allRides, (MainAct) getActivity());
         myRidesList.setAdapter(adapter);
         myRidesList.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
 
-    private void addAllActiveRidesToList(List<RideForJson> rideWithUsersList){
-        for (int allRidesIndex = 0; allRidesIndex < allRides.size(); allRidesIndex++){
-            if (allRides.get(allRidesIndex).getClass() == RideForJson.class){
+    private void addAllActiveRidesToList(List<RideForJson> rideWithUsersList) {
+        for (int allRidesIndex = 0; allRidesIndex < allRides.size(); allRidesIndex++) {
+            if (allRides.get(allRidesIndex).getClass() == RideForJson.class) {
                 allRides.remove(allRidesIndex);
             }
         }
@@ -286,9 +290,9 @@ public class MyRidesListFrag extends Fragment {
         }
     }
 
-    private void addAllMyRidesToList(List<Ride> rides){
-        for (int allRidesIndex = 0; allRidesIndex < allRides.size(); allRidesIndex++){
-            if (allRides.get(allRidesIndex).getClass() == RideForJson.class){
+    private void addAllMyRidesToList(List<Ride> rides) {
+        for (int allRidesIndex = 0; allRidesIndex < allRides.size(); allRidesIndex++) {
+            if (allRides.get(allRidesIndex).getClass() == RideForJson.class) {
                 allRides.remove(allRidesIndex);
             }
         }

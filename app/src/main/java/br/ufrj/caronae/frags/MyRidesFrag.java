@@ -52,7 +52,8 @@ public class MyRidesFrag extends Fragment {
 
         fab_active_rides.setLabelText(getString(R.string.frag_allrides_title));
 
-        prepareFloatingActionMenu();
+//        prepareFloatingActionMenu();
+        fab_menu.setVisibility(View.VISIBLE);
 
         configureTabIndicators();
 

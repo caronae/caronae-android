@@ -123,53 +123,6 @@ public class AllRidesListFrag extends Fragment implements Callback {
 
         App.getBus().register(this);
 
-//        String[] neighborhoods = Util.getAllNeighborhoods();
-//        ArrayAdapter<String> autoCompleteAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, neighborhoods);
-//        searchText.setAdapter(autoCompleteAdapter);
-
-//        searchText.addTextChangedListener(new TextWatcher() {
-//            RideOfferAdapter searchAdapter;
-//            boolean isGoing = true;
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//                switch (AllRidesFragmentPagerAdapter.PAGE_GOING){
-//                    case 0:
-//                        isGoing = true;
-//                        break;
-//                    case 1:
-//                        isGoing = false;
-//                        break;
-//                }
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                if (s.length() == 0) {
-//                    rvRides.setAdapter(adapter);
-//                } else {
-////                    String[] filters = Util.searchAlgorithin(s.toString(), Util.getAllNeighborhoods());
-////
-////                    List<RideForJson> listFiltered = makeSearchOnline(filters[0], filters[1], filters[2], filters[3], isGoing, filters[0]);
-//
-//                    if (pageIdentifier == AllRidesFragmentPagerAdapter.PAGE_GOING) {
-//                        ArrayList<RideForJson> listFiltered = filterList(goingRides, s);
-//                        searchAdapter = new RideOfferAdapter(listFiltered, getContext(), getActivity().getFragmentManager());
-//                        searchAdapter.makeList(listFiltered);
-//                    } else {
-//                        ArrayList<RideForJson> listFiltered = filterList(notGoingRides, s);
-//                        searchAdapter = new RideOfferAdapter(listFiltered, getContext(), getActivity().getFragmentManager());
-//                        searchAdapter.makeList(listFiltered);
-//                    }
-//                    rvRides.setAdapter(searchAdapter);
-//                }
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//
-//            }
-//        });
-
         // After setting layout manager, adapter, etc...
         float offsetBottonPx = getResources().getDimension(R.dimen.recycler_view_botton_offset);
         float offsetTopPx = getResources().getDimension(R.dimen.recycler_view_top_offset);
