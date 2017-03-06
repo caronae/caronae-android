@@ -117,7 +117,7 @@
             android:src="@drawable/ic_directions_car_white_24dp"
             fab:fab_colorNormal="@color/green"
             fab:fab_colorPressed="@android:color/white"
-            fab:fab_label="Caronas Ativas"
+            fab:fab_label="@string/frag_myactiverides_title"
             fab:fab_size="mini" />
 
 
@@ -127,7 +127,7 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_add_white_24dp"
             fab:fab_colorNormal="@color/yellow"
-            fab:fab_label="Criar Carona"
+            fab:fab_label="@string/act_main_setRideOfferFragTitle"
             fab:fab_size="mini" />
 
     </com.github.clans.fab.FloatingActionMenu>

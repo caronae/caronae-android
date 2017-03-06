@@ -186,7 +186,7 @@
     <string name="frag_profile_title">Perfil</string>
     <string name="frag_allrides_title">Todas as caronas</string>
     <string name="frag_myrides_title">Minhas Ofertas</string>
-    <string name="frag_myactiverides_title">Caronas Ativas</string>
+    <string name="frag_myactiverides_title">Minhas Caronas</string>
     <string name="frag_history_title">Histórico</string>
     <string name="frag_faq_title">FAQ</string>
     <string name="frag_falae_title">Falaê</string>
