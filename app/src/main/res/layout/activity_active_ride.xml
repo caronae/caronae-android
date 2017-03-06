@@ -44,11 +44,83 @@
                     android:textStyle="bold" />
             </RelativeLayout>
 
+            <LinearLayout
+                android:id="@+id/lay3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/lay1"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3">
+
+                    <ImageView
+                        android:id="@+id/time_iv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_access_time_black_24dp" />
+
+                    <br.ufrj.caronae.AutoResizeTextView
+                        android:id="@+id/time_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_toEndOf="@+id/time_iv"
+                        android:layout_toRightOf="@+id/time_iv"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:text="Chegando ás 16:45"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <br.ufrj.caronae.AutoResizeTextView
+                        android:id="@+id/dash"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_toRightOf="@id/time_tv"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:text=" - "
+                        android:textSize="12sp" />
+
+                    <br.ufrj.caronae.AutoResizeTextView
+                        android:id="@+id/date_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_toRightOf="@id/dash"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:text="16/10"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                </RelativeLayout>
+
+                <com.rey.material.widget.Button
+                    android:id="@+id/leave_bt"
+                    style="@style/LightRaiseColorButtonRippleStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_bt_raise_transparent"
+                    android:gravity="center"
+                    android:text="@string/act_activeride_quitBtn"
+                    android:textColor="@color/red"
+                    app:rd_enable="true" />
+            </LinearLayout>
+
             <RelativeLayout
                 android:id="@+id/lay2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/lay1"
+                android:layout_below="@+id/lay3"
                 android:layout_marginLeft="30dp"
                 android:layout_marginStart="30dp"
                 android:layout_marginTop="5dp">
@@ -103,13 +175,29 @@
                         android:layout_below="@+id/profile_tv"
                         android:text="Ciência da computação" />
 
-                    <TextView
-                        android:id="@+id/phoneNumber_tv"
+                    <LinearLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/course_tv"
-                        android:text="997338158"
-                        android:textColor="@color/blue" />
+                        android:layout_height="match_parent"
+                        android:layout_below="@+id/course_tv">
+
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:layout_below="@+id/course_tv"
+                            android:layout_marginRight="8dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_phone_black_24dp" />
+
+                        <TextView
+                            android:id="@+id/phoneNumber_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_below="@+id/course_tv"
+                            android:text="997338158"
+                            android:textColor="@color/blue" />
+
+                    </LinearLayout>
                 </RelativeLayout>
             </RelativeLayout>
 
@@ -126,8 +214,9 @@
                     android:id="@+id/chat_bt"
                     style="@style/LightRaiseColorButtonRippleStyle"
                     android:layout_width="150dp"
-                    android:layout_height="36dp"
+                    android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
+                    android:background="@drawable/bg_bt_raise"
                     android:text="@string/myactiveride_openchatBt"
                     android:textColor="@color/white"
                     app:rd_enable="true" />
@@ -136,7 +225,7 @@
                     android:id="@+id/finish_bt"
                     style="@style/LightRaiseColorButtonRippleStyle"
                     android:layout_width="150dp"
-                    android:layout_height="36dp"
+                    android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="5dp"
                     android:layout_marginStart="5dp"
@@ -147,71 +236,12 @@
                     app:rd_enable="true" />
             </RelativeLayout>
 
-            <RelativeLayout
-                android:id="@+id/lay3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/lay4"
-                android:layout_centerHorizontal="true"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp">
-
-                <ImageView
-                    android:id="@+id/time_iv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/ic_access_time_black_24dp" />
-
-                <TextView
-                    android:id="@+id/time_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginStart="5dp"
-                    android:layout_toEndOf="@+id/time_iv"
-                    android:layout_toRightOf="@+id/time_iv"
-                    android:gravity="center"
-                    android:text="Chegando ás 16:45"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/date_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignEnd="@+id/time_tv"
-                    android:layout_alignLeft="@+id/time_tv"
-                    android:layout_alignRight="@+id/time_tv"
-                    android:layout_alignStart="@+id/time_tv"
-                    android:layout_below="@+id/time_tv"
-                    android:layout_centerHorizontal="true"
-                    android:gravity="center"
-                    android:paddingTop="15dp"
-                    android:text="16/10"
-                    android:textStyle="bold" />
-
-                <com.rey.material.widget.Button
-                    android:id="@+id/leave_bt"
-                    style="@style/LightRaiseColorButtonRippleStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="30dp"
-                    android:layout_marginStart="30dp"
-                    android:layout_toEndOf="@+id/time_tv"
-                    android:layout_toRightOf="@+id/time_tv"
-                    android:background="@drawable/bg_bt_raise"
-                    android:text="@string/act_activeride_quitBtn"
-                    android:textColor="@color/red"
-                    app:rd_enable="true" />
-            </RelativeLayout>
 
             <TextView
                 android:id="@+id/place_text_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/lay3"
+                android:layout_below="@+id/lay4"
                 android:layout_marginLeft="30dp"
                 android:layout_marginStart="30dp"
                 android:layout_marginTop="10dp"
@@ -309,13 +339,13 @@
 
             <ImageView
                 android:id="@+id/car_color_iv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:layout_below="@+id/carModel_tv"
                 android:layout_marginLeft="30dp"
                 android:layout_marginStart="30dp"
                 android:layout_marginTop="5dp"
-                android:src="@drawable/ic_directions_car_black_24dp" />
+                android:src="@drawable/ic_color_wheel" />
 
             <TextView
                 android:id="@+id/carColor_tv"

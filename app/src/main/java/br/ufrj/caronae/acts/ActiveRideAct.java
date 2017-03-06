@@ -225,7 +225,7 @@ public class ActiveRideAct extends AppCompatActivity {
         final String rideId = rideId2;
 
         if (isDriver) {
-            leave_bt.setText(R.string.cancelCaps);
+            leave_bt.setText(R.string.act_activeride_quitBtn);
             seeProfile_iv.setVisibility(View.GONE);
         }
         leave_bt.setOnClickListener(new View.OnClickListener() {
