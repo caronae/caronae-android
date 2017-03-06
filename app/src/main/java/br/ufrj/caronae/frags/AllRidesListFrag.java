@@ -4,6 +4,8 @@ import android.app.ProgressDialog;
 import android.net.TrafficStats;
 import android.os.Bundle;
 import android.os.Process;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -50,6 +52,8 @@ public class AllRidesListFrag extends Fragment implements Callback {
     TextView norides_tv;
     @Bind(R.id.swipeRefreshLayout)
     SwipeRefreshLayout refreshLayout;
+    @Bind(R.id.all_rides_list_coordinator_layout)
+    CoordinatorLayout coordinatorLayout;
 //    @Bind(R.id.list_all_rides_search_text)
 //    EditText searchText;
 //    @Bind(R.id.search_card_view)
@@ -160,6 +164,8 @@ public class AllRidesListFrag extends Fragment implements Callback {
 
     void refreshRideList(final int pageNumber) {
 
+        final Snackbar snackbar = Snackbar.make(coordinatorLayout, "Carregando mais caronas", Snackbar.LENGTH_INDEFINITE);
+        snackbar.show();
         final long bytesSoFar = TrafficStats.getUidRxBytes(Process.myUid());
         App.getNetworkService(getContext()).listAllRides(pageNumber + "")
                 .enqueue(new retrofit2.Callback<List<RideForJson>>() {
@@ -250,6 +256,7 @@ public class AllRidesListFrag extends Fragment implements Callback {
                             refreshLayout.setRefreshing(false);
                             Log.e("listAllRides", response.message());
                         }
+                        snackbar.dismiss();
                     }
 
                     @Override
@@ -257,6 +264,7 @@ public class AllRidesListFrag extends Fragment implements Callback {
                         Util.toast(R.string.frag_allrides_errorGetRides);
                         refreshLayout.setRefreshing(false);
                         Log.e("listAllRides", t.getMessage());
+                        snackbar.dismiss();
                     }
                 });
 
