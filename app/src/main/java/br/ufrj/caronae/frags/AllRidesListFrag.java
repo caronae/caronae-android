@@ -48,7 +48,6 @@ import retrofit2.Response;
 import static br.ufrj.caronae.frags.AllRidesFrag.dismissSnack;
 import static br.ufrj.caronae.frags.AllRidesFrag.makeLoadingRidesSnack;
 import static br.ufrj.caronae.frags.AllRidesFrag.makeNoConexionSnack;
-import static br.ufrj.caronae.frags.AllRidesFrag.pushDownFab;
 import static br.ufrj.caronae.frags.AllRidesFrag.showSnack;
 
 
@@ -280,14 +279,6 @@ public class AllRidesListFrag extends Fragment implements Callback {
                                 refreshRideList(pageNumber);
                             }
                         });
-
-                        snackbar1.setCallback(new Snackbar.Callback() {
-                            @Override
-                            public void onDismissed(Snackbar snackbar, int event) {
-                                pushDownFab(getContext());
-                            }
-                        });
-
                         showSnack(snackbar1);
 //                        Util.toast(R.string.frag_allrides_errorGetRides);
                         refreshLayout.setRefreshing(false);

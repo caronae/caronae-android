@@ -77,9 +77,10 @@ public class AllRidesFrag extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_all_rides, container, false);
         ButterKnife.bind(this, view);
-        listAllRides(1);
 
         coordinatorLayout = (CoordinatorLayout) view.findViewById(R.id.all_rides_coordinator);
+
+        listAllRides(1);
 
         fab_menu = (FloatingActionMenu) view.findViewById(R.id.fab_menu);
 
@@ -115,12 +116,15 @@ public class AllRidesFrag extends Fragment {
         return view;
     }
 
-    private void listAllRides(int pageNum) {
+    private void listAllRides(final int pageNum) {
+
+        final Snackbar snackbar = makeNoConexionSnack();
 
         App.getNetworkService(getContext()).listAllRides(pageNum + "")
                 .enqueue(new Callback<List<RideForJson>>() {
                     @Override
                     public void onResponse(Call<List<RideForJson>> call, Response<List<RideForJson>> response) {
+                        dismissSnack(snackbar);
                         if (response.isSuccessful()) {
                             progressBar2.setVisibility(View.GONE);
 
@@ -171,6 +175,13 @@ public class AllRidesFrag extends Fragment {
                         progressBar2.setVisibility(View.GONE);
                         Log.e("listAllRides", t.getMessage());
                         showFAB();
+                        snackbar.setAction("CONECTAR", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                listAllRides(pageNum);
+                            }
+                        });
+                        showSnack(snackbar);
                     }
                 });
     }
@@ -282,7 +293,7 @@ public class AllRidesFrag extends Fragment {
     }
 
     public static Snackbar makeNoConexionSnack() {
-        Snackbar snackbar = Snackbar.make(coordinatorLayout, coordinatorLayout.getResources().getString(R.string.no_conexion), Snackbar.LENGTH_LONG);
+        Snackbar snackbar = Snackbar.make(coordinatorLayout, coordinatorLayout.getResources().getString(R.string.no_conexion), Snackbar.LENGTH_INDEFINITE);
         return snackbar;
     }
 
