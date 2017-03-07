@@ -52,6 +52,8 @@ import static br.ufrj.caronae.frags.AllRidesFrag.showSnack;
 
 
 public class AllRidesListFrag extends Fragment implements Callback {
+
+    private int TOTAL_PAGES_COUNT = 5;
     @Bind(R.id.rvRides)
     RecyclerView rvRides;
     @Bind(R.id.norides_tv)
@@ -69,7 +71,7 @@ public class AllRidesListFrag extends Fragment implements Callback {
 
     RideOfferAdapter adapter;
 
-    int listCounter = 1;
+    int pageCounter = 1;
 
     private EndlessRecyclerViewScrollListener scrollListener;
 
@@ -77,7 +79,7 @@ public class AllRidesListFrag extends Fragment implements Callback {
 
     int pageIdentifier;
 
-    CharSequence filter;
+    CharSequence filter = null;
 
     ArrayList<RideForJson> goingRides = new ArrayList<RideForJson>();
     ArrayList<RideForJson> notGoingRides = new ArrayList<RideForJson>();
@@ -100,8 +102,8 @@ public class AllRidesListFrag extends Fragment implements Callback {
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-//                listCounter = 1;
-                for (int counter = 1; counter <= listCounter; counter++) {
+//                pageCounter = 1;
+                for (int counter = 1; counter <= pageCounter; counter++) {
                     refreshRideList(counter);
                 }
             }
@@ -116,7 +118,8 @@ public class AllRidesListFrag extends Fragment implements Callback {
 
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                loadOneMorePage();
+                if (pageCounter <= TOTAL_PAGES_COUNT)
+                    loadOneMorePage();
             }
         };
         rvRides.addOnScrollListener(scrollListener);
@@ -164,7 +167,7 @@ public class AllRidesListFrag extends Fragment implements Callback {
     @Override
     public void onResume() {
         super.onResume();
-        refreshRideList(listCounter);
+        refreshRideList(pageCounter);
 //        AllRidesFrag.prepareFloatingActionMenu(getContext());
     }
 
@@ -194,7 +197,7 @@ public class AllRidesListFrag extends Fragment implements Callback {
                         }
                         if (response.isSuccessful()) {
 
-                            if (listCounter == 1) {
+                            if (pageCounter == 1) {
                                 goingRides = new ArrayList<RideForJson>();
                                 notGoingRides = new ArrayList<RideForJson>();
                             }
@@ -416,7 +419,7 @@ public class AllRidesListFrag extends Fragment implements Callback {
     }
 
     private void loadOneMorePage() {
-        listCounter++;
-        refreshRideList(listCounter);
+        pageCounter++;
+        refreshRideList(pageCounter);
     }
 }

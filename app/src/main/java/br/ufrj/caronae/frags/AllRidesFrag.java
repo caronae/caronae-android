@@ -120,6 +120,8 @@ public class AllRidesFrag extends Fragment {
 
         final Snackbar snackbar = makeNoConexionSnack();
 
+        progressBar2.setVisibility(View.VISIBLE);
+
         App.getNetworkService(getContext()).listAllRides(pageNum + "")
                 .enqueue(new Callback<List<RideForJson>>() {
                     @Override

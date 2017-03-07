@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -53,6 +54,8 @@ import br.ufrj.caronae.frags.TabbedRideOfferFrag;
 import br.ufrj.caronae.frags.TermsOfUseFrag;
 import br.ufrj.caronae.models.User;
 
+import static br.ufrj.caronae.acts.StartAct.MSG_TYPE_ALERT;
+
 public class MainAct extends AppCompatActivity {
 
     private static final int GPLAY_UNAVAILABLE = 123;
@@ -80,6 +83,23 @@ public class MainAct extends AppCompatActivity {
         //Subscripe to topics
         FirebaseUtils.SubscribeToTopic("user-" + App.getUser().getDbId());
         FirebaseUtils.SubscribeToTopic(SharedPref.TOPIC_GERAL);
+
+        String alert = PreferenceManager.getDefaultSharedPreferences(this).getString(MSG_TYPE_ALERT, "");
+        Log.i("onMessageReceived", "texto: " + StartAct.ALERT_KEY +  alert);
+
+        if (!alert.equals("")){
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage(alert);
+            builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            AlertDialog dialog = builder.create();
+            dialog.show();
+            PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString(StartAct.MSG_TYPE_ALERT, "").commit();
+        }
 
         mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 

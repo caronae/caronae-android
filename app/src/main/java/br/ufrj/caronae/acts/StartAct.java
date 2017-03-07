@@ -2,6 +2,7 @@ package br.ufrj.caronae.acts;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
@@ -12,6 +13,11 @@ public class StartAct extends AppCompatActivity {
     private final String RIDE_ID_BUNDLE_KEY                   = "rideId";
 
     private final String MSG_TYPE_BUNDLE_KEY                  = "msgType";
+
+    public static final String MSG_TYPE_ALERT                  = "alert";
+
+    public static final String ALERT_KEY                       = "message";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +54,10 @@ public class StartAct extends AppCompatActivity {
                 intent.putExtra(RIDE_ID_BUNDLE_KEY, (String) bundle.get(RIDE_ID_BUNDLE_KEY));
                 intent.putExtras(bundle);
                 startActivity(intent);
+            } else if (bundle != null
+                    && bundle.get(MSG_TYPE_BUNDLE_KEY) != null
+                    && bundle.get(MSG_TYPE_BUNDLE_KEY).equals("alert")){
+                PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString(MSG_TYPE_ALERT,(String) bundle.get(ALERT_KEY)).commit();
             } else {
                 startActivity(new Intent(this, MainAct.class));
             }

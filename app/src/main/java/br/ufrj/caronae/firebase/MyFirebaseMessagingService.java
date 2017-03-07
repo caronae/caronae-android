@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
@@ -32,71 +33,79 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private static final int MESSAGE_NOTIFICATION_ID = 435345;
 
+    private final String MSG_TYPE_ALERT                       = "alert";
+
+    public static final String ALERT_KEY                       = "message";
+
 
     @Override
     public void onMessageReceived(final RemoteMessage remoteMessage) {
         Log.i("onMessageReceived", "onMessageReceived");
 
-        if (App.isUserLoggedIn()) {
+        if (App.isUserLoggedIn() && remoteMessage.getData() != null) {
             Map data = remoteMessage.getData();
-            String message = (String) data.get("message");
             String msgType = (String) data.get("msgType");
-            String senderName = (String) data.get("senderName");
+            if (msgType != null && msgType.equals("alert")) {
+                Log.i("onMessageReceived", "alert " + data.get("message"));
+                PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString(MSG_TYPE_ALERT, (String) data.get(ALERT_KEY)).apply();
+            } else {
+                String message = (String) data.get("message");
+                String senderName = (String) data.get("senderName");
 
-            final String rideId = (String) data.get("rideId");
+                final String rideId = (String) data.get("rideId");
 
-            Log.i("onMessageReceived", message);
+                Log.i("onMessageReceived", message);
 
-            if (msgType != null && msgType.equals("chat")) {
-                String senderId = (String) data.get("senderId");
-                //noinspection ConstantConditions
-                if (senderId.equals(App.getUser().getDbId() + "")) {
-                    return;
+                if (msgType != null && msgType.equals("chat")) {
+                    String senderId = (String) data.get("senderId");
+                    //noinspection ConstantConditions
+                    if (senderId.equals(App.getUser().getDbId() + "")) {
+                        return;
+                    }
+
+                    List<ChatMessageReceived> listOldMessages = ChatMessageReceived.find(ChatMessageReceived.class, "ride_id = ?", rideId);
+
+                    ChatMessageReceived lastMessage = null;
+                    if (listOldMessages.size() != 0) {
+                        lastMessage = listOldMessages.get(listOldMessages.size() - 1);
+                    }
+
+                    String since;
+                    if (lastMessage == null) {
+                        since = null;
+                    } else {
+                        since = lastMessage.getTime();
+                    }
+
+                    if (!SharedPref.getChatActIsForeground()) {
+                        startService(new Intent(this, FetchReceivedMessagesService.class).putExtra("rideId", rideId).putExtra("since", since));
+                    }
                 }
 
-                List<ChatMessageReceived> listOldMessages = ChatMessageReceived.find(ChatMessageReceived.class, "ride_id = ?", rideId);
 
-                ChatMessageReceived lastMessage = null;
-                if (listOldMessages.size() != 0) {
-                    lastMessage = listOldMessages.get(listOldMessages.size() - 1);
+                // TODO: Check msgType = melhorar informacoes na notificacao
+
+                if (msgType != null && msgType.equals("joinRequest")) {
+                    new RideRequestReceived(Integer.valueOf(rideId)).save();
                 }
 
-                String since;
-                if (lastMessage == null) {
-                    since = null;
-                } else {
-                    since = lastMessage.getTime();
+                if (msgType != null && msgType.equals("finished")) {
+                    FirebaseTopicsHandler.unsubscribeFirebaseTopic(rideId);
+                    App.getBus().post(new RideEndedEvent(rideId));
+                    ActiveRide.deleteAll(ActiveRide.class, "db_id = ?", rideId);
                 }
 
-                if (!SharedPref.getChatActIsForeground()) {
-                    startService(new Intent(this, FetchReceivedMessagesService.class).putExtra("rideId", rideId).putExtra("since", since));
+                // TODO:Carona cancelada Nao esta rebendo notificacao
+                if (msgType != null && msgType.equals("cancelled")) {
+                    FirebaseTopicsHandler.unsubscribeFirebaseTopic(rideId);
+                    App.getBus().post(new RideEndedEvent(rideId));
+                    ActiveRide.deleteAll(ActiveRide.class, "db_id = ?", rideId);
                 }
-            }
 
-
-            // TODO: Check msgType = melhorar informacoes na notificacao
-
-            if (msgType != null && msgType.equals("joinRequest")) {
-                new RideRequestReceived(Integer.valueOf(rideId)).save();
-            }
-
-            if (msgType != null && msgType.equals("finished")) {
-                FirebaseTopicsHandler.unsubscribeFirebaseTopic(rideId);
-                App.getBus().post(new RideEndedEvent(rideId));
-                ActiveRide.deleteAll(ActiveRide.class, "db_id = ?", rideId);
-            }
-
-            // TODO:Carona cancelada Nao esta rebendo notificacao
-            if (msgType != null && msgType.equals("cancelled")) {
-                FirebaseTopicsHandler.unsubscribeFirebaseTopic(rideId);
-                App.getBus().post(new RideEndedEvent(rideId));
-                ActiveRide.deleteAll(ActiveRide.class, "db_id = ?", rideId);
-            }
-
-            if (msgType != null && msgType.equals("accepted")) {
-                FirebaseTopicsHandler.CheckSubFirebaseTopic(rideId);
-                //new DeleteConflictingRequests().execute(rideId);
-            }
+                if (msgType != null && msgType.equals("accepted")) {
+                    FirebaseTopicsHandler.CheckSubFirebaseTopic(rideId);
+                    //new DeleteConflictingRequests().execute(rideId);
+                }
 
 //        if (msgType != null && msgType.equals("refused")) {
 //            FirebaseTopicsHandler.CheckSubFirebaseTopic(rideId);
@@ -108,17 +117,18 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 //            //new DeleteConflictingRequests().execute(rideId);
 //        }
 
-            if (SharedPref.getNotifPref().equals("true"))
-                if (msgType != null && msgType.equals("chat")) {
-                    if (!SharedPref.getChatActIsForeground()) {
+                if (SharedPref.getNotifPref().equals("true"))
+                    if (msgType != null && msgType.equals("chat")) {
+                        if (!SharedPref.getChatActIsForeground()) {
+                            createNotification(msgType, senderName, message, rideId);
+                        } else {
+                            App.getBus().post(rideId);
+                        }
+                    } else
                         createNotification(msgType, senderName, message, rideId);
-                    } else {
-                        App.getBus().post(rideId);
-                    }
-                } else
-                    createNotification(msgType, senderName, message, rideId);
 
 //        startService(new Intent(getApplicationContext(), FetchReceivedMessagesService.class));
+            }
         }
     }
 
