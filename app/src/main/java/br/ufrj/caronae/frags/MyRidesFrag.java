@@ -1,6 +1,7 @@
 package br.ufrj.caronae.frags;
 
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -8,6 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
 import com.github.clans.fab.FloatingActionButton;
@@ -53,6 +55,15 @@ public class MyRidesFrag extends Fragment {
         fab_active_rides.setLabelText(getString(R.string.frag_allrides_title));
 
 //        prepareFloatingActionMenu();
+//        CoordinatorLayout.LayoutParams params = new CoordinatorLayout.LayoutParams(CoordinatorLayout.LayoutParams.WRAP_CONTENT,
+//                CoordinatorLayout.LayoutParams.WRAP_CONTENT);
+//        int margin = Util.convertDpToPixel(getContext(), 16);
+//        params.setMargins(margin,
+//                margin,
+//                margin,
+//                margin);
+//        fab_menu.setLayoutParams(params);
+        fab_menu.animate().translationY(Util.convertDpToPixel(getContext(), 32));
         fab_menu.setVisibility(View.VISIBLE);
 
         configureTabIndicators();

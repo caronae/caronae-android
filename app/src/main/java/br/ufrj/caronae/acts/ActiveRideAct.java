@@ -26,6 +26,8 @@ import com.rey.material.widget.FloatingActionButton;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
 
+import org.w3c.dom.Text;
+
 import java.util.List;
 
 import br.ufrj.caronae.App;
@@ -77,8 +79,12 @@ public class ActiveRideAct extends AppCompatActivity {
     public Button leave_bt;
     @Bind(R.id.way_tv)
     public TextView way_tv;
+    @Bind(R.id.way_text_tv)
+    public TextView way_text_tv;
     @Bind(R.id.place_tv)
     public TextView place_tv;
+    @Bind(R.id.place_text_tv)
+    public TextView place_text_tv;
     @Bind(R.id.carModel_tv)
     public TextView carModel_tv;
     @Bind(R.id.carColor_tv)
@@ -87,6 +93,8 @@ public class ActiveRideAct extends AppCompatActivity {
     public TextView carPlate_tv;
     @Bind(R.id.description_tv)
     public TextView description_tv;
+    @Bind(R.id.description_text_tv)
+    public TextView description_text_tv;
     @Bind(R.id.lay1)
     public RelativeLayout lay1;
     @Bind(R.id.ridersList)
@@ -195,8 +203,18 @@ public class ActiveRideAct extends AppCompatActivity {
         location_tv.setText(location);
         name_tv.setText(driver.getName());
         profile_tv.setText(driver.getProfile());
-        way_tv.setText(rideWithUsers.getRoute());
-        place_tv.setText(rideWithUsers.getPlace());
+        if (rideWithUsers.getRoute().equals("")){
+            way_tv.setVisibility(View.GONE);
+            way_text_tv.setVisibility(View.GONE);
+        } else {
+            way_tv.setText(rideWithUsers.getRoute());
+        }
+        if (rideWithUsers.getPlace().equals("")){
+            place_text_tv.setVisibility(View.GONE);
+            place_tv.setVisibility(View.GONE);
+        } else {
+            place_tv.setText(rideWithUsers.getPlace());
+        }
         phoneNumber_tv.setText(driver.getPhoneNumber());
         course_tv.setText(driver.getCourse());
         if (rideWithUsers.isGoing())
@@ -209,7 +227,12 @@ public class ActiveRideAct extends AppCompatActivity {
         carModel_tv.setText(driver.getCarModel());
         carColor_tv.setText(driver.getCarColor());
         carPlate_tv.setText(driver.getCarPlate());
-        description_tv.setText(rideWithUsers.getDescription());
+        if (rideWithUsers.getDescription().equals("")){
+            description_text_tv.setVisibility(View.GONE);
+            description_tv.setVisibility(View.GONE);
+        } else {
+            description_tv.setText(rideWithUsers.getDescription());
+        }
 
         ridersList.setAdapter(new RidersAdapter(rideWithUsers.getRiders(), this));
         ridersList.setHasFixedSize(true);
