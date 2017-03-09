@@ -22,6 +22,7 @@ import com.google.gson.Gson;
 import com.rey.material.app.Dialog;
 import com.rey.material.app.DialogFragment;
 import com.rey.material.app.SimpleDialog;
+import com.rey.material.widget.FloatingActionButton;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
 
@@ -65,7 +66,7 @@ public class ActiveRideAct extends AppCompatActivity {
     @Bind(R.id.phoneNumber_tv)
     public TextView phoneNumber_tv;
     @Bind(R.id.chat_bt)
-    public Button chat_bt;
+    public com.github.clans.fab.FloatingActionButton chat_bt;
     @Bind(R.id.finish_bt)
     public Button finish_bt;
     @Bind(R.id.time_tv)
@@ -122,37 +123,46 @@ public class ActiveRideAct extends AppCompatActivity {
 
         final boolean isDriver = driver.getDbId() == App.getUser().getDbId();
 
-        int color = 0, bgRes = 0;
+        int color = 0, colorPressed = 0, bgRes = 0;
         if (rideWithUsers.getZone().equals("Centro")) {
             color = ContextCompat.getColor(this, R.color.zone_centro);
+            colorPressed = ContextCompat.getColor(this, R.color.light_zone_centro_transparency);
             bgRes = R.drawable.bg_bt_raise_zone_centro;
         }
         if (rideWithUsers.getZone().equals("Zona Sul")) {
             color = ContextCompat.getColor(this, R.color.zone_sul);
+            colorPressed = ContextCompat.getColor(this, R.color.light_zone_sul_transparency);
             bgRes = R.drawable.bg_bt_raise_zone_sul;
         }
         if (rideWithUsers.getZone().equals("Zona Oeste")) {
             color = ContextCompat.getColor(this, R.color.zone_oeste);
+            colorPressed = ContextCompat.getColor(this, R.color.light_zone_oeste_transparency);
             bgRes = R.drawable.bg_bt_raise_zone_oeste;
         }
         if (rideWithUsers.getZone().equals("Zona Norte")) {
             color = ContextCompat.getColor(this, R.color.zone_norte);
+            colorPressed = ContextCompat.getColor(this, R.color.light_zone_norte_transparency);
             bgRes = R.drawable.bg_bt_raise_zone_norte;
         }
         if (rideWithUsers.getZone().equals("Baixada")) {
             color = ContextCompat.getColor(this, R.color.zone_baixada);
+            colorPressed = ContextCompat.getColor(this, R.color.light_zone_baixada_transparency);
             bgRes = R.drawable.bg_bt_raise_zone_baixada;
         }
         if (rideWithUsers.getZone().equals("Grande Niterói")) {
             color = ContextCompat.getColor(this, R.color.zone_niteroi);
+            colorPressed = ContextCompat.getColor(this, R.color.light_zone_niteroi_transparency);
             bgRes = R.drawable.bg_bt_raise_zone_niteroi;
         }
         if (rideWithUsers.getZone().equals("Outros")) {
             color = ContextCompat.getColor(this, R.color.zone_outros);
+            colorPressed = ContextCompat.getColor(this, R.color.light_gray);
             bgRes = R.drawable.bg_bt_raise_zone_outros;
         }
         lay1.setBackgroundColor(color);
-        chat_bt.setBackgroundResource(bgRes);
+        chat_bt.setColorNormal(color);
+        chat_bt.setColorPressed(colorPressed);
+        finish_bt.setTextColor(color);
 
         final String location;
         if (rideWithUsers.isGoing())

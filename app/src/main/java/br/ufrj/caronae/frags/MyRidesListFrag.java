@@ -122,11 +122,6 @@ public class MyRidesListFrag extends Fragment {
         protected void onPostExecute(Void aVoid) {
             if (!rides.isEmpty()) {
                 Collections.sort(rides, new RideComparatorByDateAndTime());
-
-                for (int i = 0; i < rides.size(); i++) {
-                    Log.e("ERROu", "My RIdes: " + rides.get(i).getHub());
-                }
-
                 addAllMyRidesToList(rides);
 
 //                deleteAll_bt.setVisibility(View.VISIBLE);

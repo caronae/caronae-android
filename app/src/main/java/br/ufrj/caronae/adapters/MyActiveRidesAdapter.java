@@ -2,6 +2,7 @@ package br.ufrj.caronae.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
@@ -22,8 +23,10 @@ import br.ufrj.caronae.R;
 import br.ufrj.caronae.RoundedTransformation;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.ActiveRideAct;
+import br.ufrj.caronae.acts.ChatAct;
 import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.acts.ProfileAct;
+import br.ufrj.caronae.models.ChatAssets;
 import br.ufrj.caronae.models.NewChatMsgIndicator;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
 
@@ -56,29 +59,37 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
 
         Drawable background = ContextCompat.getDrawable(activity, R.drawable.card_list_bg_zone_outros);
         int color = ContextCompat.getColor(activity, R.color.zone_outros);
+        int bgRes = R.drawable.bg_bt_raise_zone_outros;
+
         if (rideOffer.getZone().equals("Centro")) {
             background = ContextCompat.getDrawable(activity, R.drawable.card_list_bg_zone_centro);
             color = ContextCompat.getColor(activity, R.color.zone_centro);
+            bgRes = R.drawable.bg_bt_raise_zone_centro;
         }
         if (rideOffer.getZone().equals("Zona Sul")) {
             background = ContextCompat.getDrawable(activity, R.drawable.card_list_bg_zone_sul);
             color = ContextCompat.getColor(activity, R.color.zone_sul);
+            bgRes = R.drawable.bg_bt_raise_zone_sul;
         }
         if (rideOffer.getZone().equals("Zona Oeste")) {
             background = ContextCompat.getDrawable(activity, R.drawable.card_list_bg_zone_oeste);
             color = ContextCompat.getColor(activity, R.color.zone_oeste);
+            bgRes = R.drawable.bg_bt_raise_zone_oeste;
         }
         if (rideOffer.getZone().equals("Zona Norte")) {
             background = ContextCompat.getDrawable(activity, R.drawable.card_list_bg_zone_norte);
             color = ContextCompat.getColor(activity, R.color.zone_norte);
+            bgRes = R.drawable.bg_bt_raise_zone_norte;
         }
         if (rideOffer.getZone().equals("Baixada")) {
             background = ContextCompat.getDrawable(activity, R.drawable.card_list_bg_zone_baixada);
             color = ContextCompat.getColor(activity, R.color.zone_baixada);
+            bgRes = R.drawable.bg_bt_raise_zone_baixada;
         }
         if (rideOffer.getZone().equals("Grande Niterói")) {
             background = ContextCompat.getDrawable(activity, R.drawable.card_list_bg_zone_niteroi);
             color = ContextCompat.getColor(activity, R.color.zone_niteroi);
+            bgRes = R.drawable.bg_bt_raise_zone_niteroi;
         }
         viewHolder.cardView.setBackground(background);
         viewHolder.location_tv.setTextColor(color);
@@ -123,9 +134,29 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
             public void onClick(View view) {
                 NewChatMsgIndicator.deleteAll(NewChatMsgIndicator.class, "db_id = ?", rideOffer.getDbId()+"");
                 viewHolder.newMsgIndicator_iv.setVisibility(View.INVISIBLE);
+                int colorChat = ContextCompat.getColor(activity, R.color.gray);
+                viewHolder.newMsgIndicator_iv.setColorFilter(colorChat);
 
                 Intent intent = new Intent(activity, ActiveRideAct.class);
                 intent.putExtra("ride", rideOffer);
+                activity.startActivity(intent);
+            }
+        });
+
+        final int finalColor = color;
+        final int finalBgRes = bgRes;
+        final String finallocation = location;
+        viewHolder.newMsgIndicator_iv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                List<ChatAssets> l = ChatAssets.find(ChatAssets.class, "ride_id = ?", rideOffer.getDbId() + "");
+                if (l == null || l.isEmpty())
+                    new ChatAssets(rideOffer.getDbId() + "", finallocation, finalColor, finalBgRes,
+                            Util.formatBadDateWithoutYear(rideOffer.getDate()),
+                            Util.formatTime(rideOffer.getTime())).save();
+
+                Intent intent = new Intent(activity, ChatAct.class);
+                intent.putExtra("rideId", rideOffer.getDbId() + "");
                 activity.startActivity(intent);
             }
         });
@@ -139,8 +170,16 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
             }
         }
 
-        if (!found)
+        if (!found) {
+            int colorChat = ContextCompat.getColor(activity, R.color.gray);
+            viewHolder.newMsgIndicator_iv.setColorFilter(colorChat);
             viewHolder.newMsgIndicator_iv.setVisibility(View.INVISIBLE);
+        }
+
+//        int colorChat = ContextCompat.getColor(activity, R.color.black);
+//        viewHolder.newMsgIndicator_iv.setColorFilter(colorChat);
+//        viewHolder.newMsgIndicator_iv.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_color_wheel));
+//        viewHolder.newMsgIndicator_iv.setVisibility(View.VISIBLE);
     }
 
     public void remove(int rideId) {

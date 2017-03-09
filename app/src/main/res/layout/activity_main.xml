@@ -48,5 +48,14 @@
         android:background="@color/list_white_transparency"
         app:menu="@menu/drawer_view">
 
+        <TextView
+            android:id="@+id/text_version"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:textColor="@color/black"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"/>
+
     </android.support.design.widget.NavigationView>
 </android.support.v4.widget.DrawerLayout>

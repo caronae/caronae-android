@@ -63,6 +63,7 @@ public class MainAct extends AppCompatActivity {
     private DrawerLayout mDrawer;
     private ActionBarDrawerToggle drawerToggle;
     private CallbackManager callbackManager;
+    private TextView versionText;
 
     private ArrayList<Class> backstack;
 
@@ -84,8 +85,10 @@ public class MainAct extends AppCompatActivity {
         FirebaseUtils.SubscribeToTopic("user-" + App.getUser().getDbId());
         FirebaseUtils.SubscribeToTopic(SharedPref.TOPIC_GERAL);
 
+        versionText = (TextView) findViewById(R.id.text_version);
+        versionText.setText("Caronae " + Util.getAppVersionName(this));
+
         String alert = PreferenceManager.getDefaultSharedPreferences(this).getString(MSG_TYPE_ALERT, "");
-        Log.i("onMessageReceived", "texto: " + StartAct.ALERT_KEY +  alert);
 
         if (!alert.equals("")){
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
