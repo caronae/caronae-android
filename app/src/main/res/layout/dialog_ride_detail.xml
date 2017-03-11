@@ -44,6 +44,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/lay1_dt"
+                android:layout_marginLeft="14dp"
                 android:layout_marginEnd="14dp"
                 android:layout_marginRight="14dp">
 
@@ -177,9 +178,10 @@
                 <android.support.v7.widget.CardView
                     android:id="@+id/place_text_frame"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:layout_marginLeft="8dp"
+                    app:cardBackgroundColor="@android:color/transparent"
                     app:cardUseCompatPadding="true"
                     app:contentPadding="8dp">
 
@@ -203,7 +205,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/place_text_dt"
-                            android:textColor="@color/gray"
                             android:text="Na frente fasffasdasdasdasdas" />
                     </RelativeLayout>
 
@@ -212,11 +213,12 @@
                 <android.support.v7.widget.CardView
                     android:id="@+id/way_text_frame"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:layout_toLeftOf="@id/place_text_frame"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="8dp"
+                    app:cardBackgroundColor="@android:color/transparent"
                     app:cardUseCompatPadding="true"
                     app:contentPadding="8dp">
 
@@ -254,6 +256,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/place_way_text_frame"
                     app:cardUseCompatPadding="true"
+                    app:cardBackgroundColor="@android:color/transparent"
                     app:contentPadding="8dp"
                     android:paddingTop="16dp">
 

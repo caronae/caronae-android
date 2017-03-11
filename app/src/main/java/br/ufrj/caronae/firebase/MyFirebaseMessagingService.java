@@ -46,7 +46,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             Map data = remoteMessage.getData();
             String msgType = (String) data.get("msgType");
             if (msgType != null && msgType.equals("alert")) {
-                Log.i("onMessageReceived", "alert " + data.get("message"));
                 PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString(MSG_TYPE_ALERT, (String) data.get(ALERT_KEY)).apply();
             } else {
                 String message = (String) data.get("message");
