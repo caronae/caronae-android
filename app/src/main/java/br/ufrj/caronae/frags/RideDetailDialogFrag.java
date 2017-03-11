@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -76,10 +77,16 @@ public class RideDetailDialogFrag extends DialogFragment {
     public android.widget.FrameLayout dissmis_bt_frame;
     @Bind(R.id.way_dt)
     public TextView way_dt;
+    @Bind(R.id.way_text_frame)
+    public CardView way_text_frame;
     @Bind(R.id.place_dt)
     public TextView place_dt;
+    @Bind(R.id.place_text_frame)
+    CardView place_text_frame;
     @Bind(R.id.description_dt)
     public TextView description_dt;
+    @Bind(R.id.description_text_frame)
+    CardView description_text_frame;
     @Bind(R.id.requested_dt)
     public TextView requested_dt;
     @Bind(R.id.header_line)
@@ -185,8 +192,16 @@ public class RideDetailDialogFrag extends DialogFragment {
         location_dt.setText(location);
         name_dt.setText(driver.getName());
         profile_dt.setText(driver.getProfile());
-        way_dt.setText(rideWithUsers.getRoute());
-        place_dt.setText(rideWithUsers.getPlace());
+        if (rideWithUsers.getRoute().equals("")){
+            way_text_frame.setVisibility(View.GONE);
+        } else {
+            way_dt.setText(rideWithUsers.getRoute());
+        }
+        if (rideWithUsers.getPlace().equals("")){
+            place_text_frame.setVisibility(View.GONE);
+        } else {
+            place_dt.setText(rideWithUsers.getPlace());
+        }
         course_dt.setText(driver.getCourse());
         if (rideWithUsers.isGoing())
             time_dt.setText(getString(R.string.arrivingAt, Util.formatTime(rideWithUsers.getTime())));
@@ -195,7 +210,11 @@ public class RideDetailDialogFrag extends DialogFragment {
         time_dt.setTextColor(color);
         date_dt.setText(Util.formatBadDateWithoutYear(rideWithUsers.getDate()));
         date_dt.setTextColor(color);
-        description_dt.setText(rideWithUsers.getDescription());
+        if (rideWithUsers.getDescription().equals("")){
+            description_text_frame.setVisibility(View.GONE);
+        } else {
+            description_dt.setText(rideWithUsers.getDescription());
+        }
 
         if (isDriver) {
 //            join_bt.setVisibility(View.INVISIBLE);
