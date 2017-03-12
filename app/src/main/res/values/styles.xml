@@ -82,4 +82,28 @@
         <item name="android:textColor">@color/black</item>
     </style>
 
+    <style name="item_circle_image">
+        <item name="android:layout_height">64dp</item>
+        <item name="android:layout_width">64dp</item>
+        <item name="android:paddingLeft">16dp</item>
+    </style>
+
+    <style name="item_card">
+        <item name="android:height">88dp</item>
+        <item name="android:paddingTop">16dp</item>
+        <item name="android:paddingBottom">4dp</item>
+    </style>
+
+    <style name="item_header_text">
+        <item name="android:textSize">16dp</item>
+        <item name="android:layout_marginLeft">72dp</item>
+        <item name="android:layout_marginRight">16dp</item>
+    </style>
+
+    <style name="item_sub_text">
+        <item name="android:textSize">14dp</item>
+        <item name="android:layout_marginLeft">72dp</item>
+        <item name="android:layout_marginRight">16dp</item>
+    </style>
+
 </resources>

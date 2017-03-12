@@ -285,12 +285,12 @@ public class AllRidesFrag extends Fragment {
     }
 
     public static void showSnack(Snackbar snackbar) {
-        fab_menu.animate().translationY(-Util.convertDpToPixel(snackbar.getView().getContext(), 32));
+        fab_menu.animate().translationY(-Util.convertDpToPixel(32));
         snackbar.show();
     }
 
     public static void dismissSnack(Snackbar snackbar) {
-        fab_menu.animate().translationY(Util.convertDpToPixel(snackbar.getView().getContext(), 32));
+        fab_menu.animate().translationY(Util.convertDpToPixel(32));
         snackbar.dismiss();
     }
 
@@ -299,7 +299,7 @@ public class AllRidesFrag extends Fragment {
         return snackbar;
     }
 
-    public static void pushDownFab(Context context){
-        fab_menu.animate().translationY(Util.convertDpToPixel(context, 32));
+    public static void pushDownFab(){
+        fab_menu.animate().translationY(Util.convertDpToPixel(32));
     }
 }

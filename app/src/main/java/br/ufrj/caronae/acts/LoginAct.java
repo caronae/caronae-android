@@ -58,10 +58,10 @@ public class LoginAct extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String actualText = token_et.getText().toString();
                 if (actualText.equals("")) {
-                    token_et.setPadding(Util.convertDpToPixel(getApplicationContext(), 26)
+                    token_et.setPadding(Util.convertDpToPixel(26)
                             , token_et.getPaddingTop(), token_et.getPaddingRight(), token_et.getPaddingBottom());
                 } else {
-                    token_et.setPadding(Util.convertDpToPixel(getApplicationContext(), 56)
+                    token_et.setPadding(Util.convertDpToPixel(56)
                             , token_et.getPaddingTop(), token_et.getPaddingRight(), token_et.getPaddingBottom());
                 }
             }

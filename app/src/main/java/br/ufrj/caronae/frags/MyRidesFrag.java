@@ -63,7 +63,7 @@ public class MyRidesFrag extends Fragment {
 //                margin,
 //                margin);
 //        fab_menu.setLayoutParams(params);
-        fab_menu.animate().translationY(Util.convertDpToPixel(getContext(), 32));
+        fab_menu.animate().translationY(Util.convertDpToPixel(32));
         fab_menu.setVisibility(View.VISIBLE);
 
         configureTabIndicators();
@@ -112,7 +112,7 @@ public class MyRidesFrag extends Fragment {
 
         ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) fab_menu.getLayoutParams();
 
-        p.setMargins(0, 0, Util.convertDpToPixel(getContext(), 16), Util.convertDpToPixel(getContext(), 16));
+        p.setMargins(0, 0, Util.convertDpToPixel(16), Util.convertDpToPixel(16));
 
 
         randomInt++;

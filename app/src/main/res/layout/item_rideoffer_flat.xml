@@ -7,23 +7,21 @@
     android:background="@android:color/transparent"
     android:clickable="true"
     android:foreground="?android:attr/selectableItemBackground"
-    android:padding="8dp">
+    style="@style/item_card">
 
-    <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+    <de.hdodenhof.circleimageview.CircleImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/photo_iv"
-        android:layout_width="72dp"
-        android:layout_height="72dp"
-        android:layout_centerVertical="true"
-        android:paddingBottom="4dp"
+        style="@style/item_circle_image"
         android:src="@drawable/user_pic"
-        app:civ_border_width="2dp" />
+        app:civ_border_width="1dp"/>
 
     <LinearLayout
         android:id="@+id/linear_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginLeft="8dp"
-        android:layout_toRightOf="@id/photo_iv"
+        android:layout_marginTop="4dp"
         android:gravity="center_vertical"
         android:layout_marginBottom="16dp"
         android:orientation="vertical">
@@ -32,10 +30,7 @@
             android:id="@+id/location_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginStart="5dp"
-            android:layout_toEndOf="@+id/photo_iv"
-            android:layout_toRightOf="@+id/photo_iv"
+            style="@style/item_header_text"
             android:text="COPACABANA -> CT"
             android:textColor="@color/white"
             android:textStyle="bold" />
@@ -48,6 +43,8 @@
                 android:id="@+id/time_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                style="@style/item_sub_text"
+                android:layout_marginRight="0dp"
                 android:text="Chegando ás 16:45" />
 
             <TextView
@@ -74,6 +71,7 @@
             android:id="@+id/name_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            style="@style/item_sub_text"
             android:layout_alignLeft="@+id/location_tv"
             android:layout_alignStart="@+id/location_tv"
             android:layout_below="@+id/time_tv"
@@ -81,13 +79,6 @@
 
 
     </LinearLayout>
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginLeft="78dp"
-        android:background="@color/gray" />
 
     <ImageView
         android:id="@+id/requestIndicator_iv"

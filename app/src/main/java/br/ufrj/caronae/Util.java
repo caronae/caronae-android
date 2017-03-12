@@ -4,8 +4,12 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapShader;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.Shader;
 import android.os.Build;
 import android.renderscript.Allocation;
 import android.renderscript.Element;
@@ -339,8 +343,8 @@ public class Util {
         return word.replace(" ", "");
     }
 
-    public static int convertDpToPixel(Context context, int dp) {
-        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, context.getResources().getDisplayMetrics());
+    public static int convertDpToPixel(int dp) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, App.inst().getResources().getDisplayMetrics());
     }
 
     public static String getHeaderForHttp(Context context) {
@@ -534,5 +538,32 @@ public class Util {
         results[2] = hour;
 
         return results;
+    }
+
+    public static Bitmap getCircularBitmapWithWhiteBorder(Bitmap bitmap,
+                                                          int borderWidth,
+                                                          int borderColor) {
+        if (bitmap == null || bitmap.isRecycled()) {
+            return null;
+        }
+
+        final int width = bitmap.getWidth() + borderWidth;
+        final int height = bitmap.getHeight() + borderWidth;
+
+        Bitmap canvasBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        BitmapShader shader = new BitmapShader(bitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
+        Paint paint = new Paint();
+        paint.setAntiAlias(true);
+        paint.setShader(shader);
+
+        Canvas canvas = new Canvas(canvasBitmap);
+        float radius = width > height ? ((float) height) / 2f : ((float) width) / 2f;
+        canvas.drawCircle(width / 2, height / 2, radius, paint);
+        paint.setShader(null);
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setColor(borderColor);
+        paint.setStrokeWidth(borderWidth);
+        canvas.drawCircle(width / 2, height / 2, radius - borderWidth / 2, paint);
+        return canvasBitmap;
     }
 }
