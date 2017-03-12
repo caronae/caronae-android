@@ -282,7 +282,11 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
 
     private String getDateText(RideForJson ride) {
         String dateString = ride.getDate();
-        return Util.getDayWithMonthFromDate(dateString) + Util.getWeekDayFromDate(dateString);
+        String weekDay = Util.getWeekDayFromDate(dateString);
+        if (weekDay.equals("Hoje") || weekDay.equals("Amanhã")){
+            return weekDay;
+        }
+        return weekDay + " - " + Util.getDayWithMonthFromDate(dateString);
     }
 
     private int getRandomColor() {

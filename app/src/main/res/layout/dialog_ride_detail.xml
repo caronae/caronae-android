@@ -181,6 +181,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:layout_marginLeft="8dp"
+                    app:cardElevation="0dp"
                     app:cardBackgroundColor="@android:color/transparent"
                     app:cardUseCompatPadding="true"
                     app:contentPadding="8dp">
@@ -218,6 +219,7 @@
                     android:layout_toLeftOf="@id/place_text_frame"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="8dp"
+                    app:cardElevation="0dp"
                     app:cardBackgroundColor="@android:color/transparent"
                     app:cardUseCompatPadding="true"
                     app:contentPadding="8dp">
@@ -256,6 +258,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/place_way_text_frame"
                     app:cardUseCompatPadding="true"
+                    app:cardElevation="0dp"
                     app:cardBackgroundColor="@android:color/transparent"
                     app:contentPadding="8dp"
                     android:paddingTop="16dp">

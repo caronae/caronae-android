@@ -289,8 +289,18 @@ public class Util {
         int dayOfWeekInt = -1;
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         try {
-            Date date = format.parse(dateString);
             Calendar c = Calendar.getInstance();
+            Date today = c.getTime();
+            c.add(Calendar.DAY_OF_YEAR, 1);
+            Date tomorrow = c.getTime();
+            String currentDate = format.format(today);
+            String tomorrowString = format.format(tomorrow);
+            if (currentDate.equals(dateString)){
+                return "Hoje";
+            }if (tomorrowString.equals(dateString)){
+                return "Amanhã";
+            }
+            Date date = format.parse(dateString);
             c.setTime(date);
             dayOfWeekInt = c.get(Calendar.DAY_OF_WEEK);
         } catch (ParseException e) {
@@ -322,7 +332,7 @@ public class Util {
                 dayOfWeek = "Sábado";
                 break;
         }
-        return " - " + dayOfWeek;
+        return dayOfWeek;
     }
 
     // Input Date Format: "YYYY-MM-DD"

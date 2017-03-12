@@ -4,7 +4,7 @@
     android:id="@+id/item_rideoffer_parent_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@android:color/transparent"
+    android:background="?android:attr/selectableItemBackground"
     android:clickable="true"
     android:foreground="?android:attr/selectableItemBackground"
     style="@style/item_card">
@@ -81,12 +81,23 @@
     </LinearLayout>
 
     <ImageView
-        android:id="@+id/requestIndicator_iv"
+        android:id="@+id/arrow_right_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:src="@drawable/requested" />
+        android:layout_centerVertical="true"
+        android:paddingRight="16dp"
+        android:textSize="24sp"
+        android:tint="@android:color/darker_gray"
+        android:src="@drawable/ic_keyboard_arrow_right_black_24dp"/>
 
+
+    <ImageView
+        android:id="@+id/requestIndicator_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/arrow_right_image"
+        android:src="@drawable/requested" />
 </RelativeLayout>
 

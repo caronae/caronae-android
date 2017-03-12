@@ -13,8 +13,8 @@
     </style>
 
     <style name="SlideInDialog" parent="Material.App.Dialog.Simple.Light">
-        <item name="android:windowEnterAnimation">@anim/anim_down_slide_in</item>
-        <item name="android:windowExitAnimation">@anim/anim_down_slide_out</item>
+        <item name="android:windowEnterAnimation">@anim/anim_right_slide_in</item>
+        <item name="android:windowExitAnimation">@anim/anim_right_slide_out</item>
     </style>
 
     <style name="SlideInRightDialog" parent="Material.App.Dialog.Simple.Light">
@@ -90,20 +90,27 @@
 
     <style name="item_card">
         <item name="android:height">88dp</item>
-        <item name="android:paddingTop">16dp</item>
-        <item name="android:paddingBottom">4dp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
     </style>
 
     <style name="item_header_text">
-        <item name="android:textSize">16dp</item>
+        <item name="android:textSize">16sp</item>
         <item name="android:layout_marginLeft">72dp</item>
         <item name="android:layout_marginRight">16dp</item>
     </style>
 
     <style name="item_sub_text">
-        <item name="android:textSize">14dp</item>
+        <item name="android:textSize">14sp</item>
         <item name="android:layout_marginLeft">72dp</item>
         <item name="android:layout_marginRight">16dp</item>
+    </style>
+
+    <style name="separator_text">
+        <item name="android:textSize">14sp</item>
+        <item name="android:layout_marginLeft">16dp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textColor">@android:color/darker_gray</item>
     </style>
 
 </resources>
