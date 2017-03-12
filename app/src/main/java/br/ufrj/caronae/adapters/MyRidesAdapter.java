@@ -20,6 +20,9 @@ import com.google.gson.Gson;
 import com.rey.material.app.Dialog;
 import com.rey.material.app.DialogFragment;
 import com.rey.material.app.SimpleDialog;
+import com.rey.material.widget.ImageButton;
+import com.rey.material.widget.LinearLayout;
+import com.rey.material.widget.RelativeLayout;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -40,6 +43,7 @@ import br.ufrj.caronae.models.Ride;
 import br.ufrj.caronae.models.RideRequestReceived;
 import br.ufrj.caronae.models.User;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
+import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -143,13 +147,13 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
         public TextView routine_tv;
         public TextView slots_tv;
         public TextView date_tv;
-        public Button delete_bt;
-        public CardView cardView;
+        public android.widget.ImageButton delete_bt;
+        public android.widget.RelativeLayout layout;
         public ImageView newRequest_iv;
 
         public TextView name_tv;
         public ImageView newMsgIndicator_iv;
-        public ImageView photo_iv;
+        public CircleImageView photo_iv;
 
         public android.widget.FrameLayout card_list_separator;
         public TextView list_separator_text;
@@ -163,12 +167,12 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
             routine_tv = (TextView) itemView.findViewById(R.id.routine_tv);
             slots_tv = (TextView) itemView.findViewById(R.id.slots_tv);
             date_tv = (TextView) itemView.findViewById(R.id.date_tv);
-            delete_bt = (Button) itemView.findViewById(R.id.delete_bt);
-            cardView = (CardView) itemView.findViewById(R.id.cardView);
+            delete_bt = (android.widget.ImageButton) itemView.findViewById(R.id.delete_bt);
+            layout = (android.widget.RelativeLayout) itemView.findViewById(R.id.cardView);
             newRequest_iv = (ImageView) itemView.findViewById(R.id.newRequest_iv);
 
             name_tv = (TextView) itemView.findViewById(R.id.name_tv);
-            photo_iv = (ImageView) itemView.findViewById(R.id.photo_iv);
+            photo_iv = (CircleImageView) itemView.findViewById(R.id.photo_iv);
             newMsgIndicator_iv = (ImageView) itemView.findViewById(R.id.newMsgIndicator_iv);
 
             card_list_separator = (android.widget.FrameLayout) itemView.findViewById(R.id.card_list_separator);
@@ -226,7 +230,6 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
             background = ContextCompat.getDrawable(activity, R.drawable.card_list_bg_zone_niteroi);
             color = ContextCompat.getColor(activity, R.color.zone_niteroi);
         }
-        holder.cardView.setBackground(background);
         holder.location_tv.setTextColor(color);
 
         if (ride.isGoing())
@@ -412,7 +415,7 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
         });
 
         final int colorToSend = color;
-        holder.cardView.setOnClickListener(new View.OnClickListener() {
+        holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 final ProgressDialog pd = ProgressDialog.show(activity, "", activity.getResources().getString(R.string.wait), true, true);
@@ -497,8 +500,8 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
             background = ContextCompat.getDrawable(activity, R.drawable.card_list_bg_zone_niteroi);
             color = ContextCompat.getColor(activity, R.color.zone_niteroi);
         }
-        holder.cardView.setBackground(background);
         holder.location_tv.setTextColor(color);
+        holder.photo_iv.setBorderColor(color);
 
         String profilePicUrl = rideOffer.getDriver().getProfilePicUrl();
         if (profilePicUrl != null && !profilePicUrl.isEmpty()) {
@@ -535,7 +538,7 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
             location = rideOffer.getHub() + " ➜ " + rideOffer.getNeighborhood();
         holder.location_tv.setText(location);
 
-        holder.cardView.setOnClickListener(new View.OnClickListener() {
+        holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 NewChatMsgIndicator.deleteAll(NewChatMsgIndicator.class, "db_id = ?", rideOffer.getDbId()+"");

@@ -32,8 +32,7 @@
             android:layout_height="wrap_content"
             style="@style/item_header_text"
             android:text="COPACABANA -> CT"
-            android:textColor="@color/white"
-            android:textStyle="bold" />
+            android:textColor="@color/white" />
 
         <RelativeLayout
             android:layout_width="wrap_content"

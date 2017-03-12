@@ -98,6 +98,7 @@
         <item name="android:textSize">16sp</item>
         <item name="android:layout_marginLeft">72dp</item>
         <item name="android:layout_marginRight">16dp</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="item_sub_text">

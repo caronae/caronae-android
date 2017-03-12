@@ -117,7 +117,7 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
                     backgroundDrawable = R.drawable.card_list_bg_zone_outros;
                     color = ContextCompat.getColor(context, R.color.zone_outros);
                 }
-//                viewHolder.cardView.setBackground(context.getDrawable(backgroundDrawable));
+//                viewHolder.layout.setBackground(context.getDrawable(backgroundDrawable));
 
                 viewHolder.location_tv.setTextColor(color);
 

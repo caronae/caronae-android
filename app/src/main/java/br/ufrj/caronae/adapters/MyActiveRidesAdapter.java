@@ -29,6 +29,7 @@ import br.ufrj.caronae.acts.ProfileAct;
 import br.ufrj.caronae.models.ChatAssets;
 import br.ufrj.caronae.models.NewChatMsgIndicator;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdapter.ViewHolder> {
 
@@ -57,41 +58,33 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
     public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
         final RideForJson rideOffer = ridesList.get(position);
 
-        Drawable background = ContextCompat.getDrawable(activity, R.drawable.card_list_bg_zone_outros);
         int color = ContextCompat.getColor(activity, R.color.zone_outros);
         int bgRes = R.drawable.bg_bt_raise_zone_outros;
 
         if (rideOffer.getZone().equals("Centro")) {
-            background = ContextCompat.getDrawable(activity, R.drawable.card_list_bg_zone_centro);
             color = ContextCompat.getColor(activity, R.color.zone_centro);
             bgRes = R.drawable.bg_bt_raise_zone_centro;
         }
         if (rideOffer.getZone().equals("Zona Sul")) {
-            background = ContextCompat.getDrawable(activity, R.drawable.card_list_bg_zone_sul);
             color = ContextCompat.getColor(activity, R.color.zone_sul);
             bgRes = R.drawable.bg_bt_raise_zone_sul;
         }
         if (rideOffer.getZone().equals("Zona Oeste")) {
-            background = ContextCompat.getDrawable(activity, R.drawable.card_list_bg_zone_oeste);
             color = ContextCompat.getColor(activity, R.color.zone_oeste);
             bgRes = R.drawable.bg_bt_raise_zone_oeste;
         }
         if (rideOffer.getZone().equals("Zona Norte")) {
-            background = ContextCompat.getDrawable(activity, R.drawable.card_list_bg_zone_norte);
             color = ContextCompat.getColor(activity, R.color.zone_norte);
             bgRes = R.drawable.bg_bt_raise_zone_norte;
         }
         if (rideOffer.getZone().equals("Baixada")) {
-            background = ContextCompat.getDrawable(activity, R.drawable.card_list_bg_zone_baixada);
             color = ContextCompat.getColor(activity, R.color.zone_baixada);
             bgRes = R.drawable.bg_bt_raise_zone_baixada;
         }
         if (rideOffer.getZone().equals("Grande Niterói")) {
-            background = ContextCompat.getDrawable(activity, R.drawable.card_list_bg_zone_niteroi);
             color = ContextCompat.getColor(activity, R.color.zone_niteroi);
             bgRes = R.drawable.bg_bt_raise_zone_niteroi;
         }
-        viewHolder.cardView.setBackground(background);
         viewHolder.location_tv.setTextColor(color);
 
         String profilePicUrl = rideOffer.getDriver().getProfilePicUrl();
@@ -197,7 +190,7 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public ImageView photo_iv;
+        public CircleImageView photo_iv;
         public TextView time_tv;
         public TextView date_tv;
         public TextView name_tv;
@@ -208,7 +201,7 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
         public ViewHolder(View itemView) {
             super(itemView);
 
-            photo_iv = (ImageView) itemView.findViewById(R.id.photo_iv);
+            photo_iv = (CircleImageView) itemView.findViewById(R.id.photo_iv);
             time_tv = (TextView) itemView.findViewById(R.id.time_tv);
             date_tv = (TextView) itemView.findViewById(R.id.date_tv);
             location_tv = (TextView) itemView.findViewById(R.id.location_tv);
