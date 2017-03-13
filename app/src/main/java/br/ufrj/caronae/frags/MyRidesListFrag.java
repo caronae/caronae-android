@@ -199,7 +199,7 @@ public class MyRidesListFrag extends Fragment {
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                final ProgressDialog pd = ProgressDialog.show(getContext(), "", getActivity().getString(R.string.wait), true, true);
+//                final ProgressDialog pd = ProgressDialog.show(getContext(), "", getActivity().getString(R.string.wait), true, true);
                 App.getNetworkService(getContext()).getMyActiveRides()
                         .enqueue(new Callback<List<RideForJson>>() {
                             @Override
@@ -209,7 +209,8 @@ public class MyRidesListFrag extends Fragment {
 
                                     List<RideForJson> rideWithUsersList = response.body();
                                     if (rideWithUsersList == null || rideWithUsersList.isEmpty()) {
-                                        pd.dismiss();
+                                        MyRidesFrag.hideProgressBar();
+//                                        pd.dismiss();
 
                                         myRidesList.setAdapter(new MyActiveRidesAdapter(new ArrayList<RideForJson>(), (MainAct) getActivity()));
                                         myRidesList.setHasFixedSize(true);
@@ -237,9 +238,11 @@ public class MyRidesListFrag extends Fragment {
                                         Log.e("ERROu", "My Active RIdes: " + rideWithUsersList.get(i).getId());
                                     }
 
-                                    pd.dismiss();
+//                                    pd.dismiss();
+                                    MyRidesFrag.hideProgressBar();
                                 } else {
-                                    pd.dismiss();
+                                    MyRidesFrag.hideProgressBar();
+//                                    pd.dismiss();
 
                                     norides_tv.setVisibility(View.VISIBLE);
                                     Util.toast(R.string.frag_myactiverides_errorGetActiveRides);
@@ -251,8 +254,8 @@ public class MyRidesListFrag extends Fragment {
 
                             @Override
                             public void onFailure(Call<List<RideForJson>> call, Throwable t) {
-                                pd.dismiss();
-
+//                                pd.dismiss();
+                                MyRidesFrag.hideProgressBar();
                                 norides_tv.setVisibility(View.VISIBLE);
                                 Util.toast(R.string.frag_myactiverides_errorGetActiveRides);
 

@@ -10,6 +10,7 @@ import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -440,7 +441,9 @@ public class MainAct extends AppCompatActivity {
         backstack.remove(TabbedRideOfferFrag.class);
         backstack.add(TabbedRideOfferFrag.class);
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.flContent, new TabbedRideOfferFrag()).commit();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out);
+        transaction.replace(R.id.flContent, new TabbedRideOfferFrag()).commit();
         setTitle(getString(R.string.act_main_setRideOfferFragTitle));
     }
 
@@ -449,7 +452,9 @@ public class MainAct extends AppCompatActivity {
         backstack.remove(MyRidesFrag.class);
         backstack.add(MyRidesFrag.class);
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.flContent, new MyRidesFrag()).commit();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out);
+        transaction.replace(R.id.flContent, new MyRidesFrag()).commit();
         setTitle(getString(R.string.frag_myactiverides_title));
     }
 
@@ -458,7 +463,9 @@ public class MainAct extends AppCompatActivity {
         backstack.remove(AllRidesFrag.class);
         backstack.add(AllRidesFrag.class);
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.flContent, new AllRidesFrag()).commit();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out);
+        transaction.replace(R.id.flContent, new AllRidesFrag()).commit();
         setTitle(getString(R.string.frag_allrides_title));
     }
 }

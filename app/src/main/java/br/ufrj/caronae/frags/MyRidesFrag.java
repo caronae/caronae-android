@@ -36,8 +36,8 @@ public class MyRidesFrag extends Fragment {
     FloatingActionButton fab_active_rides;
     @Bind(R.id.fab_add_ride)
     FloatingActionButton fab_add_ride;
-    @Bind(R.id.progressBar2)
-    ProgressBar progressBar;
+
+    static ProgressBar progressBar;
 
     public MyRidesFrag() {
     }
@@ -50,7 +50,8 @@ public class MyRidesFrag extends Fragment {
         viewPager.setAdapter(new RideDirectionFragmentPagerAdapter(getChildFragmentManager(), MyRidesListFrag.class, getResources().getStringArray(R.array.tab_tags)));
         tabLayout.setupWithViewPager(viewPager);
 
-        progressBar.setVisibility(View.GONE);
+        progressBar = (ProgressBar) view.findViewById(R.id.progressBar2);
+        progressBar.setVisibility(View.VISIBLE);
 
         fab_active_rides.setLabelText(getString(R.string.frag_allrides_title));
 
@@ -79,6 +80,10 @@ public class MyRidesFrag extends Fragment {
     @OnClick(R.id.fab_add_ride)
     public void fab_add_ride() {
         ((MainAct) getActivity()).showRideOfferFrag();
+    }
+
+    public static void hideProgressBar(){
+        progressBar.setVisibility(View.GONE);
     }
 
     private void configureTabIndicators() {

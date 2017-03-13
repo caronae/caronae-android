@@ -547,6 +547,7 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
                 Intent intent = new Intent(activity, ActiveRideAct.class);
                 intent.putExtra("ride", rideOffer);
                 activity.startActivity(intent);
+                activity.overridePendingTransition(R.anim.anim_right_slide_in, R.anim.anim_left_slide_out);
             }
         });
 

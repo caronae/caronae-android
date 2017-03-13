@@ -484,4 +484,10 @@ public class ActiveRideAct extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void onBackPressed() {
+        super.finish();
+        overridePendingTransition(R.anim.anim_left_slide_in, R.anim.anim_right_slide_out);
+    }
 }
