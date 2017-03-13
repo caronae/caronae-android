@@ -281,7 +281,9 @@ public class MainAct extends AppCompatActivity {
             backstack.remove(fragmentClass);
             backstack.add(fragmentClass);
             FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            transaction.setCustomAnimations(R.anim.anim_right_slide_in, R.anim.anim_left_slide_out);
+            transaction.replace(R.id.flContent, fragment).commit();
 
             setTitle(menuItem.getTitle());
             mDrawer.closeDrawers();
@@ -323,7 +325,9 @@ public class MainAct extends AppCompatActivity {
             e.printStackTrace();
         }
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.setCustomAnimations(R.anim.anim_right_slide_in, R.anim.anim_left_slide_out);
+        transaction.replace(R.id.flContent, fragment).commit();
         setTitle(retrieveTitle(fragmentClass.toString()));
     }
 
@@ -345,7 +349,9 @@ public class MainAct extends AppCompatActivity {
             }
 
             FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            transaction.setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out);
+            transaction.replace(R.id.flContent, fragment).commit();
             setTitle(retrieveTitle(fragmentClass.toString()));
             mDrawer.closeDrawers();
         }
@@ -442,7 +448,7 @@ public class MainAct extends AppCompatActivity {
         backstack.add(TabbedRideOfferFrag.class);
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out);
+        transaction.setCustomAnimations(R.anim.anim_right_slide_in, R.anim.anim_left_slide_out);
         transaction.replace(R.id.flContent, new TabbedRideOfferFrag()).commit();
         setTitle(getString(R.string.act_main_setRideOfferFragTitle));
     }
