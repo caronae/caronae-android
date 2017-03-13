@@ -54,14 +54,13 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
     private int TYPE_MY_RIDE =                  0;
     private int TYPE_ACTIVE_RIDE =              1;
     private int TYPE_HEADER =                  2;
-    private boolean MY_RIDES_HEADER_TAG =       true;
+    private boolean MY_OFFER_RIDES_HEADER_TAG =       true;
     private boolean MY_ACTIVE_RIDES_HEADER_TAG  = false;
     private List<Object> rides;
     private final MainAct activity;
     private final List<RideRequestReceived> rideRequestReceivedList;
     private final List<NewChatMsgIndicator> newChatMsgIndicatorList;
-//    private int positionMyRideHeaderPosition = 0;
-//    private int positionMyActiveRideHeaderPosition;
+    private int positionMyActiveRideHeaderPosition = 0;
 
     public MyRidesAdapter(List<Object> rides, MainAct activity) {
         this.activity = activity;
@@ -70,15 +69,14 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
 
         newChatMsgIndicatorList = NewChatMsgIndicator.listAll(NewChatMsgIndicator.class);
 
-//        rides.add(positionMyRideHeaderPosition, true);
-//
-//        for (int rideCounter = 0; rideCounter < rides.size(); rideCounter++){
-//            if (rides.get(rideCounter).getClass() == RideForJson.class){
-//                rides.add(rideCounter, false);
-//                positionMyActiveRideHeaderPosition = rideCounter;
-//                break;
-//            }
-//        }
+        rides.add(positionMyActiveRideHeaderPosition, MY_ACTIVE_RIDES_HEADER_TAG);
+
+        for (int rideCounter = 0; rideCounter < rides.size(); rideCounter++){
+            if (rides.get(rideCounter).getClass() == Ride.class){
+                rides.add(rideCounter, MY_OFFER_RIDES_HEADER_TAG);
+                break;
+            }
+        }
 
         this.rides = rides;
     }
@@ -125,13 +123,9 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
             boolean type = (boolean)rides.get(position);
             if (type) {
                 holder.list_separator_text.setText(activity.getResources().getString(R.string.frag_myrides_title));
-                holder.card_list_separator.setBackground(ContextCompat.getDrawable(activity, getRandomColor()));
-                holder.list_separator_text.setTextColor(ContextCompat.getColor(activity, R.color.black));
             }
             else {
                 holder.list_separator_text.setText(activity.getResources().getString(R.string.frag_myactiverides_title));
-                holder.card_list_separator.setBackground(ContextCompat.getDrawable(activity, getRandomColor()));
-                holder.list_separator_text.setTextColor(ContextCompat.getColor(activity, R.color.black));
             }
         }
     }
@@ -180,56 +174,12 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
         }
     }
 
-    private int getRandomColor(){
-        Random random = new Random();
-        int color = random.nextInt(5);
-
-        switch (color){
-            case 0:
-                return R.drawable.zone_centro_gradient;
-            case 1:
-                return R.drawable.zone_sul_gradient;
-            case 2:
-                return R.drawable.zone_oeste_gradient;
-            case 3:
-                return R.drawable.zone_baixada_gradient;
-            case 4:
-                return R.drawable.zone_niteroi_gradient;
-            default:
-                return R.drawable.zone_outros_gradient;
-        }
-    }
-
     private void configureMyOfferRide(int position, final MyRidesAdapter.ViewHolder holder){
 
         final Ride ride = (Ride)rides.get(position);
 
-        Drawable background = ContextCompat.getDrawable(activity, R.drawable.card_list_bg_zone_outros);
-        int color = ContextCompat.getColor(activity, R.color.zone_outros);
-        if (ride.getZone().equals("Centro")) {
-            background = ContextCompat.getDrawable(activity, R.drawable.card_list_bg_zone_centro);
-            color = ContextCompat.getColor(activity, R.color.zone_centro);
-        }
-        if (ride.getZone().equals("Zona Sul")) {
-            background = ContextCompat.getDrawable(activity, R.drawable.card_list_bg_zone_sul);
-            color = ContextCompat.getColor(activity, R.color.zone_sul);
-        }
-        if (ride.getZone().equals("Zona Oeste")) {
-            background = ContextCompat.getDrawable(activity, R.drawable.card_list_bg_zone_oeste);
-            color = ContextCompat.getColor(activity, R.color.zone_oeste);
-        }
-        if (ride.getZone().equals("Zona Norte")) {
-            background = ContextCompat.getDrawable(activity, R.drawable.card_list_bg_zone_norte);
-            color = ContextCompat.getColor(activity, R.color.zone_norte);
-        }
-        if (ride.getZone().equals("Baixada")) {
-            background = ContextCompat.getDrawable(activity, R.drawable.card_list_bg_zone_baixada);
-            color = ContextCompat.getColor(activity, R.color.zone_baixada);
-        }
-        if (ride.getZone().equals("Grande Niterói")) {
-            background = ContextCompat.getDrawable(activity, R.drawable.card_list_bg_zone_niteroi);
-            color = ContextCompat.getColor(activity, R.color.zone_niteroi);
-        }
+        int color = Util.getColorbyZone(ride.getZone());
+
         holder.location_tv.setTextColor(color);
 
         if (ride.isGoing())
@@ -474,32 +424,8 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
     private void configureMyActiveRides(int position, final MyRidesAdapter.ViewHolder holder){
         final RideForJson rideOffer = (RideForJson) rides.get(position);
 
-        Drawable background = ContextCompat.getDrawable(activity, R.drawable.card_list_bg_zone_outros);
-        int color = ContextCompat.getColor(activity, R.color.zone_outros);
-        if (rideOffer.getZone().equals("Centro")) {
-            background = ContextCompat.getDrawable(activity, R.drawable.card_list_bg_zone_centro);
-            color = ContextCompat.getColor(activity, R.color.zone_centro);
-        }
-        if (rideOffer.getZone().equals("Zona Sul")) {
-            background = ContextCompat.getDrawable(activity, R.drawable.card_list_bg_zone_sul);
-            color = ContextCompat.getColor(activity, R.color.zone_sul);
-        }
-        if (rideOffer.getZone().equals("Zona Oeste")) {
-            background = ContextCompat.getDrawable(activity, R.drawable.card_list_bg_zone_oeste);
-            color = ContextCompat.getColor(activity, R.color.zone_oeste);
-        }
-        if (rideOffer.getZone().equals("Zona Norte")) {
-            background = ContextCompat.getDrawable(activity, R.drawable.card_list_bg_zone_norte);
-            color = ContextCompat.getColor(activity, R.color.zone_norte);
-        }
-        if (rideOffer.getZone().equals("Baixada")) {
-            background = ContextCompat.getDrawable(activity, R.drawable.card_list_bg_zone_baixada);
-            color = ContextCompat.getColor(activity, R.color.zone_baixada);
-        }
-        if (rideOffer.getZone().equals("Grande Niterói")) {
-            background = ContextCompat.getDrawable(activity, R.drawable.card_list_bg_zone_niteroi);
-            color = ContextCompat.getColor(activity, R.color.zone_niteroi);
-        }
+        int color = Util.getColorbyZone(rideOffer.getZone());
+
         holder.location_tv.setTextColor(color);
         holder.photo_iv.setBorderColor(color);
 

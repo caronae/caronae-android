@@ -9,7 +9,7 @@
     <dimen name="card_list_margin">4dp</dimen>
     <!-- padding botton is connected to tab height because of gradient -->
     <dimen name="tab_indicator_padding_botton">32dp</dimen>
-    <dimen name="recycler_view_botton_offset">48dp</dimen>
+    <dimen name="recycler_view_botton_offset">16dp</dimen>
     <dimen name="recycler_view_top_offset">40dp</dimen>
 
     <dimen name="recycler_view_botton_offset_my_rides">64dp</dimen>

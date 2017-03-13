@@ -87,37 +87,7 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
             if (mixedList.get(position).getClass().equals(RideForJson.class)) {
                 final RideForJson rideOffer = (RideForJson) mixedList.get(position);
 
-                int backgroundDrawable = 0;
-                int color = 0;
-                if (rideOffer.getZone().equals("Centro")) {
-                    backgroundDrawable = R.drawable.card_list_bg_zone_centro;
-                    color = ContextCompat.getColor(context, R.color.zone_centro);
-                }
-                if (rideOffer.getZone().equals("Zona Sul")) {
-                    backgroundDrawable = R.drawable.card_list_bg_zone_sul;
-                    color = ContextCompat.getColor(context, R.color.zone_sul);
-                }
-                if (rideOffer.getZone().equals("Zona Oeste")) {
-                    backgroundDrawable = R.drawable.card_list_bg_zone_oeste;
-                    color = ContextCompat.getColor(context, R.color.zone_oeste);
-                }
-                if (rideOffer.getZone().equals("Zona Norte")) {
-                    backgroundDrawable = R.drawable.card_list_bg_zone_norte;
-                    color = ContextCompat.getColor(context, R.color.zone_norte);
-                }
-                if (rideOffer.getZone().equals("Baixada")) {
-                    backgroundDrawable = R.drawable.card_list_bg_zone_baixada;
-                    color = ContextCompat.getColor(context, R.color.zone_baixada);
-                }
-                if (rideOffer.getZone().equals("Grande Niterói")) {
-                    backgroundDrawable = R.drawable.card_list_bg_zone_niteroi;
-                    color = ContextCompat.getColor(context, R.color.zone_niteroi);
-                }
-                if (rideOffer.getZone().equals("Outros")) {
-                    backgroundDrawable = R.drawable.card_list_bg_zone_outros;
-                    color = ContextCompat.getColor(context, R.color.zone_outros);
-                }
-//                viewHolder.layout.setBackground(context.getDrawable(backgroundDrawable));
+                int color = Util.getColorbyZone(rideOffer.getZone());
 
                 viewHolder.location_tv.setTextColor(color);
 
@@ -287,25 +257,5 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
             return weekDay;
         }
         return weekDay + " - " + Util.getDayWithMonthFromDate(dateString);
-    }
-
-    private int getRandomColor() {
-        Random random = new Random();
-        int color = random.nextInt(5);
-
-        switch (color) {
-            case 0:
-                return R.drawable.zone_centro_gradient;
-            case 1:
-                return R.drawable.zone_sul_gradient;
-            case 2:
-                return R.drawable.zone_oeste_gradient;
-            case 3:
-                return R.drawable.zone_baixada_gradient;
-            case 4:
-                return R.drawable.zone_niteroi_gradient;
-            default:
-                return R.drawable.zone_outros_gradient;
-        }
     }
 }

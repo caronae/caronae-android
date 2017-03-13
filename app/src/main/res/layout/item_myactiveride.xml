@@ -7,9 +7,7 @@
     android:layout_height="wrap_content"
     android:clickable="true"
     android:foreground="?android:attr/selectableItemBackground"
-    android:layout_margin="@dimen/card_list_margin"
-    style="@style/item_card"
-    card_view:cardUseCompatPadding="true">
+    style="@style/item_card">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/photo_iv"
@@ -74,8 +72,8 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginEnd="42dp"
-            android:layout_marginRight="42dp"
+            android:layout_marginEnd="48dp"
+            android:layout_marginRight="48dp"
             android:src="@drawable/ic_chat_black_24dp" />
 
         <ImageView
@@ -84,6 +82,7 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
+            android:layout_marginRight="16dp"
             android:tint="@android:color/darker_gray"
             android:src="@drawable/ic_keyboard_arrow_right_black_24dp"/>
 

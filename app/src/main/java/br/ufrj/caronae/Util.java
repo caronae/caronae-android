@@ -15,6 +15,7 @@ import android.renderscript.Allocation;
 import android.renderscript.Element;
 import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.View;
@@ -575,5 +576,28 @@ public class Util {
         paint.setStrokeWidth(borderWidth);
         canvas.drawCircle(width / 2, height / 2, radius - borderWidth / 2, paint);
         return canvasBitmap;
+    }
+
+    static public int getColorbyZone(String zone){
+        int color = ContextCompat.getColor(App.inst(), R.color.zone_outros);
+        if (zone.equals("Centro")) {
+            color = ContextCompat.getColor(App.inst(), R.color.zone_centro);
+        }
+        if (zone.equals("Zona Sul")) {
+            color = ContextCompat.getColor(App.inst(), R.color.zone_sul);
+        }
+        if (zone.equals("Zona Oeste")) {
+            color = ContextCompat.getColor(App.inst(), R.color.zone_oeste);
+        }
+        if (zone.equals("Zona Norte")) {
+            color = ContextCompat.getColor(App.inst(), R.color.zone_norte);
+        }
+        if (zone.equals("Baixada")) {
+            color = ContextCompat.getColor(App.inst(), R.color.zone_baixada);
+        }
+        if (zone.equals("Grande Niterói")) {
+            color = ContextCompat.getColor(App.inst(), R.color.zone_niteroi);
+        }
+        return color;
     }
 }

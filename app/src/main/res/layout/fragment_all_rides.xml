@@ -120,7 +120,7 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_directions_car_white_24dp"
             fab:fab_colorNormal="@color/green"
-            fab:fab_colorPressed="@android:color/white"
+            fab:fab_colorPressed="@color/light_zone_sul_transparency"
             fab:fab_label="@string/frag_myactiverides_title"
             fab:fab_size="mini" />
 
@@ -131,6 +131,7 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_add_white_24dp"
             fab:fab_colorNormal="@color/yellow"
+            fab:fab_colorPressed="@color/light_zone_centro_transparency"
             fab:fab_label="@string/act_main_setRideOfferFragTitle"
             fab:fab_size="mini" />
 
