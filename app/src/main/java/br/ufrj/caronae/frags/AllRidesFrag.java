@@ -1,6 +1,7 @@
 package br.ufrj.caronae.frags;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
@@ -122,70 +123,78 @@ public class AllRidesFrag extends Fragment {
 
         progressBar2.setVisibility(View.VISIBLE);
 
-        App.getNetworkService(getContext()).listAllRides(pageNum + "")
-                .enqueue(new Callback<List<RideForJson>>() {
-                    @Override
-                    public void onResponse(Call<List<RideForJson>> call, Response<List<RideForJson>> response) {
-                        dismissSnack(snackbar);
-                        if (response.isSuccessful()) {
-                            progressBar2.setVisibility(View.GONE);
+        if (isAdded()) {
 
-                            List<RideForJson> rideOffers = response.body();
+            App.getNetworkService(getContext()).listAllRides(pageNum + "")
+                    .enqueue(new Callback<List<RideForJson>>() {
+                        @Override
+                        public void onResponse(Call<List<RideForJson>> call, Response<List<RideForJson>> response) {
+                            dismissSnack(snackbar);
+                            if (response.isSuccessful()) {
+                                progressBar2.setVisibility(View.GONE);
 
-                            if (rideOffers != null && !rideOffers.isEmpty()) {
-                                Collections.sort(rideOffers, new RideOfferComparatorByDateAndTime());
+                                List<RideForJson> rideOffers = response.body();
 
-                                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
-                                Date todayDate = new Date();
-                                String todayString = simpleDateFormat.format(todayDate);
-                                simpleDateFormat = new SimpleDateFormat("HH:mm", Locale.US);
-                                String time = simpleDateFormat.format(todayDate);
+                                if (rideOffers != null && !rideOffers.isEmpty()) {
+                                    Collections.sort(rideOffers, new RideOfferComparatorByDateAndTime());
 
-                                Iterator<RideForJson> it = rideOffers.iterator();
-                                while (it.hasNext()) {
-                                    RideForJson rideOffer = it.next();
-                                    if (Util.formatBadDateWithYear(rideOffer.getDate()).equals(todayString) && Util.formatTime(rideOffer.getTime()).compareTo(time) < 0)
-                                        it.remove();
-                                    else {
-                                        rideOffer.setDbId(rideOffer.getId().intValue());
-                                        if (rideOffer.isGoing())
-                                            goingRides.add(rideOffer);
-                                        else
-                                            notGoingRides.add(rideOffer);
+                                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
+                                    Date todayDate = new Date();
+                                    String todayString = simpleDateFormat.format(todayDate);
+                                    simpleDateFormat = new SimpleDateFormat("HH:mm", Locale.US);
+                                    String time = simpleDateFormat.format(todayDate);
+
+                                    Iterator<RideForJson> it = rideOffers.iterator();
+                                    while (it.hasNext()) {
+                                        RideForJson rideOffer = it.next();
+                                        if (Util.formatBadDateWithYear(rideOffer.getDate()).equals(todayString) && Util.formatTime(rideOffer.getTime()).compareTo(time) < 0)
+                                            it.remove();
+                                        else {
+                                            rideOffer.setDbId(rideOffer.getId().intValue());
+                                            if (rideOffer.isGoing())
+                                                goingRides.add(rideOffer);
+                                            else
+                                                notGoingRides.add(rideOffer);
+                                        }
                                     }
                                 }
+
+
+                                viewPager.setAdapter(new AllRidesFragmentPagerAdapter(getChildFragmentManager(), goingRides, notGoingRides, getResources().getStringArray(R.array.tab_tags)));
+                                tabLayout.setupWithViewPager(viewPager);
+
+                                tabLayout.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.transparency_gradient_top_botton));
+
+                                configureTabIndicators();
+
+                                showFAB();
+
+                            } else {
+                                progressBar2.setVisibility(View.GONE);
+                                Log.e("listAllRides", response.message());
                             }
-
-                            viewPager.setAdapter(new AllRidesFragmentPagerAdapter(getChildFragmentManager(), goingRides, notGoingRides, getResources().getStringArray(R.array.tab_tags)));
-                            tabLayout.setupWithViewPager(viewPager);
-
-                            tabLayout.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.transparency_gradient_top_botton));
-
-                            configureTabIndicators();
-
                             showFAB();
-
-                        } else {
-                            progressBar2.setVisibility(View.GONE);
-                            Log.e("listAllRides", response.message());
                         }
-                        showFAB();
-                    }
 
-                    @Override
-                    public void onFailure(Call<List<RideForJson>> call, Throwable t) {
-                        progressBar2.setVisibility(View.GONE);
-                        Log.e("listAllRides", t.getMessage());
-                        showFAB();
-                        snackbar.setAction("CONECTAR", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                listAllRides(pageNum);
-                            }
-                        });
-                        showSnack(snackbar);
-                    }
-                });
+                        @Override
+                        public void onFailure(Call<List<RideForJson>> call, Throwable t) {
+                            progressBar2.setVisibility(View.GONE);
+                            Log.e("listAllRides", t.getMessage());
+                            showFAB();
+                            snackbar.setAction("CONECTAR", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    listAllRides(pageNum);
+                                }
+                            });
+                            showSnack(snackbar);
+                        }
+                    });
+        } else {
+            Intent intent = new Intent(getContext(), MainAct.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        }
     }
 
     private void configureTabIndicators() {
