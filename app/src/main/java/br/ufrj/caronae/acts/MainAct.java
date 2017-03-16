@@ -56,6 +56,7 @@ import br.ufrj.caronae.frags.TermsOfUseFrag;
 import br.ufrj.caronae.models.User;
 
 import static br.ufrj.caronae.acts.StartAct.MSG_TYPE_ALERT;
+import static br.ufrj.caronae.acts.StartAct.MSG_TYPE_ALERT_HEADER;
 
 public class MainAct extends AppCompatActivity {
 
@@ -89,6 +90,7 @@ public class MainAct extends AppCompatActivity {
         versionText = (TextView) findViewById(R.id.text_version);
         versionText.setText("Caronae " + Util.getAppVersionName(this));
 
+        String title = PreferenceManager.getDefaultSharedPreferences(this).getString(MSG_TYPE_ALERT_HEADER, "");
         String alert = PreferenceManager.getDefaultSharedPreferences(this).getString(MSG_TYPE_ALERT, "");
 
         if (!alert.equals("")){
@@ -100,9 +102,11 @@ public class MainAct extends AppCompatActivity {
                     dialog.dismiss();
                 }
             });
+            builder.setTitle(title);
             AlertDialog dialog = builder.create();
             dialog.show();
             PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString(StartAct.MSG_TYPE_ALERT, "").commit();
+            PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString(StartAct.MSG_TYPE_ALERT_HEADER, "").commit();
         }
 
         mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);

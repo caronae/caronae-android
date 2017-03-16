@@ -37,6 +37,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     public static final String ALERT_KEY                       = "message";
 
+    public static final String MSG_TYPE_ALERT_HEADER           = "alertHeader";
+
+    public static final String ALERT_HEADER_KEY                = "title";
+
 
     @Override
     public void onMessageReceived(final RemoteMessage remoteMessage) {
@@ -47,6 +51,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             String msgType = (String) data.get("msgType");
             if (msgType != null && msgType.equals("alert")) {
                 PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString(MSG_TYPE_ALERT, (String) data.get(ALERT_KEY)).apply();
+                PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString(MSG_TYPE_ALERT_HEADER,(String) data.get(ALERT_HEADER_KEY)).commit();
             } else {
                 String message = (String) data.get("message");
                 String senderName = (String) data.get("senderName");

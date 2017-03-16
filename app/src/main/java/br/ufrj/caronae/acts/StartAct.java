@@ -18,6 +18,10 @@ public class StartAct extends AppCompatActivity {
 
     public static final String ALERT_KEY                       = "message";
 
+    public static final String MSG_TYPE_ALERT_HEADER           = "alertHeader";
+
+    public static final String ALERT_HEADER_KEY                = "messageHeader";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +62,7 @@ public class StartAct extends AppCompatActivity {
                     && bundle.get(MSG_TYPE_BUNDLE_KEY) != null
                     && bundle.get(MSG_TYPE_BUNDLE_KEY).equals("alert")){
                 PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString(MSG_TYPE_ALERT,(String) bundle.get(ALERT_KEY)).commit();
+                PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString(MSG_TYPE_ALERT_HEADER,(String) bundle.get(ALERT_HEADER_KEY)).commit();
             } else {
                 startActivity(new Intent(this, MainAct.class));
             }
