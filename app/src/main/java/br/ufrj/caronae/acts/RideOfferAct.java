@@ -4,23 +4,25 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.CardView;
 import android.util.Log;
-import android.view.MenuItem;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.view.Window;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
-import com.rey.material.app.Dialog;
-import com.rey.material.app.DialogFragment;
 import com.rey.material.app.SimpleDialog;
+import com.rey.material.widget.FrameLayout;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -46,91 +48,88 @@ public class RideOfferAct extends AppCompatActivity {
 
     @Bind(R.id.user_pic)
     public ImageView user_pic;
-    @Bind(R.id.seeProfile_iv)
-    public TextView seeProfile_iv;
-    @Bind(R.id.location_tv)
-    public TextView location_tv;
-    @Bind(R.id.name_tv)
-    public TextView name_tv;
-    @Bind(R.id.profile_tv)
-    public TextView profile_tv;
-    @Bind(R.id.course_tv)
-    public TextView course_tv;
-    @Bind(R.id.time_tv)
-    public TextView time_tv;
-    @Bind(R.id.date_tv)
-    public TextView date_tv;
+    @Bind(R.id.seeProfile_dt)
+    public TextView seeProfile_dt;
+    @Bind(R.id.location_dt)
+    public TextView location_dt;
+    @Bind(R.id.name_dt)
+    public TextView name_dt;
+    @Bind(R.id.profile_dt)
+    public TextView profile_dt;
+    @Bind(R.id.course_dt)
+    public TextView course_dt;
+    @Bind(R.id.time_dt)
+    public TextView time_dt;
+    @Bind(R.id.date_dt)
+    public TextView date_dt;
     @Bind(R.id.join_bt)
-    public Button join_bt;
-    @Bind(R.id.way_tv)
-    public TextView way_tv;
-    @Bind(R.id.place_tv)
-    public TextView place_tv;
-    @Bind(R.id.description_tv)
-    public TextView description_tv;
-    @Bind(R.id.requested_tv)
-    public TextView requested_tv;
-    @Bind(R.id.lay1)
-    public RelativeLayout lay1;
+    public com.github.clans.fab.FloatingActionButton join_bt;
+    @Bind(R.id.dissmis_bt)
+    public com.github.clans.fab.FloatingActionButton dissmis_bt;
+    @Bind(R.id.join_bt_frame)
+    public android.widget.FrameLayout join_bt_frame;
+    @Bind(R.id.dissmis_bt_frame)
+    public android.widget.FrameLayout dissmis_bt_frame;
+    @Bind(R.id.way_dt)
+    public TextView way_dt;
+    @Bind(R.id.way_text_frame)
+    public CardView way_text_frame;
+    @Bind(R.id.place_dt)
+    public TextView place_dt;
+    @Bind(R.id.place_text_frame)
+    CardView place_text_frame;
+    @Bind(R.id.description_dt)
+    public TextView description_dt;
+    @Bind(R.id.description_text_frame)
+    CardView description_text_frame;
+    @Bind(R.id.requested_dt)
+    public TextView requested_dt;
+    @Bind(R.id.header_line)
+    ImageView header_line;
+    @Bind(R.id.scrollView)
+    ScrollView scrollView;
+
+    CoordinatorLayout coordinatorLayout;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ride_offer);
+
+        getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+
+        overridePendingTransition(R.anim.anim_right_slide_in, R.anim.anim_left_slide_out);
+
+        setContentView(R.layout.dialog_ride_detail);
         ButterKnife.bind(this);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        final ActionBar ab = getSupportActionBar();
-        if (ab != null) {
-            ab.setDisplayHomeAsUpEnabled(true);
-        }
+        coordinatorLayout = (CoordinatorLayout) findViewById(R.id.detail_coordinator_layout);
 
         final RideForJson rideWithUsers = getIntent().getExtras().getParcelable("ride");
-        final boolean requested = getIntent().getExtras().getBoolean("requested");
+        final boolean requested = getIntent().getBooleanExtra("requested", true);
 
         if (rideWithUsers == null) {
             Util.toast(getString(R.string.act_activeride_rideNUll));
             finish();
-            return;
         }
+
+        dissmis_bt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+                overridePendingTransition(R.anim.anim_left_slide_in, R.anim.anim_right_slide_out);
+            }
+        });
 
         final User driver = rideWithUsers.getDriver();
 
         final boolean isDriver = driver.getDbId() == App.getUser().getDbId();
 
-        int color = 0, bgRes = 0;
-        if (rideWithUsers.getZone().equals("Centro")) {
-            color = ContextCompat.getColor(this, R.color.zone_centro);
-            bgRes = R.drawable.bg_bt_raise_zone_centro;
-        }
-        if (rideWithUsers.getZone().equals("Zona Sul")) {
-            color = ContextCompat.getColor(this, R.color.zone_sul);
-            bgRes = R.drawable.bg_bt_raise_zone_sul;
-        }
-        if (rideWithUsers.getZone().equals("Zona Oeste")) {
-            color = ContextCompat.getColor(this, R.color.zone_oeste);
-            bgRes = R.drawable.bg_bt_raise_zone_oeste;
-        }
-        if (rideWithUsers.getZone().equals("Zona Norte")) {
-            color = ContextCompat.getColor(this, R.color.zone_norte);
-            bgRes = R.drawable.bg_bt_raise_zone_norte;
-        }
-        if (rideWithUsers.getZone().equals("Baixada")) {
-            color = ContextCompat.getColor(this, R.color.zone_baixada);
-            bgRes = R.drawable.bg_bt_raise_zone_baixada;
-        }
-        if (rideWithUsers.getZone().equals("Grande Niterói")) {
-            color = ContextCompat.getColor(this, R.color.zone_niteroi);
-            bgRes = R.drawable.bg_bt_raise_zone_niteroi;
-        }
-        if (rideWithUsers.getZone().equals("Outros")) {
-            color = ContextCompat.getColor(this, R.color.zone_outros);
-            bgRes = R.drawable.bg_bt_raise_zone_outros;
-        }
-        lay1.setBackgroundColor(color);
-        join_bt.setBackgroundResource(bgRes);
+        int color = Util.getColorbyZone(rideWithUsers.getZone());
+        header_line.setBackgroundColor(color);
+        join_bt.setColorNormal(color);
+        join_bt.setColorPressed(color + 6);
+        location_dt.setTextColor(color);
 
         final String location;
         if (rideWithUsers.isGoing())
@@ -140,10 +139,10 @@ public class RideOfferAct extends AppCompatActivity {
 
         String profilePicUrl = driver.getProfilePicUrl();
         if (profilePicUrl == null || profilePicUrl.isEmpty()) {
-            Picasso.with(this).load(R.drawable.user_pic)
+            Picasso.with(this.getApplicationContext()).load(R.drawable.user_pic)
                     .into(user_pic);
         } else {
-            Picasso.with(this).load(profilePicUrl)
+            Picasso.with(this.getApplicationContext()).load(profilePicUrl)
                     .placeholder(R.drawable.user_pic)
                     .error(R.drawable.user_pic)
                     .transform(new RoundedTransformation())
@@ -153,36 +152,55 @@ public class RideOfferAct extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (!isDriver) {//dont allow user to open own profile
-                    Intent intent = new Intent(RideOfferAct.this, ProfileAct.class);
+                    Intent intent = new Intent(getApplicationContext(), ProfileAct.class);
                     intent.putExtra("user", new Gson().toJson(driver));
                     intent.putExtra("from", "rideoffer");
                     startActivity(intent);
                 }
             }
         });
-        location_tv.setText(location);
-        name_tv.setText(driver.getName());
-        profile_tv.setText(driver.getProfile());
-        way_tv.setText(rideWithUsers.getRoute());
-        place_tv.setText(rideWithUsers.getPlace());
-        course_tv.setText(driver.getCourse());
+        location_dt.setText(location);
+        name_dt.setText(driver.getName());
+        profile_dt.setText(driver.getProfile());
+        if (rideWithUsers.getRoute().equals("")){
+            way_text_frame.setVisibility(View.GONE);
+        } else {
+            way_dt.setText(rideWithUsers.getRoute());
+        }
+        if (rideWithUsers.getPlace().equals("")){
+            place_text_frame.setVisibility(View.GONE);
+        } else {
+            place_dt.setText(rideWithUsers.getPlace());
+        }
+        course_dt.setText(driver.getCourse());
         if (rideWithUsers.isGoing())
-            time_tv.setText(getString(R.string.arrivingAt, Util.formatTime(rideWithUsers.getTime())));
+            time_dt.setText(getString(R.string.arrivingAt, Util.formatTime(rideWithUsers.getTime())));
         else
-            time_tv.setText(getString(R.string.leavingAt, Util.formatTime(rideWithUsers.getTime())));
-        time_tv.setTextColor(color);
-        date_tv.setText(Util.formatBadDateWithoutYear(rideWithUsers.getDate()));
-        date_tv.setTextColor(color);
-        description_tv.setText(rideWithUsers.getDescription());
+            time_dt.setText(getString(R.string.leavingAt, Util.formatTime(rideWithUsers.getTime())));
+        time_dt.setTextColor(color);
+        date_dt.setText(Util.formatBadDateWithoutYear(rideWithUsers.getDate()));
+        date_dt.setTextColor(color);
+        if (rideWithUsers.getDescription().equals("")){
+            description_text_frame.setVisibility(View.GONE);
+        } else {
+            description_dt.setText(rideWithUsers.getDescription());
+        }
 
         if (isDriver) {
-            join_bt.setVisibility(View.INVISIBLE);
-            seeProfile_iv.setVisibility(View.GONE);
+//            join_bt.setVisibility(View.INVISIBLE);
+            join_bt_frame.setVisibility(View.GONE);
+            seeProfile_dt.setVisibility(View.GONE);
+
+            setDissmisBtInMiddle();
         } else {
             if (requested) {
-                join_bt.setVisibility(View.INVISIBLE);
-                requested_tv.setVisibility(View.VISIBLE);
+//                join_bt.setVisibility(View.INVISIBLE);
+                join_bt_frame.setVisibility(View.GONE);
+                requested_dt.setVisibility(View.VISIBLE);
+
+                setDissmisBtInMiddle();
             } else {
+                final Context context = this;
                 join_bt.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -192,17 +210,18 @@ public class RideOfferAct extends AppCompatActivity {
                             return;
                         }
 
-                        Dialog.Builder builder = new SimpleDialog.Builder(R.style.SimpleDialogLight) {
+                        com.rey.material.app.Dialog.Builder builder = new SimpleDialog.Builder(R.style.SlideInDialog) {
 
                             @Override
-                            protected void onBuildDone(Dialog dialog) {
-                                dialog.layoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                            protected void onBuildDone(com.rey.material.app.Dialog dialog) {
+                                dialog.layoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                                dialog.getWindow().getAttributes().windowAnimations = R.style.SlideInRightDialog;
                             }
 
                             @Override
-                            public void onPositiveActionClicked(DialogFragment fragment) {
-                                final ProgressDialog pd = ProgressDialog.show(RideOfferAct.this, "", getString(R.string.wait), true, true);
-                                App.getNetworkService(getApplicationContext()).requestJoin(new RideIdForJson(rideWithUsers.getDbId()))
+                            public void onPositiveActionClicked(com.rey.material.app.DialogFragment fragment) {
+                                final ProgressDialog pd = ProgressDialog.show(context, "", getString(R.string.wait), true, true);
+                                App.getNetworkService(context).requestJoin(new RideIdForJson(rideWithUsers.getDbId()))
                                         .enqueue(new Callback<ResponseBody>() {
                                             @Override
                                             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -212,15 +231,27 @@ public class RideOfferAct extends AppCompatActivity {
 
                                                     createChatAssets(rideWithUsers);
 
-                                                    join_bt.setVisibility(View.INVISIBLE);
-                                                    requested_tv.setVisibility(View.VISIBLE);
+//                                                    join_bt.setVisibility(View.INVISIBLE);
+
+//                                                    join_bt_frame.setVisibility(View.INVISIBLE);
+//                                                    requested_dt.setVisibility(View.VISIBLE);
+
+                                                    join_bt_frame.startAnimation(getAnimationForSendButton());
+
+                                                    requested_dt.startAnimation(getAnimationForResquestedText());
+
+                                                    animateDissmisButton();
+
+
                                                     App.getBus().post(rideRequest);
 
                                                     pd.dismiss();
-                                                    Util.toast(R.string.requestSent);
+//                                                    Util.toast(R.string.requestSent);
+                                                    Util.snack(coordinatorLayout, getResources().getString(R.string.requestSent));
                                                 } else {
                                                     pd.dismiss();
-                                                    Util.toast(R.string.errorRequestSent);
+//                                                    Util.toast(R.string.errorRequestSent);
+                                                    Util.snack(coordinatorLayout, getResources().getString(R.string.errorRequestSent));
                                                     Log.e("requestJoin", response.message());
                                                 }
                                             }
@@ -228,7 +259,8 @@ public class RideOfferAct extends AppCompatActivity {
                                             @Override
                                             public void onFailure(Call<ResponseBody> call, Throwable t) {
                                                 pd.dismiss();
-                                                Util.toast(R.string.errorRequestSent);
+//                                                Util.toast(R.string.errorRequestSent);
+                                                Util.snack(coordinatorLayout, getResources().getString(R.string.requestSent));
                                                 Log.e("requestJoin", t.getMessage());
                                             }
                                         });
@@ -237,7 +269,7 @@ public class RideOfferAct extends AppCompatActivity {
                             }
 
                             @Override
-                            public void onNegativeActionClicked(DialogFragment fragment) {
+                            public void onNegativeActionClicked(com.rey.material.app.DialogFragment fragment) {
                                 super.onNegativeActionClicked(fragment);
                             }
                         };
@@ -247,28 +279,17 @@ public class RideOfferAct extends AppCompatActivity {
                                 .positiveAction(getString(R.string.ok))
                                 .negativeAction(getString(R.string.cancel));
 
-                        DialogFragment fragment = DialogFragment.newInstance(builder);
-                        fragment.show(getSupportFragmentManager(), null);
+                        com.rey.material.app.DialogFragment fragment = com.rey.material.app.DialogFragment.newInstance(builder);
+                        fragment.show(getSupportFragmentManager(), "a");
                     }
                 });
             }
         }
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == android.R.id.home) {
-            finish();
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
     private void createChatAssets(RideForJson rideWithUsers){
 
-        Context context = getApplicationContext();
+        Context context = this.getApplicationContext();
 
         int color = 0, bgRes = 0;
         if (rideWithUsers.getZone().equals("Centro")) {
@@ -313,5 +334,62 @@ public class RideOfferAct extends AppCompatActivity {
             new ChatAssets(rideWithUsers.getDbId() + "", location, finalColor, finalBgRes,
                     Util.formatBadDateWithoutYear(rideWithUsers.getDate()),
                     Util.formatTime(rideWithUsers.getTime())).save();
+    }
+
+    public void animateDissmisButton(){
+
+        int xButtonPositionToGo = (dissmis_bt_frame.getWidth() / 2) - (dissmis_bt.getWidth() / 2);
+        dissmis_bt.animate()
+                .x(xButtonPositionToGo)
+                .setInterpolator(new DecelerateInterpolator())
+                .setDuration(this.getApplicationContext().getResources().getInteger(R.integer.button_anim_duration));
+    }
+
+    public Animation getAnimationForSendButton(){
+        Animation anim = new AlphaAnimation(1, 0);
+        anim.setDuration(this.getApplicationContext().getResources().getInteger(R.integer.button_anim_duration));
+        anim.setFillEnabled(true);
+        anim.setFillAfter(true);
+
+        anim.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                join_bt_frame.setVisibility(View.GONE);
+                join_bt.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+
+        return anim;
+    }
+
+    public Animation getAnimationForResquestedText(){
+        Animation anim = new AlphaAnimation(0, 1);
+        anim.setDuration(this.getApplicationContext().getResources().getInteger(R.integer.button_anim_duration));
+        anim.setFillEnabled(true);
+        anim.setFillAfter(true);
+        return anim;
+    }
+
+    private void setDissmisBtInMiddle(){
+        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.gravity = Gravity.TOP|Gravity.CENTER;
+
+        dissmis_bt.setLayoutParams(params);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.anim_left_slide_in, R.anim.anim_right_slide_out);
     }
 }

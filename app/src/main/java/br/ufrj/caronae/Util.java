@@ -6,7 +6,6 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Shader;
@@ -15,6 +14,7 @@ import android.renderscript.Allocation;
 import android.renderscript.Element;
 import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
@@ -92,6 +92,10 @@ public class Util {
 
     public static void toast(String msg) {
         Toast.makeText(App.inst(), msg, Toast.LENGTH_SHORT).show();
+    }
+
+    public static void snack(View coordinator, String msg){
+        Snackbar.make(coordinator, msg, Snackbar.LENGTH_LONG).show();
     }
 
     public static String[] getZones() {

@@ -1,313 +1,329 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/detail_coordinator_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/layout"
+        <ScrollView
+            android:id="@+id/scrollView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
-            <RelativeLayout
-                android:id="@+id/lay1_dt"
+            <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white">
-
-                <TextView
-                    android:id="@+id/location_dt"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="15dp"
-                    android:gravity="center"
-                    android:text="COPACABANA -> CT"
-                    android:textColor="@color/dark_gray"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-
-                <ImageView
-                    android:id="@+id/header_line"
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:layout_below="@id/location_dt"
-                    android:background="@color/zone_sul" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/lay2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/lay1_dt"
-                android:layout_marginLeft="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp">
-
-                <ImageView
-                    android:id="@+id/user_pic"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/user_pic" />
-
-                <TextView
-                    android:id="@+id/seeProfile_dt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/user_pic"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginStart="5dp"
-                    android:background="@color/gray"
-                    android:padding="1dp"
-                    android:text="Ver perfil"
-                    android:textColor="@color/white" />
+                android:layout_height="wrap_content">
 
                 <RelativeLayout
-                    android:id="@+id/lay21"
+                    android:id="@+id/lay1_dt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginStart="20dp"
-                    android:layout_toEndOf="@+id/user_pic"
-                    android:layout_toRightOf="@+id/user_pic">
+                    android:background="@color/white">
 
                     <TextView
-                        android:id="@+id/name_dt"
+                        android:id="@+id/location_dt"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Fulano da Silva"
+                        android:layout_margin="15dp"
+                        android:gravity="center"
+                        android:text="COPACABANA -> CT"
+                        android:textColor="@color/dark_gray"
+                        android:textSize="20sp"
                         android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/profile_dt"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/name_dt"
-                        android:text="Aluno" />
-
-                    <TextView
-                        android:id="@+id/course_dt"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/profile_dt"
-                        android:text="Ciência da computação" />
+                    <ImageView
+                        android:id="@+id/header_line"
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:layout_below="@id/location_dt"
+                        android:background="@color/zone_sul" />
                 </RelativeLayout>
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/lay3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/lay2"
-                android:layout_marginTop="8dp"
-                android:layout_centerHorizontal="true"
-                android:paddingBottom="16dp">
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_below="@+id/rel1"
-                    android:src="@color/light_gray"/>
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:src="@color/light_gray"
-                    android:layout_alignParentTop="true"/>
 
                 <RelativeLayout
-                    android:id="@+id/rel1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginBottom="4dp"
-                    android:layout_centerHorizontal="true">
-                <TextView
-                    android:id="@+id/time_dt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/ic_access_time_black_24dp"
-                    android:drawablePadding="5dp"
-                    android:drawableStart="@drawable/ic_access_time_black_24dp"
-                    android:gravity="center"
-                    android:text="Chegando ás 16:45"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/separator"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBaseline="@+id/time_dt"
-                    android:layout_toEndOf="@+id/time_dt"
-                    android:layout_toRightOf="@+id/time_dt"
-                    android:gravity="center"
-                    android:text=" | " />
-
-                <TextView
-                    android:id="@+id/date_dt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBaseline="@+id/time_dt"
-                    android:layout_toEndOf="@+id/separator"
-                    android:layout_toRightOf="@+id/separator"
-                    android:gravity="center"
-                    android:text="16/10"
-                    android:textStyle="bold" />
-                </RelativeLayout>
-
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/lay3">
-
-                <LinearLayout
-                    android:id="@+id/place_way_text_frame"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                <android.support.v7.widget.CardView
-                    android:id="@+id/place_text_frame"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:layout_marginLeft="8dp"
-                    app:cardElevation="0dp"
-                    app:cardBackgroundColor="@android:color/transparent"
-                    app:cardUseCompatPadding="true"
-                    app:contentPadding="8dp">
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:id="@+id/place_text_dt"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="8dp"
-                            android:gravity="center"
-                            android:text="@string/myactiveride_placeTv"
-                            android:textAllCaps="true"
-                            android:textSize="12sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/place_dt"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/place_text_dt"
-                            android:text="Na frente fasffasdasdasdasdas" />
-                    </RelativeLayout>
-
-                </android.support.v7.widget.CardView>
-
-                <android.support.v7.widget.CardView
-                    android:id="@+id/way_text_frame"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:layout_toLeftOf="@id/place_text_frame"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="8dp"
-                    app:cardElevation="0dp"
-                    app:cardBackgroundColor="@android:color/transparent"
-                    app:cardUseCompatPadding="true"
-                    app:contentPadding="8dp">
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:id="@+id/way_text_dt"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="8dp"
-                            android:gravity="center"
-                            android:text="@string/myactiveride_wayTv"
-                            android:textAllCaps="true"
-                            android:textSize="12sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/way_dt"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/way_text_dt"
-                            android:gravity="center"
-                            android:text="Leopoldina" />
-                    </RelativeLayout>
-                </android.support.v7.widget.CardView>
-
-                </LinearLayout>
-
-
-                <android.support.v7.widget.CardView
-                    android:id="@+id/description_text_frame"
+                    android:id="@+id/lay2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/place_way_text_frame"
-                    app:cardUseCompatPadding="true"
-                    app:cardElevation="0dp"
-                    app:cardBackgroundColor="@android:color/transparent"
-                    app:contentPadding="8dp"
-                    android:paddingTop="16dp">
+                    android:layout_below="@+id/lay1_dt"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp">
+
+                    <ImageView
+                        android:id="@+id/user_pic"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/user_pic" />
+
+                    <TextView
+                        android:id="@+id/seeProfile_dt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/user_pic"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginStart="5dp"
+                        android:background="@color/gray"
+                        android:padding="1dp"
+                        android:text="Ver perfil"
+                        android:textColor="@color/white" />
 
                     <RelativeLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
+                        android:id="@+id/lay21"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_toEndOf="@+id/user_pic"
+                        android:layout_toRightOf="@+id/user_pic">
 
                         <TextView
-                            android:id="@+id/description_text_dt"
+                            android:id="@+id/name_dt"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:paddingBottom="8dp"
-                            android:text="@string/myactiveride_descriptionTv"
-                            android:textAllCaps="true"
-                            android:textSize="14sp"
+                            android:text="Fulano da Silva"
                             android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/description_dt"
+                            android:id="@+id/profile_dt"
                             android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_below="@id/description_text_dt"
-                            android:paddingLeft="8dp"
-                            android:paddingRight="8dp"
-                            android:text="Lorem ipsum dolor sit aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbccccc" />
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/name_dt"
+                            android:text="Aluno" />
+
+                        <TextView
+                            android:id="@+id/course_dt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/profile_dt"
+                            android:text="Ciência da computação" />
                     </RelativeLayout>
-                </android.support.v7.widget.CardView>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/lay3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/lay2"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="8dp"
+                    android:paddingBottom="16dp">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_below="@+id/rel1"
+                        android:src="@color/light_gray" />
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_alignParentTop="true"
+                        android:src="@color/light_gray" />
+
+                    <RelativeLayout
+                        android:id="@+id/rel1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginBottom="4dp"
+                        android:layout_marginTop="4dp">
+
+                        <TextView
+                            android:id="@+id/time_dt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawableLeft="@drawable/ic_access_time_black_24dp"
+                            android:drawablePadding="5dp"
+                            android:drawableStart="@drawable/ic_access_time_black_24dp"
+                            android:gravity="center"
+                            android:text="Chegando ás 16:45"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/separator"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignBaseline="@+id/time_dt"
+                            android:layout_toEndOf="@+id/time_dt"
+                            android:layout_toRightOf="@+id/time_dt"
+                            android:gravity="center"
+                            android:text=" | " />
+
+                        <TextView
+                            android:id="@+id/date_dt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignBaseline="@+id/time_dt"
+                            android:layout_toEndOf="@+id/separator"
+                            android:layout_toRightOf="@+id/separator"
+                            android:gravity="center"
+                            android:text="16/10"
+                            android:textStyle="bold" />
+                    </RelativeLayout>
 
 
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/lay4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/lay3">
+
+                    <LinearLayout
+                        android:id="@+id/place_way_text_frame"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <android.support.v7.widget.CardView
+                            android:id="@+id/place_text_frame"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="8dp"
+                            android:layout_weight="1"
+                            app:cardBackgroundColor="@android:color/transparent"
+                            app:cardElevation="0dp"
+                            app:cardUseCompatPadding="true"
+                            app:contentPadding="8dp">
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:id="@+id/place_text_dt"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="8dp"
+                                    android:gravity="center"
+                                    android:text="@string/myactiveride_placeTv"
+                                    android:textAllCaps="true"
+                                    android:textSize="12sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/place_dt"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@+id/place_text_dt"
+                                    android:text="Na frente fasffasdasdasdasdas" />
+                            </RelativeLayout>
+
+                        </android.support.v7.widget.CardView>
+
+                        <android.support.v7.widget.CardView
+                            android:id="@+id/way_text_frame"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginRight="8dp"
+                            android:layout_toLeftOf="@id/place_text_frame"
+                            android:layout_weight="1"
+                            app:cardBackgroundColor="@android:color/transparent"
+                            app:cardElevation="0dp"
+                            app:cardUseCompatPadding="true"
+                            app:contentPadding="8dp">
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:id="@+id/way_text_dt"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="8dp"
+                                    android:gravity="center"
+                                    android:text="@string/myactiveride_wayTv"
+                                    android:textAllCaps="true"
+                                    android:textSize="12sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/way_dt"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@+id/way_text_dt"
+                                    android:gravity="center"
+                                    android:text="Leopoldina" />
+                            </RelativeLayout>
+                        </android.support.v7.widget.CardView>
+
+                    </LinearLayout>
+
+
+                    <android.support.v7.widget.CardView
+                        android:id="@+id/description_text_frame"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/place_way_text_frame"
+                        android:paddingTop="16dp"
+                        app:cardBackgroundColor="@android:color/transparent"
+                        app:cardElevation="0dp"
+                        app:cardUseCompatPadding="true"
+                        app:contentPadding="8dp">
+
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/description_text_dt"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:paddingBottom="8dp"
+                                android:text="@string/myactiveride_descriptionTv"
+                                android:textAllCaps="true"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/description_dt"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_below="@id/description_text_dt"
+                                android:paddingLeft="8dp"
+                                android:paddingRight="8dp"
+                                android:text="Lorem ipsum dolor sit aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbccccc" />
+                        </RelativeLayout>
+                    </android.support.v7.widget.CardView>
+
+
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/requested_dt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/lay4"
+                    android:gravity="center"
+                    android:text="@string/act_rideoffer_requested"
+                    android:textColor="@color/green"
+                    android:textStyle="bold"
+                    android:visibility="invisible" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="112dp"
+                    android:layout_below="@id/requested_dt" />
             </RelativeLayout>
-        </RelativeLayout>
-
-        <TextView
-            android:id="@+id/requested_dt"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/act_rideoffer_requested"
-            android:textColor="@color/green"
-            android:textStyle="bold"
-            android:visibility="invisible" />
+        </ScrollView>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/activity_vertical_margin"
-            android:orientation="horizontal">
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="38dp">
 
             <FrameLayout
                 android:id="@+id/dissmis_bt_frame"
@@ -350,5 +366,6 @@
 
         </RelativeLayout>
 
-    </LinearLayout>
-</ScrollView>
+    </RelativeLayout>
+
+</android.support.design.widget.CoordinatorLayout>

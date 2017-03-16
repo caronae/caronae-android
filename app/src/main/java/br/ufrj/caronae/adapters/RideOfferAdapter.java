@@ -3,8 +3,6 @@ package br.ufrj.caronae.adapters;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,14 +17,13 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.RoundedTransformation;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.ProfileAct;
-import br.ufrj.caronae.frags.RideDetailDialogFrag;
+import br.ufrj.caronae.acts.RideOfferAct;
 import br.ufrj.caronae.models.RideRequestSent;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -150,17 +147,17 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
                 viewHolder.parentLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-//                Intent intent = new Intent(context, RideOfferAct.class);
-//                intent.putExtra("ride", rideOffer);
-//                intent.putExtra("requested", finalRequested);
-//                context.startActivity(intent);
+                Intent intent = new Intent(context, RideOfferAct.class);
+                intent.putExtra("ride", rideOffer);
+                intent.putExtra("requested", finalRequested);
+                context.startActivity(intent);
 
-                        RideDetailDialogFrag detailFrag = new RideDetailDialogFrag();
-                        Bundle args = new Bundle();
-                        args.putParcelable("ride", rideOffer);
-                        args.putBoolean("requested", finalRequested);
-                        detailFrag.setArguments(args);
-                        detailFrag.show(fm, "a");
+//                        RideDetailDialogFrag detailFrag = new RideDetailDialogFrag();
+//                        Bundle args = new Bundle();
+//                        args.putParcelable("ride", rideOffer);
+//                        args.putBoolean("requested", finalRequested);
+//                        detailFrag.setArguments(args);
+//                        detailFrag.show(fm, "a");
                     }
                 });
             } else {
