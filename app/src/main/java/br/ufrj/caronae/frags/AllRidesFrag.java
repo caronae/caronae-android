@@ -1,5 +1,6 @@
 package br.ufrj.caronae.frags;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -191,9 +192,8 @@ public class AllRidesFrag extends Fragment {
                         }
                     });
         } else {
-            Intent intent = new Intent(getContext(), MainAct.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
+            Util.toast("Activity not atached");
+            return;
         }
     }
 
@@ -210,12 +210,6 @@ public class AllRidesFrag extends Fragment {
         tab.requestLayout();
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-//        if (!isFabPrepared)
-//            prepareFloatingActionMenu();
-    }
 
     @Override
     public void onPause() {

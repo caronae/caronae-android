@@ -165,9 +165,15 @@ public class AllRidesListFrag extends Fragment implements Callback {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+//        refreshRideList(pageCounter);
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
-        refreshRideList(pageCounter);
+//        refreshRideList(pageCounter);
 //        AllRidesFrag.prepareFloatingActionMenu(getContext());
     }
 
