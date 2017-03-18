@@ -62,6 +62,7 @@
     <string name="errorRequestSent">Erro no envio da solicitação</string>
     <string name="errorGetRequesters">Erro ao obter solicitações</string>
     <string name="errorFinishRide">Erro ao concluir carona</string>
+    <string name="finishFutureRide">Não é possível concluir caronas no futuro</string>
     <string name="rideFinished">Carona concluída</string>
     <string name="arrivedAt">Chegou às %1$s</string>
     <string name="Xriders">%1$s caronista%2$s</string>

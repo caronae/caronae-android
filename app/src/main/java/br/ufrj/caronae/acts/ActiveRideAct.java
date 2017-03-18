@@ -367,9 +367,13 @@ public class ActiveRideAct extends AppCompatActivity {
                                             finish();
                                         } else {
                                             pd.dismiss();
-                                            Util.toast(R.string.errorFinishRide);
+                                            if (response.code() == 403){
+                                                Util.toast(R.string.finishFutureRide);
+                                            } else {
+                                                Util.toast(R.string.errorFinishRide);
 
-                                            Log.e("finish_bt", response.message());
+                                                Log.e("finish_bt", response.message());
+                                            }
                                         }
                                     }
 
