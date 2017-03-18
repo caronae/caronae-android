@@ -328,6 +328,15 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
                                             Util.toast(R.string.rideDeleted);
                                             rides.remove(ride);
                                             notifyItemRemoved(holder.getAdapterPosition());
+                                            for (int rideCounter = 0; rideCounter < rides.size(); rideCounter++){
+                                                if (rides.get(rideCounter).getClass() == RideForJson.class){
+                                                    RideForJson rideForJson = (RideForJson) rides.get(rideCounter);
+                                                    if (rideForJson.getId() == ride.getId()){
+                                                        rides.remove(rideForJson);
+                                                        notifyItemRemoved(rideCounter);
+                                                    }
+                                                }
+                                            }
                                             ride.delete();
                                         } else {
                                             pd.dismiss();

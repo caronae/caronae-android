@@ -90,6 +90,7 @@
     <string name="frag_rideOffer_noRoutineDays">Nenhum dia selecionado para rotina</string>
     <string name="frag_rideOffer_rideSaved">Carona salva</string>
     <string name="frag_rideOffer_errorRideSaved">Erro ao oferecer carona</string>
+    <string name="past_ride_creation">Não é possível criar uma carona no passado</string>
     <string name="frag_myprofile_updated">Perfil atualizado</string>
     <string name="frag_myprofile_errorUpdated">Erro ao atualizar usuário</string>
     <string name="frag_myprofile_facePickChoiceNotOnFace">Você não está conectado ao Facebook</string>

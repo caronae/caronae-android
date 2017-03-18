@@ -25,6 +25,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.facebook.CallbackManager;
@@ -128,6 +129,15 @@ public class MainAct extends AppCompatActivity {
                         profilePicUrl = "";
 
                     ImageView user_pic = (ImageView) drawerView.findViewById(R.id.user_pic);
+
+                    RelativeLayout drawerHeader = (RelativeLayout) drawerView.findViewById(R.id.drawer_header_layout);
+
+                    drawerHeader.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            showProfileFrag();
+                        }
+                    });
 
                     if (!profilePicUrl.isEmpty()) {
                         Picasso.with(MainAct.this).load(profilePicUrl)
@@ -484,5 +494,17 @@ public class MainAct extends AppCompatActivity {
         transaction.setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out);
         transaction.replace(R.id.flContent, new AllRidesFrag()).commit();
         setTitle(getString(R.string.frag_allrides_title));
+    }
+
+    private void showProfileFrag() {
+        backstackSafeCheck();
+        backstack.remove(MyProfileFrag.class);
+        backstack.add(MyProfileFrag.class);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out);
+        transaction.replace(R.id.flContent, new MyProfileFrag()).commit();
+        setTitle(retrieveTitle(MyProfileFrag.class.toString()));
+        mDrawer.closeDrawers();
     }
 }

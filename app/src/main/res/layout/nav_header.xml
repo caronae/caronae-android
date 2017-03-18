@@ -12,6 +12,7 @@
         android:src="@drawable/logo" />
 
     <RelativeLayout
+        android:id="@+id/drawer_header_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/logo"

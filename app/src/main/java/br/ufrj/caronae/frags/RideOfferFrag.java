@@ -477,8 +477,12 @@ public class RideOfferFrag extends Fragment {
                             Util.toast(R.string.frag_rideOffer_rideSaved);
                         } else {
                             pd.dismiss();
-                            Util.toast(R.string.frag_rideOffer_errorRideSaved);
-                            Log.e("offerRide", response.message());
+                            if (response.code() == 403){
+                                Util.toast(R.string.past_ride_creation);
+                            } else {
+                                Util.toast(R.string.frag_rideOffer_errorRideSaved);
+                                Log.e("offerRide", response.message());
+                            }
                         }
                     }
 
