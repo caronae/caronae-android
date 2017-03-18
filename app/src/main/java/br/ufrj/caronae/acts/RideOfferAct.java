@@ -22,6 +22,7 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.rey.material.app.SimpleDialog;
+import com.rey.material.widget.Button;
 import com.rey.material.widget.FrameLayout;
 import com.squareup.picasso.Picasso;
 
@@ -63,13 +64,7 @@ public class RideOfferAct extends AppCompatActivity {
     @Bind(R.id.date_dt)
     public TextView date_dt;
     @Bind(R.id.join_bt)
-    public com.github.clans.fab.FloatingActionButton join_bt;
-    @Bind(R.id.dissmis_bt)
-    public com.github.clans.fab.FloatingActionButton dissmis_bt;
-    @Bind(R.id.join_bt_frame)
-    public android.widget.FrameLayout join_bt_frame;
-    @Bind(R.id.dissmis_bt_frame)
-    public android.widget.FrameLayout dissmis_bt_frame;
+    public Button join_bt;
     @Bind(R.id.way_dt)
     public TextView way_dt;
     @Bind(R.id.way_text_frame)
@@ -113,22 +108,13 @@ public class RideOfferAct extends AppCompatActivity {
             finish();
         }
 
-        dissmis_bt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-                overridePendingTransition(R.anim.anim_left_slide_in, R.anim.anim_right_slide_out);
-            }
-        });
-
         final User driver = rideWithUsers.getDriver();
 
         final boolean isDriver = driver.getDbId() == App.getUser().getDbId();
 
         int color = Util.getColorbyZone(rideWithUsers.getZone());
         header_line.setBackgroundColor(color);
-        join_bt.setColorNormal(color);
-        join_bt.setColorPressed(color + 6);
+        join_bt.setBackgroundColor(color);
         location_dt.setTextColor(color);
 
         final String location;
@@ -188,17 +174,15 @@ public class RideOfferAct extends AppCompatActivity {
 
         if (isDriver) {
 //            join_bt.setVisibility(View.INVISIBLE);
-            join_bt_frame.setVisibility(View.GONE);
+            join_bt.setVisibility(View.GONE);
             seeProfile_dt.setVisibility(View.GONE);
 
-            setDissmisBtInMiddle();
         } else {
             if (requested) {
 //                join_bt.setVisibility(View.INVISIBLE);
-                join_bt_frame.setVisibility(View.GONE);
+                join_bt.setVisibility(View.GONE);
                 requested_dt.setVisibility(View.VISIBLE);
 
-                setDissmisBtInMiddle();
             } else {
                 final Context context = this;
                 join_bt.setOnClickListener(new View.OnClickListener() {
@@ -236,12 +220,9 @@ public class RideOfferAct extends AppCompatActivity {
 //                                                    join_bt_frame.setVisibility(View.INVISIBLE);
 //                                                    requested_dt.setVisibility(View.VISIBLE);
 
-                                                    join_bt_frame.startAnimation(getAnimationForSendButton());
+                                                    join_bt.startAnimation(getAnimationForSendButton());
 
                                                     requested_dt.startAnimation(getAnimationForResquestedText());
-
-                                                    animateDissmisButton();
-
 
                                                     App.getBus().post(rideRequest);
 
@@ -336,15 +317,6 @@ public class RideOfferAct extends AppCompatActivity {
                     Util.formatTime(rideWithUsers.getTime())).save();
     }
 
-    public void animateDissmisButton(){
-
-        int xButtonPositionToGo = (dissmis_bt_frame.getWidth() / 2) - (dissmis_bt.getWidth() / 2);
-        dissmis_bt.animate()
-                .x(xButtonPositionToGo)
-                .setInterpolator(new DecelerateInterpolator())
-                .setDuration(this.getApplicationContext().getResources().getInteger(R.integer.button_anim_duration));
-    }
-
     public Animation getAnimationForSendButton(){
         Animation anim = new AlphaAnimation(1, 0);
         anim.setDuration(this.getApplicationContext().getResources().getInteger(R.integer.button_anim_duration));
@@ -359,7 +331,6 @@ public class RideOfferAct extends AppCompatActivity {
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                join_bt_frame.setVisibility(View.GONE);
                 join_bt.setVisibility(View.GONE);
             }
 
@@ -378,13 +349,6 @@ public class RideOfferAct extends AppCompatActivity {
         anim.setFillEnabled(true);
         anim.setFillAfter(true);
         return anim;
-    }
-
-    private void setDissmisBtInMiddle(){
-        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        params.gravity = Gravity.TOP|Gravity.CENTER;
-
-        dissmis_bt.setLayoutParams(params);
     }
 
     @Override

@@ -124,7 +124,8 @@ public class AllRidesFrag extends Fragment {
 
         progressBar2.setVisibility(View.VISIBLE);
 
-        if (isAdded()) {
+
+        if (isAdded() && (getActivity() != null)) {
 
             App.getNetworkService(getContext()).listAllRides(pageNum + "")
                     .enqueue(new Callback<List<RideForJson>>() {
@@ -161,6 +162,7 @@ public class AllRidesFrag extends Fragment {
                                 }
 
 
+                                //TODO: Error Activity not Atached
                                 viewPager.setAdapter(new AllRidesFragmentPagerAdapter(getChildFragmentManager(), goingRides, notGoingRides, getResources().getStringArray(R.array.tab_tags)));
                                 tabLayout.setupWithViewPager(viewPager);
 

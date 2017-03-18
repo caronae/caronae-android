@@ -31,6 +31,7 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -263,6 +264,10 @@ public class MainAct extends AppCompatActivity {
                 break;
             case R.id.nav_tenth_fragment:
                 fragmentClass = null;
+                //TODO: Transformar em um intent service, unsubscrive nao ta rolando
+                //Unsubscribe from lists
+                FirebaseMessaging.getInstance().unsubscribeFromTopic(SharedPref.TOPIC_GERAL);
+                FirebaseMessaging.getInstance().unsubscribeFromTopic(App.getUser().getDbId() + "");
                 new LogOut(getApplicationContext()).execute();
                 Intent intent = new Intent(getApplicationContext(), LoginAct.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -414,7 +419,9 @@ public class MainAct extends AppCompatActivity {
             backstack.remove(RideSearchFrag.class);
             backstack.add(RideSearchFrag.class);
             FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction().replace(R.id.flContent, new RideSearchFrag()).commit();
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            transaction.setCustomAnimations(R.anim.anim_up_slide_in, R.anim.anim_up_slide_out);
+            transaction.replace(R.id.flContent, new RideSearchFrag()).commit();
             setTitle(item.getTitle());
         }
 
