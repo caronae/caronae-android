@@ -34,6 +34,7 @@ import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.RoundedTransformation;
 import br.ufrj.caronae.SharedPref;
+import br.ufrj.caronae.SwipeDismissBaseActivity;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.adapters.RidersAdapter;
 import br.ufrj.caronae.firebase.FirebaseTopicsHandler;
@@ -51,7 +52,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ActiveRideAct extends AppCompatActivity {
+public class ActiveRideAct extends SwipeDismissBaseActivity {
 
     @Bind(R.id.user_pic)
     public ImageView user_pic;

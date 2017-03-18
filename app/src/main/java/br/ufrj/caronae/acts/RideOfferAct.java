@@ -6,10 +6,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -31,6 +35,7 @@ import java.util.List;
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.RoundedTransformation;
+import br.ufrj.caronae.SwipeDismissBaseActivity;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.models.ActiveRide;
 import br.ufrj.caronae.models.ChatAssets;
@@ -45,7 +50,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class RideOfferAct extends AppCompatActivity {
+public class RideOfferAct extends SwipeDismissBaseActivity {
 
     @Bind(R.id.user_pic)
     public ImageView user_pic;
@@ -79,13 +84,12 @@ public class RideOfferAct extends AppCompatActivity {
     CardView description_text_frame;
     @Bind(R.id.requested_dt)
     public TextView requested_dt;
-    @Bind(R.id.header_line)
-    ImageView header_line;
+//    @Bind(R.id.header_line)
+//    ImageView header_line;
     @Bind(R.id.scrollView)
     ScrollView scrollView;
 
     CoordinatorLayout coordinatorLayout;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,6 +101,22 @@ public class RideOfferAct extends AppCompatActivity {
 
         setContentView(R.layout.dialog_ride_detail);
         ButterKnife.bind(this);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        final ActionBar ab = getSupportActionBar();
+        if (ab != null) {
+            ab.setDisplayHomeAsUpEnabled(true);
+        }
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+                overridePendingTransition(R.anim.anim_left_slide_in, R.anim.anim_right_slide_out);
+            }
+        });
 
         coordinatorLayout = (CoordinatorLayout) findViewById(R.id.detail_coordinator_layout);
 
@@ -113,9 +133,10 @@ public class RideOfferAct extends AppCompatActivity {
         final boolean isDriver = driver.getDbId() == App.getUser().getDbId();
 
         int color = Util.getColorbyZone(rideWithUsers.getZone());
-        header_line.setBackgroundColor(color);
+//        header_line.setBackgroundColor(color);
         join_bt.setBackgroundColor(color);
         location_dt.setTextColor(color);
+//        toolbar.setTitleTextColor(color);
 
         final String location;
         if (rideWithUsers.isGoing())
@@ -356,4 +377,6 @@ public class RideOfferAct extends AppCompatActivity {
         super.onBackPressed();
         overridePendingTransition(R.anim.anim_left_slide_in, R.anim.anim_right_slide_out);
     }
+
+
 }
