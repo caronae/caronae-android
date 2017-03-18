@@ -13,7 +13,7 @@
     <string name="title_activity_login">Login</string>
 
     <string name="tokenHint_et">Sua chave aqui</string>
-    <string name="send_bt">Enviar</string>
+    <string name="send_bt">Acessar</string>
 
     <string name="go_rb">Ir ao fundão</string>
     <string name="back_rb">Voltar do fundão</string>
@@ -197,7 +197,7 @@
     <string name="frag_about_title">Sobre</string>
     <string name="frag_logout_title">Sair</string>
     <string name="frag_myprofile_errorGetIntranetPhoto">Erro ao pegar foto do SIGA</string>
-    <string name="idUfrjHint_et">Seu CPF aqui</string>
+    <string name="idUfrjHint_et">Identificação (CPF ou Passaporte)</string>
     <string name="frag_myrides_deleteAllBt">Excluir todas</string>
     <string name="frag_rideSearch_locationEmpty">Escolha o local</string>
     <string name="act_activeride_cancelledRide">Carona cancelada</string>

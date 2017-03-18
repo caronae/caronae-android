@@ -50,10 +50,10 @@
                     android:id="@+id/lay2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/lay1_dt"
                     android:layout_marginEnd="16dp"
                     android:layout_marginLeft="16dp"
-                    android:layout_marginRight="16dp">
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="@dimen/activity_vertical_margin">
 
                     <ImageView
                         android:id="@+id/user_pic"
@@ -62,18 +62,6 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="8dp"
                         android:src="@drawable/user_pic" />
-
-                    <TextView
-                        android:id="@+id/seeProfile_dt"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/user_pic"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginStart="5dp"
-                        android:background="@color/gray"
-                        android:padding="1dp"
-                        android:text="Ver perfil"
-                        android:textColor="@color/white" />
 
                     <RelativeLayout
                         android:id="@+id/lay21"

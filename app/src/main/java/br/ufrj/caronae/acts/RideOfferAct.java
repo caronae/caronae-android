@@ -54,8 +54,6 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
 
     @Bind(R.id.user_pic)
     public ImageView user_pic;
-    @Bind(R.id.seeProfile_dt)
-    public TextView seeProfile_dt;
     @Bind(R.id.location_dt)
     public TextView location_dt;
     @Bind(R.id.name_dt)
@@ -196,7 +194,6 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
         if (isDriver) {
 //            join_bt.setVisibility(View.INVISIBLE);
             join_bt.setVisibility(View.GONE);
-            seeProfile_dt.setVisibility(View.GONE);
 
         } else {
             if (requested) {

@@ -1,6 +1,7 @@
 package br.ufrj.caronae.acts;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -13,6 +14,8 @@ import android.view.KeyEvent;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.rey.material.widget.Button;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -40,6 +43,11 @@ public class LoginAct extends AppCompatActivity {
     EditText token_et;
     @Bind(R.id.idUfrj_et)
     EditText idUfrj_et;
+    @Bind(R.id.send_bt)
+    Button loginButton;
+
+    public boolean ASYNC_IS_RUNNING = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,140 +100,87 @@ public class LoginAct extends AppCompatActivity {
         final String idUfrj = idUfrj_et.getText().toString();
         final String token = Util.fixBlankSpace(tokenHolder);
 
-        Call<UserWithRidesForJson> loginCall = App.getNetworkService(getApplicationContext()).login(new LoginForJson(token.toUpperCase(), idUfrj));
-        loginCall.enqueue(new Callback<UserWithRidesForJson>() {
-            @Override
-            public void onResponse(Call<UserWithRidesForJson> call, Response<UserWithRidesForJson> response) {
-                // response.isSuccessful() is true if the response code is 2xx
-                if (response.isSuccessful()) {
-                    UserWithRidesForJson userWithRides = response.body();
 
-                    if (userWithRides == null || userWithRides.getUser() == null) {
-                        Util.toast(R.string.act_login_invalidLogin);
-                        return;
-                    }
+        if (!ASYNC_IS_RUNNING) {
+            ASYNC_IS_RUNNING = true;
+            Call<UserWithRidesForJson> loginCall = App.getNetworkService(getApplicationContext()).login(new LoginForJson(token.toUpperCase(), idUfrj));
+            loginCall.enqueue(new Callback<UserWithRidesForJson>() {
+                @Override
+                public void onResponse(Call<UserWithRidesForJson> call, Response<UserWithRidesForJson> response) {
+                    // response.isSuccessful() is true if the response code is 2xx
+                    if (response.isSuccessful()) {
+                        UserWithRidesForJson userWithRides = response.body();
 
-                    SharedPref.saveUser(userWithRides.getUser());
-                    SharedPref.saveUserToken(token);
-                    SharedPref.saveNotifPref("true");
+                        if (userWithRides == null || userWithRides.getUser() == null) {
+                            Util.toast(R.string.act_login_invalidLogin);
+                            return;
+                        }
 
-                    new SaveRidesAsync(userWithRides).execute();
+                        SharedPref.saveUser(userWithRides.getUser());
+                        SharedPref.saveUserToken(token);
+                        SharedPref.saveNotifPref("true");
 
-                    String gcmToken = SharedPref.getUserGcmToken();
-                    if (!gcmToken.equals(SharedPref.MISSING_PREF)) {
-                        Call<ResponseBody> saveGcmtokenCall = App.getNetworkService(getApplicationContext()).saveGcmToken(new TokenForJson(gcmToken));
-                        saveGcmtokenCall.enqueue(new Callback<ResponseBody>() {
-                            @Override
-                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                if (response.isSuccessful()) {
-                                    Log.i("saveGcmToken", "gcm token sent to server");
-                                } else {
-                                    Log.e("saveGcmToken", "Code: " + response.code() +
-                                            "Message: " +
-                                            response.message() == null ? "Null" : response.message());
+                        new SaveRidesAsync(userWithRides).execute();
+
+                        String gcmToken = SharedPref.getUserGcmToken();
+                        if (!gcmToken.equals(SharedPref.MISSING_PREF)) {
+                            Call<ResponseBody> saveGcmtokenCall = App.getNetworkService(getApplicationContext()).saveGcmToken(new TokenForJson(gcmToken));
+                            saveGcmtokenCall.enqueue(new Callback<ResponseBody>() {
+                                @Override
+                                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                    if (response.isSuccessful()) {
+                                        Log.i("saveGcmToken", "gcm token sent to server");
+                                    } else {
+                                        Log.e("saveGcmToken", "Code: " + response.code() +
+                                                "Message: " +
+                                                response.message() == null ? "Null" : response.message());
+                                    }
                                 }
-                            }
 
-                            @Override
-                            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                                Log.e("saveGcmToken", "Failure");
-                            }
-                        });
-                    }
+                                @Override
+                                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                    Log.e("saveGcmToken", "Failure");
+                                }
+                            });
+                        }
+                        pd.dismiss();
 
-                    pd.dismiss();
-
-                    startActivity(new Intent(LoginAct.this, MainAct.class));
-                    LoginAct.this.finish();
-                } else {
-                    // Server Errors
-                    pd.dismiss();
-                    int statusCode = response.code();
-                    ResponseBody errorBody = response.errorBody();
-                    if(statusCode == 401){
-                        Util.toast(R.string.act_login_notFound);
-                    }
-                    if (statusCode == 403) {
-                        Util.toast(R.string.act_login_invalidLogin);
+                        startActivity(new Intent(LoginAct.this, MainAct.class));
+                        ASYNC_IS_RUNNING = false;
+                        LoginAct.this.finish();
                     } else {
-                        Util.toast(R.string.act_login_loginFail);
-                        try {
-                            Log.e("Login", "Code: " + statusCode
-                                    + "\n Body: " + errorBody.string());
-                        } catch (IOException e) {
-                            e.printStackTrace();
+                        // Server Errors
+                        ASYNC_IS_RUNNING = false;
+                        pd.dismiss();
+                        int statusCode = response.code();
+                        ResponseBody errorBody = response.errorBody();
+                        if (statusCode == 401) {
+                            Util.toast(R.string.act_login_notFound);
+                        }
+                        if (statusCode == 403) {
+                            Util.toast(R.string.act_login_invalidLogin);
+                        } else {
+                            Util.toast(R.string.act_login_loginFail);
+                            try {
+                                Log.e("Login", "Code: " + statusCode
+                                        + "\n Body: " + errorBody.string());
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<UserWithRidesForJson> call, Throwable t) {
-                // handle execution failures like no internet connectivity
-                Log.e("Login", "Failure: " + t.getMessage());
-                Util.toast(R.string.act_login_loginFail);
-
-            }
-        });
-
-        pd.dismiss();
-
-        // Busca usuário no servidor, token deve ser com carcteres maiusculos
-//        App.getNetworkService(getApplicationContext()).login(new LoginForJson(token.toUpperCase(), idUfrj), new Callback<UserWithRidesForJson>() {
-//            @Override
-//            public void success(UserWithRidesForJson userWithRides, Response response) {
-//                if (userWithRides == null || userWithRides.getUser() == null) {
-//                    Util.toast(R.string.act_login_invalidLogin);
-//                    return;
-//                }
-//
-//                SharedPref.saveUser(userWithRides.getUser());
-//                SharedPref.saveUserToken(token);
-//                SharedPref.saveNotifPref("true");
-//
-//                new SaveRidesAsync(userWithRides).execute();
-//
-//                String gcmToken = SharedPref.getUserGcmToken();
-//                if (!gcmToken.equals(SharedPref.MISSING_PREF)) {
-//                    App.getNetworkService(getApplicationContext()).saveGcmToken(new TokenForJson(gcmToken), new Callback<Response>() {
-//                        @Override
-//                        public void success(Response response, Response response2) {
-//                            Log.i("saveGcmToken", "gcm token sent to server");
-//                        }
-//
-//                        @Override
-//                        public void failure(RetrofitError error) {
-//                            try {
-//                                Log.e("saveGcmToken", error.getMessage());
-//                            } catch (Exception e) {//sometimes RetrofitError is null
-//                                Log.e("saveGcmToken", e.getMessage());
-//                            }
-//                        }
-//                    });
-//                }
-//
-//                pd.dismiss();
-//
-//                startActivity(new Intent(LoginAct.this, MainAct.class));
-//                LoginAct.this.finish();
-//            }
-//
-//            @Override
-//            public void failure(RetrofitError retrofitError) {
-//                pd.dismiss();
-//
-//                try {
-//                    if (retrofitError.getResponse().getStatus() == 403)
-//                        Util.toast(R.string.act_login_invalidLogin);
-//                    else
-//                        Util.toast(R.string.act_login_loginFail);
-//
-//                    Log.e("login", retrofitError.getMessage());
-//                } catch (Exception e) {//sometimes RetrofitError is null
-//                    Log.e("signUp", e.getMessage());
-//                }
-//            }
-//        });
+                @Override
+                public void onFailure(Call<UserWithRidesForJson> call, Throwable t) {
+                    // handle execution failures like no internet connectivity
+                    Log.e("Login", "Failure: " + t.getMessage());
+                    Util.toast(R.string.act_login_loginFail);
+                    ASYNC_IS_RUNNING = false;
+                    pd.dismiss();
+                }
+            });
+        }
     }
 
     @OnClick(R.id.getToken_tv)
