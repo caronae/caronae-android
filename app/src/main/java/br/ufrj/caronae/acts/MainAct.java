@@ -420,7 +420,7 @@ public class MainAct extends AppCompatActivity {
             backstack.add(RideSearchFrag.class);
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction transaction = fragmentManager.beginTransaction();
-            transaction.setCustomAnimations(R.anim.anim_up_slide_in, R.anim.anim_up_slide_out);
+            transaction.setCustomAnimations(R.anim.anim_up_slide_in, R.anim.anim_down_slide_out);
             transaction.replace(R.id.flContent, new RideSearchFrag()).commit();
             setTitle(item.getTitle());
         }

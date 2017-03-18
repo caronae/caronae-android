@@ -214,10 +214,12 @@ public class ChatAct extends AppCompatActivity {
                     public void onFailure(Call<ChatMessageSendResponse> call, Throwable t) {
                         Util.toast("Erro ao enviar mensagem de chat, verifique sua conexao");
 
-                        chatMsgsList.remove(chatMsgsList.size() - 1);
-                        chatMsgsAdapter.notifyItemRemoved(chatMsgsList.size());
+                        if (chatMsgsList.size() > 0) {
+                            chatMsgsList.remove(chatMsgsList.size() - 1);
+                            chatMsgsAdapter.notifyItemRemoved(chatMsgsList.size());
 
-                        msg_et.setText(msg.getMessage());
+                            msg_et.setText(msg.getMessage());
+                        }
 
                         /************* Esconde o teclado ***********/
 

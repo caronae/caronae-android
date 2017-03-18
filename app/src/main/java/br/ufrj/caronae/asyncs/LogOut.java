@@ -37,10 +37,6 @@ public class LogOut extends AsyncTask<Void, Void, Void> {
     @Override
     protected void onPreExecute() {
 
-        //Unsubscribe from lists
-        FirebaseMessaging.getInstance().unsubscribeFromTopic(SharedPref.TOPIC_GERAL);
-        FirebaseMessaging.getInstance().unsubscribeFromTopic(App.getUser().getDbId() + "");
-
         App.getNetworkService(context).saveGcmToken(new TokenForJson(""))
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
