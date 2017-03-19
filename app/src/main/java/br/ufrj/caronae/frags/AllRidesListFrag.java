@@ -339,50 +339,50 @@ public class AllRidesListFrag extends Fragment implements Callback {
         rvRides.startAnimation(anim);
     }
 
-    private List<RideForJson> makeSearchOnline(String location, String date, String time, String center, boolean go, String locationResumedField) {
-        final List<RideForJson> listFiltered = new ArrayList<>();
-        RideSearchFiltersForJson rideSearchFilters = new RideSearchFiltersForJson(location, date, time, center, go, locationResumedField);
-
-        Log.e("INPUT", "location: " + location);
-        Log.e("INPUT", "data: " + date);
-        Log.e("INPUT", "hora: " + time);
-        Log.e("INPUT", "center: " + center);
-        Log.e("INPUT", "locationResumeField: " + locationResumedField);
-
-        final ProgressDialog pd = ProgressDialog.show(getActivity(), "", getContext().getString(R.string.wait), true, true);
-        App.getNetworkService(getContext()).listFiltered(rideSearchFilters)
-                .enqueue(new retrofit2.Callback<List<RideForJson>>() {
-                    @Override
-                    public void onResponse(Call<List<RideForJson>> call, Response<List<RideForJson>> response) {
-                        if (response.isSuccessful()) {
-                            List<RideForJson> rideOffers = response.body();
-                            if (rideOffers != null && !rideOffers.isEmpty()) {
-                                Collections.sort(rideOffers, new RideOfferComparatorByDateAndTime());
-                                for (RideForJson rideOffer : rideOffers) {
-                                    rideOffer.setDbId(rideOffer.getId().intValue());
-                                }
-                                listFiltered.addAll(rideOffers);
-                            } else {
-                                Util.toast(R.string.frag_rideSearch_noRideFound);
-                                adapter.makeList(new ArrayList<RideForJson>());
-                            }
-                            pd.dismiss();
-                        } else {
-                            pd.dismiss();
-                            Util.toast(R.string.frag_rideSearch_errorListFiltered);
-                            Log.e("listFiltered", response.message());
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<List<RideForJson>> call, Throwable t) {
-                        pd.dismiss();
-                        Util.toast(R.string.frag_rideSearch_errorListFiltered);
-                        Log.e("listFiltered", t.getMessage());
-                    }
-                });
-        return listFiltered;
-    }
+//    private List<RideForJson> makeSearchOnline(String location, String date, String time, String center, boolean go, String locationResumedField) {
+//        final List<RideForJson> listFiltered = new ArrayList<>();
+//        RideSearchFiltersForJson rideSearchFilters = new RideSearchFiltersForJson(location, date, time, center, go, locationResumedField);
+//
+//        Log.e("INPUT", "location: " + location);
+//        Log.e("INPUT", "data: " + date);
+//        Log.e("INPUT", "hora: " + time);
+//        Log.e("INPUT", "center: " + center);
+//        Log.e("INPUT", "locationResumeField: " + locationResumedField);
+//
+//        final ProgressDialog pd = ProgressDialog.show(getActivity(), "", getContext().getString(R.string.wait), true, true);
+//        App.getNetworkService(getContext()).listFiltered(rideSearchFilters)
+//                .enqueue(new retrofit2.Callback<List<RideForJson>>() {
+//                    @Override
+//                    public void onResponse(Call<List<RideForJson>> call, Response<List<RideForJson>> response) {
+//                        if (response.isSuccessful()) {
+//                            List<RideForJson> rideOffers = response.body();
+//                            if (rideOffers != null && !rideOffers.isEmpty()) {
+//                                Collections.sort(rideOffers, new RideOfferComparatorByDateAndTime());
+//                                for (RideForJson rideOffer : rideOffers) {
+//                                    rideOffer.setDbId(rideOffer.getId().intValue());
+//                                }
+//                                listFiltered.addAll(rideOffers);
+//                            } else {
+//                                Util.toast(R.string.frag_rideSearch_noRideFound);
+//                                adapter.makeList(new ArrayList<RideForJson>());
+//                            }
+//                            pd.dismiss();
+//                        } else {
+//                            pd.dismiss();
+//                            Util.toast(R.string.frag_rideSearch_errorListFiltered);
+//                            Log.e("listFiltered", response.message());
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Call<List<RideForJson>> call, Throwable t) {
+//                        pd.dismiss();
+//                        Util.toast(R.string.frag_rideSearch_errorListFiltered);
+//                        Log.e("listFiltered", t.getMessage());
+//                    }
+//                });
+//        return listFiltered;
+//    }
 
     @Subscribe
     public void updateAdapter(ArrayList<Object> listFiltered) {

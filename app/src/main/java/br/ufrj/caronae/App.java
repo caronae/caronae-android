@@ -18,6 +18,21 @@ import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import org.acra.*;
+import org.acra.annotation.*;
+
+@ReportsCrashes(
+        mailTo = "caronae@fundoverde.ufrj.br",
+        customReportContent = {ReportField.ANDROID_VERSION,
+//                ReportField.USER_COMMENT,
+                ReportField.APP_VERSION_NAME,
+                ReportField.BRAND,
+                ReportField.PHONE_MODEL,
+//                ReportField.CUSTOM_DATA,
+                ReportField.STACK_TRACE},
+        mode = ReportingInteractionMode.TOAST,
+        resToastText = R.string.crash_toast_text
+)
 
 public class App extends SugarApp {
 
@@ -72,6 +87,7 @@ public class App extends SugarApp {
         //return MEUDIGOCEAN_DEV_ENDPOINT;
         //return MEUDIGOCEAN_PROD_ENDPOINT;
 //        return DEV_SERVER_IP;
+        // TODO: Lembrar de remover Crash Report ACRA pro servidor de producao
         return DEV_SERVER_ENDPOINT;
 //        return TIC_ENDPOINT;
     }
@@ -191,5 +207,12 @@ public class App extends SugarApp {
         }
 
         return bus;
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+
+        ACRA.init(this);
     }
 }

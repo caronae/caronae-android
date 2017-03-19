@@ -351,25 +351,6 @@ public class RideSearchFrag extends Fragment {
                 .create();
 
         builder.show();
-//        SimpleDialog.Builder builder = new SimpleDialog.Builder(R.style.SimpleDialogLight) {
-//            @Override
-//            public void onPositiveActionClicked(DialogFragment fragment) {
-//                center_et.setText(getSelectedValue());
-//                super.onPositiveActionClicked(fragment);
-//            }
-//
-//            @Override
-//            public void onNegativeActionClicked(DialogFragment fragment) {
-//                super.onNegativeActionClicked(fragment);
-//            }
-//        };
-
-//        builder.items(Util.getCenters(), 0)
-//                .title(getContext().getString(R.string.frag_rideSearch_hintPickCenter))
-//                .positiveAction(getContext().getString(R.string.ok))
-//                .negativeAction(getContext().getString(R.string.cancel));
-//        DialogFragment fragment = DialogFragment.newInstance(builder);
-//        fragment.show(getFragmentManager(), null);
     }
 
     @OnClick(R.id.fab)

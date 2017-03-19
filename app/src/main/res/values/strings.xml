@@ -228,6 +228,7 @@
     <string name="act_login_getTokenBtn"><u>OBTENHA SUA CHAVE AQUI</u></string>
     <string name="load_more_rides">Carregando mais Caronas</string>
     <string name="no_conexion">Sem Conexão</string>
+    <string name="crash_toast_text">ACRA Crash</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
