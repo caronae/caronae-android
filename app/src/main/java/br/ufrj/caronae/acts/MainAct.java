@@ -79,8 +79,12 @@ public class MainAct extends AppCompatActivity {
 
         SharedPref.setChatActIsForeground(false);
 
+//        ArrayList<String> aaa = null;
+
         FacebookSdk.sdkInitialize(getApplicationContext());
         getFbCallbackManager();
+
+//        aaa.get(5);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

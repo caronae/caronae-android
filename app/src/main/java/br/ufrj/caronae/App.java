@@ -8,6 +8,8 @@ import com.orm.SugarApp;
 
 import java.io.IOException;
 
+import br.ufrj.caronae.ACRAreport.CrashReportFactory;
+import br.ufrj.caronae.ACRAreport.CrashReportSender;
 import br.ufrj.caronae.httpapis.ChatService;
 import br.ufrj.caronae.httpapis.NetworkService;
 import br.ufrj.caronae.models.User;
@@ -21,18 +23,16 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import org.acra.*;
 import org.acra.annotation.*;
 
-@ReportsCrashes(
-        mailTo = "caronae@fundoverde.ufrj.br",
-        customReportContent = {ReportField.ANDROID_VERSION,
-//                ReportField.USER_COMMENT,
-                ReportField.APP_VERSION_NAME,
-                ReportField.BRAND,
-                ReportField.PHONE_MODEL,
-//                ReportField.CUSTOM_DATA,
-                ReportField.STACK_TRACE},
+/** Usa o Falae para reportar crashes **/
+//@ReportsCrashes(
+//        reportSenderFactoryClasses = {CrashReportFactory.class}
+//)
+/******/
+
+@ReportsCrashes(mailTo = "reports@yourdomain.com",
+        customReportContent = {ReportField.STACK_TRACE},
         mode = ReportingInteractionMode.TOAST,
-        resToastText = R.string.crash_toast_text
-)
+        resToastText = R.string.crash_toast_text)
 
 public class App extends SugarApp {
 
@@ -212,7 +212,6 @@ public class App extends SugarApp {
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
-
         ACRA.init(this);
     }
 }
