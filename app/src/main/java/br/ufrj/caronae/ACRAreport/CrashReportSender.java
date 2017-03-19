@@ -1,6 +1,7 @@
 package br.ufrj.caronae.ACRAreport;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -12,6 +13,7 @@ import org.acra.sender.ReportSenderException;
 import org.acra.sender.ReportSenderFactory;
 
 import br.ufrj.caronae.App;
+import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.models.modelsforjson.FalaeMsgForJson;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
