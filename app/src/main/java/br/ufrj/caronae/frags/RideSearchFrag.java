@@ -444,6 +444,7 @@ public class RideSearchFrag extends Fragment {
                                 }
                                 adapter.makeList(rideOffers);
                             } else {
+                                Util.treatResponseFromServer(response);
                                 Util.toast(R.string.frag_rideSearch_noRideFound);
                                 adapter.makeList(new ArrayList<RideForJson>());
                             }

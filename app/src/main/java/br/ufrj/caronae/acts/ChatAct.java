@@ -191,6 +191,7 @@ public class ChatAct extends AppCompatActivity {
                             msg.save();
                             Util.toast("Mensagem enviada");
                         } else {
+                            Util.treatResponseFromServer(response);
                             Util.toast("Erro ao enviar mensagem de chat, verifique sua conexao");
 
                             chatMsgsList.remove(chatMsgsList.size() - 1);

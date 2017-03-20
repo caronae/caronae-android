@@ -1,5 +1,6 @@
 package br.ufrj.caronae;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -607,12 +608,10 @@ public class Util {
         return color;
     }
 
-    public static boolean treatResponseFromServer(Response response){
-        boolean treated = false;
+    public static void treatResponseFromServer(Response response){
         if (response.code() == 401){
             Util.toast(R.string.invalidToken);
-            treated = true;
+            App.LogOut();
         }
-        return treated;
     }
 }

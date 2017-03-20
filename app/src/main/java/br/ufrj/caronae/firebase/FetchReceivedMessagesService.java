@@ -83,6 +83,7 @@ public class FetchReceivedMessagesService extends IntentService {
                                          getApplicationContext().sendBroadcast(new Intent("br.ufrj.caronae.acts.ChatAct.BROADCAST_NEW_MESSAGES_NULL"));
                                      }
                                  } else {
+                                     Util.treatResponseFromServer(response);
                                      Util.toast("Erro ao Recuperar mensagem de chat");
                                      Log.e("GetMessages", response.message());
                                  }

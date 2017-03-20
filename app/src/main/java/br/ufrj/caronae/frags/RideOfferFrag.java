@@ -476,6 +476,7 @@ public class RideOfferFrag extends Fragment {
                             pd.dismiss();
                             Util.toast(R.string.frag_rideOffer_rideSaved);
                         } else {
+                            Util.treatResponseFromServer(response);
                             pd.dismiss();
                             if (response.code() == 403){
                                 Util.toast(R.string.past_ride_creation);

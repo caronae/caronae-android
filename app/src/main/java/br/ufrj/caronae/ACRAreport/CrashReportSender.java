@@ -13,6 +13,7 @@ import org.acra.sender.ReportSenderException;
 import org.acra.sender.ReportSenderFactory;
 
 import br.ufrj.caronae.App;
+import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.models.modelsforjson.FalaeMsgForJson;
 import okhttp3.ResponseBody;
@@ -50,15 +51,12 @@ public class CrashReportSender implements ReportSender {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                         if (response.isSuccessful()) {
-                            Log.e("SENDER", "sucesso: " + response.message());
                         } else {
-                            Log.e("SENDER", "falha: " + response.code());
                         }
                     }
 
                     @Override
                     public void onFailure(Call<ResponseBody> call, Throwable t) {
-                        Log.e("SENDER", "falha: " + t.getMessage());
                     }
                 });
     }

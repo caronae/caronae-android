@@ -106,6 +106,7 @@ public class FalaeFrag extends Fragment {
                             message_et.setText("");
                             Log.i("falaeSendMessage", "falae message sent succesfully");
                         } else {
+                            Util.treatResponseFromServer(response);
                             pd.dismiss();
                             Util.toast(getActivity().getString(R.string.frag_falae_errorSent));
                             Log.e("falaeSendMessage", response.message());

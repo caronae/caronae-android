@@ -118,6 +118,7 @@ public class ProfileAct extends AppCompatActivity {
                                      ridesOffered_tv.setText(String.valueOf(historyRideCountForJson.getOfferedCount()));
                                      ridesTaken_tv.setText(String.valueOf(historyRideCountForJson.getTakenCount()));
                                  } else {
+                                     Util.treatResponseFromServer(response);
                                      Util.toast(R.string.act_profile_errorCountRidesHistory);
                                      Log.e("getRidesHistoryCount", response.message());
                                  }
@@ -162,6 +163,7 @@ public class ProfileAct extends AppCompatActivity {
                                         mutualFriendsList.setHasFixedSize(true);
                                         mutualFriendsList.setLayoutManager(new LinearLayoutManager(ProfileAct.this, LinearLayoutManager.HORIZONTAL, false));
                                     } else {
+                                        Util.treatResponseFromServer(response);
                                         //Util.toast(getString(R.string.act_profile_errorMutualFriends));
                                         Log.e("getMutualFriends", response.message());
                                     }
@@ -232,6 +234,7 @@ public class ProfileAct extends AppCompatActivity {
                                     Util.toast(getString(R.string.act_profile_reportOk));
                                     Log.i("falaeSendMessage", "falae message sent succesfully");
                                 } else {
+                                    Util.treatResponseFromServer(response);
                                     Util.toast(getString(R.string.frag_falae_errorSent));
                                     Log.e("falaeSendMessage", response.message());
                                 }

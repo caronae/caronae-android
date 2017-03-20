@@ -294,6 +294,7 @@ public class ActiveRideAct extends SwipeDismissBaseActivity {
                                             SharedPref.saveRemoveRideFromList(rideId);
                                             finish();
                                         } else {
+                                            Util.treatResponseFromServer(response);
                                             pd.dismiss();
                                             Util.toast(R.string.errorRideDeleted);
                                             Log.e("leaveRide", response.message());
@@ -367,6 +368,7 @@ public class ActiveRideAct extends SwipeDismissBaseActivity {
                                             SharedPref.saveRemoveRideFromList(rideId);
                                             finish();
                                         } else {
+                                            Util.treatResponseFromServer(response);
                                             pd.dismiss();
                                             if (response.code() == 403){
                                                 Util.toast(R.string.finishFutureRide);

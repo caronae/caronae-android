@@ -194,6 +194,7 @@ public class RidesHistoryAdapter extends RecyclerView.Adapter<RidesHistoryAdapte
                                 Util.toast(activity.getString(R.string.rideHistory_Feedback));
                                 Log.i("saveFeedback", "rated " + rate + ", ride id = " + historyRide.getDbId());
                             } else {
+                                Util.treatResponseFromServer(response);
                                 Util.toast(activity.getString(R.string.errorRideHistory_Feedback));
                                 Log.e("saveFeedback", response.message());
                             }

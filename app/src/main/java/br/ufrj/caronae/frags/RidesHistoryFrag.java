@@ -70,6 +70,7 @@ public class RidesHistoryFrag extends Fragment {
 
                             pd.dismiss();
                         } else {
+                            Util.treatResponseFromServer(response);
                             norides_tv.setVisibility(View.VISIBLE);
                             pd.dismiss();
                             Util.toast(R.string.frag_rideshistory_errorGetRides);

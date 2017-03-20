@@ -241,6 +241,7 @@ public class MyRidesListFrag extends Fragment {
 //                                    pd.dismiss();
                                     MyRidesFrag.hideProgressBar();
                                 } else {
+                                    Util.treatResponseFromServer(response);
                                     MyRidesFrag.hideProgressBar();
 //                                    pd.dismiss();
 

@@ -173,6 +173,7 @@ public class AllRidesFrag extends Fragment {
                                 showFAB();
 
                             } else {
+                                Util.treatResponseFromServer(response);
                                 progressBar2.setVisibility(View.GONE);
                                 Log.e("listAllRides", response.message());
                             }

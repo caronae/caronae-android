@@ -271,6 +271,7 @@ public class AllRidesListFrag extends Fragment implements Callback {
                             }
                             refreshLayout.setRefreshing(false);
                         } else {
+                            Util.treatResponseFromServer(response);
                             Util.toast(R.string.frag_allrides_errorGetRides);
                             refreshLayout.setRefreshing(false);
                             Log.e("listAllRides", response.message());

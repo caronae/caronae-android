@@ -127,6 +127,7 @@ public class MyProfileFrag extends Fragment {
                                         user.setFaceId(faceId);
                                         SharedPref.saveUser(user);
                                     } else {
+                                        Util.treatResponseFromServer(response);
                                         Util.toast(R.string.frag_myprofile_errorSaveFaceId);
                                         Log.e("saveFaceId", response.message());
                                     }
@@ -170,6 +171,7 @@ public class MyProfileFrag extends Fragment {
                                 ridesOffered_tv.setText(String.valueOf(historyRideCountForJson.getOfferedCount()));
                                 ridesTaken_tv.setText(String.valueOf(historyRideCountForJson.getTakenCount()));
                             } else {
+                                Util.treatResponseFromServer(response);
                                 Util.toast(R.string.act_profile_errorCountRidesHistory);
                                 Log.e("getRidesHistoryCount", response.message());
                             }
@@ -369,6 +371,7 @@ public class MyProfileFrag extends Fragment {
                                             saveProfilePicUrl(profilePicUrl);
                                         }
                                     } else {
+                                        Util.treatResponseFromServer(response);
                                         Util.toast(R.string.frag_myprofile_errorGetIntranetPhoto);
                                         Log.e("getIntranetPhotoUrl", response.message());
                                     }
@@ -530,10 +533,9 @@ public class MyProfileFrag extends Fragment {
                                     SharedPref.saveUser(user);
                                     Util.toast(R.string.frag_myprofile_updated);
                                 } else {
-                                    if (!Util.treatResponseFromServer(response)) {
-                                        Log.e("updateUser", response.message());
-                                        Util.toast(R.string.frag_myprofile_errorUpdated);
-                                    }
+                                    Util.treatResponseFromServer(response);
+                                    Log.e("updateUser", response.message());
+                                    Util.toast(R.string.frag_myprofile_errorUpdated);
                                 }
                             }
 
@@ -600,6 +602,7 @@ public class MyProfileFrag extends Fragment {
                             Log.i("saveProfilePicUrl", "profile pic url saved");
                             SharedPref.saveUser(App.getUser());
                         } else { //need to save it later
+                            Util.treatResponseFromServer(response);
                             Log.e("saveProfilePicUrl", response.message());
                         }
                     }

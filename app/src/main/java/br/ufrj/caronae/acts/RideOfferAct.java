@@ -248,6 +248,7 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
 //                                                    Util.toast(R.string.requestSent);
                                                     Util.snack(coordinatorLayout, getResources().getString(R.string.requestSent));
                                                 } else {
+                                                    Util.treatResponseFromServer(response);
                                                     pd.dismiss();
 //                                                    Util.toast(R.string.errorRequestSent);
                                                     Util.snack(coordinatorLayout, getResources().getString(R.string.errorRequestSent));

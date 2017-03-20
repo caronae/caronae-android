@@ -101,6 +101,7 @@ public class RequestersAdapter extends RecyclerView.Adapter<RequestersAdapter.Vi
 
                                     FirebaseTopicsHandler.subscribeFirebaseTopic(rideId + "");
                                 } else {
+                                    Util.treatResponseFromServer(response);
                                     pd.dismiss();
                                     Log.e("answerJoinRequest", response.message());
                                     Util.toast(R.string.errorAnsweRequest);
@@ -131,6 +132,7 @@ public class RequestersAdapter extends RecyclerView.Adapter<RequestersAdapter.Vi
                                              users.remove(user);
                                              notifyItemRemoved(holder.getAdapterPosition());
                                          } else {
+                                             Util.treatResponseFromServer(response);
                                              pd.dismiss();
                                              Log.e("answerJoinRequest", response.message());
                                          }

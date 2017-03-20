@@ -281,6 +281,7 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
                                             notifyDataSetChanged();
                                             Ride.deleteAll(Ride.class, "routine_id = ?", routineId);
                                         } else {
+                                            Util.treatResponseFromServer(response);
                                             pd.dismiss();
                                             Util.toast(activity.getString(R.string.errorDeleteRide));
                                             Log.e("deleteAllFromRoutine", response.message());
@@ -339,6 +340,7 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
                                             }
                                             ride.delete();
                                         } else {
+                                            Util.treatResponseFromServer(response);
                                             pd.dismiss();
                                             Util.toast(activity.getString(R.string.errorDeleteRide));
                                             Log.e("deleteRide", response.message());
@@ -400,6 +402,7 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
                                         activity.startActivity(intent);
                                     }
                                 } else {
+                                    Util.treatResponseFromServer(response);
                                     pd.dismiss();
                                     Util.toast(R.string.errorGetRequesters);
                                     Log.e("getRequesters", response.message());
