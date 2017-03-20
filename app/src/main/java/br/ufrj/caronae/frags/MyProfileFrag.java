@@ -530,8 +530,10 @@ public class MyProfileFrag extends Fragment {
                                     SharedPref.saveUser(user);
                                     Util.toast(R.string.frag_myprofile_updated);
                                 } else {
-                                    Log.e("updateUser", response.message());
-                                    Util.toast(R.string.frag_myprofile_errorUpdated);
+                                    if (!Util.treatResponseFromServer(response)) {
+                                        Log.e("updateUser", response.message());
+                                        Util.toast(R.string.frag_myprofile_errorUpdated);
+                                    }
                                 }
                             }
 

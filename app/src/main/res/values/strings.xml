@@ -35,6 +35,7 @@
     <string name="wait">Aguarde</string>
     <string name="act_login_notFound">Usuário não encontrado</string>
     <string name="act_login_invalidLogin">CPF ou chave inválida</string>
+    <string name="invalidToken">Chave inválida. Por favor logar novamente</string>
     <string name="act_login_loginFail">Erro ao fazer login</string>
     <string name="act_main_oknogplay">OK</string>
     <string name="act_main_setRideOfferFragTitle">Oferecer carona</string>

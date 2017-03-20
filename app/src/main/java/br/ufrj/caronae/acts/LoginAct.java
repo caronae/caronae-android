@@ -55,31 +55,34 @@ public class LoginAct extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
 
-        // Did that to avoid keyboard overlap EditText when clicked 2 times bug
-        token_et.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                String actualText = token_et.getText().toString();
-                if (actualText.equals("")) {
-                    token_et.setPadding(Util.convertDpToPixel(26)
-                            , token_et.getPaddingTop(), token_et.getPaddingRight(), token_et.getPaddingBottom());
-                }
+        /*** Did that to avoid keyboard overlap EditText when clicked 2 times bug
+//        token_et.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                String actualText = token_et.getText().toString();
+//                if (actualText.equals("")) {
+//                    token_et.setPadding(Util.convertDpToPixel(26)
+//                            , token_et.getPaddingTop(), token_et.getPaddingRight(), token_et.getPaddingBottom());
+//                }
 //                else {
 //                    token_et.setPadding(Util.convertDpToPixel(56)
 //                            , token_et.getPaddingTop(), token_et.getPaddingRight(), token_et.getPaddingBottom());
 //                }
-            }
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//
+//            }
+//        });
 
-            @Override
-            public void afterTextChanged(Editable s) {
+         ***/
 
-            }
-        });
         token_et.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -95,15 +98,16 @@ public class LoginAct extends AppCompatActivity {
 
     @OnClick(R.id.send_bt)
     public void sendBt() {
+        loginButton.setEnabled(false);
         final ProgressDialog pd = ProgressDialog.show(this, "", getString(R.string.wait), true, true);
 
         String tokenHolder = token_et.getText().toString();
         final String idUfrj = idUfrj_et.getText().toString();
         final String token = Util.fixBlankSpace(tokenHolder);
 
+        pd.setCancelable(false);
+        pd.setCanceledOnTouchOutside(false);
 
-        if (!ASYNC_IS_RUNNING) {
-            ASYNC_IS_RUNNING = true;
             Call<UserWithRidesForJson> loginCall = App.getNetworkService(getApplicationContext()).login(new LoginForJson(token.toUpperCase(), idUfrj));
             loginCall.enqueue(new Callback<UserWithRidesForJson>() {
                 @Override
@@ -121,7 +125,10 @@ public class LoginAct extends AppCompatActivity {
                         SharedPref.saveUserToken(token);
                         SharedPref.saveNotifPref("true");
 
-                        new SaveRidesAsync(userWithRides).execute();
+                        if (ASYNC_IS_RUNNING == false) {
+                            ASYNC_IS_RUNNING = true;
+                            new SaveRidesAsync(userWithRides).execute();
+                        }
 
                         String gcmToken = SharedPref.getUserGcmToken();
                         if (!gcmToken.equals(SharedPref.MISSING_PREF)) {
@@ -144,30 +151,30 @@ public class LoginAct extends AppCompatActivity {
                                 }
                             });
                         }
-                        pd.dismiss();
-
                         startActivity(new Intent(LoginAct.this, MainAct.class));
-                        ASYNC_IS_RUNNING = false;
                         LoginAct.this.finish();
                     } else {
                         // Server Errors
-                        ASYNC_IS_RUNNING = false;
                         pd.dismiss();
+                        loginButton.setEnabled(true);
                         int statusCode = response.code();
                         ResponseBody errorBody = response.errorBody();
                         if (statusCode == 401) {
-                            Util.toast(R.string.act_login_notFound);
-                        }
-                        if (statusCode == 403) {
                             Util.toast(R.string.act_login_invalidLogin);
-                        } else {
-                            Util.toast(R.string.act_login_loginFail);
-                            try {
-                                Log.e("Login", "Code: " + statusCode
-                                        + "\n Body: " + errorBody.string());
-                            } catch (IOException e) {
-                                e.printStackTrace();
+                        } else try {
+                            if (errorBody.string().equals("timeout")) {
+                                Util.toast(R.string.no_conexion);
+                            } else {
+                                Util.toast(R.string.act_login_loginFail);
+                                try {
+                                    Log.e("Login", "Code: " + statusCode
+                                            + "\n Body: " + errorBody.string());
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
                             }
+                        } catch (IOException e) {
+                            e.printStackTrace();
                         }
                     }
                 }
@@ -177,11 +184,10 @@ public class LoginAct extends AppCompatActivity {
                     // handle execution failures like no internet connectivity
                     Log.e("Login", "Failure: " + t.getMessage());
                     Util.toast(R.string.act_login_loginFail);
-                    ASYNC_IS_RUNNING = false;
                     pd.dismiss();
+                    loginButton.setEnabled(true);
                 }
             });
-        }
     }
 
     @OnClick(R.id.getToken_tv)
@@ -208,7 +214,9 @@ public class LoginAct extends AppCompatActivity {
                 String format = new SimpleDateFormat("yyyy-MM-dd", Locale.US).format(new Date());
                 int c = ride.getDate().compareTo(format);
                 if (c >= 0)
-                    new Ride(ride).save();
+                    if (Ride.findById(Ride.class, ride.getDbId()) == null) {
+                        new Ride(ride).save();
+                    }
             }
 
             return null;

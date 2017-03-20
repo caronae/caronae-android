@@ -1,15 +1,20 @@
 package br.ufrj.caronae;
 
 import android.content.Context;
+import android.content.Intent;
 
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.orm.SugarApp;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import br.ufrj.caronae.ACRAreport.CrashReportFactory;
 import br.ufrj.caronae.ACRAreport.CrashReportSender;
+import br.ufrj.caronae.acts.LoginAct;
+import br.ufrj.caronae.asyncs.LogOut;
 import br.ufrj.caronae.httpapis.ChatService;
 import br.ufrj.caronae.httpapis.NetworkService;
 import br.ufrj.caronae.models.User;
@@ -102,6 +107,8 @@ public class App extends SugarApp {
                     .create();
 
             OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+            httpClient.readTimeout(30, TimeUnit.SECONDS)
+                    .connectTimeout(30, TimeUnit.SECONDS);
             httpClient.addInterceptor(new Interceptor() {
                 @Override
                 public Response intercept(Chain chain) throws IOException {
@@ -213,5 +220,14 @@ public class App extends SugarApp {
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
         ACRA.init(this);
+    }
+
+    public static void LogOut(){
+        FirebaseMessaging.getInstance().unsubscribeFromTopic(SharedPref.TOPIC_GERAL);
+        FirebaseMessaging.getInstance().unsubscribeFromTopic(App.getUser().getDbId() + "");
+        new LogOut(App.inst()).execute();
+        Intent intent = new Intent(App.inst(), LoginAct.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        App.inst().startActivity(intent);
     }
 }

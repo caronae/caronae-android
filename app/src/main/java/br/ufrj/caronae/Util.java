@@ -31,6 +31,8 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
+import retrofit2.Response;
+
 
 public class Util {
 
@@ -603,5 +605,14 @@ public class Util {
             color = ContextCompat.getColor(App.inst(), R.color.zone_niteroi);
         }
         return color;
+    }
+
+    public static boolean treatResponseFromServer(Response response){
+        boolean treated = false;
+        if (response.code() == 401){
+            Util.toast(R.string.invalidToken);
+            treated = true;
+        }
+        return treated;
     }
 }

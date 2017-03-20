@@ -278,14 +278,9 @@ public class MainAct extends AppCompatActivity {
                 break;
             case R.id.nav_tenth_fragment:
                 fragmentClass = null;
-                //TODO: Transformar em um intent service, unsubscrive nao ta rolando
+                //TODO: Transformar em um intent service, unsubscrive nao ta acontecendo imediatamente
                 //Unsubscribe from lists
-                FirebaseMessaging.getInstance().unsubscribeFromTopic(SharedPref.TOPIC_GERAL);
-                FirebaseMessaging.getInstance().unsubscribeFromTopic(App.getUser().getDbId() + "");
-                new LogOut(getApplicationContext()).execute();
-                Intent intent = new Intent(getApplicationContext(), LoginAct.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
+                App.LogOut();
                 break;
             default:
                 fragmentClass = AllRidesFrag.class;
