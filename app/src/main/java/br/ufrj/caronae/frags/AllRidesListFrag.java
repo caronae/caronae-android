@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.net.TrafficStats;
 import android.os.Bundle;
 import android.os.Process;
-import android.os.SystemClock;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -69,9 +68,6 @@ public class AllRidesListFrag extends Fragment implements Callback {
 //    CardView searchCardView;
 
     long totalBytesConsumed = 0;
-
-    private long timeOpenedInMillis = 0;
-    private long timeClosedInMillis = 0;
 
     RideOfferAdapter adapter;
 
@@ -177,11 +173,7 @@ public class AllRidesListFrag extends Fragment implements Callback {
     @Override
     public void onResume() {
         super.onResume();
-        timeOpenedInMillis = System.currentTimeMillis();
-        if (timeOpenedInMillis - timeClosedInMillis > 1000 * 60 * 5) {
-            pageCounter = 1;
-            refreshRideList(pageCounter);
-        }
+//        refreshRideList(pageCounter);
 //        AllRidesFrag.prepareFloatingActionMenu(getContext());
     }
 
@@ -189,7 +181,7 @@ public class AllRidesListFrag extends Fragment implements Callback {
 
         final Snackbar snackbar = makeLoadingRidesSnack();
         final Snackbar snackbar1 = makeNoConexionSnack();
-        if (snackbar1.isShown()) {
+        if (snackbar1.isShown()){
             dismissSnack(snackbar1);
         }
         showSnack(snackbar);
@@ -437,12 +429,4 @@ public class AllRidesListFrag extends Fragment implements Callback {
         pageCounter++;
         refreshRideList(pageCounter);
     }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        timeClosedInMillis = System.currentTimeMillis();
-    }
-
-
 }

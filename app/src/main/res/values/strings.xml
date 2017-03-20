@@ -227,7 +227,7 @@
     <string name="act_activeRide_cancelRideMsg">Você é livre para cancelar caronas caso não possa participar, mas é importante fazer isso com responsabilidade. Caso haja outros usuários na carona, eles serão notificados.</string>
     <string name="act_login_tokenBtn">Obtenha sua chave de acesso aqui</string>
     <string name="act_login_getTokenBtn"><u>OBTENHA SUA CHAVE AQUI</u></string>
-    <string name="load_more_rides">Carregando Caronas</string>
+    <string name="load_more_rides">Carregando mais Caronas</string>
     <string name="no_conexion">Sem Conexão</string>
     <string name="crash_toast_text">ACRA Crash</string>
 
