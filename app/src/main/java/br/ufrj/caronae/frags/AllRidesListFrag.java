@@ -249,11 +249,12 @@ public class AllRidesListFrag extends Fragment implements Callback {
                                     norides_tv.setVisibility(View.VISIBLE);
                                 } else {
                                     norides_tv.setVisibility(View.INVISIBLE);
-                                    if (filter == null) {
+//                                    if (filter == null) {
                                         adapter.makeList(goingRides);
-                                    } else {
-                                        adapter.makeList(filterList(goingRides, filter));
-                                    }
+//                                    }
+//                                    else {
+//                                        adapter.makeList(filterList(goingRides, filter));
+//                                    }
                                     scrollListener.resetState();
                                 }
                             } else {
@@ -261,11 +262,12 @@ public class AllRidesListFrag extends Fragment implements Callback {
                                     norides_tv.setVisibility(View.VISIBLE);
                                 } else {
                                     norides_tv.setVisibility(View.INVISIBLE);
-                                    if (filter == null) {
+//                                    if (filter == null) {
                                         adapter.makeList(notGoingRides);
-                                    } else {
-                                        adapter.makeList(filterList(notGoingRides, filter));
-                                    }
+//                                    }
+//                                    else {
+//                                        adapter.makeList(filterList(notGoingRides, filter));
+//                                    }
                                     scrollListener.resetState();
                                 }
                             }
@@ -323,14 +325,14 @@ public class AllRidesListFrag extends Fragment implements Callback {
         return contains;
     }
 
-    private ArrayList<RideForJson> filterList(ArrayList<RideForJson> listToFilter, CharSequence searchText) {
-        ArrayList<RideForJson> listFiltered = new ArrayList<>();
-        for (int ride = 0; ride < listToFilter.size(); ride++) {
-            if (listToFilter.get(ride).getNeighborhood().toLowerCase().contains(searchText.toString().toLowerCase()))
-                listFiltered.add(listToFilter.get(ride));
-        }
-        return listFiltered;
-    }
+//    private ArrayList<RideForJson> filterList(ArrayList<RideForJson> listToFilter, CharSequence searchText) {
+//        ArrayList<RideForJson> listFiltered = new ArrayList<>();
+//        for (int ride = 0; ride < listToFilter.size(); ride++) {
+//            if (listToFilter.get(ride).getNeighborhood().toLowerCase().contains(searchText.toString().toLowerCase()))
+//                listFiltered.add(listToFilter.get(ride));
+//        }
+//        return listFiltered;
+//    }
 
     private void animateListFadeIn() {
         Animation anim = new AlphaAnimation(0, 1);

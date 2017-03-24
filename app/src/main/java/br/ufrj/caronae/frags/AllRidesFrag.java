@@ -163,7 +163,8 @@ public class AllRidesFrag extends Fragment {
 
 
                                 //TODO: Error Activity not Atached
-                                viewPager.setAdapter(new AllRidesFragmentPagerAdapter(getChildFragmentManager(), goingRides, notGoingRides, getResources().getStringArray(R.array.tab_tags)));
+                                if (isAdded())
+                                    viewPager.setAdapter(new AllRidesFragmentPagerAdapter(getChildFragmentManager(), goingRides, notGoingRides, getResources().getStringArray(R.array.tab_tags)));
                                 tabLayout.setupWithViewPager(viewPager);
 
                                 tabLayout.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.transparency_gradient_top_botton));

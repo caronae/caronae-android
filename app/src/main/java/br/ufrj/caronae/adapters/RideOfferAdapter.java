@@ -87,6 +87,9 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
                 int color = Util.getColorbyZone(rideOffer.getZone());
 
                 viewHolder.location_tv.setTextColor(color);
+                viewHolder.time_tv.setTextColor(color);
+                viewHolder.name_tv.setTextColor(color);
+                viewHolder.date_tv.setTextColor(color);
 
                 viewHolder.photo_iv.setBorderColor(color);
 
