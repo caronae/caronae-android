@@ -32,7 +32,6 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
-import com.google.firebase.messaging.FirebaseMessaging;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -42,7 +41,6 @@ import br.ufrj.caronae.R;
 import br.ufrj.caronae.RoundedTransformation;
 import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.Util;
-import br.ufrj.caronae.asyncs.LogOut;
 import br.ufrj.caronae.firebase.FirebaseUtils;
 import br.ufrj.caronae.firebase.RegistrationIntentService;
 import br.ufrj.caronae.frags.AboutFrag;
@@ -79,12 +77,8 @@ public class MainAct extends AppCompatActivity {
 
         SharedPref.setChatActIsForeground(false);
 
-//        ArrayList<String> aaa = null;
-
         FacebookSdk.sdkInitialize(getApplicationContext());
         getFbCallbackManager();
-
-//        aaa.get(5);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

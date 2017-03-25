@@ -1,20 +1,14 @@
 package br.ufrj.caronae.ACRAreport;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import org.acra.ReportField;
 import org.acra.collector.CrashReportData;
-import org.acra.config.ACRAConfiguration;
 import org.acra.sender.ReportSender;
 import org.acra.sender.ReportSenderException;
-import org.acra.sender.ReportSenderFactory;
 
 import br.ufrj.caronae.App;
-import br.ufrj.caronae.Util;
-import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.models.modelsforjson.FalaeMsgForJson;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -28,16 +22,27 @@ import retrofit2.Response;
 public class CrashReportSender implements ReportSender {
     @Override
     public void send(@NonNull Context context, @NonNull CrashReportData errorContent) throws ReportSenderException {
-        Log.e("SENDER", "VEIO SENDER");
+
+        String name = "Não logado";
+        String email = "Não logado";
+
+        if (App.isUserLoggedIn()){
+            name = App.getUser().getName();
+            email = App.getUser().getEmail();
+        }
+
         String message = "Android: "
                 + errorContent.getProperty(ReportField.ANDROID_VERSION)
                 + "\n"
                 + "Versão do app: "
                 + errorContent.getProperty(ReportField.APP_VERSION_NAME)
                 + "\n"
-                + "Email: "
-                + errorContent.getProperty(ReportField.USER_EMAIL)
+                + "Nome: "
+                + name
                 + "\n"
+                + "Email: "
+                + email
+                + "\n\n"
                 + "StackTrace: \n"
                 + errorContent.getProperty(ReportField.STACK_TRACE)
                 + "\n"

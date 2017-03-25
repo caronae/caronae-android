@@ -8,11 +8,14 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.orm.SugarApp;
 
+import org.acra.ACRA;
+import org.acra.ReportingInteractionMode;
+import org.acra.annotation.ReportsCrashes;
+
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import br.ufrj.caronae.ACRAreport.CrashReportFactory;
-import br.ufrj.caronae.ACRAreport.CrashReportSender;
 import br.ufrj.caronae.acts.LoginAct;
 import br.ufrj.caronae.asyncs.LogOut;
 import br.ufrj.caronae.httpapis.ChatService;
@@ -25,19 +28,22 @@ import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import org.acra.*;
-import org.acra.annotation.*;
 
 /** Usa o Falae para reportar crashes **/
-//@ReportsCrashes(
-//        reportSenderFactoryClasses = {CrashReportFactory.class}
-//)
+@ReportsCrashes(
+        reportSenderFactoryClasses = {CrashReportFactory.class},
+        mode = ReportingInteractionMode.NOTIFICATION,
+        resNotifText = R.string.crash_notifcation_text,
+        resNotifTitle = R.string.crash_notifcation_title,
+        resNotifTickerText = R.string.crash_notifcation_ticker_text,
+        resDialogText = R.string.crash_notifcation_text
+)
 /******/
 
-@ReportsCrashes(mailTo = "reports@yourdomain.com",
-        customReportContent = {ReportField.STACK_TRACE},
-        mode = ReportingInteractionMode.TOAST,
-        resToastText = R.string.crash_toast_text)
+//@ReportsCrashes(mailTo = "caronae@fundoverde.ufrj.br",
+//        customReportContent = {ReportField.STACK_TRACE},
+//        mode = ReportingInteractionMode.TOAST,
+//        resToastText = R.string.crash_toast_text)
 
 public class App extends SugarApp {
 
