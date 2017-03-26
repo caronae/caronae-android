@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -22,11 +21,8 @@ import com.google.gson.Gson;
 import com.rey.material.app.Dialog;
 import com.rey.material.app.DialogFragment;
 import com.rey.material.app.SimpleDialog;
-import com.rey.material.widget.FloatingActionButton;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -169,6 +165,7 @@ public class ActiveRideAct extends SwipeDismissBaseActivity {
             bgRes = R.drawable.bg_bt_raise_zone_outros;
         }
         lay1.setBackgroundColor(color);
+        toolbar.setBackgroundColor(color);
         chat_bt.setColorNormal(color);
         chat_bt.setColorPressed(colorPressed);
         finish_bt.setTextColor(color);
