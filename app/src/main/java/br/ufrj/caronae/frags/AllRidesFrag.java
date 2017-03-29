@@ -1,8 +1,5 @@
 package br.ufrj.caronae.frags;
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
@@ -167,7 +164,7 @@ public class AllRidesFrag extends Fragment {
                                     viewPager.setAdapter(new AllRidesFragmentPagerAdapter(getChildFragmentManager(), goingRides, notGoingRides, getResources().getStringArray(R.array.tab_tags)));
                                 tabLayout.setupWithViewPager(viewPager);
 
-                                tabLayout.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.transparency_gradient_top_botton));
+                                tabLayout.setBackground(ContextCompat.getDrawable(App.inst(), R.drawable.transparency_gradient_top_botton));
 
                                 configureTabIndicators();
 
