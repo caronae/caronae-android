@@ -15,7 +15,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:theme="@style/ThemeOverlay.AppCompat.Light" >
+            android:theme="@style/ToolbarColoredBackArrow">
 
             <RelativeLayout
                 android:id="@+id/lay1"
@@ -27,8 +27,8 @@
                     android:id="@+id/location_tv"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="15dp"
                     android:text="COPACABANA -> CT"
+                    android:gravity="center_vertical"
                     android:textColor="@color/white"
                     android:textSize="20sp"
                     android:textStyle="bold" />
