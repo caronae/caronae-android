@@ -191,11 +191,9 @@ public class ChatAct extends AppCompatActivity {
                         if (response.isSuccessful()) {
                             ChatMessageSendResponse chatMessageSendResponse = response.body();
                             Log.i("Message Sent", "Sulcefully Send Chat Messages");
-                            Log.d("CHAT", "mesage: " + chatMessageSendResponse.getResponseMessage() + " ID: " + chatMessageSendResponse.getMessageId() + "");
                             msg.setId(Long.parseLong(chatMessageSendResponse.getMessageId()));
                             chatMsgsList.get(getMessagePositionWithId(chatMsgsList, msg.getId())).setId(Long.parseLong(chatMessageSendResponse.getMessageId()));
                             msg.save();
-                            Util.toast("Mensagem enviada");
                         } else {
                             Util.treatResponseFromServer(response);
                             Util.toast("Erro ao enviar mensagem de chat, verifique sua conexao");
