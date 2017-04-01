@@ -165,7 +165,7 @@ public class Util {
             return new String[]{"Itaboraí", "Maricá", "Centro (Niterói)",
                     "Região oceânica (Niterói)", "Rio Bonito", "São Gonçalo", "Tanguá"};
         }
-        return null;
+        return new String[]{"Todos os Bairros"};
     }
 
     public static String[] getAllNeighborhoods() {

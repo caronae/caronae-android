@@ -91,20 +91,6 @@ public class MainAct extends AppCompatActivity {
         filterText = (TextView) findViewById(R.id.filter_text);
         dissmissFilter = (ImageButton) findViewById(R.id.dissmiss_filter);
 
-//        String filtersJsonString = SharedPref.getFiltersPref();
-//        if (!filtersJsonString.equals(SharedPref.MISSING_PREF)) {
-//            RideFiltersForJson filters = loadFilters(filtersJsonString);
-//            String neighborhood = filters.getLocation();
-//            String center = filters.getCenter();
-//            if (!neighborhood.equals("")) {
-//                if (center.equals("")) {
-//                    center = "Todos os Centros";
-//                }
-//                filterText.setText(center + " - " + neighborhood);
-//                filterCard.setVisibility(View.VISIBLE);
-//            }
-//        }
-
         startFilterCard();
 
         configureDissmissFilterButton();

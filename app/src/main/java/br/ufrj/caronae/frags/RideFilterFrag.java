@@ -170,7 +170,7 @@ public class RideFilterFrag extends Fragment {
                     String resumedField = "";
                     neighborhoods = "";
                     for (int i = 0; i < selectedNeighborhoods.length; i++) {
-                        if (selectedNeighborhoods[i].equals(Util.getCenters()[0])
+                        if (selectedNeighborhoods[i].equals(Util.getNeighborhoods("")[0])
                                 || selectedNeighborhoods.length == Util.getNeighborhoods(zone).length) {
 
                             super.onPositiveActionClicked(fragment);
@@ -206,7 +206,7 @@ public class RideFilterFrag extends Fragment {
 
         @SuppressWarnings("ConstantConditions")
         ArrayList<String> neighborhoods = new ArrayList<>(Arrays.asList(Util.getNeighborhoods(zone)));
-        neighborhoods.add(0, Util.getCenters()[0]);
+        neighborhoods.add(0, Util.getNeighborhoods("")[0]);
         String[] neighborhoodsArray = new String[neighborhoods.size()];
         neighborhoods.toArray(neighborhoodsArray);
         builder.multiChoiceItems(neighborhoodsArray, -1)
