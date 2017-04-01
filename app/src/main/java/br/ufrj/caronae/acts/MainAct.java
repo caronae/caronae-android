@@ -98,6 +98,11 @@ public class MainAct extends AppCompatActivity {
 
         String title = PreferenceManager.getDefaultSharedPreferences(this).getString(MSG_TYPE_ALERT_HEADER, "");
         String alert = PreferenceManager.getDefaultSharedPreferences(this).getString(MSG_TYPE_ALERT, "");
+        String crashReport = PreferenceManager.getDefaultSharedPreferences(this).getString(SharedPref.REPORT_SAVER_TAG, "");
+
+        if (!crashReport.equals("")){
+            Util.sendCrashReport(this, crashReport);
+        }
 
         if (!alert.equals("")){
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -183,6 +188,26 @@ public class MainAct extends AppCompatActivity {
         checkGPlay();
 
         backstack = new ArrayList<>();
+
+        // Pass this part to onStart to avoid fragment being created before activity is attached
+//        User user = App.getUser();
+//        Fragment fragment;
+//        if (user.getEmail() == null || user.getEmail().isEmpty() ||
+//                user.getPhoneNumber() == null || user.getPhoneNumber().isEmpty() ||
+//                user.getLocation() == null || user.getLocation().isEmpty()) {
+//            fragment = new MyProfileFrag();
+//            Util.toast(getString(R.string.act_main_profileIncomplete));
+//        } else {
+//            fragment = new AllRidesFrag();
+//        }
+//        FragmentManager fragmentManager = getSupportFragmentManager();
+//        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+//        backstack.add(fragment.getClass());
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
 
         User user = App.getUser();
         Fragment fragment;

@@ -9,6 +9,8 @@ import br.ufrj.caronae.models.User;
 
 public class SharedPref {
 
+    public static final String REPORT_SAVER_TAG                      = "report";
+    public static final String REPORT_NUMBER_TAG                      = "reportNumber";
     private static final String USER_PREF_KEY                        = "user";
     private static final String LAST_RIDE_OFFER_GOING_PREF_KEY       = "lastRideOfferGoing";
     private static final String LAST_RIDE_OFFER_NOT_GOING_PREF_KEY   = "lastRideOfferNotGoing";
