@@ -46,7 +46,7 @@
                 <android.support.v7.widget.CardView
                     android:id="@+id/filter_card"
                     android:layout_width="match_parent"
-                    android:layout_height="48dp"
+                    android:layout_height="36dp"
                     android:visibility="gone"
                     app:cardElevation="0dp">
 
@@ -61,7 +61,7 @@
 
                     <ImageButton
                         android:id="@+id/dissmiss_filter"
-                        android:layout_width="32dp"
+                        android:layout_width="48dp"
                         android:layout_height="match_parent"
                         android:layout_gravity="right"
                         android:tint="@android:color/darker_gray"

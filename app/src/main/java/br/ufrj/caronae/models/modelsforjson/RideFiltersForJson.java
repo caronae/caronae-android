@@ -5,14 +5,21 @@ public class RideFiltersForJson {
     private String center;
     private String zone;
 
+    public String getResumeLocation() {
+        return resumeLocation;
+    }
+
+    private String resumeLocation;
+
     public String getZone() {
         return zone;
     }
 
-    public RideFiltersForJson(String location, String center, String zone) {
+    public RideFiltersForJson(String location, String center, String zone, String resumeLocation) {
         this.location = location;
         this.center = center;
         this.zone = zone;
+        this.resumeLocation = resumeLocation;
     }
 
     public String getLocation() {

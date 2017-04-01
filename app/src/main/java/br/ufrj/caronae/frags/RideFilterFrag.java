@@ -45,6 +45,7 @@ public class RideFilterFrag extends Fragment {
     private String location = "";
     private String center = "";
     private String zone = "";
+    private String resumeLocation = "";
 
 
     public RideFilterFrag() {
@@ -71,7 +72,7 @@ public class RideFilterFrag extends Fragment {
         RideFiltersForJson rideFilters = new Gson().fromJson(lastFilters, RideFiltersForJson.class);
 
         neighborhoods = rideFilters.getLocation();
-        location_et.setText(rideFilters.getLocation());
+        location_et.setText(rideFilters.getResumeLocation());
         center_et.setText(rideFilters.getCenter());
     }
 
@@ -80,7 +81,7 @@ public class RideFilterFrag extends Fragment {
         if (center.equals("Todos os Centros")){
             center = "";
         }
-        RideFiltersForJson rideFilters = new RideFiltersForJson(location, center, zone);
+        RideFiltersForJson rideFilters = new RideFiltersForJson(location, center, zone, resumeLocation);
         String lastRideFilters = new Gson().toJson(rideFilters);
         SharedPref.saveLastFiltersPref(lastRideFilters);
         SharedPref.saveFilterPref(lastRideFilters);
@@ -132,6 +133,8 @@ public class RideFilterFrag extends Fragment {
                 String neighborhood = neighborhood_et.getText().toString();
                 if (!neighborhood.isEmpty()) {
                     location_et.setText(neighborhood);
+                    location = neighborhood;
+                    resumeLocation = neighborhood;
                 }
 
                 super.onPositiveActionClicked(fragment);
@@ -167,26 +170,28 @@ public class RideFilterFrag extends Fragment {
                     String resumedField = "";
                     neighborhoods = "";
                     for (int i = 0; i < selectedNeighborhoods.length; i++) {
-                        if (selectedNeighborhoods[i].equals(Util.getCenters()[0])) {
+                        if (selectedNeighborhoods[i].equals(Util.getCenters()[0])
+                                || selectedNeighborhoods.length == Util.getNeighborhoods(zone).length) {
+
                             super.onPositiveActionClicked(fragment);
                             return;
                         }
                         neighborhoods += selectedNeighborhoods[i];
-                        if (i == 2) {
-                            resumedField = neighborhoods + " + " + (selectedNeighborhoods.length - 3);
-                        }
+//                        if (i == 2) {
+//                            resumedField = neighborhoods + " + " + (selectedNeighborhoods.length - 3);
+//                        }
                         if (i + 1 != selectedNeighborhoods.length) {
                             neighborhoods += ", ";
                         }
                     }
 
                     if (selectedNeighborhoods.length > 3) {
-                        location_et.setText(resumedField);
+                        resumeLocation = selectedNeighborhoods[0] + "... " + selectedNeighborhoods[selectedNeighborhoods.length - 1];
+                        location_et.setText(resumeLocation);
                     } else {
                         location_et.setText(neighborhoods);
-                        location = neighborhoods;
                     }
-
+                    location = neighborhoods;
                 } else {
                     location_et.setText(zone);
                 }

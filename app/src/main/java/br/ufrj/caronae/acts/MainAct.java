@@ -570,24 +570,23 @@ public class MainAct extends AppCompatActivity {
     public static void updateFilterCard(Context context, String filtersJsonString){
         if (!filtersJsonString.equals(SharedPref.MISSING_PREF)) {
             RideFiltersForJson filters = loadFilters(filtersJsonString);
-            String neighborhood = filters.getLocation();
+            String resumeLocation = filters.getResumeLocation();
             String center = filters.getCenter();
             String zone = filters.getZone();
-            if (!neighborhood.equals("")) {
+            if (!resumeLocation.equals("")) {
                 if (center.equals("")) {
                     center = "Todos os Centros";
                 }
 
-                filterText.setText(center + " - " + neighborhood);
-                showFilterCard(context);
+                filterText.setText(center + " - " + resumeLocation);
             } else if (!zone.equals("")){
                 if (center.equals("")) {
                     center = "Todos os Centros";
                 }
 
                 filterText.setText(center + " - " + zone);
-                filterCard.setVisibility(View.VISIBLE);
             }
+            showFilterCard(context);
         }
     }
 
@@ -599,15 +598,15 @@ public class MainAct extends AppCompatActivity {
         String filtersJsonString = SharedPref.getFiltersPref();
         if (!filtersJsonString.equals(SharedPref.MISSING_PREF)) {
             RideFiltersForJson filters = loadFilters(filtersJsonString);
-            String neighborhood = filters.getLocation();
+            String resumeLocations = filters.getResumeLocation();
             String center = filters.getCenter();
             String zone = filters.getZone();
-            if (!neighborhood.equals("")) {
+            if (!resumeLocations.equals("")) {
                 if (center.equals("")) {
                     center = "Todos os Centros";
                 }
 
-                filterText.setText(center + " - " + neighborhood);
+                filterText.setText(center + " - " + resumeLocations);
                 filterCard.setVisibility(View.VISIBLE);
             } else if (!zone.equals("")){
                 if (center.equals("")) {
