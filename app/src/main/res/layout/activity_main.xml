@@ -21,14 +21,57 @@
                 android:background="@color/white">
 
                 <!-- The ActionBar -->
-                <android.support.v7.widget.Toolbar
-                    xmlns:android="http://schemas.android.com/apk/res/android"
+                <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fitsSystemWindows="true"
                     android:minHeight="?attr/actionBarSize"
                     android:theme="@style/ThemeOverlay.AppCompat.Light">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="?attr/actionBarSize">
+
+                            <ImageView
+                                android:id="@+id/header_image"
+                                android:layout_width="match_parent"
+                                android:layout_height="32dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/logo" />
+                        </FrameLayout>
+
+                        <android.support.v7.widget.CardView
+                            android:id="@+id/filter_card"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            app:cardElevation="0dp"
+                            android:layout_below="@id/header_image"
+                            android:visibility="visible">
+
+                            <TextView
+                                android:id="@+id/filter_text"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                                android:gravity="center_vertical"
+                                android:text="Copacabana - CT"
+                                android:textColor="@android:color/darker_gray" />
+
+                            <ImageButton
+                                android:id="@+id/dissmiss_filter"
+                                android:layout_width="48dp"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="right"
+                                android:background="@drawable/bg_bt_raise"
+                                android:src="@drawable/ic_delete_black_24dp" />
+                        </android.support.v7.widget.CardView>
+                    </LinearLayout>
                 </android.support.v7.widget.Toolbar>
 
             </android.support.design.widget.AppBarLayout>
@@ -53,10 +96,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|right"
-            android:textColor="@android:color/darker_gray"
-            android:textSize="12sp"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:layout_marginBottom="@dimen/activity_vertical_margin"/>
+            android:textColor="@android:color/darker_gray"
+            android:textSize="12sp" />
 
     </android.support.design.widget.NavigationView>
 </android.support.v4.widget.DrawerLayout>

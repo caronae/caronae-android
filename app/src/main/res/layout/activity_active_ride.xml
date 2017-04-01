@@ -15,7 +15,26 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:theme="@style/ThemeOverlay.AppCompat.Light" />
+            android:theme="@style/ToolbarColoredBackArrow">
+
+            <RelativeLayout
+                android:id="@+id/lay1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/zone_sul">
+
+                <TextView
+                    android:id="@+id/location_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="COPACABANA -> CT"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+        </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>
 
@@ -30,28 +49,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
-            <RelativeLayout
-                android:id="@+id/lay1"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/zone_sul">
-
-                <TextView
-                    android:id="@+id/location_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="15dp"
-                    android:text="COPACABANA -> CT"
-                    android:textColor="@color/white"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-            </RelativeLayout>
-
             <LinearLayout
                 android:id="@+id/lay3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/lay1"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
                 android:orientation="horizontal">
@@ -302,13 +303,13 @@
 
             <ImageView
                 android:id="@+id/car_plate_iv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:layout_below="@+id/car_tv"
                 android:layout_marginLeft="30dp"
                 android:layout_marginStart="30dp"
                 android:layout_marginTop="5dp"
-                android:src="@drawable/ic_directions_car_black_24dp" />
+                android:src="@drawable/ic_car_plate" />
 
             <TextView
                 android:id="@+id/carPlate_tv"

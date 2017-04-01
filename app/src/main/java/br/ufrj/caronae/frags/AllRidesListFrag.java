@@ -1,6 +1,5 @@
 package br.ufrj.caronae.frags;
 
-import android.app.ProgressDialog;
 import android.net.TrafficStats;
 import android.os.Bundle;
 import android.os.Process;
@@ -39,7 +38,7 @@ import br.ufrj.caronae.adapters.RideOfferAdapter;
 import br.ufrj.caronae.comparators.RideOfferComparatorByDateAndTime;
 import br.ufrj.caronae.models.RideRequestSent;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
-import br.ufrj.caronae.models.modelsforjson.RideSearchFiltersForJson;
+import br.ufrj.caronae.models.modelsforjson.RideForJsonDeserializer;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import retrofit2.Call;
@@ -187,9 +186,9 @@ public class AllRidesListFrag extends Fragment implements Callback {
         showSnack(snackbar);
         final long bytesSoFar = TrafficStats.getUidRxBytes(Process.myUid());
         App.getNetworkService(getContext()).listAllRides(pageNumber + "")
-                .enqueue(new retrofit2.Callback<List<RideForJson>>() {
+                .enqueue(new retrofit2.Callback<RideForJsonDeserializer>() {
                     @Override
-                    public void onResponse(Call<List<RideForJson>> call, Response<List<RideForJson>> response) {
+                    public void onResponse(Call<RideForJsonDeserializer> call, Response<RideForJsonDeserializer> response) {
                         totalBytesConsumed = totalBytesConsumed + TrafficStats.getUidRxBytes(Process.myUid()) - bytesSoFar;
                         Log.e("CONSUMPTION", "Bytes Consumed: " + totalBytesConsumed);
 
@@ -208,7 +207,8 @@ public class AllRidesListFrag extends Fragment implements Callback {
                                 notGoingRides = new ArrayList<RideForJson>();
                             }
 
-                            List<RideForJson> rideOffers = response.body();
+                            RideForJsonDeserializer data = response.body();
+                            List<RideForJson> rideOffers = data.getData();
 
                             if (rideOffers != null && !rideOffers.isEmpty()) {
 //                                Collections.sort(rideOffers, new RideOfferComparatorByDateAndTime());
@@ -283,7 +283,7 @@ public class AllRidesListFrag extends Fragment implements Callback {
                     }
 
                     @Override
-                    public void onFailure(Call<List<RideForJson>> call, Throwable t) {
+                    public void onFailure(Call<RideForJsonDeserializer> call, Throwable t) {
                         dismissSnack(snackbar);
                         snackbar1.setAction("CONECTAR", new View.OnClickListener() {
                             @Override
@@ -325,14 +325,6 @@ public class AllRidesListFrag extends Fragment implements Callback {
         return contains;
     }
 
-//    private ArrayList<RideForJson> filterList(ArrayList<RideForJson> listToFilter, CharSequence searchText) {
-//        ArrayList<RideForJson> listFiltered = new ArrayList<>();
-//        for (int ride = 0; ride < listToFilter.size(); ride++) {
-//            if (listToFilter.get(ride).getNeighborhood().toLowerCase().contains(searchText.toString().toLowerCase()))
-//                listFiltered.add(listToFilter.get(ride));
-//        }
-//        return listFiltered;
-//    }
 
     private void animateListFadeIn() {
         Animation anim = new AlphaAnimation(0, 1);
@@ -342,50 +334,6 @@ public class AllRidesListFrag extends Fragment implements Callback {
         rvRides.startAnimation(anim);
     }
 
-//    private List<RideForJson> makeSearchOnline(String location, String date, String time, String center, boolean go, String locationResumedField) {
-//        final List<RideForJson> listFiltered = new ArrayList<>();
-//        RideSearchFiltersForJson rideSearchFilters = new RideSearchFiltersForJson(location, date, time, center, go, locationResumedField);
-//
-//        Log.e("INPUT", "location: " + location);
-//        Log.e("INPUT", "data: " + date);
-//        Log.e("INPUT", "hora: " + time);
-//        Log.e("INPUT", "center: " + center);
-//        Log.e("INPUT", "locationResumeField: " + locationResumedField);
-//
-//        final ProgressDialog pd = ProgressDialog.show(getActivity(), "", getContext().getString(R.string.wait), true, true);
-//        App.getNetworkService(getContext()).listFiltered(rideSearchFilters)
-//                .enqueue(new retrofit2.Callback<List<RideForJson>>() {
-//                    @Override
-//                    public void onResponse(Call<List<RideForJson>> call, Response<List<RideForJson>> response) {
-//                        if (response.isSuccessful()) {
-//                            List<RideForJson> rideOffers = response.body();
-//                            if (rideOffers != null && !rideOffers.isEmpty()) {
-//                                Collections.sort(rideOffers, new RideOfferComparatorByDateAndTime());
-//                                for (RideForJson rideOffer : rideOffers) {
-//                                    rideOffer.setDbId(rideOffer.getId().intValue());
-//                                }
-//                                listFiltered.addAll(rideOffers);
-//                            } else {
-//                                Util.toast(R.string.frag_rideSearch_noRideFound);
-//                                adapter.makeList(new ArrayList<RideForJson>());
-//                            }
-//                            pd.dismiss();
-//                        } else {
-//                            pd.dismiss();
-//                            Util.toast(R.string.frag_rideSearch_errorListFiltered);
-//                            Log.e("listFiltered", response.message());
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onFailure(Call<List<RideForJson>> call, Throwable t) {
-//                        pd.dismiss();
-//                        Util.toast(R.string.frag_rideSearch_errorListFiltered);
-//                        Log.e("listFiltered", t.getMessage());
-//                    }
-//                });
-//        return listFiltered;
-//    }
 
     @Subscribe
     public void updateAdapter(ArrayList<Object> listFiltered) {

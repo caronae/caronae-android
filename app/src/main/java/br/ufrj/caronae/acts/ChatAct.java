@@ -16,7 +16,6 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -57,15 +56,17 @@ public class ChatAct extends AppCompatActivity {
     @Bind(R.id.chatMsgs_rv)
     RecyclerView chatMsgs_rv;
     @Bind(R.id.send_bt)
-    Button send_bt;
+    com.github.clans.fab.FloatingActionButton send_bt;
     @Bind(R.id.msg_et)
     EditText msg_et;
-    @Bind(R.id.neighborhood_tv)
-    TextView neighborhood_tv;
-    @Bind(R.id.date_tv)
-    TextView date_tv;
-    @Bind(R.id.time_tv)
-    TextView time_tv;
+    @Bind(R.id.chat_header_text)
+    TextView headerText;
+//    @Bind(R.id.neighborhood_tv)
+//    TextView neighborhood_tv;
+//    @Bind(R.id.date_tv)
+//    TextView date_tv;
+//    @Bind(R.id.time_tv)
+//    TextView time_tv;
     @Bind(R.id.lay1)
     RelativeLayout lay1;
     @Bind(R.id.card_loading_menssages_sign)
@@ -125,15 +126,20 @@ public class ChatAct extends AppCompatActivity {
 
         context = this;
         color = chatAssets.getColor();
+        int colorPressed = Util.getPressedColorbyNormalColor(color);
         lay1.setBackgroundColor(color);
+        toolbar.setBackgroundColor(color);
         int bgRes = chatAssets.getBgRes();
-        send_bt.setBackgroundResource(bgRes);
+//        send_bt.setBackgroundResource(bgRes);
+        send_bt.setColorNormal(color);
+        send_bt.setColorPressed(colorPressed);
         String neighborhood = chatAssets.getLocation();
-        neighborhood_tv.setText(neighborhood);
+//        neighborhood_tv.setText(neighborhood);
         String date = chatAssets.getDate();
-        date_tv.setText(date);
+//        date_tv.setText(date);
         String time = chatAssets.getTime();
-        time_tv.setText(time);
+//        time_tv.setText(time);
+        headerText.setText(neighborhood + " - " + date + " - " + time);
 
         chatMsgsList = ChatMessageReceived.find(ChatMessageReceived.class, "ride_id = ?", rideId);
         Collections.sort(chatMsgsList, new ChatMsgComparator());
@@ -185,11 +191,9 @@ public class ChatAct extends AppCompatActivity {
                         if (response.isSuccessful()) {
                             ChatMessageSendResponse chatMessageSendResponse = response.body();
                             Log.i("Message Sent", "Sulcefully Send Chat Messages");
-                            Log.d("CHAT", "mesage: " + chatMessageSendResponse.getResponseMessage() + " ID: " + chatMessageSendResponse.getMessageId() + "");
                             msg.setId(Long.parseLong(chatMessageSendResponse.getMessageId()));
                             chatMsgsList.get(getMessagePositionWithId(chatMsgsList, msg.getId())).setId(Long.parseLong(chatMessageSendResponse.getMessageId()));
                             msg.save();
-                            Util.toast("Mensagem enviada");
                         } else {
                             Util.treatResponseFromServer(response);
                             Util.toast("Erro ao enviar mensagem de chat, verifique sua conexao");

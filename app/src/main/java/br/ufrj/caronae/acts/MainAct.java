@@ -16,6 +16,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,7 +24,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -32,7 +36,6 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
-import com.google.firebase.messaging.FirebaseMessaging;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -42,7 +45,6 @@ import br.ufrj.caronae.R;
 import br.ufrj.caronae.RoundedTransformation;
 import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.Util;
-import br.ufrj.caronae.asyncs.LogOut;
 import br.ufrj.caronae.firebase.FirebaseUtils;
 import br.ufrj.caronae.firebase.RegistrationIntentService;
 import br.ufrj.caronae.frags.AboutFrag;
@@ -51,11 +53,13 @@ import br.ufrj.caronae.frags.FAQFrag;
 import br.ufrj.caronae.frags.FalaeFrag;
 import br.ufrj.caronae.frags.MyProfileFrag;
 import br.ufrj.caronae.frags.MyRidesFrag;
+import br.ufrj.caronae.frags.RideFilterFrag;
 import br.ufrj.caronae.frags.RideSearchFrag;
 import br.ufrj.caronae.frags.RidesHistoryFrag;
 import br.ufrj.caronae.frags.TabbedRideOfferFrag;
 import br.ufrj.caronae.frags.TermsOfUseFrag;
 import br.ufrj.caronae.models.User;
+import butterknife.Bind;
 
 import static br.ufrj.caronae.acts.StartAct.MSG_TYPE_ALERT;
 import static br.ufrj.caronae.acts.StartAct.MSG_TYPE_ALERT_HEADER;
@@ -69,6 +73,10 @@ public class MainAct extends AppCompatActivity {
     private CallbackManager callbackManager;
     private TextView versionText;
 
+    ImageButton dissmissFilter;
+    CardView filterCard;
+    TextView filterText;
+
     private ArrayList<Class> backstack;
 
     @Override
@@ -77,17 +85,20 @@ public class MainAct extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
-        SharedPref.setChatActIsForeground(false);
+        filterCard = (CardView) findViewById(R.id.filter_card);
+        filterText = (TextView) findViewById(R.id.filter_text);
+        dissmissFilter = (ImageButton) findViewById(R.id.dissmiss_filter);
 
-//        ArrayList<String> aaa = null;
+        configureDissmissFilterButton();
+
+        SharedPref.setChatActIsForeground(false);
 
         FacebookSdk.sdkInitialize(getApplicationContext());
         getFbCallbackManager();
 
-//        aaa.get(5);
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
 
         //Subscripe to topics
         FirebaseUtils.SubscribeToTopic("user-" + App.getUser().getDbId());
@@ -457,6 +468,15 @@ public class MainAct extends AppCompatActivity {
             transaction.setCustomAnimations(R.anim.anim_up_slide_in, R.anim.anim_down_slide_out);
             transaction.replace(R.id.flContent, new RideSearchFrag()).commit();
             setTitle(item.getTitle());
+        } else if (item.getItemId() == R.id.filter_frag_bt){
+            backstackSafeCheck();
+            backstack.remove(RideFilterFrag.class);
+            backstack.add(RideFilterFrag.class);
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            transaction.setCustomAnimations(R.anim.anim_up_slide_in, R.anim.anim_down_slide_out);
+            transaction.replace(R.id.flContent, new RideFilterFrag()).commit();
+            setTitle(item.getTitle());
         }
 
         return drawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
@@ -530,5 +550,31 @@ public class MainAct extends AppCompatActivity {
         transaction.replace(R.id.flContent, new MyProfileFrag()).commit();
         setTitle(retrieveTitle(MyProfileFrag.class.toString()));
         mDrawer.closeDrawers();
+    }
+
+    private void configureDissmissFilterButton(){
+        dissmissFilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim_fade_out);
+                animation.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        filterCard.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                });
+                filterCard.startAnimation(animation);
+            }
+        });
     }
 }

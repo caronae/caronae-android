@@ -133,7 +133,7 @@
     <string name="frag_rideoffer_timeHint">Escolha a hora (Obrigatório)</string>
     <string name="frag_rideoffer_slots">Vagas disponíveis</string>
     <string name="frag_rideoffer_description">Notas adicionais Ex: Não fumo, pode trazer o cachorro etc</string>
-    <string name="frag_ridesearch_locationHint">Escolha o local (Obrigatório)</string>
+    <string name="frag_ridesearch_locationHint">Escolha o bairro (Obrigatório)</string>
     <string name="frag_ridesearch_dateHint">Escolha a data</string>
     <string name="frag_ridesearch_timeHint">Escolha a hora</string>
     <string name="frag_ridesearch_centerHint">Escolha o centro</string>
@@ -194,6 +194,7 @@
     <string name="frag_faq_title">FAQ</string>
     <string name="frag_falae_title">Falaê</string>
     <string name="frag_searchride_title">Buscar carona</string>
+    <string name="frag_filterride_title">Filtrar caronas</string>
     <string name="frag_termsofuse_title">Termos de uso</string>
     <string name="frag_about_title">Sobre</string>
     <string name="frag_logout_title">Sair</string>
@@ -229,7 +230,10 @@
     <string name="act_login_getTokenBtn"><u>OBTENHA SUA CHAVE AQUI</u></string>
     <string name="load_more_rides">Carregando mais Caronas</string>
     <string name="no_conexion">Sem Conexão</string>
-    <string name="crash_toast_text">ACRA Crash</string>
+    <string name="crash_notifcation_text">Uma mensagem foi enviada à nossa equipe com este erro para que possamos melhorar nosso serviço, nos desculpe pelo incoveniente</string>
+    <string name="crash_notifcation_title">Caronaê parou</string>
+    <string name="crash_notifcation_ticker_text">Caronaê parou</string>
+
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

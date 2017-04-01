@@ -1,8 +1,6 @@
 package br.ufrj.caronae.frags;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
@@ -19,10 +17,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.github.clans.fab.FloatingActionMenu;
+
+import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -39,6 +42,7 @@ import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.adapters.AllRidesFragmentPagerAdapter;
 import br.ufrj.caronae.comparators.RideOfferComparatorByDateAndTime;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
+import br.ufrj.caronae.models.modelsforjson.RideForJsonDeserializer;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -64,9 +68,12 @@ public class AllRidesFrag extends Fragment {
     EditText searchText;
     @Bind(R.id.search_card_view)
     CardView searchCardView;
+
 //    @Bind(R.id.all_rides_coordinator)
 
     static CoordinatorLayout coordinatorLayout;
+
+    Context context;
 
     ArrayList<RideForJson> goingRides = new ArrayList<>(), notGoingRides = new ArrayList<>();
 
@@ -79,6 +86,8 @@ public class AllRidesFrag extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_all_rides, container, false);
         ButterKnife.bind(this, view);
+
+        context = getContext();
 
         coordinatorLayout = (CoordinatorLayout) view.findViewById(R.id.all_rides_coordinator);
 
@@ -128,14 +137,15 @@ public class AllRidesFrag extends Fragment {
         if (isAdded() && (getActivity() != null)) {
 
             App.getNetworkService(getContext()).listAllRides(pageNum + "")
-                    .enqueue(new Callback<List<RideForJson>>() {
+                    .enqueue(new Callback<RideForJsonDeserializer>() {
                         @Override
-                        public void onResponse(Call<List<RideForJson>> call, Response<List<RideForJson>> response) {
+                        public void onResponse(Call<RideForJsonDeserializer> call, Response<RideForJsonDeserializer> response) {
                             dismissSnack(snackbar);
                             if (response.isSuccessful()) {
                                 progressBar2.setVisibility(View.GONE);
 
-                                List<RideForJson> rideOffers = response.body();
+                                RideForJsonDeserializer data = response.body();
+                                List<RideForJson> rideOffers = data.getData();
 
                                 if (rideOffers != null && !rideOffers.isEmpty()) {
                                     Collections.sort(rideOffers, new RideOfferComparatorByDateAndTime());
@@ -162,12 +172,10 @@ public class AllRidesFrag extends Fragment {
                                 }
 
 
-                                //TODO: Error Activity not Atached
-                                if (isAdded())
-                                    viewPager.setAdapter(new AllRidesFragmentPagerAdapter(getChildFragmentManager(), goingRides, notGoingRides, getResources().getStringArray(R.array.tab_tags)));
+                                viewPager.setAdapter(new AllRidesFragmentPagerAdapter(getChildFragmentManager(), goingRides, notGoingRides, getResources().getStringArray(R.array.tab_tags)));
                                 tabLayout.setupWithViewPager(viewPager);
 
-                                tabLayout.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.transparency_gradient_top_botton));
+                                tabLayout.setBackground(ContextCompat.getDrawable(App.inst(), R.drawable.transparency_gradient_top_botton));
 
                                 configureTabIndicators();
 
@@ -182,7 +190,7 @@ public class AllRidesFrag extends Fragment {
                         }
 
                         @Override
-                        public void onFailure(Call<List<RideForJson>> call, Throwable t) {
+                        public void onFailure(Call<RideForJsonDeserializer> call, Throwable t) {
                             progressBar2.setVisibility(View.GONE);
                             Log.e("listAllRides", t.getMessage());
                             showFAB();
@@ -304,9 +312,5 @@ public class AllRidesFrag extends Fragment {
     public static Snackbar makeNoConexionSnack() {
         Snackbar snackbar = Snackbar.make(coordinatorLayout, coordinatorLayout.getResources().getString(R.string.no_conexion), Snackbar.LENGTH_INDEFINITE);
         return snackbar;
-    }
-
-    public static void pushDownFab(){
-        fab_menu.animate().translationY(Util.convertDpToPixel(32));
     }
 }

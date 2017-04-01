@@ -15,6 +15,7 @@ import br.ufrj.caronae.models.modelsforjson.JoinRequestIDsForJson;
 import br.ufrj.caronae.models.modelsforjson.LoginForJson;
 import br.ufrj.caronae.models.modelsforjson.RideFeedbackForJson;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
+import br.ufrj.caronae.models.modelsforjson.RideForJsonDeserializer;
 import br.ufrj.caronae.models.modelsforjson.RideHistoryForJson;
 import br.ufrj.caronae.models.modelsforjson.RideIdForJson;
 import br.ufrj.caronae.models.modelsforjson.RideSearchFiltersForJson;
@@ -95,9 +96,9 @@ public interface NetworkService {
 //    void listFiltered(@Body RideSearchFiltersForJson rideSearchFilters, Callback<List<RideForJson>> cb);
     Call<List<RideForJson>> listFiltered(@Body RideSearchFiltersForJson rideSearchFilters);
 
-    @GET("ride/all")
+    @GET("rides")
 //    void listAllRides(Callback<List<RideForJson>> cb);
-    Call<List<RideForJson>> listAllRides(@Query("page") String pageNum);
+    Call<RideForJsonDeserializer> listAllRides(@Query("page") String pageNum);
 
     @POST("ride/requestJoin")
 //    void requestJoin(@Body RideIdForJson rideId, Callback<Response> cb);

@@ -1,0 +1,67 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context="br.ufrj.caronae.frags.RideSearchFrag">
+
+    <RelativeLayout
+        android:id="@+id/lay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp">
+
+        <EditText
+            android:id="@+id/location_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/radioGroup"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:drawableLeft="@drawable/ic_location_on_black_24dp"
+            android:drawablePadding="5dp"
+            android:drawableStart="@drawable/ic_location_on_black_24dp"
+            android:focusable="false"
+            android:hint="@string/frag_ridesearch_locationHint" />
+
+        <EditText
+            android:id="@+id/center_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/location_et"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:drawableLeft="@drawable/ic_business_black_24dp"
+            android:drawablePadding="5dp"
+            android:drawableStart="@drawable/ic_business_black_24dp"
+            android:focusable="false"
+            android:hint="@string/frag_ridesearch_centerHint" />
+
+        <com.rey.material.widget.Button
+            android:id="@+id/search_bt"
+            style="@style/LightRaiseColorButtonRippleStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/center_et"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/btn_color"
+            android:text="@string/frag_ridesearch_searchBt"
+            app:rd_enable="true" />
+
+    </RelativeLayout>
+
+    <com.rey.material.widget.Button
+        android:id="@+id/anotherSearch_bt"
+        style="@style/Material.Drawable.Ripple.Wave.Light"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lay"
+        android:layout_centerHorizontal="true"
+        android:background="@null"
+        android:text="@string/frag_ridesearch_anotherSearchBt"
+        android:visibility="gone"
+        app:rd_enable="true" />
+
+</RelativeLayout>
