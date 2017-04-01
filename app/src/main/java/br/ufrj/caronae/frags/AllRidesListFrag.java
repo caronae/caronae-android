@@ -1,8 +1,10 @@
 package br.ufrj.caronae.frags;
 
+import android.content.SharedPreferences;
 import android.net.TrafficStats;
 import android.os.Bundle;
 import android.os.Process;
+import android.preference.PreferenceManager;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -17,6 +19,7 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.squareup.otto.Subscribe;
 
 import java.text.SimpleDateFormat;
@@ -32,11 +35,14 @@ import javax.security.auth.callback.Callback;
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.EndlessRecyclerViewScrollListener;
 import br.ufrj.caronae.R;
+import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.Util;
+import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.adapters.AllRidesFragmentPagerAdapter;
 import br.ufrj.caronae.adapters.RideOfferAdapter;
 import br.ufrj.caronae.comparators.RideOfferComparatorByDateAndTime;
 import br.ufrj.caronae.models.RideRequestSent;
+import br.ufrj.caronae.models.modelsforjson.RideFiltersForJson;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
 import br.ufrj.caronae.models.modelsforjson.RideForJsonDeserializer;
 import butterknife.Bind;
@@ -101,7 +107,7 @@ public class AllRidesListFrag extends Fragment implements Callback {
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-//                pageCounter = 1;
+                pageCounter = 1;
                 for (int counter = 1; counter <= pageCounter; counter++) {
                     refreshRideList(counter);
                 }
@@ -125,7 +131,6 @@ public class AllRidesListFrag extends Fragment implements Callback {
 
 
         rvRides.setAdapter(adapter);
-//        rvRides.setHasFixedSize(true);
 
         if (rideOffers == null || rideOffers.isEmpty()) {
             norides_tv.setVisibility(View.VISIBLE);
@@ -143,14 +148,20 @@ public class AllRidesListFrag extends Fragment implements Callback {
 
         animateListFadeIn();
 
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(App.inst());
+
+        sharedPreferences.registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener() {
+            @Override
+            public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+                if (key.equals(SharedPref.RIDE_FILTER_PREF_KEY)){
+                    pageCounter = 1;
+                    refreshRideList(pageCounter);
+                }
+            }
+        });
+
         return view;
     }
-
-//    @Subscribe
-//    public void removeRideFromList(RideRequestSent ride) {
-//        adapter.remove(ride.getDbId());
-//        Log.i("removeRideFromList,all", "remove called");
-//    }
 
     @Subscribe
     public void updateAfterResquest(RideRequestSent ride) {
@@ -185,7 +196,20 @@ public class AllRidesListFrag extends Fragment implements Callback {
         }
         showSnack(snackbar);
         final long bytesSoFar = TrafficStats.getUidRxBytes(Process.myUid());
-        App.getNetworkService(getContext()).listAllRides(pageNumber + "")
+
+        String going = null;
+        String neighborhoods = null;
+        String zone = null;
+        String hub = null;
+        String filtersJsonString = SharedPref.getFiltersPref();
+        if (!filtersJsonString.equals(SharedPref.MISSING_PREF)){
+            RideFiltersForJson rideFilters = new Gson().fromJson(filtersJsonString, RideFiltersForJson.class);
+            neighborhoods = rideFilters.getLocation();
+            hub = rideFilters.getCenter();
+            zone = rideFilters.getZone();
+        }
+
+        App.getNetworkService(getContext()).listAllRides(pageNumber + "", going, neighborhoods, zone, hub)
                 .enqueue(new retrofit2.Callback<RideForJsonDeserializer>() {
                     @Override
                     public void onResponse(Call<RideForJsonDeserializer> call, Response<RideForJsonDeserializer> response) {
@@ -239,10 +263,6 @@ public class AllRidesListFrag extends Fragment implements Callback {
 
                             }
 
-//                            adapter = new RideOfferAdapter(new ArrayList<RideForJson>(), getContext());
-//                            rvRides.setAdapter(adapter);
-//                            rvRides.setHasFixedSize(true);
-//                            rvRides.setLayoutManager(new LinearLayoutManager(getActivity()));
 
                             if (pageIdentifier == AllRidesFragmentPagerAdapter.PAGE_GOING) {
                                 if (goingRides == null || goingRides.isEmpty()) {

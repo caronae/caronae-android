@@ -9,13 +9,15 @@ import br.ufrj.caronae.models.User;
 
 public class SharedPref {
 
+
     public static final String REPORT_SAVER_TAG                      = "report";
     public static final String REPORT_NUMBER_TAG                      = "reportNumber";
     private static final String USER_PREF_KEY                        = "user";
     private static final String LAST_RIDE_OFFER_GOING_PREF_KEY       = "lastRideOfferGoing";
     private static final String LAST_RIDE_OFFER_NOT_GOING_PREF_KEY   = "lastRideOfferNotGoing";
     private static final String LAST_RIDE_SEARCH_FILTERS_PREF_KEY    = "lastRideSearchFilters";
-    private static final String RIDE_FILTERS_PREF_KEY           = "rideFilters";
+    private static final String LAST_RIDE_FILTERS_PREF_KEY           = "lastRideFilters";
+    public static final String RIDE_FILTER_PREF_KEY                 = "filter";
     private static final String TOKEN_PREF_KEY                       = "token";
     private static final String GCM_TOKEN_PREF_KEY                   = "gcmToken";
     private static final String NOTIFICATIONS_ON_PREF_KEY            = "notifOn";
@@ -86,7 +88,19 @@ public class SharedPref {
     }
 
     public static String getRideFiltersPref() {
-        return getPref(RIDE_FILTERS_PREF_KEY);
+        return getPref(LAST_RIDE_FILTERS_PREF_KEY);
+    }
+
+    public static void saveLastFiltersPref(String lastFilters){
+        putPref(LAST_RIDE_FILTERS_PREF_KEY, lastFilters);
+    }
+
+    public static void saveFilterPref(String filters){
+        putPref(RIDE_FILTER_PREF_KEY, filters);
+    }
+
+    public static String getFiltersPref() {
+        return getPref(RIDE_FILTER_PREF_KEY);
     }
 
     public static void saveLastRideSearchFiltersPref(String lastRideSearchFilters) {

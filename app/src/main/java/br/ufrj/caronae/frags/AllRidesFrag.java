@@ -24,6 +24,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.github.clans.fab.FloatingActionMenu;
+import com.google.gson.Gson;
 
 import org.w3c.dom.Text;
 
@@ -37,10 +38,12 @@ import java.util.Locale;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
+import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.adapters.AllRidesFragmentPagerAdapter;
 import br.ufrj.caronae.comparators.RideOfferComparatorByDateAndTime;
+import br.ufrj.caronae.models.modelsforjson.RideFiltersForJson;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
 import br.ufrj.caronae.models.modelsforjson.RideForJsonDeserializer;
 import butterknife.Bind;
@@ -136,7 +139,19 @@ public class AllRidesFrag extends Fragment {
 
         if (isAdded() && (getActivity() != null)) {
 
-            App.getNetworkService(getContext()).listAllRides(pageNum + "")
+            String going = null;
+            String neighborhoods = null;
+            String zone = null;
+            String hub = null;
+            String filtersJsonString = SharedPref.getFiltersPref();
+            if (!filtersJsonString.equals(SharedPref.MISSING_PREF)){
+                RideFiltersForJson rideFilters = new Gson().fromJson(filtersJsonString, RideFiltersForJson.class);
+                neighborhoods = rideFilters.getLocation();
+                hub = rideFilters.getCenter();
+                zone = rideFilters.getZone();
+            }
+
+            App.getNetworkService(getContext()).listAllRides(pageNum + "", going, neighborhoods, zone, hub)
                     .enqueue(new Callback<RideForJsonDeserializer>() {
                         @Override
                         public void onResponse(Call<RideForJsonDeserializer> call, Response<RideForJsonDeserializer> response) {
@@ -171,13 +186,14 @@ public class AllRidesFrag extends Fragment {
                                     }
                                 }
 
+                                if (isAdded()) {
+                                    viewPager.setAdapter(new AllRidesFragmentPagerAdapter(getChildFragmentManager(), goingRides, notGoingRides, App.inst().getResources().getStringArray(R.array.tab_tags)));
+                                    tabLayout.setupWithViewPager(viewPager);
 
-                                viewPager.setAdapter(new AllRidesFragmentPagerAdapter(getChildFragmentManager(), goingRides, notGoingRides, getResources().getStringArray(R.array.tab_tags)));
-                                tabLayout.setupWithViewPager(viewPager);
+                                    tabLayout.setBackground(ContextCompat.getDrawable(App.inst(), R.drawable.transparency_gradient_top_botton));
 
-                                tabLayout.setBackground(ContextCompat.getDrawable(App.inst(), R.drawable.transparency_gradient_top_botton));
-
-                                configureTabIndicators();
+                                    configureTabIndicators();
+                                }
 
                                 showFAB();
 

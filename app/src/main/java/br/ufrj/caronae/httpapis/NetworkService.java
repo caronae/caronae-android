@@ -98,7 +98,7 @@ public interface NetworkService {
 
     @GET("rides")
 //    void listAllRides(Callback<List<RideForJson>> cb);
-    Call<RideForJsonDeserializer> listAllRides(@Query("page") String pageNum);
+    Call<RideForJsonDeserializer> listAllRides(@Query("page") String pageNum, @Query("going") String going, @Query("neighborhoods") String neighborhoods, @Query("zone") String zone, @Query("hub") String hub);
 
     @POST("ride/requestJoin")
 //    void requestJoin(@Body RideIdForJson rideId, Callback<Response> cb);

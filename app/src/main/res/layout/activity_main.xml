@@ -29,50 +29,45 @@
                     android:minHeight="?attr/actionBarSize"
                     android:theme="@style/ThemeOverlay.AppCompat.Light">
 
-                    <LinearLayout
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="?attr/actionBarSize"
+                        android:background="@color/white">
+
+                        <ImageView
+                            android:id="@+id/header_image"
+                            android:layout_width="match_parent"
+                            android:layout_height="32dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/logo" />
+                    </FrameLayout>
+                </android.support.v7.widget.Toolbar>
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/filter_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:visibility="gone"
+                    app:cardElevation="0dp">
+
+                    <TextView
+                        android:id="@+id/filter_text"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="vertical">
+                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                        android:gravity="center_vertical"
+                        android:text="Copacabana - CT"
+                        android:textColor="@android:color/darker_gray" />
 
-                        <FrameLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="?attr/actionBarSize">
-
-                            <ImageView
-                                android:id="@+id/header_image"
-                                android:layout_width="match_parent"
-                                android:layout_height="32dp"
-                                android:layout_gravity="center"
-                                android:src="@drawable/logo" />
-                        </FrameLayout>
-
-                        <android.support.v7.widget.CardView
-                            android:id="@+id/filter_card"
-                            android:layout_width="match_parent"
-                            android:layout_height="48dp"
-                            app:cardElevation="0dp"
-                            android:layout_below="@id/header_image"
-                            android:visibility="visible">
-
-                            <TextView
-                                android:id="@+id/filter_text"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                                android:gravity="center_vertical"
-                                android:text="Copacabana - CT"
-                                android:textColor="@android:color/darker_gray" />
-
-                            <ImageButton
-                                android:id="@+id/dissmiss_filter"
-                                android:layout_width="48dp"
-                                android:layout_height="match_parent"
-                                android:layout_gravity="right"
-                                android:background="@drawable/bg_bt_raise"
-                                android:src="@drawable/ic_delete_black_24dp" />
-                        </android.support.v7.widget.CardView>
-                    </LinearLayout>
-                </android.support.v7.widget.Toolbar>
+                    <ImageButton
+                        android:id="@+id/dissmiss_filter"
+                        android:layout_width="32dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="right"
+                        android:tint="@android:color/darker_gray"
+                        android:background="@drawable/bg_bt_raise_transparent"
+                        android:src="@drawable/ic_clear_white_24dp" />
+                </android.support.v7.widget.CardView>
 
             </android.support.design.widget.AppBarLayout>
         </android.support.v7.widget.CardView>

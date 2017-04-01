@@ -1,9 +1,12 @@
 package br.ufrj.caronae.frags;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +28,7 @@ import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.models.modelsforjson.RideFiltersForJson;
 import br.ufrj.caronae.models.modelsforjson.RideSearchFiltersForJson;
 import butterknife.Bind;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class RideFilterFrag extends Fragment {
@@ -38,6 +42,10 @@ public class RideFilterFrag extends Fragment {
 
     private String neighborhoods;
 
+    private String location = "";
+    private String center = "";
+    private String zone = "";
+
 
     public RideFilterFrag() {
         // Required empty public constructor
@@ -48,12 +56,15 @@ public class RideFilterFrag extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        View view = inflater.inflate(R.layout.fragment_ride_filter, container, false);
+        ButterKnife.bind(this, view);
+
         String lastFilters = SharedPref.getRideFiltersPref();
         if (!lastFilters.equals(SharedPref.MISSING_PREF)) {
             loadLastFilters(lastFilters);
         }
 
-        return inflater.inflate(R.layout.fragment_ride_filter, container, false);
+        return view;
     }
 
     private void loadLastFilters(String lastFilters) {
@@ -66,12 +77,15 @@ public class RideFilterFrag extends Fragment {
 
     @OnClick(R.id.search_bt)
     public void search(){
-
-        String location = location_et.getText().toString();
-        String center =  center_et.getText().toString();
-        RideFiltersForJson rideFilters = new RideFiltersForJson(location, center);
+        if (center.equals("Todos os Centros")){
+            center = "";
+        }
+        RideFiltersForJson rideFilters = new RideFiltersForJson(location, center, zone);
         String lastRideFilters = new Gson().toJson(rideFilters);
-        SharedPref.saveLastRideSearchFiltersPref(lastRideFilters);
+        SharedPref.saveLastFiltersPref(lastRideFilters);
+        SharedPref.saveFilterPref(lastRideFilters);
+        MainAct.updateFilterCard(getContext(), lastRideFilters);
+        getActivity().onBackPressed();
 //        MainAct.showRidesOfferListFrag();
     }
 
@@ -139,6 +153,7 @@ public class RideFilterFrag extends Fragment {
     }
 
     public void locationEt2(final String zone) {
+        this.zone = zone;
         SimpleDialog.Builder builder = new SimpleDialog.Builder(R.style.SimpleDialogLight) {
             @Override
             public void onPositiveActionClicked(DialogFragment fragment) {
@@ -169,6 +184,7 @@ public class RideFilterFrag extends Fragment {
                         location_et.setText(resumedField);
                     } else {
                         location_et.setText(neighborhoods);
+                        location = neighborhoods;
                     }
 
                 } else {
@@ -194,5 +210,71 @@ public class RideFilterFrag extends Fragment {
                 .negativeAction(getContext().getString(R.string.cancel));
         DialogFragment fragment = DialogFragment.newInstance(builder);
         fragment.show(getFragmentManager(), null);
+    }
+
+    @OnClick(R.id.center_et)
+    public void centerEt() {
+        final ArrayList<String> selectedItems = new ArrayList();
+
+        String[] selectedCenters = center_et.getText().toString().split(", ");
+        boolean[] ifCentersAreSelected = new boolean[Util.getCenters().length];
+        for (int centers = 0; centers < Util.getCenters().length; centers++) {
+            ifCentersAreSelected[centers] = false;
+            for (int selecteds = 0; selecteds < selectedCenters.length; selecteds++) {
+                if (Util.getCenters()[centers].equals(selectedCenters[selecteds])) {
+                    ifCentersAreSelected[centers] = true;
+                    selectedItems.add(Util.getCenters()[centers]);
+                }
+            }
+        }
+
+        AlertDialog builder = new AlertDialog.Builder(getContext())
+                .setTitle(getContext().getString(R.string.frag_rideSearch_hintPickCenter))
+                .setMultiChoiceItems(Util.getCenters(), ifCentersAreSelected, new DialogInterface.OnMultiChoiceClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                        if (isChecked) {
+                            // If the user checked the item, add it to the selected items
+                            selectedItems.add(Util.getCenters()[which]);
+                        } else if (selectedItems.contains(Util.getCenters()[which])) {
+                            // Else, if the item is already in the array, remove it
+                            for (int item = 0; item < selectedItems.size(); item++) {
+                                if (Util.getCenters()[which].equals(selectedItems.get(item)))
+                                    selectedItems.remove(item);
+                            }
+                        }
+                    }
+                })
+                .setPositiveButton(getContext().getString(R.string.ok), new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String centers = "";
+                        for (int selectedValues = 0; selectedValues < selectedItems.size(); selectedValues++) {
+                            if (selectedItems.get(selectedValues).equals(Util.getCenters()[0])
+                                    || selectedItems.size() == Util.getCenters().length - 1) {
+                                selectedItems.clear();
+                                selectedItems.add(Util.getCenters()[0]);
+                                centers = selectedItems.get(0) + ", ";
+                                break;
+                            }
+                            centers = centers + selectedItems.get(selectedValues) + ", ";
+                        }
+
+                        if (!centers.equals("")) {
+                            centers = centers.substring(0, centers.length() - 2);
+                        }
+                        center_et.setText(centers);
+                    }
+                })
+                .setNegativeButton(getContext().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                })
+                .create();
+
+        builder.show();
     }
 }

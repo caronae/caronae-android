@@ -2,6 +2,7 @@ package br.ufrj.caronae.acts;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -36,6 +37,7 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -59,7 +61,7 @@ import br.ufrj.caronae.frags.RidesHistoryFrag;
 import br.ufrj.caronae.frags.TabbedRideOfferFrag;
 import br.ufrj.caronae.frags.TermsOfUseFrag;
 import br.ufrj.caronae.models.User;
-import butterknife.Bind;
+import br.ufrj.caronae.models.modelsforjson.RideFiltersForJson;
 
 import static br.ufrj.caronae.acts.StartAct.MSG_TYPE_ALERT;
 import static br.ufrj.caronae.acts.StartAct.MSG_TYPE_ALERT_HEADER;
@@ -73,9 +75,9 @@ public class MainAct extends AppCompatActivity {
     private CallbackManager callbackManager;
     private TextView versionText;
 
-    ImageButton dissmissFilter;
-    CardView filterCard;
-    TextView filterText;
+    static ImageButton dissmissFilter;
+    static CardView filterCard;
+    static TextView filterText;
 
     private ArrayList<Class> backstack;
 
@@ -88,6 +90,22 @@ public class MainAct extends AppCompatActivity {
         filterCard = (CardView) findViewById(R.id.filter_card);
         filterText = (TextView) findViewById(R.id.filter_text);
         dissmissFilter = (ImageButton) findViewById(R.id.dissmiss_filter);
+
+//        String filtersJsonString = SharedPref.getFiltersPref();
+//        if (!filtersJsonString.equals(SharedPref.MISSING_PREF)) {
+//            RideFiltersForJson filters = loadFilters(filtersJsonString);
+//            String neighborhood = filters.getLocation();
+//            String center = filters.getCenter();
+//            if (!neighborhood.equals("")) {
+//                if (center.equals("")) {
+//                    center = "Todos os Centros";
+//                }
+//                filterText.setText(center + " - " + neighborhood);
+//                filterCard.setVisibility(View.VISIBLE);
+//            }
+//        }
+
+        startFilterCard();
 
         configureDissmissFilterButton();
 
@@ -199,21 +217,6 @@ public class MainAct extends AppCompatActivity {
         checkGPlay();
 
         backstack = new ArrayList<>();
-
-        // Pass this part to onStart to avoid fragment being created before activity is attached
-//        User user = App.getUser();
-//        Fragment fragment;
-//        if (user.getEmail() == null || user.getEmail().isEmpty() ||
-//                user.getPhoneNumber() == null || user.getPhoneNumber().isEmpty() ||
-//                user.getLocation() == null || user.getLocation().isEmpty()) {
-//            fragment = new MyProfileFrag();
-//            Util.toast(getString(R.string.act_main_profileIncomplete));
-//        } else {
-//            fragment = new AllRidesFrag();
-//        }
-//        FragmentManager fragmentManager = getSupportFragmentManager();
-//        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
-//        backstack.add(fragment.getClass());
     }
 
     @Override
@@ -233,6 +236,7 @@ public class MainAct extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
         backstack.add(fragment.getClass());
+
     }
 
     private void checkGPlay() {
@@ -556,7 +560,91 @@ public class MainAct extends AppCompatActivity {
         dissmissFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim_fade_out);
+                SharedPref.saveFilterPref(null);
+                hideFilterCard(getApplicationContext());
+            }
+        });
+    }
+
+
+    public static void updateFilterCard(Context context, String filtersJsonString){
+        if (!filtersJsonString.equals(SharedPref.MISSING_PREF)) {
+            RideFiltersForJson filters = loadFilters(filtersJsonString);
+            String neighborhood = filters.getLocation();
+            String center = filters.getCenter();
+            String zone = filters.getZone();
+            if (!neighborhood.equals("")) {
+                if (center.equals("")) {
+                    center = "Todos os Centros";
+                }
+
+                filterText.setText(center + " - " + neighborhood);
+                showFilterCard(context);
+            } else if (!zone.equals("")){
+                if (center.equals("")) {
+                    center = "Todos os Centros";
+                }
+
+                filterText.setText(center + " - " + zone);
+                filterCard.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
+    private static RideFiltersForJson loadFilters(String filters) {
+        return new Gson().fromJson(filters, RideFiltersForJson.class);
+    }
+
+    private void startFilterCard() {
+        String filtersJsonString = SharedPref.getFiltersPref();
+        if (!filtersJsonString.equals(SharedPref.MISSING_PREF)) {
+            RideFiltersForJson filters = loadFilters(filtersJsonString);
+            String neighborhood = filters.getLocation();
+            String center = filters.getCenter();
+            String zone = filters.getZone();
+            if (!neighborhood.equals("")) {
+                if (center.equals("")) {
+                    center = "Todos os Centros";
+                }
+
+                filterText.setText(center + " - " + neighborhood);
+                filterCard.setVisibility(View.VISIBLE);
+            } else if (!zone.equals("")){
+                if (center.equals("")) {
+                    center = "Todos os Centros";
+                }
+
+                filterText.setText(center + " - " + zone);
+                filterCard.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
+    public static void showFilterCard(final Context context){
+        Animation animation = AnimationUtils.loadAnimation(context, R.anim.anim_fade_in);
+        filterCard.startAnimation(animation);
+        animation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                filterCard.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        filterCard.startAnimation(animation);
+    }
+
+    public void hideFilterCard(final Context context){
+//        filterCard.setVisibility(View.GONE);
+                Animation animation = AnimationUtils.loadAnimation(context, R.anim.anim_fade_out);
                 animation.setAnimationListener(new Animation.AnimationListener() {
                     @Override
                     public void onAnimationStart(Animation animation) {
@@ -575,6 +663,4 @@ public class MainAct extends AppCompatActivity {
                 });
                 filterCard.startAnimation(animation);
             }
-        });
-    }
 }
