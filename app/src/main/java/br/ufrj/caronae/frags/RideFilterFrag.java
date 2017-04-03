@@ -1,12 +1,10 @@
 package br.ufrj.caronae.frags;
 
-import android.content.Context;
 import android.content.DialogInterface;
-import android.net.Uri;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,8 +23,8 @@ import br.ufrj.caronae.R;
 import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.MainAct;
+import br.ufrj.caronae.acts.StartAct;
 import br.ufrj.caronae.models.modelsforjson.RideFiltersForJson;
-import br.ufrj.caronae.models.modelsforjson.RideSearchFiltersForJson;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -86,8 +84,8 @@ public class RideFilterFrag extends Fragment {
         SharedPref.saveLastFiltersPref(lastRideFilters);
         SharedPref.saveFilterPref(lastRideFilters);
         MainAct.updateFilterCard(getContext(), lastRideFilters);
-        getActivity().onBackPressed();
-//        MainAct.showRidesOfferListFrag();
+        Intent intent = new Intent(getActivity(), StartAct.class);
+        startActivity(intent);
     }
 
     @OnClick(R.id.location_et)
