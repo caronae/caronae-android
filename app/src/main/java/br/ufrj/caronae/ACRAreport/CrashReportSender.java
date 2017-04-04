@@ -9,15 +9,18 @@ import org.acra.sender.ReportSender;
 import org.acra.sender.ReportSenderException;
 
 import br.ufrj.caronae.App;
-import br.ufrj.caronae.Util;
-
-import static br.ufrj.caronae.Util.saveMessageToSharedPref;
+import br.ufrj.caronae.models.modelsforjson.FalaeMsgForJson;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by Luis-DELL on 3/18/2017.
  */
 
 public class CrashReportSender implements ReportSender {
+
     @Override
     public void send(@NonNull final Context context, @NonNull CrashReportData errorContent) throws ReportSenderException {
         String name = "Não logado";
@@ -27,7 +30,6 @@ public class CrashReportSender implements ReportSender {
             name = App.getUser().getName();
             email = App.getUser().getEmail();
         }
-
         String message = "Android: "
                 + errorContent.getProperty(ReportField.ANDROID_VERSION)
                 + "\n"
@@ -46,8 +48,20 @@ public class CrashReportSender implements ReportSender {
                 + "App Log: "
                 + errorContent.getProperty(ReportField.APPLICATION_LOG);
 
-        saveMessageToSharedPref(context, message);
+        String subject = "ANDROID CRASH REPORT";
 
-        Util.sendCrashReport(context, message);
+        App.getNetworkService(context).falaeSendMessage(new FalaeMsgForJson(subject, message))
+                .enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        if (response.isSuccessful()) {
+                        } else {
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    }
+                });
     }
 }

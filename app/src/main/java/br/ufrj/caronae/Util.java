@@ -1,7 +1,6 @@
 package br.ufrj.caronae;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -11,7 +10,6 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Shader;
 import android.os.Build;
-import android.preference.PreferenceManager;
 import android.renderscript.Allocation;
 import android.renderscript.Element;
 import android.renderscript.RenderScript;
@@ -33,10 +31,6 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
-import br.ufrj.caronae.models.modelsforjson.FalaeMsgForJson;
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 
 
@@ -687,50 +681,5 @@ public class Util {
             Util.toast(R.string.invalidToken);
             App.LogOut();
         }
-    }
-
-    public static void sendCrashReport(final Context context, String message){
-
-        String subject = "ANDROID CRASH REPORT";
-
-        saveMessageToSharedPref(context, message);
-
-        int numberOfCrashReports = PreferenceManager.getDefaultSharedPreferences(context).getInt(SharedPref.REPORT_NUMBER_TAG, 0);
-
-        for(int reportCounter = 0; reportCounter < numberOfCrashReports; reportCounter++) {
-            final int finalReportCounter = reportCounter;
-            App.getNetworkService(context).falaeSendMessage(new FalaeMsgForJson(subject, message))
-                    .enqueue(new Callback<ResponseBody>() {
-                        @Override
-                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                            if (response.isSuccessful()) {
-                                eraseCrashReport(context, finalReportCounter);
-                            } else {
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<ResponseBody> call, Throwable t) {
-                        }
-                    });
-        }
-    }
-
-    public static void saveMessageToSharedPref(Context context, String message){
-        int numberOfCrashReports = PreferenceManager.getDefaultSharedPreferences(context).getInt(SharedPref.REPORT_NUMBER_TAG, 0);
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(SharedPref.REPORT_SAVER_TAG + numberOfCrashReports, message);
-        editor.putInt(SharedPref.REPORT_NUMBER_TAG, numberOfCrashReports + 1);
-        editor.commit();
-    }
-
-    public static void eraseCrashReport(Context context, int crashReportNumber){
-        int numberOfCrashReports = PreferenceManager.getDefaultSharedPreferences(context).getInt(SharedPref.REPORT_NUMBER_TAG, 0);
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(SharedPref.REPORT_SAVER_TAG + crashReportNumber, "");
-        editor.putInt(SharedPref.REPORT_NUMBER_TAG, numberOfCrashReports - 1);
-        editor.commit();
     }
 }

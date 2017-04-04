@@ -62,6 +62,7 @@ import br.ufrj.caronae.frags.TabbedRideOfferFrag;
 import br.ufrj.caronae.frags.TermsOfUseFrag;
 import br.ufrj.caronae.models.User;
 import br.ufrj.caronae.models.modelsforjson.RideFiltersForJson;
+import retrofit2.http.HEAD;
 
 import static br.ufrj.caronae.acts.StartAct.MSG_TYPE_ALERT;
 import static br.ufrj.caronae.acts.StartAct.MSG_TYPE_ALERT_HEADER;
@@ -113,11 +114,6 @@ public class MainAct extends AppCompatActivity {
 
         String title = PreferenceManager.getDefaultSharedPreferences(this).getString(MSG_TYPE_ALERT_HEADER, "");
         String alert = PreferenceManager.getDefaultSharedPreferences(this).getString(MSG_TYPE_ALERT, "");
-        String crashReport = PreferenceManager.getDefaultSharedPreferences(this).getString(SharedPref.REPORT_SAVER_TAG, "");
-
-        if (!crashReport.equals("")){
-            Util.sendCrashReport(this, crashReport);
-        }
 
         if (!alert.equals("")){
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -204,6 +200,8 @@ public class MainAct extends AppCompatActivity {
 
         backstack = new ArrayList<>();
     }
+
+
 
     @Override
     protected void onStart() {
