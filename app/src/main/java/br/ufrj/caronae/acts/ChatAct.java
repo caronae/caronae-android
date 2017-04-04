@@ -1,8 +1,9 @@
 package br.ufrj.caronae.acts;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -41,8 +42,10 @@ import br.ufrj.caronae.models.ChatAssets;
 import br.ufrj.caronae.models.ChatMessageReceived;
 import br.ufrj.caronae.models.ChatMessageSendResponse;
 import br.ufrj.caronae.models.NewChatMsgIndicator;
+import br.ufrj.caronae.models.Ride;
 import br.ufrj.caronae.models.RideEndedEvent;
 import br.ufrj.caronae.models.modelsforjson.ChatSendMessageForJson;
+import br.ufrj.caronae.models.modelsforjson.RideForJson;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -82,11 +85,12 @@ public class ChatAct extends AppCompatActivity {
     static int color;
     Context context;
     static ChatMsgsAdapter chatMsgsAdapter;
+    Toolbar toolbar;
 
     Animation translate;
 
-    ReceiveBroadcastNewMessagesNull myReceiver = null;
-    Boolean myReceiverIsRegistered = false;
+//    ReceiveBroadcastNewMessagesNull myReceiver = null;
+//    Boolean myReceiverIsRegistered = false;
 
     private final String BROADCAST_NEW_MESSAGES_NULL = "messagesNull";
     private final String RIDE_ID_BUNDLE_KEY = "rideId";
@@ -98,17 +102,19 @@ public class ChatAct extends AppCompatActivity {
         setContentView(R.layout.activity_chat);
         ButterKnife.bind(this);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         App.getBus().register(this);
 
-        myReceiver = new ReceiveBroadcastNewMessagesNull();
+        SharedPref.setChatActIsForeground(true);
 
-        if (!myReceiverIsRegistered) {
-            registerReceiver(myReceiver, new IntentFilter("br.ufrj.caronae.acts.ChatAct.BROADCAST_NEW_MESSAGES_NULL"));
-            myReceiverIsRegistered = true;
-        }
+//        myReceiver = new ReceiveBroadcastNewMessagesNull();
+//
+//        if (!myReceiverIsRegistered) {
+//            registerReceiver(myReceiver, new IntentFilter("br.ufrj.caronae.acts.ChatAct.BROADCAST_NEW_MESSAGES_NULL"));
+//            myReceiverIsRegistered = true;
+//        }
 
         final ActionBar ab = getSupportActionBar();
         if (ab != null) {
@@ -116,14 +122,20 @@ public class ChatAct extends AppCompatActivity {
         }
 
         rideId = getIntent().getExtras().getString(RIDE_ID_BUNDLE_KEY);
+//        ChatAssets chatAssets;
         List<ChatAssets> l = ChatAssets.find(ChatAssets.class, "ride_id = ?", rideId);
         if (l == null || l.isEmpty()) {
-            finish();
-            return;
+            List<Ride> ride = Ride.find(Ride.class, "db_id = ?", rideId);
+            if (ride == null || ride.isEmpty()){
+                getRideFromServer(this);
+            }
+        } else {
+            configureActivityWithChatAssets(l.get(0));
         }
 
-        ChatAssets chatAssets = l.get(0);
+    }
 
+    private void configureActivityWithChatAssets(ChatAssets chatAssets) {
         context = this;
         color = chatAssets.getColor();
         int colorPressed = Util.getPressedColorbyNormalColor(color);
@@ -159,8 +171,6 @@ public class ChatAct extends AppCompatActivity {
 
         if (!chatMsgsList.isEmpty())
             chatMsgs_rv.scrollToPosition(chatMsgsList.size() - 1);
-
-//        updateMsgsListWithServer(rideId);
 
     }
 
@@ -243,12 +253,16 @@ public class ChatAct extends AppCompatActivity {
     @Subscribe
     public void updateMsgsList(ChatMessageReceived msg) {
 
-        chatMsgsList = ChatMessageReceived.find(ChatMessageReceived.class, "ride_id = ?", rideId);
+        List<ChatMessageReceived> savedChatMsgsList = new ArrayList<>();
 
-        chatMsgsAdapter.updateList(chatMsgsList);
-        chatMsgsAdapter.notifyItemRangeInserted(chatMsgsAdapter.getItemCount(), chatMsgsList.size() - chatMsgsAdapter.getItemCount());
-        chatMsgs_rv.scrollToPosition(chatMsgsList.size() - 1);
+        savedChatMsgsList = ChatMessageReceived.find(ChatMessageReceived.class, "ride_id = ?", rideId);
 
+        if (savedChatMsgsList.size() != chatMsgsList.size()){
+            chatMsgsList = savedChatMsgsList;
+            chatMsgsAdapter.updateList(chatMsgsList);
+            chatMsgsAdapter.notifyItemRangeInserted(chatMsgsAdapter.getItemCount(), chatMsgsList.size() - chatMsgsAdapter.getItemCount());
+            chatMsgs_rv.scrollToPosition(chatMsgsList.size() - 1);
+        }
 
         if (translate.hasEnded()) {
             translate = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim_loading_messages_up);
@@ -288,6 +302,9 @@ public class ChatAct extends AppCompatActivity {
 
 
         String since = null;
+        if (chatMsgsList == null){
+            chatMsgsList = new ArrayList<>();
+        }
         if (chatMsgsList.size() != 0) {
             boolean lastMessageIsMine = true;
             int counter = chatMsgsList.size() - 1;
@@ -350,10 +367,10 @@ public class ChatAct extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        if (!myReceiverIsRegistered) {
-            registerReceiver(myReceiver, new IntentFilter("br.ufrj.caronae.acts.ChatAct.BROADCAST_NEW_MESSAGES_NULL"));
-            myReceiverIsRegistered = true;
-        }
+//        if (!myReceiverIsRegistered) {
+//            registerReceiver(myReceiver, new IntentFilter("br.ufrj.caronae.acts.ChatAct.BROADCAST_NEW_MESSAGES_NULL"));
+//            myReceiverIsRegistered = true;
+//        }
 
         SharedPref.setChatActIsForeground(true);
 
@@ -365,10 +382,10 @@ public class ChatAct extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
 
-        if (myReceiverIsRegistered) {
-            unregisterReceiver(myReceiver);
-            myReceiverIsRegistered = false;
-        }
+//        if (myReceiverIsRegistered) {
+//            unregisterReceiver(myReceiver);
+//            myReceiverIsRegistered = false;
+//        }
         SharedPref.setChatActIsForeground(false);
     }
 
@@ -406,5 +423,74 @@ public class ChatAct extends AppCompatActivity {
             }
 
         }
+    }
+
+    private Ride getRideFromServer(final Activity activity) {
+        final RideForJson[] ride = {null};
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                final ProgressDialog pd = ProgressDialog.show(activity, "", activity.getString(R.string.wait), true, true);
+                App.getNetworkService(activity).getMyActiveRides()
+                        .enqueue(new Callback<List<RideForJson>>() {
+                            @Override
+                            public void onResponse(Call<List<RideForJson>> call, Response<List<RideForJson>> response) {
+
+                                if (response.isSuccessful()) {
+                                    List<RideForJson> rideWithUsersList = response.body();
+
+                                    Log.e("RIDE", "rides encontradas: " + rideWithUsersList.size());
+
+                                    if (rideWithUsersList == null || rideWithUsersList.isEmpty()) {
+                                        pd.dismiss();
+                                        return;
+                                    }
+
+                                    for (int rideIndex = 0; rideIndex < rideWithUsersList.size(); rideIndex++){
+                                        if ((rideWithUsersList.get(rideIndex).getId() + "").equals(rideId)){
+                                            ride[0] = rideWithUsersList.get(rideIndex);
+                                        }
+                                    }
+                                    if (ride[0] != null){
+                                        String location;
+                                        if (ride[0].isGoing())
+                                            location = ride[0].getNeighborhood() + " -> " + ride[0].getHub();
+                                        else
+                                            location = ride[0].getHub() + " -> " + ride[0].getNeighborhood();
+//                                        if (ride[0].isGoing())
+//                                            location = ride[0].getNeighborhood() + " ? " + ride[0].getHub();
+//                                        else
+//                                            location = ride[0].getHub() + " ? " + ride[0].getNeighborhood();
+                                        ChatAssets chatAssets = new ChatAssets(rideId, location,
+                                                Util.getColorbyZone(ride[0].getZone()),
+                                                Util.getBgResByZone(ride[0].getZone()),
+                                                Util.formatBadDateWithoutYear(ride[0].getDate()),
+                                                Util.formatTime(ride[0].getTime()));
+                                        chatAssets.save();
+                                        configureActivityWithChatAssets(chatAssets);
+                                    } else {
+                                        Intent intent = new Intent(getApplicationContext(), MainAct.class);
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        startActivity(intent);
+                                        finish();
+                                    }
+                                    pd.dismiss();
+                                } else {
+                                    Util.treatResponseFromServer(response);
+                                    pd.dismiss();
+
+                                    Log.e("getMyActiveRides", response.message());
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<List<RideForJson>> call, Throwable t) {
+                                pd.dismiss();
+                                Log.e("getMyActiveRides", t.getMessage());
+                            }
+                        });
+            }
+        });
+        return ride[0];
     }
 }

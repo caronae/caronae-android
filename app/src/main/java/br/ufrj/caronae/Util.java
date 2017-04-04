@@ -26,8 +26,6 @@ import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.Toast;
 
-import org.acra.ReportField;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -40,8 +38,6 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static br.ufrj.caronae.acts.StartAct.MSG_TYPE_ALERT_HEADER;
 
 
 public class Util {
@@ -592,6 +588,29 @@ public class Util {
         paint.setStrokeWidth(borderWidth);
         canvas.drawCircle(width / 2, height / 2, radius - borderWidth / 2, paint);
         return canvasBitmap;
+    }
+
+    static public int getBgResByZone(String zone){
+        int bgRes = R.drawable.bg_bt_raise_zone_outros;
+        if (zone.equals("Centro")) {
+            bgRes = R.drawable.bg_bt_raise_zone_centro;
+        }
+        if (zone.equals("Zona Sul")) {
+            bgRes = R.drawable.bg_bt_raise_zone_sul;
+        }
+        if (zone.equals("Zona Oeste")) {
+            bgRes = R.drawable.bg_bt_raise_zone_oeste;
+        }
+        if (zone.equals("Zona Norte")) {
+            bgRes = R.drawable.bg_bt_raise_zone_norte;
+        }
+        if (zone.equals("Baixada")) {
+            bgRes = R.drawable.bg_bt_raise_zone_baixada;
+        }
+        if (zone.equals("Grande Niterói")) {
+            bgRes = R.drawable.bg_bt_raise_zone_niteroi;
+        }
+        return bgRes;
     }
 
     static public int getColorbyZone(String zone){

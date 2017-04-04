@@ -80,6 +80,10 @@ public class FetchReceivedMessagesService extends IntentService {
                                              }
                                          }).start();
                                      } else {
+                                         ChatMessageReceived cmr = new ChatMessageReceived();
+                                         if (SharedPref.getChatActIsForeground()) {
+                                             App.getBus().post(cmr);
+                                         }
                                          getApplicationContext().sendBroadcast(new Intent("br.ufrj.caronae.acts.ChatAct.BROADCAST_NEW_MESSAGES_NULL"));
                                      }
                                  } else {

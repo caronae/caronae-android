@@ -10,17 +10,17 @@ import br.ufrj.caronae.App;
 
 public class StartAct extends AppCompatActivity {
 
-    private final String RIDE_ID_BUNDLE_KEY                   = "rideId";
+    private final String RIDE_ID_BUNDLE_KEY = "rideId";
 
-    private final String MSG_TYPE_BUNDLE_KEY                  = "msgType";
+    private final String MSG_TYPE_BUNDLE_KEY = "msgType";
 
-    public static final String MSG_TYPE_ALERT                  = "alert";
+    public static final String MSG_TYPE_ALERT = "alert";
 
-    public static final String ALERT_KEY                       = "message";
+    public static final String ALERT_KEY = "message";
 
-    public static final String MSG_TYPE_ALERT_HEADER           = "alertHeader";
+    public static final String MSG_TYPE_ALERT_HEADER = "alertHeader";
 
-    public static final String ALERT_HEADER_KEY                = "messageHeader";
+    public static final String ALERT_HEADER_KEY = "messageHeader";
 
 
     @Override
@@ -41,28 +41,29 @@ public class StartAct extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
 
-        if(bundle!=null) {
+        if (bundle != null) {
             for (String key : bundle.keySet()) {
                 Object value = bundle.get(key);
-                Log.d("DATA_SENT", String.format("%s %s (%s)", key,
+                Log.e("DATA_SENT", String.format("%s %s (%s)", key,
                         value.toString(), value.getClass().getName()));
             }
         }
 
         if (App.isUserLoggedIn())
-            if(bundle != null
+            if (bundle != null
                     && bundle.get(MSG_TYPE_BUNDLE_KEY) != null
-                    && bundle.get(MSG_TYPE_BUNDLE_KEY).equals("chat")){
+                    && bundle.get(MSG_TYPE_BUNDLE_KEY).equals("chat")) {
 
                 Intent intent = new Intent(this, ChatAct.class);
                 intent.putExtra(RIDE_ID_BUNDLE_KEY, (String) bundle.get(RIDE_ID_BUNDLE_KEY));
                 intent.putExtras(bundle);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
             } else if (bundle != null
                     && bundle.get(MSG_TYPE_BUNDLE_KEY) != null
-                    && bundle.get(MSG_TYPE_BUNDLE_KEY).equals("alert")){
-                PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString(MSG_TYPE_ALERT,(String) bundle.get(ALERT_KEY)).commit();
-                PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString(MSG_TYPE_ALERT_HEADER,(String) bundle.get(ALERT_HEADER_KEY)).commit();
+                    && bundle.get(MSG_TYPE_BUNDLE_KEY).equals("alert")) {
+                PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString(MSG_TYPE_ALERT, (String) bundle.get(ALERT_KEY)).commit();
+                PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString(MSG_TYPE_ALERT_HEADER, (String) bundle.get(ALERT_HEADER_KEY)).commit();
             } else {
                 startActivity(new Intent(this, MainAct.class));
             }

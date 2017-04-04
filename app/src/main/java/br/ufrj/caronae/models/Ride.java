@@ -23,6 +23,7 @@ public class Ride extends SugarRecord{
     @SerializedName("repeats_until")
     protected String repeatsUntil;
     protected boolean going, routine;
+    @SerializedName("dbId")
     protected int dbId;
     @SerializedName("routine_id")
     protected String routineId;
