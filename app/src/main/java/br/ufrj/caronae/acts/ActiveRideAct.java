@@ -34,6 +34,7 @@ import br.ufrj.caronae.SwipeDismissBaseActivity;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.adapters.RidersAdapter;
 import br.ufrj.caronae.firebase.FirebaseTopicsHandler;
+import br.ufrj.caronae.frags.MyRidesFrag;
 import br.ufrj.caronae.models.ActiveRide;
 import br.ufrj.caronae.models.ChatAssets;
 import br.ufrj.caronae.models.Ride;
@@ -491,7 +492,8 @@ public class ActiveRideAct extends SwipeDismissBaseActivity {
 
     @Override
     public void onBackPressed() {
-        super.finish();
+        super.onBackPressed();
+        SharedPref.FRAGMENT_INDICATOR = MyRidesFrag.class.getName();
         overridePendingTransition(R.anim.anim_left_slide_in, R.anim.anim_right_slide_out);
     }
 }

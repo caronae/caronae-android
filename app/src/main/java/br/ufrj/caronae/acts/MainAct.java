@@ -222,7 +222,16 @@ public class MainAct extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
         backstack.add(fragment.getClass());
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (!SharedPref.FRAGMENT_INDICATOR.equals("")){
+            if (SharedPref.FRAGMENT_INDICATOR.equals(MyRidesFrag.class.getName()))
+                SharedPref.FRAGMENT_INDICATOR = "";
+                showActiveRidesFrag();
+        }
     }
 
     private void checkGPlay() {

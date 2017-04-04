@@ -26,6 +26,8 @@ public class SharedPref {
     public static final String MISSING_PREF                          = "missing";
     public static final String TOPIC_GERAL                           = "general";
     public static String CHAT_ACT_STATUS                            = "chatStatus";
+    public static String FRAGMENT_INDICATOR                            = "";
+
 
     private static SharedPreferences getSharedPreferences() {
         return PreferenceManager.getDefaultSharedPreferences(App.inst());

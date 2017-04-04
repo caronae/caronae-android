@@ -378,6 +378,7 @@ public class ChatAct extends AppCompatActivity {
 
     }
 
+
     @Override
     protected void onPause() {
         super.onPause();
