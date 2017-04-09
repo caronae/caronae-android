@@ -47,7 +47,7 @@
             android:layout_below="@+id/center_et"
             android:layout_centerHorizontal="true"
             android:background="@drawable/btn_color"
-            android:text="@string/frag_ridesearch_searchBt"
+            android:text="@string/frag_ridesearch_filterBt"
             app:rd_enable="true" />
 
     </RelativeLayout>

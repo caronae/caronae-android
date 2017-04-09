@@ -34,14 +34,14 @@
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
-    <TextView
-        android:id="@+id/norides_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:gravity="center"
-        android:text="@string/frag_allrides_noRides"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:visibility="gone" />
+    <!--<TextView-->
+        <!--android:id="@+id/norides_tv"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:layout_centerVertical="true"-->
+        <!--android:gravity="center"-->
+        <!--android:text="@string/frag_allrides_noRides"-->
+        <!--android:textAppearance="?android:attr/textAppearanceLarge"-->
+        <!--android:visibility="gone" />-->
 </android.support.design.widget.CoordinatorLayout>

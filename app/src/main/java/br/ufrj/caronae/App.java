@@ -98,7 +98,6 @@ public class App extends SugarApp {
         //return MEUDIGOCEAN_DEV_ENDPOINT;
         //return MEUDIGOCEAN_PROD_ENDPOINT;
 //        return DEV_SERVER_IP;
-        // TODO: Lembrar de remover Crash Report ACRA pro servidor de producao
         return DEV_SERVER_ENDPOINT;
 //        return TIC_ENDPOINT;
     }
