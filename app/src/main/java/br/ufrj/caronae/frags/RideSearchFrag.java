@@ -67,8 +67,8 @@ public class RideSearchFrag extends Fragment {
     RelativeLayout lay;
     @Bind(R.id.anotherSearch_bt)
     Button anotherSearch_bt;
-    @Bind(R.id.fab)
-    FloatingActionButton fab;
+//    @Bind(R.id.fab)
+//    FloatingActionButton fab;
 
     @Bind(R.id.rvRides)
     RecyclerView rvRides;
@@ -353,10 +353,10 @@ public class RideSearchFrag extends Fragment {
         builder.show();
     }
 
-    @OnClick(R.id.fab)
-    public void fab() {
-        ((MainAct) getActivity()).showRideOfferFrag();
-    }
+//    @OnClick(R.id.fab)
+//    public void fab() {
+//        ((MainAct) getActivity()).showRideOfferFrag();
+//    }
 
     @OnClick(R.id.anotherSearch_bt)
     public void anotherSearchBt() {

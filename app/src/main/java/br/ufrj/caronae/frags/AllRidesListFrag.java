@@ -60,8 +60,8 @@ public class AllRidesListFrag extends Fragment implements Callback {
     private int TOTAL_PAGES_COUNT = 5;
     @Bind(R.id.rvRides)
     RecyclerView rvRides;
-    @Bind(R.id.norides_tv)
-    TextView norides_tv;
+//    @Bind(R.id.norides_tv)
+//    TextView norides_tv;
     @Bind(R.id.swipeRefreshLayout)
     SwipeRefreshLayout refreshLayout;
     @Bind(R.id.all_rides_list_coordinator_layout)
@@ -132,7 +132,7 @@ public class AllRidesListFrag extends Fragment implements Callback {
         rvRides.setAdapter(adapter);
 
         if (rideOffers == null || rideOffers.isEmpty()) {
-            norides_tv.setVisibility(View.VISIBLE);
+//            norides_tv.setVisibility(View.VISIBLE);
         } else {
             adapter.makeList(rideOffers);
         }
@@ -265,9 +265,9 @@ public class AllRidesListFrag extends Fragment implements Callback {
 
                             if (pageIdentifier == AllRidesFragmentPagerAdapter.PAGE_GOING) {
                                 if (goingRides == null || goingRides.isEmpty()) {
-                                    norides_tv.setVisibility(View.VISIBLE);
+//                                    norides_tv.setVisibility(View.VISIBLE);
                                 } else {
-                                    norides_tv.setVisibility(View.INVISIBLE);
+//                                    norides_tv.setVisibility(View.INVISIBLE);
 //                                    if (filter == null) {
                                         adapter.makeList(goingRides);
 //                                    }
@@ -278,9 +278,9 @@ public class AllRidesListFrag extends Fragment implements Callback {
                                 }
                             } else {
                                 if (notGoingRides == null || notGoingRides.isEmpty()) {
-                                    norides_tv.setVisibility(View.VISIBLE);
+//                                    norides_tv.setVisibility(View.VISIBLE);
                                 } else {
-                                    norides_tv.setVisibility(View.INVISIBLE);
+//                                    norides_tv.setVisibility(View.INVISIBLE);
 //                                    if (filter == null) {
                                         adapter.makeList(notGoingRides);
 //                                    }

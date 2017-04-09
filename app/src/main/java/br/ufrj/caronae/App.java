@@ -48,10 +48,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class App extends SugarApp {
 
     private static final String DEV_SERVER_ENDPOINT          = "https://dev.caronae.tic.ufrj.br/";
-    private static final String DEV_SERVER_IP                = "http://54.243.7.207/";
-    private static final String MEUDIGOCEAN_PROD_ENDPOINT    = "http://45.55.46.90:80/";
-    private static final String MEUDIGOCEAN_DEV_ENDPOINT     = "http://45.55.46.90:8080/";
-    private static final String LOCAL_SERV_ENDPOINT          = "http://home.meriw.xyz:8001";
     private static final String TIC_ENDPOINT                 = "https://api.caronae.ufrj.br/";
 
     //TODO: ADD FIREBASE KEY
@@ -95,9 +91,6 @@ public class App extends SugarApp {
     }
 
     public static String getHost() {
-        //return MEUDIGOCEAN_DEV_ENDPOINT;
-        //return MEUDIGOCEAN_PROD_ENDPOINT;
-//        return DEV_SERVER_IP;
         return DEV_SERVER_ENDPOINT;
 //        return TIC_ENDPOINT;
     }
