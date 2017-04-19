@@ -103,10 +103,7 @@ public class LoginAct extends AppCompatActivity {
 
         String tokenHolder = token_et.getText().toString();
         final String idUfrj = idUfrj_et.getText().toString();
-        final String token = Util.fixBlankSpace(tokenHolder);
-
-        pd.setCancelable(false);
-        pd.setCanceledOnTouchOutside(false);
+        final String token = Util.fixBlankSpace(tokenHolder).toUpperCase();
 
             Call<UserWithRidesForJson> loginCall = App.getNetworkService(getApplicationContext()).login(new LoginForJson(token.toUpperCase(), idUfrj));
             loginCall.enqueue(new Callback<UserWithRidesForJson>() {
