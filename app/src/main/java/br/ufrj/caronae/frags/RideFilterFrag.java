@@ -95,11 +95,11 @@ public class RideFilterFrag extends Fragment {
             public void onPositiveActionClicked(DialogFragment fragment) {
                 String selectedZone = getSelectedValue().toString();
                 location_et.setText(selectedZone);
-                if (selectedZone.equals("Outros")) {
-                    showOtherNeighborhoodDialog();
-                } else {
+//                if (selectedZone.equals("Outros")) {
+//                    showOtherNeighborhoodDialog();
+//                } else {
                     locationEt2(selectedZone);
-                }
+//                }
                 super.onPositiveActionClicked(fragment);
             }
 
@@ -109,7 +109,7 @@ public class RideFilterFrag extends Fragment {
             }
         };
 
-        builder.items(Util.getZones(), 0)
+        builder.items(Util.getZonesForFilter(), 0)
                 .title(getContext().getString(R.string.frag_rideSearch_pickZones))
                 .positiveAction(getContext().getString(R.string.ok))
                 .negativeAction(getContext().getString(R.string.cancel));

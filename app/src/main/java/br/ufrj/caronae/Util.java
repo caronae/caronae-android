@@ -104,6 +104,10 @@ public class Util {
         return new String[]{"Centro", "Zona Sul", "Zona Oeste", "Zona Norte", "Baixada", "Grande Niterói", "Outros"};
     }
 
+    public static String[] getZonesForFilter() {
+        return new String[]{"Centro", "Zona Sul", "Zona Oeste", "Zona Norte", "Baixada", "Grande Niterói"};
+    }
+
     public static String[] getNeighborhoods(String zone) {
         if (zone.equals("Centro")) {
             return new String[]{"Benfica", "Caju", "Catumbi", "Centro (Bairro)", "Cidade Nova",
