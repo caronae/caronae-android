@@ -211,6 +211,7 @@ public class MainAct extends AppCompatActivity {
         User user = App.getUser();
         Fragment fragment;
 
+        boolean goToMyRides = getIntent().getBooleanExtra(SharedPref.MY_RIDE_LIST_KEY, false);
         if (user.getEmail() == null || user.getEmail().isEmpty() ||
                 user.getPhoneNumber() == null || user.getPhoneNumber().isEmpty() ||
                 user.getLocation() == null || user.getLocation().isEmpty()) {
