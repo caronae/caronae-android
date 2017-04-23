@@ -200,9 +200,6 @@ public class MainAct extends AppCompatActivity {
 
         backstack = new ArrayList<>();
 
-        boolean goToMyRides = getIntent().getBooleanExtra(SharedPref.MY_RIDE_LIST_KEY, false);
-        if (goToMyRides)
-            showActiveRidesFrag();
     }
 
 
@@ -213,12 +210,17 @@ public class MainAct extends AppCompatActivity {
 
         User user = App.getUser();
         Fragment fragment;
+
         if (user.getEmail() == null || user.getEmail().isEmpty() ||
                 user.getPhoneNumber() == null || user.getPhoneNumber().isEmpty() ||
                 user.getLocation() == null || user.getLocation().isEmpty()) {
             fragment = new MyProfileFrag();
             Util.toast(getString(R.string.act_main_profileIncomplete));
-        } else {
+        } else if (goToMyRides){
+            fragment = new MyRidesFrag();
+            backstack.add(new AllRidesFrag().getClass());
+        }
+        else {
             fragment = new AllRidesFrag();
         }
         FragmentManager fragmentManager = getSupportFragmentManager();
