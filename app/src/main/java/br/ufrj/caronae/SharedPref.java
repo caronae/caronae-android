@@ -22,6 +22,7 @@ public class SharedPref {
     private static final String RM_RIDE_LIST                         = "removeRideFromList";
     public static final String MISSING_PREF                          = "missing";
     public static final String TOPIC_GERAL                           = "general";
+    public static final String MY_RIDE_LIST_KEY                            = "myRides";
     public static String CHAT_ACT_STATUS                            = "chatStatus";
     public static String FRAGMENT_INDICATOR                            = "";
 

@@ -199,6 +199,10 @@ public class MainAct extends AppCompatActivity {
         checkGPlay();
 
         backstack = new ArrayList<>();
+
+        boolean goToMyRides = getIntent().getBooleanExtra(SharedPref.MY_RIDE_LIST_KEY, false);
+        if (goToMyRides)
+            showActiveRidesFrag();
     }
 
 

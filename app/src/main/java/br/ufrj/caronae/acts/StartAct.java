@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import br.ufrj.caronae.App;
+import br.ufrj.caronae.SharedPref;
 
 public class StartAct extends AppCompatActivity {
 
@@ -64,6 +65,14 @@ public class StartAct extends AppCompatActivity {
                     && bundle.get(MSG_TYPE_BUNDLE_KEY).equals("alert")) {
                 PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString(MSG_TYPE_ALERT, (String) bundle.get(ALERT_KEY)).commit();
                 PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString(MSG_TYPE_ALERT_HEADER, (String) bundle.get(ALERT_HEADER_KEY)).commit();
+            } else if (bundle != null
+                    && bundle.get(MSG_TYPE_BUNDLE_KEY) != null
+                    && (bundle.get(MSG_TYPE_BUNDLE_KEY).equals("joinRequest")
+                        || (bundle.get(MSG_TYPE_BUNDLE_KEY).equals("accepted")))) {
+                Intent intent = new Intent(this, MainAct.class);
+                intent.putExtra(SharedPref.MY_RIDE_LIST_KEY, true);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
             } else {
                 startActivity(new Intent(this, MainAct.class));
             }

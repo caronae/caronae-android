@@ -149,13 +149,13 @@ public class MyRidesListFrag extends Fragment {
                                     List<RideForJson> rideWithUsersList = response.body();
                                     if (rideWithUsersList == null || rideWithUsersList.isEmpty()) {
                                         MyRidesFrag.hideProgressBar();
-//                                        pd.dismiss();
 
                                         myRidesList.setAdapter(new MyActiveRidesAdapter(new ArrayList<RideForJson>(), (MainAct) getActivity()));
                                         myRidesList.setHasFixedSize(true);
                                         myRidesList.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-                                        norides_tv.setVisibility(View.VISIBLE);
+//                                        norides_tv.setVisibility(View.VISIBLE);
+                                        new LoadRides().execute();
                                         return;
                                     }
 

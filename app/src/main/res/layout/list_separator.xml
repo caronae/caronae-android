@@ -8,7 +8,9 @@
     <TextView
         android:id="@+id/list_separator_text"
         android:layout_width="match_parent"
-        android:layout_height="32dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="6dp"
         android:layout_gravity="center_vertical"
         style="@style/separator_text" />
 

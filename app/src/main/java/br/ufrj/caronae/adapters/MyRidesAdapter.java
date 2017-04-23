@@ -69,7 +69,14 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
 
         newChatMsgIndicatorList = NewChatMsgIndicator.listAll(NewChatMsgIndicator.class);
 
-        rides.add(positionMyActiveRideHeaderPosition, MY_ACTIVE_RIDES_HEADER_TAG);
+//        rides.add(positionMyActiveRideHeaderPosition, MY_ACTIVE_RIDES_HEADER_TAG);
+
+        for (int rideCounter = 0; rideCounter < rides.size(); rideCounter++){
+            if (rides.get(rideCounter).getClass() == RideForJson.class){
+                rides.add(positionMyActiveRideHeaderPosition, MY_ACTIVE_RIDES_HEADER_TAG);
+                break;
+            }
+        }
 
         for (int rideCounter = 0; rideCounter < rides.size(); rideCounter++){
             if (rides.get(rideCounter).getClass() == Ride.class){
