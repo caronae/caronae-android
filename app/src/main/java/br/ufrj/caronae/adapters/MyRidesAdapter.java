@@ -423,8 +423,6 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
                                 Log.e("getRequesters", t.getMessage());
                             }
                         });
-
-
             }
         });
 
@@ -436,8 +434,34 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
                 break;
             }
         }
-        if (!found)
-            holder.newRequest_iv.setVisibility(View.INVISIBLE);
+        if (!found) {
+            App.getNetworkService(activity.getApplicationContext()).getRequesters(ride.getDbId() + "")
+                .enqueue(new Callback<List<User>>() {
+                    @Override
+                    public void onResponse(Call<List<User>> call, Response<List<User>> response) {
+                        if (response.isSuccessful()) {
+                            List<User> requesters = response.body();
+                            if (requesters.isEmpty()){
+                                holder.newRequest_iv.setVisibility(View.INVISIBLE);
+                            } else {
+                                holder.newRequest_iv.setVisibility(View.VISIBLE);
+                                new RideRequestReceived(Integer.valueOf(ride.getDbId())).save();
+                            }
+                        } else {
+                            Util.toast(R.string.errorGetRequesters);
+                            Log.e("getRequesters", response.message());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<User>> call, Throwable t) {
+                        Util.toast(R.string.errorGetRequesters);
+                        Log.e("getRequesters", t.getMessage());
+                    }
+                });
+
+//            holder.newRequest_iv.setVisibility(View.INVISIBLE);
+        }
     }
 
     private void configureMyActiveRides(int position, final MyRidesAdapter.ViewHolder holder){
