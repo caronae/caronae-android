@@ -17,7 +17,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
-import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.squareup.otto.Subscribe;
@@ -122,7 +121,6 @@ public class AllRidesListFrag extends Fragment implements Callback {
 
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                if (pageCounter <= TOTAL_PAGES_COUNT)
                     loadOneMorePage();
             }
         };
@@ -131,9 +129,7 @@ public class AllRidesListFrag extends Fragment implements Callback {
 
         rvRides.setAdapter(adapter);
 
-        if (rideOffers == null || rideOffers.isEmpty()) {
-//            norides_tv.setVisibility(View.VISIBLE);
-        } else {
+        if (!(rideOffers == null || rideOffers.isEmpty())) {
             adapter.makeList(rideOffers);
         }
 
