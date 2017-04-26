@@ -13,8 +13,9 @@
     <string name="title_activity_login">Login</string>
 
     <string name="tokenHint_et">Sua chave aqui</string>
-    <string name="send_bt">Acessar</string>
+    <string name="send_bt">Enviar</string>
     <string name="create_bt">Criar</string>
+    <string name="acess_bt">Acessar</string>
 
     <string name="go_rb">Ir ao fundão</string>
     <string name="back_rb">Voltar do fundão</string>
