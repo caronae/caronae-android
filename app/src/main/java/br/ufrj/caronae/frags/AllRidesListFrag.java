@@ -70,11 +70,13 @@ public class AllRidesListFrag extends Fragment implements Callback {
 //    @Bind(R.id.search_card_view)
 //    CardView searchCardView;
 
+    private final int FIRST_PAGE_TO_LOAD = 0;
+
     long totalBytesConsumed = 0;
 
     RideOfferAdapter adapter;
 
-    int pageCounter = 1;
+    int pageCounter = FIRST_PAGE_TO_LOAD;
 
     private EndlessRecyclerViewScrollListener scrollListener;
 
@@ -105,8 +107,8 @@ public class AllRidesListFrag extends Fragment implements Callback {
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                pageCounter = 1;
-                for (int counter = 1; counter <= pageCounter; counter++) {
+                pageCounter = FIRST_PAGE_TO_LOAD;
+                for (int counter = FIRST_PAGE_TO_LOAD; counter <= pageCounter; counter++) {
                     refreshRideList(counter);
                 }
             }
@@ -149,7 +151,7 @@ public class AllRidesListFrag extends Fragment implements Callback {
             @Override
             public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
                 if (key.equals(SharedPref.RIDE_FILTER_PREF_KEY)){
-                    pageCounter = 1;
+                    pageCounter = FIRST_PAGE_TO_LOAD;
                     refreshRideList(pageCounter);
                 }
             }
@@ -193,6 +195,10 @@ public class AllRidesListFrag extends Fragment implements Callback {
         final long bytesSoFar = TrafficStats.getUidRxBytes(Process.myUid());
 
         String going = null;
+        if (pageIdentifier == AllRidesFragmentPagerAdapter.PAGE_GOING)
+            going = "1";
+        else
+            going = "0";
         String neighborhoods = null;
         String zone = null;
         String hub = null;
@@ -221,7 +227,7 @@ public class AllRidesListFrag extends Fragment implements Callback {
                         }
                         if (response.isSuccessful()) {
 
-                            if (pageCounter == 1) {
+                            if (pageCounter == FIRST_PAGE_TO_LOAD) {
                                 goingRides = new ArrayList<RideForJson>();
                                 notGoingRides = new ArrayList<RideForJson>();
                             }
@@ -320,8 +326,14 @@ public class AllRidesListFrag extends Fragment implements Callback {
                     if (filteredGoingList.size() <= 8) {
                         loadOneMorePage();
                     }
+                    if (filteredNotGoingList.size() <= 8) {
+                        loadOneMorePage();
+                    }
                     break;
                 case 1:
+                    if (filteredGoingList.size() <= 8) {
+                        loadOneMorePage();
+                    }
                     if (filteredNotGoingList.size() <= 8) {
                         loadOneMorePage();
                     }
