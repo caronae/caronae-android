@@ -252,9 +252,13 @@ public class AllRidesListFrag extends Fragment implements Callback {
                                     else {
                                         rideOffer.setDbId(rideOffer.getId().intValue());
                                         if (rideOffer.isGoing()) {
-                                            goingRides.add(rideOffer);
+                                            if (!checkIfRideIsInList(goingRides, rideOffer)){
+                                                goingRides.add(rideOffer);
+                                            }
                                         } else {
-                                            notGoingRides.add(rideOffer);
+                                            if (!checkIfRideIsInList(notGoingRides, rideOffer)) {
+                                                notGoingRides.add(rideOffer);
+                                            }
                                         }
                                     }
                                 }
@@ -346,8 +350,15 @@ public class AllRidesListFrag extends Fragment implements Callback {
     private boolean checkIfRideIsInList(ArrayList<RideForJson> list, RideForJson ride) {
         boolean contains = false;
         for (int counter = 0; counter < list.size(); counter++) {
-            if (list.get(counter).getDbId() == ride.getId().intValue())
+            if (list.get(counter).getDbId() == ride.getDbId()) {
                 contains = true;
+            }
+            if (!contains
+                    && (list.get(counter).getDriver().getDbId() == (ride.getDriver().getDbId()))
+                    && (list.get(counter).getDate().equals(ride.getDate()))
+                    && (list.get(counter).getTime().equals(ride.getTime()))){
+                contains = true;
+            }
         }
         return contains;
     }
