@@ -17,16 +17,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.github.clans.fab.FloatingActionMenu;
 import com.google.gson.Gson;
-
-import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -72,7 +67,6 @@ public class AllRidesFrag extends Fragment {
     @Bind(R.id.search_card_view)
     CardView searchCardView;
 
-//    @Bind(R.id.all_rides_coordinator)
 
     static CoordinatorLayout coordinatorLayout;
 
@@ -255,43 +249,6 @@ public class AllRidesFrag extends Fragment {
         ((MainAct) getActivity()).showActiveRidesFrag();
     }
 
-//    private void prepareFloatingActionMenu() {
-//        final ArrayList<Integer> colorOptions = new ArrayList<>();
-//        colorOptions.add(R.color.zone_baixada);
-//        colorOptions.add(R.color.zone_niteroi);
-//        colorOptions.add(R.color.zone_sul);
-//        colorOptions.add(R.color.zone_centro);
-//        colorOptions.add(R.color.light_zone_baixada_transparency);
-//        colorOptions.add(R.color.light_zone_niteroi_transparency);
-//        colorOptions.add(R.color.light_zone_sul_transparency);
-//        colorOptions.add(R.color.light_zone_centro_transparency);
-//        Random randomGenerator = new Random();
-//        int randomInt = randomGenerator.nextInt(4);
-//
-//        fab_menu.setMenuButtonColorNormal(ContextCompat.getColor(getContext(), colorOptions.get(randomInt)));
-//        fab_menu.setMenuButtonColorPressed(ContextCompat.getColor(getContext(), colorOptions.get(randomInt + 4)));
-//
-//
-//        randomInt++;
-//
-//        if (randomInt >= 4) {
-//            randomInt = 0;
-//        }
-//
-//        fab_add_ride.setColorNormal(ContextCompat.getColor(getContext(), colorOptions.get(randomInt)));
-//        fab_add_ride.setColorPressed(ContextCompat.getColor(getContext(), colorOptions.get(randomInt + 4)));
-//
-//        randomInt++;
-//
-//        if (randomInt >= 4) {
-//            randomInt = 0;
-//        }
-//
-//        fab_active_rides.setColorNormal(ContextCompat.getColor(getContext(), colorOptions.get(randomInt)));
-//        fab_active_rides.setColorPressed(ContextCompat.getColor(getContext(), colorOptions.get(randomInt + 4)));
-//
-//        isFabPrepared = true;
-//    }
 
     private void showFAB() {
         Animation anim = new AlphaAnimation(0, 1);

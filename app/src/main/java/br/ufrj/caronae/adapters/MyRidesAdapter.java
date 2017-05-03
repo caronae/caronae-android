@@ -3,15 +3,11 @@ package br.ufrj.caronae.adapters;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -20,15 +16,11 @@ import com.google.gson.Gson;
 import com.rey.material.app.Dialog;
 import com.rey.material.app.DialogFragment;
 import com.rey.material.app.SimpleDialog;
-import com.rey.material.widget.ImageButton;
-import com.rey.material.widget.LinearLayout;
-import com.rey.material.widget.RelativeLayout;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Random;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
@@ -69,7 +61,6 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
 
         newChatMsgIndicatorList = NewChatMsgIndicator.listAll(NewChatMsgIndicator.class);
 
-//        rides.add(positionMyActiveRideHeaderPosition, MY_ACTIVE_RIDES_HEADER_TAG);
 
         for (int rideCounter = 0; rideCounter < rides.size(); rideCounter++){
             if (rides.get(rideCounter).getClass() == RideForJson.class){

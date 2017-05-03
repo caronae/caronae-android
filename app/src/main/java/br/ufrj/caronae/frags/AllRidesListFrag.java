@@ -56,19 +56,13 @@ import static br.ufrj.caronae.frags.AllRidesFrag.showSnack;
 
 public class AllRidesListFrag extends Fragment implements Callback {
 
-    private int TOTAL_PAGES_COUNT = 5;
     @Bind(R.id.rvRides)
     RecyclerView rvRides;
-//    @Bind(R.id.norides_tv)
-//    TextView norides_tv;
     @Bind(R.id.swipeRefreshLayout)
     SwipeRefreshLayout refreshLayout;
     @Bind(R.id.all_rides_list_coordinator_layout)
     CoordinatorLayout coordinatorLayout;
-//    @Bind(R.id.list_all_rides_search_text)
-//    EditText searchText;
-//    @Bind(R.id.search_card_view)
-//    CardView searchCardView;
+
 
     private final int FIRST_PAGE_TO_LOAD = 0;
 
@@ -180,8 +174,6 @@ public class AllRidesListFrag extends Fragment implements Callback {
     @Override
     public void onResume() {
         super.onResume();
-//        refreshRideList(pageCounter);
-//        AllRidesFrag.prepareFloatingActionMenu(getContext());
     }
 
     void refreshRideList(final int pageNumber) {
@@ -236,7 +228,6 @@ public class AllRidesListFrag extends Fragment implements Callback {
                             List<RideForJson> rideOffers = data.getData();
 
                             if (rideOffers != null && !rideOffers.isEmpty()) {
-//                                Collections.sort(rideOffers, new RideOfferComparatorByDateAndTime());
 
                                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
                                 Date todayDate = new Date();
@@ -271,28 +262,14 @@ public class AllRidesListFrag extends Fragment implements Callback {
 
                             if (pageIdentifier == AllRidesFragmentPagerAdapter.PAGE_GOING) {
                                 if (goingRides == null || goingRides.isEmpty()) {
-//                                    norides_tv.setVisibility(View.VISIBLE);
                                 } else {
-//                                    norides_tv.setVisibility(View.INVISIBLE);
-//                                    if (filter == null) {
                                         adapter.makeList(goingRides);
-//                                    }
-//                                    else {
-//                                        adapter.makeList(filterList(goingRides, filter));
-//                                    }
                                     scrollListener.resetState();
                                 }
                             } else {
                                 if (notGoingRides == null || notGoingRides.isEmpty()) {
-//                                    norides_tv.setVisibility(View.VISIBLE);
                                 } else {
-//                                    norides_tv.setVisibility(View.INVISIBLE);
-//                                    if (filter == null) {
                                         adapter.makeList(notGoingRides);
-//                                    }
-//                                    else {
-//                                        adapter.makeList(filterList(notGoingRides, filter));
-//                                    }
                                     scrollListener.resetState();
                                 }
                             }
@@ -317,7 +294,6 @@ public class AllRidesListFrag extends Fragment implements Callback {
                             }
                         });
                         showSnack(snackbar1);
-//                        Util.toast(R.string.frag_allrides_errorGetRides);
                         refreshLayout.setRefreshing(false);
                         Log.e("listAllRides", t.getMessage());
                         scrollListener.resetState();
@@ -394,8 +370,6 @@ public class AllRidesListFrag extends Fragment implements Callback {
                 Util.toast("Nenhuma carona encontrada para esta busca");
             } else {
                 filter = (CharSequence) listFiltered.get(0);
-//                searchAdapter = new RideOfferAdapter(listFiltered, context, activity.getFragmentManager());
-//                searchAdapter.makeList(listFiltered);
                 adapter.makeList(filteredGoingList);
             }
         } else {
@@ -405,8 +379,6 @@ public class AllRidesListFrag extends Fragment implements Callback {
                 Util.toast("Nenhuma carona encontrada para esta busca");
             } else {
                 filter = (CharSequence) listFiltered.get(0);
-//                searchAdapter = new RideOfferAdapter(listFiltered, context, activity.getFragmentManager());
-//                searchAdapter.makeList(listFiltered);
                 adapter.makeList(filteredNotGoingList);
             }
         }

@@ -2,8 +2,6 @@ package br.ufrj.caronae.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -168,11 +166,6 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
             viewHolder.newMsgIndicator_iv.setColorFilter(colorChat);
             viewHolder.newMsgIndicator_iv.setVisibility(View.INVISIBLE);
         }
-
-//        int colorChat = ContextCompat.getColor(activity, R.color.black);
-//        viewHolder.newMsgIndicator_iv.setColorFilter(colorChat);
-//        viewHolder.newMsgIndicator_iv.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_color_wheel));
-//        viewHolder.newMsgIndicator_iv.setVisibility(View.VISIBLE);
     }
 
     public void remove(int rideId) {

@@ -1,6 +1,5 @@
 package br.ufrj.caronae.frags;
 
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -25,17 +24,14 @@ import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.MainAct;
-import br.ufrj.caronae.acts.RequestersListAct;
 import br.ufrj.caronae.adapters.MyActiveRidesAdapter;
 import br.ufrj.caronae.adapters.MyRidesAdapter;
 import br.ufrj.caronae.comparators.RideComparatorByDateAndTime;
 import br.ufrj.caronae.comparators.RideOfferComparatorByDateAndTime;
 import br.ufrj.caronae.firebase.FirebaseTopicsHandler;
 import br.ufrj.caronae.models.ActiveRide;
-import br.ufrj.caronae.models.NewChatMsgIndicator;
 import br.ufrj.caronae.models.Ride;
 import br.ufrj.caronae.models.RideRequestReceived;
-import br.ufrj.caronae.models.User;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -104,20 +100,6 @@ public class MyRidesListFrag extends Fragment {
 
             List<RideRequestReceived> rideRequestReceivedList = RideRequestReceived.listAll(RideRequestReceived.class);
 
-//            boolean checkIfRequested = false;
-//            for (int rideIndex = 0; rideIndex < rides.size(); rideIndex++){
-//                checkIfRequested  = true;
-//                for (int rideRequestIndex = 0; rideRequestIndex < rideRequestReceivedList.size(); rideRequestIndex++){
-//                    if (rides.get(rideIndex).getDbId() == rideRequestReceivedList.get(rideRequestIndex).getDbId()){
-//                        checkIfRequested = false;
-//                    }
-//                }
-//                if (checkIfRequested){
-//                    checkRequesters(rides.get(rideIndex).getDbId());
-//                }
-//            }
-
-
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
             Date todayDate = new Date();
 
@@ -154,34 +136,10 @@ public class MyRidesListFrag extends Fragment {
         }
     }
 
-//    private void checkRequesters(final int dbId) {
-//        App.getNetworkService(getActivity().getApplicationContext()).getRequesters(dbId + "")
-//                .enqueue(new Callback<List<User>>() {
-//                    @Override
-//                    public void onResponse(Call<List<User>> call, Response<List<User>> response) {
-//                        if (response.isSuccessful()) {
-//                            new RideRequestReceived(Integer.valueOf(dbId)).save();
-//                            updateAdapter();
-//                        } else {
-//                            Util.toast(R.string.errorGetRequesters);
-//                            Log.e("getRequesters", response.message());
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onFailure(Call<List<User>> call, Throwable t) {
-//                        Util.toast(R.string.errorGetRequesters);
-//                        Log.e("getRequesters", t.getMessage());
-//                    }
-//                });
-//    }
-
-
     private void getActiveRides() {
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-//                final ProgressDialog pd = ProgressDialog.show(getContext(), "", getActivity().getString(R.string.wait), true, true);
                 App.getNetworkService(getContext()).getMyActiveRides()
                         .enqueue(new Callback<List<RideForJson>>() {
                             @Override
@@ -197,7 +155,6 @@ public class MyRidesListFrag extends Fragment {
                                         myRidesList.setHasFixedSize(true);
                                         myRidesList.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-//                                        norides_tv.setVisibility(View.VISIBLE);
                                         new LoadRides().execute();
                                         return;
                                     }
@@ -216,12 +173,10 @@ public class MyRidesListFrag extends Fragment {
                                     Collections.sort(rideWithUsersList, new RideOfferComparatorByDateAndTime());
                                     addAllActiveRidesToList(rideWithUsersList);
 
-//                                    pd.dismiss();
                                     MyRidesFrag.hideProgressBar();
                                 } else {
                                     Util.treatResponseFromServer(response);
                                     MyRidesFrag.hideProgressBar();
-//                                    pd.dismiss();
 
                                     norides_tv.setVisibility(View.VISIBLE);
                                     Util.toast(R.string.frag_myactiverides_errorGetActiveRides);
@@ -233,7 +188,6 @@ public class MyRidesListFrag extends Fragment {
 
                             @Override
                             public void onFailure(Call<List<RideForJson>> call, Throwable t) {
-//                                pd.dismiss();
                                 MyRidesFrag.hideProgressBar();
                                 norides_tv.setVisibility(View.VISIBLE);
                                 Util.toast(R.string.frag_myactiverides_errorGetActiveRides);
@@ -254,14 +208,7 @@ public class MyRidesListFrag extends Fragment {
     }
 
     private void addAllActiveRidesToList(List<RideForJson> rideWithUsersList) {
-//        for (int allRidesIndex = 0; allRidesIndex < allRides.size(); allRidesIndex++) {
-//            if (allRides.get(allRidesIndex).getClass() == RideForJson.class) {
-//                allRides.remove(allRidesIndex);
-//            }
-//        }
-
         allRides = new ArrayList<>();
-//        allRides.addAll(rideWithUsersList);
 
 
         for (int ridesIndex = 0; ridesIndex < rideWithUsersList.size(); ridesIndex++) {
@@ -272,18 +219,11 @@ public class MyRidesListFrag extends Fragment {
     }
 
     private void addAllMyRidesToList(List<Ride> rides) {
-//        for (int allRidesIndex = 0; allRidesIndex < allRides.size(); allRidesIndex++) {
-//            if (allRides.get(allRidesIndex).getClass() == RideForJson.class) {
-//                allRides.remove(allRidesIndex);
-//            }
-//        }
 
         for (int ridesIndex = 0; ridesIndex < rides.size(); ridesIndex++) {
             if (rides.get(ridesIndex).isGoing() == going) {
                 allRides.add(rides.get(ridesIndex));
             }
         }
-
-//        allRides.addAll(rides);
     }
 }

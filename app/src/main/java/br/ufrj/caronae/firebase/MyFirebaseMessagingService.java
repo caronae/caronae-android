@@ -131,7 +131,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     } else
                         createNotification(msgType, senderName, message, rideId);
 
-//        startService(new Intent(getApplicationContext(), FetchReceivedMessagesService.class));
             }
         }
     }
@@ -141,7 +140,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Intent resultIntent;
         if (msgType.equals("chat")) {
             title = "Nova mensagem";
-//            message = senderName + ": " + message;
 
             List<ChatAssets> l = ChatAssets.find(ChatAssets.class, "ride_id = ?", rideId);
             if (l != null && !l.isEmpty()) {

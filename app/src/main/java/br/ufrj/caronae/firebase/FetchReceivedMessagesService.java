@@ -41,7 +41,6 @@ public class FetchReceivedMessagesService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        Log.v("onMessageReceived", "Entered Service");
         rideId = intent.getStringExtra("rideId");
         String since = intent.getStringExtra("since");
         App.getChatService(getApplicationContext()).requestChatMsgs(rideId, since)

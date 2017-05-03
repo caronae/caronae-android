@@ -1,7 +1,6 @@
 package br.ufrj.caronae.acts;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -35,8 +34,6 @@ import android.widget.TextView;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
@@ -47,8 +44,7 @@ import br.ufrj.caronae.R;
 import br.ufrj.caronae.RoundedTransformation;
 import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.Util;
-import br.ufrj.caronae.firebase.FirebaseUtils;
-import br.ufrj.caronae.firebase.RegistrationIntentService;
+import br.ufrj.caronae.firebase.FirebaseTopicsHandler;
 import br.ufrj.caronae.frags.AboutFrag;
 import br.ufrj.caronae.frags.AllRidesFrag;
 import br.ufrj.caronae.frags.FAQFrag;
@@ -62,7 +58,6 @@ import br.ufrj.caronae.frags.TabbedRideOfferFrag;
 import br.ufrj.caronae.frags.TermsOfUseFrag;
 import br.ufrj.caronae.models.User;
 import br.ufrj.caronae.models.modelsforjson.RideFiltersForJson;
-import retrofit2.http.HEAD;
 
 import static br.ufrj.caronae.acts.StartAct.MSG_TYPE_ALERT;
 import static br.ufrj.caronae.acts.StartAct.MSG_TYPE_ALERT_HEADER;
@@ -106,8 +101,8 @@ public class MainAct extends AppCompatActivity {
 
 
         //Subscripe to topics
-        FirebaseUtils.SubscribeToTopic("user-" + App.getUser().getDbId());
-        FirebaseUtils.SubscribeToTopic(SharedPref.TOPIC_GERAL);
+        FirebaseTopicsHandler.subscribeFirebaseTopic("user-" + App.getUser().getDbId());
+        FirebaseTopicsHandler.subscribeFirebaseTopic(SharedPref.TOPIC_GERAL);
 
         versionText = (TextView) findViewById(R.id.text_version);
         versionText.setText("Caronae " + Util.getAppVersionName(this));
@@ -196,8 +191,6 @@ public class MainAct extends AppCompatActivity {
         setupDrawerContent(nvDrawer);
         getHeaderView(nvDrawer);
 
-        checkGPlay();
-
         backstack = new ArrayList<>();
 
     }
@@ -236,24 +229,6 @@ public class MainAct extends AppCompatActivity {
             if (SharedPref.FRAGMENT_INDICATOR.equals(MyRidesFrag.class.getName()))
                 SharedPref.FRAGMENT_INDICATOR = "";
                 showActiveRidesFrag();
-        }
-    }
-
-    private void checkGPlay() {
-        int resultGplay = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(this);
-
-        if (resultGplay != ConnectionResult.SUCCESS) {
-            Dialog dialog = GoogleApiAvailability.getInstance().getErrorDialog(this, resultGplay, MainAct.GPLAY_UNAVAILABLE);
-            if (dialog != null) {
-                dialog.show();
-            } else {
-                Util.toast(R.string.gplay_unavailable);
-            }
-        } else {
-            if (SharedPref.getUserGcmToken().equals(SharedPref.MISSING_PREF)) {
-                Intent intent = new Intent(this, RegistrationIntentService.class);
-                startService(intent);
-            }
         }
     }
 
@@ -642,7 +617,6 @@ public class MainAct extends AppCompatActivity {
     }
 
     public void hideFilterCard(final Context context){
-//        filterCard.setVisibility(View.GONE);
                 Animation animation = AnimationUtils.loadAnimation(context, R.anim.anim_fade_out);
                 animation.setAnimationListener(new Animation.AnimationListener() {
                     @Override

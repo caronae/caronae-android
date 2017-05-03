@@ -19,7 +19,7 @@
           "client_type": 3
         }
       ],
-      "api_key": [ { "current_key": "AIzaSyApLZKt5uG2GjQtfiAN5n2kFYjvapJag-g" } ],
+      "api_key": [ { "current_key": " --PUT YOUR GOOGLE API KEY HERE--" } ],
       "services": {
         "analytics_service": {
           "status": 1

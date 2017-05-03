@@ -64,12 +64,6 @@ public class ChatAct extends AppCompatActivity {
     EditText msg_et;
     @Bind(R.id.chat_header_text)
     TextView headerText;
-//    @Bind(R.id.neighborhood_tv)
-//    TextView neighborhood_tv;
-//    @Bind(R.id.date_tv)
-//    TextView date_tv;
-//    @Bind(R.id.time_tv)
-//    TextView time_tv;
     @Bind(R.id.lay1)
     RelativeLayout lay1;
     @Bind(R.id.card_loading_menssages_sign)
@@ -89,9 +83,6 @@ public class ChatAct extends AppCompatActivity {
 
     Animation translate;
 
-//    ReceiveBroadcastNewMessagesNull myReceiver = null;
-//    Boolean myReceiverIsRegistered = false;
-
     private final String BROADCAST_NEW_MESSAGES_NULL = "messagesNull";
     private final String RIDE_ID_BUNDLE_KEY = "rideId";
 
@@ -108,13 +99,6 @@ public class ChatAct extends AppCompatActivity {
         App.getBus().register(this);
 
         SharedPref.setChatActIsForeground(true);
-
-//        myReceiver = new ReceiveBroadcastNewMessagesNull();
-//
-//        if (!myReceiverIsRegistered) {
-//            registerReceiver(myReceiver, new IntentFilter("br.ufrj.caronae.acts.ChatAct.BROADCAST_NEW_MESSAGES_NULL"));
-//            myReceiverIsRegistered = true;
-//        }
 
         final ActionBar ab = getSupportActionBar();
         if (ab != null) {
@@ -367,11 +351,6 @@ public class ChatAct extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-//        if (!myReceiverIsRegistered) {
-//            registerReceiver(myReceiver, new IntentFilter("br.ufrj.caronae.acts.ChatAct.BROADCAST_NEW_MESSAGES_NULL"));
-//            myReceiverIsRegistered = true;
-//        }
-
         SharedPref.setChatActIsForeground(true);
 
         updateMsgsListWithServer(rideId);
@@ -382,11 +361,6 @@ public class ChatAct extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-
-//        if (myReceiverIsRegistered) {
-//            unregisterReceiver(myReceiver);
-//            myReceiverIsRegistered = false;
-//        }
         SharedPref.setChatActIsForeground(false);
     }
 
@@ -458,10 +432,6 @@ public class ChatAct extends AppCompatActivity {
                                             location = ride[0].getNeighborhood() + " -> " + ride[0].getHub();
                                         else
                                             location = ride[0].getHub() + " -> " + ride[0].getNeighborhood();
-//                                        if (ride[0].isGoing())
-//                                            location = ride[0].getNeighborhood() + " ? " + ride[0].getHub();
-//                                        else
-//                                            location = ride[0].getHub() + " ? " + ride[0].getNeighborhood();
                                         ChatAssets chatAssets = new ChatAssets(rideId, location,
                                                 Util.getColorbyZone(ride[0].getZone()),
                                                 Util.getBgResByZone(ride[0].getZone()),

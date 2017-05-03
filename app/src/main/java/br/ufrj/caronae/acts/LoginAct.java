@@ -1,14 +1,11 @@
 package br.ufrj.caronae.acts;
 
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.inputmethod.EditorInfo;
@@ -54,34 +51,6 @@ public class LoginAct extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
-
-        /*** Did that to avoid keyboard overlap EditText when clicked 2 times bug
-//        token_et.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                String actualText = token_et.getText().toString();
-//                if (actualText.equals("")) {
-//                    token_et.setPadding(Util.convertDpToPixel(26)
-//                            , token_et.getPaddingTop(), token_et.getPaddingRight(), token_et.getPaddingBottom());
-//                }
-//                else {
-//                    token_et.setPadding(Util.convertDpToPixel(56)
-//                            , token_et.getPaddingTop(), token_et.getPaddingRight(), token_et.getPaddingBottom());
-//                }
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//
-//            }
-//        });
-
-         ***/
 
         token_et.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override

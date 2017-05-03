@@ -119,14 +119,6 @@ public class SharedPref {
         putPref(TOKEN_PREF_KEY, token.toUpperCase());
     }
 
-    public static String getUserGcmToken() {
-        return getPref(GCM_TOKEN_PREF_KEY);
-    }
-
-    public static void saveUserGcmToken(String token) {
-        putPref(GCM_TOKEN_PREF_KEY, token);
-    }
-
     public static void saveDrawerPic(String profilePicUrl) {
         putPref(DRAWER_PIC_PREF, profilePicUrl);
     }

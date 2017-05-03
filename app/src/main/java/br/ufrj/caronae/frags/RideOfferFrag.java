@@ -38,7 +38,7 @@ import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.Util;
-import br.ufrj.caronae.firebase.FirebaseUtils;
+import br.ufrj.caronae.firebase.FirebaseTopicsHandler;
 import br.ufrj.caronae.models.ChatAssets;
 import br.ufrj.caronae.models.Ride;
 import butterknife.Bind;
@@ -469,7 +469,7 @@ public class RideOfferFrag extends Fragment {
                             for (Ride ride : rides) {
                                 Ride ride2 = new Ride(ride);
                                 ride2.setDbId(ride.getId().intValue());
-                                FirebaseUtils.SubscribeToTopic(String.valueOf(ride.getId().intValue()));
+                                FirebaseTopicsHandler.subscribeFirebaseTopic(String.valueOf(ride.getId().intValue()));
                                 ride2.save();
                                 createChatAssets(ride2);
                             }

@@ -3,7 +3,6 @@ package br.ufrj.caronae.frags;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
@@ -39,7 +38,6 @@ import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.Util;
-import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.adapters.RideOfferAdapter;
 import br.ufrj.caronae.comparators.RideOfferComparatorByDateAndTime;
 import br.ufrj.caronae.models.RideRequestSent;
@@ -67,8 +65,6 @@ public class RideSearchFrag extends Fragment {
     RelativeLayout lay;
     @Bind(R.id.anotherSearch_bt)
     Button anotherSearch_bt;
-//    @Bind(R.id.fab)
-//    FloatingActionButton fab;
 
     @Bind(R.id.rvRides)
     RecyclerView rvRides;
@@ -353,11 +349,6 @@ public class RideSearchFrag extends Fragment {
         builder.show();
     }
 
-//    @OnClick(R.id.fab)
-//    public void fab() {
-//        ((MainAct) getActivity()).showRideOfferFrag();
-//    }
-
     @OnClick(R.id.anotherSearch_bt)
     public void anotherSearchBt() {
         Util.expandOrCollapse(lay, true);
@@ -378,7 +369,6 @@ public class RideSearchFrag extends Fragment {
         }
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
-//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM0dd", Locale.US);
 
         String etDateString = date_et.getText().toString();
         Date todayDate = new Date();

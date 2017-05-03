@@ -7,19 +7,14 @@ import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.GestureDetector;
-import android.view.Gravity;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
-import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -27,7 +22,6 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.rey.material.app.SimpleDialog;
 import com.rey.material.widget.Button;
-import com.rey.material.widget.FrameLayout;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -82,8 +76,6 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
     CardView description_text_frame;
     @Bind(R.id.requested_dt)
     public TextView requested_dt;
-//    @Bind(R.id.header_line)
-//    ImageView header_line;
     @Bind(R.id.scrollView)
     ScrollView scrollView;
 
@@ -192,12 +184,10 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
         }
 
         if (isDriver) {
-//            join_bt.setVisibility(View.INVISIBLE);
             join_bt.setVisibility(View.GONE);
 
         } else {
             if (requested) {
-//                join_bt.setVisibility(View.INVISIBLE);
                 join_bt.setVisibility(View.GONE);
                 requested_dt.setVisibility(View.VISIBLE);
 
@@ -233,11 +223,6 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
 
                                                     createChatAssets(rideWithUsers);
 
-//                                                    join_bt.setVisibility(View.INVISIBLE);
-
-//                                                    join_bt_frame.setVisibility(View.INVISIBLE);
-//                                                    requested_dt.setVisibility(View.VISIBLE);
-
                                                     join_bt.startAnimation(getAnimationForSendButton());
 
                                                     requested_dt.startAnimation(getAnimationForResquestedText());
@@ -245,12 +230,10 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
                                                     App.getBus().post(rideRequest);
 
                                                     pd.dismiss();
-//                                                    Util.toast(R.string.requestSent);
                                                     Util.snack(coordinatorLayout, getResources().getString(R.string.requestSent));
                                                 } else {
                                                     Util.treatResponseFromServer(response);
                                                     pd.dismiss();
-//                                                    Util.toast(R.string.errorRequestSent);
                                                     Util.snack(coordinatorLayout, getResources().getString(R.string.errorRequestSent));
                                                     Log.e("requestJoin", response.message());
                                                 }
@@ -259,7 +242,6 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
                                             @Override
                                             public void onFailure(Call<ResponseBody> call, Throwable t) {
                                                 pd.dismiss();
-//                                                Util.toast(R.string.errorRequestSent);
                                                 Util.snack(coordinatorLayout, getResources().getString(R.string.requestSent));
                                                 Log.e("requestJoin", t.getMessage());
                                             }
