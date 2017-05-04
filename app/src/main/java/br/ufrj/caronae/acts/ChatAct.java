@@ -2,6 +2,7 @@ package br.ufrj.caronae.acts;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -36,7 +37,6 @@ import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.adapters.ChatMsgsAdapter;
 import br.ufrj.caronae.comparators.ChatMsgComparator;
-import br.ufrj.caronae.firebase.BroadcastReceiver;
 import br.ufrj.caronae.firebase.FetchReceivedMessagesService;
 import br.ufrj.caronae.models.ChatAssets;
 import br.ufrj.caronae.models.ChatMessageReceived;

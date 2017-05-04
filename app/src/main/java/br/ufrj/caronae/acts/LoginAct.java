@@ -25,7 +25,6 @@ import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.models.Ride;
 import br.ufrj.caronae.models.modelsforjson.LoginForJson;
-import br.ufrj.caronae.models.modelsforjson.TokenForJson;
 import br.ufrj.caronae.models.modelsforjson.UserWithRidesForJson;
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -94,28 +93,6 @@ public class LoginAct extends AppCompatActivity {
                         if (ASYNC_IS_RUNNING == false) {
                             ASYNC_IS_RUNNING = true;
                             new SaveRidesAsync(userWithRides).execute();
-                        }
-
-                        String gcmToken = SharedPref.getUserGcmToken();
-                        if (!gcmToken.equals(SharedPref.MISSING_PREF)) {
-                            Call<ResponseBody> saveGcmtokenCall = App.getNetworkService(getApplicationContext()).saveGcmToken(new TokenForJson(gcmToken));
-                            saveGcmtokenCall.enqueue(new Callback<ResponseBody>() {
-                                @Override
-                                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                    if (response.isSuccessful()) {
-                                        Log.i("saveGcmToken", "gcm token sent to server");
-                                    } else {
-                                        Log.e("saveGcmToken", "Code: " + response.code() +
-                                                "Message: " +
-                                                response.message() == null ? "Null" : response.message());
-                                    }
-                                }
-
-                                @Override
-                                public void onFailure(Call<ResponseBody> call, Throwable t) {
-                                    Log.e("saveGcmToken", "Failure");
-                                }
-                            });
                         }
                         startActivity(new Intent(LoginAct.this, MainAct.class));
                         LoginAct.this.finish();
