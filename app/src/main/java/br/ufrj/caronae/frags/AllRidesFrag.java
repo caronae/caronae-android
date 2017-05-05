@@ -173,9 +173,11 @@ public class AllRidesFrag extends Fragment {
                                         else {
                                             rideOffer.setDbId(rideOffer.getId().intValue());
                                             if (rideOffer.isGoing())
-                                                goingRides.add(rideOffer);
+                                                if (!checkIfRideIsInList(goingRides, rideOffer))
+                                                    goingRides.add(rideOffer);
                                             else
-                                                notGoingRides.add(rideOffer);
+                                                if (!checkIfRideIsInList(notGoingRides, rideOffer))
+                                                    notGoingRides.add(rideOffer);
                                         }
                                     }
                                 }
@@ -285,5 +287,21 @@ public class AllRidesFrag extends Fragment {
     public static Snackbar makeNoConexionSnack() {
         Snackbar snackbar = Snackbar.make(coordinatorLayout, coordinatorLayout.getResources().getString(R.string.no_conexion), Snackbar.LENGTH_INDEFINITE);
         return snackbar;
+    }
+
+    private boolean checkIfRideIsInList(ArrayList<RideForJson> list, RideForJson ride) {
+        boolean contains = false;
+        for (int counter = 0; counter < list.size(); counter++) {
+            if (list.get(counter).getDbId() == ride.getDbId()) {
+                contains = true;
+            }
+            if (!contains
+                    && (list.get(counter).getDriver().getDbId() == (ride.getDriver().getDbId()))
+                    && (list.get(counter).getDate().equals(ride.getDate()))
+                    && (list.get(counter).getTime().equals(ride.getTime()))){
+                contains = true;
+            }
+        }
+        return contains;
     }
 }
