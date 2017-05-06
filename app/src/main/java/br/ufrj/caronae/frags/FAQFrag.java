@@ -29,6 +29,8 @@ public class FAQFrag extends Fragment {
         View view = inflater.inflate(R.layout.fragment_faq, container, false);
         ButterKnife.bind(this, view);
 
+        webView.getSettings().setJavaScriptEnabled(true);
+
         webView.setWebViewClient(new WebViewClient());
         webView.loadUrl(App.getHost() + "static_pages/faq.html");
 
