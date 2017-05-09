@@ -24,27 +24,4 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:visibility="gone" />
 
-    <!--<FrameLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:background="@drawable/transparency_gradient_botton_top"-->
-        <!--android:paddingTop="32dp"-->
-        <!--android:layout_alignParentBottom="true"-->
-        <!--android:layout_centerHorizontal="true">-->
-
-        <!--<com.rey.material.widget.Button-->
-            <!--android:id="@+id/deleteAll_bt"-->
-            <!--style="@style/LightRaiseColorButtonRippleStyle"-->
-            <!--android:layout_width="120dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_gravity="center"-->
-            <!--android:gravity="center"-->
-            <!--android:layout_marginBottom="16dp"-->
-            <!--android:background="@drawable/bg_bt_raise_fab_red"-->
-            <!--android:text="@string/frag_myrides_deleteAllBt"-->
-            <!--android:textColor="@color/white"-->
-            <!--android:visibility="invisible"-->
-            <!--app:rd_enable="true" />-->
-    <!--</FrameLayout>-->
-
 </RelativeLayout>

@@ -5,6 +5,7 @@ import java.util.List;
 import br.ufrj.caronae.models.ChatMessageSendResponse;
 import br.ufrj.caronae.models.ModelReceivedFromChat;
 import br.ufrj.caronae.models.Ride;
+import br.ufrj.caronae.models.RideRountine;
 import br.ufrj.caronae.models.User;
 import br.ufrj.caronae.models.modelsforjson.ChatSendMessageForJson;
 import br.ufrj.caronae.models.modelsforjson.FacebookFriendForJson;
@@ -68,7 +69,7 @@ public interface NetworkService {
     Call<UrlForJson> getIntranetPhotoUrl();
 
     @POST("ride")
-    Call<List<Ride>> offerRide(@Header("Header") String header, @Body Ride ride);
+    Call<List<RideRountine>> offerRide(@Header("Header") String header, @Body Ride ride);
 
     @DELETE("ride/{rideId}")
     Call<ResponseBody> deleteRide(@Path("rideId") String rideId);

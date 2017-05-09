@@ -65,6 +65,29 @@ public class Ride extends SugarRecord{
         routineId = ride.getRoutineId();
     }
 
+    public Ride(RideRountine ride) {
+        zone = ride.getZone();
+        neighborhood = ride.getNeighborhood();
+        place = ride.getPlace();
+        route = ride.getRoute();
+        date = Util.formatBadDateWithYear(ride.getDate());
+        time = ride.getTime();
+        slots = ride.getSlots();
+        hub = ride.getHub();
+        description = ride.getDescription();
+        going = ride.isGoing();
+        weekDays = ride.getWeekDays();
+        routine = weekDays != null && !weekDays.isEmpty();
+        if (ride.getRepeatsUntil() == null) {
+            repeatsUntil = "null";
+        } else {
+            repeatsUntil = ride.getRepeatsUntil().getDate();
+        }
+        dbId = ride.getDbId();
+        setId(new Long(ride.getDbId()));
+        routineId = ride.getRoutineId();
+    }
+
     public String getZone() {
         return zone;
     }

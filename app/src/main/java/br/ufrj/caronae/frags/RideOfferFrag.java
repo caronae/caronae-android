@@ -29,6 +29,7 @@ import com.rey.material.widget.Spinner;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -41,6 +42,7 @@ import br.ufrj.caronae.Util;
 import br.ufrj.caronae.firebase.FirebaseTopicsHandler;
 import br.ufrj.caronae.models.ChatAssets;
 import br.ufrj.caronae.models.Ride;
+import br.ufrj.caronae.models.RideRountine;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -49,6 +51,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class RideOfferFrag extends Fragment {
+
+    private final String ERROR_MESSAGE = "java.lang.IllegalStateException: Expected a string but was BEGIN_OBJECT at line 1 column 177 path $[0].repeats_until";
 
     @Bind(R.id.radioGroup2)
     RadioGroup radioGroup2;
@@ -459,12 +463,17 @@ public class RideOfferFrag extends Fragment {
 
         final ProgressDialog pd = ProgressDialog.show(getContext(), "", getString(R.string.wait), true, true);
         App.getNetworkService(getContext()).offerRide(Util.getHeaderForHttp(getContext()), ride)
-                .enqueue(new Callback<List<Ride>>() {
+                .enqueue(new Callback<List<RideRountine>>() {
                     @Override
-                    public void onResponse(Call<List<Ride>> call, Response<List<Ride>> response) {
+                    public void onResponse(Call<List<RideRountine>> call, Response<List<RideRountine>> response) {
                         if (response.isSuccessful()) {
 
-                            List<Ride> rides = response.body();
+//                            List<Ride> rides = response.body();
+                            List<RideRountine> rideRountines = response.body();
+                            List<Ride> rides = new ArrayList<Ride>();
+                            for (RideRountine rideRountine : rideRountines){
+                                rides.add(new Ride(rideRountine));
+                            }
 
                             for (Ride ride : rides) {
                                 Ride ride2 = new Ride(ride);
@@ -488,10 +497,14 @@ public class RideOfferFrag extends Fragment {
                     }
 
                     @Override
-                    public void onFailure(Call<List<Ride>> call, Throwable t) {
+                    public void onFailure(Call<List<RideRountine>> call, Throwable t) {
                         pd.dismiss();
-                        Util.toast(R.string.frag_rideOffer_errorRideSaved);
-                        Log.e("offerRide", t.getMessage());
+                        if (t.getMessage().equals(ERROR_MESSAGE)){
+                            Util.toast(R.string.frag_rideOffer_ridesCreated);
+                        } else {
+                            Util.toast(R.string.frag_rideOffer_errorRideSaved);
+                            Log.e("offerRide", t.getMessage());
+                        }
                     }
                 });
     }

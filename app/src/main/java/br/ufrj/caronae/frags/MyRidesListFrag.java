@@ -22,7 +22,6 @@ import java.util.Locale;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
-import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.adapters.MyActiveRidesAdapter;
@@ -32,9 +31,7 @@ import br.ufrj.caronae.comparators.RideOfferComparatorByDateAndTime;
 import br.ufrj.caronae.firebase.FirebaseTopicsHandler;
 import br.ufrj.caronae.models.ActiveRide;
 import br.ufrj.caronae.models.Ride;
-import br.ufrj.caronae.models.modelsforjson.LoginForJson;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
-import br.ufrj.caronae.models.modelsforjson.UserWithRidesForJson;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import retrofit2.Call;
@@ -134,37 +131,6 @@ public class MyRidesListFrag extends Fragment {
         }
     }
 
-    public void loadMyOfferRides() {
-        App.getNetworkService(App.inst()).login(new LoginForJson(SharedPref.getUserToken(), SharedPref.getUserIdUfrj())).enqueue(new Callback<UserWithRidesForJson>() {
-            @Override
-            public void onResponse(Call<UserWithRidesForJson> call, Response<UserWithRidesForJson> response) {
-                if (response.isSuccessful()) {
-                    UserWithRidesForJson userWithRides = response.body();
-                    if (!(userWithRides.getRides() == null)) {
-
-                        Ride.deleteAll(Ride.class);
-
-                        for (Ride ride : userWithRides.getRides()) {
-                            ride.setTime(Util.formatTime(ride.getTime()));
-                            String format = new SimpleDateFormat("yyyy-MM-dd", Locale.US).format(new Date());
-                            int c = ride.getDate().compareTo(format);
-                            if (c >= 0)
-                                if (Ride.findById(Ride.class, ride.getDbId()) == null) {
-                                    new Ride(ride).save();
-                                }
-                        }
-                    }
-                    new LoadRides().execute();
-                } else
-                    new LoadRides().execute();
-            }
-
-            @Override
-            public void onFailure(Call<UserWithRidesForJson> call, Throwable t) {
-                new LoadRides().execute();
-            }
-        });
-    }
 
     private void getActiveRides() {
         getActivity().runOnUiThread(new Runnable() {
@@ -185,8 +151,7 @@ public class MyRidesListFrag extends Fragment {
                                         myRidesList.setHasFixedSize(true);
                                         myRidesList.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-                                        loadMyOfferRides();
-//                                        new LoadRides().execute();
+                                        new LoadRides().execute();
                                         return;
                                     }
 
@@ -214,8 +179,7 @@ public class MyRidesListFrag extends Fragment {
 
                                     Log.e("getMyActiveRides", response.message());
                                 }
-//                                new LoadRides().execute();
-                                loadMyOfferRides();
+                                new LoadRides().execute();
                             }
 
                             @Override
@@ -224,8 +188,7 @@ public class MyRidesListFrag extends Fragment {
                                 norides_tv.setVisibility(View.VISIBLE);
                                 Util.toast(R.string.frag_myactiverides_errorGetActiveRides);
 
-//                                new LoadRides().execute();
-                                loadMyOfferRides();
+                                new LoadRides().execute();
                                 Log.e("getMyActiveRides", t.getMessage());
                             }
                         });
