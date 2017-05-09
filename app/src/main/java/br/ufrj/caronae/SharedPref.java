@@ -16,7 +16,7 @@ public class SharedPref {
     private static final String LAST_RIDE_FILTERS_PREF_KEY           = "lastRideFilters";
     public static final String RIDE_FILTER_PREF_KEY                 = "filter";
     private static final String TOKEN_PREF_KEY                       = "token";
-    private static final String GCM_TOKEN_PREF_KEY                   = "gcmToken";
+    private static final String IDUFRJ_PREF_KEY                       = "idUfrj";
     private static final String NOTIFICATIONS_ON_PREF_KEY            = "notifOn";
     private static final String DRAWER_PIC_PREF                      = "drawerPic";
     private static final String RM_RIDE_LIST                         = "removeRideFromList";
@@ -115,8 +115,16 @@ public class SharedPref {
         return getPref(TOKEN_PREF_KEY);
     }
 
+    public static String getUserIdUfrj() {
+        return getPref(IDUFRJ_PREF_KEY);
+    }
+
     public static void saveUserToken(String token) {
         putPref(TOKEN_PREF_KEY, token.toUpperCase());
+    }
+
+    public static void saveUserIdUfrj(String idUfrj) {
+        putPref(IDUFRJ_PREF_KEY, idUfrj);
     }
 
     public static void saveDrawerPic(String profilePicUrl) {

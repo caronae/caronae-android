@@ -73,7 +73,7 @@ public class LoginAct extends AppCompatActivity {
         final String idUfrj = idUfrj_et.getText().toString();
         final String token = Util.fixBlankSpace(tokenHolder).toUpperCase();
 
-            Call<UserWithRidesForJson> loginCall = App.getNetworkService(getApplicationContext()).login(new LoginForJson(token.toUpperCase(), idUfrj));
+            Call<UserWithRidesForJson> loginCall = App.getNetworkService(getApplicationContext()).login(new LoginForJson(token, idUfrj));
             loginCall.enqueue(new Callback<UserWithRidesForJson>() {
                 @Override
                 public void onResponse(Call<UserWithRidesForJson> call, Response<UserWithRidesForJson> response) {
@@ -88,6 +88,7 @@ public class LoginAct extends AppCompatActivity {
 
                         SharedPref.saveUser(userWithRides.getUser());
                         SharedPref.saveUserToken(token);
+                        SharedPref.saveUserIdUfrj(idUfrj);
                         SharedPref.saveNotifPref("true");
 
                         if (ASYNC_IS_RUNNING == false) {
