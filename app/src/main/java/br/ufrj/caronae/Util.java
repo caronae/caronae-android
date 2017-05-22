@@ -360,8 +360,8 @@ public class Util {
         }
     }
 
-    public static String fixBlankSpace(String word) {
-        return word.replace(" ", "");
+    public static String fixBlankSpaces(String word) {
+        return word.replace(" ", "").trim();
     }
 
     public static int convertDpToPixel(int dp) {
