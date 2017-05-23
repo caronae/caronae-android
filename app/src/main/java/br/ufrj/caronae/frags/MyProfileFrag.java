@@ -3,6 +3,7 @@ package br.ufrj.caronae.frags;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
@@ -91,6 +92,11 @@ public class MyProfileFrag extends Fragment {
 
     public MyProfileFrag() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 
     @Override
@@ -337,16 +343,17 @@ public class MyProfileFrag extends Fragment {
                     Profile profile = Profile.getCurrentProfile();
                     if (profile != null) {
                         String faceId = profile.getId();
-                        String profilePicUrl = "http://graph.facebook.com/" + faceId + "/picture?type=large";
-                        if (user.getProfilePicUrl() == null || !user.getProfilePicUrl().equals(profilePicUrl)) {
+                        String profilePicUrl = "https://graph.facebook.com/" + faceId + "/picture?type=large";
+//                        if (user.getProfilePicUrl() == null || !user.getProfilePicUrl().equals(profilePicUrl)) {
                             user.setProfilePicUrl(profilePicUrl);
+
                             Picasso.with(getContext()).load(profilePicUrl)
-                                    .error(R.drawable.user_pic)
+                                    .error(R.drawable.auth_bg)
                                     .transform(new RoundedTransformation())
                                     .into(user_pic);
 
                             saveProfilePicUrl(profilePicUrl);
-                        }
+//                        }
                     } else {
                         Util.toast(R.string.frag_myprofile_facePickChoiceNotOnFace);
                     }
