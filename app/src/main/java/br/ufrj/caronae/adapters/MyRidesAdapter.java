@@ -181,10 +181,10 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
         holder.location_tv.setTextColor(color);
 
         if (ride.isGoing())
-            holder.time_tv.setText(activity.getString(R.string.arrivingAt, ride.getTime()));
+            holder.time_tv.setText(activity.getString(R.string.arrivingAt, Util.formatBadHour(ride.getTime())));
         else
-            holder.time_tv.setText(activity.getString(R.string.leavingAt, ride.getTime()));
-        holder.date_tv.setText(Util.formatGoodDateWithoutYear(ride.getDate()));
+            holder.time_tv.setText(activity.getString(R.string.leavingAt, Util.formatBadHour(ride.getTime())));
+        holder.date_tv.setText(Util.formatBadDateWithoutYear(ride.getDate()));
         holder.slots_tv.setText(activity.getString(R.string.Xslots, ride.getSlots(), (Integer.parseInt(ride.getSlots()) > 1 ? "s" : "")));
         String location;
         if (ride.isGoing())

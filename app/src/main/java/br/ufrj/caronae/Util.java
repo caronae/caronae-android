@@ -29,7 +29,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
-import java.util.concurrent.TimeUnit;
 
 import retrofit2.Response;
 
@@ -258,6 +257,10 @@ public class Util {
         return formattedTime;
     }
 
+    public static String formatBadHour(String hour){
+        return hour.substring(0, hour.length() - 3);
+    }
+
     public static String formatGoodDateWithoutYear(String date) {
         String formattedTime = "";
         try {
@@ -346,19 +349,6 @@ public class Util {
         return dayOfWeek;
     }
 
-    // Input Date Format: "YYYY-MM-DD"
-    public static int getDaysBetweenTwoDates(String date1String, String date2String) {
-        try {
-            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
-            Date date1 = format.parse(date1String);
-            Date date2 = format.parse(date2String);
-            long diff = date2.getTime() - date1.getTime();
-            return (int) TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
-        } catch (ParseException e) {
-            e.printStackTrace();
-            return 0;
-        }
-    }
 
     public static String fixBlankSpaces(String word) {
         return word.replace(" ", "").trim();

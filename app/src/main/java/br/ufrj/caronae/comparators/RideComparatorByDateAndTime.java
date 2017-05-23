@@ -11,7 +11,8 @@ public class RideComparatorByDateAndTime implements java.util.Comparator<Ride> {
 
     @Override
     public int compare(Ride r1, Ride r2) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.US);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.US);
+
         int c = 0;
         try {
             Date etDate = simpleDateFormat.parse(r1.getDate() + " " + r1.getTime());
