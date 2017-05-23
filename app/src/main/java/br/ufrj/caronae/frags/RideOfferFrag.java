@@ -39,6 +39,7 @@ import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.Util;
+import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.firebase.FirebaseTopicsHandler;
 import br.ufrj.caronae.models.ChatAssets;
 import br.ufrj.caronae.models.Ride;
@@ -483,6 +484,8 @@ public class RideOfferFrag extends Fragment {
                                 createChatAssets(ride2);
                             }
                             pd.dismiss();
+                            ((MainAct)getActivity()).removeFromBackstack(RideOfferFrag.class);
+                            ((MainAct)getActivity()).showActiveRidesFrag();
                             Util.toast(R.string.frag_rideOffer_rideSaved);
                         } else {
                             Util.treatResponseFromServer(response);

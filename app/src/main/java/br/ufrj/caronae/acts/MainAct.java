@@ -531,6 +531,10 @@ public class MainAct extends AppCompatActivity {
         mDrawer.closeDrawers();
     }
 
+    public void removeFromBackstack(Object o){
+        backstack.remove(o.getClass());
+    }
+
     private void configureDissmissFilterButton(){
         dissmissFilter.setOnClickListener(new View.OnClickListener() {
             @Override
