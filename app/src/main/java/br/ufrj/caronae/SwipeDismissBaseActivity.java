@@ -27,16 +27,18 @@ public abstract class SwipeDismissBaseActivity extends AppCompatActivity {
 
             // Check movement along the Y-axis. If it exceeds SWIPE_MAX_OFF_PATH,
             // then dismiss the swipe.
-            if (Math.abs(e1.getY() - e2.getY()) > SWIPE_MAX_OFF_PATH)
-                return false;
+            if (e1 != null && e2 != null) {
+                if (Math.abs(e1.getY() - e2.getY()) > SWIPE_MAX_OFF_PATH)
+                    return false;
 
-            // Swipe from left to right.
-            // The swipe needs to exceed a certain distance (SWIPE_MIN_DISTANCE)
-            // and a certain velocity (SWIPE_THRESHOLD_VELOCITY).
-            if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-                finish();
-                overridePendingTransition(R.anim.anim_left_slide_in, R.anim.anim_right_slide_out);
-                return true;
+                // Swipe from left to right.
+                // The swipe needs to exceed a certain distance (SWIPE_MIN_DISTANCE)
+                // and a certain velocity (SWIPE_THRESHOLD_VELOCITY).
+                if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
+                    finish();
+                    overridePendingTransition(R.anim.anim_left_slide_in, R.anim.anim_right_slide_out);
+                    return true;
+                }
             }
 
             return false;
