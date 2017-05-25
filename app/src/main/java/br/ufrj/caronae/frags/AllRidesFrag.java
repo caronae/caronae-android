@@ -8,16 +8,12 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.CardView;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
-import android.widget.EditText;
 import android.widget.ProgressBar;
 
 import com.github.clans.fab.FloatingActionMenu;
@@ -64,10 +60,6 @@ public class AllRidesFrag extends Fragment {
     com.github.clans.fab.FloatingActionButton fab_add_ride;
     @Bind(R.id.fab_active_rides)
     com.github.clans.fab.FloatingActionButton fab_active_rides;
-    @Bind(R.id.list_all_rides_search_text)
-    EditText searchText;
-    @Bind(R.id.search_card_view)
-    CardView searchCardView;
 
 
     static CoordinatorLayout coordinatorLayout;
@@ -93,35 +85,6 @@ public class AllRidesFrag extends Fragment {
         listAllRides(1);
 
         fab_menu = (FloatingActionMenu) view.findViewById(R.id.fab_menu);
-
-        searchText.addTextChangedListener(new TextWatcher() {
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                ArrayList<RideForJson> listFiltered = new ArrayList<RideForJson>();
-
-//                    String[] filters = Util.searchAlgorithin(s.toString(), Util.getAllNeighborhoods());
-//
-//                    List<RideForJson> listFiltered = makeSearchOnline(filters[0], filters[1], filters[2], filters[3], isGoing, filters[0]);
-                listFiltered.addAll(goingRides);
-                listFiltered.addAll(notGoingRides);
-                listFiltered = filterList(listFiltered, s);
-                ArrayList<Object> filteredListWithFilter = new ArrayList<Object>();
-                filteredListWithFilter.add(s);
-                filteredListWithFilter.addAll(listFiltered);
-                Log.e("FILTRO", "pediu atualizar adapter");
-                App.getBus().post(filteredListWithFilter);
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
 
         return view;
     }

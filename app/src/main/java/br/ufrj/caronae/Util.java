@@ -366,11 +366,12 @@ public class Util {
             e.printStackTrace();
         }
 
-//        return "Caronae/" + pInfo.versionCode + "(Android; " + Build.VERSION.CODENAME + ";";
+        String brand = Build.BRAND;
+        brand = brand.substring(0,1).toUpperCase() + brand.substring(1, brand.length());
         return "Caronae/"
                 + Util.getAppVersionName(context)
-                + "("
-                + Build.BRAND
+                + " ("
+                + brand
                 + ": "
                 + android.os.Build.MODEL
                 + "; "
