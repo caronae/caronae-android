@@ -155,18 +155,11 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
                 intent.putExtra("requested", finalRequested);
                 context.startActivity(intent);
 
-//                        RideDetailDialogFrag detailFrag = new RideDetailDialogFrag();
-//                        Bundle args = new Bundle();
-//                        args.putParcelable("ride", rideOffer);
-//                        args.putBoolean("requested", finalRequested);
-//                        detailFrag.setArguments(args);
-//                        detailFrag.show(fm, "a");
                     }
                 });
             } else {
                 viewHolder.header_text.setText(getDateText((RideForJson) mixedList.get(position + 1)));
 
-//                viewHolder.header_card.setBackground(ContextCompat.getDrawable(context, getRandomColor()));
             }
         }
     }

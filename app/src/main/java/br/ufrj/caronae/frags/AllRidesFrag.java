@@ -50,13 +50,15 @@ import retrofit2.Response;
 
 public class AllRidesFrag extends Fragment {
 
+    private static boolean PAGE_WAS_GOING  = true;
+
     @Bind(R.id.sliding_tabs)
     TabLayout tabLayout;
     @Bind(R.id.viewpager)
     ViewPager viewPager;
     @Bind(R.id.progressBar2)
     ProgressBar progressBar2;
-    //    @Bind(R.id.fab_menu)
+
     static FloatingActionMenu fab_menu;
     @Bind(R.id.fab_add_ride)
     com.github.clans.fab.FloatingActionButton fab_add_ride;
@@ -185,6 +187,10 @@ public class AllRidesFrag extends Fragment {
                                 if (isAdded()) {
                                     viewPager.setAdapter(new AllRidesFragmentPagerAdapter(getChildFragmentManager(), goingRides, notGoingRides, App.inst().getResources().getStringArray(R.array.tab_tags)));
                                     tabLayout.setupWithViewPager(viewPager);
+                                    if (PAGE_WAS_GOING)
+                                        viewPager.setCurrentItem(0);
+                                    else
+                                        viewPager.setCurrentItem(1);
 
                                     tabLayout.setBackground(ContextCompat.getDrawable(App.inst(), R.drawable.transparency_gradient_top_botton));
 
@@ -303,5 +309,9 @@ public class AllRidesFrag extends Fragment {
             }
         }
         return contains;
+    }
+
+    public static void setPageThatWas(boolean page){
+        PAGE_WAS_GOING = page;
     }
 }

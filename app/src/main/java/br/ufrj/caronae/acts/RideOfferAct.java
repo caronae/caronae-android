@@ -31,6 +31,7 @@ import br.ufrj.caronae.R;
 import br.ufrj.caronae.RoundedTransformation;
 import br.ufrj.caronae.SwipeDismissBaseActivity;
 import br.ufrj.caronae.Util;
+import br.ufrj.caronae.frags.AllRidesFrag;
 import br.ufrj.caronae.models.ActiveRide;
 import br.ufrj.caronae.models.ChatAssets;
 import br.ufrj.caronae.models.RideRequestSent;
@@ -118,15 +119,16 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
             finish();
         }
 
+        AllRidesFrag.setPageThatWas(rideWithUsers.isGoing());
+
+
         final User driver = rideWithUsers.getDriver();
 
         final boolean isDriver = driver.getDbId() == App.getUser().getDbId();
 
         int color = Util.getColorbyZone(rideWithUsers.getZone());
-//        header_line.setBackgroundColor(color);
         join_bt.setBackgroundColor(color);
         location_dt.setTextColor(color);
-//        toolbar.setTitleTextColor(color);
 
         final String location;
         if (rideWithUsers.isGoing())
@@ -159,12 +161,12 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
         location_dt.setText(location);
         name_dt.setText(driver.getName());
         profile_dt.setText(driver.getProfile());
-        if (rideWithUsers.getRoute().equals("")){
+        if (rideWithUsers.getRoute().equals("")) {
             way_text_frame.setVisibility(View.GONE);
         } else {
             way_dt.setText(rideWithUsers.getRoute());
         }
-        if (rideWithUsers.getPlace().equals("")){
+        if (rideWithUsers.getPlace().equals("")) {
             place_text_frame.setVisibility(View.GONE);
         } else {
             place_dt.setText(rideWithUsers.getPlace());
@@ -177,7 +179,7 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
         time_dt.setTextColor(color);
         date_dt.setText(Util.formatBadDateWithoutYear(rideWithUsers.getDate()));
         date_dt.setTextColor(color);
-        if (rideWithUsers.getDescription().equals("")){
+        if (rideWithUsers.getDescription().equals("")) {
             description_text_frame.setVisibility(View.GONE);
         } else {
             description_dt.setText(rideWithUsers.getDescription());
@@ -217,7 +219,7 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
                                         .enqueue(new Callback<ResponseBody>() {
                                             @Override
                                             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                                if (response.isSuccessful()){
+                                                if (response.isSuccessful()) {
                                                     RideRequestSent rideRequest = new RideRequestSent(rideWithUsers.getDbId(), rideWithUsers.isGoing(), rideWithUsers.getDate());
                                                     rideRequest.save();
 
@@ -269,7 +271,7 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
         }
     }
 
-    private void createChatAssets(RideForJson rideWithUsers){
+    private void createChatAssets(RideForJson rideWithUsers) {
 
         Context context = this.getApplicationContext();
 
@@ -318,7 +320,7 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
                     Util.formatTime(rideWithUsers.getTime())).save();
     }
 
-    public Animation getAnimationForSendButton(){
+    public Animation getAnimationForSendButton() {
         Animation anim = new AlphaAnimation(1, 0);
         anim.setDuration(this.getApplicationContext().getResources().getInteger(R.integer.button_anim_duration));
         anim.setFillEnabled(true);
@@ -344,7 +346,7 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
         return anim;
     }
 
-    public Animation getAnimationForResquestedText(){
+    public Animation getAnimationForResquestedText() {
         Animation anim = new AlphaAnimation(0, 1);
         anim.setDuration(this.getApplicationContext().getResources().getInteger(R.integer.button_anim_duration));
         anim.setFillEnabled(true);
