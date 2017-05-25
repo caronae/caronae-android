@@ -14,8 +14,9 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import org.acra.ReportField;
+
 import br.ufrj.caronae.App;
-import br.ufrj.caronae.BuildConfig;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.RoundedTransformation;
 import br.ufrj.caronae.Util;
@@ -77,7 +78,19 @@ public class FalaeFrag extends Fragment {
             Util.toast(getActivity().getString(R.string.frag_falae_msgblank));
             return;
         }
-        message = message.concat("\n\nPlataforma: Android\nVersão do App: " + BuildConfig.VERSION_NAME);
+
+        message = "\n\nPlataforma: Android "
+                + ReportField.ANDROID_VERSION
+                + "\n"
+                + "Versão do app: "
+                + ReportField.APP_VERSION_NAME
+                + "\n"
+                + "Nome: "
+                + App.getUser().getName()
+                + "\n"
+                + "Email: "
+                + App.getUser().getEmail()
+                + "\n\n";
 
         int checkedId = radioGroup.getCheckedRadioButtonId();
         String subject = "";
