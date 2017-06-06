@@ -99,7 +99,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     ActiveRide.deleteAll(ActiveRide.class, "db_id = ?", rideId);
                 }
 
-                // TODO:Carona cancelada Nao esta rebendo notificacao
+                // TODO: Carona cancelada Nao esta rebendo notificacao
                 if (msgType != null && msgType.equals("cancelled")) {
                     FirebaseTopicsHandler.unsubscribeFirebaseTopic(rideId);
                     App.getBus().post(new RideEndedEvent(rideId));

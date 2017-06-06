@@ -40,23 +40,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 )
 /******/
 
-//@ReportsCrashes(mailTo = "caronae@fundoverde.ufrj.br",
-//        customReportContent = {ReportField.STACK_TRACE},
-//        mode = ReportingInteractionMode.TOAST,
-//        resToastText = R.string.crash_toast_text)
-
 public class App extends SugarApp {
 
     private static final String DEV_SERVER_ENDPOINT          = "https://dev.caronae.tic.ufrj.br/";
     private static final String TIC_ENDPOINT                 = "https://api.caronae.ufrj.br/";
-
-    //TODO: ADD FIREBASE KEY
-    private static final String FIREBASE_ENDPOINT = "fcm.googleapis.com/fcm";
-    private static final String FIREBASE_API_KEY = "AIzaSyApLZKt5uG2GjQtfiAN5n2kFYjvapJag-g";
-
-    // TODO: REMOVE OLD GCM CODE
-//    private static final String GCM_ENDPOINT = "https://android.googleapis.com/gcm";
-//    private static final String GCM_API_KEY = "AIzaSyBtGz81bar_LcwtN_fpPTKRMBL5glp2T18";
 
     private static App inst;
     private static User user;
