@@ -1,0 +1,38 @@
+{
+  "project_info": {
+    "project_number": "1012033032693",
+    "firebase_url": "https://caronae-b5965.firebaseio.com",
+    "project_id": "caronae-b5965",
+    "storage_bucket": "caronae-b5965.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1012033032693:android:45e1b15fa9a65457",
+        "android_client_info": {
+          "package_name": "br.ufrj.caronae"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1012033032693-b5t04h22jbolgk43bhjbf7edldsj8b1m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [ { "current_key": "google_services_key_here" } ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
