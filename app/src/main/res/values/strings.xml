@@ -223,7 +223,6 @@
     <string name="act_activeride_sureWantToFinish">Deseja mesmo concluir da carona?</string>
     <string name="act_activeRide_sureWantToCancel">Deseja mesmo cancelar carona?</string>
     <string name="act_activeRide_sureWantToQuit">Deseja mesmo desistir da carona?</string>
-    <string name="frag_rideoofer_rieOfferConflict">Você já possui uma carona nesse dia e sentido!</string>
     <string name="act_rideOffer_rideConflict">Você já possui uma carona ativa nesse dia e sentido!</string>
     <string name="frag_allRidesList_Helper">Toque nas caronas para mais informações</string>
     <string name="frag_myprofile_SameFieldsState">Nenhum campo alterado</string>
@@ -237,5 +236,10 @@
     <string name="crash_notifcation_text">Uma mensagem foi enviada à nossa equipe com este erro para que possamos melhorar nosso serviço, nos desculpe pelo incoveniente</string>
     <string name="crash_notifcation_title">Caronaê parou</string>
     <string name="crash_notifcation_ticker_text">Caronaê parou</string>
+    <string name="possible_duplicate_main_text">Parece que você já ofereceu uma carona para este dia</string>
+    <string name="possible_duplicate_sub_text">Você pode cancelar e verificar as suas caronas ou continuar e criar a carona mesmo assim</string>
+    <string name="duplicate_ride_main_text">Você já ofereceu uma carona muito parecida com essa</string>
+    <string name="duplicate_ride_sub_text">Você pode verificar as suas caronas na seção "Minhas Caronas"</string>
+
 
 </resources>

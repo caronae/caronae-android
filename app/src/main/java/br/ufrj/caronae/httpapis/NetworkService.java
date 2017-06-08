@@ -4,6 +4,7 @@ import java.util.List;
 
 import br.ufrj.caronae.models.ChatMessageSendResponse;
 import br.ufrj.caronae.models.ModelReceivedFromChat;
+import br.ufrj.caronae.models.ModelValidateDuplicate;
 import br.ufrj.caronae.models.Ride;
 import br.ufrj.caronae.models.RideRountine;
 import br.ufrj.caronae.models.User;
@@ -69,7 +70,7 @@ public interface NetworkService {
     Call<UrlForJson> getIntranetPhotoUrl();
 
     @POST("ride")
-    Call<List<RideRountine>> offerRide(@Header("Header") String header, @Body Ride ride);
+    Call<List<RideRountine>> offerRide(@Body Ride ride);
 
     @DELETE("ride/{rideId}")
     Call<ResponseBody> deleteRide(@Path("rideId") String rideId);
@@ -129,4 +130,7 @@ public interface NetworkService {
 
     @GET("ride/{rideId}/chat")
     Call<ModelReceivedFromChat> requestChatMsgs(@Path("rideId") String rideId, @Query("since") String since);
+
+    @GET("ride/validateDuplicate")
+    Call<ModelValidateDuplicate> validateDuplicates(@Query("date") String date, @Query("time") String time, @Query("going") int going);
 }

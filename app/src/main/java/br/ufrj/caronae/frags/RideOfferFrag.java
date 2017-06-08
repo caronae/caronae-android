@@ -1,11 +1,10 @@
 package br.ufrj.caronae.frags;
 
 import android.app.ProgressDialog;
-import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -41,7 +40,7 @@ import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.firebase.FirebaseTopicsHandler;
-import br.ufrj.caronae.models.ChatAssets;
+import br.ufrj.caronae.models.ModelValidateDuplicate;
 import br.ufrj.caronae.models.Ride;
 import br.ufrj.caronae.models.RideRountine;
 import butterknife.Bind;
@@ -52,8 +51,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class RideOfferFrag extends Fragment {
-
-    private final String ERROR_MESSAGE = "java.lang.IllegalStateException: Expected a string but was BEGIN_OBJECT at line 1 column 177 path $[0].repeats_until";
 
     @Bind(R.id.radioGroup2)
     RadioGroup radioGroup2;
@@ -99,6 +96,7 @@ public class RideOfferFrag extends Fragment {
 
     private String zone;
     private boolean going;
+    ProgressDialog pd;
 
     public RideOfferFrag() {
         // Required empty public constructor
@@ -351,9 +349,6 @@ public class RideOfferFrag extends Fragment {
         if (neighborhood.isEmpty()) {
             Util.toast(getString(R.string.frag_rideoffer_nullNeighborhood));
             return;
-            /*neighborhood_et.setText(Util.getNeighborhoods(Util.getZones()[0])[0]);
-            zone = Util.getZones()[0];
-            neighborhood = neighborhood_et.getText().toString();*/
         }
         String place = place_et.getText().toString();
         String way = way_et.getText().toString();
@@ -371,8 +366,6 @@ public class RideOfferFrag extends Fragment {
         if (etDateString.isEmpty()) {
             Util.toast(getString(R.string.frag_rideoffer_nullDate));
             return;
-            /*date_et.setText(todayString);
-            etDateString = todayString;*/
         } else {
             try {
                 Date etDate = simpleDateFormat.parse(etDateString);
@@ -388,10 +381,6 @@ public class RideOfferFrag extends Fragment {
         if (time.isEmpty()) {
             Util.toast(getString(R.string.frag_rideoffer_nullTime));
             return;
-            /*SimpleDateFormat simpleDateFormat1 = new SimpleDateFormat("HH:mm", Locale.US);
-            String format = simpleDateFormat1.format(new Date());
-            time_et.setText(format);
-            time = format;*/
         }
         String slots = slots_et.getSelectedItemPosition() + 1 + "";
         String description = description_et.getText().toString();
@@ -450,29 +439,83 @@ public class RideOfferFrag extends Fragment {
 
         final Ride ride = new Ride(zone, neighborhood, place, way, etDateString, time, slots, hub, description, going, routine, weekDays, repeatsUntil);
 
-        List<Ride> rides3 = Ride.find(Ride.class, "date = ? and going = ?", etDateString, going ? "1" : "0");
-        if (rides3 != null && !rides3.isEmpty()) {
-            Util.toast(getString(R.string.frag_rideoofer_rieOfferConflict));
-            return;
-        }
+
+        checkAndCreateRide(ride);
 
         String lastRideOffer = new Gson().toJson(ride);
         if (going)
             SharedPref.saveLastRideGoingPref(lastRideOffer);
         else
             SharedPref.saveLastRideNotGoingPref(lastRideOffer);
+    }
 
-        final ProgressDialog pd = ProgressDialog.show(getContext(), "", getString(R.string.wait), true, true);
-        App.getNetworkService(getContext()).offerRide(Util.getHeaderForHttp(getContext()), ride)
+    private void createChatAssets(Ride ride) {
+        Util.createChatAssets(ride, getContext());
+    }
+
+    private void checkAndCreateRide(final Ride ride) {
+        pd = ProgressDialog.show(getContext(), "", getString(R.string.wait), true, true);
+        App.getNetworkService(getContext()).validateDuplicates(ride.getDate(), ride.getTime() + ":00", ride.isGoing() ? 1 : 0)
+                .enqueue(new Callback<ModelValidateDuplicate>() {
+                    @Override
+                    public void onResponse(Call<ModelValidateDuplicate> call, Response<ModelValidateDuplicate> response) {
+                        if (response.isSuccessful()) {
+                            ModelValidateDuplicate validateDuplicate = response.body();
+                            if (validateDuplicate.isValid()) {
+                                createRide(ride);
+                            } else {
+                                if (validateDuplicate.getStatus().equals("possible_duplicate")) {
+//                                    DuplicateRidesDialogFrag dialogFragment = DuplicateRidesDialogFrag.newInstance(ride);
+//                                    dialogFragment.show(getActivity().getSupportFragmentManager(), "duplicateDialog");
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                                    builder.setView(R.layout.possible_duplicate_rides_dialog);
+                                    builder.setPositiveButton("Criar", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            createRide(ride);
+                                        }
+                                    });
+                                    builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            dialogInterface.dismiss();
+                                        }
+                                    });
+                                    builder.create().show();
+                                } else {
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                                    builder.setView(R.layout.duplicate_rides_dialog);
+                                    builder.setNegativeButton("Ok", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            dialogInterface.dismiss();
+                                        }
+                                    });
+                                    builder.create().show();
+                                }
+                            }
+                        } else {
+                        }
+                        pd.dismiss();
+                    }
+
+                    @Override
+                    public void onFailure(Call<ModelValidateDuplicate> call, Throwable t) {
+                        pd.dismiss();
+                    }
+                });
+    }
+
+    private void createRide(Ride ride) {
+        App.getNetworkService(getContext()).offerRide(ride)
                 .enqueue(new Callback<List<RideRountine>>() {
                     @Override
                     public void onResponse(Call<List<RideRountine>> call, Response<List<RideRountine>> response) {
                         if (response.isSuccessful()) {
 
-//                            List<Ride> rides = response.body();
                             List<RideRountine> rideRountines = response.body();
                             List<Ride> rides = new ArrayList<Ride>();
-                            for (RideRountine rideRountine : rideRountines){
+                            for (RideRountine rideRountine : rideRountines) {
                                 rides.add(new Ride(rideRountine));
                             }
 
@@ -484,13 +527,13 @@ public class RideOfferFrag extends Fragment {
                                 createChatAssets(ride2);
                             }
                             pd.dismiss();
-                            ((MainAct)getActivity()).removeFromBackstack(RideOfferFrag.class);
-                            ((MainAct)getActivity()).showActiveRidesFrag();
+                            ((MainAct) getActivity()).removeFromBackstack(RideOfferFrag.class);
+                            ((MainAct) getActivity()).showActiveRidesFrag();
                             Util.toast(R.string.frag_rideOffer_rideSaved);
                         } else {
                             Util.treatResponseFromServer(response);
                             pd.dismiss();
-                            if (response.code() == 403){
+                            if (response.code() == 403) {
                                 Util.toast(R.string.past_ride_creation);
                             } else {
                                 Util.toast(R.string.frag_rideOffer_errorRideSaved);
@@ -502,63 +545,9 @@ public class RideOfferFrag extends Fragment {
                     @Override
                     public void onFailure(Call<List<RideRountine>> call, Throwable t) {
                         pd.dismiss();
-                        if (t.getMessage().equals(ERROR_MESSAGE)){
-                            Util.toast(R.string.frag_rideOffer_ridesCreated);
-                        } else {
-                            Util.toast(R.string.frag_rideOffer_errorRideSaved);
-                            Log.e("offerRide", t.getMessage());
-                        }
+                        Util.toast(R.string.frag_rideOffer_errorRideSaved);
+                        Log.e("offerRide", t.getMessage());
                     }
                 });
-    }
-
-    private void createChatAssets(Ride ride) {
-        Ride rideWithUsers = ride;
-
-        Context context = getContext();
-
-        int color = 0, bgRes = 0;
-        if (rideWithUsers.getZone().equals("Centro")) {
-            color = ContextCompat.getColor(context, R.color.zone_centro);
-            bgRes = R.drawable.bg_bt_raise_zone_centro;
-        }
-        if (rideWithUsers.getZone().equals("Zona Sul")) {
-            color = ContextCompat.getColor(context, R.color.zone_sul);
-            bgRes = R.drawable.bg_bt_raise_zone_sul;
-        }
-        if (rideWithUsers.getZone().equals("Zona Oeste")) {
-            color = ContextCompat.getColor(context, R.color.zone_oeste);
-            bgRes = R.drawable.bg_bt_raise_zone_oeste;
-        }
-        if (rideWithUsers.getZone().equals("Zona Norte")) {
-            color = ContextCompat.getColor(context, R.color.zone_norte);
-            bgRes = R.drawable.bg_bt_raise_zone_norte;
-        }
-        if (rideWithUsers.getZone().equals("Baixada")) {
-            color = ContextCompat.getColor(context, R.color.zone_baixada);
-            bgRes = R.drawable.bg_bt_raise_zone_baixada;
-        }
-        if (rideWithUsers.getZone().equals("Grande Niterói")) {
-            color = ContextCompat.getColor(context, R.color.zone_niteroi);
-            bgRes = R.drawable.bg_bt_raise_zone_niteroi;
-        }
-        if (rideWithUsers.getZone().equals("Outros")) {
-            color = ContextCompat.getColor(context, R.color.zone_outros);
-            bgRes = R.drawable.bg_bt_raise_zone_outros;
-        }
-
-        final String location;
-        if (rideWithUsers.isGoing())
-            location = rideWithUsers.getNeighborhood() + " ➜ " + rideWithUsers.getHub();
-        else
-            location = rideWithUsers.getHub() + " ➜ " + rideWithUsers.getNeighborhood();
-
-        final int finalColor = color, finalBgRes = bgRes;
-
-        List<ChatAssets> l = ChatAssets.find(ChatAssets.class, "ride_id = ?", rideWithUsers.getDbId() + "");
-        if (l == null || l.isEmpty())
-            new ChatAssets(rideWithUsers.getDbId() + "", location, finalColor, finalBgRes,
-                    Util.formatBadDateWithoutYear(rideWithUsers.getDate()),
-                    Util.formatTime(rideWithUsers.getTime())).save();
     }
 }

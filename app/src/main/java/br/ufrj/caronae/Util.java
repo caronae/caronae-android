@@ -28,8 +28,11 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
+import br.ufrj.caronae.models.ChatAssets;
+import br.ufrj.caronae.models.Ride;
 import retrofit2.Response;
 
 
@@ -568,6 +571,54 @@ public class Util {
             PressedColor = ContextCompat.getColor(App.inst(), R.color.light_zone_niteroi_transparency);
         }
         return PressedColor;
+    }
+
+    static public void createChatAssets(Ride ride, Context context) {
+        Ride rideWithUsers = ride;
+
+        int color = 0, bgRes = 0;
+        if (rideWithUsers.getZone().equals("Centro")) {
+            color = ContextCompat.getColor(context, R.color.zone_centro);
+            bgRes = R.drawable.bg_bt_raise_zone_centro;
+        }
+        if (rideWithUsers.getZone().equals("Zona Sul")) {
+            color = ContextCompat.getColor(context, R.color.zone_sul);
+            bgRes = R.drawable.bg_bt_raise_zone_sul;
+        }
+        if (rideWithUsers.getZone().equals("Zona Oeste")) {
+            color = ContextCompat.getColor(context, R.color.zone_oeste);
+            bgRes = R.drawable.bg_bt_raise_zone_oeste;
+        }
+        if (rideWithUsers.getZone().equals("Zona Norte")) {
+            color = ContextCompat.getColor(context, R.color.zone_norte);
+            bgRes = R.drawable.bg_bt_raise_zone_norte;
+        }
+        if (rideWithUsers.getZone().equals("Baixada")) {
+            color = ContextCompat.getColor(context, R.color.zone_baixada);
+            bgRes = R.drawable.bg_bt_raise_zone_baixada;
+        }
+        if (rideWithUsers.getZone().equals("Grande Niterói")) {
+            color = ContextCompat.getColor(context, R.color.zone_niteroi);
+            bgRes = R.drawable.bg_bt_raise_zone_niteroi;
+        }
+        if (rideWithUsers.getZone().equals("Outros")) {
+            color = ContextCompat.getColor(context, R.color.zone_outros);
+            bgRes = R.drawable.bg_bt_raise_zone_outros;
+        }
+
+        final String location;
+        if (rideWithUsers.isGoing())
+            location = rideWithUsers.getNeighborhood() + " ➜ " + rideWithUsers.getHub();
+        else
+            location = rideWithUsers.getHub() + " ➜ " + rideWithUsers.getNeighborhood();
+
+        final int finalColor = color, finalBgRes = bgRes;
+
+        List<ChatAssets> l = ChatAssets.find(ChatAssets.class, "ride_id = ?", rideWithUsers.getDbId() + "");
+        if (l == null || l.isEmpty())
+            new ChatAssets(rideWithUsers.getDbId() + "", location, finalColor, finalBgRes,
+                    Util.formatBadDateWithoutYear(rideWithUsers.getDate()),
+                    Util.formatTime(rideWithUsers.getTime())).save();
     }
 
     public static void treatResponseFromServer(Response response){
