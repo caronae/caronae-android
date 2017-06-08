@@ -8,6 +8,7 @@ import android.util.Log;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.SharedPref;
+import br.ufrj.caronae.asyncs.FetchMyOfferedRidesService;
 import br.ufrj.caronae.models.RideRequestReceived;
 
 public class StartAct extends AppCompatActivity {
@@ -40,6 +41,9 @@ public class StartAct extends AppCompatActivity {
         msgType
         collapse_key
         */
+
+        Intent fetchOfferedRides = new Intent(getApplicationContext(), FetchMyOfferedRidesService.class);
+        startService(fetchOfferedRides);
 
         Bundle bundle = getIntent().getExtras();
 

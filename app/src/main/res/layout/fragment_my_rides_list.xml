@@ -6,22 +6,28 @@
     android:background="@android:color/transparent"
     tools:context=".frags.MyRidesListFrag">
 
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/myRidesList"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/list_white_transparency" />
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/norides_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:gravity="center"
-        android:text="@string/frag_myrides_noRides"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:visibility="gone" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/myRidesList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/list_white_transparency" />
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+        <TextView
+            android:id="@+id/norides_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:text="@string/frag_myrides_noRides"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:visibility="gone" />
 
 </RelativeLayout>

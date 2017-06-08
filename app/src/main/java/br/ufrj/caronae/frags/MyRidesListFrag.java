@@ -3,6 +3,7 @@ package br.ufrj.caronae.frags;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -32,6 +33,7 @@ import br.ufrj.caronae.firebase.FirebaseTopicsHandler;
 import br.ufrj.caronae.models.ActiveRide;
 import br.ufrj.caronae.models.Ride;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
+import br.ufrj.caronae.models.modelsforjson.RideForJsonDeserializer;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import retrofit2.Call;
@@ -44,8 +46,8 @@ public class MyRidesListFrag extends Fragment {
     RecyclerView myRidesList;
     @Bind(R.id.norides_tv)
     TextView norides_tv;
-//    @Bind(R.id.deleteAll_bt)
-//    Button deleteAll_bt;
+    @Bind(R.id.swipeRefreshLayout)
+    SwipeRefreshLayout swipeRefreshLayout;
 
 
     ArrayList<Ride> rides;
@@ -74,6 +76,13 @@ public class MyRidesListFrag extends Fragment {
 
         myRidesList.addItemDecoration(OffsetDecoration);
 
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getOfferedRides();
+            }
+        });
+
         getActiveRides();
 
         return view;
@@ -81,7 +90,7 @@ public class MyRidesListFrag extends Fragment {
 
 
     //TODO: Remove Deprecated functions
-    public class TimeIgnoringComparator implements Comparator<Date> {
+    public static class TimeIgnoringComparator implements Comparator<Date> {
         public int compare(Date d1, Date d2) {
             if (d1.getYear() != d2.getYear())
                 return d1.getYear() - d2.getYear();
@@ -126,9 +135,36 @@ public class MyRidesListFrag extends Fragment {
             if (allRides.size() == 0) {
                 norides_tv.setVisibility(View.VISIBLE);
             } else {
+                norides_tv.setVisibility(View.INVISIBLE);
                 updateAdapter();
             }
         }
+    }
+
+    private void getOfferedRides() {
+        App.getNetworkService(App.inst()).getOfferedRides(App.getUser().getDbId() + "")
+                .enqueue(new Callback<RideForJsonDeserializer>() {
+                    @Override
+                    public void onResponse(Call<RideForJsonDeserializer> call, Response<RideForJsonDeserializer> response) {
+                        if (response.isSuccessful()) {
+                            RideForJsonDeserializer deserializer = response.body();
+                            List<RideForJson> rides = deserializer.getRides();
+                            if (rides != null) {
+                                Ride.deleteAll(Ride.class);
+                                for (RideForJson ride : rides) {
+                                    new Ride(ride).save();
+                                }
+                            }
+                            new LoadRides().execute();
+                        }
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
+
+                    @Override
+                    public void onFailure(Call<RideForJsonDeserializer> call, Throwable t) {
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
+                });
     }
 
 
@@ -217,8 +253,20 @@ public class MyRidesListFrag extends Fragment {
 
         for (int ridesIndex = 0; ridesIndex < rides.size(); ridesIndex++) {
             if (rides.get(ridesIndex).isGoing() == going) {
-                allRides.add(rides.get(ridesIndex));
+                if (!rideIsInList(allRides, rides.get(ridesIndex)))
+                    allRides.add(rides.get(ridesIndex));
             }
         }
+    }
+
+    private boolean rideIsInList(ArrayList<Object> allRides, Ride ride) {
+        for (int index = 0; index < allRides.size(); index++) {
+            if (allRides.get(index).getClass() == Ride.class) {
+                Ride inListRide = (Ride) allRides.get(index);
+                if (inListRide.getDbId() == ride.getDbId())
+                    return true;
+            }
+        }
+        return false;
     }
 }

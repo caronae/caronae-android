@@ -46,8 +46,8 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
     private int TYPE_MY_RIDE =                  0;
     private int TYPE_ACTIVE_RIDE =              1;
     private int TYPE_HEADER =                  2;
-    private boolean MY_OFFER_RIDES_HEADER_TAG =       true;
-    private boolean MY_ACTIVE_RIDES_HEADER_TAG  = false;
+    private int MY_OFFER_RIDES_HEADER_TAG =       1;
+    private int MY_ACTIVE_RIDES_HEADER_TAG  = 0;
     private List<Object> rides;
     private final MainAct activity;
     private final List<RideRequestReceived> rideRequestReceivedList;
@@ -71,7 +71,8 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
 
         for (int rideCounter = 0; rideCounter < rides.size(); rideCounter++){
             if (rides.get(rideCounter).getClass() == Ride.class){
-                rides.add(rideCounter, MY_OFFER_RIDES_HEADER_TAG);
+                if (!offerHeaderTagAlreadyIn(rides))
+                    rides.add(rideCounter, MY_OFFER_RIDES_HEADER_TAG);
                 break;
             }
         }
@@ -110,27 +111,26 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
     @Override
     public void onBindViewHolder(final MyRidesAdapter.ViewHolder holder, final int position) {
 
-        if (rides.get(position).getClass() == Ride.class) {
+            if (rides.get(position).getClass() == Ride.class) {
 
-            configureMyOfferRide(position, holder);
+                configureMyOfferRide(position, holder);
 
-        } else if(rides.get(position).getClass() == RideForJson.class) {
-            configureMyActiveRides(position, holder);
+            } else if (rides.get(position).getClass() == RideForJson.class) {
+                configureMyActiveRides(position, holder);
 
-        } else if (rides.get(position).getClass() == Boolean.class){
-            boolean type = (boolean)rides.get(position);
-            if (type) {
-                holder.list_separator_text.setText(activity.getResources().getString(R.string.frag_myrides_title));
+            } else if (rides.get(position).getClass() == Integer.class) {
+                int type = (int) rides.get(position);
+                if (type == 1) {
+                    holder.list_separator_text.setText(activity.getResources().getString(R.string.frag_myrides_title));
+                } else {
+                    holder.list_separator_text.setText(activity.getResources().getString(R.string.frag_myactiverides_title));
+                }
             }
-            else {
-                holder.list_separator_text.setText(activity.getResources().getString(R.string.frag_myactiverides_title));
-            }
-        }
     }
 
     @Override
     public int getItemCount() {
-        return rides.size();
+            return rides.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -267,13 +267,15 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
                                         if (response.isSuccessful()) {
                                             pd.dismiss();
                                             Util.toast(R.string.ridesDeleted);
-                                            Iterator<Object> it = rides.iterator();
-                                            while (it.hasNext()) {
-                                                Object object = it.next();
-                                                if (object.getClass() == Ride.class) {
-                                                    Ride ride2 = (Ride)object;
-                                                    if (ride2.getRoutineId().equals(routineId))
-                                                        it.remove();
+                                            if (routineId != null) {
+                                                Iterator<Object> it = rides.iterator();
+                                                while (it.hasNext()) {
+                                                    Object object = it.next();
+                                                    if (object.getClass() == Ride.class) {
+                                                        Ride ride2 = (Ride) object;
+                                                        if (ride2.getRoutineId().equals(routineId))
+                                                            it.remove();
+                                                    }
                                                 }
                                             }
                                             notifyDataSetChanged();
@@ -451,7 +453,6 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
                     }
                 });
 
-//            holder.newRequest_iv.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -522,5 +523,26 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
 
         if (!found)
             holder.newMsgIndicator_iv.setVisibility(View.INVISIBLE);
+    }
+
+    private boolean offerHeaderTagAlreadyIn(List<Object> rides) {
+        for (int i  = 0; i < rides.size(); i++){
+            if (rides.get(i).getClass() == Integer.class){
+                int header = (int)rides.get(i);
+                if (header == 1)
+                    return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean isListEmpty(){
+        for (int i  = 0; i < rides.size(); i++){
+            if (rides.get(i).getClass() == Ride.class
+                    && rides.get(i).getClass() == RideForJson.class)
+                return false;
+        }
+        rides.clear();
+        return true;
     }
 }

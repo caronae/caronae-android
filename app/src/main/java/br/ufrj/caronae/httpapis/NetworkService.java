@@ -96,8 +96,10 @@ public interface NetworkService {
     Call<ResponseBody> answerJoinRequest(@Body JoinRequestIDsForJson joinRequestIDsForJson);
 
     @GET("ride/getMyActiveRides")
-//    void getMyActiveRides(Callback<List<RideForJson>> cb);
     Call<List<RideForJson>> getMyActiveRides();
+
+    @GET("user/{id}/offeredRides")
+    Call<RideForJsonDeserializer> getOfferedRides(@Path("id") String userId);
 
     @POST("ride/leaveRide")
     Call<ResponseBody> leaveRide(@Body RideIdForJson rideId);

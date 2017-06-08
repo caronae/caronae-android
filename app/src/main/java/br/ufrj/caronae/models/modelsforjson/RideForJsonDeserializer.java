@@ -13,4 +13,10 @@ public class RideForJsonDeserializer {
     }
 
     private List<RideForJson> data;
+
+    private List<RideForJson> rides;
+
+    public List<RideForJson> getRides(){
+        return rides;
+    }
 }
