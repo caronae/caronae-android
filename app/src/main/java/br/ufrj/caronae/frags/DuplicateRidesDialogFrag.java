@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,22 +51,22 @@ public class DuplicateRidesDialogFrag extends DialogFragment {
         View v;
         if (duplicate) {
             v = inflater.inflate(R.layout.duplicate_rides_dialog, container, false);
-            Button cancel = (Button) v.findViewById(R.id.cancel_button);
-            Button create = (Button) v.findViewById(R.id.create_button);
+//            Button cancel = (Button) v.findViewById(R.id.cancel_button);
+//            Button create = (Button) v.findViewById(R.id.create_button);
 
-            cancel.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    dismiss();
-                }
-            });
-
-            create.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    createRide(ride);
-                }
-            });
+//            cancel.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    dismiss();
+//                }
+//            });
+//
+//            create.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    createRide(ride);
+//                }
+//            });
         } else {
             v = inflater.inflate(R.layout.possible_duplicate_rides_dialog, container, false);
         }

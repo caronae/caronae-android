@@ -31,34 +31,34 @@
             android:text="@string/possible_duplicate_sub_text"
             android:textSize="16sp" />
 
-        <ImageButton
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_gravity="bottom"
-            android:src="@drawable/color_bar" />
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="horizontal">-->
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            <!--<Button-->
+                <!--android:id="@+id/cancel_button"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_weight="1"-->
+                <!--android:text="Cancelar"-->
+                <!--android:backgroundTint="@android:color/transparent"/>-->
 
-            <Button
-                android:id="@+id/cancel_button"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="Cancelar"
-                android:backgroundTint="@android:color/transparent"/>
-
-            <Button
-                android:id="@+id/create_button"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="Criar"
-                android:backgroundTint="@android:color/transparent"/>
-        </LinearLayout>
+            <!--<Button-->
+                <!--android:id="@+id/create_button"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_weight="1"-->
+                <!--android:text="Criar"-->
+                <!--android:backgroundTint="@android:color/transparent"/>-->
+        <!--</LinearLayout>-->
 
     </LinearLayout>
+
+    <ImageButton
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_gravity="bottom"
+        android:src="@drawable/color_bar" />
 
 </android.support.v7.widget.CardView>
