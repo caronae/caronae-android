@@ -42,8 +42,10 @@ public class StartAct extends AppCompatActivity {
         collapse_key
         */
 
-        Intent fetchOfferedRides = new Intent(getApplicationContext(), FetchMyOfferedRidesService.class);
-        startService(fetchOfferedRides);
+        if (App.isUserLoggedIn()) {
+            Intent fetchOfferedRides = new Intent(getApplicationContext(), FetchMyOfferedRidesService.class);
+            startService(fetchOfferedRides);
+        }
 
         Bundle bundle = getIntent().getExtras();
 
