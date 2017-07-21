@@ -39,8 +39,6 @@ import retrofit2.http.Query;
 
 public interface NetworkService {
 
-    int versionCode = 10;
-
     //user routes
     @GET("user/signup/{name}/{token}")
     Call<User> signUp(@Path("name") String name, @Path("token") String token);

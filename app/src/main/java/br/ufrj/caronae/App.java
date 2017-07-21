@@ -44,6 +44,7 @@ public class App extends SugarApp {
 
     private static final String DEV_SERVER_ENDPOINT          = "https://dev.caronae.tic.ufrj.br/";
     private static final String TIC_ENDPOINT                 = "https://api.caronae.ufrj.br/";
+    private static final String CARONAE_ENDPOINT             = "https://api.caronae.com.br/";
 
     private static App inst;
     private static User user;
@@ -80,6 +81,10 @@ public class App extends SugarApp {
     public static String getHost() {
 //        return DEV_SERVER_ENDPOINT;
         return TIC_ENDPOINT;
+    }
+
+    public static String getHostLogin() {
+        return CARONAE_ENDPOINT;
     }
 
     public static NetworkService getNetworkService(final Context context) {
