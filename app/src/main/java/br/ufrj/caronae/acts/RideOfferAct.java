@@ -3,6 +3,7 @@ package br.ufrj.caronae.acts;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.content.ContextCompat;
@@ -15,7 +16,10 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -77,10 +81,18 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
     CardView description_text_frame;
     @Bind(R.id.requested_dt)
     public TextView requested_dt;
+    @Bind(R.id.share_ride_button)
+    ImageButton shareButton;
     @Bind(R.id.scrollView)
     ScrollView scrollView;
+    @Bind(R.id.main_layout)
+    RelativeLayout mainLayout;
+    @Bind(R.id.progress_bar_layout)
+    FrameLayout progressBarLayout;
 
     CoordinatorLayout coordinatorLayout;
+
+    RideForJson rideWithUsers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,164 +123,45 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
 
         coordinatorLayout = (CoordinatorLayout) findViewById(R.id.detail_coordinator_layout);
 
-        final RideForJson rideWithUsers = getIntent().getExtras().getParcelable("ride");
-        final boolean requested = getIntent().getBooleanExtra("requested", true);
-
-        if (rideWithUsers == null) {
-            Util.toast(getString(R.string.act_activeride_rideNUll));
-            finish();
+        if (!startWithLink()) {
+            rideWithUsers = getIntent().getExtras().getParcelable("ride");
+            configureActivityWithRide(rideWithUsers, false);
         }
+    }
 
-        AllRidesFrag.setPageThatWas(rideWithUsers.isGoing());
+    private boolean startWithLink() {
+        Uri uri = getIntent().getData();
+        if (uri == null)
+            return false;
+        String rideId;
+        List<String> params = uri.getPathSegments();
 
-
-        final User driver = rideWithUsers.getDriver();
-
-        final boolean isDriver = driver.getDbId() == App.getUser().getDbId();
-
-        int color = Util.getColorbyZone(rideWithUsers.getZone());
-        join_bt.setBackgroundColor(color);
-        location_dt.setTextColor(color);
-
-        final String location;
-        if (rideWithUsers.isGoing())
-            location = rideWithUsers.getNeighborhood() + " ➜ " + rideWithUsers.getHub();
+        if (params.size() == 1)
+            rideId = params.get(0);
         else
-            location = rideWithUsers.getHub() + " ➜ " + rideWithUsers.getNeighborhood();
+            rideId = params.get(1);
+        Log.e("LINK", "RideId: " + rideId);
 
-        String profilePicUrl = driver.getProfilePicUrl();
-        if (profilePicUrl == null || profilePicUrl.isEmpty()) {
-            Picasso.with(this.getApplicationContext()).load(R.drawable.user_pic)
-                    .into(user_pic);
-        } else {
-            Picasso.with(this.getApplicationContext()).load(profilePicUrl)
-                    .placeholder(R.drawable.user_pic)
-                    .error(R.drawable.user_pic)
-                    .transform(new RoundedTransformation())
-                    .into(user_pic);
-        }
-        user_pic.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!isDriver) {//dont allow user to open own profile
-                    Intent intent = new Intent(getApplicationContext(), ProfileAct.class);
-                    intent.putExtra("user", new Gson().toJson(driver));
-                    intent.putExtra("from", "rideoffer");
-                    startActivity(intent);
-                }
-            }
-        });
-        location_dt.setText(location);
-        name_dt.setText(driver.getName());
-        profile_dt.setText(driver.getProfile());
-        if (rideWithUsers.getRoute().equals("")) {
-            way_text_frame.setVisibility(View.GONE);
-        } else {
-            way_dt.setText(rideWithUsers.getRoute());
-        }
-        if (rideWithUsers.getPlace().equals("")) {
-            place_text_frame.setVisibility(View.GONE);
-        } else {
-            place_dt.setText(rideWithUsers.getPlace());
-        }
-        course_dt.setText(driver.getCourse());
-        if (rideWithUsers.isGoing())
-            time_dt.setText(getString(R.string.arrivingAt, Util.formatTime(rideWithUsers.getTime())));
-        else
-            time_dt.setText(getString(R.string.leavingAt, Util.formatTime(rideWithUsers.getTime())));
-        time_dt.setTextColor(color);
-        date_dt.setText(Util.formatBadDateWithoutYear(rideWithUsers.getDate()));
-        date_dt.setTextColor(color);
-        if (rideWithUsers.getDescription().equals("")) {
-            description_text_frame.setVisibility(View.GONE);
-        } else {
-            description_dt.setText(rideWithUsers.getDescription());
-        }
-
-        if (isDriver) {
-            join_bt.setVisibility(View.GONE);
-
-        } else {
-            if (requested) {
-                join_bt.setVisibility(View.GONE);
-                requested_dt.setVisibility(View.VISIBLE);
-
-            } else {
-                final Context context = this;
-                join_bt.setOnClickListener(new View.OnClickListener() {
+        mainLayout.setVisibility(View.GONE);
+        progressBarLayout.setVisibility(View.VISIBLE);
+        App.getNetworkService(this).getRide(rideId)
+                .enqueue(new Callback<RideForJson>() {
                     @Override
-                    public void onClick(View view) {
-                        List<ActiveRide> list = ActiveRide.find(ActiveRide.class, "date = ? and going = ?", rideWithUsers.getDate(), rideWithUsers.isGoing() ? "1" : "0");
-                        if (list != null && !list.isEmpty()) {
-                            Util.toast(getString(R.string.act_rideOffer_rideConflict));
-                            return;
+                    public void onResponse(Call<RideForJson> call, Response<RideForJson> response) {
+                        if (response.isSuccessful()) {
+                            RideForJson ride = response.body();
+                            configureActivityWithRide(ride, ride.getAvailableSlots() == 0 ? true : false);
+                            mainLayout.setVisibility(View.VISIBLE);
+                            progressBarLayout.setVisibility(View.GONE);
+                        } else {
                         }
+                    }
 
-                        com.rey.material.app.Dialog.Builder builder = new SimpleDialog.Builder(R.style.SlideInDialog) {
-
-                            @Override
-                            protected void onBuildDone(com.rey.material.app.Dialog dialog) {
-                                dialog.layoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                                dialog.getWindow().getAttributes().windowAnimations = R.style.SlideInRightDialog;
-                            }
-
-                            @Override
-                            public void onPositiveActionClicked(com.rey.material.app.DialogFragment fragment) {
-                                final ProgressDialog pd = ProgressDialog.show(context, "", getString(R.string.wait), true, true);
-                                App.getNetworkService(context).requestJoin(new RideIdForJson(rideWithUsers.getDbId()))
-                                        .enqueue(new Callback<ResponseBody>() {
-                                            @Override
-                                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                                if (response.isSuccessful()) {
-                                                    RideRequestSent rideRequest = new RideRequestSent(rideWithUsers.getDbId(), rideWithUsers.isGoing(), rideWithUsers.getDate());
-                                                    rideRequest.save();
-
-                                                    createChatAssets(rideWithUsers);
-
-                                                    join_bt.startAnimation(getAnimationForSendButton());
-
-                                                    requested_dt.startAnimation(getAnimationForResquestedText());
-
-                                                    App.getBus().post(rideRequest);
-
-                                                    pd.dismiss();
-                                                    Util.snack(coordinatorLayout, getResources().getString(R.string.requestSent));
-                                                } else {
-                                                    Util.treatResponseFromServer(response);
-                                                    pd.dismiss();
-                                                    Util.snack(coordinatorLayout, getResources().getString(R.string.errorRequestSent));
-                                                    Log.e("requestJoin", response.message());
-                                                }
-                                            }
-
-                                            @Override
-                                            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                                                pd.dismiss();
-                                                Util.snack(coordinatorLayout, getResources().getString(R.string.requestSent));
-                                                Log.e("requestJoin", t.getMessage());
-                                            }
-                                        });
-
-                                super.onPositiveActionClicked(fragment);
-                            }
-
-                            @Override
-                            public void onNegativeActionClicked(com.rey.material.app.DialogFragment fragment) {
-                                super.onNegativeActionClicked(fragment);
-                            }
-                        };
-
-                        ((SimpleDialog.Builder) builder).message(getString(R.string.act_rideOffer_requestWarn))
-                                .title(getString(R.string.attention))
-                                .positiveAction(getString(R.string.ok))
-                                .negativeAction(getString(R.string.cancel));
-
-                        com.rey.material.app.DialogFragment fragment = com.rey.material.app.DialogFragment.newInstance(builder);
-                        fragment.show(getSupportFragmentManager(), "a");
+                    @Override
+                    public void onFailure(Call<RideForJson> call, Throwable t) {
                     }
                 });
-            }
-        }
+        return true;
     }
 
     private void createChatAssets(RideForJson rideWithUsers) {
@@ -358,6 +251,184 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
     public void onBackPressed() {
         super.onBackPressed();
         overridePendingTransition(R.anim.anim_left_slide_in, R.anim.anim_right_slide_out);
+    }
+
+    private void configureShareButton() {
+        shareButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("text/plain");
+                intent.putExtra(Intent.EXTRA_TEXT, Util.getTextToShareRide(rideWithUsers));
+                intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Check out this site!");
+                startActivity(intent.createChooser(intent, "Compartilhar Carona"));
+            }
+        });
+    }
+
+    private void configureActivityWithRide(final RideForJson rideWithUsers, boolean isFull) {
+        final boolean requested = getIntent().getBooleanExtra("requested", false);
+        if (rideWithUsers == null) {
+            Util.toast(getString(R.string.act_activeride_rideNUll));
+            finish();
+        }
+
+        AllRidesFrag.setPageThatWas(rideWithUsers.isGoing());
+
+
+        final User driver = rideWithUsers.getDriver();
+
+        final boolean isDriver = driver.getDbId() == App.getUser().getDbId();
+
+        int color = Util.getColorbyZone(rideWithUsers.getZone());
+        join_bt.setBackgroundColor(color);
+        location_dt.setTextColor(color);
+
+        final String location;
+        if (rideWithUsers.isGoing())
+            location = rideWithUsers.getNeighborhood() + " ➜ " + rideWithUsers.getHub();
+        else
+            location = rideWithUsers.getHub() + " ➜ " + rideWithUsers.getNeighborhood();
+
+        String profilePicUrl = driver.getProfilePicUrl();
+        if (profilePicUrl == null || profilePicUrl.isEmpty()) {
+            Picasso.with(this.getApplicationContext()).load(R.drawable.user_pic)
+                    .into(user_pic);
+        } else {
+            Picasso.with(this.getApplicationContext()).load(profilePicUrl)
+                    .placeholder(R.drawable.user_pic)
+                    .error(R.drawable.user_pic)
+                    .transform(new RoundedTransformation())
+                    .into(user_pic);
+        }
+        user_pic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!isDriver) {//dont allow user to open own profile
+                    Intent intent = new Intent(getApplicationContext(), ProfileAct.class);
+                    intent.putExtra("user", new Gson().toJson(driver));
+                    intent.putExtra("from", "rideoffer");
+                    startActivity(intent);
+                }
+            }
+        });
+        location_dt.setText(location);
+        name_dt.setText(driver.getName());
+        profile_dt.setText(driver.getProfile());
+        if (rideWithUsers.getRoute().equals("")) {
+            way_text_frame.setVisibility(View.GONE);
+        } else {
+            way_dt.setText(rideWithUsers.getRoute());
+        }
+        if (rideWithUsers.getPlace().equals("")) {
+            place_text_frame.setVisibility(View.GONE);
+        } else {
+            place_dt.setText(rideWithUsers.getPlace());
+        }
+        course_dt.setText(driver.getCourse());
+        if (rideWithUsers.isGoing())
+            time_dt.setText(getString(R.string.arrivingAt, Util.formatTime(rideWithUsers.getTime())));
+        else
+            time_dt.setText(getString(R.string.leavingAt, Util.formatTime(rideWithUsers.getTime())));
+        time_dt.setTextColor(color);
+        date_dt.setText(Util.formatBadDateWithoutYear(rideWithUsers.getDate()));
+        date_dt.setTextColor(color);
+        if (rideWithUsers.getDescription().equals("")) {
+            description_text_frame.setVisibility(View.GONE);
+        } else {
+            description_dt.setText(rideWithUsers.getDescription());
+        }
+
+        if (isDriver) {
+            join_bt.setVisibility(View.GONE);
+
+        } else {
+            if (requested) {
+                join_bt.setVisibility(View.GONE);
+                requested_dt.setVisibility(View.VISIBLE);
+            } else {
+                if (isFull) {
+                    join_bt.setText("CARONA CHEIA");
+                    join_bt.setClickable(false);
+                } else {
+                    final Context context = this;
+                    join_bt.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            List<ActiveRide> list = ActiveRide.find(ActiveRide.class, "date = ? and going = ?", rideWithUsers.getDate(), rideWithUsers.isGoing() ? "1" : "0");
+                            if (list != null && !list.isEmpty()) {
+                                Util.toast(getString(R.string.act_rideOffer_rideConflict));
+                                return;
+                            }
+
+                            com.rey.material.app.Dialog.Builder builder = new SimpleDialog.Builder(R.style.SlideInDialog) {
+
+                                @Override
+                                protected void onBuildDone(com.rey.material.app.Dialog dialog) {
+                                    dialog.layoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                                    dialog.getWindow().getAttributes().windowAnimations = R.style.SlideInRightDialog;
+                                }
+
+                                @Override
+                                public void onPositiveActionClicked(com.rey.material.app.DialogFragment fragment) {
+                                    final ProgressDialog pd = ProgressDialog.show(context, "", getString(R.string.wait), true, true);
+                                    App.getNetworkService(context).requestJoin(new RideIdForJson(rideWithUsers.getDbId()))
+                                            .enqueue(new Callback<ResponseBody>() {
+                                                @Override
+                                                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                                    if (response.isSuccessful()) {
+                                                        RideRequestSent rideRequest = new RideRequestSent(rideWithUsers.getDbId(), rideWithUsers.isGoing(), rideWithUsers.getDate());
+                                                        rideRequest.save();
+
+                                                        createChatAssets(rideWithUsers);
+
+                                                        join_bt.startAnimation(getAnimationForSendButton());
+
+                                                        requested_dt.startAnimation(getAnimationForResquestedText());
+
+                                                        App.getBus().post(rideRequest);
+
+                                                        pd.dismiss();
+                                                        Util.snack(coordinatorLayout, getResources().getString(R.string.requestSent));
+                                                    } else {
+                                                        Util.treatResponseFromServer(response);
+                                                        pd.dismiss();
+                                                        Util.snack(coordinatorLayout, getResources().getString(R.string.errorRequestSent));
+                                                        Log.e("requestJoin", response.message());
+                                                    }
+                                                }
+
+                                                @Override
+                                                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                                    pd.dismiss();
+                                                    Util.snack(coordinatorLayout, getResources().getString(R.string.requestSent));
+                                                    Log.e("requestJoin", t.getMessage());
+                                                }
+                                            });
+
+                                    super.onPositiveActionClicked(fragment);
+                                }
+
+                                @Override
+                                public void onNegativeActionClicked(com.rey.material.app.DialogFragment fragment) {
+                                    super.onNegativeActionClicked(fragment);
+                                }
+                            };
+
+                            ((SimpleDialog.Builder) builder).message(getString(R.string.act_rideOffer_requestWarn))
+                                    .title(getString(R.string.attention))
+                                    .positiveAction(getString(R.string.ok))
+                                    .negativeAction(getString(R.string.cancel));
+
+                            com.rey.material.app.DialogFragment fragment = com.rey.material.app.DialogFragment.newInstance(builder);
+                            fragment.show(getSupportFragmentManager(), "a");
+                        }
+                    });
+                }
+            }
+        }
+
+        configureShareButton();
     }
 
 

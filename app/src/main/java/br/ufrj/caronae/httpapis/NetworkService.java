@@ -70,6 +70,9 @@ public interface NetworkService {
     @POST("ride")
     Call<List<RideRountine>> offerRide(@Body Ride ride);
 
+    @GET("ride/{rideId}")
+    Call<RideForJson> getRide(@Path("rideId") String rideId);
+
     @DELETE("ride/{rideId}")
     Call<ResponseBody> deleteRide(@Path("rideId") String rideId);
 

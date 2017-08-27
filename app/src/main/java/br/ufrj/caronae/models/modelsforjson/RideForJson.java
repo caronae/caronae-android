@@ -45,11 +45,12 @@ public class RideForJson extends Ride implements Parcelable {
         repeatsUntil = data[10];
         routineId = data[11];
 
-        int[] intData = new int[3];
+        int[] intData = new int[4];
         in.readIntArray(intData);
         going = intData[0] == 1;
         routine = intData[1] == 1;
         dbId = intData[2];
+        availableSlots = intData[3];
 
         driver = in.readParcelable(User.class.getClassLoader());
         //noinspection unchecked
@@ -78,7 +79,8 @@ public class RideForJson extends Ride implements Parcelable {
         parcel.writeIntArray(new int[]{
                 going ? 1 : 0,
                 routine ? 1 : 0,
-                dbId
+                dbId,
+                availableSlots
         });
         parcel.writeParcelable(driver, 0);
         parcel.writeList(riders);

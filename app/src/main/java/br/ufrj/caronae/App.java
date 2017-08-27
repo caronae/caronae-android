@@ -29,6 +29,9 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import static br.ufrj.caronae.Constants.CARONAE_ENDPOINT;
+import static br.ufrj.caronae.Constants.TIC_ENDPOINT;
+
 /** Usa o Falae para reportar crashes **/
 @ReportsCrashes(
         reportSenderFactoryClasses = {CrashReportFactory.class},
@@ -42,9 +45,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class App extends SugarApp {
 
-    private static final String DEV_SERVER_ENDPOINT          = "https://dev.caronae.tic.ufrj.br/";
-    private static final String TIC_ENDPOINT                 = "https://api.caronae.ufrj.br/";
-    private static final String CARONAE_ENDPOINT             = "https://api.caronae.com.br/";
 
     private static App inst;
     private static User user;

@@ -33,6 +33,7 @@ import java.util.Locale;
 
 import br.ufrj.caronae.models.ChatAssets;
 import br.ufrj.caronae.models.Ride;
+import br.ufrj.caronae.models.modelsforjson.RideForJson;
 import retrofit2.Response;
 
 
@@ -626,5 +627,13 @@ public class Util {
             Util.toast(R.string.invalidToken);
             App.LogOut();
         }
+    }
+
+    public static String getTextToShareRide(RideForJson ride){
+        String text = "Carona: " + ride.getNeighborhood() + "" + ride.getHub() + "\n"
+                + "Chegando às " + ride.getTime() + " | " + " | " + ride.getDate() + "\n"
+                + Constants.SHARE_LINK  + ride.getDbId();
+
+        return text;
     }
 }

@@ -84,11 +84,27 @@
         <activity
             android:name=".acts.RideOfferAct"
             android:label="@string/app_name"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait" >
+
+            <intent-filter>
+                <data android:scheme="caronae"></data>
+                <action android:name="android.intent.action.VIEW"></action>
+                <category android:name="android.intent.category.DEFAULT"></category>
+                <category android:name="android.intent.category.BROWSABLE"></category>
+            </intent-filter>
+
+            <intent-filter>
+                <data android:scheme="https" android:host="caronae.com.br"></data>
+                <action android:name="android.intent.action.VIEW"></action>
+                <category android:name="android.intent.category.DEFAULT"></category>
+                <category android:name="android.intent.category.BROWSABLE"></category>
+            </intent-filter>
+        </activity>
         <activity
             android:name=".acts.RequestersListAct"
             android:label="@string/app_name"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:exported="true"/>
 
         <service android:name=".firebase.MyFirebaseMessagingService">
             <intent-filter>
