@@ -69,6 +69,8 @@ public class RideOfferFrag extends Fragment {
     Spinner slots_et;
     @Bind(R.id.center_et)
     EditText center_et;
+    @Bind(R.id.campi_et)
+    EditText campi_et;
     @Bind(R.id.description_et)
     EditText description_et;
 
@@ -124,6 +126,9 @@ public class RideOfferFrag extends Fragment {
         if (!lastRideOffer.equals(SharedPref.MISSING_PREF)) {
             loadLastRide(lastRideOffer);
         }
+
+        if (going)
+            center_et.setVisibility(View.GONE);
 
         checkCarOwnerDialog();
 
@@ -252,6 +257,33 @@ public class RideOfferFrag extends Fragment {
         fragment.show(getFragmentManager(), null);
     }
 
+    @OnClick(R.id.campi_et)
+    public void campiEt() {
+        SimpleDialog.Builder builder = new SimpleDialog.Builder(R.style.SimpleDialogLight) {
+            @Override
+            public void onPositiveActionClicked(DialogFragment fragment) {
+                campi_et.setText(getSelectedValue());
+                if ((campi_et.getText().toString().equals("") || campi_et.getText().toString().equals(Util.getCampi()[2]) && (going))) {
+                    center_et.setVisibility(View.GONE);
+                } else
+                    center_et.setVisibility(View.VISIBLE);
+                super.onPositiveActionClicked(fragment);
+            }
+
+            @Override
+            public void onNegativeActionClicked(DialogFragment fragment) {
+                super.onNegativeActionClicked(fragment);
+            }
+        };
+
+        builder.items(Util.getCampiWithoutAllCampi(), 0)
+                .title(getContext().getString(R.string.frag_rideOffer_pickCampi))
+                .positiveAction(getContext().getString(R.string.ok))
+                .negativeAction(getContext().getString(R.string.cancel));
+        DialogFragment fragment = DialogFragment.newInstance(builder);
+        fragment.show(getFragmentManager(), null);
+    }
+
     @OnClick(R.id.center_et)
     public void centerEt() {
         SimpleDialog.Builder builder = new SimpleDialog.Builder(R.style.SimpleDialogLight) {
@@ -272,14 +304,25 @@ public class RideOfferFrag extends Fragment {
                     .title(getContext().getString(R.string.frag_rideOffer_pickCenter))
                     .positiveAction(getContext().getString(R.string.ok))
                     .negativeAction(getContext().getString(R.string.cancel));
+            DialogFragment fragment = DialogFragment.newInstance(builder);
+            fragment.show(getFragmentManager(), null);
         } else {
-            builder.items(Util.getHubs(), 0)
-                    .title(getContext().getString(R.string.frag_rideOffer_pickHub))
+            builder.title(getContext().getString(R.string.frag_rideOffer_pickHub))
                     .positiveAction(getContext().getString(R.string.ok))
                     .negativeAction(getContext().getString(R.string.cancel));
+            if (campi_et.getText().toString().equals("")){
+                campi_et.setError("Escolher o campus");
+            } else {
+                if (campi_et.getText().toString().equals(Util.getCampi()[1])) {
+                    builder.items(Util.getFundaoHubs(), 0);
+                }
+                if (campi_et.getText().toString().equals(Util.getCampi()[2])) {
+                    builder.items(Util.getPraiaVermelhaHubs(), 0);
+                }
+                DialogFragment fragment = DialogFragment.newInstance(builder);
+                fragment.show(getFragmentManager(), null);
+            }
         }
-        DialogFragment fragment = DialogFragment.newInstance(builder);
-        fragment.show(getFragmentManager(), null);
     }
 
     @OnClick(R.id.date_et)
@@ -388,10 +431,10 @@ public class RideOfferFrag extends Fragment {
         String hub = center_et.getText().toString();
         if (hub.isEmpty()) {
             if (going) {
-                center_et.setText(Util.getCenters()[0]);
+                center_et.setText(Util.getFundaoCenters()[0]);
                 hub = center_et.getText().toString();
             } else {
-                center_et.setText(Util.getHubs()[0]);
+                center_et.setText(Util.getFundaoHubs()[0]);
                 hub = center_et.getText().toString();
             }
         }
@@ -437,7 +480,9 @@ public class RideOfferFrag extends Fragment {
             repeatsUntil = simpleDateFormat.format(c.getTime());
         }
 
-        final Ride ride = new Ride(zone, neighborhood, place, way, etDateString, time, slots, hub, description, going, routine, weekDays, repeatsUntil);
+        String campus = campi_et.getText().toString();
+
+        final Ride ride = new Ride(zone, neighborhood, place, way, etDateString, time, slots, hub, campus, description, going, routine, weekDays, repeatsUntil);
 
 
         checkAndCreateRide(ride);
@@ -465,8 +510,6 @@ public class RideOfferFrag extends Fragment {
                                 createRide(ride);
                             } else {
                                 if (validateDuplicate.getStatus().equals("possible_duplicate")) {
-//                                    DuplicateRidesDialogFrag dialogFragment = DuplicateRidesDialogFrag.newInstance(ride);
-//                                    dialogFragment.show(getActivity().getSupportFragmentManager(), "duplicateDialog");
                                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                                     builder.setView(R.layout.possible_duplicate_rides_dialog);
                                     builder.setPositiveButton("Criar", new DialogInterface.OnClickListener() {

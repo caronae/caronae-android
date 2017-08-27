@@ -220,29 +220,29 @@ public class RideFilterFrag extends Fragment {
         final ArrayList<String> selectedItems = new ArrayList();
 
         String[] selectedCenters = center_et.getText().toString().split(", ");
-        boolean[] ifCentersAreSelected = new boolean[Util.getCenters().length];
-        for (int centers = 0; centers < Util.getCenters().length; centers++) {
+        boolean[] ifCentersAreSelected = new boolean[Util.getFundaoCenters().length];
+        for (int centers = 0; centers < Util.getFundaoCenters().length; centers++) {
             ifCentersAreSelected[centers] = false;
             for (int selecteds = 0; selecteds < selectedCenters.length; selecteds++) {
-                if (Util.getCenters()[centers].equals(selectedCenters[selecteds])) {
+                if (Util.getFundaoCenters()[centers].equals(selectedCenters[selecteds])) {
                     ifCentersAreSelected[centers] = true;
-                    selectedItems.add(Util.getCenters()[centers]);
+                    selectedItems.add(Util.getFundaoCenters()[centers]);
                 }
             }
         }
 
         AlertDialog builder = new AlertDialog.Builder(getContext())
                 .setTitle(getContext().getString(R.string.frag_rideSearch_hintPickCenter))
-                .setMultiChoiceItems(Util.getCenters(), ifCentersAreSelected, new DialogInterface.OnMultiChoiceClickListener() {
+                .setMultiChoiceItems(Util.getFundaoCenters(), ifCentersAreSelected, new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which, boolean isChecked) {
                         if (isChecked) {
                             // If the user checked the item, add it to the selected items
-                            selectedItems.add(Util.getCenters()[which]);
-                        } else if (selectedItems.contains(Util.getCenters()[which])) {
+                            selectedItems.add(Util.getFundaoCenters()[which]);
+                        } else if (selectedItems.contains(Util.getFundaoCenters()[which])) {
                             // Else, if the item is already in the array, remove it
                             for (int item = 0; item < selectedItems.size(); item++) {
-                                if (Util.getCenters()[which].equals(selectedItems.get(item)))
+                                if (Util.getFundaoCenters()[which].equals(selectedItems.get(item)))
                                     selectedItems.remove(item);
                             }
                         }
@@ -254,10 +254,10 @@ public class RideFilterFrag extends Fragment {
                     public void onClick(DialogInterface dialog, int which) {
                         String centers = "";
                         for (int selectedValues = 0; selectedValues < selectedItems.size(); selectedValues++) {
-                            if (selectedItems.get(selectedValues).equals(Util.getCenters()[0])
-                                    || selectedItems.size() == Util.getCenters().length - 1) {
+                            if (selectedItems.get(selectedValues).equals(Util.getFundaoCenters()[0])
+                                    || selectedItems.size() == Util.getFundaoCenters().length - 1) {
                                 selectedItems.clear();
-                                selectedItems.add(Util.getCenters()[0]);
+                                selectedItems.add(Util.getFundaoCenters()[0]);
                                 centers = selectedItems.get(0) + ", ";
                                 break;
                             }

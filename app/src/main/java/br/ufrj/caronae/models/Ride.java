@@ -27,12 +27,13 @@ public class Ride extends SugarRecord{
     protected int dbId;
     @SerializedName("routine_id")
     protected String routineId;
+    protected String campus;
     protected int availableSlots;
 
     public Ride() {
     }
 
-    public Ride(String zone, String neighborhood, String place, String route, String date, String time, String slots, String hub, String description, boolean going, boolean routine, String weekDays, String repeatsUntil) {
+    public Ride(String zone, String neighborhood, String place, String route, String date, String time, String slots, String hub, String campus, String description, boolean going, boolean routine, String weekDays, String repeatsUntil) {
         this.zone = zone;
         this.neighborhood = neighborhood;
         this.place = place;
@@ -46,6 +47,7 @@ public class Ride extends SugarRecord{
         this.routine = routine;
         this.weekDays = weekDays;
         this.repeatsUntil = repeatsUntil;
+        this.campus = campus;
     }
 
     public Ride(Ride ride) {
@@ -65,6 +67,7 @@ public class Ride extends SugarRecord{
         dbId = ride.getId().intValue();
         routineId = ride.getRoutineId();
         availableSlots = ride.availableSlots;
+        campus = ride.campus;
     }
 
     public Ride(RideRountine ride) {
@@ -79,6 +82,7 @@ public class Ride extends SugarRecord{
         description = ride.getDescription();
         going = ride.isGoing();
         weekDays = ride.getWeekDays();
+        campus = ride.getCampus();
         routine = weekDays != null && !weekDays.isEmpty();
         if (ride.getRepeatsUntil() == null) {
             repeatsUntil = "null";
@@ -212,5 +216,13 @@ public class Ride extends SugarRecord{
 
     public int getAvailableSlots() {
         return availableSlots;
+    }
+
+    public String getCampus() {
+        return campus;
+    }
+
+    public void setCampus(String campus) {
+        this.campus = campus;
     }
 }

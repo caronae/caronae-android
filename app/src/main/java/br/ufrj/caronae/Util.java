@@ -26,6 +26,7 @@ import android.widget.Toast;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -99,7 +100,7 @@ public class Util {
         Toast.makeText(App.inst(), msg, Toast.LENGTH_SHORT).show();
     }
 
-    public static void snack(View coordinator, String msg){
+    public static void snack(View coordinator, String msg) {
         Snackbar.make(coordinator, msg, Snackbar.LENGTH_LONG).show();
     }
 
@@ -214,12 +215,16 @@ public class Util {
         return neighborhoods;
     }
 
-    public static String[] getHubs() {
+    public static String[] getFundaoHubs() {
         return new String[]{"CCMN: Frente", "CCMN: Fundos", "CCS: Frente", "CCS: HUCFF", "CT: Bloco A", "CT: Bloco D", "CT: Bloco H", "EEFD", "Letras", "Reitoria"};
     }
 
-    public static String[] getCenters() {
+    public static String[] getFundaoCenters() {
         return new String[]{"Todos os Centros", "CCMN", "CCS", "CT", "EEFD", "Letras", "Reitoria"};
+    }
+
+    public static String[] getPraiaVermelhaHubs() {
+        return new String[]{"Hub 1", "Hub 2"};
     }
 
     public static String[] getCampi() {
@@ -227,7 +232,7 @@ public class Util {
     }
 
     public static String[] getCentersLowerCase() {
-        String[] center = getCenters();
+        String[] center = getFundaoCenters();
         for (int index = 0; index < center.length; index++) {
             center[index] = center[index].toLowerCase();
         }
@@ -236,6 +241,73 @@ public class Util {
 
     public static String[] getCentersWithoutAllCenters() {
         return new String[]{"CCMN", "CCS", "CT", "EEFD", "Letras", "Reitoria"};
+    }
+
+    public static String[] getCampiWithoutAllCampi(){
+        String[] campis = new String[getCampi().length - 1];
+        for (int i  = 0; i < campis.length; i++)
+            campis[i] = getCampi()[i + 1];
+        return campis;
+    }
+
+    public static int getNumberAvailableCampis() {
+        return 2;
+    }
+
+    public static String[] getCampiHubsByIndex(int index) {
+        switch (index) {
+            case 0:
+                return getFundaoHubs();
+            case 1:
+                return getPraiaVermelhaHubs();
+            default:
+                return getFundaoHubs();
+        }
+    }
+
+    public static ArrayList<ArrayList<String>> getListAvailableHubs() {
+        ArrayList<ArrayList<String>> hubs = new ArrayList<>();
+        for (int i = 0; i < getNumberAvailableCampis(); i++) {
+            String[] campiHubs = getCampiHubsByIndex(i);
+            for (int j = 0; j < campiHubs.length; j++) {
+                hubs.get(i).add(campiHubs[j]);
+            }
+        }
+        return hubs;
+    }
+
+    public static String[] getAvailableHubs() {
+        ArrayList<ArrayList<String>> hubs = getListAvailableHubs();
+        String[] hubsString;
+        int counter = 0;
+        for (int i = 0; i < hubs.size(); i++) {
+            counter = counter + hubs.get(i).size();
+        }
+        hubsString = new String[counter];
+        for (int i = 0; i < getNumberAvailableCampis(); i++) {
+            String[] campiHubs = getCampiHubsByIndex(i);
+            for (int j = 0; j < campiHubs.length; j++) {
+                hubsString[i + j] = hubs.get(i).get(j);
+            }
+        }
+        return hubsString;
+    }
+
+    public static String[] getHubsByCampi(String campi) {
+        if (campi.equals(getCampi()[2])) {
+            return getPraiaVermelhaHubs();
+        }
+        if (campi.equals(getCampi()[1])) {
+            return getFundaoHubs();
+        }
+        return getAvailableHubs();
+    }
+
+    public static String[] getCentersByCampi(String campi) {
+        if (campi.equals(getCampi()[2])) {
+            return new String[]{""};
+        }
+        return getFundaoCenters();
     }
 
     public static String formatTime(String time) {
@@ -265,7 +337,7 @@ public class Util {
         return formattedTime;
     }
 
-    public static String formatBadHour(String hour){
+    public static String formatBadHour(String hour) {
         return hour.substring(0, hour.length() - 3);
     }
 
@@ -317,9 +389,10 @@ public class Util {
             Date tomorrow = c.getTime();
             String currentDate = format.format(today);
             String tomorrowString = format.format(tomorrow);
-            if (currentDate.equals(dateString)){
+            if (currentDate.equals(dateString)) {
                 return "Hoje";
-            }if (tomorrowString.equals(dateString)){
+            }
+            if (tomorrowString.equals(dateString)) {
                 return "Amanhã";
             }
             Date date = format.parse(dateString);
@@ -375,7 +448,7 @@ public class Util {
         }
 
         String brand = Build.BRAND;
-        brand = brand.substring(0,1).toUpperCase() + brand.substring(1, brand.length());
+        brand = brand.substring(0, 1).toUpperCase() + brand.substring(1, brand.length());
         return "Caronae/"
                 + Util.getAppVersionName(context)
                 + " ("
@@ -457,6 +530,7 @@ public class Util {
                 outRect.set(0, mTopOffset, 0, 0);
             }
         }
+
     }
 
     public static Bitmap getCircularBitmapWithWhiteBorder(Bitmap bitmap,
@@ -486,7 +560,7 @@ public class Util {
         return canvasBitmap;
     }
 
-    static public int getBgResByZone(String zone){
+    static public int getBgResByZone(String zone) {
         int bgRes = R.drawable.bg_bt_raise_zone_outros;
         if (zone.equals("Centro")) {
             bgRes = R.drawable.bg_bt_raise_zone_centro;
@@ -509,7 +583,7 @@ public class Util {
         return bgRes;
     }
 
-    static public int getColorbyZone(String zone){
+    static public int getColorbyZone(String zone) {
         int color = ContextCompat.getColor(App.inst(), R.color.zone_outros);
         if (zone.equals("Centro")) {
             color = ContextCompat.getColor(App.inst(), R.color.zone_centro);
@@ -532,7 +606,7 @@ public class Util {
         return color;
     }
 
-    static public int getPressedColorbyZone(String zone){
+    static public int getPressedColorbyZone(String zone) {
         int color = ContextCompat.getColor(App.inst(), R.color.zone_outros);
         if (zone.equals("Centro")) {
             color = ContextCompat.getColor(App.inst(), R.color.light_zone_centro_transparency);
@@ -555,24 +629,24 @@ public class Util {
         return color;
     }
 
-    static public int getPressedColorbyNormalColor(int color){
+    static public int getPressedColorbyNormalColor(int color) {
         int PressedColor = ContextCompat.getColor(App.inst(), R.color.zone_outros);
-        if (color == ContextCompat.getColor(App.inst(),R.color.zone_centro)) {
+        if (color == ContextCompat.getColor(App.inst(), R.color.zone_centro)) {
             PressedColor = ContextCompat.getColor(App.inst(), R.color.light_zone_centro_transparency);
         }
-        if (color == ContextCompat.getColor(App.inst(),R.color.zone_sul)) {
+        if (color == ContextCompat.getColor(App.inst(), R.color.zone_sul)) {
             PressedColor = ContextCompat.getColor(App.inst(), R.color.light_zone_sul_transparency);
         }
-        if (color == ContextCompat.getColor(App.inst(),R.color.zone_oeste)) {
+        if (color == ContextCompat.getColor(App.inst(), R.color.zone_oeste)) {
             PressedColor = ContextCompat.getColor(App.inst(), R.color.light_zone_oeste_transparency);
         }
-        if (color == ContextCompat.getColor(App.inst(),R.color.zone_norte)) {
+        if (color == ContextCompat.getColor(App.inst(), R.color.zone_norte)) {
             PressedColor = ContextCompat.getColor(App.inst(), R.color.light_zone_norte_transparency);
         }
-        if (color == ContextCompat.getColor(App.inst(),R.color.zone_baixada)) {
+        if (color == ContextCompat.getColor(App.inst(), R.color.zone_baixada)) {
             PressedColor = ContextCompat.getColor(App.inst(), R.color.light_zone_baixada_transparency);
         }
-        if (color == ContextCompat.getColor(App.inst(),R.color.zone_niteroi)) {
+        if (color == ContextCompat.getColor(App.inst(), R.color.zone_niteroi)) {
             PressedColor = ContextCompat.getColor(App.inst(), R.color.light_zone_niteroi_transparency);
         }
         return PressedColor;
@@ -626,17 +700,17 @@ public class Util {
                     Util.formatTime(rideWithUsers.getTime())).save();
     }
 
-    public static void treatResponseFromServer(Response response){
-        if (response.code() == 401){
+    public static void treatResponseFromServer(Response response) {
+        if (response.code() == 401) {
             Util.toast(R.string.invalidToken);
             App.LogOut();
         }
     }
 
-    public static String getTextToShareRide(RideForJson ride){
+    public static String getTextToShareRide(RideForJson ride) {
         String text = "Carona: " + ride.getNeighborhood() + "" + ride.getHub() + "\n"
                 + "Chegando às " + ride.getTime() + " | " + " | " + ride.getDate() + "\n"
-                + Constants.SHARE_LINK  + ride.getDbId();
+                + Constants.SHARE_LINK + ride.getDbId();
 
         return text;
     }

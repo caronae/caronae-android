@@ -29,8 +29,9 @@ public class RideRountine {
         protected int dbId;
         @SerializedName("routine_id")
         protected String routineId;
+        protected String campus;
 
-        public RideRountine(String zone, String neighborhood, String place, String route, String date, String time, String slots, String hub, String description, boolean going, boolean routine, String weekDays, RepeatisUntil repeatsUntil) {
+        public RideRountine(String zone, String neighborhood, String place, String route, String date, String time, String slots, String hub, String campus, String description, boolean going, boolean routine, String weekDays, RepeatisUntil repeatsUntil) {
                 this.zone = zone;
                 this.neighborhood = neighborhood;
                 this.place = place;
@@ -43,6 +44,7 @@ public class RideRountine {
                 this.going = going;
                 this.weekDays = weekDays;
                 this.repeatsUntil = repeatsUntil;
+                this.campus = campus;
         }
 
         public String getZone() {
@@ -100,4 +102,9 @@ public class RideRountine {
         public String getRoutineId() {
                 return routineId;
         }
+
+        public String getCampus() {
+                return campus;
+        }
+
 }
