@@ -140,6 +140,7 @@
     <string name="frag_ridesearch_dateHint">Escolha a data</string>
     <string name="frag_ridesearch_timeHint">Escolha a hora</string>
     <string name="frag_ridesearch_centerHint">Escolha o centro</string>
+    <string name="frag_ridesearch_campiHint">Escolha o campi</string>
     <string name="frag_ridesearch_searchBt">Buscar</string>
     <string name="frag_ridesearch_filterBt">Filtrar</string>
     <string name="frag_ridesearch_anotherSearchBt">Outra busca</string>

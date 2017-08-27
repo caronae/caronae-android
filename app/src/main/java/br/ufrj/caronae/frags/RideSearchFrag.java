@@ -61,6 +61,8 @@ public class RideSearchFrag extends Fragment {
     TextView time_et;
     @Bind(R.id.center_et)
     TextView center_et;
+    @Bind(R.id.campi_et)
+    TextView campi_et;
     @Bind(R.id.lay)
     RelativeLayout lay;
     @Bind(R.id.anotherSearch_bt)
@@ -281,6 +283,72 @@ public class RideSearchFrag extends Fragment {
 
         DialogFragment fragment = DialogFragment.newInstance(builder);
         fragment.show(getFragmentManager(), null);
+    }
+
+    @OnClick(R.id.campi_et)
+    public void campiEt() {
+        final ArrayList<String> selectedItems = new ArrayList();
+        String[] campis = Util.getCampi();
+        String[] selectedCampi = campi_et.getText().toString().split(",");
+        boolean[] ifCampiAreSelected = new boolean[campis.length];
+        for (int campi = 0; campi < campis.length; campi++) {
+            ifCampiAreSelected[campi] = false;
+            for (int selected = 0; selected < selectedCampi.length; selected++) {
+                if (campis[campi].equals(selectedCampi[selected])) {
+                    ifCampiAreSelected[campi] = true;
+                    selectedItems.add(campis[campi]);
+                }
+            }
+        }
+
+        AlertDialog builder = new AlertDialog.Builder(getContext())
+                .setTitle(getContext().getString(R.string.frag_rideSearch_hintPickCenter))
+                .setMultiChoiceItems(Util.getCampi(), ifCampiAreSelected, new DialogInterface.OnMultiChoiceClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                        if (isChecked) {
+                            // If the user checked the item, add it to the selected items
+                            selectedItems.add(Util.getCampi()[which]);
+                        } else if (selectedItems.contains(Util.getCampi()[which])) {
+                            // Else, if the item is already in the array, remove it
+                            for (int item = 0; item < selectedItems.size(); item++) {
+                                if (Util.getCampi()[which].equals(selectedItems.get(item)))
+                                    selectedItems.remove(item);
+                            }
+                        }
+                    }
+                })
+                .setPositiveButton(getContext().getString(R.string.ok), new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String campi = "";
+                        for (int selectedValues = 0; selectedValues < selectedItems.size(); selectedValues++) {
+                            if (selectedItems.get(selectedValues).equals(Util.getCampi()[0])
+                                    || selectedItems.size() == Util.getCampi().length - 1) {
+                                selectedItems.clear();
+                                selectedItems.add(Util.getCampi()[0]);
+                                campi = selectedItems.get(0) + ", ";
+                                break;
+                            }
+                            campi = campi + selectedItems.get(selectedValues) + ", ";
+                        }
+
+                        if (!campi.equals("")) {
+                            campi = campi.substring(0, campi.length() - 2);
+                        }
+                        campi_et.setText(campi);
+                    }
+                })
+                .setNegativeButton(getContext().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                })
+                .create();
+
+        builder.show();
     }
 
     @OnClick(R.id.center_et)

@@ -222,6 +222,10 @@ public class Util {
         return new String[]{"Todos os Centros", "CCMN", "CCS", "CT", "EEFD", "Letras", "Reitoria"};
     }
 
+    public static String[] getCampi() {
+        return new String[]{"Todos os Campi", "Cidade Universitária", "Praia Vermelha"};
+    }
+
     public static String[] getCentersLowerCase() {
         String[] center = getCenters();
         for (int index = 0; index < center.length; index++) {
