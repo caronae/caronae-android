@@ -401,8 +401,10 @@ public class MyProfileFrag extends Fragment {
             }
         };
 
-        builder.items(new String[]{getString(R.string.frag_myprofile_SigaPicChoice), getString(R.string.frag_myprofile_facePicChoice)}, 0)
-                .title(getString(R.string.frag_myprofile_picChoice))
+//        builder.items(new String[]{getString(R.string.frag_myprofile_SigaPicChoice), getString(R.string.frag_myprofile_facePicChoice)}, 0)
+        builder.items(new String[]{getString(R.string.frag_myprofile_facePicChoice)}, 0)
+//                .title(getString(R.string.frag_myprofile_picChoice))
+                .title("Usar foto do Facebook?")
                 .positiveAction(getString(R.string.ok))
                 .negativeAction(getString(R.string.cancel));
         DialogFragment fragment = DialogFragment.newInstance(builder);
