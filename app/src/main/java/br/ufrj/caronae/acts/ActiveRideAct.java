@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -97,11 +98,15 @@ public class ActiveRideAct extends SwipeDismissBaseActivity {
     public RelativeLayout lay1;
     @Bind(R.id.ridersList)
     public RecyclerView ridersList;
+    @Bind(R.id.share_ride_button)
+    public ImageButton shareBt;
 
     private String rideId2;
 
     private boolean notVisible;
     private boolean scheduledToClose;
+
+    RideForJson rideWithUsers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,7 +122,7 @@ public class ActiveRideAct extends SwipeDismissBaseActivity {
             ab.setDisplayHomeAsUpEnabled(true);
         }
 
-        final RideForJson rideWithUsers = getIntent().getExtras().getParcelable("ride");
+        rideWithUsers = getIntent().getExtras().getParcelable("ride");
 
         if (rideWithUsers == null) {
             Util.toast(getString(R.string.act_activeride_rideNUll));
@@ -408,6 +413,21 @@ public class ActiveRideAct extends SwipeDismissBaseActivity {
         App.getBus().register(this);
         notVisible = false;
         scheduledToClose = false;
+
+        configureShareBt();
+    }
+
+    private void configureShareBt() {
+        shareBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("text/plain");
+                intent.putExtra(Intent.EXTRA_TEXT, Util.getTextToShareRide(rideWithUsers));
+                intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Check out this site!");
+                startActivity(intent.createChooser(intent, "Compartilhar Carona"));
+            }
+        });
     }
 
     @Override
