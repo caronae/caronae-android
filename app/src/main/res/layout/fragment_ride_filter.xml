@@ -26,10 +26,24 @@
             android:hint="@string/frag_ridesearch_locationHint" />
 
         <EditText
-            android:id="@+id/center_et"
+            android:id="@+id/campi_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/location_et"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:drawableLeft="@drawable/ic_account_balance_black_24dp"
+            android:drawablePadding="5dp"
+            android:drawableStart="@drawable/ic_account_balance_black_24dp"
+            android:focusable="false"
+            android:hint="@string/frag_ridesearch_campiHint" />
+
+        <EditText
+            android:id="@+id/center_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/campi_et"
             android:layout_centerVertical="true"
             android:layout_marginLeft="5dp"
             android:layout_marginStart="5dp"

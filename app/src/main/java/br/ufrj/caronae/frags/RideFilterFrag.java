@@ -35,6 +35,8 @@ public class RideFilterFrag extends Fragment {
     EditText location_et;
     @Bind(R.id.center_et)
     EditText center_et;
+    @Bind(R.id.campi_et)
+    EditText campi_et;
     @Bind(R.id.search_bt)
     Button search_bt;
 
@@ -42,6 +44,7 @@ public class RideFilterFrag extends Fragment {
 
     private String location = "";
     private String center = "";
+    private String campi = "";
     private String zone = "";
     private String resumeLocation = "";
 
@@ -72,14 +75,17 @@ public class RideFilterFrag extends Fragment {
         neighborhoods = rideFilters.getLocation();
         location_et.setText(rideFilters.getResumeLocation());
         center_et.setText(rideFilters.getCenter());
+        campi_et.setText(rideFilters.getCampi());
     }
 
     @OnClick(R.id.search_bt)
-    public void search(){
-        if (center.equals("Todos os Centros")){
+    public void search() {
+        if (center.equals("Todos os Centros")) {
             center = "";
         }
-        RideFiltersForJson rideFilters = new RideFiltersForJson(location, center, zone, resumeLocation);
+        if (campi.equals(Util.getCampi()[0]))
+            campi = "";
+        RideFiltersForJson rideFilters = new RideFiltersForJson(location, center, campi, zone, resumeLocation);
         String lastRideFilters = new Gson().toJson(rideFilters);
         SharedPref.saveLastFiltersPref(lastRideFilters);
         SharedPref.saveFilterPref(lastRideFilters);
@@ -95,11 +101,7 @@ public class RideFilterFrag extends Fragment {
             public void onPositiveActionClicked(DialogFragment fragment) {
                 String selectedZone = getSelectedValue().toString();
                 location_et.setText(selectedZone);
-//                if (selectedZone.equals("Outros")) {
-//                    showOtherNeighborhoodDialog();
-//                } else {
-                    locationEt2(selectedZone);
-//                }
+                locationEt2(selectedZone);
                 super.onPositiveActionClicked(fragment);
             }
 
@@ -175,9 +177,6 @@ public class RideFilterFrag extends Fragment {
                             return;
                         }
                         neighborhoods += selectedNeighborhoods[i];
-//                        if (i == 2) {
-//                            resumedField = neighborhoods + " + " + (selectedNeighborhoods.length - 3);
-//                        }
                         if (i + 1 != selectedNeighborhoods.length) {
                             neighborhoods += ", ";
                         }
@@ -268,6 +267,77 @@ public class RideFilterFrag extends Fragment {
                             centers = centers.substring(0, centers.length() - 2);
                         }
                         center_et.setText(centers);
+                    }
+                })
+                .setNegativeButton(getContext().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                })
+                .create();
+
+        builder.show();
+    }
+
+    @OnClick(R.id.campi_et)
+    public void campiEt() {
+        final ArrayList<String> selectedItems = new ArrayList();
+
+        String[] selectedCampis = campi_et.getText().toString().split(", ");
+        boolean[] ifCampisAreSelected = new boolean[Util.getCampi().length];
+        for (int campis = 0; campis < Util.getCampi().length; campis++) {
+            ifCampisAreSelected[campis] = false;
+            for (int selecteds = 0; selecteds < selectedCampis.length; selecteds++) {
+                if (Util.getCampi()[campis].equals(selectedCampis[selecteds])) {
+                    ifCampisAreSelected[campis] = true;
+                    selectedItems.add(Util.getCampi()[campis]);
+                }
+            }
+        }
+
+        AlertDialog builder = new AlertDialog.Builder(getContext())
+                .setTitle(getContext().getString(R.string.frag_rideSearch_hintPickCenter))
+                .setMultiChoiceItems(Util.getCampi(), ifCampisAreSelected, new DialogInterface.OnMultiChoiceClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                        if (isChecked) {
+                            // If the user checked the item, add it to the selected items
+                            selectedItems.add(Util.getCampi()[which]);
+                        } else if (selectedItems.contains(Util.getCampi()[which])) {
+                            // Else, if the item is already in the array, remove it
+                            for (int item = 0; item < selectedItems.size(); item++) {
+                                if (Util.getCampi()[which].equals(selectedItems.get(item)))
+                                    selectedItems.remove(item);
+                            }
+                        }
+                    }
+                })
+                .setPositiveButton(getContext().getString(R.string.ok), new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String campis = "";
+                        for (int selectedValues = 0; selectedValues < selectedItems.size(); selectedValues++) {
+                            if (selectedItems.get(selectedValues).equals(Util.getCampi()[0])
+                                    || selectedItems.size() == Util.getCampi().length - 1) {
+                                selectedItems.clear();
+                                selectedItems.add(Util.getCampi()[0]);
+                                campis = selectedItems.get(0) + ", ";
+                                break;
+                            }
+                            campis = campis + selectedItems.get(selectedValues) + ", ";
+                        }
+
+                        if (!campis.equals("")) {
+                            campis = campis.substring(0, campis.length() - 2);
+                        }
+                        if (campis.equals(Util.getCampi()[2])){
+                            center_et.setVisibility(View.GONE);
+                        } else {
+                            center_et.setVisibility(View.VISIBLE);
+                        }
+                        campi_et.setText(campis);
                     }
                 })
                 .setNegativeButton(getContext().getString(R.string.cancel), new DialogInterface.OnClickListener() {
