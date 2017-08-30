@@ -474,6 +474,9 @@ public class Util {
         }
     }
 
+    public static void makeColorIdList(String[] strings) {
+    }
+
     public static class BlurBuilder {
         private static final float BITMAP_SCALE = 0.4f;
         private static final float BLUR_RADIUS = 24.5f;

@@ -1,4 +1,4 @@
-package br.ufrj.caronae.frags;
+package br.ufrj.caronae.frags.DialogFragment;
 
 import android.app.DialogFragment;
 import android.app.ProgressDialog;
@@ -16,6 +16,7 @@ import br.ufrj.caronae.R;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.firebase.FirebaseTopicsHandler;
+import br.ufrj.caronae.frags.RideOfferFrag;
 import br.ufrj.caronae.models.Ride;
 import br.ufrj.caronae.models.RideRountine;
 import retrofit2.Call;
