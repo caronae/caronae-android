@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import br.ufrj.caronae.R;
@@ -23,15 +24,21 @@ public class SelectorListAdapter extends RecyclerView.Adapter<SelectorListAdapte
     Context context;
 
 
-    String[][] textList;
+    String[] textList;
     int[] colorIdList;
-
-    /** Receive a String[][] with the texts and the color of the color bar with the model
-     ** String[TEXT_COLUMN][text] and String[COLOR_COLUMN][R.color.xxxx]
+    boolean[] selectedItens;
+    boolean isMultipleChoice;
+    /** Receive a String[] with the texts and a int[] with the colors R.color.xxx, if values of color id
+     ** is null or the color array is shorter than text array the color will be set transparent and check will
+     ** be set to darker_gray
      **/
-    public SelectorListAdapter(String[][] textList){
+    public SelectorListAdapter(String[] textList,
+                               int[] colorIdList,
+                               boolean[] selectedItens,
+                               boolean isMultipleChoices){
         this.textList = textList;
-        Util.makeColorIdList(textList[COLOR_COLUMN]);
+        this.colorIdList = colorIdList;
+        this.selectedItens = selectedItens;
     }
 
     @Override
@@ -45,9 +52,40 @@ public class SelectorListAdapter extends RecyclerView.Adapter<SelectorListAdapte
     }
 
     @Override
-    public void onBindViewHolder(SelectorListAdapter.ViewHolder holder, int position) {
-        holder.text.setText(textList[TEXT_COLUMN][position]);
-        holder.colorTab.setImageDrawable(context.getDrawable(colorIdList[position]));
+    public void onBindViewHolder(final SelectorListAdapter.ViewHolder holder, final int position) {
+        holder.text.setText(textList[position]);
+        if (position < colorIdList.length) {
+            holder.colorTab.setBackgroundColor(colorIdList[position]);
+        } else {
+            holder.colorTab.setBackgroundColor(context.getColor(android.R.color.transparent));
+        }
+
+        if (isMultipleChoice){
+            if (position < colorIdList.length) {
+                holder.checkImage.setColorFilter(colorIdList[position]);
+            } else {
+                holder.checkImage.setColorFilter(context.getColor(android.R.color.darker_gray));
+            }
+            updateCheckerVisibility(holder.checkImage, selectedItens[position]);
+            holder.layout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    selectedItens[position] = !selectedItens[position];
+                    updateCheckerVisibility(holder.checkImage, selectedItens[position]);
+                }
+            });
+        } else {
+            holder.checkImage.setImageResource(R.drawable.ic_keyboard_arrow_right_black_24dp);
+            holder.checkImage.setColorFilter(context.getColor(android.R.color.darker_gray));
+        }
+    }
+
+    private static void updateCheckerVisibility(ImageView checker, boolean visible){
+        if (visible){
+            checker.setVisibility(View.VISIBLE);
+            return;
+        }
+        checker.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -60,12 +98,14 @@ public class SelectorListAdapter extends RecyclerView.Adapter<SelectorListAdapte
         private ImageView colorTab;
         private TextView text;
         private ImageView checkImage;
+        RelativeLayout layout;
         public ViewHolder(View itemView) {
             super(itemView);
 
             colorTab = (ImageView)itemView.findViewById(R.id.color_bar);
             text = (TextView)itemView.findViewById(R.id.text);
             checkImage = (ImageView)itemView.findViewById(R.id.check_icon);
+            layout = (RelativeLayout)itemView.findViewById(R.id.main_layout);
         }
     }
 }

@@ -3,13 +3,13 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_marginRight="@dimen/activity_horizontal_margin"
     android:clickable="true"
+    android:id="@+id/main_layout"
     android:layout_height="48dp">
 
     <ImageView
         android:id="@+id/color_bar"
         android:layout_width="6dp"
-        android:layout_height="match_parent"
-        android:src="@color/zone_oeste"/>
+        android:layout_height="match_parent" />
 
     <TextView
         android:id="@+id/text"

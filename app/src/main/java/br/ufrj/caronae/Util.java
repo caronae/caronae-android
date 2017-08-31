@@ -17,6 +17,7 @@ import android.renderscript.ScriptIntrinsicBlur;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
@@ -474,8 +475,6 @@ public class Util {
         }
     }
 
-    public static void makeColorIdList(String[] strings) {
-    }
 
     public static class BlurBuilder {
         private static final float BITMAP_SCALE = 0.4f;
@@ -605,6 +604,19 @@ public class Util {
         }
         if (zone.equals("Grande Niterói")) {
             color = ContextCompat.getColor(App.inst(), R.color.zone_niteroi);
+        }
+        return color;
+    }
+
+    static public int getColorbyCampi(String campi) {
+        int color = ContextCompat.getColor(App.inst(), R.color.zone_outros);
+        if (campi.equals(getCampi()[1])) {
+            color = ContextCompat.getColor(App.inst(), R.color.zone_oeste);
+            Log.e("COR", "campus passado: " + campi + "  campi comparado: " + getCampi()[1]);
+        }
+        if (campi.equals(getCampi()[2])) {
+            color = ContextCompat.getColor(App.inst(), R.color.zone_baixada);
+            Log.e("COR", "campus passado: " + campi + "  campi comparado: " + getCampi()[2]);
         }
         return color;
     }

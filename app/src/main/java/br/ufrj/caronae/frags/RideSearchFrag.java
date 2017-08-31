@@ -1,5 +1,6 @@
 package br.ufrj.caronae.frags;
 
+import android.app.FragmentManager;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -40,6 +41,7 @@ import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.adapters.RideOfferAdapter;
 import br.ufrj.caronae.comparators.RideOfferComparatorByDateAndTime;
+import br.ufrj.caronae.frags.DialogFragment.SelectorDialogFrag;
 import br.ufrj.caronae.models.RideRequestSent;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
 import br.ufrj.caronae.models.modelsforjson.RideSearchFiltersForJson;
@@ -301,58 +303,72 @@ public class RideSearchFrag extends Fragment {
             }
         }
 
-        AlertDialog builder = new AlertDialog.Builder(getContext())
-                .setTitle(getContext().getString(R.string.frag_rideSearch_hintPickCampi))
-                .setMultiChoiceItems(Util.getCampi(), ifCampiAreSelected, new DialogInterface.OnMultiChoiceClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                        if (isChecked) {
-                            // If the user checked the item, add it to the selected items
-                            selectedItems.add(Util.getCampi()[which]);
-                        } else if (selectedItems.contains(Util.getCampi()[which])) {
-                            // Else, if the item is already in the array, remove it
-                            for (int item = 0; item < selectedItems.size(); item++) {
-                                if (Util.getCampi()[which].equals(selectedItems.get(item)))
-                                    selectedItems.remove(item);
-                            }
-                        }
-                    }
-                })
-                .setPositiveButton(getContext().getString(R.string.ok), new DialogInterface.OnClickListener() {
+        showListFragment(campis, ifCampiAreSelected, "Campi");
+//        AlertDialog builder = new AlertDialog.Builder(getContext())
+//                .setTitle(getContext().getString(R.string.frag_rideSearch_hintPickCampi))
+//                .setMultiChoiceItems(Util.getCampi(), ifCampiAreSelected, new DialogInterface.OnMultiChoiceClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+//                        if (isChecked) {
+//                            // If the user checked the item, add it to the selected items
+//                            selectedItems.add(Util.getCampi()[which]);
+//                        } else if (selectedItems.contains(Util.getCampi()[which])) {
+//                            // Else, if the item is already in the array, remove it
+//                            for (int item = 0; item < selectedItems.size(); item++) {
+//                                if (Util.getCampi()[which].equals(selectedItems.get(item)))
+//                                    selectedItems.remove(item);
+//                            }
+//                        }
+//                    }
+//                })
+//                .setPositiveButton(getContext().getString(R.string.ok), new DialogInterface.OnClickListener() {
+//
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        String campi = "";
+//                        for (int selectedValues = 0; selectedValues < selectedItems.size(); selectedValues++) {
+//                            if (selectedItems.get(selectedValues).equals(Util.getCampi()[0])
+//                                    || selectedItems.size() == Util.getCampi().length - 1) {
+//                                selectedItems.clear();
+//                                selectedItems.add(Util.getCampi()[0]);
+//                                campi = selectedItems.get(0) + ", ";
+//                                break;
+//                            }
+//                            campi = campi + selectedItems.get(selectedValues) + ", ";
+//                        }
+//
+//                        if (!campi.equals("")) {
+//                            campi = campi.substring(0, campi.length() - 2);
+//                        }
+//                        if (campi.equals(Util.getCampi()[2]))
+//                            center_et.setVisibility(View.GONE);
+//                        else
+//                            center_et.setVisibility(View.VISIBLE);
+//                        campi_et.setText(campi);
+//                    }
+//                })
+//                .setNegativeButton(getContext().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//
+//                    }
+//                })
+//                .create();
+//
+//        builder.show();
+    }
 
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        String campi = "";
-                        for (int selectedValues = 0; selectedValues < selectedItems.size(); selectedValues++) {
-                            if (selectedItems.get(selectedValues).equals(Util.getCampi()[0])
-                                    || selectedItems.size() == Util.getCampi().length - 1) {
-                                selectedItems.clear();
-                                selectedItems.add(Util.getCampi()[0]);
-                                campi = selectedItems.get(0) + ", ";
-                                break;
-                            }
-                            campi = campi + selectedItems.get(selectedValues) + ", ";
-                        }
+    private void showListFragment(String[] campis, boolean[] ifCampiAreSelected, String title) {
+        SelectorDialogFrag dialog = new SelectorDialogFrag();
+        int[] colorId = new int[campis.length];
+        for (int color = 0; color < colorId.length; color++){
+            Log.e("COR", "campus: " + campis[color]);
+            colorId[color] = Util.getColorbyCampi(campis[color]);
+            Log.e("COR", "cor: " + colorId[color]);
+        }
+        dialog.newInstance(campis, colorId, ifCampiAreSelected);
+        dialog.show(getActivity().getFragmentManager(), title);
 
-                        if (!campi.equals("")) {
-                            campi = campi.substring(0, campi.length() - 2);
-                        }
-                        if (campi.equals(Util.getCampi()[2]))
-                            center_et.setVisibility(View.GONE);
-                        else
-                            center_et.setVisibility(View.VISIBLE);
-                        campi_et.setText(campi);
-                    }
-                })
-                .setNegativeButton(getContext().getString(R.string.cancel), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                })
-                .create();
-
-        builder.show();
     }
 
     @OnClick(R.id.center_et)

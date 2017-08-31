@@ -1,47 +1,61 @@
 package br.ufrj.caronae.frags.DialogFragment;
 
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.LinearLayout;
 
 import br.ufrj.caronae.R;
+import br.ufrj.caronae.adapters.SelectorListAdapter;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class SelectorDialogFrag extends Fragment {
+public class SelectorDialogFrag extends DialogFragment {
 
-    @Bind(R.id.rv_list)
     RecyclerView rv;
+
+    private static String[] textArray;
+    private static int[] colorArray;
+    private static boolean[] selectedItens;
 
     public SelectorDialogFrag() {
         // Required empty public constructor
     }
 
-    public static SelectorDialogFrag newInstance(String param1, String param2) {
+    public static SelectorDialogFrag newInstance(String[] textArrayParam, int[] colorArrayParam, boolean[] selectedItensParam) {
         SelectorDialogFrag fragment = new SelectorDialogFrag();
         Bundle args = new Bundle();
         fragment.setArguments(args);
+        textArray = textArrayParam;
+        colorArray = colorArrayParam;
+        selectedItens = selectedItensParam;
         return fragment;
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-        }
-    }
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        View view = getActivity().getLayoutInflater().inflate(R.layout.fragment_selector_dialog, new LinearLayout(getActivity()), false);
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_selector_dialog, container, false);
-        ButterKnife.bind(view);
-        return view;
+        rv = (RecyclerView) view.findViewById(R.id.rv_list);
+
+        LinearLayoutManager manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+        rv.setLayoutManager(manager);
+
+        SelectorListAdapter adapter = new SelectorListAdapter(textArray, colorArray, selectedItens, false);
+        rv.setAdapter(adapter);
+
+        Dialog builder = new Dialog(getActivity());
+//        builder.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        builder.setContentView(view);
+        return builder;
     }
 
 
