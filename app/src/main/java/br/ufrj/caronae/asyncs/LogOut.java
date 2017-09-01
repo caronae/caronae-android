@@ -2,7 +2,6 @@ package br.ufrj.caronae.asyncs;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.facebook.login.LoginManager;
 
@@ -17,10 +16,6 @@ import br.ufrj.caronae.models.ChatAssets;
 import br.ufrj.caronae.models.Ride;
 import br.ufrj.caronae.models.RideRequestReceived;
 import br.ufrj.caronae.models.RideRequestSent;
-import br.ufrj.caronae.models.modelsforjson.TokenForJson;
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
 
 public class LogOut extends AsyncTask<Void, Void, Void> {
 
@@ -28,27 +23,6 @@ public class LogOut extends AsyncTask<Void, Void, Void> {
 
     public LogOut(Context context) {
         this.context = context;
-    }
-
-    @Override
-    protected void onPreExecute() {
-
-        App.getNetworkService(context).saveGcmToken(new TokenForJson(""))
-                .enqueue(new Callback<ResponseBody>() {
-                    @Override
-                    public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
-                        if (response.isSuccessful()){
-                            Log.i("saveGcmToken", "gcm token cleared");
-                        } else {
-                            Log.e("saveGcmToken", response.message());
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-                        Log.e("saveGcmToken", t.getMessage());
-                    }
-                });
     }
 
     @Override

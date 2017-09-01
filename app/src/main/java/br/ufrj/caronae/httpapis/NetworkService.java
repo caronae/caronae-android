@@ -21,7 +21,6 @@ import br.ufrj.caronae.models.modelsforjson.RideForJsonDeserializer;
 import br.ufrj.caronae.models.modelsforjson.RideHistoryForJson;
 import br.ufrj.caronae.models.modelsforjson.RideIdForJson;
 import br.ufrj.caronae.models.modelsforjson.RideSearchFiltersForJson;
-import br.ufrj.caronae.models.modelsforjson.TokenForJson;
 import br.ufrj.caronae.models.modelsforjson.UrlForJson;
 import br.ufrj.caronae.models.modelsforjson.UserWithRidesForJson;
 import okhttp3.ResponseBody;
@@ -51,9 +50,6 @@ public interface NetworkService {
 
     @PUT("user")
     Call<ResponseBody> updateUser(@Body User user);
-
-    @PUT("user/saveGcmToken")
-    Call<ResponseBody> saveGcmToken(@Body TokenForJson token);
 
     @PUT("user/saveFaceId")
     Call<ResponseBody> saveFaceId(@Body IdForJson id);
