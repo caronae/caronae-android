@@ -83,6 +83,8 @@ public class RideFilterFrag extends Fragment {
         if (center.equals("Todos os Centros")) {
             center = "";
         }
+        if (campi.equals(Util.getCampi()[0]))
+            campi = "";
         RideFiltersForJson rideFilters = new RideFiltersForJson(location, center, campi, zone, resumeLocation);
         String lastRideFilters = new Gson().toJson(rideFilters);
         SharedPref.saveLastFiltersPref(lastRideFilters);
@@ -317,13 +319,20 @@ public class RideFilterFrag extends Fragment {
                     public void onClick(DialogInterface dialog, int which) {
                         String campis = "";
                         for (int selectedValues = 0; selectedValues < selectedItems.size(); selectedValues++) {
+                            if (selectedItems.get(selectedValues).equals(Util.getCampi()[0])
+                                    || selectedItems.size() == Util.getCampi().length - 1) {
+                                selectedItems.clear();
+                                selectedItems.add(Util.getCampi()[0]);
+                                campis = selectedItems.get(0) + ", ";
+                                break;
+                            }
                             campis = campis + selectedItems.get(selectedValues) + ", ";
                         }
 
                         if (!campis.equals("")) {
                             campis = campis.substring(0, campis.length() - 2);
                         }
-                        if (campis.equals(Util.getCampi()[1])){
+                        if (campis.equals(Util.getCampi()[2])){
                             center_et.setVisibility(View.GONE);
                         } else {
                             center_et.setVisibility(View.VISIBLE);

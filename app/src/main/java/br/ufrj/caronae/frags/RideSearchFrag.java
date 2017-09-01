@@ -340,7 +340,7 @@ public class RideSearchFrag extends Fragment {
         if (type.equals(SharedPref.DIALOG_CAMPUS_SEARCH_KEY)) {
             String campus = SharedPref.getDialogSearchPref(SharedPref.DIALOG_CAMPUS_SEARCH_KEY);
             campi = campus;
-            if (campi.equals(Util.getCampi()[1])) {
+            if (campi.equals(Util.getCampi()[2])) {
                 center_et.setText(campi);
             } else {
                 showCenterListFragment();
