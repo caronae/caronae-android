@@ -25,6 +25,10 @@ public class SharedPref {
     public static final String MY_RIDE_LIST_KEY                            = "myRides";
     public static String CHAT_ACT_STATUS                            = "chatStatus";
     public static String FRAGMENT_INDICATOR                            = "";
+    public static final String DIALOG_CAMPUS_SEARCH_KEY            = "campus";
+    public static final String DIALOG_CENTER_SEARCH_KEY            = "centro";
+    public static final String DIALOG_DISMISS_KEY                  = "dismiss_key";
+
 
 
     private static SharedPreferences getSharedPreferences() {
@@ -65,6 +69,22 @@ public class SharedPref {
 
     public static void saveLastRideGoingPref(String lastRideOffer) {
         putPref(LAST_RIDE_OFFER_GOING_PREF_KEY, lastRideOffer);
+    }
+
+    public static void saveDialogSearchPref(String key, String search) {
+        putPref(key, search);
+    }
+
+    public static String getDialogSearchPref(String key) {
+        return getPref(key);
+    }
+
+    public static void saveDialogTypePref(String key, String type) {
+        putPref(key, type);
+    }
+
+    public static String getDialogTypePref(String Type) {
+        return getPref(Type);
     }
 
     public static String getLastRideGoingPref() {

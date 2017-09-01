@@ -1,11 +1,8 @@
 package br.ufrj.caronae.frags;
 
-import android.app.FragmentManager;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -53,6 +50,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class RideSearchFrag extends Fragment {
+
+
     @Bind(R.id.radioGroup)
     RadioGroup radioGroup;
     @Bind(R.id.location_et)
@@ -63,8 +62,6 @@ public class RideSearchFrag extends Fragment {
     TextView time_et;
     @Bind(R.id.center_et)
     TextView center_et;
-    @Bind(R.id.campi_et)
-    TextView campi_et;
     @Bind(R.id.lay)
     RelativeLayout lay;
     @Bind(R.id.anotherSearch_bt)
@@ -76,6 +73,7 @@ public class RideSearchFrag extends Fragment {
     private RideOfferAdapter adapter;
 
     private String neighborhoods;
+    private String campi;
 
     public RideSearchFrag() {
         // Required empty public constructor
@@ -287,154 +285,90 @@ public class RideSearchFrag extends Fragment {
         fragment.show(getFragmentManager(), null);
     }
 
-    @OnClick(R.id.campi_et)
-    public void campiEt() {
+    private void showCampiListFragment(String[] campis, boolean[] ifCampiAreSelected, String title) {
+        SelectorDialogFrag dialog = new SelectorDialogFrag();
+        int[] colorId = new int[campis.length];
+        for (int color = 0; color < colorId.length; color++) {
+            colorId[color] = Util.getColorbyCampi(campis[color]);
+        }
+        dialog.newInstance(campis,
+                colorId,
+                ifCampiAreSelected,
+                title,
+                this,
+                false);
+        dialog.show(getActivity().getFragmentManager(), "");
+
+    }
+
+    private void showCenterListFragment() {
         final ArrayList<String> selectedItems = new ArrayList();
-        String[] campis = Util.getCampi();
-        String[] selectedCampi = campi_et.getText().toString().split(",");
-        boolean[] ifCampiAreSelected = new boolean[campis.length];
-        for (int campi = 0; campi < campis.length; campi++) {
-            ifCampiAreSelected[campi] = false;
-            for (int selected = 0; selected < selectedCampi.length; selected++) {
-                if (campis[campi].equals(selectedCampi[selected])) {
-                    ifCampiAreSelected[campi] = true;
-                    selectedItems.add(campis[campi]);
+
+        String[] centers = Util.getFundaoCenters();
+        String[] selectedCenters = center_et.getText().toString().split(", ");
+        boolean[] ifCentersAreSelected = new boolean[Util.getFundaoCenters().length];
+        for (int centersIndex = 0; centersIndex < Util.getFundaoCenters().length; centersIndex++) {
+            ifCentersAreSelected[centersIndex] = false;
+            for (int selecteds = 0; selecteds < selectedCenters.length; selecteds++) {
+                if (Util.getFundaoCenters()[centersIndex].equals(selectedCenters[selecteds])) {
+                    ifCentersAreSelected[centersIndex] = true;
+                    selectedItems.add(Util.getFundaoCenters()[centersIndex]);
                 }
             }
         }
 
-        showListFragment(campis, ifCampiAreSelected, "Campi");
-//        AlertDialog builder = new AlertDialog.Builder(getContext())
-//                .setTitle(getContext().getString(R.string.frag_rideSearch_hintPickCampi))
-//                .setMultiChoiceItems(Util.getCampi(), ifCampiAreSelected, new DialogInterface.OnMultiChoiceClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-//                        if (isChecked) {
-//                            // If the user checked the item, add it to the selected items
-//                            selectedItems.add(Util.getCampi()[which]);
-//                        } else if (selectedItems.contains(Util.getCampi()[which])) {
-//                            // Else, if the item is already in the array, remove it
-//                            for (int item = 0; item < selectedItems.size(); item++) {
-//                                if (Util.getCampi()[which].equals(selectedItems.get(item)))
-//                                    selectedItems.remove(item);
-//                            }
-//                        }
-//                    }
-//                })
-//                .setPositiveButton(getContext().getString(R.string.ok), new DialogInterface.OnClickListener() {
-//
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        String campi = "";
-//                        for (int selectedValues = 0; selectedValues < selectedItems.size(); selectedValues++) {
-//                            if (selectedItems.get(selectedValues).equals(Util.getCampi()[0])
-//                                    || selectedItems.size() == Util.getCampi().length - 1) {
-//                                selectedItems.clear();
-//                                selectedItems.add(Util.getCampi()[0]);
-//                                campi = selectedItems.get(0) + ", ";
-//                                break;
-//                            }
-//                            campi = campi + selectedItems.get(selectedValues) + ", ";
-//                        }
-//
-//                        if (!campi.equals("")) {
-//                            campi = campi.substring(0, campi.length() - 2);
-//                        }
-//                        if (campi.equals(Util.getCampi()[2]))
-//                            center_et.setVisibility(View.GONE);
-//                        else
-//                            center_et.setVisibility(View.VISIBLE);
-//                        campi_et.setText(campi);
-//                    }
-//                })
-//                .setNegativeButton(getContext().getString(R.string.cancel), new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//
-//                    }
-//                })
-//                .create();
-//
-//        builder.show();
+        SelectorDialogFrag dialog = new SelectorDialogFrag();
+        int[] colorId = new int[centers.length];
+        for (int color = 0; color < colorId.length; color++) {
+            colorId[color] = Util.getColorRamdom();
+        }
+        dialog.newInstance(centers,
+                colorId,
+                ifCentersAreSelected,
+                SharedPref.DIALOG_CENTER_SEARCH_KEY,
+                this,
+                true);
+        dialog.show(getActivity().getFragmentManager(), "");
+
     }
 
-    private void showListFragment(String[] campis, boolean[] ifCampiAreSelected, String title) {
-        SelectorDialogFrag dialog = new SelectorDialogFrag();
-        int[] colorId = new int[campis.length];
-        for (int color = 0; color < colorId.length; color++){
-            Log.e("COR", "campus: " + campis[color]);
-            colorId[color] = Util.getColorbyCampi(campis[color]);
-            Log.e("COR", "cor: " + colorId[color]);
+    @Subscribe
+    public void onDialogResponse(RideSearchFrag rideSearchFrag) {
+        Log.e("ERROO", "veio");
+        String type = SharedPref.getDialogTypePref(SharedPref.DIALOG_DISMISS_KEY);
+        Log.e("ERROO", "Dissmiss key: " + type);
+        if (type.equals(SharedPref.DIALOG_CAMPUS_SEARCH_KEY)) {
+            String campus = SharedPref.getDialogSearchPref(SharedPref.DIALOG_CAMPUS_SEARCH_KEY);
+            campi = campus;
+            if (campi.equals(Util.getCampi()[2])) {
+                center_et.setText(campi);
+            } else {
+                showCenterListFragment();
+            }
         }
-        dialog.newInstance(campis, colorId, ifCampiAreSelected);
-        dialog.show(getActivity().getFragmentManager(), title);
-
+        if (type.equals(SharedPref.DIALOG_CENTER_SEARCH_KEY)) {
+            String center = SharedPref.getDialogSearchPref(SharedPref.DIALOG_CENTER_SEARCH_KEY);
+            Log.e("ERROO", "resultado 2: " + center);
+            center_et.setText(center);
+        }
     }
 
     @OnClick(R.id.center_et)
     public void centerEt() {
-        final ArrayList<String> selectedItems = new ArrayList();
 
-        String[] selectedCenters = center_et.getText().toString().split(", ");
-        boolean[] ifCentersAreSelected = new boolean[Util.getFundaoCenters().length];
-        for (int centers = 0; centers < Util.getFundaoCenters().length; centers++) {
-            ifCentersAreSelected[centers] = false;
-            for (int selecteds = 0; selecteds < selectedCenters.length; selecteds++) {
-                if (Util.getFundaoCenters()[centers].equals(selectedCenters[selecteds])) {
-                    ifCentersAreSelected[centers] = true;
-                    selectedItems.add(Util.getFundaoCenters()[centers]);
-                }
+        final ArrayList<String> selectedItems = new ArrayList();
+        String[] campis = Util.getCampi();
+        String selectedCampi = campi;
+        boolean[] ifCampiAreSelected = new boolean[campis.length];
+        for (int campi = 0; campi < campis.length; campi++) {
+            ifCampiAreSelected[campi] = false;
+            if (campis[campi].equals(selectedCampi)) {
+                ifCampiAreSelected[campi] = true;
+                selectedItems.add(campis[campi]);
             }
         }
 
-        AlertDialog builder = new AlertDialog.Builder(getContext())
-                .setTitle(getContext().getString(R.string.frag_rideSearch_hintPickCenter))
-                .setMultiChoiceItems(Util.getFundaoCenters(), ifCentersAreSelected, new DialogInterface.OnMultiChoiceClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                        if (isChecked) {
-                            // If the user checked the item, add it to the selected items
-                            selectedItems.add(Util.getFundaoCenters()[which]);
-                        } else if (selectedItems.contains(Util.getFundaoCenters()[which])) {
-                            // Else, if the item is already in the array, remove it
-                            for (int item = 0; item < selectedItems.size(); item++) {
-                                if (Util.getFundaoCenters()[which].equals(selectedItems.get(item)))
-                                    selectedItems.remove(item);
-                            }
-                        }
-                    }
-                })
-                .setPositiveButton(getContext().getString(R.string.ok), new DialogInterface.OnClickListener() {
-
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        String centers = "";
-                        for (int selectedValues = 0; selectedValues < selectedItems.size(); selectedValues++) {
-                            if (selectedItems.get(selectedValues).equals(Util.getFundaoCenters()[0])
-                                    || selectedItems.size() == Util.getFundaoCenters().length - 1) {
-                                selectedItems.clear();
-                                selectedItems.add(Util.getFundaoCenters()[0]);
-                                centers = selectedItems.get(0) + ", ";
-                                break;
-                            }
-                            centers = centers + selectedItems.get(selectedValues) + ", ";
-                        }
-
-                        if (!centers.equals("")) {
-                            centers = centers.substring(0, centers.length() - 2);
-                        }
-                        center_et.setText(centers);
-                    }
-                })
-                .setNegativeButton(getContext().getString(R.string.cancel), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                })
-                .create();
-
-        builder.show();
+        showCampiListFragment(campis, ifCampiAreSelected, SharedPref.DIALOG_CAMPUS_SEARCH_KEY);
     }
 
     @OnClick(R.id.anotherSearch_bt)
@@ -491,9 +425,7 @@ public class RideSearchFrag extends Fragment {
         String center = center_et.getText().toString();
         if (center.equals(Util.getFundaoCenters()[0]))
             center = "";
-        String campus = campi_et.getText().toString();
-        if (campus.equals(Util.getCampi()[0]))
-            campus = "";
+        String campus = campi;
         boolean go = radioGroup.getCheckedRadioButtonId() == R.id.go_rb;
         RideSearchFiltersForJson rideSearchFilters = new RideSearchFiltersForJson(location, etDateString, time, center, campus, go, location_et.getText().toString());
 
@@ -554,11 +486,11 @@ public class RideSearchFrag extends Fragment {
         Log.i("removeRideFromList,srch", "remove called");
     }
 
-    private List<Integer> getHeaderPositionsOnList(List<RideForJson> rides){
+    private List<Integer> getHeaderPositionsOnList(List<RideForJson> rides) {
         List<Integer> headersPositions = new ArrayList<>();
         headersPositions.add(0);
-        for (int rideIndex = 1; rideIndex < rides.size(); rideIndex++){
-            if (Util.getDayFromDate(rides.get(rideIndex).getDate()) > Util.getDayFromDate(rides.get(rideIndex - 1).getDate())){
+        for (int rideIndex = 1; rideIndex < rides.size(); rideIndex++) {
+            if (Util.getDayFromDate(rides.get(rideIndex).getDate()) > Util.getDayFromDate(rides.get(rideIndex - 1).getDate())) {
                 headersPositions.add(rideIndex);
             }
         }

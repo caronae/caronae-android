@@ -11,4 +11,5 @@ public class Constants {
     public static final String CARONAE_ENDPOINT             = "https://api.caronae.com.br/";
     public static final String SHARE_LINK                   = "https://caronae.com.br/carona/";
 
+
 }

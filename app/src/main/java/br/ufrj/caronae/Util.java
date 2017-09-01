@@ -32,6 +32,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Random;
 
 import br.ufrj.caronae.models.ChatAssets;
 import br.ufrj.caronae.models.Ride;
@@ -229,7 +230,7 @@ public class Util {
     }
 
     public static String[] getCampi() {
-        return new String[]{"Todos os Campi", "Cidade Universitária", "Praia Vermelha"};
+        return new String[]{"Todos os Centros", "Cidade Universitária", "Praia Vermelha"};
     }
 
     public static String[] getCentersLowerCase() {
@@ -619,6 +620,27 @@ public class Util {
             Log.e("COR", "campus passado: " + campi + "  campi comparado: " + getCampi()[2]);
         }
         return color;
+    }
+
+    static public int getColorRamdom() {
+        Random random = new Random();
+        int num = random.nextInt(6);
+        switch (num){
+            case 0:
+                return ContextCompat.getColor(App.inst(), R.color.zone_centro);
+            case 1:
+                return ContextCompat.getColor(App.inst(), R.color.zone_sul);
+            case 2:
+                return ContextCompat.getColor(App.inst(), R.color.zone_oeste);
+            case 3:
+                return ContextCompat.getColor(App.inst(), R.color.zone_norte);
+            case 4:
+                return ContextCompat.getColor(App.inst(), R.color.zone_baixada);
+            case 5:
+                return ContextCompat.getColor(App.inst(), R.color.zone_niteroi);
+            default:
+                return ContextCompat.getColor(App.inst(), R.color.zone_outros);
+        }
     }
 
     static public int getPressedColorbyZone(String zone) {
