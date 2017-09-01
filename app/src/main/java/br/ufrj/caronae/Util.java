@@ -17,7 +17,6 @@ import android.renderscript.ScriptIntrinsicBlur;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
@@ -230,7 +229,7 @@ public class Util {
     }
 
     public static String[] getCampi() {
-        return new String[]{"Todos os Centros", "Cidade Universitária", "Praia Vermelha"};
+        return new String[]{"Cidade Universitária", "Praia Vermelha"};
     }
 
     public static String[] getCentersLowerCase() {
@@ -296,17 +295,17 @@ public class Util {
     }
 
     public static String[] getHubsByCampi(String campi) {
-        if (campi.equals(getCampi()[2])) {
+        if (campi.equals(getCampi()[1])) {
             return getPraiaVermelhaHubs();
         }
-        if (campi.equals(getCampi()[1])) {
+        if (campi.equals(getCampi()[0])) {
             return getFundaoHubs();
         }
         return getAvailableHubs();
     }
 
     public static String[] getCentersByCampi(String campi) {
-        if (campi.equals(getCampi()[2])) {
+        if (campi.equals(getCampi()[1])) {
             return new String[]{""};
         }
         return getFundaoCenters();
@@ -611,13 +610,11 @@ public class Util {
 
     static public int getColorbyCampi(String campi) {
         int color = ContextCompat.getColor(App.inst(), R.color.zone_outros);
-        if (campi.equals(getCampi()[1])) {
+        if (campi.equals(getCampi()[0])) {
             color = ContextCompat.getColor(App.inst(), R.color.zone_oeste);
-            Log.e("COR", "campus passado: " + campi + "  campi comparado: " + getCampi()[1]);
         }
-        if (campi.equals(getCampi()[2])) {
+        if (campi.equals(getCampi()[1])) {
             color = ContextCompat.getColor(App.inst(), R.color.zone_baixada);
-            Log.e("COR", "campus passado: " + campi + "  campi comparado: " + getCampi()[2]);
         }
         return color;
     }
