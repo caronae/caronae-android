@@ -432,6 +432,48 @@ public class Util {
         return dayOfWeek;
     }
 
+    public static String getWeekDayFromDateWithoutTodayString(String dateString) {
+        int dayOfWeekInt = -1;
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Calendar c = Calendar.getInstance();
+            Date today = c.getTime();
+            c.add(Calendar.DAY_OF_YEAR, 1);
+            Date tomorrow = c.getTime();
+            Date date = format.parse(dateString);
+            c.setTime(date);
+            dayOfWeekInt = c.get(Calendar.DAY_OF_WEEK);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        String dayOfWeek = "";
+
+        switch (dayOfWeekInt) {
+            case 1:
+                dayOfWeek = "Domingo";
+                break;
+            case 2:
+                dayOfWeek = "Segunda-Feira";
+                break;
+            case 3:
+                dayOfWeek = "Terça-Feira";
+                break;
+            case 4:
+                dayOfWeek = "Quarta-Feira";
+                break;
+            case 5:
+                dayOfWeek = "Quinta-Feira";
+                break;
+            case 6:
+                dayOfWeek = "Sexta-Feira";
+                break;
+            case 7:
+                dayOfWeek = "Sábado";
+                break;
+        }
+        return dayOfWeek.substring(0, 3);
+    }
 
     public static String fixBlankSpaces(String word) {
         return word.replace(" ", "").trim();
@@ -746,7 +788,7 @@ public class Util {
 
     public static String getTextToShareRide(RideForJson ride) {
         String text = "Carona: " + ride.getNeighborhood() + " ➜ " + ride.getHub() + "\n"
-                + "Chegando às " + formatTime(ride.getTime()) + " | " + Util.getWeekDayFromDate(ride.getDate()) + " | " + formatDateRemoveYear(formatBadDateWithYear(ride.getDate())) + "\n"
+                + "Chegando às " + formatTime(ride.getTime()) + " | " + Util.getWeekDayFromDateWithoutTodayString(ride.getDate()) + " | " + formatDateRemoveYear(formatBadDateWithYear(ride.getDate())) + "\n"
                 + Constants.SHARE_LINK + ride.getDbId();
 
         return text;

@@ -17,7 +17,7 @@
         android:theme="@style/AppTheme">
         <meta-data
             android:name="DATABASE"
-            android:value="caronae.db" />
+            android:value="caronaee.db" />
         <meta-data
             android:name="VERSION"
             android:value="1" />
