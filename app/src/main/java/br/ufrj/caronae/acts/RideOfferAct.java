@@ -1,13 +1,19 @@
 package br.ufrj.caronae.acts;
 
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -28,6 +34,7 @@ import com.rey.material.app.SimpleDialog;
 import com.rey.material.widget.Button;
 import com.squareup.picasso.Picasso;
 
+import java.util.Date;
 import java.util.List;
 
 import br.ufrj.caronae.App;
@@ -48,6 +55,8 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
 public class RideOfferAct extends SwipeDismissBaseActivity {
 
@@ -126,6 +135,8 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
         if (!startWithLink()) {
             rideWithUsers = getIntent().getExtras().getParcelable("ride");
             configureActivityWithRide(rideWithUsers, false);
+        } else {
+            configureActivityWithLink();
         }
     }
 
@@ -133,34 +144,6 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
         Uri uri = getIntent().getData();
         if (uri == null)
             return false;
-        String rideId;
-        List<String> params = uri.getPathSegments();
-
-        if (params.size() == 1)
-            rideId = params.get(0);
-        else
-            rideId = params.get(1);
-        Log.e("LINK", "RideId: " + rideId);
-
-        mainLayout.setVisibility(View.GONE);
-        progressBarLayout.setVisibility(View.VISIBLE);
-        App.getNetworkService(this).getRide(rideId)
-                .enqueue(new Callback<RideForJson>() {
-                    @Override
-                    public void onResponse(Call<RideForJson> call, Response<RideForJson> response) {
-                        if (response.isSuccessful()) {
-                            RideForJson ride = response.body();
-                            configureActivityWithRide(ride, ride.getAvailableSlots() == 0 ? true : false);
-                            mainLayout.setVisibility(View.VISIBLE);
-                            progressBarLayout.setVisibility(View.GONE);
-                        } else {
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<RideForJson> call, Throwable t) {
-                    }
-                });
         return true;
     }
 
@@ -431,5 +414,68 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
         configureShareButton();
     }
 
+    private void configureActivityWithLink() {
+
+        Uri uri = getIntent().getData();
+        final String rideId;
+        List<String> params = uri.getPathSegments();
+
+        if (params.size() == 1)
+            rideId = params.get(0);
+        else
+            rideId = params.get(1);
+
+        mainLayout.setVisibility(View.GONE);
+        progressBarLayout.setVisibility(View.VISIBLE);
+        App.getNetworkService(this).getRide(rideId)
+                .enqueue(new Callback<RideForJson>() {
+                    @Override
+                    public void onResponse(Call<RideForJson> call, Response<RideForJson> response) {
+                        if (response.isSuccessful()) {
+                            RideForJson ride = response.body();
+                            if (Util.getStringDateInMillis(ride.getTime() + " " + ride.getDate()) < (new Date()).getTime()){
+                                showCustomDialog(getResources().getString(R.string.ride_in_past_header),
+                                        getResources().getString(R.string.ride_in_past_body));
+                            } else {
+                                configureActivityWithRide(ride, ride.getAvailableSlots() == 0 ? true : false);
+                                mainLayout.setVisibility(View.VISIBLE);
+                                progressBarLayout.setVisibility(View.GONE);
+                            }
+                        } else {
+                            showCustomDialog(getResources().getString(R.string.ride_failure_header),
+                                    getResources().getString(R.string.ride_failure_non_exist_body));
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<RideForJson> call, Throwable t) {
+                        showCustomDialog(getResources().getString(R.string.ride_failure_header),
+                                getResources().getString(R.string.ride_failure_fail_body));
+                    }
+                });
+    }
+
+    private void showCustomDialog(String header, String text) {
+        final Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.fragment_alert_dialog);
+
+        TextView title = (TextView) dialog.findViewById(R.id.title);
+        title.setText(header);
+        TextView body = (TextView) dialog.findViewById(R.id.body);
+        body.setText(text);
+
+        android.widget.Button okButton = (android.widget.Button) dialog.findViewById(R.id.ok_button);
+
+        okButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(App.inst(), MainAct.class);
+                intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
+                App.inst().startActivity(intent);
+            }
+        });
+
+        dialog.show();
+    }
 
 }

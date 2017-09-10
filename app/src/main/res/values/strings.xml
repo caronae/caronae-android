@@ -244,6 +244,18 @@
     <string name="duplicate_ride_main_text">Você já ofereceu uma carona muito parecida com essa</string>
     <string name="duplicate_ride_sub_text">Você pode verificar as suas caronas na seção "Minhas Caronas"</string>
 
+
+    <!-- Dialog Texts -->
+
+    <string name="ride_in_past_header">Carona Encerrada</string>
+    <string name="ride_in_past_body">A carona que você tentou abrir já foi encerrada. Você pode encontrar novas caronas através da busca.</string>
+
+    <string name="ride_failure_header">Falha ao carregar carona</string>
+
+    <string name="ride_failure_non_exist_body">Talvez a carona que você está prourando não exista mais.</string>
+
+    <string name="ride_failure_fail_body">Ocorreu um erro ao tentar carregar a carona. Por favor, tente novamente.</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 

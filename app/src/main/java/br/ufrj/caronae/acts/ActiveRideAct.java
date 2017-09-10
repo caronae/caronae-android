@@ -25,6 +25,7 @@ import com.rey.material.app.SimpleDialog;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
 
+import java.util.Date;
 import java.util.List;
 
 import br.ufrj.caronae.App;
@@ -418,16 +419,21 @@ public class ActiveRideAct extends SwipeDismissBaseActivity {
     }
 
     private void configureShareBt() {
-        shareBt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_SEND);
-                intent.setType("text/plain");
-                intent.putExtra(Intent.EXTRA_TEXT, Util.getTextToShareRide(rideWithUsers));
-                intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Check out this site!");
-                startActivity(intent.createChooser(intent, "Compartilhar Carona"));
-            }
-        });
+        if (Util.getStringDateInMillis(rideWithUsers.getTime() + " " + rideWithUsers.getDate()) < (new Date()).getTime()){
+            shareBt.setVisibility(View.GONE);
+        }else {
+            shareBt.setVisibility(View.VISIBLE);
+            shareBt.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(Intent.ACTION_SEND);
+                    intent.setType("text/plain");
+                    intent.putExtra(Intent.EXTRA_TEXT, Util.getTextToShareRide(rideWithUsers));
+                    intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Check out this site!");
+                    startActivity(intent.createChooser(intent, "Compartilhar Carona"));
+                }
+            });
+        }
     }
 
     @Override

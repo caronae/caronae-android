@@ -8,7 +8,6 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
-
     <application
         android:name=".App"
         android:allowBackup="true"
@@ -84,41 +83,44 @@
         <activity
             android:name=".acts.RideOfferAct"
             android:label="@string/app_name"
-            android:screenOrientation="portrait" >
-
+            android:screenOrientation="portrait">
             <intent-filter>
-                <data android:scheme="caronae"></data>
-                <action android:name="android.intent.action.VIEW"></action>
-                <category android:name="android.intent.category.DEFAULT"></category>
-                <category android:name="android.intent.category.BROWSABLE"></category>
+                <data android:scheme="caronae" />
+
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
             </intent-filter>
-
             <intent-filter>
-                <data android:scheme="https" android:host="caronae.com.br"></data>
-                <action android:name="android.intent.action.VIEW"></action>
-                <category android:name="android.intent.category.DEFAULT"></category>
-                <category android:name="android.intent.category.BROWSABLE"></category>
+                <data
+                    android:host="caronae.com.br"
+                    android:scheme="https" />
+
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
             </intent-filter>
         </activity>
         <activity
             android:name=".acts.RequestersListAct"
+            android:exported="true"
             android:label="@string/app_name"
-            android:screenOrientation="portrait"
-            android:exported="true"/>
+            android:screenOrientation="portrait" />
 
         <service android:name=".firebase.MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-
-        <service android:name=".firebase.FetchReceivedMessagesService"
+        <service
+            android:name=".firebase.FetchReceivedMessagesService"
             android:enabled="true"
-            android:exported="true">
-        </service>
-
-        <service android:name=".asyncs.FetchMyOfferedRidesService"
-            android:exported="false"></service>
+            android:exported="true"></service>
+        <service
+            android:name=".asyncs.FetchMyOfferedRidesService"
+            android:exported="false" />
     </application>
 
 </manifest>

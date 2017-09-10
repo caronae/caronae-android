@@ -746,9 +746,20 @@ public class Util {
 
     public static String getTextToShareRide(RideForJson ride) {
         String text = "Carona: " + ride.getNeighborhood() + " ➜ " + ride.getHub() + "\n"
-                + "Chegando às " + formatTime(ride.getTime()) + " | " + " | " + formatDateRemoveYear(formatBadDateWithYear(ride.getDate())) + "\n"
+                + "Chegando às " + formatTime(ride.getTime()) + " | " + Util.getWeekDayFromDate(ride.getDate()) + " | " + formatDateRemoveYear(formatBadDateWithYear(ride.getDate())) + "\n"
                 + Constants.SHARE_LINK + ride.getDbId();
 
         return text;
+    }
+
+    public static long getStringDateInMillis(String date){
+        try {
+            Date dateString = new SimpleDateFormat("HH:mm:ss yyyy-MM-dd", Locale.ENGLISH).parse(date);
+            long milliseconds = dateString.getTime();
+            return  milliseconds;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 }
