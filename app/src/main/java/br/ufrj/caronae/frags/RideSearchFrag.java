@@ -1,8 +1,10 @@
 package br.ufrj.caronae.frags;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -317,26 +319,79 @@ public class RideSearchFrag extends Fragment {
             }
         }
 
-        SelectorDialogFrag dialog = new SelectorDialogFrag();
-        int[] colorId = new int[centers.length];
-        for (int color = 0; color < colorId.length; color++) {
-            colorId[color] = Util.getColorRamdom();
-        }
-        dialog.newInstance(centers,
-                colorId,
-                ifCentersAreSelected,
-                SharedPref.DIALOG_CENTER_SEARCH_KEY,
-                this,
-                true);
-        dialog.show(getActivity().getFragmentManager(), "");
+        showDefaultMultichoiceList(ifCentersAreSelected);
 
+//        SelectorDialogFrag dialog = new SelectorDialogFrag();
+//        int[] colorId = new int[centers.length];
+//        for (int color = 0; color < colorId.length; color++) {
+//            colorId[color] = Util.getColorRamdom();
+//        }
+//        dialog.newInstance(centers,
+//                colorId,
+//                ifCentersAreSelected,
+//                SharedPref.DIALOG_CENTER_SEARCH_KEY,
+//                this,
+//                true);
+//        dialog.show(getActivity().getFragmentManager(), "");
+
+    }
+
+    private void showDefaultMultichoiceList(final boolean[] mSelectedItems) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        final ArrayList<String> selectedItems = new ArrayList<>();
+        for (int i = 0; i < mSelectedItems.length; i++){
+            if (mSelectedItems[i])
+                selectedItems.add(Util.getFundaoCenters()[i]);
+        }
+        // Set the dialog title
+        builder.setTitle("CENTROS")
+                // Specify the list array, the items to be selected by default (null for none),
+                // and the listener through which to receive callbacks when items are selected
+                .setMultiChoiceItems(Util.getFundaoCenters(), mSelectedItems,
+                        new DialogInterface.OnMultiChoiceClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which,
+                                                boolean isChecked) {
+                                if (isChecked) {
+                                    // If the user checked the item, add it to the selected items
+                                    selectedItems.add(Util.getFundaoCenters()[which]);
+                                } else if (selectedItems.contains(Util.getFundaoCenters()[which])) {
+                                    // Else, if the item is already in the array, remove it
+                                    selectedItems.remove(Util.getFundaoCenters()[which]);
+                                }
+                            }
+                        })
+                // Set the action buttons
+                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User clicked OK, so save the mSelectedItems results somewhere
+                        // or return them to the component that opened the dialog
+                        String centers = "";
+                        if (selectedItems.size() == 9 || mSelectedItems[0]){
+                            centers = Util.getFundaoCenters()[0];
+                        } else {
+                            for (int i = 0; i < selectedItems.size(); i++) {
+                                centers = centers + selectedItems.get(i) + ", ";
+                            }
+                            if (centers.length() > 0) {
+                                centers = centers.substring(0, centers.length() - 2);
+                            }
+                        }
+                        center_et.setText(centers);
+                    }
+                })
+                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                    }
+                });
+        builder.show();
     }
 
     @Subscribe
     public void onDialogResponse(RideSearchFrag rideSearchFrag) {
-        Log.e("ERROO", "veio");
         String type = SharedPref.getDialogTypePref(SharedPref.DIALOG_DISMISS_KEY);
-        Log.e("ERROO", "Dissmiss key: " + type);
         if (type.equals(SharedPref.DIALOG_CAMPUS_SEARCH_KEY)) {
             String campus = SharedPref.getDialogSearchPref(SharedPref.DIALOG_CAMPUS_SEARCH_KEY);
             campi = campus;
@@ -348,10 +403,27 @@ public class RideSearchFrag extends Fragment {
         }
         if (type.equals(SharedPref.DIALOG_CENTER_SEARCH_KEY)) {
             String center = SharedPref.getDialogSearchPref(SharedPref.DIALOG_CENTER_SEARCH_KEY);
-            Log.e("ERROO", "resultado 2: " + center);
             center_et.setText(center);
         }
     }
+
+//    @OnClick(R.id.center_et)
+//    public void centerEt() {
+//
+//        final ArrayList<String> selectedItems = new ArrayList();
+//        String[] campis = Util.getCampi();
+//        String selectedCampi = campi;
+//        boolean[] ifCampiAreSelected = new boolean[campis.length];
+//        for (int campi = 0; campi < campis.length; campi++) {
+//            ifCampiAreSelected[campi] = false;
+//            if (campis[campi].equals(selectedCampi)) {
+//                ifCampiAreSelected[campi] = true;
+//                selectedItems.add(campis[campi]);
+//            }
+//        }
+//
+//        showCampiListFragment(campis, ifCampiAreSelected, SharedPref.DIALOG_CAMPUS_SEARCH_KEY);
+//    }
 
     @OnClick(R.id.center_et)
     public void centerEt() {
@@ -368,7 +440,7 @@ public class RideSearchFrag extends Fragment {
             }
         }
 
-        showCampiListFragment(campis, ifCampiAreSelected, SharedPref.DIALOG_CAMPUS_SEARCH_KEY);
+        showCenterListFragment();
     }
 
     @OnClick(R.id.anotherSearch_bt)

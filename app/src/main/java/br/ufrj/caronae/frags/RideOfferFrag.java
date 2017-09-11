@@ -264,7 +264,7 @@ public class RideOfferFrag extends Fragment {
             public void onPositiveActionClicked(DialogFragment fragment) {
                 campi_et.setText(getSelectedValue());
                 if ((campi_et.getText().toString().equals("") || campi_et.getText().toString().equals(Util.getCampi()[2]) && (going))) {
-                    center_et.setVisibility(View.GONE);
+//                    center_et.setVisibility(View.GONE);
                 } else
                     center_et.setVisibility(View.VISIBLE);
                 super.onPositiveActionClicked(fragment);
