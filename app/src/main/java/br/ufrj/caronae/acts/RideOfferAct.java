@@ -1,19 +1,14 @@
 package br.ufrj.caronae.acts;
 
 import android.app.Dialog;
-import android.app.DialogFragment;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -443,6 +438,7 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
                                 showCustomDialog(getResources().getString(R.string.ride_in_past_header),
                                         getResources().getString(R.string.ride_in_past_body));
                             } else {
+                                Log.e("CARRO", "ab: " + ride.getAvailableSlots());
                                 configureActivityWithRide(ride, ride.getAvailableSlots() == 0 ? true : false);
                                 mainLayout.setVisibility(View.VISIBLE);
                                 progressBarLayout.setVisibility(View.GONE);

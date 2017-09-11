@@ -17,7 +17,7 @@
         android:theme="@style/AppTheme">
         <meta-data
             android:name="DATABASE"
-            android:value="caronae.db" />
+            android:value="caronaee.db" />
         <meta-data
             android:name="VERSION"
             android:value="1" />
@@ -95,7 +95,8 @@
             <intent-filter>
                 <data
                     android:host="caronae.com.br"
-                    android:scheme="https" />
+                    android:scheme="https"
+                    android:pathPrefix="/carona/"/>
 
                 <action android:name="android.intent.action.VIEW" />
 
