@@ -420,8 +420,14 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
         final String rideId;
         List<String> params = uri.getPathSegments();
 
-        if (params.size() == 1)
+        if (params.size() == 1) {
             rideId = params.get(0);
+            if (rideId.equals("carona")){
+                Intent intent = new Intent(this, MainAct.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }
+        }
         else
             rideId = params.get(1);
 
@@ -470,7 +476,7 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(App.inst(), MainAct.class);
-                intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 App.inst().startActivity(intent);
             }
         });
@@ -478,4 +484,9 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
         dialog.show();
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        finish();
+    }
 }

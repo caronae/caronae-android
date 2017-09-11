@@ -745,7 +745,7 @@ public class Util {
     }
 
     public static String getTextToShareRide(RideForJson ride) {
-        String text = "Carona: " + ride.getNeighborhood() + " ➜ " + ride.getHub() + "\n"
+        String text = "Carona: " + ride.getNeighborhood() + " →  " + ride.getHub() + "\n"
                 + "Chegando às " + formatTime(ride.getTime()) + " | " + Util.getWeekDayFromDate(ride.getDate()) + " | " + formatDateRemoveYear(formatBadDateWithYear(ride.getDate())) + "\n"
                 + Constants.SHARE_LINK + ride.getDbId();
 
