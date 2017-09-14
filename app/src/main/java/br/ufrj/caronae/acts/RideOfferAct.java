@@ -51,8 +51,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
-
 public class RideOfferAct extends SwipeDismissBaseActivity {
 
     @Bind(R.id.user_pic)
@@ -329,6 +327,7 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
                     join_bt.setText("CARONA CHEIA");
                     join_bt.setClickable(false);
                 } else {
+                    join_bt.setClickable(true);
                     final Context context = this;
                     join_bt.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -438,7 +437,7 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
                                 showCustomDialog(getResources().getString(R.string.ride_in_past_header),
                                         getResources().getString(R.string.ride_in_past_body));
                             } else {
-                                Log.e("CARRO", "ab: " + ride.getAvailableSlots());
+                                ride.setDbId(Integer.parseInt(ride.getId() + ""));
                                 configureActivityWithRide(ride, ride.getAvailableSlots() == 0 ? true : false);
                                 mainLayout.setVisibility(View.VISIBLE);
                                 progressBarLayout.setVisibility(View.GONE);

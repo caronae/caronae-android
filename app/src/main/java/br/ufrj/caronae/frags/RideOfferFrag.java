@@ -307,21 +307,24 @@ public class RideOfferFrag extends Fragment {
             DialogFragment fragment = DialogFragment.newInstance(builder);
             fragment.show(getFragmentManager(), null);
         } else {
-            builder.title(getContext().getString(R.string.frag_rideOffer_pickHub))
+            builder.items(Util.getFundaoHubs(), 0)
+                    .title(getContext().getString(R.string.frag_rideOffer_pickHub))
                     .positiveAction(getContext().getString(R.string.ok))
                     .negativeAction(getContext().getString(R.string.cancel));
-            if (campi_et.getText().toString().equals("")){
-                campi_et.setError("Escolher o campus");
-            } else {
-                if (campi_et.getText().toString().equals(Util.getCampi()[1])) {
-                    builder.items(Util.getFundaoHubs(), 0);
-                }
-                if (campi_et.getText().toString().equals(Util.getCampi()[2])) {
-                    builder.items(Util.getPraiaVermelhaHubs(), 0);
-                }
-                DialogFragment fragment = DialogFragment.newInstance(builder);
-                fragment.show(getFragmentManager(), null);
-            }
+            DialogFragment fragment = DialogFragment.newInstance(builder);
+            fragment.show(getFragmentManager(), null);
+//            if (campi_et.getText().toString().equals("")){
+//                campi_et.setError("Escolher o campus");
+//            } else {
+//                if (campi_et.getText().toString().equals(Util.getCampi()[1])) {
+//                    builder.items(Util.getFundaoHubs(), 0);
+//                }
+//                if (campi_et.getText().toString().equals(Util.getCampi()[2])) {
+//                    builder.items(Util.getPraiaVermelhaHubs(), 0);
+//                }
+//                DialogFragment fragment = DialogFragment.newInstance(builder);
+//                fragment.show(getFragmentManager(), null);
+//            }
         }
     }
 
