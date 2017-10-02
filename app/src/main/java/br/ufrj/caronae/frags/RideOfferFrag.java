@@ -127,9 +127,6 @@ public class RideOfferFrag extends Fragment {
             loadLastRide(lastRideOffer);
         }
 
-        if (going)
-            center_et.setVisibility(View.GONE);
-
         checkCarOwnerDialog();
 
         return view;
