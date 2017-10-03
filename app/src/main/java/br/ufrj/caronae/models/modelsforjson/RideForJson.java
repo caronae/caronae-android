@@ -5,6 +5,7 @@ import android.os.Parcelable;
 
 import java.util.List;
 
+import br.ufrj.caronae.App;
 import br.ufrj.caronae.models.Ride;
 import br.ufrj.caronae.models.User;
 

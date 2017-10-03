@@ -52,6 +52,12 @@
         <item name="android:textAppearance">@style/Base.TextAppearance.AppCompat.Button</item>
     </style>
 
+    <style name="LightRaiseColorButtonRippleStyleNoPadding" parent="Material.Drawable.Ripple.Touch.Light">
+        <item name="rd_rippleColor">#33000000</item>
+        <item name="rd_delayClick">afterRelease</item>
+        <item name="android:textAppearance">@style/Base.TextAppearance.AppCompat.Button</item>
+    </style>
+
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
@@ -99,6 +105,10 @@
     <style name="item_card">
         <item name="android:height">88dp</item>
         <item name="android:paddingBottom">10dp</item>
+    </style>
+
+    <style name="item_card_swiper">
+        <item name="android:height">88dp</item>
     </style>
 
     <style name="item_header_text">

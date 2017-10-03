@@ -65,5 +65,6 @@ dependencies {
     compile 'com.github.clans:fab:1.6.4'
     compile 'ch.acra:acra:4.9.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile "com.daimajia.swipelayout:library:1.2.0@aar"
 }
 apply plugin: 'com.google.gms.google-services'

@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.daimajia.swipe.SwipeLayout;
 import com.google.gson.Gson;
 import com.rey.material.app.Dialog;
 import com.rey.material.app.DialogFragment;
@@ -140,7 +141,9 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
         public TextView slots_tv;
         public TextView date_tv;
         public android.widget.ImageButton delete_bt;
+        public android.widget.ImageButton share_bt;
         public android.widget.RelativeLayout layout;
+        public SwipeLayout myRideLayout;
         public ImageView newRequest_iv;
 
         public TextView name_tv;
@@ -160,7 +163,9 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
             slots_tv = (TextView) itemView.findViewById(R.id.slots_tv);
             date_tv = (TextView) itemView.findViewById(R.id.date_tv);
             delete_bt = (android.widget.ImageButton) itemView.findViewById(R.id.delete_bt);
+            share_bt = (android.widget.ImageButton) itemView.findViewById(R.id.share_bt);
             layout = (android.widget.RelativeLayout) itemView.findViewById(R.id.cardView);
+            myRideLayout = (SwipeLayout) itemView.findViewById(R.id.card_view_my_ride);
             newRequest_iv = (ImageView) itemView.findViewById(R.id.newRequest_iv);
 
             name_tv = (TextView) itemView.findViewById(R.id.name_tv);
@@ -184,7 +189,8 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
             holder.time_tv.setText(activity.getString(R.string.arrivingAt, Util.formatBadHour(ride.getTime())));
         else
             holder.time_tv.setText(activity.getString(R.string.leavingAt, Util.formatBadHour(ride.getTime())));
-        holder.date_tv.setText(Util.formatBadDateWithoutYear(ride.getDate()));
+        Log.e("DATE", "tempo: " + ride.getDate());
+        holder.date_tv.setText(Util.formatGoodDateWithoutYear(ride.getDate()));
         holder.slots_tv.setText(activity.getString(R.string.Xslots, ride.getSlots(), (Integer.parseInt(ride.getSlots()) > 1 ? "s" : "")));
         String location;
         if (ride.isGoing())
@@ -376,46 +382,96 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
         });
 
         final int colorToSend = color;
-        holder.layout.setOnClickListener(new View.OnClickListener() {
+
+        final boolean[] isOpen = {false};
+        holder.myRideLayout.setShowMode(SwipeLayout.ShowMode.LayDown);
+        holder.delete_bt.setBackgroundColor(color);
+
+        holder.myRideLayout.addSwipeListener(new SwipeLayout.SwipeListener() {
+            @Override
+            public void onStartOpen(SwipeLayout layout) {
+                isOpen[0] = true;
+            }
+
+            @Override
+            public void onOpen(SwipeLayout layout) {
+            }
+
+            @Override
+            public void onStartClose(SwipeLayout layout) {
+
+            }
+
+            @Override
+            public void onClose(SwipeLayout layout) {
+                isOpen[0] = false;
+            }
+
+            @Override
+            public void onUpdate(SwipeLayout layout, int leftOffset, int topOffset) {
+
+            }
+
+            @Override
+            public void onHandRelease(SwipeLayout layout, float xvel, float yvel) {
+
+            }
+
+        });
+
+        holder.share_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final ProgressDialog pd = ProgressDialog.show(activity, "", activity.getResources().getString(R.string.wait), true, true);
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("text/plain");
+                intent.putExtra(Intent.EXTRA_TEXT, Util.getTextToShareRide(ride));
+                intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Check out this site!");
+                App.inst().startActivity(intent.createChooser(intent, "Compartilhar Carona"));
+            }
+        });
 
-                RideRequestReceived.deleteAll(RideRequestReceived.class, "db_id = ?", ride.getDbId() + "");
-                holder.newRequest_iv.setVisibility(View.INVISIBLE);
+        holder.myRideLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!isOpen[0]) {
+                    final ProgressDialog pd = ProgressDialog.show(activity, "", activity.getResources().getString(R.string.wait), true, true);
 
-                App.getNetworkService(activity.getApplicationContext()).getRequesters(ride.getDbId() + "")
-                        .enqueue(new Callback<List<User>>() {
-                            @Override
-                            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
-                                if (response.isSuccessful()) {
-                                    pd.dismiss();
-                                    List<User> users = response.body();
+                    RideRequestReceived.deleteAll(RideRequestReceived.class, "db_id = ?", ride.getDbId() + "");
+                    holder.newRequest_iv.setVisibility(View.INVISIBLE);
 
-                                    if (users.isEmpty()) {
-                                        Util.toast(R.string.noRequesters);
+                    App.getNetworkService(activity.getApplicationContext()).getRequesters(ride.getDbId() + "")
+                            .enqueue(new Callback<List<User>>() {
+                                @Override
+                                public void onResponse(Call<List<User>> call, Response<List<User>> response) {
+                                    if (response.isSuccessful()) {
+                                        pd.dismiss();
+                                        List<User> users = response.body();
+
+                                        if (users.isEmpty()) {
+                                            Util.toast(R.string.noRequesters);
+                                        } else {
+                                            Intent intent = new Intent(activity, RequestersListAct.class);
+                                            intent.putParcelableArrayListExtra("users", (ArrayList<User>) users);
+                                            intent.putExtra("rideId", ride.getDbId());
+                                            intent.putExtra("color", colorToSend);
+                                            activity.startActivity(intent);
+                                        }
                                     } else {
-                                        Intent intent = new Intent(activity, RequestersListAct.class);
-                                        intent.putParcelableArrayListExtra("users", (ArrayList<User>) users);
-                                        intent.putExtra("rideId", ride.getDbId());
-                                        intent.putExtra("color", colorToSend);
-                                        activity.startActivity(intent);
+                                        Util.treatResponseFromServer(response);
+                                        pd.dismiss();
+                                        Util.toast(R.string.errorGetRequesters);
+                                        Log.e("getRequesters", response.message());
                                     }
-                                } else {
-                                    Util.treatResponseFromServer(response);
+                                }
+
+                                @Override
+                                public void onFailure(Call<List<User>> call, Throwable t) {
                                     pd.dismiss();
                                     Util.toast(R.string.errorGetRequesters);
-                                    Log.e("getRequesters", response.message());
+                                    Log.e("getRequesters", t.getMessage());
                                 }
-                            }
-
-                            @Override
-                            public void onFailure(Call<List<User>> call, Throwable t) {
-                                pd.dismiss();
-                                Util.toast(R.string.errorGetRequesters);
-                                Log.e("getRequesters", t.getMessage());
-                            }
-                        });
+                            });
+                }
             }
         });
 
