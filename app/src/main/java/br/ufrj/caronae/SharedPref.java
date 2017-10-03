@@ -28,6 +28,7 @@ public class SharedPref {
     public static final String DIALOG_CAMPUS_SEARCH_KEY            = "campus";
     public static final String DIALOG_CENTER_SEARCH_KEY            = "centro";
     public static final String DIALOG_DISMISS_KEY                  = "dismiss_key";
+    public static final String MY_RIDES_DELETE_TUTORIAL            = "my_rides_delete_tutorial";
 
 
 
@@ -39,19 +40,19 @@ public class SharedPref {
         return getSharedPreferences().edit();
     }
 
-    private static void putPref(String key, String value) {
+    public static void putPref(String key, String value) {
         getSharedPrefEditor().putString(key, value).apply();
     }
 
-    private static void putBooleanPref(String key, boolean value) {
+    public static void putBooleanPref(String key, boolean value) {
         getSharedPrefEditor().putBoolean(key, value).apply();
     }
 
-    private static String getPref(String key) {
+    public static String getPref(String key) {
         return getSharedPreferences().getString(key, MISSING_PREF);
     }
 
-    private static boolean getBooleanPref(String key) {
+    public static boolean getBooleanPref(String key) {
         return getSharedPreferences().getBoolean(key, false);
     }
 

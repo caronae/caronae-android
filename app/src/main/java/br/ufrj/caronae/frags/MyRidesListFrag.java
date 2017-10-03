@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
@@ -23,6 +24,7 @@ import java.util.Locale;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
+import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.adapters.MyActiveRidesAdapter;
@@ -48,6 +50,8 @@ public class MyRidesListFrag extends Fragment {
     TextView norides_tv;
     @Bind(R.id.swipeRefreshLayout)
     SwipeRefreshLayout swipeRefreshLayout;
+    @Bind(R.id.container)
+    RelativeLayout container;
 
 
     ArrayList<Ride> rides;
@@ -129,6 +133,10 @@ public class MyRidesListFrag extends Fragment {
         @Override
         protected void onPostExecute(Void aVoid) {
             if (!rides.isEmpty()) {
+                if (!SharedPref.getBooleanPref(SharedPref.MY_RIDES_DELETE_TUTORIAL)){
+                    Util.snack(container, "Deslize as Minhas Ofertas para esquerda para apagar");
+                    SharedPref.putBooleanPref(SharedPref.MY_RIDES_DELETE_TUTORIAL, true);
+                }
                 Collections.sort(rides, new RideComparatorByDateAndTime());
                 addAllMyRidesToList(rides);
             }

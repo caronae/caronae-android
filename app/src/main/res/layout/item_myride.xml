@@ -6,7 +6,7 @@
     android:id="@+id/card_view_my_ride"
     style="@style/item_card_swiper"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="88dp"
     android:clickable="true"
     android:foreground="?android:attr/selectableItemBackground">
 
@@ -41,7 +41,6 @@
             style="@style/item_header_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:layout_marginLeft="16dp"
             android:text="COPACABANA -> CT" />
 
