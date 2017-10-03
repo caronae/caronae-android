@@ -189,7 +189,9 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
             holder.time_tv.setText(activity.getString(R.string.arrivingAt, Util.formatBadHour(ride.getTime())));
         else
             holder.time_tv.setText(activity.getString(R.string.leavingAt, Util.formatBadHour(ride.getTime())));
-        Log.e("DATE", "tempo: " + ride.getDate());
+        if (ride.getDate().contains("-")){
+            ride.setDate(Util.formatBadDateWithYear(ride.getDate()));
+        }
         holder.date_tv.setText(Util.formatGoodDateWithoutYear(ride.getDate()));
         holder.slots_tv.setText(activity.getString(R.string.Xslots, ride.getSlots(), (Integer.parseInt(ride.getSlots()) > 1 ? "s" : "")));
         String location;

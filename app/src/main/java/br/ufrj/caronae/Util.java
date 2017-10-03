@@ -807,13 +807,24 @@ public class Util {
     public static String getTextToShareRide(Ride ride) {
         String text;
 
+        String dayMonth = "";
+        if (ride.getDate().contains("/")){
+            dayMonth = formatDateRemoveYear(ride.getDate());
+        } else {
+            dayMonth = formatBadDateWithYear(ride.getDate());
+        }
+
         if (ride.isGoing()) {
             text = "Carona: " + ride.getNeighborhood() + " → " + ride.getHub() + "\n"
-                    + "Chegando às " + formatTime(ride.getTime()) + " | " + Util.getWeekDayFromDateWithoutTodayString(ride.getDate()) + " | " + formatDateRemoveYear(formatBadDateWithYear(ride.getDate())) + "\n"
+                    + "Chegando às " + formatTime(ride.getTime())
+                    + " | " + Util.getWeekDayFromDateWithoutTodayString(ride.getDate())
+                    + " | " + dayMonth + "\n"
                     + Constants.SHARE_LINK + ride.getDbId();
         } else {
             text = "Carona: " + ride.getHub() + " → " + ride.getNeighborhood() + "\n"
-                    + "Saíndo às " + formatTime(ride.getTime()) + " | " + Util.getWeekDayFromDateWithoutTodayString(ride.getDate()) + " | " + formatDateRemoveYear(formatBadDateWithYear(ride.getDate())) + "\n"
+                    + "Saíndo às " + formatTime(ride.getTime())
+                    + " | " + Util.getWeekDayFromDateWithoutTodayString(ride.getDate())
+                    + " | " + dayMonth + "\n"
                     + Constants.SHARE_LINK + ride.getDbId();
         }
 
