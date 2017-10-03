@@ -252,10 +252,10 @@ public class MyRidesListFrag extends Fragment {
     private void addAllMyRidesToList(List<Ride> rides) {
 
         for (int ridesIndex = 0; ridesIndex < rides.size(); ridesIndex++) {
-            if (rides.get(ridesIndex).isGoing() == going) {
+//            if (rides.get(ridesIndex).isGoing() == going) {
                 if (!rideIsInList(allRides, rides.get(ridesIndex)))
                     allRides.add(rides.get(ridesIndex));
-            }
+//            }
         }
     }
 
