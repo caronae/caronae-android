@@ -43,11 +43,11 @@ import retrofit2.Response;
 
 public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHolder> {
 
-    private int TYPE_MY_RIDE =                  0;
-    private int TYPE_ACTIVE_RIDE =              1;
-    private int TYPE_HEADER =                  2;
+    private int TYPE_MY_RIDE =                    0;
+    private int TYPE_ACTIVE_RIDE =                1;
+    private int TYPE_HEADER =                     2;
     private int MY_OFFER_RIDES_HEADER_TAG =       1;
-    private int MY_ACTIVE_RIDES_HEADER_TAG  = 0;
+    private int MY_ACTIVE_RIDES_HEADER_TAG  =     0;
     private List<Object> rides;
     private final MainAct activity;
     private final List<RideRequestReceived> rideRequestReceivedList;
