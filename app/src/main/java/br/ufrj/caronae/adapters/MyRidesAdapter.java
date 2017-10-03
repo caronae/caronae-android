@@ -385,7 +385,7 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
 
         final int colorToSend = color;
 
-        final boolean[] isOpen = {false};
+        final boolean[] isOpen = {false, false};
         holder.myRideLayout.setShowMode(SwipeLayout.ShowMode.LayDown);
         holder.delete_bt.setBackgroundColor(color);
 
@@ -393,6 +393,7 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
             @Override
             public void onStartOpen(SwipeLayout layout) {
                 isOpen[0] = true;
+                isOpen[1] = true;
             }
 
             @Override
@@ -406,7 +407,7 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
 
             @Override
             public void onClose(SwipeLayout layout) {
-                isOpen[0] = false;
+                isOpen[1] = false;
             }
 
             @Override
@@ -473,6 +474,8 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
                                     Log.e("getRequesters", t.getMessage());
                                 }
                             });
+                } else if (isOpen[0] && !isOpen[1]){
+                    isOpen[0] = false;
                 }
             }
         });
