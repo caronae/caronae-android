@@ -2,6 +2,7 @@ package br.ufrj.caronae.frags;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -134,8 +135,15 @@ public class MyRidesListFrag extends Fragment {
         protected void onPostExecute(Void aVoid) {
             if (!rides.isEmpty()) {
                 if (!SharedPref.getBooleanPref(SharedPref.MY_RIDES_DELETE_TUTORIAL)){
-                    Util.snack(container, "Deslize as Minhas Ofertas para esquerda para apagar");
-                    SharedPref.putBooleanPref(SharedPref.MY_RIDES_DELETE_TUTORIAL, true);
+                    final Snackbar snackbar = Snackbar.make(container, "Deslize as Minhas Ofertas para esquerda para apagar", Snackbar.LENGTH_INDEFINITE);
+                    snackbar.setAction("OK", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            SharedPref.putBooleanPref(SharedPref.MY_RIDES_DELETE_TUTORIAL, true);
+                            snackbar.dismiss();
+                        }
+                    });
+                    snackbar.show();
                 }
                 Collections.sort(rides, new RideComparatorByDateAndTime());
                 addAllMyRidesToList(rides);
