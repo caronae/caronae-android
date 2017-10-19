@@ -79,8 +79,8 @@ public class App extends SugarApp {
     }
 
     public static String getHost() {
-        return DEV_SERVER_ENDPOINT;
-//        return CARONAE_ENDPOINT;
+//        return DEV_SERVER_ENDPOINT;
+        return CARONAE_ENDPOINT;
     }
 
     public static NetworkService getNetworkService(final Context context) {
