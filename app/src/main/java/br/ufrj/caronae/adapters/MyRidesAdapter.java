@@ -429,7 +429,8 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
                 intent.setType("text/plain");
                 intent.putExtra(Intent.EXTRA_TEXT, Util.getTextToShareRide(ride));
                 intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Check out this site!");
-                App.inst().startActivity(intent.createChooser(intent, "Compartilhar Carona"));
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                activity.startActivity(intent.createChooser(intent, "Compartilhar Carona"));
             }
         });
 

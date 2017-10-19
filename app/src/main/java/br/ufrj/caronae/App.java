@@ -30,7 +30,6 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import static br.ufrj.caronae.Constants.CARONAE_ENDPOINT;
-import static br.ufrj.caronae.Constants.DEV_SERVER_ENDPOINT;
 
 /** Usa o Falae para reportar crashes **/
 @ReportsCrashes(
