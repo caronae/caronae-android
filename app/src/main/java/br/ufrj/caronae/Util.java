@@ -834,8 +834,7 @@ public class Util {
     public static long getStringDateInMillis(String date){
         try {
             Date dateString = new SimpleDateFormat("HH:mm:ss yyyy-MM-dd", Locale.ENGLISH).parse(date);
-            long milliseconds = dateString.getTime();
-            return  milliseconds;
+            return dateString.getTime();
         } catch (ParseException e) {
             e.printStackTrace();
         }
