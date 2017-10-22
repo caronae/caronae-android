@@ -46,14 +46,14 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
 
     private int TYPE_MY_RIDE =                    0;
     private int TYPE_ACTIVE_RIDE =                1;
-    private int TYPE_HEADER =                     2;
-    private int MY_OFFER_RIDES_HEADER_TAG =       1;
-    private int MY_ACTIVE_RIDES_HEADER_TAG  =     0;
+    private static final int TYPE_HEADER =                     2;
+    private static final int MY_OFFER_RIDES_HEADER_TAG =       1;
+    private static final int MY_ACTIVE_RIDES_HEADER_TAG  =     0;
     private List<Object> rides;
     private final MainAct activity;
     private final List<RideRequestReceived> rideRequestReceivedList;
     private final List<NewChatMsgIndicator> newChatMsgIndicatorList;
-    private int positionMyActiveRideHeaderPosition = 0;
+    private static final int MY_ACTIVE_RIDE_HEADER_POSITION = 0;
 
     public MyRidesAdapter(List<Object> rides, MainAct activity) {
         this.activity = activity;
@@ -65,7 +65,7 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
 
         for (int rideCounter = 0; rideCounter < rides.size(); rideCounter++){
             if (rides.get(rideCounter).getClass() == RideForJson.class){
-                rides.add(positionMyActiveRideHeaderPosition, MY_ACTIVE_RIDES_HEADER_TAG);
+                rides.add(MY_ACTIVE_RIDE_HEADER_POSITION, MY_ACTIVE_RIDES_HEADER_TAG);
                 break;
             }
         }
