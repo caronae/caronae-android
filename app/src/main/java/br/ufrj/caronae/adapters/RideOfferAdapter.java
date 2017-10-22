@@ -43,7 +43,7 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
         this.rideOffers = rideOffers;
         this.context = context;
         this.fm = fm;
-        List<Object> mixedList = new ArrayList<Object>();
+        List<Object> mixedList = new ArrayList<>();
 
     }
 
