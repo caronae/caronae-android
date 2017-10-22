@@ -216,7 +216,7 @@ public class RideFilterFrag extends Fragment {
 
     @OnClick(R.id.center_et)
     public void centerEt() {
-        final ArrayList<String> selectedItems = new ArrayList();
+        final ArrayList<String> selectedItems = new ArrayList<>();
 
         String[] selectedCenters = center_et.getText().toString().split(", ");
         boolean[] ifCentersAreSelected = new boolean[Util.getFundaoCenters().length];
@@ -282,7 +282,7 @@ public class RideFilterFrag extends Fragment {
 
     @OnClick(R.id.campi_et)
     public void campiEt() {
-        final ArrayList<String> selectedItems = new ArrayList();
+        final ArrayList<String> selectedItems = new ArrayList<>();
 
         String[] selectedCampis = campi_et.getText().toString().split(", ");
         boolean[] ifCampisAreSelected = new boolean[Util.getCampi().length];
