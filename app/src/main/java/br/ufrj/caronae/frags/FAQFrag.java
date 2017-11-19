@@ -10,13 +10,13 @@ import android.webkit.WebViewClient;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
 public class FAQFrag extends Fragment {
 
-    @Bind(R.id.webview_faq)
+    @BindView(R.id.webview_faq)
     WebView webView;
 
 

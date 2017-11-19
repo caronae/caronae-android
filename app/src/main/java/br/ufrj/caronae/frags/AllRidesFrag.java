@@ -37,7 +37,7 @@ import br.ufrj.caronae.comparators.RideOfferComparatorByDateAndTime;
 import br.ufrj.caronae.models.modelsforjson.RideFiltersForJson;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
 import br.ufrj.caronae.models.modelsforjson.RideForJsonDeserializer;
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import retrofit2.Call;
@@ -48,17 +48,17 @@ public class AllRidesFrag extends Fragment {
 
     private static boolean PAGE_WAS_GOING  = true;
 
-    @Bind(R.id.sliding_tabs)
+    @BindView(R.id.sliding_tabs)
     TabLayout tabLayout;
-    @Bind(R.id.viewpager)
+    @BindView(R.id.viewpager)
     ViewPager viewPager;
-    @Bind(R.id.progressBar2)
+    @BindView(R.id.progressBar2)
     ProgressBar progressBar2;
 
     static FloatingActionMenu fab_menu;
-    @Bind(R.id.fab_add_ride)
+    @BindView(R.id.fab_add_ride)
     com.github.clans.fab.FloatingActionButton fab_add_ride;
-    @Bind(R.id.fab_active_rides)
+    @BindView(R.id.fab_active_rides)
     com.github.clans.fab.FloatingActionButton fab_active_rides;
 
 

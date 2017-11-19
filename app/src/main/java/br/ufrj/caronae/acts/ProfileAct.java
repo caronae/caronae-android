@@ -33,7 +33,7 @@ import br.ufrj.caronae.models.User;
 import br.ufrj.caronae.models.modelsforjson.FacebookFriendForJson;
 import br.ufrj.caronae.models.modelsforjson.FalaeMsgForJson;
 import br.ufrj.caronae.models.modelsforjson.HistoryRideCountForJson;
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import okhttp3.ResponseBody;
@@ -43,31 +43,31 @@ import retrofit2.Response;
 
 public class ProfileAct extends AppCompatActivity {
 
-    @Bind(R.id.user_pic_iv)
+    @BindView(R.id.user_pic_iv)
     ImageView user_pic_iv;
-    @Bind(R.id.name_tv)
+    @BindView(R.id.name_tv)
     TextView name_tv;
-    @Bind(R.id.profile_tv)
+    @BindView(R.id.profile_tv)
     TextView profile_tv;
-    @Bind(R.id.course_tv)
+    @BindView(R.id.course_tv)
     TextView course_tv;
-    @Bind(R.id.createdAt_tv)
+    @BindView(R.id.createdAt_tv)
     TextView createdAt_tv;
-    @Bind(R.id.ridesOffered_tv)
+    @BindView(R.id.ridesOffered_tv)
     TextView ridesOffered_tv;
-    @Bind(R.id.ridesTaken_tv)
+    @BindView(R.id.ridesTaken_tv)
     TextView ridesTaken_tv;
-    @Bind(R.id.phone_tv)
+    @BindView(R.id.phone_tv)
     TextView phone_tv;
-    @Bind(R.id.call_tv)
+    @BindView(R.id.call_tv)
     TextView call_tv;
-    @Bind(R.id.mutualFriendsList)
+    @BindView(R.id.mutualFriendsList)
     RecyclerView mutualFriendsList;
-    @Bind(R.id.mutualFriends_lay)
+    @BindView(R.id.mutualFriends_lay)
     RelativeLayout mutualFriends_lay;
-    @Bind(R.id.mutualFriends_tv)
+    @BindView(R.id.mutualFriends_tv)
     TextView mutualFriends_tv;
-    @Bind(R.id.openProfile_tv)
+    @BindView(R.id.openProfile_tv)
     TextView openProfile_tv;
 
     User user;

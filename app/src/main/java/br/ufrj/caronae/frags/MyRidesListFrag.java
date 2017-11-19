@@ -37,7 +37,7 @@ import br.ufrj.caronae.models.ActiveRide;
 import br.ufrj.caronae.models.Ride;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
 import br.ufrj.caronae.models.modelsforjson.RideForJsonDeserializer;
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -45,13 +45,13 @@ import retrofit2.Response;
 
 public class MyRidesListFrag extends Fragment {
 
-    @Bind(R.id.myRidesList)
+    @BindView(R.id.myRidesList)
     RecyclerView myRidesList;
-    @Bind(R.id.norides_tv)
+    @BindView(R.id.norides_tv)
     TextView norides_tv;
-    @Bind(R.id.swipeRefreshLayout)
+    @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout swipeRefreshLayout;
-    @Bind(R.id.container)
+    @BindView(R.id.container)
     RelativeLayout container;
 
 
