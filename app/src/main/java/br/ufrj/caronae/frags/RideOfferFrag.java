@@ -43,7 +43,7 @@ import br.ufrj.caronae.firebase.FirebaseTopicsHandler;
 import br.ufrj.caronae.models.ModelValidateDuplicate;
 import br.ufrj.caronae.models.Ride;
 import br.ufrj.caronae.models.RideRountine;
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import retrofit2.Call;
@@ -52,48 +52,48 @@ import retrofit2.Response;
 
 public class RideOfferFrag extends Fragment {
 
-    @Bind(R.id.radioGroup2)
+    @BindView(R.id.radioGroup2)
     RadioGroup radioGroup2;
 
-    @Bind(R.id.neighborhood_et)
+    @BindView(R.id.neighborhood_et)
     EditText neighborhood_et;
-    @Bind(R.id.place_et)
+    @BindView(R.id.place_et)
     EditText place_et;
-    @Bind(R.id.way_et)
+    @BindView(R.id.way_et)
     EditText way_et;
-    @Bind(R.id.date_et)
+    @BindView(R.id.date_et)
     TextView date_et;
-    @Bind(R.id.time_et)
+    @BindView(R.id.time_et)
     TextView time_et;
-    @Bind(R.id.slots_et)
+    @BindView(R.id.slots_et)
     Spinner slots_et;
-    @Bind(R.id.center_et)
+    @BindView(R.id.center_et)
     EditText center_et;
-    @Bind(R.id.campi_et)
+    @BindView(R.id.campi_et)
     EditText campi_et;
-    @Bind(R.id.description_et)
+    @BindView(R.id.description_et)
     EditText description_et;
 
-    @Bind(R.id.routine_cb)
+    @BindView(R.id.routine_cb)
     CheckBox routine_cb;
-    @Bind(R.id.days_lo)
+    @BindView(R.id.days_lo)
     RelativeLayout days_lo;
 
-    @Bind(R.id.monday_cb)
+    @BindView(R.id.monday_cb)
     CheckBox monday_cb;
-    @Bind(R.id.tuesday_cb)
+    @BindView(R.id.tuesday_cb)
     CheckBox tuesday_cb;
-    @Bind(R.id.wednesday_cb)
+    @BindView(R.id.wednesday_cb)
     CheckBox wednesday_cb;
-    @Bind(R.id.thursday_cb)
+    @BindView(R.id.thursday_cb)
     CheckBox thursday_cb;
-    @Bind(R.id.friday_cb)
+    @BindView(R.id.friday_cb)
     CheckBox friday_cb;
-    @Bind(R.id.saturday_cb)
+    @BindView(R.id.saturday_cb)
     CheckBox saturday_cb;
-    @Bind(R.id.sunday_cb)
+    @BindView(R.id.sunday_cb)
     CheckBox sunday_cb;
-    @Bind(R.id.scrollView)
+    @BindView(R.id.scrollView)
     ScrollView scrollView;
 
     private String zone;

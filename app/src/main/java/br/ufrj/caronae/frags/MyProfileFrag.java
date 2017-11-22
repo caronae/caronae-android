@@ -41,7 +41,7 @@ import br.ufrj.caronae.models.User;
 import br.ufrj.caronae.models.modelsforjson.HistoryRideCountForJson;
 import br.ufrj.caronae.models.modelsforjson.IdForJson;
 import br.ufrj.caronae.models.modelsforjson.UrlForJson;
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import okhttp3.ResponseBody;
@@ -51,41 +51,41 @@ import retrofit2.Response;
 
 public class MyProfileFrag extends Fragment {
 
-    @Bind(R.id.name_tv)
+    @BindView(R.id.name_tv)
     TextView name_tv;
-    @Bind(R.id.profile_tv)
+    @BindView(R.id.profile_tv)
     TextView profile_tv;
-    @Bind(R.id.course_tv)
+    @BindView(R.id.course_tv)
     TextView course_tv;
-    @Bind(R.id.createdAt_tv)
+    @BindView(R.id.createdAt_tv)
     TextView createdAt_tv;
-    @Bind(R.id.email_et)
+    @BindView(R.id.email_et)
     EditText email_et;
-    @Bind(R.id.phoneNumber_et)
+    @BindView(R.id.phoneNumber_et)
     EditText phoneNumber_et;
-    @Bind(R.id.location_et)
+    @BindView(R.id.location_et)
     android.widget.EditText location_et;
-    @Bind(R.id.carOwner_sw)
+    @BindView(R.id.carOwner_sw)
     SwitchCompat carOwner_sw;
-    @Bind(R.id.notif_sw)
+    @BindView(R.id.notif_sw)
     SwitchCompat notif_sw;
-    @Bind(R.id.carModel_et)
+    @BindView(R.id.carModel_et)
     EditText carModel_et;
-    @Bind(R.id.carColor_et)
+    @BindView(R.id.carColor_et)
     EditText carColor_et;
-    @Bind(R.id.carPlate_et)
+    @BindView(R.id.carPlate_et)
     EditText carPlate_et;
-    @Bind(R.id.car_lay)
+    @BindView(R.id.car_lay)
     RelativeLayout car_lay;
-    @Bind(R.id.login_button)
+    @BindView(R.id.login_button)
     LoginButton loginButton;
-    @Bind(R.id.user_pic)
+    @BindView(R.id.user_pic)
     ImageView user_pic;
-    @Bind(R.id.scrollView)
+    @BindView(R.id.scrollView)
     ScrollView scrollView;
-    @Bind(R.id.ridesOffered_tv)
+    @BindView(R.id.ridesOffered_tv)
     TextView ridesOffered_tv;
-    @Bind(R.id.ridesTaken_tv)
+    @BindView(R.id.ridesTaken_tv)
     TextView ridesTaken_tv;
 
     private CallbackManager callbackManager;

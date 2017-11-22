@@ -25,19 +25,19 @@ import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.acts.StartAct;
 import br.ufrj.caronae.models.modelsforjson.RideFiltersForJson;
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class RideFilterFrag extends Fragment {
 
-    @Bind(R.id.location_et)
+    @BindView(R.id.location_et)
     EditText location_et;
-    @Bind(R.id.center_et)
+    @BindView(R.id.center_et)
     EditText center_et;
-    @Bind(R.id.campi_et)
+    @BindView(R.id.campi_et)
     EditText campi_et;
-    @Bind(R.id.search_bt)
+    @BindView(R.id.search_bt)
     Button search_bt;
 
     private String neighborhoods;
@@ -65,7 +65,7 @@ public class RideFilterFrag extends Fragment {
         if (!lastFilters.equals(SharedPref.MISSING_PREF)) {
             loadLastFilters(lastFilters);
         }
-
+        search_bt.setEnabled(false);
         return view;
     }
 
@@ -212,6 +212,12 @@ public class RideFilterFrag extends Fragment {
                 .negativeAction(getContext().getString(R.string.cancel));
         DialogFragment fragment = DialogFragment.newInstance(builder);
         fragment.show(getFragmentManager(), null);
+        if(center.equals("") && zone.equals("") && campi.equals("") && location.equals("")){
+            search_bt.setEnabled(false);
+        }
+        else{
+            search_bt.setEnabled(true);
+        }
     }
 
     @OnClick(R.id.center_et)
@@ -265,6 +271,10 @@ public class RideFilterFrag extends Fragment {
 
                         if (!centers.equals("")) {
                             centers = centers.substring(0, centers.length() - 2);
+                            search_bt.setEnabled(true);
+                        }
+                        else {
+                            search_bt.setEnabled(false);
                         }
                         center_et.setText(centers);
                     }

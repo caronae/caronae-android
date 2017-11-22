@@ -46,7 +46,7 @@ import br.ufrj.caronae.models.Ride;
 import br.ufrj.caronae.models.RideEndedEvent;
 import br.ufrj.caronae.models.modelsforjson.ChatSendMessageForJson;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import retrofit2.Call;
@@ -56,19 +56,19 @@ import retrofit2.Response;
 
 public class ChatAct extends AppCompatActivity {
 
-    @Bind(R.id.chatMsgs_rv)
+    @BindView(R.id.chatMsgs_rv)
     RecyclerView chatMsgs_rv;
-    @Bind(R.id.send_bt)
+    @BindView(R.id.send_bt)
     com.github.clans.fab.FloatingActionButton send_bt;
-    @Bind(R.id.msg_et)
+    @BindView(R.id.msg_et)
     EditText msg_et;
-    @Bind(R.id.chat_header_text)
+    @BindView(R.id.chat_header_text)
     TextView headerText;
-    @Bind(R.id.lay1)
+    @BindView(R.id.lay1)
     RelativeLayout lay1;
-    @Bind(R.id.card_loading_menssages_sign)
+    @BindView(R.id.card_loading_menssages_sign)
     CardView cardLoadingMessages;
-    @Bind(R.id.loading_message_text)
+    @BindView(R.id.loading_message_text)
     TextView loadMessageText;
 
     int textCounter = 0;

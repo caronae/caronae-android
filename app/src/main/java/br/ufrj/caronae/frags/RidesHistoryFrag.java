@@ -22,7 +22,7 @@ import br.ufrj.caronae.adapters.RidesHistoryAdapter;
 import br.ufrj.caronae.comparators.RideComparatorByDateAndTimeReverse;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
 import br.ufrj.caronae.models.modelsforjson.RideHistoryForJson;
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -30,9 +30,9 @@ import retrofit2.Response;
 
 public class RidesHistoryFrag extends Fragment {
 
-    @Bind(R.id.myRidesList)
+    @BindView(R.id.myRidesList)
     RecyclerView myRidesList;
-    @Bind(R.id.norides_tv)
+    @BindView(R.id.norides_tv)
     TextView norides_tv;
 
     public RidesHistoryFrag() {

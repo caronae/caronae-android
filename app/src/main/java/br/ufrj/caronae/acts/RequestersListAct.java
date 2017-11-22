@@ -13,12 +13,12 @@ import java.util.ArrayList;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.adapters.RequestersAdapter;
 import br.ufrj.caronae.models.User;
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class RequestersListAct extends AppCompatActivity {
 
-    @Bind(R.id.requestersList)
+    @BindView(R.id.requestersList)
     RecyclerView requestersList;
 
     @Override
