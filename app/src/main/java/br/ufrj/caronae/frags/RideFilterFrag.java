@@ -65,7 +65,7 @@ public class RideFilterFrag extends Fragment {
         if (!lastFilters.equals(SharedPref.MISSING_PREF)) {
             loadLastFilters(lastFilters);
         }
-
+        search_bt.setEnabled(false);
         return view;
     }
 
@@ -212,6 +212,12 @@ public class RideFilterFrag extends Fragment {
                 .negativeAction(getContext().getString(R.string.cancel));
         DialogFragment fragment = DialogFragment.newInstance(builder);
         fragment.show(getFragmentManager(), null);
+        if(center.equals("") && zone.equals("") && campi.equals("") && location.equals("")){
+            search_bt.setEnabled(false);
+        }
+        else{
+            search_bt.setEnabled(true);
+        }
     }
 
     @OnClick(R.id.center_et)
@@ -265,6 +271,10 @@ public class RideFilterFrag extends Fragment {
 
                         if (!centers.equals("")) {
                             centers = centers.substring(0, centers.length() - 2);
+                            search_bt.setEnabled(true);
+                        }
+                        else {
+                            search_bt.setEnabled(false);
                         }
                         center_et.setText(centers);
                     }

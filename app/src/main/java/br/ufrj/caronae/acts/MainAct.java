@@ -387,6 +387,11 @@ public class MainAct extends AppCompatActivity {
 
             Fragment fragment = null;
             try {
+                if(fragmentClass.equals(AllRidesFrag.class)) {
+                    if(!filterText.getText().equals("")) {
+                        showFilterCard(getBaseContext());
+                    }
+                }
                 fragment = (Fragment) fragmentClass.newInstance();
             } catch (Exception e) {
                 e.printStackTrace();
