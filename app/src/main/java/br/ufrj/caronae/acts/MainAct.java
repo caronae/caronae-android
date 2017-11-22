@@ -268,30 +268,41 @@ public class MainAct extends AppCompatActivity {
         Class fragmentClass;
         switch (menuItem.getItemId()) {
             case R.id.nav_first_fragment:
+                hideFilterCard(getBaseContext());
                 fragmentClass = MyProfileFrag.class;
                 break;
             case R.id.nav_second_fragment:
+                if(!filterText.getText().equals("")) {
+                    showFilterCard(getBaseContext());
+                }
                 fragmentClass = AllRidesFrag.class;
                 break;
             case R.id.nav_third_fragment:
+                hideFilterCard(getBaseContext());
                 fragmentClass = MyRidesFrag.class;
                 break;
             case R.id.nav_fifth_fragment:
+                hideFilterCard(getBaseContext());
                 fragmentClass = RidesHistoryFrag.class;
                 break;
             case R.id.nav_sixth_fragment:
+                hideFilterCard(getBaseContext());
                 fragmentClass = FalaeFrag.class;
                 break;
             case R.id.nav_seventh_fragment:
+                hideFilterCard(getBaseContext());
                 fragmentClass = TermsOfUseFrag.class;
                 break;
             case R.id.nav_eigth_fragment:
+                hideFilterCard(getBaseContext());
                 fragmentClass = AboutFrag.class;
                 break;
             case R.id.nav_ninth_fragment:
+                hideFilterCard(getBaseContext());
                 fragmentClass = FAQFrag.class;
                 break;
             case R.id.nav_tenth_fragment:
+                hideFilterCard(getBaseContext());
                 fragmentClass = null;
                 //TODO: Transformar em um intent service, unsubscrive nao ta acontecendo imediatamente
                 //Unsubscribe from lists
@@ -541,6 +552,7 @@ public class MainAct extends AppCompatActivity {
             public void onClick(View view) {
                 SharedPref.saveFilterPref(null);
                 hideFilterCard(getApplicationContext());
+                filterText.setText("");
             }
         });
     }
@@ -620,7 +632,7 @@ public class MainAct extends AppCompatActivity {
         filterCard.startAnimation(animation);
     }
 
-    public void hideFilterCard(final Context context){
+    public static void hideFilterCard(final Context context){
                 Animation animation = AnimationUtils.loadAnimation(context, R.anim.anim_fade_out);
                 animation.setAnimationListener(new Animation.AnimationListener() {
                     @Override
