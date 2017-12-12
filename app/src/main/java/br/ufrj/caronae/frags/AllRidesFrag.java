@@ -85,7 +85,10 @@ public class AllRidesFrag extends Fragment {
         listAllRides(1);
 
         fab_menu = (FloatingActionMenu) view.findViewById(R.id.fab_menu);
-
+        if(((MainAct)getActivity()).filterText.getText().equals(""))
+        {
+            ((MainAct)getActivity()).hideFilterCard(context);
+        }
         return view;
     }
 

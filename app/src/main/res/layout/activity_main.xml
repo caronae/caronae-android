@@ -56,7 +56,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginLeft="@dimen/activity_horizontal_margin"
                         android:gravity="center_vertical"
-                        android:text="Copacabana - CT"
+                        android:text=""
                         android:textColor="@android:color/darker_gray" />
 
                     <ImageButton
