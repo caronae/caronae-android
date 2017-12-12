@@ -10,13 +10,13 @@ import android.view.ViewGroup;
 
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.adapters.RideDirectionFragmentPagerAdapter;
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class TabbedRideOfferFrag extends Fragment {
-    @Bind(R.id.sliding_tabs)
+    @BindView(R.id.sliding_tabs)
     TabLayout tabLayout;
-    @Bind(R.id.viewpager)
+    @BindView(R.id.viewpager)
     ViewPager viewPager;
 
     public TabbedRideOfferFrag() {

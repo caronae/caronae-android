@@ -13,7 +13,7 @@ import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.models.User;
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import retrofit2.Call;
@@ -22,11 +22,11 @@ import retrofit2.Response;
 
 public class SignUpAct extends AppCompatActivity {
 
-    @Bind(R.id.nome_et)
+    @BindView(R.id.nome_et)
     public EditText nome_et;
-    @Bind(R.id.token_et)
+    @BindView(R.id.token_et)
     public EditText token_et;
-    @Bind(R.id.checkBox)
+    @BindView(R.id.checkBox)
     public CheckBox checkBox;
 
     @Override
