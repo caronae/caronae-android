@@ -43,7 +43,7 @@ import br.ufrj.caronae.models.RideRequestSent;
 import br.ufrj.caronae.models.modelsforjson.RideFiltersForJson;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
 import br.ufrj.caronae.models.modelsforjson.RideForJsonDeserializer;
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Response;
@@ -56,11 +56,11 @@ import static br.ufrj.caronae.frags.AllRidesFrag.showSnack;
 
 public class AllRidesListFrag extends Fragment implements Callback {
 
-    @Bind(R.id.rvRides)
+    @BindView(R.id.rvRides)
     RecyclerView rvRides;
-    @Bind(R.id.swipeRefreshLayout)
+    @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout refreshLayout;
-    @Bind(R.id.all_rides_list_coordinator_layout)
+    @BindView(R.id.all_rides_list_coordinator_layout)
     CoordinatorLayout coordinatorLayout;
 
 

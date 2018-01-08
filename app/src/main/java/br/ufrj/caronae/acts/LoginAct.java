@@ -26,7 +26,7 @@ import br.ufrj.caronae.Util;
 import br.ufrj.caronae.models.Ride;
 import br.ufrj.caronae.models.modelsforjson.LoginForJson;
 import br.ufrj.caronae.models.modelsforjson.UserWithRidesForJson;
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import okhttp3.ResponseBody;
@@ -35,11 +35,11 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class LoginAct extends AppCompatActivity {
-    @Bind(R.id.token_et)
+    @BindView(R.id.token_et)
     EditText token_et;
-    @Bind(R.id.idUfrj_et)
+    @BindView(R.id.idUfrj_et)
     EditText idUfrj_et;
-    @Bind(R.id.send_bt)
+    @BindView(R.id.send_bt)
     Button loginButton;
 
     public boolean ASYNC_IS_RUNNING = false;

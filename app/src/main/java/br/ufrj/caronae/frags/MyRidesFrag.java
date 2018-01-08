@@ -19,20 +19,20 @@ import br.ufrj.caronae.R;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.adapters.RideDirectionFragmentPagerAdapter;
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class MyRidesFrag extends Fragment {
-    @Bind(R.id.sliding_tabs)
+    @BindView(R.id.sliding_tabs)
     TabLayout tabLayout;
-    @Bind(R.id.viewpager)
+    @BindView(R.id.viewpager)
     ViewPager viewPager;
-    @Bind(R.id.fab_menu)
+    @BindView(R.id.fab_menu)
     com.github.clans.fab.FloatingActionMenu fab_menu;
-    @Bind(R.id.fab_active_rides)
+    @BindView(R.id.fab_active_rides)
     FloatingActionButton fab_active_rides;
-    @Bind(R.id.fab_add_ride)
+    @BindView(R.id.fab_add_ride)
     FloatingActionButton fab_add_ride;
 
     static ProgressBar progressBar;

@@ -44,7 +44,7 @@ import br.ufrj.caronae.models.RideRequestSent;
 import br.ufrj.caronae.models.User;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
 import br.ufrj.caronae.models.modelsforjson.RideIdForJson;
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -53,43 +53,43 @@ import retrofit2.Response;
 
 public class RideOfferAct extends SwipeDismissBaseActivity {
 
-    @Bind(R.id.user_pic)
+    @BindView(R.id.user_pic)
     public ImageView user_pic;
-    @Bind(R.id.location_dt)
+    @BindView(R.id.location_dt)
     public TextView location_dt;
-    @Bind(R.id.name_dt)
+    @BindView(R.id.name_dt)
     public TextView name_dt;
-    @Bind(R.id.profile_dt)
+    @BindView(R.id.profile_dt)
     public TextView profile_dt;
-    @Bind(R.id.course_dt)
+    @BindView(R.id.course_dt)
     public TextView course_dt;
-    @Bind(R.id.time_dt)
+    @BindView(R.id.time_dt)
     public TextView time_dt;
-    @Bind(R.id.date_dt)
+    @BindView(R.id.date_dt)
     public TextView date_dt;
-    @Bind(R.id.join_bt)
+    @BindView(R.id.join_bt)
     public Button join_bt;
-    @Bind(R.id.way_dt)
+    @BindView(R.id.way_dt)
     public TextView way_dt;
-    @Bind(R.id.way_text_frame)
+    @BindView(R.id.way_text_frame)
     public CardView way_text_frame;
-    @Bind(R.id.place_dt)
+    @BindView(R.id.place_dt)
     public TextView place_dt;
-    @Bind(R.id.place_text_frame)
+    @BindView(R.id.place_text_frame)
     CardView place_text_frame;
-    @Bind(R.id.description_dt)
+    @BindView(R.id.description_dt)
     public TextView description_dt;
-    @Bind(R.id.description_text_frame)
+    @BindView(R.id.description_text_frame)
     CardView description_text_frame;
-    @Bind(R.id.requested_dt)
+    @BindView(R.id.requested_dt)
     public TextView requested_dt;
-    @Bind(R.id.share_ride_button)
+    @BindView(R.id.share_ride_button)
     ImageButton shareButton;
-    @Bind(R.id.scrollView)
+    @BindView(R.id.scrollView)
     ScrollView scrollView;
-    @Bind(R.id.main_layout)
+    @BindView(R.id.main_layout)
     RelativeLayout mainLayout;
-    @Bind(R.id.progress_bar_layout)
+    @BindView(R.id.progress_bar_layout)
     FrameLayout progressBarLayout;
 
     CoordinatorLayout coordinatorLayout;

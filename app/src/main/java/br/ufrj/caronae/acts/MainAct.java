@@ -73,7 +73,7 @@ public class MainAct extends AppCompatActivity {
 
     static ImageButton dissmissFilter;
     static CardView filterCard;
-    static TextView filterText;
+    public static TextView filterText;
 
     private ArrayList<Class> backstack;
 
@@ -269,35 +269,59 @@ public class MainAct extends AppCompatActivity {
         switch (menuItem.getItemId()) {
             case R.id.nav_first_fragment:
                 fragmentClass = MyProfileFrag.class;
+                hideFilterCard(getBaseContext());
                 break;
             case R.id.nav_second_fragment:
+                if(!filterText.getText().equals(""))
+                {
+                    showFilterCard(getBaseContext());
+                }
+                else
+                {
+                    hideFilterCard(getBaseContext());
+                }
                 fragmentClass = AllRidesFrag.class;
                 break;
             case R.id.nav_third_fragment:
+                hideFilterCard(getBaseContext());
                 fragmentClass = MyRidesFrag.class;
                 break;
             case R.id.nav_fifth_fragment:
+                hideFilterCard(getBaseContext());
                 fragmentClass = RidesHistoryFrag.class;
                 break;
             case R.id.nav_sixth_fragment:
+                hideFilterCard(getBaseContext());
                 fragmentClass = FalaeFrag.class;
                 break;
             case R.id.nav_seventh_fragment:
+                hideFilterCard(getBaseContext());
                 fragmentClass = TermsOfUseFrag.class;
                 break;
             case R.id.nav_eigth_fragment:
+                hideFilterCard(getBaseContext());
                 fragmentClass = AboutFrag.class;
                 break;
             case R.id.nav_ninth_fragment:
+                hideFilterCard(getBaseContext());
                 fragmentClass = FAQFrag.class;
                 break;
             case R.id.nav_tenth_fragment:
+                hideFilterCard(getBaseContext());
                 fragmentClass = null;
                 //TODO: Transformar em um intent service, unsubscrive nao ta acontecendo imediatamente
                 //Unsubscribe from lists
                 App.LogOut();
                 break;
             default:
+                if(!filterText.getText().equals(""))
+                {
+                    showFilterCard(getBaseContext());
+                }
+                else
+                {
+                    hideFilterCard(getBaseContext());
+                }
                 fragmentClass = AllRidesFrag.class;
         }
 
@@ -376,6 +400,17 @@ public class MainAct extends AppCompatActivity {
 
             Fragment fragment = null;
             try {
+                if(fragmentClass == AllRidesFrag.class)
+                {
+                    if(!filterText.getText().equals(""))
+                    {
+                        showFilterCard(getBaseContext());
+                    }
+                    else
+                    {
+                        hideFilterCard(getBaseContext());
+                    }
+                }
                 fragment = (Fragment) fragmentClass.newInstance();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -540,6 +575,7 @@ public class MainAct extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 SharedPref.saveFilterPref(null);
+                filterText.setText("");
                 hideFilterCard(getApplicationContext());
             }
         });
