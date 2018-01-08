@@ -44,7 +44,7 @@ import br.ufrj.caronae.models.RideEndedEvent;
 import br.ufrj.caronae.models.User;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
 import br.ufrj.caronae.models.modelsforjson.RideIdForJson;
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -53,53 +53,53 @@ import retrofit2.Response;
 
 public class ActiveRideAct extends SwipeDismissBaseActivity {
 
-    @Bind(R.id.user_pic)
+    @BindView(R.id.user_pic)
     public ImageView user_pic;
-    @Bind(R.id.seeProfile_iv)
+    @BindView(R.id.seeProfile_iv)
     public TextView seeProfile_iv;
-    @Bind(R.id.location_tv)
+    @BindView(R.id.location_tv)
     public TextView location_tv;
-    @Bind(R.id.name_tv)
+    @BindView(R.id.name_tv)
     public TextView name_tv;
-    @Bind(R.id.profile_tv)
+    @BindView(R.id.profile_tv)
     public TextView profile_tv;
-    @Bind(R.id.course_tv)
+    @BindView(R.id.course_tv)
     public TextView course_tv;
-    @Bind(R.id.phoneNumber_tv)
+    @BindView(R.id.phoneNumber_tv)
     public TextView phoneNumber_tv;
-    @Bind(R.id.chat_bt)
+    @BindView(R.id.chat_bt)
     public com.github.clans.fab.FloatingActionButton chat_bt;
-    @Bind(R.id.finish_bt)
+    @BindView(R.id.finish_bt)
     public Button finish_bt;
-    @Bind(R.id.time_tv)
+    @BindView(R.id.time_tv)
     public TextView time_tv;
-    @Bind(R.id.date_tv)
+    @BindView(R.id.date_tv)
     public TextView date_tv;
-    @Bind(R.id.leave_bt)
+    @BindView(R.id.leave_bt)
     public Button leave_bt;
-    @Bind(R.id.way_tv)
+    @BindView(R.id.way_tv)
     public TextView way_tv;
-    @Bind(R.id.way_text_tv)
+    @BindView(R.id.way_text_tv)
     public TextView way_text_tv;
-    @Bind(R.id.place_tv)
+    @BindView(R.id.place_tv)
     public TextView place_tv;
-    @Bind(R.id.place_text_tv)
+    @BindView(R.id.place_text_tv)
     public TextView place_text_tv;
-    @Bind(R.id.carModel_tv)
+    @BindView(R.id.carModel_tv)
     public TextView carModel_tv;
-    @Bind(R.id.carColor_tv)
+    @BindView(R.id.carColor_tv)
     public TextView carColor_tv;
-    @Bind(R.id.carPlate_tv)
+    @BindView(R.id.carPlate_tv)
     public TextView carPlate_tv;
-    @Bind(R.id.description_tv)
+    @BindView(R.id.description_tv)
     public TextView description_tv;
-    @Bind(R.id.description_text_tv)
+    @BindView(R.id.description_text_tv)
     public TextView description_text_tv;
-    @Bind(R.id.lay1)
+    @BindView(R.id.lay1)
     public RelativeLayout lay1;
-    @Bind(R.id.ridersList)
+    @BindView(R.id.ridersList)
     public RecyclerView ridersList;
-    @Bind(R.id.share_ride_button)
+    @BindView(R.id.share_ride_button)
     public ImageButton shareBt;
 
     private String rideId2;

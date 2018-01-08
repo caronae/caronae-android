@@ -44,7 +44,7 @@ import br.ufrj.caronae.frags.DialogFragment.SelectorDialogFrag;
 import br.ufrj.caronae.models.RideRequestSent;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
 import br.ufrj.caronae.models.modelsforjson.RideSearchFiltersForJson;
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import retrofit2.Call;
@@ -54,22 +54,22 @@ import retrofit2.Response;
 public class RideSearchFrag extends Fragment {
 
 
-    @Bind(R.id.radioGroup)
+    @BindView(R.id.radioGroup)
     RadioGroup radioGroup;
-    @Bind(R.id.location_et)
+    @BindView(R.id.location_et)
     EditText location_et;
-    @Bind(R.id.date_et)
+    @BindView(R.id.date_et)
     TextView date_et;
-    @Bind(R.id.time_et)
+    @BindView(R.id.time_et)
     TextView time_et;
-    @Bind(R.id.center_et)
+    @BindView(R.id.center_et)
     TextView center_et;
-    @Bind(R.id.lay)
+    @BindView(R.id.lay)
     RelativeLayout lay;
-    @Bind(R.id.anotherSearch_bt)
+    @BindView(R.id.anotherSearch_bt)
     Button anotherSearch_bt;
 
-    @Bind(R.id.rvRides)
+    @BindView(R.id.rvRides)
     RecyclerView rvRides;
 
     private RideOfferAdapter adapter;

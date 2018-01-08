@@ -22,7 +22,7 @@ import br.ufrj.caronae.RoundedTransformation;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.models.User;
 import br.ufrj.caronae.models.modelsforjson.FalaeMsgForJson;
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import okhttp3.ResponseBody;
@@ -32,19 +32,19 @@ import retrofit2.Response;
 
 public class FalaeFrag extends Fragment {
 
-    @Bind(R.id.user_pic_iv)
+    @BindView(R.id.user_pic_iv)
     ImageView user_pic_iv;
-    @Bind(R.id.name_tv)
+    @BindView(R.id.name_tv)
     TextView name_tv;
-    @Bind(R.id.profile_tv)
+    @BindView(R.id.profile_tv)
     TextView profile_tv;
-    @Bind(R.id.course_tv)
+    @BindView(R.id.course_tv)
     TextView course_tv;
-    @Bind(R.id.subject_et)
+    @BindView(R.id.subject_et)
     EditText subject_et;
-    @Bind(R.id.message_et)
+    @BindView(R.id.message_et)
     EditText message_et;
-    @Bind(R.id.radioGroup)
+    @BindView(R.id.radioGroup)
     RadioGroup radioGroup;
 
     public FalaeFrag() {
