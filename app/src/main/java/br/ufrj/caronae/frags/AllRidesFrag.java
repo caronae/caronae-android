@@ -85,7 +85,10 @@ public class AllRidesFrag extends Fragment {
         listAllRides(1);
 
         fab_menu = (FloatingActionMenu) view.findViewById(R.id.fab_menu);
-
+        if(((MainAct)getActivity()).filterText.getText().equals(""))
+        {
+            ((MainAct)getActivity()).hideFilterCard(context);
+        }
         return view;
     }
 
@@ -239,8 +242,7 @@ public class AllRidesFrag extends Fragment {
     }
 
     public static Snackbar makeLoadingRidesSnack() {
-        Snackbar snackbar = Snackbar.make(coordinatorLayout, coordinatorLayout.getResources().getString(R.string.load_more_rides), Snackbar.LENGTH_INDEFINITE);
-        return snackbar;
+        return Snackbar.make(coordinatorLayout, coordinatorLayout.getResources().getString(R.string.load_more_rides), Snackbar.LENGTH_INDEFINITE);
     }
 
     public static void showSnack(Snackbar snackbar) {
@@ -254,8 +256,7 @@ public class AllRidesFrag extends Fragment {
     }
 
     public static Snackbar makeNoConexionSnack() {
-        Snackbar snackbar = Snackbar.make(coordinatorLayout, coordinatorLayout.getResources().getString(R.string.no_conexion), Snackbar.LENGTH_INDEFINITE);
-        return snackbar;
+        return Snackbar.make(coordinatorLayout, coordinatorLayout.getResources().getString(R.string.no_conexion), Snackbar.LENGTH_INDEFINITE);
     }
 
     private boolean checkIfRideIsInList(ArrayList<RideForJson> list, RideForJson ride) {

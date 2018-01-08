@@ -557,7 +557,7 @@ public class RideOfferFrag extends Fragment {
                         if (response.isSuccessful()) {
 
                             List<RideRountine> rideRountines = response.body();
-                            List<Ride> rides = new ArrayList<Ride>();
+                            List<Ride> rides = new ArrayList<>();
                             for (RideRountine rideRountine : rideRountines) {
                                 rides.add(new Ride(rideRountine));
                             }

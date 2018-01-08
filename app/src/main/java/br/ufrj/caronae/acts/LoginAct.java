@@ -91,7 +91,7 @@ public class LoginAct extends AppCompatActivity {
                         SharedPref.saveUserIdUfrj(idUfrj);
                         SharedPref.saveNotifPref("true");
 
-                        if (ASYNC_IS_RUNNING == false) {
+                        if (!ASYNC_IS_RUNNING) {
                             ASYNC_IS_RUNNING = true;
                             new SaveRidesAsync(userWithRides).execute();
                         }

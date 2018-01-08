@@ -108,17 +108,14 @@ public class App extends SugarApp {
                                 .method(original.method(), original.body())
                                 .build();
 
-                        Response response = chain.proceed(request);
-
-                        return response;
+                        return chain.proceed(request);
                     }
                     Request request = original.newBuilder()
                             .header("Content-Type", "application/json")
                             .header("User-Agent", Util.getHeaderForHttp(context))
                             .method(original.method(), original.body())
                             .build();
-                    Response response = chain.proceed(request);
-                    return response;
+                    return chain.proceed(request);
                 }
             });
 
@@ -162,17 +159,14 @@ public class App extends SugarApp {
                                 .method(original.method(), original.body())
                                 .build();
 
-                        Response response = chain.proceed(request);
-
-                        return response;
+                        return chain.proceed(request);
                     }
                     Request request = original.newBuilder()
                             .header("Content-Type", "application/json")
                             .header("User-Agent", Util.getHeaderForHttp(context))
                             .method(original.method(), original.body())
                             .build();
-                    Response response = chain.proceed(request);
-                    return response;
+                    return chain.proceed(request);
                 }
             });
 

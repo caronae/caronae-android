@@ -80,8 +80,8 @@ public class AllRidesListFrag extends Fragment implements Callback {
 
     CharSequence filter = null;
 
-    ArrayList<RideForJson> goingRides = new ArrayList<RideForJson>();
-    ArrayList<RideForJson> notGoingRides = new ArrayList<RideForJson>();
+    ArrayList<RideForJson> goingRides = new ArrayList<>();
+    ArrayList<RideForJson> notGoingRides = new ArrayList<>();
 
     ArrayList<RideForJson> filteredGoingList = new ArrayList<>();
     ArrayList<RideForJson> filteredNotGoingList = new ArrayList<>();
@@ -220,8 +220,8 @@ public class AllRidesListFrag extends Fragment implements Callback {
                         if (response.isSuccessful()) {
 
                             if (pageCounter == FIRST_PAGE_TO_LOAD) {
-                                goingRides = new ArrayList<RideForJson>();
-                                notGoingRides = new ArrayList<RideForJson>();
+                                goingRides = new ArrayList<>();
+                                notGoingRides = new ArrayList<>();
                             }
 
                             RideForJsonDeserializer data = response.body();

@@ -32,7 +32,7 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
 
     private final int TYPE_HEADER = 0;
     private final int TYPE_BODY = 1;
-    private final int TYPE_ZERO = 2;
+    private static final int TYPE_ZERO = 2;
 
     private final Context context;
     private List<RideForJson> rideOffers;
@@ -43,7 +43,7 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
         this.rideOffers = rideOffers;
         this.context = context;
         this.fm = fm;
-        List<Object> mixedList = new ArrayList<Object>();
+        List<Object> mixedList = new ArrayList<>();
 
     }
 
