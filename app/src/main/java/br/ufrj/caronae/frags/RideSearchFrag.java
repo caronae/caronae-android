@@ -304,7 +304,7 @@ public class RideSearchFrag extends Fragment {
     }
 
     private void showCenterListFragment() {
-        final ArrayList<String> selectedItems = new ArrayList();
+        final ArrayList<String> selectedItems = new ArrayList<>();
 
         String[] centers = Util.getFundaoCenters();
         String[] selectedCenters = center_et.getText().toString().split(", ");
@@ -393,8 +393,7 @@ public class RideSearchFrag extends Fragment {
     public void onDialogResponse(RideSearchFrag rideSearchFrag) {
         String type = SharedPref.getDialogTypePref(SharedPref.DIALOG_DISMISS_KEY);
         if (type.equals(SharedPref.DIALOG_CAMPUS_SEARCH_KEY)) {
-            String campus = SharedPref.getDialogSearchPref(SharedPref.DIALOG_CAMPUS_SEARCH_KEY);
-            campi = campus;
+            campi = SharedPref.getDialogSearchPref(SharedPref.DIALOG_CAMPUS_SEARCH_KEY);
             if (campi.equals(Util.getCampi()[2])) {
                 center_et.setText(campi);
             } else {
@@ -428,7 +427,7 @@ public class RideSearchFrag extends Fragment {
     @OnClick(R.id.center_et)
     public void centerEt() {
 
-        final ArrayList<String> selectedItems = new ArrayList();
+        final ArrayList<String> selectedItems = new ArrayList<>();
         String[] campis = Util.getCampi();
         String selectedCampi = campi;
         boolean[] ifCampiAreSelected = new boolean[campis.length];

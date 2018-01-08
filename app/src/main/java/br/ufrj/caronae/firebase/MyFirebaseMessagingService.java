@@ -33,7 +33,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private static final int MESSAGE_NOTIFICATION_ID = 435345;
 
-    private final String MSG_TYPE_ALERT                       = "alert";
+    private static final String MSG_TYPE_ALERT                 = "alert";
 
     public static final String ALERT_KEY                       = "message";
 

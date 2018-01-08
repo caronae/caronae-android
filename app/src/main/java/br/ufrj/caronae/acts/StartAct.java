@@ -13,9 +13,9 @@ import br.ufrj.caronae.models.RideRequestReceived;
 
 public class StartAct extends AppCompatActivity {
 
-    private final String RIDE_ID_BUNDLE_KEY = "rideId";
+    private static final String RIDE_ID_BUNDLE_KEY = "rideId";
 
-    private final String MSG_TYPE_BUNDLE_KEY = "msgType";
+    private static final String MSG_TYPE_BUNDLE_KEY = "msgType";
 
     public static final String MSG_TYPE_ALERT = "alert";
 

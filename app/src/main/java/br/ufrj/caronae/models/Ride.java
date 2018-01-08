@@ -90,7 +90,7 @@ public class Ride extends SugarRecord{
             repeatsUntil = ride.getRepeatsUntil().getDate();
         }
         dbId = ride.getDbId();
-        setId(new Long(ride.getDbId()));
+        setId(Long.valueOf(ride.getDbId()));
         routineId = ride.getRoutineId();
     }
 

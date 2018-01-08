@@ -51,7 +51,7 @@ public class FetchReceivedMessagesService extends IntentService {
                                      ModelReceivedFromChat chatMessagesReceived = response.body();
                                      if (chatMessagesReceived != null && chatMessagesReceived.getMessages().size() != 0) {
 
-                                         final List<ChatMessageReceived> messagesFetched = new ArrayList<ChatMessageReceived>();
+                                         final List<ChatMessageReceived> messagesFetched = new ArrayList<>();
 
                                          List<ChatMessageReceivedFromJson> listMessages = chatMessagesReceived.getMessages();
                                          for (int mensagesNum = 0; mensagesNum < listMessages.size(); mensagesNum++) {

@@ -135,9 +135,7 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
 
     private boolean startWithLink() {
         Uri uri = getIntent().getData();
-        if (uri == null)
-            return false;
-        return true;
+        return uri != null;
     }
 
     private void createChatAssets(RideForJson rideWithUsers) {
@@ -438,7 +436,7 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
                                         getResources().getString(R.string.ride_in_past_body));
                             } else {
                                 ride.setDbId(Integer.parseInt(ride.getId() + ""));
-                                configureActivityWithRide(ride, ride.getAvailableSlots() == 0 ? true : false);
+                                configureActivityWithRide(ride, ride.getAvailableSlots() == 0);
                                 mainLayout.setVisibility(View.VISIBLE);
                                 progressBarLayout.setVisibility(View.GONE);
                             }
