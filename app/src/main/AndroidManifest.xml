@@ -94,7 +94,7 @@
             </intent-filter>
             <intent-filter>
                 <data
-                    android:host="caronae.com.br"
+                    android:host="caronae.org"
                     android:scheme="https"
                     android:pathPrefix="/carona/"/>
 
