@@ -232,6 +232,21 @@ public class MainAct extends AppCompatActivity {
         }
     }
 
+
+    private void manageToolbarButtons(boolean status) //Torna visivel (quando status = true) e invisivel (quando status = false) os botoes de filtro e busca da toolbar do menu
+    {
+        View search_bt = (View) findViewById(R.id.search_frag_bt);
+        View filter_bt = (View) findViewById(R.id.filter_frag_bt);
+        if(status) {
+            search_bt.setVisibility(View.VISIBLE);
+            filter_bt.setVisibility(View.VISIBLE);
+        }
+        else {
+            search_bt.setVisibility(View.INVISIBLE);
+            filter_bt.setVisibility(View.INVISIBLE);
+        }
+    }
+
     private void getHeaderView(NavigationView nvDrawer) {
         LayoutInflater inflater = LayoutInflater.from(this);
         View nvHeader = inflater.inflate(R.layout.nav_header, null, false);
@@ -268,10 +283,12 @@ public class MainAct extends AppCompatActivity {
         Class fragmentClass;
         switch (menuItem.getItemId()) {
             case R.id.nav_first_fragment:
+                manageToolbarButtons(false);
                 fragmentClass = MyProfileFrag.class;
                 hideFilterCard(getBaseContext());
                 break;
             case R.id.nav_second_fragment:
+                manageToolbarButtons(true);
                 if(!filterText.getText().equals(""))
                 {
                     showFilterCard(getBaseContext());
@@ -281,32 +298,40 @@ public class MainAct extends AppCompatActivity {
                     hideFilterCard(getBaseContext());
                 }
                 fragmentClass = AllRidesFrag.class;
+
                 break;
             case R.id.nav_third_fragment:
+                manageToolbarButtons(false);
                 hideFilterCard(getBaseContext());
                 fragmentClass = MyRidesFrag.class;
                 break;
             case R.id.nav_fifth_fragment:
+                manageToolbarButtons(false);
                 hideFilterCard(getBaseContext());
                 fragmentClass = RidesHistoryFrag.class;
                 break;
             case R.id.nav_sixth_fragment:
+                manageToolbarButtons(false);
                 hideFilterCard(getBaseContext());
                 fragmentClass = FalaeFrag.class;
                 break;
             case R.id.nav_seventh_fragment:
+                manageToolbarButtons(false);
                 hideFilterCard(getBaseContext());
                 fragmentClass = TermsOfUseFrag.class;
                 break;
             case R.id.nav_eigth_fragment:
+                manageToolbarButtons(false);
                 hideFilterCard(getBaseContext());
                 fragmentClass = AboutFrag.class;
                 break;
             case R.id.nav_ninth_fragment:
+                manageToolbarButtons(false);
                 hideFilterCard(getBaseContext());
                 fragmentClass = FAQFrag.class;
                 break;
             case R.id.nav_tenth_fragment:
+                manageToolbarButtons(false);
                 hideFilterCard(getBaseContext());
                 fragmentClass = null;
                 //TODO: Transformar em um intent service, unsubscrive nao ta acontecendo imediatamente
