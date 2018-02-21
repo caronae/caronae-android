@@ -427,6 +427,7 @@ public class MainAct extends AppCompatActivity {
             try {
                 if(fragmentClass == AllRidesFrag.class)
                 {
+                    manageToolbarButtons(true);
                     if(!filterText.getText().equals(""))
                     {
                         showFilterCard(getBaseContext());
@@ -435,6 +436,10 @@ public class MainAct extends AppCompatActivity {
                     {
                         hideFilterCard(getBaseContext());
                     }
+                }
+                else
+                {
+                    manageToolbarButtons(false);
                 }
                 fragment = (Fragment) fragmentClass.newInstance();
             } catch (Exception e) {

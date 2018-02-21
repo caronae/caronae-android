@@ -528,7 +528,7 @@ public class MyProfileFrag extends Fragment {
         if (!App.getUser().sameFieldsState(editedUser)) {
             int validation = fieldsValidated();
             if (validation == 0) {
-                App.getNetworkService(getContext()).updateUser(editedUser)
+                App.getNetworkService(getContext()).updateUser(String.valueOf(App.getUser().getDbId()), editedUser)
                         .enqueue(new Callback<ResponseBody>() {
                             @Override
                             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

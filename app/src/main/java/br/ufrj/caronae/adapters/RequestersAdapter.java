@@ -86,7 +86,7 @@ public class RequestersAdapter extends RecyclerView.Adapter<RequestersAdapter.Vi
             @Override
             public void onClick(View view) {
                 final ProgressDialog pd = ProgressDialog.show(activity, "", activity.getString(R.string.wait), true, true);
-                App.getNetworkService(activity.getApplicationContext()).answerJoinRequest(new JoinRequestIDsForJson(user.getDbId(), rideId, true))
+                App.getNetworkService(activity.getApplicationContext()).answerJoinRequest(String.valueOf(rideId), new JoinRequestIDsForJson(user.getDbId(), true))
                         .enqueue(new Callback<ResponseBody>() {
                             @Override
                             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -122,7 +122,7 @@ public class RequestersAdapter extends RecyclerView.Adapter<RequestersAdapter.Vi
             @Override
             public void onClick(View view) {
                 final ProgressDialog pd = ProgressDialog.show(activity, "", activity.getString(R.string.wait), true, true);
-                App.getNetworkService(activity.getApplicationContext()).answerJoinRequest(new JoinRequestIDsForJson(user.getDbId(), rideId, false))
+                App.getNetworkService(activity.getApplicationContext()).answerJoinRequest(String.valueOf(rideId), new JoinRequestIDsForJson(user.getDbId(),false))
                         .enqueue(new Callback<ResponseBody>() {
                                      @Override
                                      public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
