@@ -9,6 +9,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import br.ufrj.caronae.App;
+import br.ufrj.caronae.Constants;
 import br.ufrj.caronae.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,7 +27,7 @@ public class TermsOfUseFrag extends Fragment {
         ButterKnife.bind(this, view);
 
         webView.setWebViewClient(new WebViewClient());
-        webView.loadUrl(App.getHost() + "/static_pages/termos.html");
+        webView.loadUrl(Constants.CARONAE_URL_BASE + "termos_mobile.html");
 
         return view;
     }
