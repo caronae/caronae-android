@@ -175,10 +175,10 @@
     <string name="frag_ridesearch_typeNeighborhood">Digite o nome do bairro</string>
     <string name="frag_rideoffersearch_pastdate">Data da carona anterior ao dia atual</string>
     <string name="frag_myprofile_invalidPhone">Telefone inválido</string>
-    <string name="frag_myprofile_phoneHelper">Exemplo: 021987654321</string>
+    <string name="frag_myprofile_phoneHelper">Exemplo: (021) 98765\-4321</string>
     <string name="frag_myprofile_invalidMail">E-mail inválido</string>
     <string name="frag_myprofile_emailHelper">Exemplo: nome@ufrj.br</string>
-    <string name="frag_myprofile_plateHelper">Exemplo: ABC1234</string>
+    <string name="frag_myprofile_plateHelper">Exemplo: ABC-1234</string>
     <string name="fragmyprofile_carmodelHelper">Exemplo: Fusca</string>
     <string name="frag_myprofile_carcolorHelper">Exemplo: Vermelho</string>
     <string name="frag_myprofile_invalidPlate">Placa inválida</string>
