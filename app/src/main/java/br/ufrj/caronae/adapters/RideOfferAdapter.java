@@ -104,17 +104,6 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
                     viewHolder.photo_iv.setImageResource(R.drawable.user_pic);
                 }
 
-                if (rideOffer.getDriver().getDbId() != App.getUser().getDbId())
-                    viewHolder.photo_iv.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            Intent intent = new Intent(context, ProfileAct.class);
-                            intent.putExtra("user", new Gson().toJson(rideOffer.getDriver()));
-                            intent.putExtra("from", "rideOffer");
-                            context.startActivity(intent);
-                        }
-                    });
-
                 String timeText;
                 if (rideOffer.isGoing())
                     timeText = context.getResources().getString(R.string.arrivingAt, Util.formatTime(rideOffer.getTime()));
