@@ -232,8 +232,8 @@ public class MainAct extends AppCompatActivity {
         }
     }
 
-
-    private void manageToolbarButtons(boolean status) //Torna visivel (quando status = true) e invisivel (quando status = false) os botoes de filtro e busca da toolbar do menu
+    //Make visible (when status = true) and invisible (when status = false) the toolbar buttons of the menu
+    private void manageToolbarButtons(boolean status)
     {
         View search_bt = (View) findViewById(R.id.search_frag_bt);
         View filter_bt = (View) findViewById(R.id.filter_frag_bt);
@@ -559,6 +559,7 @@ public class MainAct extends AppCompatActivity {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.setCustomAnimations(R.anim.anim_right_slide_in, R.anim.anim_left_slide_out);
         transaction.replace(R.id.flContent, new TabbedRideOfferFrag()).commit();
+        manageToolbarButtons(false);
         setTitle(getString(R.string.act_main_setRideOfferFragTitle));
     }
 
@@ -570,6 +571,7 @@ public class MainAct extends AppCompatActivity {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out);
         transaction.replace(R.id.flContent, new MyRidesFrag()).commit();
+        manageToolbarButtons(false);
         setTitle(getString(R.string.frag_myactiverides_title));
     }
 

@@ -22,8 +22,8 @@
     <string name="routine_cb">Repetir</string>
 
     <string-array name="tab_tags">
-        <item>CHEGANDO NA UFRJ</item>
-        <item>SAINDO DA UFRJ</item>
+        <item>Chegando na UFRJ</item>
+        <item>Saindo da UFRJ</item>
     </string-array>
 
     <string name="title_activity_opening">OpeningAct</string>
