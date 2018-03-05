@@ -48,8 +48,8 @@ public interface NetworkService {
     @POST("user/login")
     Call<UserWithRidesForJson> login(@Body LoginForJson token);
 
-    @PUT("user")
-    Call<ResponseBody> updateUser(@Body User user);
+    @PUT("api/v1/users/{userId}")
+    Call<ResponseBody> updateUser(@Path("userId") String userId, @Body User user);
 
     @PUT("user/saveFaceId")
     Call<ResponseBody> saveFaceId(@Body IdForJson id);
@@ -63,10 +63,10 @@ public interface NetworkService {
     @GET("user/intranetPhotoUrl")
     Call<UrlForJson> getIntranetPhotoUrl();
 
-    @POST("ride")
+    @POST("api/v1/rides")
     Call<List<RideRountine>> offerRide(@Body Ride ride);
 
-    @GET("ride/{rideId}")
+    @GET("api/v1/rides/{rideId}")
     Call<RideForJson> getRide(@Path("rideId") String rideId);
 
     @DELETE("ride/{rideId}")
@@ -81,17 +81,17 @@ public interface NetworkService {
     @POST("ride/listFiltered")
     Call<List<RideForJson>> listFiltered(@Body RideSearchFiltersForJson rideSearchFilters);
 
-    @GET("rides")
+    @GET("api/v1/rides")
     Call<RideForJsonDeserializer> listAllRides(@Query("page") String pageNum, @Query("going") String going, @Query("neighborhoods") String neighborhoods, @Query("zone") String zone, @Query("hub") String hub);
 
-    @POST("ride/requestJoin")
-    Call<ResponseBody> requestJoin(@Body RideIdForJson rideId);
+    @POST("api/v1/rides/{rideId}/requests")
+    Call<ResponseBody> requestJoin(@Path("rideId") String rideId);
 
-    @GET("ride/getRequesters/{rideId}")
+    @GET("api/v1/rides/{rideId}/requests")
     Call<List<User>> getRequesters(@Path("rideId") String rideId);
 
-    @POST("ride/answerJoinRequest")
-    Call<ResponseBody> answerJoinRequest(@Body JoinRequestIDsForJson joinRequestIDsForJson);
+    @PUT("api/v1/rides/{rideId}/requests")
+    Call<ResponseBody> answerJoinRequest(@Path("rideId") String rideId, @Body JoinRequestIDsForJson joinRequestIDsForJson);
 
     @GET("ride/getMyActiveRides")
     Call<List<RideForJson>> getMyActiveRides();
@@ -114,20 +114,16 @@ public interface NetworkService {
     @POST("ride/saveFeedback")
     Call<ResponseBody> saveFeedback(@Body RideFeedbackForJson rideFeedbackForJson);
 
-    @DELETE("ride/joinRequests")
-    void deleteJoinRequests(@Body List<RideIdForJson> rideIdsList, Callback<Response> cb);
-
     //falae route
-    @POST("falae/sendMessage")
+    @POST("api/v1/falae/messages")
     Call<ResponseBody> falaeSendMessage(@Body FalaeMsgForJson msg);
 
-    @POST("ride/{rideId}/chat")
+    @POST("api/v1/rides/{rideId}/messages")
     Call<ChatMessageSendResponse> sendChatMsg(@Path("rideId") String rideId, @Body ChatSendMessageForJson message);
 
-
-    @GET("ride/{rideId}/chat")
+    @GET("api/v1/rides/{rideId}/messages")
     Call<ModelReceivedFromChat> requestChatMsgs(@Path("rideId") String rideId, @Query("since") String since);
 
-    @GET("ride/validateDuplicate")
+    @GET("api/v1/rides/validateDuplicate")
     Call<ModelValidateDuplicate> validateDuplicates(@Query("date") String date, @Query("time") String time, @Query("going") int going);
 }

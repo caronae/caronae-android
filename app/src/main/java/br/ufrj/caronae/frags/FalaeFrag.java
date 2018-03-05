@@ -1,6 +1,7 @@
 package br.ufrj.caronae.frags;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -13,8 +14,6 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
-
-import org.acra.ReportField;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
@@ -79,19 +78,10 @@ public class FalaeFrag extends Fragment {
             return;
         }
 
-        message = "\n\nPlataforma: Android "
-                + ReportField.ANDROID_VERSION
-                + "\n"
-                + "Versão do app: "
-                + ReportField.APP_VERSION_NAME
-                + "\n"
-                + "Nome: "
-                + App.getUser().getName()
-                + "\n"
-                + "Email: "
-                + App.getUser().getEmail()
-                + "\n\n";
-
+        message = message
+                + "\n\n--------------------------------\n"
+                + "Device: " + android.os.Build.MODEL + " (Android " + android.os.Build.VERSION.RELEASE + ")\n"
+                + "Versão do app: " + Util.getAppVersionName(getContext());
         int checkedId = radioGroup.getCheckedRadioButtonId();
         String subject = "";
         switch (checkedId) {

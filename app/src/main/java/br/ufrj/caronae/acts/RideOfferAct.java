@@ -347,7 +347,7 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
                                 @Override
                                 public void onPositiveActionClicked(com.rey.material.app.DialogFragment fragment) {
                                     final ProgressDialog pd = ProgressDialog.show(context, "", getString(R.string.wait), true, true);
-                                    App.getNetworkService(context).requestJoin(new RideIdForJson(rideWithUsers.getDbId()))
+                                    App.getNetworkService(context).requestJoin(String.valueOf(rideWithUsers.getDbId()))
                                             .enqueue(new Callback<ResponseBody>() {
                                                 @Override
                                                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

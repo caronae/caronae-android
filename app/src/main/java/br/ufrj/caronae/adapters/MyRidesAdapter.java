@@ -535,17 +535,6 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
                     .into(holder.photo_iv);
         }
 
-        if (App.getUser().getDbId() != rideOffer.getDriver().getDbId())
-            holder.photo_iv.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(activity, ProfileAct.class);
-                    intent.putExtra("user", new Gson().toJson(rideOffer.getDriver()));
-                    intent.putExtra("from", "myactiveridesadapter");
-                    activity.startActivity(intent);
-                }
-            });
-
         String timeText;
         if (rideOffer.isGoing())
             timeText = activity.getResources().getString(R.string.arrivingAt, Util.formatTime(rideOffer.getTime()));

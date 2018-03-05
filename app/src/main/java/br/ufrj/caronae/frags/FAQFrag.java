@@ -9,6 +9,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import br.ufrj.caronae.App;
+import br.ufrj.caronae.Constants;
 import br.ufrj.caronae.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,7 +33,7 @@ public class FAQFrag extends Fragment {
         webView.getSettings().setJavaScriptEnabled(true);
 
         webView.setWebViewClient(new WebViewClient());
-        webView.loadUrl(App.getHost() + "static_pages/faq.html");
+        webView.loadUrl(Constants.CARONAE_URL_BASE + "faq.html?mobile");
 
         return view;
     }
