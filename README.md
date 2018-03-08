@@ -1,4 +1,4 @@
-# Caronaê - Andorid
+﻿# Caronaê - Android
 
 Aplicativo para Android do Caronaê.
 
@@ -13,6 +13,8 @@ Para rodar o projeto, clone este repositório e abra no Android Studio.
 O projeto esta configurado com Gradle padrão, não é necessário scripts adicionais.
 
 Ao concluir, abra o projeto pelo diretório **caronae-android**.
+
+Após abrir o projeto no Android Studio, será necessário navegar até `File → Settings → Build, Execution, Deployment → Instant Run` e desmarcar a primeira opção `Enable Instant Run to hot swap code/resource changes on deploy (default enabled)`.
 
 ## Firebase Cloud Messaging
 
