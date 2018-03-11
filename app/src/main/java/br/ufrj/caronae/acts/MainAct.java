@@ -583,6 +583,7 @@ public class MainAct extends AppCompatActivity {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out);
         transaction.replace(R.id.flContent, new AllRidesFrag()).commit();
+        manageToolbarButtons(true);
         setTitle(getString(R.string.frag_allrides_title));
     }
 
