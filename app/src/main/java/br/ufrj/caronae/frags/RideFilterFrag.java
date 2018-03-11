@@ -230,7 +230,7 @@ public class RideFilterFrag extends Fragment {
             }
         }
 
-        AlertDialog builder = new AlertDialog.Builder(getContext())
+        final AlertDialog builder = new AlertDialog.Builder(getContext())
                 .setTitle(getContext().getString(R.string.frag_rideSearch_hintPickCenter))
                 .setMultiChoiceItems(Util.getFundaoCenters(), ifCentersAreSelected, new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
@@ -277,7 +277,40 @@ public class RideFilterFrag extends Fragment {
                 })
                 .create();
 
-        builder.show();
+
+
+
+
+        SimpleDialog.Builder campiBuilder = new SimpleDialog.Builder(R.style.SimpleDialogLight) {
+            @Override
+            public void onPositiveActionClicked(DialogFragment fragment) {
+                    if (getSelectedValue().toString().equals("Praia Vermelha")) {
+                        center_et.setText(getSelectedValue());
+                    } else {
+//                        centerBuilder.items(Util.getCentersByCampi(getSelectedValue().toString()), 0)
+//                                .title(getContext().getString(R.string.frag_rideOffer_pickCenter))
+//                                .positiveAction(getContext().getString(R.string.ok))
+//                                .negativeAction(getContext().getString(R.string.cancel));
+//                        DialogFragment centerFragment = DialogFragment.newInstance(centerBuilder);
+//                        centerFragment.show(getFragmentManager(), null);
+
+                        builder.show();
+                    }
+                super.onPositiveActionClicked(fragment);
+            }
+
+            @Override
+            public void onNegativeActionClicked(DialogFragment fragment) {
+                super.onNegativeActionClicked(fragment);
+            }
+        };
+
+        campiBuilder.items(Util.getCampiWithoutAllCampi(), 0)
+                .title(getContext().getString(R.string.frag_rideOffer_pickCenter))
+                .positiveAction(getContext().getString(R.string.ok))
+                .negativeAction(getContext().getString(R.string.cancel));
+        DialogFragment fragment = DialogFragment.newInstance(campiBuilder);
+        fragment.show(getFragmentManager(), null);
     }
 
     @OnClick(R.id.campi_et)

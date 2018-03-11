@@ -406,10 +406,28 @@ public class RideSearchFrag extends Fragment {
         }
     }
 
+    @OnClick(R.id.center_et)
+    public void centerEt() {
+
+        final ArrayList<String> selectedItems = new ArrayList();
+        String[] campis = Util.getCampiWithoutAllCampi();
+        String selectedCampi = campi;
+        boolean[] ifCampiAreSelected = new boolean[campis.length];
+        for (int campi = 0; campi < campis.length; campi++) {
+            ifCampiAreSelected[campi] = false;
+            if (campis[campi].equals(selectedCampi)) {
+                ifCampiAreSelected[campi] = true;
+                selectedItems.add(campis[campi]);
+            }
+        }
+
+        showCampiListFragment(campis, ifCampiAreSelected, SharedPref.DIALOG_CAMPUS_SEARCH_KEY);
+    }
+
 //    @OnClick(R.id.center_et)
 //    public void centerEt() {
 //
-//        final ArrayList<String> selectedItems = new ArrayList();
+//        final ArrayList<String> selectedItems = new ArrayList<>();
 //        String[] campis = Util.getCampi();
 //        String selectedCampi = campi;
 //        boolean[] ifCampiAreSelected = new boolean[campis.length];
@@ -421,26 +439,8 @@ public class RideSearchFrag extends Fragment {
 //            }
 //        }
 //
-//        showCampiListFragment(campis, ifCampiAreSelected, SharedPref.DIALOG_CAMPUS_SEARCH_KEY);
+//        showCenterListFragment();
 //    }
-
-    @OnClick(R.id.center_et)
-    public void centerEt() {
-
-        final ArrayList<String> selectedItems = new ArrayList<>();
-        String[] campis = Util.getCampi();
-        String selectedCampi = campi;
-        boolean[] ifCampiAreSelected = new boolean[campis.length];
-        for (int campi = 0; campi < campis.length; campi++) {
-            ifCampiAreSelected[campi] = false;
-            if (campis[campi].equals(selectedCampi)) {
-                ifCampiAreSelected[campi] = true;
-                selectedItems.add(campis[campi]);
-            }
-        }
-
-        showCenterListFragment();
-    }
 
     @OnClick(R.id.anotherSearch_bt)
     public void anotherSearchBt() {
