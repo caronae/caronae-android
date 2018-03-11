@@ -241,7 +241,7 @@ public class Util {
         return center;
     }
 
-    public static String[] getCentersWithoutAllCenters() {
+    public static String[] getFundaoCentersWithoutAllCenters() {
         return new String[]{"CCMN", "CCS", "CT", "EEFD", "Letras", "Reitoria"};
     }
 
@@ -309,7 +309,7 @@ public class Util {
         if (campi.equals(getCampi()[2])) {
             return new String[]{""};
         }
-        return getFundaoCenters();
+        return getFundaoCentersWithoutAllCenters();
     }
 
     public static String formatTime(String time) {
