@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Caronaê UFRJ</string>
+    <string name="app_name">Caronaê</string>
 
     <string name="gcm_defaultSenderIdOnValues">1012033032693</string>
     <string name="facebook_app_id">933455893356973</string>
