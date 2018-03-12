@@ -226,7 +226,7 @@ public class Util {
     }
 
     public static String[] getPraiaVermelhaHubs() {
-        return new String[]{"PV: Hub A"};
+        return new String[]{"Hub 1", "Hub 2"};
     }
 
     public static String[] getCampi() {

@@ -283,36 +283,10 @@ public class RideOfferFrag extends Fragment {
 
     @OnClick(R.id.center_et)
     public void centerEt() {
-        final SimpleDialog.Builder centerBuilder = new SimpleDialog.Builder(R.style.SimpleDialogLight) {
-            @Override
-            public void onPositiveActionClicked(DialogFragment fragment) {
-                center_et.setText(getSelectedValue());
-                super.onPositiveActionClicked(fragment);
-            }
-        };
-
         SimpleDialog.Builder builder = new SimpleDialog.Builder(R.style.SimpleDialogLight) {
             @Override
             public void onPositiveActionClicked(DialogFragment fragment) {
-                if (going) {
-                    if (getSelectedValue().toString().equals("Praia Vermelha")) {
-                        center_et.setText(getSelectedValue());
-                    } else {
-                        centerBuilder.items(Util.getCentersByCampi(getSelectedValue().toString()), 0)
-                                .title(getContext().getString(R.string.frag_rideOffer_pickCenter))
-                                .positiveAction(getContext().getString(R.string.ok))
-                                .negativeAction(getContext().getString(R.string.cancel));
-                        DialogFragment centerFragment = DialogFragment.newInstance(centerBuilder);
-                        centerFragment.show(getFragmentManager(), null);
-                    }
-                } else {
-                    centerBuilder.items(Util.getHubsByCampi(getSelectedValue().toString()), 0)
-                            .title(getContext().getString(R.string.frag_rideOffer_pickHub))
-                            .positiveAction(getContext().getString(R.string.ok))
-                            .negativeAction(getContext().getString(R.string.cancel));
-                    DialogFragment centerFragment = DialogFragment.newInstance(centerBuilder);
-                    centerFragment.show(getFragmentManager(), null);
-                }
+                center_et.setText(getSelectedValue());
                 super.onPositiveActionClicked(fragment);
             }
 
@@ -322,37 +296,20 @@ public class RideOfferFrag extends Fragment {
             }
         };
 
-
         if (going) {
-            builder.items(Util.getCampiWithoutAllCampi(), 0)
+            builder.items(Util.getCentersWithoutAllCenters(), 0)
                     .title(getContext().getString(R.string.frag_rideOffer_pickCenter))
                     .positiveAction(getContext().getString(R.string.ok))
                     .negativeAction(getContext().getString(R.string.cancel));
             DialogFragment fragment = DialogFragment.newInstance(builder);
             fragment.show(getFragmentManager(), null);
         } else {
-            builder.items(Util.getCampiWithoutAllCampi(), 0)
+            builder.items(Util.getFundaoHubs(), 0)
                     .title(getContext().getString(R.string.frag_rideOffer_pickHub))
                     .positiveAction(getContext().getString(R.string.ok))
                     .negativeAction(getContext().getString(R.string.cancel));
             DialogFragment fragment = DialogFragment.newInstance(builder);
             fragment.show(getFragmentManager(), null);
-
-
-//        if (going) {
-//            builder.items(Util.getCentersWithoutAllCenters(), 0)
-//                    .title(getContext().getString(R.string.frag_rideOffer_pickCenter))
-//                    .positiveAction(getContext().getString(R.string.ok))
-//                    .negativeAction(getContext().getString(R.string.cancel));
-//            DialogFragment fragment = DialogFragment.newInstance(builder);
-//            fragment.show(getFragmentManager(), null);
-//        } else {
-//            builder.items(Util.getFundaoHubs(), 0)
-//                    .title(getContext().getString(R.string.frag_rideOffer_pickHub))
-//                    .positiveAction(getContext().getString(R.string.ok))
-//                    .negativeAction(getContext().getString(R.string.cancel));
-//            DialogFragment fragment = DialogFragment.newInstance(builder);
-//            fragment.show(getFragmentManager(), null);
 //            if (campi_et.getText().toString().equals("")){
 //                campi_et.setError("Escolher o campus");
 //            } else {
