@@ -20,8 +20,6 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
@@ -99,7 +97,6 @@ public class MainAct extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
         //Subscripe to topics
         FirebaseTopicsHandler.subscribeFirebaseTopic("user-" + App.getUser().getDbId());
         FirebaseTopicsHandler.subscribeFirebaseTopic(SharedPref.TOPIC_GERAL);
@@ -147,12 +144,7 @@ public class MainAct extends AppCompatActivity {
 
                     RelativeLayout drawerHeader = (RelativeLayout) drawerView.findViewById(R.id.drawer_header_layout);
 
-                    drawerHeader.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            showProfileFrag();
-                        }
-                    });
+                    drawerHeader.setOnClickListener((View v) -> showProfileFrag());
 
                     if (!profilePicUrl.isEmpty()) {
                         Picasso.with(MainAct.this).load(profilePicUrl)
@@ -192,7 +184,6 @@ public class MainAct extends AppCompatActivity {
         getHeaderView(nvDrawer);
 
         backstack = new ArrayList<>();
-
     }
 
 
@@ -232,21 +223,6 @@ public class MainAct extends AppCompatActivity {
         }
     }
 
-    //Make visible (when status = true) and invisible (when status = false) the toolbar buttons of the menu
-    private void manageToolbarButtons(boolean status)
-    {
-        View search_bt = (View) findViewById(R.id.search_frag_bt);
-        View filter_bt = (View) findViewById(R.id.filter_frag_bt);
-        if(status) {
-            search_bt.setVisibility(View.VISIBLE);
-            filter_bt.setVisibility(View.VISIBLE);
-        }
-        else {
-            search_bt.setVisibility(View.INVISIBLE);
-            filter_bt.setVisibility(View.INVISIBLE);
-        }
-    }
-
     private void getHeaderView(NavigationView nvDrawer) {
         LayoutInflater inflater = LayoutInflater.from(this);
         View nvHeader = inflater.inflate(R.layout.nav_header, null, false);
@@ -283,12 +259,10 @@ public class MainAct extends AppCompatActivity {
         Class fragmentClass;
         switch (menuItem.getItemId()) {
             case R.id.nav_first_fragment:
-                manageToolbarButtons(false);
                 fragmentClass = MyProfileFrag.class;
                 hideFilterCard(getBaseContext());
                 break;
             case R.id.nav_second_fragment:
-                manageToolbarButtons(true);
                 if(!filterText.getText().equals(""))
                 {
                     showFilterCard(getBaseContext());
@@ -301,37 +275,30 @@ public class MainAct extends AppCompatActivity {
 
                 break;
             case R.id.nav_third_fragment:
-                manageToolbarButtons(false);
                 hideFilterCard(getBaseContext());
                 fragmentClass = MyRidesFrag.class;
                 break;
             case R.id.nav_fifth_fragment:
-                manageToolbarButtons(false);
                 hideFilterCard(getBaseContext());
                 fragmentClass = RidesHistoryFrag.class;
                 break;
             case R.id.nav_sixth_fragment:
-                manageToolbarButtons(false);
                 hideFilterCard(getBaseContext());
                 fragmentClass = FalaeFrag.class;
                 break;
             case R.id.nav_seventh_fragment:
-                manageToolbarButtons(false);
                 hideFilterCard(getBaseContext());
                 fragmentClass = TermsOfUseFrag.class;
                 break;
             case R.id.nav_eigth_fragment:
-                manageToolbarButtons(false);
                 hideFilterCard(getBaseContext());
                 fragmentClass = AboutFrag.class;
                 break;
             case R.id.nav_ninth_fragment:
-                manageToolbarButtons(false);
                 hideFilterCard(getBaseContext());
                 fragmentClass = FAQFrag.class;
                 break;
             case R.id.nav_tenth_fragment:
-                manageToolbarButtons(false);
                 hideFilterCard(getBaseContext());
                 fragmentClass = null;
                 //TODO: Transformar em um intent service, unsubscrive nao ta acontecendo imediatamente
@@ -375,7 +342,6 @@ public class MainAct extends AppCompatActivity {
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-
         openFragFromNotif(intent);
     }
 
@@ -425,21 +391,13 @@ public class MainAct extends AppCompatActivity {
 
             Fragment fragment = null;
             try {
-                if(fragmentClass == AllRidesFrag.class)
+                if(!filterText.getText().equals(""))
                 {
-                    manageToolbarButtons(true);
-                    if(!filterText.getText().equals(""))
-                    {
-                        showFilterCard(getBaseContext());
-                    }
-                    else
-                    {
-                        hideFilterCard(getBaseContext());
-                    }
+                    showFilterCard(getBaseContext());
                 }
                 else
                 {
-                    manageToolbarButtons(false);
+                    hideFilterCard(getBaseContext());
                 }
                 fragment = (Fragment) fragmentClass.newInstance();
             } catch (Exception e) {
@@ -455,7 +413,8 @@ public class MainAct extends AppCompatActivity {
         }
     }
 
-    private void backstackSafeCheck() {//better safe than sorry
+    //Better safe than sorry
+    private void backstackSafeCheck() {
         if (backstack == null)
             backstack = new ArrayList<>();
     }
@@ -480,27 +439,21 @@ public class MainAct extends AppCompatActivity {
         return R.string.app_name;
     }
 
+    // Sync the toggle state after onRestoreInstanceState has occurred
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        // Sync the toggle state after onRestoreInstanceState has occurred.
         drawerToggle.syncState();
     }
 
+    // Pass any configuration change to the drawer toggles
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        // Pass any configuration change to the drawer toggles
         drawerToggle.onConfigurationChanged(newConfig);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.toolbar_menu, menu);
-        return true;
-    }
-
+    //Controls the actions of the buttons of search and filter that are present in toolbar
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.search_frag_bt) {
@@ -559,7 +512,6 @@ public class MainAct extends AppCompatActivity {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.setCustomAnimations(R.anim.anim_right_slide_in, R.anim.anim_left_slide_out);
         transaction.replace(R.id.flContent, new TabbedRideOfferFrag()).commit();
-        manageToolbarButtons(false);
         setTitle(getString(R.string.act_main_setRideOfferFragTitle));
     }
 
@@ -571,7 +523,6 @@ public class MainAct extends AppCompatActivity {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out);
         transaction.replace(R.id.flContent, new MyRidesFrag()).commit();
-        manageToolbarButtons(false);
         setTitle(getString(R.string.frag_myactiverides_title));
     }
 
@@ -583,7 +534,6 @@ public class MainAct extends AppCompatActivity {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out);
         transaction.replace(R.id.flContent, new AllRidesFrag()).commit();
-        manageToolbarButtons(true);
         setTitle(getString(R.string.frag_allrides_title));
     }
 
@@ -604,16 +554,12 @@ public class MainAct extends AppCompatActivity {
     }
 
     private void configureDissmissFilterButton(){
-        dissmissFilter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                SharedPref.saveFilterPref(null);
-                filterText.setText("");
-                hideFilterCard(getApplicationContext());
-            }
+        dissmissFilter.setOnClickListener((View v) -> {
+            SharedPref.saveFilterPref(null);
+            filterText.setText("");
+            hideFilterCard(getApplicationContext());
         });
     }
-
 
     public static void updateFilterCard(Context context, String filtersJsonString){
         if (!filtersJsonString.equals(SharedPref.MISSING_PREF)) {
@@ -690,23 +636,23 @@ public class MainAct extends AppCompatActivity {
     }
 
     public void hideFilterCard(final Context context){
-                Animation animation = AnimationUtils.loadAnimation(context, R.anim.anim_fade_out);
-                animation.setAnimationListener(new Animation.AnimationListener() {
-                    @Override
-                    public void onAnimationStart(Animation animation) {
+        Animation animation = AnimationUtils.loadAnimation(context, R.anim.anim_fade_out);
+        animation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
 
-                    }
-
-                    @Override
-                    public void onAnimationEnd(Animation animation) {
-                        filterCard.setVisibility(View.GONE);
-                    }
-
-                    @Override
-                    public void onAnimationRepeat(Animation animation) {
-
-                    }
-                });
-                filterCard.startAnimation(animation);
             }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                filterCard.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        filterCard.startAnimation(animation);
+    }
 }

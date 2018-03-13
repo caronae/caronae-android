@@ -10,6 +10,8 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
@@ -80,6 +82,8 @@ public class AllRidesFrag extends Fragment {
         ButterKnife.bind(this, view);
 
         context = getContext();
+
+        setHasOptionsMenu(true);
 
         coordinatorLayout = (CoordinatorLayout) view.findViewById(R.id.all_rides_coordinator);
 
@@ -274,6 +278,13 @@ public class AllRidesFrag extends Fragment {
             }
         }
         return contains;
+    }
+
+    //Creates the toolbar menu with options to access the filter/search fragment
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.toolbar_menu, menu);
+        super.onCreateOptionsMenu(menu,inflater);
     }
 
     public static void setPageThatWas(boolean page){
