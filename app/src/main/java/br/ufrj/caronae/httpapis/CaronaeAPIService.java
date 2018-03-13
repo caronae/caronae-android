@@ -36,7 +36,7 @@ import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
-public interface NetworkService {
+public interface CaronaeAPIService {
 
     //user routes
     @GET("user/signup/{name}/{token}")

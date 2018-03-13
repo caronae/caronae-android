@@ -38,6 +38,7 @@ import br.ufrj.caronae.Util;
 import br.ufrj.caronae.adapters.ChatMsgsAdapter;
 import br.ufrj.caronae.comparators.ChatMsgComparator;
 import br.ufrj.caronae.firebase.FetchReceivedMessagesService;
+import br.ufrj.caronae.httpapis.CaronaeAPI;
 import br.ufrj.caronae.models.ChatAssets;
 import br.ufrj.caronae.models.ChatMessageReceived;
 import br.ufrj.caronae.models.ChatMessageSendResponse;
@@ -178,7 +179,7 @@ public class ChatAct extends AppCompatActivity {
 
         chatMsgs_rv.scrollToPosition(chatMsgsList.size() - 1);
 
-        App.getChatService(getApplicationContext()).sendChatMsg(rideId, new ChatSendMessageForJson(message))
+        CaronaeAPI.service(getApplicationContext()).sendChatMsg(rideId, new ChatSendMessageForJson(message))
                 .enqueue(new Callback<ChatMessageSendResponse>() {
                     @Override
                     public void onResponse(Call<ChatMessageSendResponse> call, Response<ChatMessageSendResponse> response) {
@@ -406,7 +407,7 @@ public class ChatAct extends AppCompatActivity {
             @Override
             public void run() {
                 final ProgressDialog pd = ProgressDialog.show(activity, "", activity.getString(R.string.wait), true, true);
-                App.getNetworkService(activity).getMyActiveRides()
+                CaronaeAPI.service(activity).getMyActiveRides()
                         .enqueue(new Callback<List<RideForJson>>() {
                             @Override
                             public void onResponse(Call<List<RideForJson>> call, Response<List<RideForJson>> response) {

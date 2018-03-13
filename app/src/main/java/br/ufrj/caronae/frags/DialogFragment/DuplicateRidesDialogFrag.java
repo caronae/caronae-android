@@ -11,12 +11,12 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.firebase.FirebaseTopicsHandler;
 import br.ufrj.caronae.frags.RideOfferFrag;
+import br.ufrj.caronae.httpapis.CaronaeAPI;
 import br.ufrj.caronae.models.Ride;
 import br.ufrj.caronae.models.RideRountine;
 import retrofit2.Call;
@@ -76,7 +76,7 @@ public class DuplicateRidesDialogFrag extends DialogFragment {
 
     private void createRide(Ride ride) {
         pd = ProgressDialog.show(getContext(), "", getString(R.string.wait), true, true);
-        App.getNetworkService(getContext()).offerRide(ride)
+        CaronaeAPI.service(getContext()).offerRide(ride)
                 .enqueue(new Callback<List<RideRountine>>() {
                     @Override
                     public void onResponse(Call<List<RideRountine>> call, Response<List<RideRountine>> response) {

@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import java.util.List;
 
 import br.ufrj.caronae.App;
+import br.ufrj.caronae.httpapis.CaronaeAPI;
 import br.ufrj.caronae.models.Ride;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
 import br.ufrj.caronae.models.modelsforjson.RideForJsonDeserializer;
@@ -27,7 +28,7 @@ public class FetchMyOfferedRidesService extends IntentService {
 
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
-        App.getNetworkService(App.inst()).getOfferedRides(App.getUser().getDbId() + "")
+        CaronaeAPI.service(App.inst()).getOfferedRides(App.getUser().getDbId() + "")
                 .enqueue(new Callback<RideForJsonDeserializer>() {
                     @Override
                     public void onResponse(Call<RideForJsonDeserializer> call, Response<RideForJsonDeserializer> response) {

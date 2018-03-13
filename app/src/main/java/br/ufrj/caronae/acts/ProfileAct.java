@@ -24,11 +24,11 @@ import com.rey.material.app.DialogFragment;
 import com.rey.material.app.SimpleDialog;
 import com.squareup.picasso.Picasso;
 
-import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.RoundedTransformation;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.adapters.RidersAdapter;
+import br.ufrj.caronae.httpapis.CaronaeAPI;
 import br.ufrj.caronae.models.User;
 import br.ufrj.caronae.models.modelsforjson.FacebookFriendForJson;
 import br.ufrj.caronae.models.modelsforjson.FalaeMsgForJson;
@@ -109,7 +109,7 @@ public class ProfileAct extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        App.getNetworkService(getApplicationContext()).getRidesHistoryCount(user.getDbId() + "")
+        CaronaeAPI.service(getApplicationContext()).getRidesHistoryCount(user.getDbId() + "")
                 .enqueue(new Callback<HistoryRideCountForJson>() {
                              @Override
                              public void onResponse(Call<HistoryRideCountForJson> call, Response<HistoryRideCountForJson> response) {
@@ -141,7 +141,7 @@ public class ProfileAct extends AppCompatActivity {
                     String name = user.getName().split(" ")[0];
                     openProfile_tv.setText(getString(R.string.act_profile_openFbProfile, name));
                     openProfile_tv.setVisibility(View.VISIBLE);
-                    App.getNetworkService(getApplicationContext()).getMutualFriends(token.getToken(), user.getFaceId())
+                    CaronaeAPI.service(getApplicationContext()).getMutualFriends(token.getToken(), user.getFaceId())
                             .enqueue(new Callback<FacebookFriendForJson>() {
                                 @Override
                                 public void onResponse(Call<FacebookFriendForJson> call, Response<FacebookFriendForJson> response) {
@@ -226,7 +226,7 @@ public class ProfileAct extends AppCompatActivity {
                 if (msg.isEmpty())
                     return;
 
-                App.getNetworkService(getApplicationContext()).falaeSendMessage(new FalaeMsgForJson(getString(R.string.frag_falae_reportRb) + user.getName() + " - ID:" + user.getDbId(), msg))
+                CaronaeAPI.service(getApplicationContext()).falaeSendMessage(new FalaeMsgForJson(getString(R.string.frag_falae_reportRb) + user.getName() + " - ID:" + user.getDbId(), msg))
                         .enqueue(new Callback<ResponseBody>() {
                             @Override
                             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

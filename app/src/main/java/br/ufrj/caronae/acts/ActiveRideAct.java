@@ -37,6 +37,7 @@ import br.ufrj.caronae.Util;
 import br.ufrj.caronae.adapters.RidersAdapter;
 import br.ufrj.caronae.firebase.FirebaseTopicsHandler;
 import br.ufrj.caronae.frags.MyRidesFrag;
+import br.ufrj.caronae.httpapis.CaronaeAPI;
 import br.ufrj.caronae.models.ActiveRide;
 import br.ufrj.caronae.models.ChatAssets;
 import br.ufrj.caronae.models.Ride;
@@ -275,7 +276,7 @@ public class ActiveRideAct extends SwipeDismissBaseActivity {
                     @Override
                     public void onPositiveActionClicked(DialogFragment fragment) {
                         final ProgressDialog pd = ProgressDialog.show(ActiveRideAct.this, "", getString(R.string.wait), true, true);
-                        App.getNetworkService(getApplicationContext()).leaveRide(new RideIdForJson(rideWithUsers.getDbId()))
+                        CaronaeAPI.service(getApplicationContext()).leaveRide(new RideIdForJson(rideWithUsers.getDbId()))
                                 .enqueue(new Callback<ResponseBody>() {
                                     @Override
                                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -353,7 +354,7 @@ public class ActiveRideAct extends SwipeDismissBaseActivity {
                     @Override
                     public void onPositiveActionClicked(DialogFragment fragment) {
                         final ProgressDialog pd = ProgressDialog.show(ActiveRideAct.this, "", getString(R.string.wait), true, true);
-                        App.getNetworkService(getApplicationContext()).finishRide(new RideIdForJson(rideWithUsers.getDbId()))
+                        CaronaeAPI.service(getApplicationContext()).finishRide(new RideIdForJson(rideWithUsers.getDbId()))
                                 .enqueue(new Callback<ResponseBody>() {
                                     @Override
                                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

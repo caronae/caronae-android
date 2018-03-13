@@ -1,7 +1,6 @@
 package br.ufrj.caronae.frags;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -19,6 +18,7 @@ import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.RoundedTransformation;
 import br.ufrj.caronae.Util;
+import br.ufrj.caronae.httpapis.CaronaeAPI;
 import br.ufrj.caronae.models.User;
 import br.ufrj.caronae.models.modelsforjson.FalaeMsgForJson;
 import butterknife.BindView;
@@ -98,7 +98,7 @@ public class FalaeFrag extends Fragment {
         subject = subject.concat(subject_et.getText().toString());
 
         final ProgressDialog pd = ProgressDialog.show(getContext(), "", getString(R.string.wait), true, true);
-        App.getNetworkService(getContext()).falaeSendMessage(new FalaeMsgForJson(subject, message))
+        CaronaeAPI.service(getContext()).falaeSendMessage(new FalaeMsgForJson(subject, message))
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

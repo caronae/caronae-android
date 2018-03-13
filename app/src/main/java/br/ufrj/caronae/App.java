@@ -5,32 +5,19 @@ import android.content.Intent;
 
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.orm.SugarApp;
 
 import org.acra.ACRA;
 import org.acra.ReportingInteractionMode;
 import org.acra.annotation.ReportsCrashes;
 
-import java.io.IOException;
-import java.util.concurrent.TimeUnit;
-
 import br.ufrj.caronae.ACRAreport.CrashReportFactory;
 import br.ufrj.caronae.acts.LoginAct;
 import br.ufrj.caronae.asyncs.LogOut;
-import br.ufrj.caronae.httpapis.ChatService;
-import br.ufrj.caronae.httpapis.NetworkService;
+import br.ufrj.caronae.httpapis.CaronaeAPIService;
 import br.ufrj.caronae.models.User;
-import okhttp3.Interceptor;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
-import okhttp3.logging.HttpLoggingInterceptor;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
-import static br.ufrj.caronae.Constants.CARONAE_ENDPOINT;
-import static br.ufrj.caronae.Constants.DEV_SERVER_ENDPOINT;
+import static br.ufrj.caronae.Constants.API_PRODUCTION_BASE_URL;
 
 /** Usa o Falae para reportar crashes **/
 @ReportsCrashes(
@@ -48,8 +35,6 @@ public class App extends SugarApp {
 
     private static App inst;
     private static User user;
-    private static NetworkService networkService;
-    private static ChatService chatService;
     private static MainThreadBus bus;
 
     public App() {
@@ -76,116 +61,6 @@ public class App extends SugarApp {
         }
 
         return user;
-    }
-
-    public static String getHost() {
-//        return DEV_SERVER_ENDPOINT;
-        return CARONAE_ENDPOINT;
-    }
-
-    public static NetworkService getNetworkService(final Context context) {
-
-        if (networkService == null) {
-            String endpoint = getHost();
-
-            Gson gson = new GsonBuilder()
-                    .setLenient()
-                    .create();
-
-            OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-            httpClient.readTimeout(30, TimeUnit.SECONDS)
-                    .connectTimeout(30, TimeUnit.SECONDS);
-            httpClient.addInterceptor(new Interceptor() {
-                @Override
-                public Response intercept(Chain chain) throws IOException {
-                    Request original = chain.request();
-                    if (App.isUserLoggedIn()) {
-
-                        Request request = original.newBuilder()
-                                .header("Content-Type", "application/json")
-                                .header("token", SharedPref.getUserToken())
-                                .header("User-Agent", Util.getHeaderForHttp(context))
-                                .method(original.method(), original.body())
-                                .build();
-
-                        return chain.proceed(request);
-                    }
-                    Request request = original.newBuilder()
-                            .header("Content-Type", "application/json")
-                            .header("User-Agent", Util.getHeaderForHttp(context))
-                            .method(original.method(), original.body())
-                            .build();
-                    return chain.proceed(request);
-                }
-            });
-
-            HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-            logging.setLevel(HttpLoggingInterceptor.Level.BODY);
-
-            httpClient.addInterceptor(logging);
-
-            OkHttpClient client = httpClient.build();
-
-            networkService = new Retrofit.Builder()
-                    .baseUrl(endpoint)
-                    .addConverterFactory(GsonConverterFactory.create(gson))
-                    .client(client)
-                    .build()
-                    .create(NetworkService.class);
-
-        }
-        return networkService;
-    }
-
-    public static ChatService getChatService(final Context context) {
-        if (chatService == null) {
-            String endpoint = getHost();
-
-            Gson gson = new GsonBuilder()
-                    .setLenient()
-                    .create();
-
-            OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-            httpClient.addInterceptor(new Interceptor() {
-                @Override
-                public Response intercept(Chain chain) throws IOException {
-                    Request original = chain.request();
-                    if (App.isUserLoggedIn()) {
-
-                        Request request = original.newBuilder()
-                                .header("Content-Type", "application/json")
-                                .header("token", SharedPref.getUserToken())
-                                .header("User-Agent", Util.getHeaderForHttp(context))
-                                .method(original.method(), original.body())
-                                .build();
-
-                        return chain.proceed(request);
-                    }
-                    Request request = original.newBuilder()
-                            .header("Content-Type", "application/json")
-                            .header("User-Agent", Util.getHeaderForHttp(context))
-                            .method(original.method(), original.body())
-                            .build();
-                    return chain.proceed(request);
-                }
-            });
-
-            HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-            logging.setLevel(HttpLoggingInterceptor.Level.BODY);
-
-            httpClient.addInterceptor(logging);
-
-            OkHttpClient client = httpClient.build();
-
-            chatService = new Retrofit.Builder()
-                    .baseUrl(endpoint)
-                    .addConverterFactory(GsonConverterFactory.create(gson))
-                    .client(client)
-                    .build()
-                    .create(ChatService.class);
-
-        }
-        return chatService;
     }
 
     public static MainThreadBus getBus() {

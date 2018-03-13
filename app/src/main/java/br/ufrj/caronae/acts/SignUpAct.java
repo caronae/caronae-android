@@ -7,9 +7,9 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 
-import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.Util;
+import br.ufrj.caronae.httpapis.CaronaeAPI;
 import br.ufrj.caronae.models.User;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -44,7 +44,7 @@ public class SignUpAct extends AppCompatActivity {
     @OnClick(R.id.button)
     public void button() {
         if (checkBox.isChecked()) {
-            App.getNetworkService(getApplicationContext()).signUpIntranet(nome_et.getText().toString(), token_et.getText().toString())
+            CaronaeAPI.service(getApplicationContext()).signUpIntranet(nome_et.getText().toString(), token_et.getText().toString())
                     .enqueue(new Callback<User>() {
                         @Override
                         public void onResponse(Call<User> call, Response<User> response) {
@@ -63,7 +63,7 @@ public class SignUpAct extends AppCompatActivity {
                         }
                     });
         } else {
-            App.getNetworkService(getApplicationContext()).signUp(nome_et.getText().toString(), token_et.getText().toString())
+            CaronaeAPI.service(getApplicationContext()).signUp(nome_et.getText().toString(), token_et.getText().toString())
             .enqueue(new Callback<User>() {
                 @Override
                 public void onResponse(Call<User> call, Response<User> response) {

@@ -37,6 +37,7 @@ import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.LoginAct;
 import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.asyncs.LogOut;
+import br.ufrj.caronae.httpapis.CaronaeAPI;
 import br.ufrj.caronae.models.User;
 import br.ufrj.caronae.models.modelsforjson.HistoryRideCountForJson;
 import br.ufrj.caronae.models.modelsforjson.IdForJson;
@@ -123,7 +124,7 @@ public class MyProfileFrag extends Fragment {
                 Profile profile = Profile.getCurrentProfile();
                 if (profile != null) {
                     final String faceId = profile.getId();
-                    App.getNetworkService(getContext()).saveFaceId(new IdForJson(faceId))
+                    CaronaeAPI.service(getContext()).saveFaceId(new IdForJson(faceId))
                             .enqueue(new Callback<ResponseBody>() {
                                 @Override
                                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -167,7 +168,7 @@ public class MyProfileFrag extends Fragment {
         if (user != null) {
             fillUserFields(user);
 
-            App.getNetworkService(getContext()).getRidesHistoryCount(user.getDbId() + "")
+            CaronaeAPI.service(getContext()).getRidesHistoryCount(user.getDbId() + "")
                     .enqueue(new Callback<HistoryRideCountForJson>() {
                         @Override
                         public void onResponse(Call<HistoryRideCountForJson> call, Response<HistoryRideCountForJson> response) {
@@ -358,7 +359,7 @@ public class MyProfileFrag extends Fragment {
                         Util.toast(R.string.frag_myprofile_facePickChoiceNotOnFace);
                     }
                 } else {
-                    App.getNetworkService(getContext()).getIntranetPhotoUrl()
+                    CaronaeAPI.service(getContext()).getIntranetPhotoUrl()
                             .enqueue(new Callback<UrlForJson>() {
                                 @Override
                                 public void onResponse(Call<UrlForJson> call, Response<UrlForJson> response) {
@@ -528,7 +529,7 @@ public class MyProfileFrag extends Fragment {
         if (!App.getUser().sameFieldsState(editedUser)) {
             int validation = fieldsValidated();
             if (validation == 0) {
-                App.getNetworkService(getContext()).updateUser(String.valueOf(App.getUser().getDbId()), editedUser)
+                CaronaeAPI.service(getContext()).updateUser(String.valueOf(App.getUser().getDbId()), editedUser)
                         .enqueue(new Callback<ResponseBody>() {
                             @Override
                             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -601,7 +602,7 @@ public class MyProfileFrag extends Fragment {
     }
 
     public void saveProfilePicUrl(String profilePicUrl) {
-        App.getNetworkService(getContext()).saveProfilePicUrl(new UrlForJson(profilePicUrl))
+        CaronaeAPI.service(getContext()).saveProfilePicUrl(new UrlForJson(profilePicUrl))
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
