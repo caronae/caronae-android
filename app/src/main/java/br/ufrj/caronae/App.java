@@ -63,11 +63,6 @@ public class App extends SugarApp {
         return user;
     }
 
-    public static String getHost() {
-//        return API_DEV_BASE_URL;
-        return API_PRODUCTION_BASE_URL;
-    }
-
     public static MainThreadBus getBus() {
         if (bus == null) {
             bus = new MainThreadBus();

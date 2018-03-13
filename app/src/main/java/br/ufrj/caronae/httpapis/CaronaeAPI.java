@@ -15,8 +15,8 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import static okhttp3.logging.HttpLoggingInterceptor.Level.BODY;
 
 public class CaronaeAPI {
-    public static final String CARONAE_API_BASE_URL = API_PRODUCTION_BASE_URL;
-    //    public static final String CARONAE_API_BASE_URL = API_DEV_BASE_URL;
+    public static final String BASE_URL = API_PRODUCTION_BASE_URL;
+    //    public static final String BASE_URL = API_DEV_BASE_URL;
 
     private static CaronaeAPIService service;
 
@@ -37,7 +37,7 @@ public class CaronaeAPI {
                     .build();
 
             service = new Retrofit.Builder()
-                    .baseUrl(CARONAE_API_BASE_URL)
+                    .baseUrl(BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .client(client)
                     .build()

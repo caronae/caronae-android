@@ -19,7 +19,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.Util;
@@ -137,7 +136,7 @@ public class LoginAct extends AppCompatActivity {
 
     @OnClick(R.id.getToken_tv)
     public void getTokenBt() {
-        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(App.getHost() + "login")));
+        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(CaronaeAPI.BASE_URL + "login")));
     }
 
     //@OnClick(R.id.logo)
