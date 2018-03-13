@@ -4,18 +4,9 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class RideHistoryForJson extends RideForJson {
-    private String feedback;
 
     public RideHistoryForJson(Parcel in) {
         super(in);
-    }
-
-    public String getFeedback() {
-        return feedback;
-    }
-
-    public void setFeedback(String feedback) {
-        this.feedback = feedback;
     }
 
     //useless, only to avoid compilation error

@@ -14,10 +14,7 @@ import org.acra.annotation.ReportsCrashes;
 import br.ufrj.caronae.ACRAreport.CrashReportFactory;
 import br.ufrj.caronae.acts.LoginAct;
 import br.ufrj.caronae.asyncs.LogOut;
-import br.ufrj.caronae.httpapis.CaronaeAPIService;
 import br.ufrj.caronae.models.User;
-
-import static br.ufrj.caronae.Constants.API_PRODUCTION_BASE_URL;
 
 /** Usa o Falae para reportar crashes **/
 @ReportsCrashes(

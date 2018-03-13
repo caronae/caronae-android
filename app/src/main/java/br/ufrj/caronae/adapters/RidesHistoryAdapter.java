@@ -3,34 +3,22 @@ package br.ufrj.caronae.adapters;
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.rey.material.app.Dialog;
-import com.rey.material.app.DialogFragment;
-import com.rey.material.app.SimpleDialog;
-import com.rey.material.widget.Button;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.RoundedTransformation;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.MainAct;
-import br.ufrj.caronae.httpapis.CaronaeAPI;
 import br.ufrj.caronae.models.User;
-import br.ufrj.caronae.models.modelsforjson.RideFeedbackForJson;
 import br.ufrj.caronae.models.modelsforjson.RideHistoryForJson;
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class RidesHistoryAdapter extends RecyclerView.Adapter<RidesHistoryAdapter.ViewHolder> {
 
@@ -117,48 +105,6 @@ public class RidesHistoryAdapter extends RecyclerView.Adapter<RidesHistoryAdapte
                 holder.photo_iv.setImageResource(R.drawable.user_pic);
             }
         }
-        if (historyRide.getFeedback() != null) {
-            holder.feedback_bt.setVisibility(View.INVISIBLE);
-        } else {
-            holder.feedback_bt.setVisibility(View.VISIBLE);
-            holder.feedback_bt.setBackgroundResource(bgRes);
-            holder.feedback_bt.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Dialog.Builder builder = new SimpleDialog.Builder(R.style.SimpleDialogLight){
-
-                        @Override
-                        protected void onBuildDone(Dialog dialog) {
-                            dialog.layoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                        }
-
-                        @Override
-                        public void onPositiveActionClicked(DialogFragment fragment) {
-                            saveFeedback("good", historyRide);
-
-                            super.onPositiveActionClicked(fragment);
-                            holder.feedback_bt.setVisibility(View.INVISIBLE);
-                        }
-
-                        @Override
-                        public void onNegativeActionClicked(DialogFragment fragment) {
-                            saveFeedback("bad", historyRide);
-
-                            super.onNegativeActionClicked(fragment);
-                            holder.feedback_bt.setVisibility(View.INVISIBLE);
-                        }
-                    };
-
-                    ((SimpleDialog.Builder) builder).message(activity.getString(R.string.rideHistory_DialogMsg))
-                            .title(activity.getString(R.string.rideHistory_DialogTitle))
-                            .positiveAction(activity.getString(R.string.yes))
-                            .negativeAction(activity.getString(R.string.no));
-
-                    DialogFragment fragment = DialogFragment.newInstance(builder);
-                    fragment.show(activity.getSupportFragmentManager(), null);
-                }
-            });
-        }
     }
 
     @Override
@@ -172,7 +118,6 @@ public class RidesHistoryAdapter extends RecyclerView.Adapter<RidesHistoryAdapte
         public TextView name_tv;
         public TextView date_tv;
         public ImageView photo_iv;
-        public Button feedback_bt;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -182,31 +127,6 @@ public class RidesHistoryAdapter extends RecyclerView.Adapter<RidesHistoryAdapte
             name_tv = (TextView) itemView.findViewById(R.id.name_tv);
             date_tv = (TextView) itemView.findViewById(R.id.date_tv);
             photo_iv = (ImageView) itemView.findViewById(R.id.photo_iv);
-            feedback_bt = (Button) itemView.findViewById(R.id.feedback_bt);
         }
-    }
-
-    private void saveFeedback(final String rate, final RideHistoryForJson historyRide){
-            CaronaeAPI.service(activity.getApplicationContext()).saveFeedback(new RideFeedbackForJson(App.getUser().getDbId(), historyRide.getDbId(), "good"))
-                    .enqueue(new Callback<ResponseBody>() {
-                        @Override
-                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                            if (response.isSuccessful()) {
-                                Util.toast(activity.getString(R.string.rideHistory_Feedback));
-                                Log.i("saveFeedback", "rated " + rate + ", ride id = " + historyRide.getDbId());
-                            } else {
-                                Util.treatResponseFromServer(response);
-                                Util.toast(activity.getString(R.string.errorRideHistory_Feedback));
-                                Log.e("saveFeedback", response.message());
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<ResponseBody> call, Throwable t) {
-                            Util.toast(activity.getString(R.string.errorRideHistory_Feedback));
-                            Log.e("saveFeedback", t.getMessage());
-                        }
-                    });
-
     }
 }
