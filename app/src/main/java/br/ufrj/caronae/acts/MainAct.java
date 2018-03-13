@@ -175,9 +175,12 @@ public class MainAct extends AppCompatActivity {
         mDrawer.setDrawerListener(drawerToggle);
 
         final ActionBar ab = getSupportActionBar();
+
         if (ab != null) {
             ab.setDisplayHomeAsUpEnabled(true);
         }
+
+        getSupportActionBar().setTitle("");
 
         NavigationView nvDrawer = (NavigationView) findViewById(R.id.nvView);
         setupDrawerContent(nvDrawer);
