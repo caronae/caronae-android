@@ -41,6 +41,7 @@ import br.ufrj.caronae.Util;
 import br.ufrj.caronae.adapters.RideOfferAdapter;
 import br.ufrj.caronae.comparators.RideOfferComparatorByDateAndTime;
 import br.ufrj.caronae.frags.DialogFragment.SelectorDialogFrag;
+import br.ufrj.caronae.httpapis.CaronaeAPI;
 import br.ufrj.caronae.models.RideRequestSent;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
 import br.ufrj.caronae.models.modelsforjson.RideSearchFiltersForJson;
@@ -514,7 +515,7 @@ public class RideSearchFrag extends Fragment {
 
 
         final ProgressDialog pd = ProgressDialog.show(getActivity(), "", getContext().getString(R.string.wait), true, true);
-        App.getNetworkService(getContext()).listFiltered(rideSearchFilters)
+        CaronaeAPI.service(getContext()).listFiltered(rideSearchFilters)
                 .enqueue(new Callback<List<RideForJson>>() {
                     @Override
                     public void onResponse(Call<List<RideForJson>> call, Response<List<RideForJson>> response) {

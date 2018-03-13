@@ -14,12 +14,12 @@ import android.widget.TextView;
 import java.util.Collections;
 import java.util.List;
 
-import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.adapters.RidesHistoryAdapter;
 import br.ufrj.caronae.comparators.RideComparatorByDateAndTimeReverse;
+import br.ufrj.caronae.httpapis.CaronaeAPI;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
 import br.ufrj.caronae.models.modelsforjson.RideHistoryForJson;
 import butterknife.BindView;
@@ -45,7 +45,7 @@ public class RidesHistoryFrag extends Fragment {
         ButterKnife.bind(this, view);
 
         final ProgressDialog pd = ProgressDialog.show(getActivity(), "", getContext().getString(R.string.wait), true, true);
-        App.getNetworkService(getContext()).getRidesHistory()
+        CaronaeAPI.service(getContext()).getRidesHistory()
                 .enqueue(new Callback<List<RideHistoryForJson>>() {
                     @Override
                     public void onResponse(Call<List<RideHistoryForJson>> call, Response<List<RideHistoryForJson>> response) {

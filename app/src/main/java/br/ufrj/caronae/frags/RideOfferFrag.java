@@ -40,6 +40,7 @@ import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.firebase.FirebaseTopicsHandler;
+import br.ufrj.caronae.httpapis.CaronaeAPI;
 import br.ufrj.caronae.models.ModelValidateDuplicate;
 import br.ufrj.caronae.models.Ride;
 import br.ufrj.caronae.models.RideRountine;
@@ -500,7 +501,7 @@ public class RideOfferFrag extends Fragment {
 
     private void checkAndCreateRide(final Ride ride) {
         pd = ProgressDialog.show(getContext(), "", getString(R.string.wait), true, true);
-        App.getNetworkService(getContext()).validateDuplicates(ride.getDate(), ride.getTime() + ":00", ride.isGoing() ? 1 : 0)
+        CaronaeAPI.service(getContext()).validateDuplicates(ride.getDate(), ride.getTime() + ":00", ride.isGoing() ? 1 : 0)
                 .enqueue(new Callback<ModelValidateDuplicate>() {
                     @Override
                     public void onResponse(Call<ModelValidateDuplicate> call, Response<ModelValidateDuplicate> response) {
@@ -550,7 +551,7 @@ public class RideOfferFrag extends Fragment {
     }
 
     private void createRide(Ride ride) {
-        App.getNetworkService(getContext()).offerRide(ride)
+        CaronaeAPI.service(getContext()).offerRide(ride)
                 .enqueue(new Callback<List<RideRountine>>() {
                     @Override
                     public void onResponse(Call<List<RideRountine>> call, Response<List<RideRountine>> response) {

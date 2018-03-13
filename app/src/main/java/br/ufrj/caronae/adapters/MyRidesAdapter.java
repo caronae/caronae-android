@@ -13,7 +13,6 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.daimajia.swipe.SwipeLayout;
-import com.google.gson.Gson;
 import com.rey.material.app.Dialog;
 import com.rey.material.app.DialogFragment;
 import com.rey.material.app.SimpleDialog;
@@ -23,14 +22,13 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.RoundedTransformation;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.ActiveRideAct;
 import br.ufrj.caronae.acts.MainAct;
-import br.ufrj.caronae.acts.ProfileAct;
 import br.ufrj.caronae.acts.RequestersListAct;
+import br.ufrj.caronae.httpapis.CaronaeAPI;
 import br.ufrj.caronae.models.NewChatMsgIndicator;
 import br.ufrj.caronae.models.Ride;
 import br.ufrj.caronae.models.RideRequestReceived;
@@ -268,7 +266,7 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
                     public void onPositiveActionClicked(DialogFragment fragment) {
                         final ProgressDialog pd = ProgressDialog.show(activity, "", activity.getString(R.string.wait), true, true);
                         final String routineId = ride.getRoutineId();
-                        App.getNetworkService(activity.getApplicationContext()).deleteAllRidesFromRoutine(routineId)
+                        CaronaeAPI.service(activity.getApplicationContext()).deleteAllRidesFromRoutine(routineId)
                                 .enqueue(new Callback<ResponseBody>() {
                                     @Override
                                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -328,7 +326,7 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
                     @Override
                     public void onPositiveActionClicked(DialogFragment fragment) {
                         final ProgressDialog pd = ProgressDialog.show(activity, "", activity.getString(R.string.wait), true, true);
-                        App.getNetworkService(activity.getApplicationContext()).deleteRide(ride.getDbId() + "")
+                        CaronaeAPI.service(activity.getApplicationContext()).deleteRide(ride.getDbId() + "")
                                 .enqueue(new Callback<ResponseBody>() {
                                     @Override
                                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -443,7 +441,7 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
                     RideRequestReceived.deleteAll(RideRequestReceived.class, "db_id = ?", ride.getDbId() + "");
                     holder.newRequest_iv.setVisibility(View.INVISIBLE);
 
-                    App.getNetworkService(activity.getApplicationContext()).getRequesters(ride.getDbId() + "")
+                    CaronaeAPI.service(activity.getApplicationContext()).getRequesters(ride.getDbId() + "")
                             .enqueue(new Callback<List<User>>() {
                                 @Override
                                 public void onResponse(Call<List<User>> call, Response<List<User>> response) {
@@ -490,7 +488,7 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
             }
         }
         if (!found) {
-            App.getNetworkService(activity.getApplicationContext()).getRequesters(ride.getDbId() + "")
+            CaronaeAPI.service(activity.getApplicationContext()).getRequesters(ride.getDbId() + "")
                 .enqueue(new Callback<List<User>>() {
                     @Override
                     public void onResponse(Call<List<User>> call, Response<List<User>> response) {

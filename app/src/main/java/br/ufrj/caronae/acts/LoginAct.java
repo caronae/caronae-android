@@ -23,6 +23,7 @@ import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.Util;
+import br.ufrj.caronae.httpapis.CaronaeAPI;
 import br.ufrj.caronae.models.Ride;
 import br.ufrj.caronae.models.modelsforjson.LoginForJson;
 import br.ufrj.caronae.models.modelsforjson.UserWithRidesForJson;
@@ -73,7 +74,7 @@ public class LoginAct extends AppCompatActivity {
         final String idUfrj = idUfrj_et.getText().toString();
         final String token = Util.fixBlankSpaces(tokenHolder).toUpperCase();
 
-            Call<UserWithRidesForJson> loginCall = App.getNetworkService(getApplicationContext()).login(new LoginForJson(token, idUfrj));
+            Call<UserWithRidesForJson> loginCall = CaronaeAPI.service(getApplicationContext()).login(new LoginForJson(token, idUfrj));
             loginCall.enqueue(new Callback<UserWithRidesForJson>() {
                 @Override
                 public void onResponse(Call<UserWithRidesForJson> call, Response<UserWithRidesForJson> response) {
