@@ -174,7 +174,7 @@
                         android:id="@+id/name_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Fulano da Silva"
+                        android:text="Paula Silva"
                         android:textStyle="bold" />
 
                     <TextView
@@ -189,7 +189,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/profile_tv"
-                        android:text="Ciência da computação" />
+                        android:text="Bacharelado em Ciência da Computação" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -199,19 +199,19 @@
                         <ImageView
                             android:layout_width="18dp"
                             android:layout_height="18dp"
-                            android:layout_below="@+id/course_tv"
                             android:layout_gravity="center"
                             android:layout_marginRight="8dp"
-                            android:src="@drawable/ic_phone_black_24dp" />
+                            android:src="@drawable/phoneicon" />
 
                         <TextView
                             android:id="@+id/phoneNumber_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/course_tv"
                             android:layout_gravity="center"
-                            android:text="997338158"
-                            android:textColor="@color/blue" />
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:text="(021) 12345-6543"
+                            android:textColor="@color/textBcolor" />
 
                     </LinearLayout>
                 </RelativeLayout>

@@ -33,6 +33,8 @@
 
     <item name="fab_red" type="color">#B60000</item>
 
+    <item name="textBcolor" type="color">#3083FB</item>
+
     <item name="black" type="color">#000</item>
     <item name="white" type="color">#fff</item>
     <item name="blue" type="color">#FF33B5E5</item>

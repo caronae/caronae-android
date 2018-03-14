@@ -1,17 +1,25 @@
 package br.ufrj.caronae.acts;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -45,6 +53,8 @@ public class ProfileAct extends AppCompatActivity {
 
     @BindView(R.id.user_pic_iv)
     ImageView user_pic_iv;
+    @BindView(R.id.phone_icon)
+    ImageView phone_icon;
     @BindView(R.id.name_tv)
     TextView name_tv;
     @BindView(R.id.profile_tv)
@@ -59,8 +69,6 @@ public class ProfileAct extends AppCompatActivity {
     TextView ridesTaken_tv;
     @BindView(R.id.phone_tv)
     TextView phone_tv;
-    @BindView(R.id.call_tv)
-    TextView call_tv;
     @BindView(R.id.mutualFriendsList)
     RecyclerView mutualFriendsList;
     @BindView(R.id.mutualFriends_lay)
@@ -185,17 +193,54 @@ public class ProfileAct extends AppCompatActivity {
 
         String from = getIntent().getExtras().getString("from");
         if (from != null && (from.equals("activeRides"))) {
-            call_tv.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
+            //Controls the options that appears on app when user touch on phone number
+            phone_tv.setOnClickListener((View v) -> {
                     Intent callIntent = new Intent(Intent.ACTION_DIAL);
                     callIntent.setData(Uri.parse("tel:" + phone_tv.getText()));
                     startActivity(callIntent);
-                }
+            });
+            phone_tv.setOnLongClickListener((View v) ->{
+                CharSequence options[] = new CharSequence[] {"Ligar para "+user.getPhoneNumber(), "Adicionar aos Contatos", "Copiar"};
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setCancelable(true);
+                builder.setItems(options, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which)
+                        {
+                            case 0:
+                                Intent callIntent = new Intent(Intent.ACTION_DIAL);
+                                callIntent.setData(Uri.parse("tel:" + phone_tv.getText()));
+                                startActivity(callIntent);
+                                break;
+                            case 1:
+                                Intent intent = new Intent(Intent.ACTION_INSERT);
+                                intent.setType(ContactsContract.Contacts.CONTENT_TYPE);
+                                intent.putExtra(ContactsContract.Intents.Insert.NAME, user.getName());
+                                intent.putExtra(ContactsContract.Intents.Insert.PHONE, user.getPhoneNumber());
+                                startActivity(intent);
+                                break;
+                            case 2:
+                                ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+                                ClipData clip = ClipData.newPlainText("PhoneNumber", user.getPhoneNumber());
+                                clipboard.setPrimaryClip(clip);
+                                break;
+                        }
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                WindowManager.LayoutParams wmlp = dialog.getWindow().getAttributes();
+                wmlp.gravity = Gravity.BOTTOM;
+                dialog.show();
+
+
+
+                return true;
             });
         } else {
+            phone_icon.setVisibility(View.INVISIBLE);
             phone_tv.setVisibility(View.INVISIBLE);
-            call_tv.setVisibility(View.INVISIBLE);
         }
     }
 

@@ -44,7 +44,7 @@
         android:layout_toRightOf="@+id/user_pic_iv"
         android:gravity="center"
         android:paddingTop="5dp"
-        android:text="Leonardo Miranda Marques"
+        android:text="Paula Silva"
         android:textStyle="bold" />
 
     <TextView
@@ -65,32 +65,30 @@
         android:layout_toRightOf="@+id/user_pic_iv"
         android:text="Curso padrão" />
 
+    <ImageView
+        android:id="@+id/phone_icon"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:layout_alignBottom="@+id/phone_tv"
+        android:layout_below="@+id/course_tv"
+        android:layout_toEndOf="@+id/user_pic_iv"
+        android:layout_toRightOf="@+id/user_pic_iv"
+        android:src="@drawable/phoneicon" />
+
     <TextView
         android:id="@+id/phone_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/course_tv"
-        android:layout_marginTop="15dp"
-        android:layout_toEndOf="@+id/user_pic_iv"
-        android:layout_toRightOf="@+id/user_pic_iv"
-        android:text="(21) 997338158"
-        android:textColor="@color/blue" />
-
-    <TextView
-        android:id="@+id/call_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/phone_tv"
         android:layout_marginLeft="5dp"
         android:layout_marginStart="5dp"
-        android:layout_toEndOf="@+id/phone_tv"
-        android:layout_toRightOf="@+id/phone_tv"
-        android:background="@color/blue"
-        android:padding="4dp"
-        android:text=" Ligar! "
-        android:textColor="@color/white"
-        android:textSize="15sp"
-        android:textStyle="bold" />
+        android:layout_toEndOf="@+id/phone_icon"
+        android:layout_toRightOf="@+id/phone_icon"
+        android:clickable="true"
+        android:focusable="true"
+        android:text="(021) 12345-6543"
+        android:textColor="@color/textBcolor" />
+
 
     <LinearLayout
         android:id="@+id/lay1"
