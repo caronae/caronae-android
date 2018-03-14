@@ -29,7 +29,7 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import static br.ufrj.caronae.Constants.DEV_SERVER_ENDPOINT;
+import static br.ufrj.caronae.Constants.CARONAE_ENDPOINT;
 
 /** Usa o Falae para reportar crashes **/
 @ReportsCrashes(
@@ -78,8 +78,8 @@ public class App extends SugarApp {
     }
 
     public static String getHost() {
-        return DEV_SERVER_ENDPOINT;
-//        return CARONAE_ENDPOINT;
+//        return DEV_SERVER_ENDPOINT;
+        return CARONAE_ENDPOINT;
     }
 
     public static NetworkService getNetworkService(final Context context) {

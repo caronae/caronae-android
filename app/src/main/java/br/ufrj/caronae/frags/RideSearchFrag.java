@@ -40,7 +40,6 @@ import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.adapters.RideOfferAdapter;
 import br.ufrj.caronae.comparators.RideOfferComparatorByDateAndTime;
-import br.ufrj.caronae.frags.DialogFragment.SelectorDialogFrag;
 import br.ufrj.caronae.models.RideRequestSent;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
 import br.ufrj.caronae.models.modelsforjson.RideSearchFiltersForJson;
@@ -288,18 +287,43 @@ public class RideSearchFrag extends Fragment {
     }
 
     private void showCampiListFragment(String[] campis, boolean[] ifCampiAreSelected, String title) {
-        SelectorDialogFrag dialog = new SelectorDialogFrag();
-        int[] colorId = new int[campis.length];
-        for (int color = 0; color < colorId.length; color++) {
-            colorId[color] = Util.getColorbyCampi(campis[color]);
-        }
-        dialog.newInstance(campis,
-                colorId,
-                ifCampiAreSelected,
-                title,
-                this,
-                false);
-        dialog.show(getActivity().getFragmentManager(), "");
+//        SelectorDialogFrag dialog = new SelectorDialogFrag();
+//        int[] colorId = new int[campis.length];
+//        for (int color = 0; color < colorId.length; color++) {
+//            colorId[color] = Util.getColorbyCampi(campis[color]);
+//        }
+//        dialog.newInstance(campis,
+//                colorId,
+//                ifCampiAreSelected,
+//                title,
+//                this,
+//                false);
+//        dialog.show(getActivity().getFragmentManager(), "");
+
+
+        SimpleDialog.Builder builder = new SimpleDialog.Builder(R.style.SimpleDialogLight) {
+            @Override
+            public void onPositiveActionClicked(DialogFragment fragment) {
+                if (getSelectedValue().toString().equals("Praia Vermelha")) {
+                    center_et.setText(getSelectedValue());
+                } else {
+                    showCenterListFragment();
+                }
+                super.onPositiveActionClicked(fragment);
+            }
+
+            @Override
+            public void onNegativeActionClicked(DialogFragment fragment) {
+                super.onNegativeActionClicked(fragment);
+            }
+        };
+
+        builder.items(Util.getCampiWithoutAllCampi(), 0)
+                .title(getContext().getString(R.string.frag_rideOffer_pickCenter))
+                .positiveAction(getContext().getString(R.string.ok))
+                .negativeAction(getContext().getString(R.string.cancel));
+        DialogFragment fragment = DialogFragment.newInstance(builder);
+        fragment.show(getFragmentManager(), null);
 
     }
 
