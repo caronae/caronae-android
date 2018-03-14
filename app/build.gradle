@@ -63,6 +63,7 @@ dependencies {
     compile 'com.android.support:support-v4:25.4.0'
     compile 'com.android.support:design:25.4.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'com.android.support:multidex:1.0.3'
     compile 'com.github.satyan:sugar:1.4'
     compile 'com.github.rey5137:material:1.2.2'
     compile 'com.github.clans:fab:1.6.4'
@@ -70,6 +71,6 @@ dependencies {
     compile "com.daimajia.swipelayout:library:1.2.0@aar"
     compile 'io.reactivex:rxandroid:1.0.1'
     compile 'de.hdodenhof:circleimageview:2.1.0'
-    compile 'ch.acra:acra:4.9.0'
+    compile 'ch.acra:acra:4.9.2'
 }
 apply plugin: 'com.google.gms.google-services'
