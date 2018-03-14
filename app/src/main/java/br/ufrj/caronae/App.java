@@ -16,6 +16,7 @@ import br.ufrj.caronae.acts.LoginAct;
 import br.ufrj.caronae.asyncs.LogOut;
 import br.ufrj.caronae.models.User;
 
+
 /** Usa o Falae para reportar crashes **/
 @ReportsCrashes(
         reportSenderFactoryClasses = {CrashReportFactory.class},

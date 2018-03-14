@@ -4,7 +4,7 @@ public class RideFiltersForJson {
     private String location;
     private String center;
     private String zone;
-    private String campi;
+    private String campus;
 
     public String getResumeLocation() {
         return resumeLocation;
@@ -16,10 +16,10 @@ public class RideFiltersForJson {
         return zone;
     }
 
-    public RideFiltersForJson(String location, String center, String campi, String zone, String resumeLocation) {
+    public RideFiltersForJson(String location, String center, String campus, String zone, String resumeLocation) {
         this.location = location;
         this.center = center;
-        this.campi = campi;
+        this.campus = campus;
         this.zone = zone;
         this.resumeLocation = resumeLocation;
     }
@@ -40,11 +40,11 @@ public class RideFiltersForJson {
         this.center = center;
     }
 
-    public String getCampi() {
-        return campi;
+    public String getCampus() {
+        return campus;
     }
 
-    public void setCampi(String campi) {
-        this.campi = campi;
+    public void setCampus(String campus) {
+        this.campus = campus;
     }
 }

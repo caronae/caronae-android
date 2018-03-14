@@ -569,16 +569,25 @@ public class MainAct extends AppCompatActivity {
             RideFiltersForJson filters = loadFilters(filtersJsonString);
             String resumeLocation = filters.getResumeLocation();
             String center = filters.getCenter();
+            String campus = filters.getCampus();
             String zone = filters.getZone();
             if (!resumeLocation.equals("")) {
                 if (center.equals("")) {
-                    center = "Todos os Centros";
+                    if (campus.equals("")) {
+                        center = "Todos os Centros";
+                    } else {
+                        center = campus;
+                    }
                 }
 
                 filterText.setText(center + " - " + resumeLocation);
             } else if (!zone.equals("")){
                 if (center.equals("")) {
-                    center = "Todos os Centros";
+                    if (campus.equals("")) {
+                        center = "Todos os Centros";
+                    } else {
+                        center = campus;
+                    }
                 }
 
                 filterText.setText(center + " - " + zone);
@@ -597,17 +606,30 @@ public class MainAct extends AppCompatActivity {
             RideFiltersForJson filters = loadFilters(filtersJsonString);
             String resumeLocations = filters.getResumeLocation();
             String center = filters.getCenter();
+            String campus = filters.getCampus();
             String zone = filters.getZone();
             if (!resumeLocations.equals("")) {
                 if (center.equals("")) {
-                    center = "Todos os Centros";
+                    if (campus.equals("")) {
+                        center = "Todos os Centros";
+                    } else {
+                        center = campus;
+                    }
                 }
 
                 filterText.setText(center + " - " + resumeLocations);
                 filterCard.setVisibility(View.VISIBLE);
-            } else if (!zone.equals("")){
+            } else
+            {
+                if (zone.equals("")) {
+                    zone = "Todos os Bairros";
+                }
                 if (center.equals("")) {
-                    center = "Todos os Centros";
+                    if (campus.equals("")) {
+                        center = "Todos os Centros";
+                    } else {
+                        center = campus;
+                    }
                 }
 
                 filterText.setText(center + " - " + zone);

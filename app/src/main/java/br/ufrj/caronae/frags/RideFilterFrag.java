@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,16 +76,18 @@ public class RideFilterFrag extends Fragment {
         neighborhoods = rideFilters.getLocation();
         location_et.setText(rideFilters.getResumeLocation());
         center_et.setText(rideFilters.getCenter());
-        campi_et.setText(rideFilters.getCampi());
+        campi_et.setText(rideFilters.getCampus());
     }
 
     @OnClick(R.id.search_bt)
     public void search() {
+        Log.e("CENTRO", "campi: "+ center);
         if (center.equals("Todos os Centros")) {
             center = "";
         }
         if (campi.equals(Util.getCampi()[0]))
             campi = "";
+        Log.e("CENTRO", "campi: "+ center);
         RideFiltersForJson rideFilters = new RideFiltersForJson(location, center, campi, zone, resumeLocation);
         String lastRideFilters = new Gson().toJson(rideFilters);
         SharedPref.saveLastFiltersPref(lastRideFilters);
@@ -230,7 +233,7 @@ public class RideFilterFrag extends Fragment {
             }
         }
 
-        AlertDialog builder = new AlertDialog.Builder(getContext())
+        final AlertDialog builder = new AlertDialog.Builder(getContext())
                 .setTitle(getContext().getString(R.string.frag_rideSearch_hintPickCenter))
                 .setMultiChoiceItems(Util.getFundaoCenters(), ifCentersAreSelected, new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
@@ -256,7 +259,9 @@ public class RideFilterFrag extends Fragment {
                             if (selectedItems.get(selectedValues).equals(Util.getFundaoCenters()[0])
                                     || selectedItems.size() == Util.getFundaoCenters().length - 1) {
                                 selectedItems.clear();
-                                selectedItems.add(Util.getFundaoCenters()[0]);
+//                                selectedItems.add(Util.getFundaoCenters()[0]);
+                                selectedItems.add("Cidade Universitária");
+                                campi = "Cidade Universitária";
                                 centers = selectedItems.get(0) + ", ";
                                 break;
                             }
@@ -267,6 +272,7 @@ public class RideFilterFrag extends Fragment {
                             centers = centers.substring(0, centers.length() - 2);
                         }
                         center_et.setText(centers);
+                        center = centers;
                     }
                 })
                 .setNegativeButton(getContext().getString(R.string.cancel), new DialogInterface.OnClickListener() {
@@ -277,7 +283,37 @@ public class RideFilterFrag extends Fragment {
                 })
                 .create();
 
-        builder.show();
+        SimpleDialog.Builder campiBuilder = new SimpleDialog.Builder(R.style.SimpleDialogLight) {
+            @Override
+            public void onPositiveActionClicked(DialogFragment fragment) {
+                if (getSelectedValue().toString().equals("Praia Vermelha")) {
+                    center_et.setText(getSelectedValue());
+                    campi = getSelectedValue().toString();
+                } else {
+//                        centerBuilder.items(Util.getCentersByCampi(getSelectedValue().toString()), 0)
+//                                .title(getContext().getString(R.string.frag_rideOffer_pickCenter))
+//                                .positiveAction(getContext().getString(R.string.ok))
+//                                .negativeAction(getContext().getString(R.string.cancel));
+//                        DialogFragment centerFragment = DialogFragment.newInstance(centerBuilder);
+//                        centerFragment.show(getFragmentManager(), null);
+
+                    builder.show();
+                }
+                super.onPositiveActionClicked(fragment);
+            }
+
+            @Override
+            public void onNegativeActionClicked(DialogFragment fragment) {
+                super.onNegativeActionClicked(fragment);
+            }
+        };
+
+        campiBuilder.items(Util.getCampiWithoutAllCampi(), 0)
+                .title(getContext().getString(R.string.frag_rideOffer_pickCenter))
+                .positiveAction(getContext().getString(R.string.ok))
+                .negativeAction(getContext().getString(R.string.cancel));
+        DialogFragment fragment = DialogFragment.newInstance(campiBuilder);
+        fragment.show(getFragmentManager(), null);
     }
 
     @OnClick(R.id.campi_et)
@@ -332,7 +368,7 @@ public class RideFilterFrag extends Fragment {
                         if (!campis.equals("")) {
                             campis = campis.substring(0, campis.length() - 2);
                         }
-                        if (campis.equals(Util.getCampi()[2])){
+                        if (campis.equals(Util.getCampi()[2])) {
                             center_et.setVisibility(View.GONE);
                         } else {
                             center_et.setVisibility(View.VISIBLE);

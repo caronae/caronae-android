@@ -40,7 +40,6 @@ import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.adapters.RideOfferAdapter;
 import br.ufrj.caronae.comparators.RideOfferComparatorByDateAndTime;
-import br.ufrj.caronae.frags.DialogFragment.SelectorDialogFrag;
 import br.ufrj.caronae.httpapis.CaronaeAPI;
 import br.ufrj.caronae.models.RideRequestSent;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
@@ -289,18 +288,43 @@ public class RideSearchFrag extends Fragment {
     }
 
     private void showCampiListFragment(String[] campis, boolean[] ifCampiAreSelected, String title) {
-        SelectorDialogFrag dialog = new SelectorDialogFrag();
-        int[] colorId = new int[campis.length];
-        for (int color = 0; color < colorId.length; color++) {
-            colorId[color] = Util.getColorbyCampi(campis[color]);
-        }
-        dialog.newInstance(campis,
-                colorId,
-                ifCampiAreSelected,
-                title,
-                this,
-                false);
-        dialog.show(getActivity().getFragmentManager(), "");
+//        SelectorDialogFrag dialog = new SelectorDialogFrag();
+//        int[] colorId = new int[campis.length];
+//        for (int color = 0; color < colorId.length; color++) {
+//            colorId[color] = Util.getColorbyCampi(campis[color]);
+//        }
+//        dialog.newInstance(campis,
+//                colorId,
+//                ifCampiAreSelected,
+//                title,
+//                this,
+//                false);
+//        dialog.show(getActivity().getFragmentManager(), "");
+
+
+        SimpleDialog.Builder builder = new SimpleDialog.Builder(R.style.SimpleDialogLight) {
+            @Override
+            public void onPositiveActionClicked(DialogFragment fragment) {
+                if (getSelectedValue().toString().equals("Praia Vermelha")) {
+                    center_et.setText(getSelectedValue());
+                } else {
+                    showCenterListFragment();
+                }
+                super.onPositiveActionClicked(fragment);
+            }
+
+            @Override
+            public void onNegativeActionClicked(DialogFragment fragment) {
+                super.onNegativeActionClicked(fragment);
+            }
+        };
+
+        builder.items(Util.getCampiWithoutAllCampi(), 0)
+                .title(getContext().getString(R.string.frag_rideOffer_pickCenter))
+                .positiveAction(getContext().getString(R.string.ok))
+                .negativeAction(getContext().getString(R.string.cancel));
+        DialogFragment fragment = DialogFragment.newInstance(builder);
+        fragment.show(getFragmentManager(), null);
 
     }
 
@@ -370,7 +394,8 @@ public class RideSearchFrag extends Fragment {
                         // or return them to the component that opened the dialog
                         String centers = "";
                         if (selectedItems.size() == 9 || mSelectedItems[0]){
-                            centers = Util.getFundaoCenters()[0];
+//                            centers = Util.getFundaoCenters()[0];
+                            centers = "Cidade Universitária";
                         } else {
                             for (int i = 0; i < selectedItems.size(); i++) {
                                 centers = centers + selectedItems.get(i) + ", ";
@@ -407,23 +432,6 @@ public class RideSearchFrag extends Fragment {
         }
     }
 
-//    @OnClick(R.id.center_et)
-//    public void centerEt() {
-//
-//        final ArrayList<String> selectedItems = new ArrayList();
-//        String[] campis = Util.getCampi();
-//        String selectedCampi = campi;
-//        boolean[] ifCampiAreSelected = new boolean[campis.length];
-//        for (int campi = 0; campi < campis.length; campi++) {
-//            ifCampiAreSelected[campi] = false;
-//            if (campis[campi].equals(selectedCampi)) {
-//                ifCampiAreSelected[campi] = true;
-//                selectedItems.add(campis[campi]);
-//            }
-//        }
-//
-//        showCampiListFragment(campis, ifCampiAreSelected, SharedPref.DIALOG_CAMPUS_SEARCH_KEY);
-//    }
 
     @OnClick(R.id.center_et)
     public void centerEt() {
@@ -440,7 +448,7 @@ public class RideSearchFrag extends Fragment {
             }
         }
 
-        showCenterListFragment();
+        showCampiListFragment(campis, ifCampiAreSelected, "Campus");
     }
 
     @OnClick(R.id.anotherSearch_bt)
@@ -495,7 +503,7 @@ public class RideSearchFrag extends Fragment {
             time = format;
         }
         String center = center_et.getText().toString();
-        if (center.equals(Util.getFundaoCenters()[0]))
+        if (center.equals(Util.getFundaoCenters()[0]) || center.equals("Cidade Universitária"))
             center = "";
         String campus = campi;
         boolean go = radioGroup.getCheckedRadioButtonId() == R.id.go_rb;
