@@ -15,7 +15,6 @@ import br.ufrj.caronae.models.modelsforjson.HistoryRideCountForJson;
 import br.ufrj.caronae.models.modelsforjson.IdForJson;
 import br.ufrj.caronae.models.modelsforjson.JoinRequestIDsForJson;
 import br.ufrj.caronae.models.modelsforjson.LoginForJson;
-import br.ufrj.caronae.models.modelsforjson.RideFeedbackForJson;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
 import br.ufrj.caronae.models.modelsforjson.RideForJsonDeserializer;
 import br.ufrj.caronae.models.modelsforjson.RideHistoryForJson;
@@ -34,7 +33,7 @@ import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
-public interface NetworkService {
+public interface CaronaeAPIService {
 
     //user routes
     @GET("user/signup/{name}/{token}")
@@ -108,9 +107,6 @@ public interface NetworkService {
 
     @GET("ride/getRidesHistoryCount/{userId}")
     Call<HistoryRideCountForJson> getRidesHistoryCount(@Path("userId") String userId);
-
-    @POST("ride/saveFeedback")
-    Call<ResponseBody> saveFeedback(@Body RideFeedbackForJson rideFeedbackForJson);
 
     //falae route
     @POST("api/v1/falae/messages")

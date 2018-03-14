@@ -283,7 +283,6 @@ public class RideFilterFrag extends Fragment {
                 })
                 .create();
 
-
         SimpleDialog.Builder campiBuilder = new SimpleDialog.Builder(R.style.SimpleDialogLight) {
             @Override
             public void onPositiveActionClicked(DialogFragment fragment) {

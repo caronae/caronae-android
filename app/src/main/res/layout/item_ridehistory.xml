@@ -67,19 +67,5 @@
             android:layout_toRightOf="@+id/photo_iv"
             android:text="Fulano da Silva" />
 
-        <com.rey.material.widget.Button
-            android:id="@+id/feedback_bt"
-            style="@style/LightRaiseColorButtonRippleStyle"
-            android:layout_width="75dp"
-            android:layout_height="40dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:background="@null"
-            android:gravity="center"
-            android:text="@string/rateBtn"
-            android:textColor="@color/white"
-            tools:rd_enable="true" />
-
     </RelativeLayout>
 </android.support.v7.widget.CardView>

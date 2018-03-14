@@ -40,6 +40,7 @@ import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.firebase.FirebaseTopicsHandler;
+import br.ufrj.caronae.httpapis.CaronaeAPI;
 import br.ufrj.caronae.models.ModelValidateDuplicate;
 import br.ufrj.caronae.models.Ride;
 import br.ufrj.caronae.models.RideRountine;
@@ -283,36 +284,15 @@ public class RideOfferFrag extends Fragment {
 
     @OnClick(R.id.center_et)
     public void centerEt() {
-        final SimpleDialog.Builder centerBuilder = new SimpleDialog.Builder(R.style.SimpleDialogLight) {
-            @Override
-            public void onPositiveActionClicked(DialogFragment fragment) {
-                center_et.setText(getSelectedValue());
-                super.onPositiveActionClicked(fragment);
-            }
-        };
 
-        SimpleDialog.Builder builder = new SimpleDialog.Builder(R.style.SimpleDialogLight) {
+        SimpleDialog.Builder campiBuilder = new SimpleDialog.Builder(R.style.SimpleDialogLight) {
             @Override
             public void onPositiveActionClicked(DialogFragment fragment) {
-                if (going) {
-                    if (getSelectedValue().toString().equals("Praia Vermelha")) {
-                        center_et.setText(getSelectedValue());
-                    } else {
-                        centerBuilder.items(Util.getCentersByCampi(getSelectedValue().toString()), 0)
-                                .title(getContext().getString(R.string.frag_rideOffer_pickCenter))
-                                .positiveAction(getContext().getString(R.string.ok))
-                                .negativeAction(getContext().getString(R.string.cancel));
-                        DialogFragment centerFragment = DialogFragment.newInstance(centerBuilder);
-                        centerFragment.show(getFragmentManager(), null);
-                    }
-                } else {
-                    centerBuilder.items(Util.getHubsByCampi(getSelectedValue().toString()), 0)
-                            .title(getContext().getString(R.string.frag_rideOffer_pickHub))
-                            .positiveAction(getContext().getString(R.string.ok))
-                            .negativeAction(getContext().getString(R.string.cancel));
-                    DialogFragment centerFragment = DialogFragment.newInstance(centerBuilder);
-                    centerFragment.show(getFragmentManager(), null);
-                }
+                if (getSelectedValue().equals(Util.getCampi()[2]) && (going)) {
+//                    center_et.setVisibility(View.GONE);
+                    center_et.setText(getSelectedValue());
+                } else
+                showCenterListDialog(getSelectedValue().toString());
                 super.onPositiveActionClicked(fragment);
             }
 
@@ -322,37 +302,42 @@ public class RideOfferFrag extends Fragment {
             }
         };
 
+        campiBuilder.items(Util.getCampiWithoutAllCampi(), 0)
+                .title(getContext().getString(R.string.frag_rideOffer_pickCampi))
+                .positiveAction(getContext().getString(R.string.ok))
+                .negativeAction(getContext().getString(R.string.cancel));
+        DialogFragment fragmentCampi = DialogFragment.newInstance(campiBuilder);
+        fragmentCampi.show(getFragmentManager(), null);
+    }
+
+    public void showCenterListDialog(String campus) {
+        SimpleDialog.Builder builder = new SimpleDialog.Builder(R.style.SimpleDialogLight) {
+            @Override
+            public void onPositiveActionClicked(DialogFragment fragment) {
+                center_et.setText(getSelectedValue());
+                super.onPositiveActionClicked(fragment);
+            }
+
+            @Override
+            public void onNegativeActionClicked(DialogFragment fragment) {
+                super.onNegativeActionClicked(fragment);
+            }
+        };
 
         if (going) {
-            builder.items(Util.getCampiWithoutAllCampi(), 0)
+            builder.items(Util.getCentersWithoutAllCenters(), 0)
                     .title(getContext().getString(R.string.frag_rideOffer_pickCenter))
                     .positiveAction(getContext().getString(R.string.ok))
                     .negativeAction(getContext().getString(R.string.cancel));
             DialogFragment fragment = DialogFragment.newInstance(builder);
             fragment.show(getFragmentManager(), null);
         } else {
-            builder.items(Util.getCampiWithoutAllCampi(), 0)
+            builder.items(Util.getHubsByCampi(campus), 0)
                     .title(getContext().getString(R.string.frag_rideOffer_pickHub))
                     .positiveAction(getContext().getString(R.string.ok))
                     .negativeAction(getContext().getString(R.string.cancel));
             DialogFragment fragment = DialogFragment.newInstance(builder);
             fragment.show(getFragmentManager(), null);
-
-
-//        if (going) {
-//            builder.items(Util.getCentersWithoutAllCenters(), 0)
-//                    .title(getContext().getString(R.string.frag_rideOffer_pickCenter))
-//                    .positiveAction(getContext().getString(R.string.ok))
-//                    .negativeAction(getContext().getString(R.string.cancel));
-//            DialogFragment fragment = DialogFragment.newInstance(builder);
-//            fragment.show(getFragmentManager(), null);
-//        } else {
-//            builder.items(Util.getFundaoHubs(), 0)
-//                    .title(getContext().getString(R.string.frag_rideOffer_pickHub))
-//                    .positiveAction(getContext().getString(R.string.ok))
-//                    .negativeAction(getContext().getString(R.string.cancel));
-//            DialogFragment fragment = DialogFragment.newInstance(builder);
-//            fragment.show(getFragmentManager(), null);
 //            if (campi_et.getText().toString().equals("")){
 //                campi_et.setError("Escolher o campus");
 //            } else {
@@ -543,7 +528,7 @@ public class RideOfferFrag extends Fragment {
 
     private void checkAndCreateRide(final Ride ride) {
         pd = ProgressDialog.show(getContext(), "", getString(R.string.wait), true, true);
-        App.getNetworkService(getContext()).validateDuplicates(ride.getDate(), ride.getTime() + ":00", ride.isGoing() ? 1 : 0)
+        CaronaeAPI.service(getContext()).validateDuplicates(ride.getDate(), ride.getTime() + ":00", ride.isGoing() ? 1 : 0)
                 .enqueue(new Callback<ModelValidateDuplicate>() {
                     @Override
                     public void onResponse(Call<ModelValidateDuplicate> call, Response<ModelValidateDuplicate> response) {
@@ -593,7 +578,7 @@ public class RideOfferFrag extends Fragment {
     }
 
     private void createRide(Ride ride) {
-        App.getNetworkService(getContext()).offerRide(ride)
+        CaronaeAPI.service(getContext()).offerRide(ride)
                 .enqueue(new Callback<List<RideRountine>>() {
                     @Override
                     public void onResponse(Call<List<RideRountine>> call, Response<List<RideRountine>> response) {

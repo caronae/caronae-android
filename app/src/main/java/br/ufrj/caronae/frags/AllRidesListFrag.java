@@ -39,6 +39,7 @@ import br.ufrj.caronae.Util;
 import br.ufrj.caronae.adapters.AllRidesFragmentPagerAdapter;
 import br.ufrj.caronae.adapters.RideOfferAdapter;
 import br.ufrj.caronae.comparators.RideOfferComparatorByDateAndTime;
+import br.ufrj.caronae.httpapis.CaronaeAPI;
 import br.ufrj.caronae.models.RideRequestSent;
 import br.ufrj.caronae.models.modelsforjson.RideFiltersForJson;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
@@ -203,8 +204,7 @@ public class AllRidesListFrag extends Fragment implements Callback {
             zone = rideFilters.getZone();
             campus = rideFilters.getCampus();
         }
-
-        App.getNetworkService(getContext()).listAllRides(pageNumber + "", going, neighborhoods, zone, hub, "", campus)
+        CaronaeAPI.service(getContext()).listAllRides(pageNumber + "", going, neighborhoods, zone, hub,  "", campus)
                 .enqueue(new retrofit2.Callback<RideForJsonDeserializer>() {
                     @Override
                     public void onResponse(Call<RideForJsonDeserializer> call, Response<RideForJsonDeserializer> response) {

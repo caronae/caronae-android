@@ -38,12 +38,12 @@ import br.ufrj.caronae.RoundedTransformation;
 import br.ufrj.caronae.SwipeDismissBaseActivity;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.frags.AllRidesFrag;
+import br.ufrj.caronae.httpapis.CaronaeAPI;
 import br.ufrj.caronae.models.ActiveRide;
 import br.ufrj.caronae.models.ChatAssets;
 import br.ufrj.caronae.models.RideRequestSent;
 import br.ufrj.caronae.models.User;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
-import br.ufrj.caronae.models.modelsforjson.RideIdForJson;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import okhttp3.ResponseBody;
@@ -347,7 +347,7 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
                                 @Override
                                 public void onPositiveActionClicked(com.rey.material.app.DialogFragment fragment) {
                                     final ProgressDialog pd = ProgressDialog.show(context, "", getString(R.string.wait), true, true);
-                                    App.getNetworkService(context).requestJoin(String.valueOf(rideWithUsers.getDbId()))
+                                    CaronaeAPI.service(context).requestJoin(String.valueOf(rideWithUsers.getDbId()))
                                             .enqueue(new Callback<ResponseBody>() {
                                                 @Override
                                                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -425,7 +425,7 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
 
         mainLayout.setVisibility(View.GONE);
         progressBarLayout.setVisibility(View.VISIBLE);
-        App.getNetworkService(this).getRide(rideId)
+        CaronaeAPI.service(this).getRide(rideId)
                 .enqueue(new Callback<RideForJson>() {
                     @Override
                     public void onResponse(Call<RideForJson> call, Response<RideForJson> response) {

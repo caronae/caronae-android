@@ -18,12 +18,12 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.RoundedTransformation;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.ProfileAct;
 import br.ufrj.caronae.firebase.FirebaseTopicsHandler;
+import br.ufrj.caronae.httpapis.CaronaeAPI;
 import br.ufrj.caronae.models.User;
 import br.ufrj.caronae.models.modelsforjson.JoinRequestIDsForJson;
 import okhttp3.ResponseBody;
@@ -86,7 +86,7 @@ public class RequestersAdapter extends RecyclerView.Adapter<RequestersAdapter.Vi
             @Override
             public void onClick(View view) {
                 final ProgressDialog pd = ProgressDialog.show(activity, "", activity.getString(R.string.wait), true, true);
-                App.getNetworkService(activity.getApplicationContext()).answerJoinRequest(String.valueOf(rideId), new JoinRequestIDsForJson(user.getDbId(), true))
+                CaronaeAPI.service(activity.getApplicationContext()).answerJoinRequest(String.valueOf(rideId), new JoinRequestIDsForJson(user.getDbId(), true))
                         .enqueue(new Callback<ResponseBody>() {
                             @Override
                             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -122,7 +122,7 @@ public class RequestersAdapter extends RecyclerView.Adapter<RequestersAdapter.Vi
             @Override
             public void onClick(View view) {
                 final ProgressDialog pd = ProgressDialog.show(activity, "", activity.getString(R.string.wait), true, true);
-                App.getNetworkService(activity.getApplicationContext()).answerJoinRequest(String.valueOf(rideId), new JoinRequestIDsForJson(user.getDbId(),false))
+                CaronaeAPI.service(activity.getApplicationContext()).answerJoinRequest(String.valueOf(rideId), new JoinRequestIDsForJson(user.getDbId(),false))
                         .enqueue(new Callback<ResponseBody>() {
                                      @Override
                                      public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

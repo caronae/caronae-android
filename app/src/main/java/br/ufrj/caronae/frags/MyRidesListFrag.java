@@ -33,6 +33,7 @@ import br.ufrj.caronae.adapters.MyRidesAdapter;
 import br.ufrj.caronae.comparators.RideComparatorByDateAndTime;
 import br.ufrj.caronae.comparators.RideOfferComparatorByDateAndTime;
 import br.ufrj.caronae.firebase.FirebaseTopicsHandler;
+import br.ufrj.caronae.httpapis.CaronaeAPI;
 import br.ufrj.caronae.models.ActiveRide;
 import br.ufrj.caronae.models.Ride;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
@@ -158,7 +159,7 @@ public class MyRidesListFrag extends Fragment {
     }
 
     private void getOfferedRides() {
-        App.getNetworkService(App.inst()).getOfferedRides(App.getUser().getDbId() + "")
+        CaronaeAPI.service(App.inst()).getOfferedRides(App.getUser().getDbId() + "")
                 .enqueue(new Callback<RideForJsonDeserializer>() {
                     @Override
                     public void onResponse(Call<RideForJsonDeserializer> call, Response<RideForJsonDeserializer> response) {
@@ -188,7 +189,7 @@ public class MyRidesListFrag extends Fragment {
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                App.getNetworkService(getContext()).getMyActiveRides()
+                CaronaeAPI.service(getContext()).getMyActiveRides()
                         .enqueue(new Callback<List<RideForJson>>() {
                             @Override
                             public void onResponse(Call<List<RideForJson>> call, Response<List<RideForJson>> response) {

@@ -28,7 +28,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/logo"
+            android:layout_centerHorizontal="true"
             android:paddingTop="30dp"
+            android:textSize="@dimen/hello_text_size"
             android:text="@string/hello"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textStyle="bold" />
@@ -39,6 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/textView"
             android:paddingTop="10dp"
+            android:gravity="center"
             android:text="@string/welcome"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 

@@ -10,6 +10,8 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
@@ -34,6 +36,7 @@ import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.adapters.AllRidesFragmentPagerAdapter;
 import br.ufrj.caronae.comparators.RideOfferComparatorByDateAndTime;
+import br.ufrj.caronae.httpapis.CaronaeAPI;
 import br.ufrj.caronae.models.modelsforjson.RideFiltersForJson;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
 import br.ufrj.caronae.models.modelsforjson.RideForJsonDeserializer;
@@ -80,6 +83,8 @@ public class AllRidesFrag extends Fragment {
 
         context = getContext();
 
+        setHasOptionsMenu(true);
+
         coordinatorLayout = (CoordinatorLayout) view.findViewById(R.id.all_rides_coordinator);
 
         listAllRides(1);
@@ -115,7 +120,7 @@ public class AllRidesFrag extends Fragment {
                 campus = rideFilters.getCampus();
             }
 
-            App.getNetworkService(getContext()).listAllRides(pageNum + "", going, neighborhoods, zone, hub, "", campus)
+            CaronaeAPI.service(getContext()).listAllRides(pageNum + "", going, neighborhoods, zone, hub,  "", campus)
                     .enqueue(new Callback<RideForJsonDeserializer>() {
                         @Override
                         public void onResponse(Call<RideForJsonDeserializer> call, Response<RideForJsonDeserializer> response) {
@@ -275,6 +280,13 @@ public class AllRidesFrag extends Fragment {
             }
         }
         return contains;
+    }
+
+    //Creates the toolbar menu with options to access the filter/search fragment
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.toolbar_menu, menu);
+        super.onCreateOptionsMenu(menu,inflater);
     }
 
     public static void setPageThatWas(boolean page){

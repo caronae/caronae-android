@@ -227,6 +227,7 @@ public class Util {
 
     public static String[] getPraiaVermelhaHubs() {
         return new String[]{"Praia Vermelha: Psicologia", "Praia Vermelha: Pinel-Fundos"};
+
     }
 
     public static String[] getCampi() {
@@ -241,7 +242,7 @@ public class Util {
         return center;
     }
 
-    public static String[] getFundaoCentersWithoutAllCenters() {
+    public static String[] getCentersWithoutAllCenters() {
         return new String[]{"CCMN", "CCS", "CT", "EEFD", "Letras", "Reitoria"};
     }
 
@@ -309,7 +310,7 @@ public class Util {
         if (campi.equals(getCampi()[2])) {
             return new String[]{""};
         }
-        return getFundaoCentersWithoutAllCenters();
+        return getFundaoCenters();
     }
 
     public static String formatTime(String time) {

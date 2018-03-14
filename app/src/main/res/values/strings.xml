@@ -103,7 +103,7 @@
     <string name="dashSeparator">-</string>
     <string name="chat_sendMsgHint">Digite sua mensagem</string>
     <string name="hello">Olá :)</string>
-    <string name="welcome">Bem-vindo ao aplicativo de caronas da UFRJ. O acesso é restrito a usuários vinculados à universidade. Para continuar, é só obter sua chave de acesso usando seu login da Intranet UFRJ.</string>
+    <string name="welcome">Bem vindo ao aplicativo de caronas para sua instituição. O acesso é restrito a usuários vinculados às universidades parceiras.</string>
     <string name="act_profile_mutualFriends">Vocês tem %1$d amigo%2$s em comum no Facebook.\n%3$d deles usa%4$s o Caronaê.</string>
     <string name="frag_falae_messageHint">Conte pra gente. O que houve?</string>
     <string name="frag_falae_subjectHint">Assunto (Opcional)</string>
@@ -121,11 +121,6 @@
     <string name="frag_falae_reportRb">"[DENÚNCIA] "</string>
     <string name="act_profile_report_bt">Reportar</string>
     <string name="act_profile_reportOk">Usuário reportado, obrigado por entrar em contato.</string>
-    <string name="rideHistory_Feedback">Carona avaliada com sucesso</string>
-    <string name="errorRideHistory_Feedback">Erro ao avaliar carona</string>
-    <string name="rideHistory_DialogTitle">Eaí? Correu tudo bem?</string>
-    <string name="yes">Sim</string>
-    <string name="no">Não</string>
     <string name="act_profile_openFbProfile">Veja o perfil de %1$s no Facebook</string>
     <string name="act_profile_openProfile">Veja o perfil de Fulano no Facebook</string>
     <string name="frag_myactiverides_noRides">Você não tem caronas ativas</string>
@@ -163,7 +158,6 @@
     <string name="frag_myprofile_carColorHint">Digite a cor de seu carro</string>
     <string name="acceptRiderBtn">Aceitar caronista</string>
     <string name="refuseRriderBtn">Remover pedido</string>
-    <string name="rateBtn">Avaliar</string>
     <string name="rideoffer_joinBt">Participar</string>
     <string name="myactiveride_openchatBt">Bate-papo</string>
     <string name="myactiveride_finishrideBt">Concluir carona</string>
@@ -230,7 +224,6 @@
     <string name="frag_allRidesList_Helper">Toque nas caronas para mais informações</string>
     <string name="frag_myprofile_SameFieldsState">Nenhum campo alterado</string>
     <string name="act_rideOffer_requestWarn">Ao solicitar você está ocupando uma vaga na carona até que obtenha uma resposta, faça isso com responsabilidade.\nDeseja mesmo solicitar participação nessa carona?</string>
-    <string name="rideHistory_DialogMsg">Caso tenha havido algum problema, entre em contato conosco através do Falaê e conte o que aconteceu.</string>
     <string name="act_activeRide_cancelRideMsg">Você é livre para cancelar caronas caso não possa participar, mas é importante fazer isso com responsabilidade. Caso haja outros usuários na carona, eles serão notificados.</string>
     <string name="act_login_tokenBtn">Obtenha sua chave de acesso aqui</string>
     <string name="act_login_getTokenBtn"><u>OBTENHA SUA CHAVE AQUI</u></string>

@@ -40,6 +40,7 @@ import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.adapters.RideOfferAdapter;
 import br.ufrj.caronae.comparators.RideOfferComparatorByDateAndTime;
+import br.ufrj.caronae.httpapis.CaronaeAPI;
 import br.ufrj.caronae.models.RideRequestSent;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
 import br.ufrj.caronae.models.modelsforjson.RideSearchFiltersForJson;
@@ -431,11 +432,12 @@ public class RideSearchFrag extends Fragment {
         }
     }
 
+
     @OnClick(R.id.center_et)
     public void centerEt() {
 
-        final ArrayList<String> selectedItems = new ArrayList();
-        String[] campis = Util.getCampiWithoutAllCampi();
+        final ArrayList<String> selectedItems = new ArrayList<>();
+        String[] campis = Util.getCampi();
         String selectedCampi = campi;
         boolean[] ifCampiAreSelected = new boolean[campis.length];
         for (int campi = 0; campi < campis.length; campi++) {
@@ -446,26 +448,8 @@ public class RideSearchFrag extends Fragment {
             }
         }
 
-        showCampiListFragment(campis, ifCampiAreSelected, SharedPref.DIALOG_CAMPUS_SEARCH_KEY);
+        showCampiListFragment(campis, ifCampiAreSelected, "Campus");
     }
-
-//    @OnClick(R.id.center_et)
-//    public void centerEt() {
-//
-//        final ArrayList<String> selectedItems = new ArrayList<>();
-//        String[] campis = Util.getCampus();
-//        String selectedCampi = campi;
-//        boolean[] ifCampiAreSelected = new boolean[campis.length];
-//        for (int campi = 0; campi < campis.length; campi++) {
-//            ifCampiAreSelected[campi] = false;
-//            if (campis[campi].equals(selectedCampi)) {
-//                ifCampiAreSelected[campi] = true;
-//                selectedItems.add(campis[campi]);
-//            }
-//        }
-//
-//        showCenterListFragment();
-//    }
 
     @OnClick(R.id.anotherSearch_bt)
     public void anotherSearchBt() {
@@ -539,7 +523,7 @@ public class RideSearchFrag extends Fragment {
 
 
         final ProgressDialog pd = ProgressDialog.show(getActivity(), "", getContext().getString(R.string.wait), true, true);
-        App.getNetworkService(getContext()).listFiltered(rideSearchFilters)
+        CaronaeAPI.service(getContext()).listFiltered(rideSearchFilters)
                 .enqueue(new Callback<List<RideForJson>>() {
                     @Override
                     public void onResponse(Call<List<RideForJson>> call, Response<List<RideForJson>> response) {
