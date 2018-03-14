@@ -25,8 +25,6 @@ import br.ufrj.caronae.models.modelsforjson.UrlForJson;
 import br.ufrj.caronae.models.modelsforjson.UserWithRidesForJson;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
@@ -82,7 +80,7 @@ public interface NetworkService {
     Call<List<RideForJson>> listFiltered(@Body RideSearchFiltersForJson rideSearchFilters);
 
     @GET("api/v1/rides")
-    Call<RideForJsonDeserializer> listAllRides(@Query("page") String pageNum, @Query("going") String going, @Query("neighborhoods") String neighborhoods, @Query("zone") String zone, @Query("hub") String hub);
+    Call<RideForJsonDeserializer> listAllRides(@Query("page") String pageNum, @Query("going") String going, @Query("neighborhoods") String neighborhoods, @Query("zone") String zone, @Query("hubs") String hub, @Query("place") String place, @Query("campus") String campus);
 
     @POST("api/v1/rides/{rideId}/requests")
     Call<ResponseBody> requestJoin(@Path("rideId") String rideId);

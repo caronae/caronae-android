@@ -369,7 +369,8 @@ public class RideSearchFrag extends Fragment {
                         // or return them to the component that opened the dialog
                         String centers = "";
                         if (selectedItems.size() == 9 || mSelectedItems[0]){
-                            centers = Util.getFundaoCenters()[0];
+//                            centers = Util.getFundaoCenters()[0];
+                            centers = "Cidade Universitária";
                         } else {
                             for (int i = 0; i < selectedItems.size(); i++) {
                                 centers = centers + selectedItems.get(i) + ", ";
@@ -428,7 +429,7 @@ public class RideSearchFrag extends Fragment {
 //    public void centerEt() {
 //
 //        final ArrayList<String> selectedItems = new ArrayList<>();
-//        String[] campis = Util.getCampi();
+//        String[] campis = Util.getCampus();
 //        String selectedCampi = campi;
 //        boolean[] ifCampiAreSelected = new boolean[campis.length];
 //        for (int campi = 0; campi < campis.length; campi++) {
@@ -494,7 +495,7 @@ public class RideSearchFrag extends Fragment {
             time = format;
         }
         String center = center_et.getText().toString();
-        if (center.equals(Util.getFundaoCenters()[0]))
+        if (center.equals(Util.getFundaoCenters()[0]) || center.equals("Cidade Universitária"))
             center = "";
         String campus = campi;
         boolean go = radioGroup.getCheckedRadioButtonId() == R.id.go_rb;

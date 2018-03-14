@@ -356,10 +356,10 @@ public class RideOfferFrag extends Fragment {
 //            if (campi_et.getText().toString().equals("")){
 //                campi_et.setError("Escolher o campus");
 //            } else {
-//                if (campi_et.getText().toString().equals(Util.getCampi()[1])) {
+//                if (campi_et.getText().toString().equals(Util.getCampus()[1])) {
 //                    builder.items(Util.getFundaoHubs(), 0);
 //                }
-//                if (campi_et.getText().toString().equals(Util.getCampi()[2])) {
+//                if (campi_et.getText().toString().equals(Util.getCampus()[2])) {
 //                    builder.items(Util.getPraiaVermelhaHubs(), 0);
 //                }
 //                DialogFragment fragment = DialogFragment.newInstance(builder);

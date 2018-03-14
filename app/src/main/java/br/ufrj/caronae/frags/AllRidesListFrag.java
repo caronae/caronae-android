@@ -194,15 +194,17 @@ public class AllRidesListFrag extends Fragment implements Callback {
         String neighborhoods = null;
         String zone = null;
         String hub = null;
+        String campus = null;
         String filtersJsonString = SharedPref.getFiltersPref();
         if (!filtersJsonString.equals(SharedPref.MISSING_PREF)){
             RideFiltersForJson rideFilters = new Gson().fromJson(filtersJsonString, RideFiltersForJson.class);
             neighborhoods = rideFilters.getLocation();
             hub = rideFilters.getCenter();
             zone = rideFilters.getZone();
+            campus = rideFilters.getCampus();
         }
 
-        App.getNetworkService(getContext()).listAllRides(pageNumber + "", going, neighborhoods, zone, hub)
+        App.getNetworkService(getContext()).listAllRides(pageNumber + "", going, neighborhoods, zone, hub, "", campus)
                 .enqueue(new retrofit2.Callback<RideForJsonDeserializer>() {
                     @Override
                     public void onResponse(Call<RideForJsonDeserializer> call, Response<RideForJsonDeserializer> response) {

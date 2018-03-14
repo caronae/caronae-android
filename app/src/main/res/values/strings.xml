@@ -83,14 +83,14 @@
     <string name="frag_rideSearch_pickZones">Escolha a zona</string>
     <string name="frag_rideSearch_pickNeighborhood">Escolha o(s) bairro(s)</string>
     <string name="frag_rideSearch_hintPickCenter">Escolha o centro</string>
-    <string name="frag_rideSearch_hintPickCampi">Escolha o campi</string>
+    <string name="frag_rideSearch_hintPickCampi">Escolha o campus</string>
     <string name="frag_rideSearch_noRideFound">Nenhuma carona encontrada</string>
     <string name="frag_rideSearch_errorListFiltered">Erro ao obter caronas</string>
     <string name="frag_rideOffer_hintPickHub">Escolha o hub de encontro</string>
     <string name="frag_rideOffer_pickZone">Escolha a zona</string>
     <string name="frag_rideOffer_pickNeighborhood">Escolha o bairro</string>
     <string name="frag_rideOffer_pickCenter">Escolha o centro</string>
-    <string name="frag_rideOffer_pickCampi">Escolha o campi</string>
+    <string name="frag_rideOffer_pickCampi">Escolha o campus</string>
     <string name="frag_rideOffer_pickHub">Escolha o hub de encontro</string>
     <string name="frag_rideOffer_noRoutineDays">Nenhum dia selecionado para rotina</string>
     <string name="frag_rideOffer_rideSaved">Carona salva</string>
@@ -142,7 +142,7 @@
     <string name="frag_ridesearch_dateHint">Escolha a data</string>
     <string name="frag_ridesearch_timeHint">Escolha a hora</string>
     <string name="frag_ridesearch_centerHint">Escolha o centro</string>
-    <string name="frag_ridesearch_campiHint">Escolha o campi</string>
+    <string name="frag_ridesearch_campiHint">Escolha o campus</string>
     <string name="frag_ridesearch_searchBt">Buscar</string>
     <string name="frag_ridesearch_filterBt">Filtrar</string>
     <string name="frag_ridesearch_anotherSearchBt">Outra busca</string>
