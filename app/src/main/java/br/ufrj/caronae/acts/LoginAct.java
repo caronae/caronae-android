@@ -44,7 +44,6 @@ public class LoginAct extends AppCompatActivity {
 
     public boolean ASYNC_IS_RUNNING = false;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

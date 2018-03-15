@@ -193,49 +193,12 @@ public class ProfileAct extends AppCompatActivity {
 
         String from = getIntent().getExtras().getString("from");
         if (from != null && (from.equals("activeRides"))) {
-            //Controls the options that appears on app when user touch on phone number
+            //Controls the options that appears on app when user touch (short or long) on phone number
             phone_tv.setOnClickListener((View v) -> {
-                    Intent callIntent = new Intent(Intent.ACTION_DIAL);
-                    callIntent.setData(Uri.parse("tel:" + phone_tv.getText()));
-                    startActivity(callIntent);
+                actionNumberTouch(0);
             });
             phone_tv.setOnLongClickListener((View v) ->{
-                CharSequence options[] = new CharSequence[] {"Ligar para "+user.getPhoneNumber(), "Adicionar aos Contatos", "Copiar"};
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setCancelable(true);
-                builder.setItems(options, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        switch (which)
-                        {
-                            case 0:
-                                Intent callIntent = new Intent(Intent.ACTION_DIAL);
-                                callIntent.setData(Uri.parse("tel:" + phone_tv.getText()));
-                                startActivity(callIntent);
-                                break;
-                            case 1:
-                                Intent intent = new Intent(Intent.ACTION_INSERT);
-                                intent.setType(ContactsContract.Contacts.CONTENT_TYPE);
-                                intent.putExtra(ContactsContract.Intents.Insert.NAME, user.getName());
-                                intent.putExtra(ContactsContract.Intents.Insert.PHONE, user.getPhoneNumber());
-                                startActivity(intent);
-                                break;
-                            case 2:
-                                ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-                                ClipData clip = ClipData.newPlainText("PhoneNumber", user.getPhoneNumber());
-                                clipboard.setPrimaryClip(clip);
-                                break;
-                        }
-                    }
-                });
-                AlertDialog dialog = builder.create();
-                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                WindowManager.LayoutParams wmlp = dialog.getWindow().getAttributes();
-                wmlp.gravity = Gravity.BOTTOM;
-                dialog.show();
-
-
-
+                actionNumberTouch(1);
                 return true;
             });
         } else {
@@ -310,6 +273,54 @@ public class ProfileAct extends AppCompatActivity {
         DialogFragment fragment = DialogFragment.newInstance(builder);
         fragment.show(getSupportFragmentManager(), null);
     }
+
+    //Define actions when the user holds or touch the number on Profile Activity
+    private void actionNumberTouch(int action)
+    {
+        if(action == 0)
+        {
+            Intent callIntent = new Intent(Intent.ACTION_DIAL);
+            callIntent.setData(Uri.parse("Call:" + phone_tv.getText()));
+            startActivity(callIntent);
+        }
+        else
+        {
+            CharSequence options[] = new CharSequence[] {"Ligar para "+user.getPhoneNumber(), "Adicionar aos Contatos", "Copiar"};
+            final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setCancelable(true);
+            builder.setItems(options, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    switch (which)
+                    {
+                        case 0:
+                            Intent callIntent = new Intent(Intent.ACTION_DIAL);
+                            callIntent.setData(Uri.parse("Call:" + phone_tv.getText()));
+                            startActivity(callIntent);
+                            break;
+                        case 1:
+                            Intent intent = new Intent(Intent.ACTION_INSERT);
+                            intent.setType(ContactsContract.Contacts.CONTENT_TYPE);
+                            intent.putExtra(ContactsContract.Intents.Insert.NAME, user.getName());
+                            intent.putExtra(ContactsContract.Intents.Insert.PHONE, user.getPhoneNumber());
+                            startActivity(intent);
+                            break;
+                        case 2:
+                            ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+                            ClipData clip = ClipData.newPlainText("PhoneNumber", user.getPhoneNumber());
+                            clipboard.setPrimaryClip(clip);
+                            break;
+                    }
+                }
+            });
+            AlertDialog dialog = builder.create();
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            WindowManager.LayoutParams wmlp = dialog.getWindow().getAttributes();
+            wmlp.gravity = Gravity.BOTTOM;
+            dialog.show();
+        }
+    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
