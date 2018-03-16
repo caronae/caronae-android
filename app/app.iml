@@ -135,6 +135,7 @@
     <orderEntry type="library" name="com.github.rey5137:material-1.2.2" level="project" />
     <orderEntry type="library" name="com.google.firebase:firebase-messaging-license-11.8.0" level="project" />
     <orderEntry type="library" name="com.google.firebase:firebase-common-11.8.0" level="project" />
+    <orderEntry type="library" name="com.redmadrobot:inputmask-2.3.0" level="project" />
     <orderEntry type="library" name="com.google.android.gms:play-services-tasks-11.8.0" level="project" />
     <orderEntry type="library" name="com.google.firebase:firebase-common-license-11.8.0" level="project" />
     <orderEntry type="library" name="com.google.firebase:firebase-core-11.8.0" level="project" />
@@ -165,10 +166,12 @@
     <orderEntry type="library" name="com.android.support:transition-25.4.0" level="project" />
     <orderEntry type="library" name="com.facebook.android:facebook-android-sdk-4.8.2" level="project" />
     <orderEntry type="library" name="com.google.firebase:firebase-messaging-11.8.0" level="project" />
+    <orderEntry type="library" name="org.jetbrains:annotations:13.0@jar" level="project" />
     <orderEntry type="library" name="com.google.android.gms:play-services-gcm-11.8.0" level="project" />
     <orderEntry type="library" name="com.android.support:support-vector-drawable-25.4.0" level="project" />
     <orderEntry type="library" name="com.android.support:recyclerview-v7-25.4.0" level="project" />
     <orderEntry type="library" name="com.google.firebase:firebase-analytics-license-11.8.0" level="project" />
+    <orderEntry type="library" name="org.jetbrains.kotlin:kotlin-stdlib:1.1.2-3@jar" level="project" />
     <orderEntry type="library" name="com.google.firebase:firebase-analytics-impl-license-11.8.0" level="project" />
     <orderEntry type="library" name="com.google.android.gms:play-services-tasks-license-11.8.0" level="project" />
   </component>

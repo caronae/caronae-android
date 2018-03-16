@@ -197,11 +197,12 @@
                         android:layout_below="@+id/course_tv">
 
                         <ImageView
-                            android:layout_width="18dp"
-                            android:layout_height="18dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_marginRight="8dp"
-                            android:src="@drawable/phoneicon" />
+                            android:layout_marginEnd="8dp"
+                            android:src="@drawable/ic_phone_24dp" />
 
                         <TextView
                             android:id="@+id/phoneNumber_tv"

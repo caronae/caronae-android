@@ -147,13 +147,13 @@
     <string name="frag_myprofile_contacts">CONTATOS</string>
     <string name="frag_myprofile_contactsText">Os seus contatos só serão visíveis para os usuários que estiverem na mesma carona que você</string>
     <string name="frag_myprofile_emailHint">Digite seu e-mail</string>
-    <string name="frag_myprofile_phoneHint">Digite seu telefone</string>
+    <string name="frag_myprofile_phoneHint">Telefone celular</string>
     <string name="frag_myprofile_locationText">Sua localidade nunca será exibida para outros usuários</string>
     <string name="frag_myprofile_locationHint">Digite sua localidade</string>
     <string name="frag_myprofile_carOwner">Possui carro?</string>
     <string name="frag_myprofile_aboutYourCar">SOBRE SEU CARRO</string>
     <string name="frag_myprofile_carText">Essas informações também só aparecem para pessoas que estiverem na sua carona</string>
-    <string name="frag_myprofile_carPlateHint">Digite a placa de seu carro</string>
+    <string name="frag_myprofile_carPlateHint">Placa</string>
     <string name="frag_myprofile_carModelHint">Digite o modelo de seu carro</string>
     <string name="frag_myprofile_carColorHint">Digite a cor de seu carro</string>
     <string name="acceptRiderBtn">Aceitar caronista</string>
@@ -169,10 +169,8 @@
     <string name="frag_ridesearch_typeNeighborhood">Digite o nome do bairro</string>
     <string name="frag_rideoffersearch_pastdate">Data da carona anterior ao dia atual</string>
     <string name="frag_myprofile_invalidPhone">Telefone inválido</string>
-    <string name="frag_myprofile_phoneHelper">Exemplo: (021) 98765\-4321</string>
     <string name="frag_myprofile_invalidMail">E-mail inválido</string>
     <string name="frag_myprofile_emailHelper">Exemplo: nome@ufrj.br</string>
-    <string name="frag_myprofile_plateHelper">Exemplo: ABC-1234</string>
     <string name="fragmyprofile_carmodelHelper">Exemplo: Fusca</string>
     <string name="frag_myprofile_carcolorHelper">Exemplo: Vermelho</string>
     <string name="frag_myprofile_invalidPlate">Placa inválida</string>

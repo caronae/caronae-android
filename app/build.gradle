@@ -72,5 +72,6 @@ dependencies {
     compile 'io.reactivex:rxandroid:1.0.1'
     compile 'de.hdodenhof:circleimageview:2.1.0'
     compile 'ch.acra:acra:4.9.2'
+    compile 'com.redmadrobot:inputmask:2.3.0'
 }
 apply plugin: 'com.google.gms.google-services'

@@ -67,13 +67,13 @@
 
     <ImageView
         android:id="@+id/phone_icon"
-        android:layout_width="18dp"
-        android:layout_height="18dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/phone_tv"
         android:layout_below="@+id/course_tv"
         android:layout_toEndOf="@+id/user_pic_iv"
         android:layout_toRightOf="@+id/user_pic_iv"
-        android:src="@drawable/phoneicon" />
+        android:src="@drawable/ic_phone_24dp" />
 
     <TextView
         android:id="@+id/phone_tv"

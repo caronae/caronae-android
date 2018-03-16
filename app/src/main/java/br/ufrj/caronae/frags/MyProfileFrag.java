@@ -3,12 +3,15 @@ package br.ufrj.caronae.frags;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.SwitchCompat;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
@@ -23,6 +26,9 @@ import com.facebook.FacebookException;
 import com.facebook.Profile;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.redmadrobot.inputmask.MaskedTextChangedListener;
+import com.redmadrobot.inputmask.helper.Mask;
+import com.redmadrobot.inputmask.model.CaretString;
 import com.rey.material.app.Dialog;
 import com.rey.material.app.DialogFragment;
 import com.rey.material.app.SimpleDialog;
@@ -36,6 +42,7 @@ import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.LoginAct;
 import br.ufrj.caronae.acts.MainAct;
+import br.ufrj.caronae.acts.ProfileAct;
 import br.ufrj.caronae.asyncs.LogOut;
 import br.ufrj.caronae.httpapis.CaronaeAPI;
 import br.ufrj.caronae.models.User;
@@ -63,7 +70,7 @@ public class MyProfileFrag extends Fragment {
     @BindView(R.id.email_et)
     EditText email_et;
     @BindView(R.id.phoneNumber_et)
-    EditText phoneNumber_et;
+    android.widget.EditText phoneNumber_et;
     @BindView(R.id.location_et)
     android.widget.EditText location_et;
     @BindView(R.id.carOwner_sw)
@@ -75,7 +82,7 @@ public class MyProfileFrag extends Fragment {
     @BindView(R.id.carColor_et)
     EditText carColor_et;
     @BindView(R.id.carPlate_et)
-    EditText carPlate_et;
+    android.widget.EditText carPlate_et;
     @BindView(R.id.car_lay)
     RelativeLayout car_lay;
     @BindView(R.id.login_button)
@@ -191,7 +198,7 @@ public class MyProfileFrag extends Fragment {
                         }
                     });
         }
-
+        setETFormat();
         return view;
     }
 
@@ -276,14 +283,16 @@ public class MyProfileFrag extends Fragment {
     }
 
     private boolean validatePlate(String plate) {
-        return plate.length() == 7 &&
+        //AAA-0000
+        return plate.length() == 8 &&
                 Character.isLetter(plate.charAt(0)) &&
                 Character.isLetter(plate.charAt(1)) &&
                 Character.isLetter(plate.charAt(2)) &&
-                Character.isDigit(plate.charAt(3)) &&
+                plate.charAt(3) == '-' &&
                 Character.isDigit(plate.charAt(4)) &&
                 Character.isDigit(plate.charAt(5)) &&
-                Character.isDigit(plate.charAt(6));
+                Character.isDigit(plate.charAt(6)) &&
+                Character.isDigit(plate.charAt(7));
     }
 
     private boolean validateMail(String mail) {
@@ -294,15 +303,10 @@ public class MyProfileFrag extends Fragment {
     }
 
     private boolean validatePhone(String phone) {
-        if (phone.length() == 12 || phone.length() == 11) {
-            for (int i = 0; i < phone.length(); i++) {
-                if (!Character.isDigit(phone.charAt(i))) {
-                    return false;
-                }
-            }
+        if (phone.length() == 16) {
+            //(0XX) XXXXX-XXXX
             return true;
         }
-
         return false;
     }
 
@@ -311,13 +315,13 @@ public class MyProfileFrag extends Fragment {
         name_tv.setText(user.getName());
         profile_tv.setText(user.getProfile());
         course_tv.setText(user.getCourse());
-        phoneNumber_et.setText(user.getPhoneNumber());
+        phoneNumber_et.setText(getFormatedNumber(user.getPhoneNumber()));
         email_et.setText(user.getEmail());
         location_et.setText(user.getLocation());
         carOwner_sw.setChecked(user.isCarOwner());
         carModel_et.setText(user.getCarModel());
         carColor_et.setText(user.getCarColor());
-        carPlate_et.setText(user.getCarPlate());
+        carPlate_et.setText(getFormatedPlate(user.getCarPlate()));
         String date = user.getCreatedAt().split(" ")[0];
         date = Util.formatBadDateWithYear(date);
         createdAt_tv.setText(date);
@@ -583,16 +587,21 @@ public class MyProfileFrag extends Fragment {
     }
 
     private void prepEditedUser(User editedUser) {
+        String userPhoneNumber = (phoneNumber_et.getText().toString().substring(2,4)) +
+                (phoneNumber_et.getText().toString().substring(6,11)) +
+                (phoneNumber_et.getText().toString().substring(12));
+        String userPlate = (carPlate_et.getText().toString().substring(0,3)) +
+                (carPlate_et.getText().toString().substring(4));
         editedUser.setName(name_tv.getText().toString());
         editedUser.setProfile(profile_tv.getText().toString());
         editedUser.setCourse(course_tv.getText().toString());
-        editedUser.setPhoneNumber(phoneNumber_et.getText().toString());
+        editedUser.setPhoneNumber(userPhoneNumber);//(0XX) XXXXX-XXXX
         editedUser.setEmail(email_et.getText().toString());
         editedUser.setLocation(location_et.getText().toString());
         editedUser.setCarOwner(carOwner_sw.isChecked());
         editedUser.setCarModel(carModel_et.getText().toString());
         editedUser.setCarColor(carColor_et.getText().toString());
-        editedUser.setCarPlate(carPlate_et.getText().toString());
+        editedUser.setCarPlate(userPlate);//AAA-0000
     }
 
     @Override
@@ -621,5 +630,84 @@ public class MyProfileFrag extends Fragment {
                     }
                 });
 
+    }
+
+    //Use this function to initialize the user input fields format.
+    void setETFormat()
+    {
+        final MaskedTextChangedListener phoneListener = new MaskedTextChangedListener(
+                "({0}[00]) [00000]-[0000]",
+                true,
+                phoneNumber_et,
+                null,
+                new MaskedTextChangedListener.ValueListener() {
+                    @Override
+                    public void onTextChanged(boolean maskFilled, @NonNull final String extractedValue) {
+                        Log.d(ProfileAct.class.getSimpleName(), extractedValue);
+                        Log.d(ProfileAct.class.getSimpleName(), String.valueOf(maskFilled));
+                    }
+                }
+        );
+        phoneNumber_et.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(TextUtils.isEmpty(phoneNumber_et.getText().toString()))
+                {
+                    phoneNumber_et.setText("(021) ");
+                }
+                return false;
+            }
+        });
+        phoneNumber_et.addTextChangedListener(phoneListener);
+        phoneNumber_et.setOnFocusChangeListener(phoneListener);
+
+
+        final MaskedTextChangedListener plateListener = new MaskedTextChangedListener(
+                "[AAA]-[0000]",
+                true,
+                carPlate_et,
+                null,
+                new MaskedTextChangedListener.ValueListener() {
+                    @Override
+                    public void onTextChanged(boolean maskFilled, @NonNull final String extractedValue) {
+                        Log.d(ProfileAct.class.getSimpleName(), extractedValue);
+                        Log.d(ProfileAct.class.getSimpleName(), String.valueOf(maskFilled));
+                    }
+                }
+        );
+
+        carPlate_et.addTextChangedListener(plateListener);
+        carPlate_et.setOnFocusChangeListener(plateListener);
+    }
+
+    //Use this function to get user phone number correctly formated
+    String getFormatedNumber(String phone)
+    {
+        final Mask mask = new Mask("({0}[00]) [00000]-[0000]");
+        final String input = phone;
+        final Mask.Result result = mask.apply(
+                new CaretString(
+                        input,
+                        input.length()
+                ),
+                true // you may consider disabling autocompletion for your case
+        );
+        final String output = result.getFormattedText().getString();
+        return output;
+    }
+    //Use this function to get user car plate correctly formated
+    String getFormatedPlate(String plate)
+    {
+        final Mask mask = new Mask("[AAA]-[0000]");
+        final String input = plate;
+        final Mask.Result result = mask.apply(
+                new CaretString(
+                        input,
+                        input.length()
+                ),
+                true // you may consider disabling autocompletion for your case
+        );
+        final String output = result.getFormattedText().getString();
+        return output;
     }
 }

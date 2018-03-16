@@ -280,7 +280,7 @@ public class ProfileAct extends AppCompatActivity {
         if(action == 0)
         {
             Intent callIntent = new Intent(Intent.ACTION_DIAL);
-            callIntent.setData(Uri.parse("Call:" + phone_tv.getText()));
+            callIntent.setData(Uri.parse("tel:" + phone_tv.getText()));
             startActivity(callIntent);
         }
         else
@@ -295,7 +295,7 @@ public class ProfileAct extends AppCompatActivity {
                     {
                         case 0:
                             Intent callIntent = new Intent(Intent.ACTION_DIAL);
-                            callIntent.setData(Uri.parse("Call:" + phone_tv.getText()));
+                            callIntent.setData(Uri.parse("tel:" + phone_tv.getText()));
                             startActivity(callIntent);
                             break;
                         case 1:

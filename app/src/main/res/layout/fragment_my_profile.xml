@@ -212,7 +212,7 @@
             app:et_supportTextColor="@color/blue"
             app:et_supportTextErrorColor="@color/red" />
 
-        <com.rey.material.widget.EditText
+        <android.support.v7.widget.AppCompatEditText
             android:id="@+id/phoneNumber_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -220,19 +220,12 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="5dp"
             android:layout_marginStart="5dp"
-            android:drawableLeft="@drawable/ic_phone_black_24dp"
+            android:drawableLeft="@drawable/ic_phone_24dp"
             android:drawablePadding="5dp"
-            android:drawableStart="@drawable/ic_phone_black_24dp"
+            android:drawableStart="@drawable/ic_phone_24dp"
             android:hint="@string/frag_myprofile_phoneHint"
             android:inputType="phone"
-            app:et_dividerErrorColor="@color/red"
-            app:et_dividerHeight="1dp"
-            app:et_helper="@string/frag_myprofile_phoneHelper"
-            app:et_inputId="@+id/phoneNumber_et2"
-            app:et_labelEnable="true"
-            app:et_supportMode="helper"
-            app:et_supportTextColor="@color/blue"
-            app:et_supportTextErrorColor="@color/red" />
+            app:backgroundTint="@color/black_overlay" />
 
         <TextView
             android:id="@+id/location_tv"
@@ -304,24 +297,17 @@
                 android:text="@string/frag_myprofile_carText"
                 android:textSize="12sp" />
 
-            <com.rey.material.widget.EditText
+            <android.support.v7.widget.AppCompatEditText
                 android:id="@+id/carPlate_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/car__text_tv"
-                android:drawableLeft="@drawable/ic_directions_car_black_24dp"
+                android:drawableLeft="@drawable/ic_directions_car_24dp"
                 android:drawablePadding="5dp"
-                android:drawableStart="@drawable/ic_directions_car_black_24dp"
+                android:drawableStart="@drawable/ic_directions_car_24dp"
                 android:hint="@string/frag_myprofile_carPlateHint"
-                android:singleLine="true"
-                app:et_dividerErrorColor="@color/red"
-                app:et_dividerHeight="1dp"
-                app:et_helper="@string/frag_myprofile_plateHelper"
-                app:et_inputId="@+id/carPlate_et2"
-                app:et_labelEnable="true"
-                app:et_supportMode="helper"
-                app:et_supportTextColor="@color/blue"
-                app:et_supportTextErrorColor="@color/red" />
+                app:backgroundTint="@color/black_overlay"
+                android:singleLine="true" />
 
             <com.rey.material.widget.EditText
                 android:id="@+id/carModel_et"

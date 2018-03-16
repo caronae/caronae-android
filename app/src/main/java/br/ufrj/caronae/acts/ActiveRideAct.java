@@ -540,7 +540,7 @@ public class ActiveRideAct extends SwipeDismissBaseActivity {
         if(action == 0)
         {
             Intent callIntent = new Intent(Intent.ACTION_DIAL);
-            callIntent.setData(Uri.parse("Call:" + phoneNumber_tv.getText()));
+            callIntent.setData(Uri.parse("tel:" + phoneNumber_tv.getText()));
             startActivity(callIntent);
         }
         else
@@ -555,7 +555,7 @@ public class ActiveRideAct extends SwipeDismissBaseActivity {
                     {
                         case 0:
                             Intent callIntent = new Intent(Intent.ACTION_DIAL);
-                            callIntent.setData(Uri.parse("Call:" + phoneNumber_tv.getText()));
+                            callIntent.setData(Uri.parse("tel:" + phoneNumber_tv.getText()));
                             startActivity(callIntent);
                             break;
                         case 1:
