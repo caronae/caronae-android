@@ -226,7 +226,7 @@ public class Util {
     }
 
     public static String[] getPraiaVermelhaHubs() {
-        return new String[]{"Praia Vermelha: Psicologia", "Praia Vermelha: Pinel-Fundos"};
+        return new String[]{"Praia Vermelha: Pinel-Fundos", "Praia Vermelha: Psicologia"};
 
     }
 
