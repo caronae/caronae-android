@@ -32,7 +32,6 @@ import com.redmadrobot.inputmask.model.CaretString;
 import com.rey.material.app.Dialog;
 import com.rey.material.app.DialogFragment;
 import com.rey.material.app.SimpleDialog;
-import com.rey.material.widget.EditText;
 import com.squareup.picasso.Picasso;
 
 import br.ufrj.caronae.App;
@@ -68,7 +67,7 @@ public class MyProfileFrag extends Fragment {
     @BindView(R.id.createdAt_tv)
     TextView createdAt_tv;
     @BindView(R.id.email_et)
-    EditText email_et;
+    android.widget.EditText email_et;
     @BindView(R.id.phoneNumber_et)
     android.widget.EditText phoneNumber_et;
     @BindView(R.id.location_et)
@@ -78,9 +77,9 @@ public class MyProfileFrag extends Fragment {
     @BindView(R.id.notif_sw)
     SwitchCompat notif_sw;
     @BindView(R.id.carModel_et)
-    EditText carModel_et;
+    android.widget.EditText carModel_et;
     @BindView(R.id.carColor_et)
-    EditText carColor_et;
+    android.widget.EditText carColor_et;
     @BindView(R.id.carPlate_et)
     android.widget.EditText carPlate_et;
     @BindView(R.id.car_lay)

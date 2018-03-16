@@ -80,36 +80,31 @@
                 android:text="SAIR"
                 android:textColor="@color/red"
                 app:rd_enable="true" />
-        </RelativeLayout>
-
-
-        <LinearLayout
-            android:id="@+id/history_lay"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/lay1"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp">
 
             <TextView
                 android:id="@+id/createdAt_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_today_black_24dp"
-                android:drawableStart="@drawable/ic_today_black_24dp"
+                android:drawableLeft="@drawable/ic_calendar_24dp"
+                android:drawableStart="@drawable/ic_calendar_24dp"
                 android:gravity="center_vertical"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:layout_marginTop="10dp"
+                android:layout_alignStart="@id/user_pic"
+                android:layout_alignLeft="@id/user_pic"
+                android:layout_below="@id/course_tv"/>
 
             <TextView
                 android:id="@+id/ridesOffered_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_directions_car_black_24dp"
-                android:drawableStart="@drawable/ic_directions_car_black_24dp"
-                android:gravity="center_vertical"
-                android:paddingLeft="40dp"
-                android:paddingStart="40dp"
-                android:textStyle="bold" />
+                android:drawableLeft="@drawable/ic_directions_car_24dp"
+                android:drawableStart="@drawable/ic_directions_car_24dp"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:layout_marginTop="10dp"
+                android:layout_below="@id/course_tv"
+                android:layout_centerHorizontal="true"/>
 
             <TextView
                 android:id="@+id/ridesTaken_tv"
@@ -118,16 +113,18 @@
                 android:drawableLeft="@drawable/ic_person_black_24dp"
                 android:drawableStart="@drawable/ic_person_black_24dp"
                 android:gravity="center_vertical"
-                android:paddingLeft="40dp"
-                android:paddingStart="40dp"
-                android:textStyle="bold" />
-        </LinearLayout>
+                android:textStyle="bold"
+                android:layout_marginTop="10dp"
+                android:layout_alignEnd="@id/logout_iv"
+                android:layout_alignRight="@id/logout_iv"
+                android:layout_below="@id/course_tv"/>
+        </RelativeLayout>
 
         <ImageView
             android:id="@+id/color_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/history_lay"
+            android:layout_below="@+id/lay1"
             android:layout_marginTop="10dp"
             android:src="@drawable/color_bar" />
 
@@ -190,7 +187,7 @@
             android:text="@string/frag_myprofile_contactsText"
             android:textSize="12sp" />
 
-        <com.rey.material.widget.EditText
+        <android.support.v7.widget.AppCompatEditText
             android:id="@+id/email_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -203,14 +200,7 @@
             android:drawableStart="@drawable/ic_email_black_24dp"
             android:hint="@string/frag_myprofile_emailHint"
             android:inputType="textEmailAddress"
-            app:et_dividerErrorColor="@color/red"
-            app:et_dividerHeight="1dp"
-            app:et_helper="@string/frag_myprofile_emailHelper"
-            app:et_inputId="@+id/email_et2"
-            app:et_labelEnable="true"
-            app:et_supportMode="helper"
-            app:et_supportTextColor="@color/blue"
-            app:et_supportTextErrorColor="@color/red" />
+            app:backgroundTint="@color/black_overlay" />
 
         <android.support.v7.widget.AppCompatEditText
             android:id="@+id/phoneNumber_et"
@@ -309,39 +299,29 @@
                 app:backgroundTint="@color/black_overlay"
                 android:singleLine="true" />
 
-            <com.rey.material.widget.EditText
+            <android.support.v7.widget.AppCompatEditText
                 android:id="@+id/carModel_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/carPlate_et"
-                android:drawableLeft="@drawable/ic_directions_car_black_24dp"
+                android:drawableLeft="@drawable/ic_directions_car_24dp"
                 android:drawablePadding="5dp"
-                android:drawableStart="@drawable/ic_directions_car_black_24dp"
+                android:drawableStart="@drawable/ic_directions_car_24dp"
                 android:hint="@string/frag_myprofile_carModelHint"
                 android:singleLine="true"
-                app:et_dividerHeight="1dp"
-                app:et_helper="@string/fragmyprofile_carmodelHelper"
-                app:et_inputId="@+id/carModel_et2"
-                app:et_labelEnable="true"
-                app:et_supportMode="helper"
-                app:et_supportTextColor="@color/blue" />
+                app:backgroundTint="@color/black_overlay"/>
 
-            <com.rey.material.widget.EditText
+            <android.support.v7.widget.AppCompatEditText
                 android:id="@+id/carColor_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/carModel_et"
-                android:drawableLeft="@drawable/ic_directions_car_black_24dp"
+                android:drawableLeft="@drawable/ic_directions_car_24dp"
                 android:drawablePadding="5dp"
-                android:drawableStart="@drawable/ic_directions_car_black_24dp"
+                android:drawableStart="@drawable/ic_directions_car_24dp"
                 android:hint="@string/frag_myprofile_carColorHint"
                 android:singleLine="true"
-                app:et_dividerHeight="1dp"
-                app:et_helper="@string/frag_myprofile_carcolorHelper"
-                app:et_inputId="@+id/carColor_et2"
-                app:et_labelEnable="true"
-                app:et_supportMode="helper"
-                app:et_supportTextColor="@color/blue" />
+                app:backgroundTint="@color/black_overlay"/>
         </RelativeLayout>
     </RelativeLayout>
 </ScrollView>
