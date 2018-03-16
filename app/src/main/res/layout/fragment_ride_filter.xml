@@ -19,9 +19,9 @@
             android:layout_below="@+id/radioGroup"
             android:layout_marginLeft="5dp"
             android:layout_marginStart="5dp"
-            android:drawableLeft="@drawable/ic_location_on_black_24dp"
+            android:drawableLeft="@drawable/ic_location_on_24dp"
             android:drawablePadding="5dp"
-            android:drawableStart="@drawable/ic_location_on_black_24dp"
+            android:drawableStart="@drawable/ic_location_on_24dp"
             android:focusable="false"
             android:hint="@string/frag_ridesearch_locationHint" />
 
@@ -48,22 +48,35 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="5dp"
             android:layout_marginStart="5dp"
-            android:drawableLeft="@drawable/ic_business_black_24dp"
+            android:drawableLeft="@drawable/ic_location_on_24dp"
             android:drawablePadding="5dp"
-            android:drawableStart="@drawable/ic_business_black_24dp"
+            android:drawableStart="@drawable/ic_location_on_24dp"
             android:focusable="false"
             android:hint="@string/frag_ridesearch_centerHint" />
+
+        <TextView
+            android:id="@+id/filter_description"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/center_et"
+            android:text="@string/frag_filterride_description"/>
 
         <com.rey.material.widget.Button
             android:id="@+id/search_bt"
             style="@style/LightRaiseColorButtonRippleStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/center_et"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/filter_description"
             android:layout_centerHorizontal="true"
             android:background="@drawable/btn_color"
             android:text="@string/frag_ridesearch_filterBt"
             app:rd_enable="true" />
+
+
 
     </RelativeLayout>
 

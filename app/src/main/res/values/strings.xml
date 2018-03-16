@@ -195,6 +195,7 @@
     <string name="frag_searchride_title">Buscar carona</string>
     <string name="frag_filterride_title">Filtrar caronas</string>
     <string name="frag_termsofuse_title">Termos de uso</string>
+    <string name="frag_filterride_description">Adicionando um filtro você pode visualizar apenas as caronas de seu interesse.</string>
     <string name="frag_about_title">Sobre</string>
     <string name="frag_logout_title">Sair</string>
     <string name="frag_myprofile_errorGetIntranetPhoto">Erro ao pegar foto do SIGA</string>

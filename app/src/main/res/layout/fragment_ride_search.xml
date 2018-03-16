@@ -41,9 +41,9 @@
             android:layout_below="@+id/radioGroup"
             android:layout_marginLeft="5dp"
             android:layout_marginStart="5dp"
-            android:drawableLeft="@drawable/ic_location_on_black_24dp"
+            android:drawableLeft="@drawable/ic_location_on_24dp"
             android:drawablePadding="5dp"
-            android:drawableStart="@drawable/ic_location_on_black_24dp"
+            android:drawableStart="@drawable/ic_location_on_24dp"
             android:focusable="false"
             android:hint="@string/frag_ridesearch_locationHint" />
 

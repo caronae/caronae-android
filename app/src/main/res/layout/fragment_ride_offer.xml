@@ -17,9 +17,9 @@
             android:id="@+id/neighborhood_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_location_on_black_24dp"
+            android:drawableLeft="@drawable/ic_location_on_24dp"
             android:drawablePadding="5dp"
-            android:drawableStart="@drawable/ic_location_on_black_24dp"
+            android:drawableStart="@drawable/ic_location_on_24dp"
             android:focusable="false"
             android:hint="@string/frag_rideoffer_neighborHint" />
 
@@ -28,9 +28,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/neighborhood_et"
-            android:drawableLeft="@drawable/ic_location_on_black_24dp"
+            android:drawableLeft="@drawable/ic_location_on_24dp"
             android:drawablePadding="5dp"
-            android:drawableStart="@drawable/ic_location_on_black_24dp"
+            android:drawableStart="@drawable/ic_location_on_24dp"
             android:hint="@string/frag_rideoffer_placeHint"
             android:inputType="text"
             android:singleLine="true" />
@@ -40,9 +40,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/place_et"
-            android:drawableLeft="@drawable/ic_location_on_black_24dp"
+            android:drawableLeft="@drawable/ic_location_on_24dp"
             android:drawablePadding="5dp"
-            android:drawableStart="@drawable/ic_location_on_black_24dp"
+            android:drawableStart="@drawable/ic_location_on_24dp"
             android:hint="@string/frag_rideoffer_wayhint"
             android:inputType="text"
             android:singleLine="true" />
