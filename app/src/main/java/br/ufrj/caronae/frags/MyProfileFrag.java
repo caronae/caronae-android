@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.SwitchCompat;
+import android.text.InputFilter;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -119,7 +120,7 @@ public class MyProfileFrag extends Fragment {
                 carOwnerSw();
             }
         });
-
+        carPlate_et.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
         loginButton.setReadPermissions("user_friends");
         loginButton.setFragment(this);
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
@@ -586,11 +587,26 @@ public class MyProfileFrag extends Fragment {
     }
 
     private void prepEditedUser(User editedUser) {
-        String userPhoneNumber = (phoneNumber_et.getText().toString().substring(2,4)) +
-                (phoneNumber_et.getText().toString().substring(6,11)) +
-                (phoneNumber_et.getText().toString().substring(12));
-        String userPlate = (carPlate_et.getText().toString().substring(0,3)) +
-                (carPlate_et.getText().toString().substring(4));
+        String userPhoneNumber, userPlate;
+        if(phoneNumber_et.getText().toString().length() == 16)
+        {
+            userPhoneNumber = (phoneNumber_et.getText().toString().substring(1,4)) +
+                    (phoneNumber_et.getText().toString().substring(6,11)) +
+                    (phoneNumber_et.getText().toString().substring(12));
+        }
+        else
+        {
+            userPhoneNumber = phoneNumber_et.getText().toString();
+        }
+        if(carPlate_et.getText().toString().length() == 8)
+        {
+            userPlate = (carPlate_et.getText().toString().substring(0,3).toUpperCase()) +
+                    (carPlate_et.getText().toString().substring(4));
+        }
+        else
+        {
+            userPlate = carPlate_et.getText().toString();
+        }
         editedUser.setName(name_tv.getText().toString());
         editedUser.setProfile(profile_tv.getText().toString());
         editedUser.setCourse(course_tv.getText().toString());

@@ -92,6 +92,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_alignStart="@id/user_pic"
                 android:layout_alignLeft="@id/user_pic"
+                android:drawablePadding="10dp"
                 android:layout_below="@id/course_tv"/>
 
             <TextView
@@ -100,6 +101,7 @@
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_directions_car_24dp"
                 android:drawableStart="@drawable/ic_directions_car_24dp"
+                android:drawablePadding="10dp"
                 android:gravity="center"
                 android:textStyle="bold"
                 android:layout_marginTop="10dp"
@@ -117,6 +119,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_alignEnd="@id/logout_iv"
                 android:layout_alignRight="@id/logout_iv"
+                android:drawablePadding="10dp"
                 android:layout_below="@id/course_tv"/>
         </RelativeLayout>
 
@@ -195,9 +198,9 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="5dp"
             android:layout_marginStart="5dp"
-            android:drawableLeft="@drawable/ic_email_black_24dp"
+            android:drawableLeft="@drawable/ic_email_24dp"
             android:drawablePadding="5dp"
-            android:drawableStart="@drawable/ic_email_black_24dp"
+            android:drawableStart="@drawable/ic_email_24dp"
             android:hint="@string/frag_myprofile_emailHint"
             android:inputType="textEmailAddress"
             app:backgroundTint="@color/black_overlay" />
@@ -297,7 +300,8 @@
                 android:drawableStart="@drawable/ic_directions_car_24dp"
                 android:hint="@string/frag_myprofile_carPlateHint"
                 app:backgroundTint="@color/black_overlay"
-                android:singleLine="true" />
+                android:singleLine="true"
+                android:digits="ABCDEFGHIJKLMNOPQRSTUVXWYZ0123456789-"/>
 
             <android.support.v7.widget.AppCompatEditText
                 android:id="@+id/carModel_et"

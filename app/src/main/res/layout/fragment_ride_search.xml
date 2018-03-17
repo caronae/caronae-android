@@ -55,9 +55,9 @@
             android:layout_below="@+id/location_et"
             android:layout_marginLeft="5dp"
             android:layout_marginStart="5dp"
-            android:drawableLeft="@drawable/ic_today_black_24dp"
+            android:drawableLeft="@drawable/ic_calendar_24dp"
             android:drawablePadding="5dp"
-            android:drawableStart="@drawable/ic_today_black_24dp"
+            android:drawableStart="@drawable/ic_calendar_24dp"
             android:focusable="false"
             android:hint="@string/frag_ridesearch_dateHint" />
 

@@ -75,9 +75,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/center_et"
-            android:drawableLeft="@drawable/ic_today_black_24dp"
+            android:drawableLeft="@drawable/ic_calendar_24dp"
             android:drawablePadding="5dp"
-            android:drawableStart="@drawable/ic_today_black_24dp"
+            android:drawableStart="@drawable/ic_calendar_24dp"
             android:focusable="false"
             android:hint="@string/frag_rideoffer_dateHint"
             android:inputType="date" />
