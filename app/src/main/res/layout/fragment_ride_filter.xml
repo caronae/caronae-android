@@ -23,7 +23,7 @@
             android:drawablePadding="5dp"
             android:drawableStart="@drawable/ic_location_on_24dp"
             android:focusable="false"
-            android:hint="@string/frag_ridesearch_locationHint" />
+            android:hint="@string/frag_ridefilter_locationHint" />
 
         <EditText
             android:id="@+id/campi_et"
@@ -75,9 +75,6 @@
             android:background="@drawable/btn_color"
             android:text="@string/frag_ridesearch_filterBt"
             app:rd_enable="true" />
-
-
-
     </RelativeLayout>
 
     <com.rey.material.widget.Button
