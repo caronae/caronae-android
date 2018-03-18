@@ -89,47 +89,45 @@
         android:text="(021) 12345-6543"
         android:textColor="@color/textBcolor" />
 
-
-    <LinearLayout
-        android:id="@+id/lay1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/user_pic_iv"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="13dp">
-
         <TextView
             android:id="@+id/createdAt_tv"
             android:layout_width="wrap_content"
+            android:layout_centerHorizontal="true"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/user_pic_iv"
             android:drawableLeft="@drawable/ic_calendar_24dp"
             android:drawableStart="@drawable/ic_calendar_24dp"
             android:gravity="center_vertical"
-            android:text="02/2014"
+            android:layout_alignStart="@id/user_pic_iv"
+            android:layout_alignLeft="@id/user_pic_iv"
+            android:drawablePadding="10dp"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/ridesOffered_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/user_pic_iv"
+            android:layout_centerHorizontal="true"
             android:drawableLeft="@drawable/ic_directions_car_24dp"
             android:drawableStart="@drawable/ic_directions_car_24dp"
             android:gravity="center_vertical"
-            android:paddingLeft="40dp"
-            android:paddingStart="40dp"
+            android:drawablePadding="10dp"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/ridesTaken_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_person_black_24dp"
-            android:drawableStart="@drawable/ic_person_black_24dp"
+            android:layout_below="@+id/user_pic_iv"
+            android:layout_centerHorizontal="true"
+            android:drawableLeft="@drawable/ic_person_24dp"
+            android:drawableStart="@drawable/ic_person_24dp"
             android:gravity="center_vertical"
-            android:paddingLeft="40dp"
-            android:paddingStart="40dp"
+            android:layout_alignRight="@id/report_bt"
+            android:layout_alignEnd="@id/report_bt"
+            android:drawablePadding="10dp"
             android:textStyle="bold" />
-    </LinearLayout>
 
     <ImageView
         android:id="@+id/color_bar"

@@ -52,9 +52,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/way_et"
-            android:drawableLeft="@drawable/ic_account_balance_black_24dp"
+            android:drawableLeft="@drawable/ic_account_balance_24dp"
             android:drawablePadding="5dp"
-            android:drawableStart="@drawable/ic_account_balance_black_24dp"
+            android:drawableStart="@drawable/ic_account_balance_24dp"
             android:focusable="false"
             android:visibility="gone"
             android:hint="@string/frag_ridesearch_campiHint"></EditText>
@@ -87,9 +87,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/date_et"
-            android:drawableLeft="@drawable/ic_access_time_black_24dp"
+            android:drawableLeft="@drawable/ic_access_time_24dp"
             android:drawablePadding="5dp"
-            android:drawableStart="@drawable/ic_access_time_black_24dp"
+            android:drawableStart="@drawable/ic_access_time_24dp"
             android:focusable="false"
             android:hint="@string/frag_rideoffer_timeHint" />
 

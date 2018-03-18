@@ -159,9 +159,9 @@
                             android:id="@+id/time_dt"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:drawableLeft="@drawable/ic_access_time_black_24dp"
+                            android:drawableLeft="@drawable/ic_access_time_24dp"
                             android:drawablePadding="5dp"
-                            android:drawableStart="@drawable/ic_access_time_black_24dp"
+                            android:drawableStart="@drawable/ic_access_time_24dp"
                             android:gravity="center"
                             android:text="Chegando ás 16:45"
                             android:textStyle="bold" />

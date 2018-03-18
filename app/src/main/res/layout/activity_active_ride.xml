@@ -78,7 +78,7 @@
                         android:id="@+id/time_iv"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:src="@drawable/ic_access_time_black_24dp" />
+                        android:src="@drawable/ic_access_time_24dp" />
 
                     <br.ufrj.caronae.AutoResizeTextView
                         android:id="@+id/time_tv"
@@ -368,7 +368,7 @@
                 android:layout_marginLeft="30dp"
                 android:layout_marginStart="30dp"
                 android:layout_marginTop="5dp"
-                android:src="@drawable/ic_color_wheel" />
+                android:src="@drawable/ic_color_24dp" />
 
             <TextView
                 android:id="@+id/carColor_tv"

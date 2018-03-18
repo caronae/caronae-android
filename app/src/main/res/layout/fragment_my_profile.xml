@@ -45,7 +45,7 @@
                 android:layout_toRightOf="@+id/user_pic"
                 android:maxWidth="210dp"
                 android:paddingTop="15dp"
-                android:text="Fulano da Silva Teixeira Da Silva de Novo"
+                android:text="Paula Silva"
                 android:textStyle="bold" />
 
             <TextView
@@ -112,8 +112,8 @@
                 android:id="@+id/ridesTaken_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_person_black_24dp"
-                android:drawableStart="@drawable/ic_person_black_24dp"
+                android:drawableLeft="@drawable/ic_person_24dp"
+                android:drawableStart="@drawable/ic_person_24dp"
                 android:gravity="center_vertical"
                 android:textStyle="bold"
                 android:layout_marginTop="10dp"
@@ -320,12 +320,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/carModel_et"
-                android:drawableLeft="@drawable/ic_directions_car_24dp"
+                android:drawableLeft="@drawable/ic_color_24dp"
                 android:drawablePadding="5dp"
-                android:drawableStart="@drawable/ic_directions_car_24dp"
+                android:drawableStart="@drawable/ic_color_24dp"
                 android:hint="@string/frag_myprofile_carColorHint"
                 android:singleLine="true"
-                app:backgroundTint="@color/black_overlay"/>
+                app:backgroundTint="@color/black_overlay" />
         </RelativeLayout>
     </RelativeLayout>
 </ScrollView>

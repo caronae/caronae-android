@@ -33,9 +33,9 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="5dp"
             android:layout_marginStart="5dp"
-            android:drawableLeft="@drawable/ic_account_balance_black_24dp"
+            android:drawableLeft="@drawable/ic_account_balance_24dp"
             android:drawablePadding="5dp"
-            android:drawableStart="@drawable/ic_account_balance_black_24dp"
+            android:drawableStart="@drawable/ic_account_balance_24dp"
             android:focusable="false"
             android:visibility="gone"
             android:hint="@string/frag_ridesearch_campiHint" />
