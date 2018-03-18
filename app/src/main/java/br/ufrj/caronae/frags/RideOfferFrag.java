@@ -127,9 +127,9 @@ public class RideOfferFrag extends Fragment {
         if (!lastRideOffer.equals(SharedPref.MISSING_PREF)) {
             loadLastRide(lastRideOffer);
         }
-
         checkCarOwnerDialog();
-
+        neighborhood_et.setText(R.string.frag_rideoffer_neighborHint);
+        center_et.setText(R.string.frag_ridesearch_campiHint);
         return view;
     }
 
@@ -417,10 +417,14 @@ public class RideOfferFrag extends Fragment {
             return;
 
         String neighborhood = neighborhood_et.getText().toString();
-        if (neighborhood.isEmpty()) {
-            Util.toast(getString(R.string.frag_rideoffer_nullNeighborhood));
+        String hub = center_et.getText().toString();
+
+        if(hub.isEmpty() || hub.equals("Centro Universitário") || neighborhood.isEmpty() || neighborhood.equals("Bairro"))
+        {
+            Util.toast(R.string.frag_rideoffer_nullLocation);
             return;
         }
+
         String place = place_et.getText().toString();
         String way = way_et.getText().toString();
 
@@ -455,8 +459,6 @@ public class RideOfferFrag extends Fragment {
         }
         String slots = slots_et.getSelectedItemPosition() + 1 + "";
         String description = description_et.getText().toString();
-
-        String hub = center_et.getText().toString();
         if (hub.isEmpty()) {
             if (going) {
                 center_et.setText(Util.getFundaoCenters()[0]);

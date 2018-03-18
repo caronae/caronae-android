@@ -125,9 +125,9 @@
     <string name="act_profile_openProfile">Veja o perfil de Fulano no Facebook</string>
     <string name="frag_myactiverides_noRides">Você não tem caronas ativas</string>
     <string name="frag_myrides_noRides">Nenhuma carona encontrada</string>
-    <string name="frag_rideoffer_neighborHint">Escolha o bairro (Obrigatório)</string>
-    <string name="frag_rideoffer_placeHint">Ponto de referência</string>
-    <string name="frag_rideoffer_wayhint">Por onde passa</string>
+    <string name="frag_rideoffer_neighborHint">Bairro</string>
+    <string name="frag_rideoffer_placeHint">Referência Ex: Shopping Tijuca</string>
+    <string name="frag_rideoffer_wayhint">Rota Ex: Maracanã, Leopoldina, Linha Vermelha</string>
     <string name="frag_rideoffer_centerHint">Escolha o centro</string>
     <string name="frag_rideoffer_dateHint">Escolha a data (Obrigatório)</string>
     <string name="frag_rideoffer_timeHint">Escolha a hora (Obrigatório)</string>
@@ -138,7 +138,7 @@
     <string name="frag_ridesearch_dateHint">Escolha a data</string>
     <string name="frag_ridesearch_timeHint">Escolha a hora</string>
     <string name="frag_ridesearch_centerHint">Escolha o centro</string>
-    <string name="frag_ridesearch_campiHint">Escolha o campus</string>
+    <string name="frag_ridesearch_campiHint">Centro Universitário</string>
     <string name="frag_ridesearch_searchBt">Buscar</string>
     <string name="frag_ridesearch_filterBt">Filtrar</string>
     <string name="frag_ridesearch_anotherSearchBt">Outra busca</string>
@@ -208,7 +208,7 @@
     <string name="frag_myrides_helpText">Toque nas caronas para verificar solicitações</string>
     <string name="frag_rideoffer_nullDate">Escolha a data</string>
     <string name="frag_rideoffer_nullTime">Escolha a hora</string>
-    <string name="frag_rideoffer_nullNeighborhood">Escolha o bairro</string>
+    <string name="frag_rideoffer_nullLocation">Ops! Parece que você esqueceu de preencher o local da sua carona.</string>
     <string name="act_rideoffer_requested">Solicitação Enviada!</string>
     <string name="act_activeride_quitBtn">Desistir</string>
     <string name="act_activeride_seeProfile">Ver perfil</string>

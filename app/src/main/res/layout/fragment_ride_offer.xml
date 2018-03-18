@@ -19,6 +19,8 @@
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/ic_location_on_24dp"
             android:drawablePadding="5dp"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:drawableStart="@drawable/ic_location_on_24dp"
             android:focusable="false"
             android:hint="@string/frag_rideoffer_neighborHint" />
@@ -28,9 +30,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/neighborhood_et"
-            android:drawableLeft="@drawable/ic_location_on_24dp"
-            android:drawablePadding="5dp"
-            android:drawableStart="@drawable/ic_location_on_24dp"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:hint="@string/frag_rideoffer_placeHint"
             android:inputType="text"
             android:singleLine="true" />
@@ -40,10 +41,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/place_et"
-            android:drawableLeft="@drawable/ic_location_on_24dp"
-            android:drawablePadding="5dp"
-            android:drawableStart="@drawable/ic_location_on_24dp"
             android:hint="@string/frag_rideoffer_wayhint"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:inputType="text"
             android:singleLine="true" />
 
@@ -64,11 +64,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/campi_et"
-            android:drawableLeft="@drawable/ic_business_black_24dp"
+            android:drawableLeft="@drawable/ic_location_on_24dp"
             android:drawablePadding="5dp"
-            android:drawableStart="@drawable/ic_business_black_24dp"
+            android:drawableStart="@drawable/ic_location_on_24dp"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:focusable="false"
-            android:hint="@string/frag_rideoffer_centerHint" />
+            android:hint="@string/frag_ridesearch_campiHint" />
 
         <EditText
             android:id="@+id/date_et"
@@ -78,6 +80,8 @@
             android:drawableLeft="@drawable/ic_calendar_24dp"
             android:drawablePadding="5dp"
             android:drawableStart="@drawable/ic_calendar_24dp"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:focusable="false"
             android:hint="@string/frag_rideoffer_dateHint"
             android:inputType="date" />
@@ -91,6 +95,8 @@
             android:drawablePadding="5dp"
             android:drawableStart="@drawable/ic_access_time_24dp"
             android:focusable="false"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:hint="@string/frag_rideoffer_timeHint" />
 
         <TextView
