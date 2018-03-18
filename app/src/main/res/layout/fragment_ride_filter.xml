@@ -13,10 +13,23 @@
         android:layout_margin="16dp">
 
         <EditText
+            android:id="@+id/center_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/filter_description"
+            android:layout_alignParentTop="true"
+            android:layout_alignStart="@+id/filter_description"
+            android:drawableLeft="@drawable/ic_location_on_24dp"
+            android:drawablePadding="5dp"
+            android:drawableStart="@drawable/ic_location_on_24dp"
+            android:focusable="false"
+            android:hint="@string/frag_ridefilter_centerHint" />
+
+        <EditText
             android:id="@+id/location_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/radioGroup"
+            android:layout_below="@+id/center_et"
             android:layout_marginLeft="5dp"
             android:layout_marginStart="5dp"
             android:drawableLeft="@drawable/ic_location_on_24dp"
@@ -29,7 +42,7 @@
             android:id="@+id/campi_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/location_et"
+            android:layout_below="@+id/center_et"
             android:layout_centerVertical="true"
             android:layout_marginLeft="5dp"
             android:layout_marginStart="5dp"
@@ -40,19 +53,6 @@
             android:visibility="gone"
             android:hint="@string/frag_ridesearch_campiHint" />
 
-        <EditText
-            android:id="@+id/center_et"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/campi_et"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="5dp"
-            android:layout_marginStart="5dp"
-            android:drawableLeft="@drawable/ic_location_on_24dp"
-            android:drawablePadding="5dp"
-            android:drawableStart="@drawable/ic_location_on_24dp"
-            android:focusable="false"
-            android:hint="@string/frag_ridesearch_centerHint" />
 
         <TextView
             android:id="@+id/filter_description"
@@ -61,7 +61,7 @@
             android:layout_marginStart="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/center_et"
+            android:layout_below="@id/location_et"
             android:text="@string/frag_filterride_description"/>
 
         <com.rey.material.widget.Button

@@ -82,19 +82,29 @@ public class RideFilterFrag extends Fragment {
     @OnClick(R.id.search_bt)
     public void search() {
         Log.e("CENTRO", "campi: "+ center);
-        if (center.equals("Todos os Centros")) {
-            center = "";
+        RideFiltersForJson rideFilters;
+        String lastRideFilters;
+        if(center_et.getText().toString().isEmpty() && location_et.getText().toString().isEmpty())
+        {
+            Intent intent = new Intent(getActivity(), StartAct.class);
+            startActivity(intent);
         }
-        if (campi.equals(Util.getCampi()[0]))
-            campi = "";
-        Log.e("CENTRO", "campi: "+ center);
-        RideFiltersForJson rideFilters = new RideFiltersForJson(location, center, campi, zone, resumeLocation);
-        String lastRideFilters = new Gson().toJson(rideFilters);
-        SharedPref.saveLastFiltersPref(lastRideFilters);
-        SharedPref.saveFilterPref(lastRideFilters);
-        MainAct.updateFilterCard(getContext(), lastRideFilters);
-        Intent intent = new Intent(getActivity(), StartAct.class);
-        startActivity(intent);
+        else
+        {
+            if (center.equals("Cidade Universitária")) {
+                center = "";
+            }
+            if (campi.equals(Util.getCampi()[0]))
+                campi = "";
+            Log.e("CENTRO", "campi: "+ center);
+            rideFilters = new RideFiltersForJson(location, center, campi, zone, resumeLocation);
+            lastRideFilters = new Gson().toJson(rideFilters);
+            SharedPref.saveLastFiltersPref(lastRideFilters);
+            SharedPref.saveFilterPref(lastRideFilters);
+            MainAct.updateFilterCard(getContext(), lastRideFilters);
+            Intent intent = new Intent(getActivity(), StartAct.class);
+            startActivity(intent);
+        }
     }
 
     @OnClick(R.id.location_et)
