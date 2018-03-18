@@ -17,8 +17,8 @@
     <string name="create_bt">Criar</string>
     <string name="acess_bt">Acessar</string>
 
-    <string name="go_rb">Ir ao fundão</string>
-    <string name="back_rb">Voltar do fundão</string>
+    <string name="go_rb">Chegando na UFRJ</string>
+    <string name="back_rb">Saindo da UFRJ</string>
     <string name="routine_cb">Repetir</string>
 
     <string-array name="tab_tags">
