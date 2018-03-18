@@ -394,7 +394,7 @@ public class MainAct extends AppCompatActivity {
 
             Fragment fragment = null;
             try {
-                if(!filterText.getText().equals(""))
+                if(!filterText.getText().equals("") && fragmentClass.equals(AllRidesFrag.class))
                 {
                     showFilterCard(getBaseContext());
                 }
@@ -463,6 +463,7 @@ public class MainAct extends AppCompatActivity {
             backstackSafeCheck();
             backstack.remove(RideSearchFrag.class);
             backstack.add(RideSearchFrag.class);
+            hideFilterCard(getBaseContext());
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction transaction = fragmentManager.beginTransaction();
             transaction.setCustomAnimations(R.anim.anim_up_slide_in, R.anim.anim_down_slide_out);
@@ -472,6 +473,7 @@ public class MainAct extends AppCompatActivity {
             backstackSafeCheck();
             backstack.remove(RideFilterFrag.class);
             backstack.add(RideFilterFrag.class);
+            hideFilterCard(getBaseContext());
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction transaction = fragmentManager.beginTransaction();
             transaction.setCustomAnimations(R.anim.anim_up_slide_in, R.anim.anim_down_slide_out);
@@ -515,6 +517,7 @@ public class MainAct extends AppCompatActivity {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.setCustomAnimations(R.anim.anim_right_slide_in, R.anim.anim_left_slide_out);
         transaction.replace(R.id.flContent, new TabbedRideOfferFrag()).commit();
+        hideFilterCard(getBaseContext());
         setTitle(getString(R.string.act_main_setRideOfferFragTitle));
     }
 
@@ -526,6 +529,7 @@ public class MainAct extends AppCompatActivity {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out);
         transaction.replace(R.id.flContent, new MyRidesFrag()).commit();
+        hideFilterCard(getBaseContext());
         setTitle(getString(R.string.frag_myactiverides_title));
     }
 
@@ -537,6 +541,7 @@ public class MainAct extends AppCompatActivity {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out);
         transaction.replace(R.id.flContent, new AllRidesFrag()).commit();
+        showFilterCard(getBaseContext());
         setTitle(getString(R.string.frag_allrides_title));
     }
 
