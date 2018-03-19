@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
@@ -18,6 +19,9 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -576,6 +580,9 @@ public class MainAct extends AppCompatActivity {
             String center = filters.getCenter();
             String campus = filters.getCampus();
             String zone = filters.getZone();
+            String filtering = "Filtrando: ";
+            SpannableString cardText;
+
             if (!resumeLocation.equals("")) {
                 if (center.equals("")) {
                     if (campus.equals("")) {
@@ -585,7 +592,9 @@ public class MainAct extends AppCompatActivity {
                     }
                 }
 
-                filterText.setText(center + " - " + resumeLocation);
+                cardText = new SpannableString(filtering + center + ", " + resumeLocation);
+                cardText.setSpan(new StyleSpan(Typeface.BOLD), 0, filtering.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                filterText.setText(cardText);
             } else if (!zone.equals("")){
                 if (center.equals("")) {
                     if (campus.equals("")) {
@@ -595,7 +604,9 @@ public class MainAct extends AppCompatActivity {
                     }
                 }
 
-                filterText.setText(center + " - " + zone);
+                cardText = new SpannableString(filtering + center + ", " + zone);
+                cardText.setSpan(new StyleSpan(Typeface.BOLD), 0, filtering.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                filterText.setText(cardText);
             }
             showFilterCard(context);
         }
@@ -613,6 +624,9 @@ public class MainAct extends AppCompatActivity {
             String center = filters.getCenter();
             String campus = filters.getCampus();
             String zone = filters.getZone();
+            String filtering = "Filtrando: ";
+            SpannableString cardText;
+
             if (!resumeLocations.equals("")) {
                 if (center.equals("")) {
                     if (campus.equals("")) {
@@ -621,8 +635,9 @@ public class MainAct extends AppCompatActivity {
                         center = campus;
                     }
                 }
-
-                filterText.setText(center + " - " + resumeLocations);
+                cardText = new SpannableString(filtering + center + ", " + resumeLocations);
+                cardText.setSpan(new StyleSpan(Typeface.BOLD), 0, filtering.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                filterText.setText(cardText);
                 filterCard.setVisibility(View.VISIBLE);
             } else
             {
@@ -636,8 +651,9 @@ public class MainAct extends AppCompatActivity {
                         center = campus;
                     }
                 }
-
-                filterText.setText(center + " - " + zone);
+                cardText = new SpannableString(filtering + center + ", " + zone);
+                cardText.setSpan(new StyleSpan(Typeface.BOLD), 0, filtering.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                filterText.setText(cardText);
                 filterCard.setVisibility(View.VISIBLE);
             }
         }
