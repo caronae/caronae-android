@@ -579,7 +579,7 @@ public class MainAct extends AppCompatActivity {
             if (!resumeLocation.equals("")) {
                 if (center.equals("")) {
                     if (campus.equals("")) {
-                        center = "Todos os Centros";
+                        center = "Todos os Campi";
                     } else {
                         center = campus;
                     }
@@ -589,7 +589,7 @@ public class MainAct extends AppCompatActivity {
             } else if (!zone.equals("")){
                 if (center.equals("")) {
                     if (campus.equals("")) {
-                        center = "Todos os Centros";
+                        center = "Todos os Campi";
                     } else {
                         center = campus;
                     }
@@ -616,7 +616,7 @@ public class MainAct extends AppCompatActivity {
             if (!resumeLocations.equals("")) {
                 if (center.equals("")) {
                     if (campus.equals("")) {
-                        center = "Todos os Centros";
+                        center = "Todos os Campi";
                     } else {
                         center = campus;
                     }
@@ -631,7 +631,7 @@ public class MainAct extends AppCompatActivity {
                 }
                 if (center.equals("")) {
                     if (campus.equals("")) {
-                        center = "Todos os Centros";
+                        center = "Todos os Campi";
                     } else {
                         center = campus;
                     }

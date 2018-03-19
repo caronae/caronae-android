@@ -200,9 +200,12 @@ public class AllRidesListFrag extends Fragment implements Callback {
         if (!filtersJsonString.equals(SharedPref.MISSING_PREF)){
             RideFiltersForJson rideFilters = new Gson().fromJson(filtersJsonString, RideFiltersForJson.class);
             neighborhoods = rideFilters.getLocation();
-            hub = rideFilters.getCenter();
+            if(!rideFilters.getCampus().equals("Todos os Campi"))
+            {
+                hub = rideFilters.getCenter();
+                campus = rideFilters.getCampus();
+            }
             zone = rideFilters.getZone();
-            campus = rideFilters.getCampus();
         }
         CaronaeAPI.service(getContext()).listAllRides(pageNumber + "", going, neighborhoods, zone, hub,  "", campus)
                 .enqueue(new retrofit2.Callback<RideForJsonDeserializer>() {

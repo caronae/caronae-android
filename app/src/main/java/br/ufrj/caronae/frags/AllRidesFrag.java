@@ -115,9 +115,12 @@ public class AllRidesFrag extends Fragment {
             if (!filtersJsonString.equals(SharedPref.MISSING_PREF)){
                 RideFiltersForJson rideFilters = new Gson().fromJson(filtersJsonString, RideFiltersForJson.class);
                 neighborhoods = rideFilters.getLocation();
-                hub = rideFilters.getCenter();
+                if(!rideFilters.getCampus().equals("Todos os Campi"))
+                {
+                    hub = rideFilters.getCenter();
+                    campus = rideFilters.getCampus();
+                }
                 zone = rideFilters.getZone();
-                campus = rideFilters.getCampus();
             }
 
             CaronaeAPI.service(getContext()).listAllRides(pageNum + "", going, neighborhoods, zone, hub,  "", campus)

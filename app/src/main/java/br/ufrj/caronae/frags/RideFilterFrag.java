@@ -94,8 +94,8 @@ public class RideFilterFrag extends Fragment {
             if (center.equals("Cidade Universitária")) {
                 center = "";
             }
-            if (campi.equals(Util.getCampi()[0]))
-                campi = "";
+            if (campi.equals(Util.getCampi()[0]) || center_et.getText().toString().isEmpty())
+                campi = "Todos os Campi";
             Log.e("CENTRO", "campi: "+ center);
             rideFilters = new RideFiltersForJson(location, center, campi, zone, resumeLocation);
             lastRideFilters = new Gson().toJson(rideFilters);
