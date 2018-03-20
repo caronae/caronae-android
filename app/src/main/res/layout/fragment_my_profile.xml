@@ -214,7 +214,7 @@
             android:drawablePadding="5dp"
             android:drawableStart="@drawable/ic_phone_24dp"
             android:hint="@string/frag_myprofile_phoneHint"
-            android:inputType="phone"
+            android:inputType="phone|textNoSuggestions|textVisiblePassword"
             app:backgroundTint="@color/black_overlay" />
 
         <TextView
@@ -296,9 +296,8 @@
                 android:drawablePadding="5dp"
                 android:drawableStart="@drawable/ic_directions_car_24dp"
                 android:hint="@string/frag_myprofile_carPlateHint"
-                app:backgroundTint="@color/black_overlay"
-                android:singleLine="true"
-                android:digits="ABCDEFGHIJKLMNOPQRSTUVXWYZ0123456789-"/>
+                android:inputType="textNoSuggestions|textVisiblePassword"
+                app:backgroundTint="@color/black_overlay" />
 
             <android.support.v7.widget.AppCompatEditText
                 android:id="@+id/carModel_et"

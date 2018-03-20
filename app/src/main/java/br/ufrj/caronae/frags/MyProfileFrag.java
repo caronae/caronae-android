@@ -710,7 +710,7 @@ public class MyProfileFrag extends Fragment {
 
 
         final MaskedTextChangedListener plateListener = new MaskedTextChangedListener(
-                "[AAA]-[0000]",
+                "[AAA]{-}[0000]",
                 true,
                 carPlate_et,
                 null,
