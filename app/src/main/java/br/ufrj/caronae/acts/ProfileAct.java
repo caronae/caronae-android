@@ -111,7 +111,7 @@ public class ProfileAct extends AppCompatActivity {
 
         try {
             String date = user.getCreatedAt().split(" ")[0];
-            date = Util.formatBadDateWithYear(date);
+            date = Util.formatBadDateWithYear(date).substring(3);
             createdAt_tv.setText(date);
         } catch (Exception e) {
             e.printStackTrace();

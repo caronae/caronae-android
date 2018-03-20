@@ -329,7 +329,7 @@ public class MyProfileFrag extends Fragment {
         carColor_et.setText(user.getCarColor());
         carPlate_et.setText(getFormatedPlate(user.getCarPlate()));
         String date = user.getCreatedAt().split(" ")[0];
-        date = Util.formatBadDateWithYear(date);
+        date = Util.formatBadDateWithYear(date).substring(3);
         createdAt_tv.setText(date);
 
         String notifOn = SharedPref.getNotifPref();

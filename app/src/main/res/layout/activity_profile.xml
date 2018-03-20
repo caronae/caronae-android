@@ -54,7 +54,7 @@
         android:layout_below="@+id/name_tv"
         android:layout_toEndOf="@+id/user_pic_iv"
         android:layout_toRightOf="@+id/user_pic_iv"
-        android:text="Perfil padrão" />
+        android:text="Graduação" />
 
     <TextView
         android:id="@+id/course_tv"
@@ -63,7 +63,7 @@
         android:layout_below="@+id/profile_tv"
         android:layout_toEndOf="@+id/user_pic_iv"
         android:layout_toRightOf="@+id/user_pic_iv"
-        android:text="Curso padrão" />
+        android:text="Bacharelado em Ciência da Computação" />
 
     <ImageView
         android:id="@+id/phone_icon"
@@ -95,6 +95,7 @@
             android:layout_centerHorizontal="true"
             android:layout_height="wrap_content"
             android:layout_below="@+id/user_pic_iv"
+            android:layout_marginTop="15dp"
             android:drawableLeft="@drawable/ic_calendar_24dp"
             android:drawableStart="@drawable/ic_calendar_24dp"
             android:gravity="center_vertical"
@@ -109,6 +110,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/user_pic_iv"
             android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"
             android:drawableLeft="@drawable/ic_directions_car_24dp"
             android:drawableStart="@drawable/ic_directions_car_24dp"
             android:gravity="center_vertical"
@@ -120,6 +122,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/user_pic_iv"
+            android:layout_marginTop="15dp"
             android:layout_centerHorizontal="true"
             android:drawableLeft="@drawable/ic_person_24dp"
             android:drawableStart="@drawable/ic_person_24dp"
@@ -133,7 +136,7 @@
         android:id="@+id/color_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/lay1"
+        android:layout_below="@+id/ridesTaken_tv"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:paddingTop="5dp"

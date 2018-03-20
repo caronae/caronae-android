@@ -55,7 +55,7 @@
                 android:layout_alignLeft="@+id/name_tv"
                 android:layout_alignStart="@+id/name_tv"
                 android:layout_below="@+id/name_tv"
-                android:text="Aluno" />
+                android:text="Graduação" />
 
             <TextView
                 android:id="@+id/course_tv"
@@ -86,7 +86,7 @@
                 android:drawableStart="@drawable/ic_calendar_24dp"
                 android:gravity="center_vertical"
                 android:textStyle="bold"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="25dp"
                 android:layout_alignStart="@id/user_pic"
                 android:layout_alignLeft="@id/user_pic"
                 android:drawablePadding="10dp"
@@ -101,7 +101,7 @@
                 android:drawablePadding="10dp"
                 android:gravity="center"
                 android:textStyle="bold"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="25dp"
                 android:layout_below="@id/course_tv"
                 android:layout_centerHorizontal="true"/>
 
@@ -113,7 +113,7 @@
                 android:drawableStart="@drawable/ic_person_24dp"
                 android:gravity="center_vertical"
                 android:textStyle="bold"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="25dp"
                 android:layout_alignEnd="@id/logout_iv"
                 android:layout_alignRight="@id/logout_iv"
                 android:drawablePadding="10dp"
