@@ -1,22 +1,28 @@
 package br.ufrj.caronae.frags;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.SwitchCompat;
 import android.text.InputFilter;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -416,11 +422,37 @@ public class MyProfileFrag extends Fragment {
 
     @OnClick(R.id.logout_iv)
     public void logoutIv() {
-        new LogOut(getContext()).execute();
-        startActivity(new Intent(getContext(), LoginAct.class));
-        getActivity().finish();
+        showExitAlertDialog();
     }
 
+    //Creates an alert dialog to confirm if the user really wants to logout
+    private void showExitAlertDialog()
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle(R.string.confirm_logout)
+                .setCancelable(false)
+                .setPositiveButton(R.string.frag_logout_title, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        new LogOut(getContext()).execute();
+                        startActivity(new Intent(getContext(), LoginAct.class));
+                        getActivity().finish();
+                    }
+                })
+                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+        AlertDialog alert = builder.create();
+        alert.show();
+        Button nbutton = alert.getButton(DialogInterface.BUTTON_NEGATIVE);
+        nbutton.setTextColor(getResources().getColor(R.color.darkblue2));
+        nbutton.setText(R.string.cancel);
+        Button pbutton = alert.getButton(DialogInterface.BUTTON_POSITIVE);
+        pbutton.setTextColor(getResources().getColor(R.color.red));
+        pbutton.setText(R.string.frag_logout_title);
+    }
     @OnClick(R.id.carOwner_sw)
     public void carOwnerSw() {
         car_lay.setVisibility(carOwner_sw.isChecked() ? View.VISIBLE : View.GONE);

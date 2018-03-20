@@ -3,7 +3,7 @@
     android:id="@+id/scrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="16dp"
+    android:layout_margin="20dp"
     android:background="@color/white">
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -64,22 +64,19 @@
                 android:layout_alignLeft="@+id/name_tv"
                 android:layout_alignStart="@+id/name_tv"
                 android:layout_below="@+id/profile_tv"
-                android:maxWidth="210dp"
+                android:maxWidth="190dp"
                 android:text="Bacharelado em Ciência da computação" />
 
-            <com.rey.material.widget.Button
+            <android.support.v7.widget.ButtonBarLayout
                 android:id="@+id/logout_iv"
                 style="@style/LightRaiseColorButtonRippleStyle"
-                android:layout_width="55dp"
-                android:layout_height="50dp"
+                android:layout_width="90dp"
+                android:layout_height="40dp"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:background="@drawable/bg_bt_raise"
-                android:gravity="center"
-                android:text="SAIR"
-                android:textColor="@color/red"
-                app:rd_enable="true" />
+                android:background="@drawable/btn_logout"
+                android:gravity="center" />
 
             <TextView
                 android:id="@+id/createdAt_tv"

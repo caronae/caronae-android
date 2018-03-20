@@ -146,15 +146,15 @@
     <string name="frag_ridehistory_noRides">Você não tem caronas no seu histórico</string>
     <string name="frag_myprofile_changePic">Mudar foto</string>
     <string name="frag_myprofile_notif">Alertas e notificações</string>
-    <string name="frag_myprofile_contacts">CONTATOS</string>
-    <string name="frag_myprofile_contactsText">Os seus contatos só serão visíveis para os usuários que estiverem na mesma carona que você</string>
+    <string name="frag_myprofile_contacts">CONTATO</string>
+    <string name="frag_myprofile_contactsText">As suas informações de contato só aparecem para os usuários que estiverem na mesma carona que você!</string>
     <string name="frag_myprofile_emailHint">E-mail</string>
     <string name="frag_myprofile_phoneHint">Telefone celular</string>
-    <string name="frag_myprofile_locationText">Sua localidade nunca será exibida para outros usuários</string>
+    <string name="frag_myprofile_locationText">Sua localidade não será exibida para outros usuários.</string>
     <string name="frag_myprofile_locationHint">Bairro</string>
     <string name="frag_myprofile_carOwner">Possui carro?</string>
     <string name="frag_myprofile_aboutYourCar">SOBRE SEU CARRO</string>
-    <string name="frag_myprofile_carText">Essas informações também só aparecem para pessoas que estiverem na sua carona</string>
+    <string name="frag_myprofile_carText">Estas informações também só aparecem para os usuários que estiverem na mesma carona que você!</string>
     <string name="frag_myprofile_carPlateHint">Placa</string>
     <string name="frag_myprofile_carModelHint">Modelo</string>
     <string name="frag_myprofile_carColorHint">Cor</string>
@@ -200,6 +200,7 @@
     <string name="frag_filterride_description">Adicionando um filtro você pode visualizar apenas as caronas de seu interesse.</string>
     <string name="frag_about_title">Sobre</string>
     <string name="frag_logout_title">Sair</string>
+    <string name="confirm_logout">Você deseja mesmo sair da sua conta?</string>
     <string name="frag_myprofile_errorGetIntranetPhoto">Erro ao pegar foto do SIGA</string>
     <string name="idUfrjHint_et">Identificação (CPF ou Passaporte)</string>
     <string name="frag_myrides_deleteAllBt">Excluir todas</string>
