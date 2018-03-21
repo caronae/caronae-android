@@ -122,14 +122,13 @@ public class RideOfferFrag extends Fragment {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), R.layout.row_spn, items);
         adapter.setDropDownViewResource(R.layout.row_spn_dropdown);
         slots_et.setAdapter(adapter);
-
+        neighborhood_et.setText(R.string.frag_rideoffer_neighborHint);
+        center_et.setText(R.string.frag_ridesearch_campiHint);
         String lastRideOffer = going ? SharedPref.getLastRideGoingPref() : SharedPref.getLastRideNotGoingPref();
         if (!lastRideOffer.equals(SharedPref.MISSING_PREF)) {
             loadLastRide(lastRideOffer);
         }
         checkCarOwnerDialog();
-        neighborhood_et.setText(R.string.frag_rideoffer_neighborHint);
-        center_et.setText(R.string.frag_ridesearch_campiHint);
         return view;
     }
 
@@ -151,8 +150,6 @@ public class RideOfferFrag extends Fragment {
         neighborhood_et.setText(ride.getNeighborhood());
         place_et.setText(ride.getPlace());
         way_et.setText(ride.getRoute());
-        date_et.setText(ride.getDate());
-        time_et.setText(ride.getTime());
         slots_et.setSelection(Integer.parseInt(ride.getSlots()) - 1);
         center_et.setText(ride.getHub());
         description_et.setText(ride.getDescription());
