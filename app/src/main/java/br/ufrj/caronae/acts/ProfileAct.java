@@ -231,9 +231,14 @@ public class ProfileAct extends AppCompatActivity {
             public void onPositiveActionClicked(DialogFragment fragment) {
                 EditText msg_et = (EditText) fragment.getDialog().findViewById(R.id.msg_et);
                 String msg = msg_et.getText().toString();
-                if (msg.isEmpty())
+                if (msg.isEmpty()) {
+                    Util.toast(getString(R.string.frag_falae_msgblank));
                     return;
-
+                }
+                msg= msg
+                        + "\n\n--------------------------------\n"
+                        + "Device: " + android.os.Build.MODEL + " (Android " + android.os.Build.VERSION.RELEASE + ")\n"
+                        + "Versão do app: " + Util.getAppVersionName(getBaseContext());
                 CaronaeAPI.service(getApplicationContext()).falaeSendMessage(new FalaeMsgForJson(getString(R.string.frag_falae_reportRb) + user.getName() + " - ID:" + user.getDbId(), msg))
                         .enqueue(new Callback<ResponseBody>() {
                             @Override
