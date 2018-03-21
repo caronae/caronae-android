@@ -285,7 +285,7 @@ public class ActiveRideAct extends SwipeDismissBaseActivity {
                     @Override
                     public void onPositiveActionClicked(DialogFragment fragment) {
                         final ProgressDialog pd = ProgressDialog.show(ActiveRideAct.this, "", getString(R.string.wait), true, true);
-                        CaronaeAPI.service(getApplicationContext()).leaveRide(new RideIdForJson(rideWithUsers.getDbId()))
+                        CaronaeAPI.service(getApplicationContext()).leaveRide(rideId)
                                 .enqueue(new Callback<ResponseBody>() {
                                     @Override
                                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -363,7 +363,7 @@ public class ActiveRideAct extends SwipeDismissBaseActivity {
                     @Override
                     public void onPositiveActionClicked(DialogFragment fragment) {
                         final ProgressDialog pd = ProgressDialog.show(ActiveRideAct.this, "", getString(R.string.wait), true, true);
-                        CaronaeAPI.service(getApplicationContext()).finishRide(new RideIdForJson(rideWithUsers.getDbId()))
+                        CaronaeAPI.service(getApplicationContext()).finishRide(rideId)
                                 .enqueue(new Callback<ResponseBody>() {
                                     @Override
                                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

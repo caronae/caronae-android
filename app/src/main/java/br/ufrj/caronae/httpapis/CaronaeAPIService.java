@@ -69,9 +69,6 @@ public interface CaronaeAPIService {
     @DELETE("ride/{rideId}")
     Call<ResponseBody> deleteRide(@Path("rideId") String rideId);
 
-    @DELETE("ride/allFromUser/{stub}/{going}")
-    Call<ResponseBody> deleteAllRidesFromUser(@Path("stub") String stub, @Path("going") boolean going);
-
     @DELETE("ride/allFromRoutine/{routineId}")
     Call<ResponseBody> deleteAllRidesFromRoutine(@Path("routineId") String routineId);
 
@@ -96,11 +93,11 @@ public interface CaronaeAPIService {
     @GET("user/{id}/offeredRides")
     Call<RideForJsonDeserializer> getOfferedRides(@Path("id") String userId);
 
-    @POST("ride/leaveRide")
-    Call<ResponseBody> leaveRide(@Body RideIdForJson rideId);
+    @POST("api/v1/rides/{rideId}/leave")
+    Call<ResponseBody> leaveRide(@Path("rideId") String rideId);
 
-    @POST("ride/finishRide")
-    Call<ResponseBody> finishRide(@Body RideIdForJson rideId);
+    @POST("api/v1/rides/{rideId}/finish")
+    Call<ResponseBody> finishRide(@Path("rideId") String rideId);
 
     @GET("ride/getRidesHistory")
     Call<List<RideHistoryForJson>> getRidesHistory();
