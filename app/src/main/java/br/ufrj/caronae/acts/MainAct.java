@@ -590,11 +590,20 @@ public class MainAct extends AppCompatActivity {
                     } else {
                         center = campus;
                     }
+                    if(center.equals("Todos os Campi"))
+                    {
+                        cardText = new SpannableString(filtering + resumeLocation);
+                    }
+                    else if(resumeLocation.equals("Todos os Bairros"))
+                    {
+                        cardText = new SpannableString(filtering + center);
+                    }
+                    else {
+                        cardText = new SpannableString(filtering + center + ", " + resumeLocation);
+                    }
+                    cardText.setSpan(new StyleSpan(Typeface.BOLD), 0, filtering.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    filterText.setText(cardText);
                 }
-
-                cardText = new SpannableString(filtering + center + ", " + resumeLocation);
-                cardText.setSpan(new StyleSpan(Typeface.BOLD), 0, filtering.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                filterText.setText(cardText);
             } else if (!zone.equals("")){
                 if (center.equals("")) {
                     if (campus.equals("")) {
@@ -602,11 +611,20 @@ public class MainAct extends AppCompatActivity {
                     } else {
                         center = campus;
                     }
+                    if(center.equals("Todos os Campi"))
+                    {
+                        cardText = new SpannableString(filtering + zone);
+                    }
+                    else if(zone.equals("Todos os Bairros"))
+                    {
+                        cardText = new SpannableString(filtering + center);
+                    }
+                    else {
+                        cardText = new SpannableString(filtering + center + ", " + zone);
+                    }
+                    cardText.setSpan(new StyleSpan(Typeface.BOLD), 0, filtering.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    filterText.setText(cardText);
                 }
-
-                cardText = new SpannableString(filtering + center + ", " + zone);
-                cardText.setSpan(new StyleSpan(Typeface.BOLD), 0, filtering.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                filterText.setText(cardText);
             }
             showFilterCard(context);
         }
@@ -635,7 +653,17 @@ public class MainAct extends AppCompatActivity {
                         center = campus;
                     }
                 }
-                cardText = new SpannableString(filtering + center + ", " + resumeLocations);
+                if(center.equals("Todos os Campi"))
+                {
+                    cardText = new SpannableString(filtering + resumeLocations);
+                }
+                else if(zone.equals("Todos os Bairros"))
+                {
+                    cardText = new SpannableString(filtering + center);
+                }
+                else {
+                    cardText = new SpannableString(filtering + center + ", " + resumeLocations);
+                }
                 cardText.setSpan(new StyleSpan(Typeface.BOLD), 0, filtering.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 filterText.setText(cardText);
                 filterCard.setVisibility(View.VISIBLE);
@@ -651,7 +679,17 @@ public class MainAct extends AppCompatActivity {
                         center = campus;
                     }
                 }
-                cardText = new SpannableString(filtering + center + ", " + zone);
+                if(center.equals("Todos os Campi"))
+                {
+                    cardText = new SpannableString(filtering + zone);
+                }
+                else if(zone.equals("Todos os Bairros"))
+                {
+                    cardText = new SpannableString(filtering + center);
+                }
+                else {
+                    cardText = new SpannableString(filtering + center + ", " + zone);
+                }
                 cardText.setSpan(new StyleSpan(Typeface.BOLD), 0, filtering.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 filterText.setText(cardText);
                 filterCard.setVisibility(View.VISIBLE);
