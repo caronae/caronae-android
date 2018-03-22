@@ -32,65 +32,16 @@
         android:layout_marginTop="100dp"
         android:layout_centerHorizontal="true" />
 
-
-
-
-    <com.github.clans.fab.FloatingActionMenu xmlns:fab="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/fab_menu"
+    <com.github.clans.fab.FloatingActionButton xmlns:fab="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/fab_add_ride"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="48dp"
-        android:layout_gravity="bottom|right"
+        android:layout_gravity="bottom|end"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:visibility="invisible"
-        fab:menu_animationDelayPerItem="50"
-        fab:menu_backgroundColor="@android:color/transparent"
-        fab:menu_buttonSpacing="0dp"
-        fab:menu_colorPressed="@color/fab_red"
-        fab:menu_colorRipple="#99FFFFFF"
-        fab:menu_fab_size="normal"
-        fab:menu_icon="@drawable/fab_add"
-        fab:menu_labels_colorNormal="@color/default_white_transparency"
-        fab:menu_labels_colorPressed="@android:color/white"
-        fab:menu_labels_colorRipple="@color/gray_transparency"
-        fab:menu_labels_cornerRadius="3dp"
-        fab:menu_labels_ellipsize="none"
-        fab:menu_labels_hideAnimation="@anim/fab_slide_out_to_right"
-        fab:menu_labels_margin="0dp"
-        fab:menu_labels_paddingLeft="8dp"
-        fab:menu_labels_paddingRight="8dp"
-        fab:menu_labels_paddingTop="4dp"
-        fab:menu_labels_position="left"
-        fab:menu_labels_showAnimation="@anim/fab_slide_in_from_right"
-        fab:menu_labels_showShadow="true"
-        fab:menu_labels_singleLine="true"
-        fab:menu_labels_textColor="@android:color/black"
-        fab:menu_labels_textSize="14sp"
-        fab:menu_openDirection="up"
-        fab:menu_shadowColor="#66000000">
-
-
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/fab_active_rides"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_directions_car_white_24dp"
-            fab:fab_colorNormal="@color/green"
-            fab:fab_colorPressed="@color/light_zone_sul_transparency"
-            fab:fab_label="@string/frag_myactiverides_title"
-            fab:fab_size="mini" />
-
-
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/fab_add_ride"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_add_white_24dp"
-            fab:fab_colorNormal="@color/yellow"
-            fab:fab_colorPressed="@color/light_zone_centro_transparency"
-            fab:fab_label="@string/act_main_setRideOfferFragTitle"
-            fab:fab_size="mini" />
-
-    </com.github.clans.fab.FloatingActionMenu>
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:visibility="visible"
+        android:src="@drawable/fab_add"
+        fab:fab_colorPressed="@color/fab_red"/>
 
 </android.support.design.widget.CoordinatorLayout>

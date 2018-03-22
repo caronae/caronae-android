@@ -91,6 +91,7 @@
 
         <TextView
             android:id="@+id/createdAt_tv"
+            style="@style/bold_text"
             android:layout_width="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_height="wrap_content"
@@ -106,6 +107,7 @@
 
         <TextView
             android:id="@+id/ridesOffered_tv"
+            style="@style/bold_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/user_pic_iv"
@@ -119,6 +121,7 @@
 
         <TextView
             android:id="@+id/ridesTaken_tv"
+            style="@style/bold_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/user_pic_iv"

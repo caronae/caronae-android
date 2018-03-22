@@ -80,6 +80,7 @@
 
             <TextView
                 android:id="@+id/createdAt_tv"
+                style="@style/bold_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_calendar_24dp"
@@ -94,6 +95,7 @@
 
             <TextView
                 android:id="@+id/ridesOffered_tv"
+                style="@style/bold_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_directions_car_24dp"
@@ -107,6 +109,7 @@
 
             <TextView
                 android:id="@+id/ridesTaken_tv"
+                style="@style/bold_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_person_24dp"

@@ -49,11 +49,8 @@ import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Response;
 
-import static br.ufrj.caronae.frags.AllRidesFrag.dismissSnack;
 import static br.ufrj.caronae.frags.AllRidesFrag.makeLoadingRidesSnack;
 import static br.ufrj.caronae.frags.AllRidesFrag.makeNoConexionSnack;
-import static br.ufrj.caronae.frags.AllRidesFrag.showSnack;
-
 
 public class AllRidesListFrag extends Fragment implements Callback {
 
@@ -179,12 +176,6 @@ public class AllRidesListFrag extends Fragment implements Callback {
 
     void refreshRideList(final int pageNumber) {
 
-        final Snackbar snackbar = makeLoadingRidesSnack();
-        final Snackbar snackbar1 = makeNoConexionSnack();
-        if (snackbar1.isShown()){
-            dismissSnack(snackbar1);
-        }
-        showSnack(snackbar);
         final long bytesSoFar = TrafficStats.getUidRxBytes(Process.myUid());
 
         String going = null;
@@ -285,20 +276,11 @@ public class AllRidesListFrag extends Fragment implements Callback {
                             refreshLayout.setRefreshing(false);
                             Log.e("listAllRides", response.message());
                         }
-                        dismissSnack(snackbar);
                         scrollListener.resetState();
                     }
 
                     @Override
                     public void onFailure(Call<RideForJsonDeserializer> call, Throwable t) {
-                        dismissSnack(snackbar);
-                        snackbar1.setAction("CONECTAR", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                refreshRideList(pageNumber);
-                            }
-                        });
-                        showSnack(snackbar1);
                         refreshLayout.setRefreshing(false);
                         Log.e("listAllRides", t.getMessage());
                         scrollListener.resetState();

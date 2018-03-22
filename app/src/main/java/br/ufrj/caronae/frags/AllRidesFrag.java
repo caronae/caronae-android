@@ -58,11 +58,8 @@ public class AllRidesFrag extends Fragment {
     @BindView(R.id.progressBar2)
     ProgressBar progressBar2;
 
-    static FloatingActionMenu fab_menu;
     @BindView(R.id.fab_add_ride)
     com.github.clans.fab.FloatingActionButton fab_add_ride;
-    @BindView(R.id.fab_active_rides)
-    com.github.clans.fab.FloatingActionButton fab_active_rides;
 
 
     static CoordinatorLayout coordinatorLayout;
@@ -89,7 +86,6 @@ public class AllRidesFrag extends Fragment {
 
         listAllRides(1);
 
-        fab_menu = (FloatingActionMenu) view.findViewById(R.id.fab_menu);
         if(((MainAct)getActivity()).filterText.getText().equals(""))
         {
             ((MainAct)getActivity()).hideFilterCard(context);
@@ -127,7 +123,6 @@ public class AllRidesFrag extends Fragment {
                     .enqueue(new Callback<RideForJsonDeserializer>() {
                         @Override
                         public void onResponse(Call<RideForJsonDeserializer> call, Response<RideForJsonDeserializer> response) {
-                            dismissSnack(snackbar);
                             if (response.isSuccessful()) {
                                 progressBar2.setVisibility(View.GONE);
 
@@ -172,29 +167,23 @@ public class AllRidesFrag extends Fragment {
 
                                     configureTabIndicators();
                                 }
-
-                                showFAB();
-
                             } else {
                                 Util.treatResponseFromServer(response);
                                 progressBar2.setVisibility(View.GONE);
                                 Log.e("listAllRides", response.message());
                             }
-                            showFAB();
                         }
 
                         @Override
                         public void onFailure(Call<RideForJsonDeserializer> call, Throwable t) {
                             progressBar2.setVisibility(View.GONE);
                             Log.e("listAllRides", t.getMessage());
-                            showFAB();
                             snackbar.setAction("CONECTAR", new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     listAllRides(pageNum);
                                 }
                             });
-                            showSnack(snackbar);
                         }
                     });
         } else {
@@ -228,20 +217,6 @@ public class AllRidesFrag extends Fragment {
         ((MainAct) getActivity()).showRideOfferFrag();
     }
 
-    @OnClick(R.id.fab_active_rides)
-    public void fab_active_rides() {
-        ((MainAct) getActivity()).showActiveRidesFrag();
-    }
-
-
-    private void showFAB() {
-        Animation anim = new AlphaAnimation(0, 1);
-        anim.setDuration(600);
-        anim.setFillEnabled(true);
-        anim.setFillAfter(true);
-        fab_menu.startAnimation(anim);
-    }
-
     private ArrayList<RideForJson> filterList(ArrayList<RideForJson> listToFilter, CharSequence searchText) {
         ArrayList<RideForJson> listFiltered = new ArrayList<>();
         for (int ride = 0; ride < listToFilter.size(); ride++) {
@@ -253,16 +228,6 @@ public class AllRidesFrag extends Fragment {
 
     public static Snackbar makeLoadingRidesSnack() {
         return Snackbar.make(coordinatorLayout, coordinatorLayout.getResources().getString(R.string.load_more_rides), Snackbar.LENGTH_INDEFINITE);
-    }
-
-    public static void showSnack(Snackbar snackbar) {
-        fab_menu.animate().translationY(-Util.convertDpToPixel(32));
-        snackbar.show();
-    }
-
-    public static void dismissSnack(Snackbar snackbar) {
-        fab_menu.animate().translationY(Util.convertDpToPixel(32));
-        snackbar.dismiss();
     }
 
     public static Snackbar makeNoConexionSnack() {
