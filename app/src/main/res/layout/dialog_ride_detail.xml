@@ -196,12 +196,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/lay3"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginLeft="8dp">
+                    android:layout_marginStart="20dp"
+                    android:layout_marginLeft="20dp">
                     <RelativeLayout
                         android:id="@+id/place_text_frame"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp">
 
                         <TextView
                             android:id="@+id/place_text_dt"
@@ -210,20 +212,24 @@
                             android:layout_marginBottom="8dp"
                             android:text="@string/dialog_ride_detail_reference_point"
                             android:textAllCaps="true"
-                            android:textSize="12sp"
+                            android:textSize="16sp"
                             android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/place_dt"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/place_text_dt" />
+                            android:layout_below="@+id/place_text_dt"
+                            android:text="- - -"
+                            android:textSize="14sp"/>
                     </RelativeLayout>
                     <RelativeLayout
                         android:layout_width="wrap_content"
                         android:id="@+id/way_text_frame"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/place_text_frame">
+                        android:layout_below="@id/place_text_frame"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp">
 
                         <TextView
                             android:id="@+id/way_text_dt"
@@ -232,34 +238,40 @@
                             android:layout_marginBottom="8dp"
                             android:text="@string/dialog_ride_detail_driver_route"
                             android:textAllCaps="true"
-                            android:textSize="12sp"
+                            android:textSize="16sp"
                             android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/way_dt"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/way_text_dt"/>
+                            android:layout_below="@+id/way_text_dt"
+                            android:text="- - -"
+                            android:textSize="14sp"/>
                     </RelativeLayout>
                     <RelativeLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/description_text_frame"
-                        android:layout_below="@id/way_text_frame">
+                        android:layout_below="@id/way_text_frame"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp">
                         <TextView
                             android:id="@+id/description_text_dt"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:paddingBottom="8dp"
                             android:text="@string/dialog_ride_detail_driver_message"
-                            android:textSize="12sp"
+                            android:textSize="16sp"
                             android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/description_dt"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:layout_below="@id/description_text_dt"/>
+                            android:layout_below="@id/description_text_dt"
+                            android:text="- - -"
+                            android:textSize="14sp"/>
                     </RelativeLayout>
                 </RelativeLayout>
 

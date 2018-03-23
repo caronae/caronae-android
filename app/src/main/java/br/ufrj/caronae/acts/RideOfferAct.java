@@ -71,16 +71,10 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
     public Button join_bt;
     @BindView(R.id.way_dt)
     public TextView way_dt;
-    @BindView(R.id.way_text_frame)
-    public CardView way_text_frame;
     @BindView(R.id.place_dt)
     public TextView place_dt;
-    @BindView(R.id.place_text_frame)
-    CardView place_text_frame;
     @BindView(R.id.description_dt)
     public TextView description_dt;
-    @BindView(R.id.description_text_frame)
-    CardView description_text_frame;
     @BindView(R.id.requested_dt)
     public TextView requested_dt;
     @BindView(R.id.share_ride_button)
@@ -290,12 +284,12 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
         name_dt.setText(driver.getName());
         profile_dt.setText(driver.getProfile());
         if (rideWithUsers.getRoute().equals("")) {
-            way_dt.setText("---");
+            way_dt.setText("- - -");
         } else {
             way_dt.setText(rideWithUsers.getRoute());
         }
         if (rideWithUsers.getPlace().equals("")) {
-            place_dt.setText("---");
+            place_dt.setText("- - -");
         } else {
             place_dt.setText(rideWithUsers.getPlace());
         }
@@ -308,7 +302,7 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
         date_dt.setText(Util.formatBadDateWithoutYear(rideWithUsers.getDate()));
         date_dt.setTextColor(color);
         if (rideWithUsers.getDescription().equals("")) {
-            description_dt.setText("---");
+            description_dt.setText("- - -");
         } else {
             description_dt.setText(rideWithUsers.getDescription());
         }
