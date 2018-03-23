@@ -195,127 +195,72 @@
                     android:id="@+id/lay4"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/lay3">
+                    android:layout_below="@+id/lay3"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginLeft="8dp">
+                    <RelativeLayout
+                        android:id="@+id/place_text_frame"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
 
-                    <LinearLayout
-                        android:id="@+id/place_way_text_frame"
+                        <TextView
+                            android:id="@+id/place_text_dt"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
+                            android:text="@string/dialog_ride_detail_reference_point"
+                            android:textAllCaps="true"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/place_dt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/place_text_dt" />
+                    </RelativeLayout>
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:id="@+id/way_text_frame"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/place_text_frame">
+
+                        <TextView
+                            android:id="@+id/way_text_dt"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
+                            android:text="@string/dialog_ride_detail_driver_route"
+                            android:textAllCaps="true"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/way_dt"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/way_text_dt"/>
+                    </RelativeLayout>
+                    <RelativeLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <android.support.v7.widget.CardView
-                            android:id="@+id/place_text_frame"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginLeft="8dp"
-                            android:layout_weight="1"
-                            app:cardBackgroundColor="@android:color/transparent"
-                            app:cardElevation="0dp"
-                            app:cardUseCompatPadding="true"
-                            app:contentPadding="8dp">
-
-                            <RelativeLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
-
-                                <TextView
-                                    android:id="@+id/place_text_dt"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginBottom="8dp"
-                                    android:gravity="center"
-                                    android:text="@string/myactiveride_placeTv"
-                                    android:textAllCaps="true"
-                                    android:textSize="12sp"
-                                    android:textStyle="bold" />
-
-                                <TextView
-                                    android:id="@+id/place_dt"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_centerHorizontal="true"
-                                    android:layout_below="@+id/place_text_dt" />
-                            </RelativeLayout>
-
-                        </android.support.v7.widget.CardView>
-
-                        <android.support.v7.widget.CardView
-                            android:id="@+id/way_text_frame"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_alignParentRight="true"
-                            android:layout_marginRight="8dp"
-                            android:layout_toLeftOf="@id/place_text_frame"
-                            android:layout_weight="1"
-                            app:cardBackgroundColor="@android:color/transparent"
-                            app:cardElevation="0dp"
-                            app:cardUseCompatPadding="true"
-                            app:contentPadding="8dp">
-
-                            <RelativeLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
-
-                                <TextView
-                                    android:id="@+id/way_text_dt"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginBottom="8dp"
-                                    android:gravity="center"
-                                    android:text="@string/myactiveride_wayTv"
-                                    android:textAllCaps="true"
-                                    android:textSize="12sp"
-                                    android:textStyle="bold" />
-
-                                <TextView
-                                    android:id="@+id/way_dt"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_below="@+id/way_text_dt"
-                                    android:gravity="center" />
-                            </RelativeLayout>
-                        </android.support.v7.widget.CardView>
-
-                    </LinearLayout>
-
-
-                    <android.support.v7.widget.CardView
                         android:id="@+id/description_text_frame"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/place_way_text_frame"
-                        android:paddingTop="16dp"
-                        app:cardBackgroundColor="@android:color/transparent"
-                        app:cardElevation="0dp"
-                        app:cardUseCompatPadding="true"
-                        app:contentPadding="8dp">
+                        android:layout_below="@id/way_text_frame">
+                        <TextView
+                            android:id="@+id/description_text_dt"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingBottom="8dp"
+                            android:text="@string/dialog_ride_detail_driver_message"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
 
-                        <RelativeLayout
+                        <TextView
+                            android:id="@+id/description_dt"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content">
-
-                            <TextView
-                                android:id="@+id/description_text_dt"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="center"
-                                android:paddingBottom="8dp"
-                                android:text="@string/myactiveride_descriptionTv"
-                                android:textAllCaps="true"
-                                android:textSize="14sp"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:id="@+id/description_dt"
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:layout_below="@id/description_text_dt"
-                                android:paddingLeft="8dp"
-                                android:paddingRight="8dp" />
-                        </RelativeLayout>
-                    </android.support.v7.widget.CardView>
-
-
+                            android:layout_height="match_parent"
+                            android:layout_below="@id/description_text_dt"/>
+                    </RelativeLayout>
                 </RelativeLayout>
 
                 <TextView

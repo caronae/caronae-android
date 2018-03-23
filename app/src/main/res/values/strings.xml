@@ -238,8 +238,9 @@
     <string name="possible_duplicate_sub_text">Você pode cancelar e verificar as suas caronas ou continuar e criar a carona mesmo assim</string>
     <string name="duplicate_ride_main_text">Você já ofereceu uma carona muito parecida com essa</string>
     <string name="duplicate_ride_sub_text">Você pode verificar as suas caronas na seção "Minhas Caronas"</string>
-
-
+    <string name="dialog_ride_detail_reference_point">PONTO DE REFERÊNCIA</string>
+    <string name="dialog_ride_detail_driver_route">ROTA DO MOTORISTA</string>
+    <string name="dialog_ride_detail_driver_message">RECADO DO MOTORISTA</string>
     <!-- Dialog Texts -->
 
     <string name="ride_in_past_header">Carona Encerrada</string>

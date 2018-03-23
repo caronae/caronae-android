@@ -290,12 +290,12 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
         name_dt.setText(driver.getName());
         profile_dt.setText(driver.getProfile());
         if (rideWithUsers.getRoute().equals("")) {
-            way_text_frame.setVisibility(View.GONE);
+            way_dt.setText("---");
         } else {
             way_dt.setText(rideWithUsers.getRoute());
         }
         if (rideWithUsers.getPlace().equals("")) {
-            place_text_frame.setVisibility(View.GONE);
+            place_dt.setText("---");
         } else {
             place_dt.setText(rideWithUsers.getPlace());
         }
@@ -308,7 +308,7 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
         date_dt.setText(Util.formatBadDateWithoutYear(rideWithUsers.getDate()));
         date_dt.setTextColor(color);
         if (rideWithUsers.getDescription().equals("")) {
-            description_text_frame.setVisibility(View.GONE);
+            description_dt.setText("---");
         } else {
             description_dt.setText(rideWithUsers.getDescription());
         }
