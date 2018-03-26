@@ -321,13 +321,19 @@ public class MyProfileFrag extends Fragment {
         name_tv.setText(user.getName());
         profile_tv.setText(user.getProfile());
         course_tv.setText(user.getCourse());
-        phoneNumber_et.setText(getFormatedNumber(user.getPhoneNumber()));
+        System.out.println("PhoneNumber:"+user.getPhoneNumber());
+        if(!TextUtils.isEmpty(user.getPhoneNumber()))
+        {
+            phoneNumber_et.setText(getFormatedNumber(user.getPhoneNumber()));
+        }
         email_et.setText(user.getEmail());
         location_et.setText(user.getLocation());
         carOwner_sw.setChecked(user.isCarOwner());
         carModel_et.setText(user.getCarModel());
         carColor_et.setText(user.getCarColor());
-        carPlate_et.setText(getFormatedPlate(user.getCarPlate()));
+        if(!TextUtils.isEmpty(user.getCarPlate())) {
+            carPlate_et.setText(getFormatedPlate(user.getCarPlate()));
+        }
         String date = user.getCreatedAt().split(" ")[0];
         date = Util.formatBadDateWithYear(date).substring(3);
         createdAt_tv.setText(date);
