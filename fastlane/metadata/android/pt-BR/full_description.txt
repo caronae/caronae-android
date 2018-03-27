@@ -1,0 +1,21 @@
+O aplicativo oficial de caronas da UFRJ
+
+O Caronaê é um sistema de código aberto, seguro e prático de caronas compartilhadas, composto por pontos de caronas espalhados pelos campi das universidades parceiras e por um aplicativo exclusivo para a comunidade acadêmica dessas instituições.
+
+O aplicativo tem como objetivo facilitar o deslocamento de chegada e saída da universidade, unindo motoristas e caronistas em um serviço digital simples e eficiente.
+
+Como funciona?
+◦ O acesso ao Caronaê é validado através da Intranet das instituições parceiras.
+◦ Suas caronas e perfil são restritos somente as pessoas da sua própria universidade.
+◦ Na tela 'Todas' você pode ver a lista de todas as caronas ofertadas.
+◦ Você pode abrir qualquer carona, ver os detalhes e solicitar uma vaga.
+◦ Após solicitar uma carona e ser aceito você pode conversar com o motorista através do chat e combinar os detalhes.
+◦ Na tela 'Minhas' você pode ver todas as suas caronas Ativas e Ofertadas.
+◦ Também nas telas 'Minhas' e 'Todas' você pode selecionar a opção para oferecer uma carona indo ou voltando da universidade através do botão de '+' disponível na tela.
+◦ Agora você pode buscar e oferecer caronas. Adeus, ônibus lotado!
+
+Quer ser um testador (Beta Tester) do Caronaê? Você irá receber as atualizações primeiro e pode ajudar a melhorar ainda mais o funcionamento enviando seus comentários diretamente para os desenvolvedores! Envie um email para caronae@fundoverde.ufrj.br
+
+Caso encontre problemas, entre em contato conosco através do aplicativo, do e-mail caronae@fundoverde.ufrj.br, ou nos mande uma mensagem em nossa página do Facebook: https://www.facebook.com/redecaronae.
+
+Desenvolvido por Breno Rocha e Luis Felipe, em conjunto com a Equipe Caronaê.

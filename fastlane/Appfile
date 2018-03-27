@@ -1,0 +1,2 @@
+json_key_file("google-play-developer-key.json")
+package_name("br.ufrj.caronae")
