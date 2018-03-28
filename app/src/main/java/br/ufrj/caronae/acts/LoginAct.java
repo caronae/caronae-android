@@ -138,11 +138,6 @@ public class LoginAct extends AppCompatActivity {
         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(CaronaeAPI.BASE_URL + "login")));
     }
 
-    //@OnClick(R.id.logo)
-    public void signUp() {
-        startActivity(new Intent(LoginAct.this, SignUpAct.class));
-    }
-
     private class SaveRidesAsync extends AsyncTask<Void, Void, Void> {
         private final UserWithRidesForJson userWithRides;
 
