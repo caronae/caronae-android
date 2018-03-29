@@ -49,6 +49,6 @@ workflows:
           filters:
             branches:
               only: master
-      - bdeploy-internal:
+      - deploy-internal:
           requires:
             - configure-code
