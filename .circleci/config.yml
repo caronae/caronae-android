@@ -1,0 +1,54 @@
+version: 2
+references:
+  defaults: &defaults
+    docker:
+      - image: circleci/android:api-26-alpha
+    environment:
+      TERM: dumb
+      _JAVA_OPTIONS: "-Xmx2048m -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap"
+      GRADLE_OPTS: '-Dorg.gradle.jvmargs="-Xmx2048m"'
+
+  restore_repo: &restore_repo
+    restore_cache:
+      keys:
+        - v1-repo-{{ .Branch }}-{{ .Revision }}
+        - v1-repo-{{ .Branch }}
+        - v1-repo
+
+jobs:
+  configure-code:
+    <<: *defaults
+    steps:
+      - *restore_repo
+      - checkout
+      - run: bundle install --path vendor/bundle
+      - run: ./gradlew androidDependencies
+      - run:
+          name: Persist build number
+          command: echo ${CIRCLE_BUILD_NUM} > build_number.txt
+      - save_cache:
+          key: v1-repo-{{ .Branch }}-{{ .Revision }}
+          paths:
+            - .
+
+  deploy-internal:
+    <<: *defaults
+    steps:
+      - *restore_repo
+      - run:
+          name: Publish app to internal testing
+          command: bundle exec fastlane beta
+
+
+workflows:
+  version: 2
+
+  build-and-deploy:
+    jobs:
+      - configure-code:
+          filters:
+            branches:
+              only: master
+      - bdeploy-internal:
+          requires:
+            - configure-code
