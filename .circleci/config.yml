@@ -24,6 +24,9 @@ jobs:
       - run: bundle install --path vendor/bundle
       - run: ./gradlew androidDependencies
       - run:
+          name: Prepare build
+          command: bundle exec fastlane prepare_build
+      - run:
           name: Persist build number
           command: echo ${CIRCLE_BUILD_NUM} > build_number.txt
       - save_cache:

@@ -5,6 +5,11 @@ default_platform :android
 GOOGLE_KEYS_FILE='../app/google-services.json'
 
 platform :android do
+  desc "Prepare dependencies for building app"
+  lane :prepare_build do |options|
+    decrypt_keys
+  end
+
   desc "Build app"
   lane :build do
     version_code = File.read("../build_number.txt").to_i if File.exist?("../build_number.txt")
