@@ -2,13 +2,6 @@
 apply plugin: 'com.android.application'
 
 android {
-    ext.buildVersionCode = {
-        def versionCode = System.getenv("VERSION_CODE")
-        if (versionCode == null) {
-            return ""
-        }
-        return Integer.parseInt(versionCode)
-    }
     if (project.hasProperty("RELEASE_STORE_FILE")) {
         signingConfigs {
             release {
@@ -25,7 +18,7 @@ android {
         applicationId "br.ufrj.caronae"
         minSdkVersion 15
         targetSdkVersion 22
-        versionCode buildVersionCode() ?: 37
+        versionCode 37
         versionName "2.2.7"
         renderscriptTargetApi 15
         renderscriptSupportModeEnabled true

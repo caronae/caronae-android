@@ -8,9 +8,13 @@ platform :android do
 
   desc "Build app"
   lane :build do
+    version_code = File.read("../build_number.txt").to_i if File.exist?("../build_number.txt")
+    puts "Version code: #{version_code}" if version_code
+    build_properties = version_code ? { 'versionCode' => version_code } : {}
     gradle(
       task: 'assemble',
       build_type: 'Release',
+      properties: build_properties,
     )
   end
 
