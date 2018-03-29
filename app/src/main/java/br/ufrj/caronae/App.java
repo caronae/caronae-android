@@ -2,6 +2,7 @@ package br.ufrj.caronae;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.multidex.MultiDex;
 
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
@@ -73,6 +74,7 @@ public class App extends SugarApp {
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
         ACRA.init(this);
+        MultiDex.install(this);
     }
 
     public static void LogOut(){
