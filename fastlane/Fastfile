@@ -14,11 +14,18 @@ platform :android do
   lane :build do
     version_code = File.read("../build_number.txt").to_i if File.exist?("../build_number.txt")
     puts "Version code: #{version_code}" if version_code
-    build_properties = version_code ? { 'versionCode' => version_code } : {}
+    build_properties = ENV['CIRCLECI'] ? {
+      'RELEASE_STORE_FILE' => '../keys/caronaekeystore.jks',
+      'RELEASE_STORE_PASSWORD' => ENV['RELEASE_STORE_PASSWORD'],
+      'RELEASE_KEY_ALIAS' => ENV['RELEASE_KEY_ALIAS'],
+      'RELEASE_KEY_PASSWORD' => ENV['RELEASE_KEY_PASSWORD'],
+    } : {}
+    build_properties[:version_code] = version_code if version_code
     gradle(
       task: 'assemble',
       build_type: 'Release',
       properties: build_properties,
+      print_command: false,
     )
   end
 
