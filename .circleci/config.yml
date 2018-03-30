@@ -28,7 +28,7 @@ jobs:
           command: bundle exec fastlane prepare_build
       - run:
           name: Persist build number
-          command: echo ${CIRCLE_BUILD_NUM} > build_number.txt
+          command: echo $(($CIRCLE_BUILD_NUM+100)) > build_number.txt
       - save_cache:
           key: v1-repo-{{ .Branch }}-{{ .Revision }}
           paths:
