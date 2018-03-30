@@ -6,7 +6,8 @@ platform :android do
   desc "Prepare dependencies for building app"
   lane :prepare_build do |options|
     decrypt_key(file: '../app/google-services.json')
-    decrypt_key(file: '../google-play-developer-key.json')
+    decrypt_key(file: '../keys/google-play-developer-key.json')
+    decrypt_key(file: '../keys/caronaekeystore.jks')
   end
 
   desc "Build app"

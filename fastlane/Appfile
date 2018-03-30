@@ -1,2 +1,2 @@
-json_key_file("google-play-developer-key.json")
-package_name("br.ufrj.caronae")
+json_key_file "keys/google-play-developer-key.json"
+package_name "br.ufrj.caronae"
