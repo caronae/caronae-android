@@ -20,7 +20,7 @@ platform :android do
       'RELEASE_KEY_ALIAS' => ENV['RELEASE_KEY_ALIAS'],
       'RELEASE_KEY_PASSWORD' => ENV['RELEASE_KEY_PASSWORD'],
     } : {}
-    build_properties[:version_code] = version_code if version_code
+    build_properties[:VERSION_CODE] = version_code if version_code
     gradle(
       task: 'assemble',
       build_type: 'Release',
