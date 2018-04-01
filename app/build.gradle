@@ -86,7 +86,7 @@ dependencies {
     compile 'com.github.satyan:sugar:1.4'
     compile 'com.github.rey5137:material:1.2.2'
     compile 'com.github.clans:fab:1.6.4'
-    compile 'com.facebook.android:facebook-android-sdk:4.8.2'
+    compile 'com.facebook.android:facebook-android-sdk:4.31.0'
     compile 'com.daimajia.swipelayout:library:1.2.0@aar'
     compile 'io.reactivex:rxandroid:1.0.1'
     compile 'de.hdodenhof:circleimageview:2.1.0'
