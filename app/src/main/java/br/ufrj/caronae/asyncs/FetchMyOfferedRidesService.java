@@ -28,7 +28,7 @@ public class FetchMyOfferedRidesService extends IntentService {
 
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
-        CaronaeAPI.service(App.inst()).getOfferedRides(App.getUser().getDbId() + "")
+        CaronaeAPI.service(App.getInst()).getOfferedRides(App.getUser().getDbId() + "")
                 .enqueue(new Callback<RideForJsonDeserializer>() {
                     @Override
                     public void onResponse(Call<RideForJsonDeserializer> call, Response<RideForJsonDeserializer> response) {

@@ -156,14 +156,14 @@ public class AllRidesFrag extends Fragment {
                                 }
 
                                 if (isAdded()) {
-                                    viewPager.setAdapter(new AllRidesFragmentPagerAdapter(getChildFragmentManager(), goingRides, notGoingRides, App.inst().getResources().getStringArray(R.array.tab_tags)));
+                                    viewPager.setAdapter(new AllRidesFragmentPagerAdapter(getChildFragmentManager(), goingRides, notGoingRides, App.getInst().getResources().getStringArray(R.array.tab_tags)));
                                     tabLayout.setupWithViewPager(viewPager);
                                     if (PAGE_WAS_GOING)
                                         viewPager.setCurrentItem(0);
                                     else
                                         viewPager.setCurrentItem(1);
 
-                                    tabLayout.setBackground(ContextCompat.getDrawable(App.inst(), R.drawable.transparency_gradient_top_botton));
+                                    tabLayout.setBackground(ContextCompat.getDrawable(App.getInst(), R.drawable.transparency_gradient_top_botton));
 
                                     configureTabIndicators();
                                 }

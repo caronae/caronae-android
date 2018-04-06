@@ -32,7 +32,7 @@ public class TabbedRideOfferFrag extends Fragment {
         viewPager.setAdapter(new RideDirectionFragmentPagerAdapter(getChildFragmentManager(), RideOfferFrag.class,  getResources().getStringArray(R.array.tab_tags)));
         tabLayout.setupWithViewPager(viewPager);
 
-        tabLayout.setBackground(ContextCompat.getDrawable(App.inst(), R.drawable.transparency_gradient_top_botton));
+        tabLayout.setBackground(ContextCompat.getDrawable(App.getInst(), R.drawable.transparency_gradient_top_botton));
 
         configureTabIndicators();
 

@@ -462,9 +462,9 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(App.inst(), MainAct.class);
+                Intent intent = new Intent(App.getInst(), MainAct.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                App.inst().startActivity(intent);
+                App.getInst().startActivity(intent);
             }
         });
 

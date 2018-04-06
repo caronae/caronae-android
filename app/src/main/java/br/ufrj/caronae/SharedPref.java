@@ -14,26 +14,26 @@ public class SharedPref {
     private static final String LAST_RIDE_OFFER_NOT_GOING_PREF_KEY   = "lastRideOfferNotGoing";
     private static final String LAST_RIDE_SEARCH_FILTERS_PREF_KEY    = "lastRideSearchFilters";
     private static final String LAST_RIDE_FILTERS_PREF_KEY           = "lastRideFilters";
-    public static final String RIDE_FILTER_PREF_KEY                 = "filter";
+    public static final String RIDE_FILTER_PREF_KEY                  = "filter";
     private static final String TOKEN_PREF_KEY                       = "token";
-    private static final String IDUFRJ_PREF_KEY                       = "idUfrj";
+    private static final String IDUFRJ_PREF_KEY                      = "idUfrj";
     private static final String NOTIFICATIONS_ON_PREF_KEY            = "notifOn";
     private static final String DRAWER_PIC_PREF                      = "drawerPic";
     private static final String RM_RIDE_LIST                         = "removeRideFromList";
     public static final String MISSING_PREF                          = "missing";
     public static final String TOPIC_GERAL                           = "general";
-    public static final String MY_RIDE_LIST_KEY                            = "myRides";
-    public static String CHAT_ACT_STATUS                            = "chatStatus";
-    public static String FRAGMENT_INDICATOR                            = "";
-    public static final String DIALOG_CAMPUS_SEARCH_KEY            = "campus";
-    public static final String DIALOG_CENTER_SEARCH_KEY            = "centro";
-    public static final String DIALOG_DISMISS_KEY                  = "dismiss_key";
-    public static final String MY_RIDES_DELETE_TUTORIAL            = "my_rides_delete_tut";
+    public static final String MY_RIDE_LIST_KEY                      = "myRides";
+    public static String CHAT_ACT_STATUS                             = "chatStatus";
+    public static String FRAGMENT_INDICATOR                          = "";
+    public static final String DIALOG_CAMPUS_SEARCH_KEY              = "campus";
+    public static final String DIALOG_CENTER_SEARCH_KEY              = "centro";
+    public static final String DIALOG_DISMISS_KEY                    = "dismiss_key";
+    public static final String MY_RIDES_DELETE_TUTORIAL              = "my_rides_delete_tut";
 
 
 
     private static SharedPreferences getSharedPreferences() {
-        return PreferenceManager.getDefaultSharedPreferences(App.inst());
+        return PreferenceManager.getDefaultSharedPreferences(App.getInst());
     }
 
     private static SharedPreferences.Editor getSharedPrefEditor() {

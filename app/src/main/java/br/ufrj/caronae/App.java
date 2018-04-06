@@ -40,7 +40,7 @@ public class App extends SugarApp {
         inst = this;
     }
 
-    public static App inst() {
+    public static App getInst() {
         return inst;
     }
 
@@ -74,15 +74,15 @@ public class App extends SugarApp {
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
         ACRA.init(this);
-        MultiDex.install(this);
+        MultiDex.install(base);
     }
 
     public static void LogOut(){
         FirebaseMessaging.getInstance().unsubscribeFromTopic(SharedPref.TOPIC_GERAL);
         FirebaseMessaging.getInstance().unsubscribeFromTopic(App.getUser().getDbId() + "");
-        new LogOut(App.inst()).execute();
-        Intent intent = new Intent(App.inst(), LoginAct.class);
+        new LogOut(App.getInst()).execute();
+        Intent intent = new Intent(App.getInst(), LoginAct.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        App.inst().startActivity(intent);
+        App.getInst().startActivity(intent);
     }
 }

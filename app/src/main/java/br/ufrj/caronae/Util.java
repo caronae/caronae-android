@@ -95,11 +95,11 @@ public class Util {
 //    }
 
     public static void toast(int msg) {
-        Toast.makeText(App.inst(), App.inst().getString(msg), Toast.LENGTH_SHORT).show();
+        Toast.makeText(App.getInst(), App.getInst().getString(msg), Toast.LENGTH_SHORT).show();
     }
 
     public static void toast(String msg) {
-        Toast.makeText(App.inst(), msg, Toast.LENGTH_SHORT).show();
+        Toast.makeText(App.getInst(), msg, Toast.LENGTH_SHORT).show();
     }
 
     public static void snack(View coordinator, String msg) {
@@ -483,7 +483,7 @@ public class Util {
     }
 
     public static int convertDpToPixel(int dp) {
-        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, App.inst().getResources().getDisplayMetrics());
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, App.getInst().getResources().getDisplayMetrics());
     }
 
     public static String getHeaderForHttp(Context context) {
@@ -632,36 +632,36 @@ public class Util {
     }
 
     static public int getColorbyZone(String zone) {
-        int color = ContextCompat.getColor(App.inst(), R.color.zone_outros);
+        int color = ContextCompat.getColor(App.getInst(), R.color.zone_outros);
         if (zone.equals("Centro")) {
-            color = ContextCompat.getColor(App.inst(), R.color.zone_centro);
+            color = ContextCompat.getColor(App.getInst(), R.color.zone_centro);
         }
         if (zone.equals("Zona Sul")) {
-            color = ContextCompat.getColor(App.inst(), R.color.zone_sul);
+            color = ContextCompat.getColor(App.getInst(), R.color.zone_sul);
         }
         if (zone.equals("Zona Oeste")) {
-            color = ContextCompat.getColor(App.inst(), R.color.zone_oeste);
+            color = ContextCompat.getColor(App.getInst(), R.color.zone_oeste);
         }
         if (zone.equals("Zona Norte")) {
-            color = ContextCompat.getColor(App.inst(), R.color.zone_norte);
+            color = ContextCompat.getColor(App.getInst(), R.color.zone_norte);
         }
         if (zone.equals("Baixada")) {
-            color = ContextCompat.getColor(App.inst(), R.color.zone_baixada);
+            color = ContextCompat.getColor(App.getInst(), R.color.zone_baixada);
         }
         if (zone.equals("Grande Niterói")) {
-            color = ContextCompat.getColor(App.inst(), R.color.zone_niteroi);
+            color = ContextCompat.getColor(App.getInst(), R.color.zone_niteroi);
         }
         return color;
     }
 
     static public int getColorbyCampi(String campi) {
-        int color = ContextCompat.getColor(App.inst(), R.color.zone_outros);
+        int color = ContextCompat.getColor(App.getInst(), R.color.zone_outros);
         if (campi.equals(getCampi()[1])) {
-            color = ContextCompat.getColor(App.inst(), R.color.zone_oeste);
+            color = ContextCompat.getColor(App.getInst(), R.color.zone_oeste);
             Log.e("COR", "campus passado: " + campi + "  campi comparado: " + getCampi()[1]);
         }
         if (campi.equals(getCampi()[2])) {
-            color = ContextCompat.getColor(App.inst(), R.color.zone_baixada);
+            color = ContextCompat.getColor(App.getInst(), R.color.zone_baixada);
             Log.e("COR", "campus passado: " + campi + "  campi comparado: " + getCampi()[2]);
         }
         return color;
@@ -672,64 +672,64 @@ public class Util {
         int num = random.nextInt(6);
         switch (num){
             case 0:
-                return ContextCompat.getColor(App.inst(), R.color.zone_centro);
+                return ContextCompat.getColor(App.getInst(), R.color.zone_centro);
             case 1:
-                return ContextCompat.getColor(App.inst(), R.color.zone_sul);
+                return ContextCompat.getColor(App.getInst(), R.color.zone_sul);
             case 2:
-                return ContextCompat.getColor(App.inst(), R.color.zone_oeste);
+                return ContextCompat.getColor(App.getInst(), R.color.zone_oeste);
             case 3:
-                return ContextCompat.getColor(App.inst(), R.color.zone_norte);
+                return ContextCompat.getColor(App.getInst(), R.color.zone_norte);
             case 4:
-                return ContextCompat.getColor(App.inst(), R.color.zone_baixada);
+                return ContextCompat.getColor(App.getInst(), R.color.zone_baixada);
             case 5:
-                return ContextCompat.getColor(App.inst(), R.color.zone_niteroi);
+                return ContextCompat.getColor(App.getInst(), R.color.zone_niteroi);
             default:
-                return ContextCompat.getColor(App.inst(), R.color.zone_outros);
+                return ContextCompat.getColor(App.getInst(), R.color.zone_outros);
         }
     }
 
     static public int getPressedColorbyZone(String zone) {
-        int color = ContextCompat.getColor(App.inst(), R.color.zone_outros);
+        int color = ContextCompat.getColor(App.getInst(), R.color.zone_outros);
         if (zone.equals("Centro")) {
-            color = ContextCompat.getColor(App.inst(), R.color.light_zone_centro_transparency);
+            color = ContextCompat.getColor(App.getInst(), R.color.light_zone_centro_transparency);
         }
         if (zone.equals("Zona Sul")) {
-            color = ContextCompat.getColor(App.inst(), R.color.light_zone_sul_transparency);
+            color = ContextCompat.getColor(App.getInst(), R.color.light_zone_sul_transparency);
         }
         if (zone.equals("Zona Oeste")) {
-            color = ContextCompat.getColor(App.inst(), R.color.light_zone_oeste_transparency);
+            color = ContextCompat.getColor(App.getInst(), R.color.light_zone_oeste_transparency);
         }
         if (zone.equals("Zona Norte")) {
-            color = ContextCompat.getColor(App.inst(), R.color.light_zone_norte_transparency);
+            color = ContextCompat.getColor(App.getInst(), R.color.light_zone_norte_transparency);
         }
         if (zone.equals("Baixada")) {
-            color = ContextCompat.getColor(App.inst(), R.color.light_zone_baixada_transparency);
+            color = ContextCompat.getColor(App.getInst(), R.color.light_zone_baixada_transparency);
         }
         if (zone.equals("Grande Niterói")) {
-            color = ContextCompat.getColor(App.inst(), R.color.light_zone_niteroi_transparency);
+            color = ContextCompat.getColor(App.getInst(), R.color.light_zone_niteroi_transparency);
         }
         return color;
     }
 
     static public int getPressedColorbyNormalColor(int color) {
-        int PressedColor = ContextCompat.getColor(App.inst(), R.color.zone_outros);
-        if (color == ContextCompat.getColor(App.inst(), R.color.zone_centro)) {
-            PressedColor = ContextCompat.getColor(App.inst(), R.color.light_zone_centro_transparency);
+        int PressedColor = ContextCompat.getColor(App.getInst(), R.color.zone_outros);
+        if (color == ContextCompat.getColor(App.getInst(), R.color.zone_centro)) {
+            PressedColor = ContextCompat.getColor(App.getInst(), R.color.light_zone_centro_transparency);
         }
-        if (color == ContextCompat.getColor(App.inst(), R.color.zone_sul)) {
-            PressedColor = ContextCompat.getColor(App.inst(), R.color.light_zone_sul_transparency);
+        if (color == ContextCompat.getColor(App.getInst(), R.color.zone_sul)) {
+            PressedColor = ContextCompat.getColor(App.getInst(), R.color.light_zone_sul_transparency);
         }
-        if (color == ContextCompat.getColor(App.inst(), R.color.zone_oeste)) {
-            PressedColor = ContextCompat.getColor(App.inst(), R.color.light_zone_oeste_transparency);
+        if (color == ContextCompat.getColor(App.getInst(), R.color.zone_oeste)) {
+            PressedColor = ContextCompat.getColor(App.getInst(), R.color.light_zone_oeste_transparency);
         }
-        if (color == ContextCompat.getColor(App.inst(), R.color.zone_norte)) {
-            PressedColor = ContextCompat.getColor(App.inst(), R.color.light_zone_norte_transparency);
+        if (color == ContextCompat.getColor(App.getInst(), R.color.zone_norte)) {
+            PressedColor = ContextCompat.getColor(App.getInst(), R.color.light_zone_norte_transparency);
         }
-        if (color == ContextCompat.getColor(App.inst(), R.color.zone_baixada)) {
-            PressedColor = ContextCompat.getColor(App.inst(), R.color.light_zone_baixada_transparency);
+        if (color == ContextCompat.getColor(App.getInst(), R.color.zone_baixada)) {
+            PressedColor = ContextCompat.getColor(App.getInst(), R.color.light_zone_baixada_transparency);
         }
-        if (color == ContextCompat.getColor(App.inst(), R.color.zone_niteroi)) {
-            PressedColor = ContextCompat.getColor(App.inst(), R.color.light_zone_niteroi_transparency);
+        if (color == ContextCompat.getColor(App.getInst(), R.color.zone_niteroi)) {
+            PressedColor = ContextCompat.getColor(App.getInst(), R.color.light_zone_niteroi_transparency);
         }
         return PressedColor;
     }

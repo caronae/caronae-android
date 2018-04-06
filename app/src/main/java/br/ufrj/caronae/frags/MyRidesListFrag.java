@@ -159,7 +159,7 @@ public class MyRidesListFrag extends Fragment {
     }
 
     private void getOfferedRides() {
-        CaronaeAPI.service(App.inst()).getOfferedRides(App.getUser().getDbId() + "")
+        CaronaeAPI.service(App.getInst()).getOfferedRides(App.getUser().getDbId() + "")
                 .enqueue(new Callback<RideForJsonDeserializer>() {
                     @Override
                     public void onResponse(Call<RideForJsonDeserializer> call, Response<RideForJsonDeserializer> response) {

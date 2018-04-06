@@ -137,7 +137,7 @@ public class AllRidesListFrag extends Fragment implements Callback {
 
         animateListFadeIn();
 
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(App.inst());
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(App.getInst());
 
         sharedPreferences.registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener() {
             @Override

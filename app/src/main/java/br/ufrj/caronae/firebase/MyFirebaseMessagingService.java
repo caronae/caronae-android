@@ -165,7 +165,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                         PendingIntent.FLAG_UPDATE_CURRENT
                 );
 
-        Context context = App.inst();
+        Context context = App.getInst();
         Uri alarmSound = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.beep);
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
                 .setSmallIcon(R.drawable.ic_stat_name)
