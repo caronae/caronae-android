@@ -23,10 +23,10 @@ android {
     defaultConfig {
         applicationId "br.ufrj.caronae"
         minSdkVersion 16
-        targetSdkVersion 22
+        targetSdkVersion 27
         versionCode buildVersionCode() ?: 37
         versionName "2.2.7"
-        renderscriptTargetApi 15
+        renderscriptTargetApi 16
         renderscriptSupportModeEnabled true
         multiDexEnabled true
     }

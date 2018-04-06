@@ -7,7 +7,7 @@ Aplicativo para Android do Caronaê.
 **Requisitos:**
 
 * Android Studio 3.1
-* Android Min SDK 16
+* Android 4.1+
 
 ## Instalação
 
