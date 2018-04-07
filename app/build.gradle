@@ -22,11 +22,11 @@ android {
     buildToolsVersion '27.0.3'
     defaultConfig {
         applicationId "br.ufrj.caronae"
-        minSdkVersion 16
+        minSdkVersion 15
         targetSdkVersion 27
         versionCode buildVersionCode() ?: 37
         versionName "2.2.7"
-        renderscriptTargetApi 16
+        renderscriptTargetApi 15
         renderscriptSupportModeEnabled true
         multiDexEnabled true
     }
