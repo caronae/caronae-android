@@ -3,6 +3,7 @@ package br.ufrj.caronae.acts;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.TextView;
 
@@ -90,10 +91,13 @@ public class MainAct extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_allrides:
+                    selectDrawerItem(item);
                     return true;
                 case R.id.navigation_myrides:
+                    selectDrawerItem(item);
                     return true;
                 case R.id.navigation_menu:
+                    selectDrawerItem(item);
                     return true;
             }
             return false;
@@ -289,6 +293,25 @@ public class MainAct extends AppCompatActivity {
         Fragment fragment = null;
         Class fragmentClass;
         switch (menuItem.getItemId()) {
+            case R.id.navigation_allrides:
+                if(!filterText.getText().equals(""))
+                {
+                    showFilterCard(getBaseContext());
+                }
+                else
+                {
+                    hideFilterCard(getBaseContext());
+                }
+                fragmentClass = AllRidesFrag.class;
+                break;
+            case R.id.navigation_myrides:
+                hideFilterCard(getBaseContext());
+                fragmentClass = MyRidesFrag.class;
+                break;
+            case R.id.navigation_menu:
+                fragmentClass = MyProfileFrag.class;
+                hideFilterCard(getBaseContext());
+                break;
             case R.id.nav_first_fragment:
                 fragmentClass = MyProfileFrag.class;
                 hideFilterCard(getBaseContext());
