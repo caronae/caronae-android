@@ -55,4 +55,87 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/lay1"
         android:src="@drawable/color_bar" />
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/color_bar"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp">
+        <TextView
+            android:id="@+id/myprofile_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/title_myprofile_frag"
+            android:textStyle="bold"
+            android:textSize="17sp"
+            android:textColor="@color/dark_gray"
+            android:clickable="true"
+            android:focusable="true"/>
+
+        <TextView
+            android:id="@+id/history_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/frag_history_title"
+            android:textStyle="bold"
+            android:layout_marginTop="20dp"
+            android:textSize="17sp"
+            android:layout_below="@id/myprofile_btn"
+            android:textColor="@color/dark_gray"
+            android:clickable="true"
+            android:focusable="true"/>
+
+        <TextView
+            android:id="@+id/faq_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/frag_faq_title"
+            android:textStyle="bold"
+            android:layout_marginTop="20dp"
+            android:textSize="17sp"
+            android:layout_below="@id/history_btn"
+            android:textColor="@color/dark_gray"
+            android:clickable="true"
+            android:focusable="true"/>
+
+        <TextView
+            android:id="@+id/falae_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/frag_falae_title"
+            android:textStyle="bold"
+            android:layout_marginTop="20dp"
+            android:textSize="17sp"
+            android:layout_below="@id/faq_btn"
+            android:textColor="@color/dark_gray"
+            android:clickable="true"
+            android:focusable="true"/>
+
+        <TextView
+            android:id="@+id/termsofuse_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/frag_termsofuse_title"
+            android:textStyle="bold"
+            android:layout_marginTop="20dp"
+            android:textSize="17sp"
+            android:layout_below="@id/falae_btn"
+            android:textColor="@color/dark_gray"
+            android:clickable="true"
+            android:focusable="true"/>
+
+        <TextView
+            android:id="@+id/about_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/frag_about_title"
+            android:textStyle="bold"
+            android:layout_marginTop="20dp"
+            android:textSize="17sp"
+            android:layout_below="@id/termsofuse_btn"
+            android:textColor="@color/dark_gray"
+            android:clickable="true"
+            android:focusable="true"/>
+    </RelativeLayout>
 </RelativeLayout>

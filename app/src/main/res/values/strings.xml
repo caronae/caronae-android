@@ -32,6 +32,7 @@
     <string name="notCarOwner">Você deve possuir um carro em seu perfil para poder oferecer uma carona</string>
     <string name="title_activity_chat">ChatAct</string>
     <string name="title_activity_profile">Perfil do usuário</string>
+    <string name="title_myprofile_frag">Meu Perfil</string>
 
     <string name="wait">Aguarde</string>
     <string name="act_login_notFound">Usuário não encontrado</string>
@@ -195,9 +196,9 @@
     <string name="frag_falae_title">Falaê</string>
     <string name="frag_searchride_title">Buscar carona</string>
     <string name="frag_filterride_title">Filtrar caronas</string>
-    <string name="frag_termsofuse_title">Termos de uso</string>
+    <string name="frag_termsofuse_title">Termos de Uso</string>
     <string name="frag_filterride_description">Adicionando um filtro você pode visualizar apenas as caronas de seu interesse.</string>
-    <string name="frag_about_title">Sobre</string>
+    <string name="frag_about_title">Sobre o Caronaê</string>
     <string name="frag_logout_title">Sair</string>
     <string name="confirm_logout">Você deseja mesmo sair da sua conta?</string>
     <string name="frag_myprofile_errorGetIntranetPhoto">Erro ao pegar foto do SIGA</string>
