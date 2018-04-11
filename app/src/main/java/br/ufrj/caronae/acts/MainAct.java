@@ -58,6 +58,7 @@ import br.ufrj.caronae.frags.FAQFrag;
 import br.ufrj.caronae.frags.FalaeFrag;
 import br.ufrj.caronae.frags.MyProfileFrag;
 import br.ufrj.caronae.frags.MyRidesFrag;
+import br.ufrj.caronae.frags.OptionsMenuFrag;
 import br.ufrj.caronae.frags.RideFilterFrag;
 import br.ufrj.caronae.frags.RideSearchFrag;
 import br.ufrj.caronae.frags.RidesHistoryFrag;
@@ -309,7 +310,7 @@ public class MainAct extends AppCompatActivity {
                 fragmentClass = MyRidesFrag.class;
                 break;
             case R.id.navigation_menu:
-                fragmentClass = MyProfileFrag.class;
+                fragmentClass = OptionsMenuFrag.class;
                 hideFilterCard(getBaseContext());
                 break;
             case R.id.nav_first_fragment:

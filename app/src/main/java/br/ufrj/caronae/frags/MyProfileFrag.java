@@ -321,7 +321,6 @@ public class MyProfileFrag extends Fragment {
         name_tv.setText(user.getName());
         profile_tv.setText(user.getProfile());
         course_tv.setText(user.getCourse());
-        System.out.println("PhoneNumber:"+user.getPhoneNumber());
         if(!TextUtils.isEmpty(user.getPhoneNumber()))
         {
             phoneNumber_et.setText(getFormatedNumber(user.getPhoneNumber()));
