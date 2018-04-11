@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_allrides"
+        android:icon="@drawable/ic_allrides_24dp"
+        android:title="@string/title_allrides" />
+
+    <item
+        android:id="@+id/navigation_myrides"
+        android:icon="@drawable/ic_myrides_24dp"
+        android:title="@string/title_myrides" />
+
+    <item
+        android:id="@+id/navigation_menu"
+        android:icon="@drawable/ic_menu_24dp"
+        android:title="@string/title_menu" />
+
+</menu>
