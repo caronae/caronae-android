@@ -199,6 +199,7 @@
     <string name="frag_termsofuse_title">Termos de Uso</string>
     <string name="frag_filterride_description">Adicionando um filtro você pode visualizar apenas as caronas de seu interesse.</string>
     <string name="frag_about_title">Sobre o Caronaê</string>
+    <string name="about_tab">Sobre</string>
     <string name="frag_logout_title">Sair</string>
     <string name="confirm_logout">Você deseja mesmo sair da sua conta?</string>
     <string name="frag_myprofile_errorGetIntranetPhoto">Erro ao pegar foto do SIGA</string>
@@ -257,5 +258,6 @@
     <string name="title_allrides">Todas</string>
     <string name="title_myrides">Minhas</string>
     <string name="title_menu">Menu</string>
+    <string name="title_activity_about">AboutAct</string>
 
 </resources>

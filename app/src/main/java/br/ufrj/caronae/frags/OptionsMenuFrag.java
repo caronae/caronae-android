@@ -1,9 +1,13 @@
 package br.ufrj.caronae.frags;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -14,9 +18,12 @@ import com.squareup.picasso.Picasso;
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.RoundedTransformation;
+import br.ufrj.caronae.acts.AboutAct;
+import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.models.User;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class OptionsMenuFrag extends Fragment {
 
@@ -26,6 +33,18 @@ public class OptionsMenuFrag extends Fragment {
     TextView profile_tv;
     @BindView(R.id.user_pic)
     ImageView user_pic;
+    @BindView(R.id.myprofile_btn)
+    TextView myProfile_btn;
+    @BindView(R.id.history_btn)
+    TextView history_btn;
+    @BindView(R.id.faq_btn)
+    TextView faq_btn;
+    @BindView(R.id.falae_btn)
+    TextView falae_btn;
+    @BindView(R.id.termsofuse_btn)
+    TextView termsOfUse_btn;
+    @BindView(R.id.about_btn)
+    TextView about_btn;
 
     public OptionsMenuFrag() {
         // Required empty public constructor
@@ -58,5 +77,36 @@ public class OptionsMenuFrag extends Fragment {
                     .error(R.drawable.user_pic)
                     .transform(new RoundedTransformation())
                     .into(user_pic);
+    }
+
+    @OnClick(R.id.myprofile_btn)
+    public void openMyProfile() {
+
+    }
+
+    @OnClick(R.id.history_btn)
+    public void openHistory() {
+
+    }
+
+    @OnClick(R.id.faq_btn)
+    public void openFAQ() {
+
+    }
+
+    @OnClick(R.id.falae_btn)
+    public void openFalae() {
+
+    }
+
+    @OnClick(R.id.termsofuse_btn)
+    public void openTermsOfUse() {
+
+    }
+
+    @OnClick(R.id.about_btn)
+    public void openAbout() {
+        Intent aboutAct = new Intent(getActivity(), AboutAct.class);
+        startActivity(aboutAct);
     }
 }
