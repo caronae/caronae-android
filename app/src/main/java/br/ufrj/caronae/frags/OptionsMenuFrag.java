@@ -15,7 +15,7 @@ import com.squareup.picasso.Picasso;
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.RoundedTransformation;
-import br.ufrj.caronae.acts.WebScreensAct;
+import br.ufrj.caronae.acts.MenuOptionsAct;
 import br.ufrj.caronae.models.User;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -82,32 +82,36 @@ public class OptionsMenuFrag extends Fragment {
 
     @OnClick(R.id.history_btn)
     public void openHistory() {
-
+        Intent historyAct = new Intent(getActivity(), MenuOptionsAct.class);
+        historyAct.putExtra("fragId", 1);
+        startActivity(historyAct);
     }
 
     @OnClick(R.id.faq_btn)
     public void openFAQ() {
-        Intent faqAct = new Intent(getActivity(), WebScreensAct.class);
-        faqAct.putExtra("fragId", 0);
+        Intent faqAct = new Intent(getActivity(), MenuOptionsAct.class);
+        faqAct.putExtra("fragId", 2);
         startActivity(faqAct);
     }
 
     @OnClick(R.id.falae_btn)
     public void openFalae() {
-
+        Intent falaeAct = new Intent(getActivity(), MenuOptionsAct.class);
+        falaeAct.putExtra("fragId", 3);
+        startActivity(falaeAct);
     }
 
     @OnClick(R.id.termsofuse_btn)
     public void openTermsOfUse() {
-        Intent termsOfUseAct = new Intent(getActivity(), WebScreensAct.class);
-        termsOfUseAct.putExtra("fragId", 1);
+        Intent termsOfUseAct = new Intent(getActivity(), MenuOptionsAct.class);
+        termsOfUseAct.putExtra("fragId", 4);
         startActivity(termsOfUseAct);
     }
 
     @OnClick(R.id.about_btn)
     public void openAbout() {
-        Intent aboutAct = new Intent(getActivity(), WebScreensAct.class);
-        aboutAct.putExtra("fragId", 2);
+        Intent aboutAct = new Intent(getActivity(), MenuOptionsAct.class);
+        aboutAct.putExtra("fragId", 5);
         startActivity(aboutAct);
     }
 }

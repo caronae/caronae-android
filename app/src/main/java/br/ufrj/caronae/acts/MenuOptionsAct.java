@@ -13,9 +13,11 @@ import br.ufrj.caronae.R;
 import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.frags.AboutFrag;
 import br.ufrj.caronae.frags.FAQFrag;
+import br.ufrj.caronae.frags.FalaeFrag;
+import br.ufrj.caronae.frags.RidesHistoryFrag;
 import br.ufrj.caronae.frags.TermsOfUseFrag;
 
-public class WebScreensAct extends AppCompatActivity {
+public class MenuOptionsAct extends AppCompatActivity {
 
     private Class fragmentClass;
 
@@ -41,12 +43,21 @@ public class WebScreensAct extends AppCompatActivity {
         header_tv = (TextView)findViewById(R.id.header_text);
         switch (fragId) {
             case 0:
-                header_tv.setText(R.string.frag_faq_title);
+
                 break;
             case 1:
-                header_tv.setText(R.string.frag_termsofuse_title);
+                header_tv.setText(R.string.frag_history_title);
                 break;
             case 2:
+                header_tv.setText(R.string.frag_faq_title);
+                break;
+            case 3:
+                header_tv.setText(R.string.frag_falae_title);
+                break;
+            case 4:
+                header_tv.setText(R.string.frag_termsofuse_title);
+                break;
+            case 5:
                 header_tv.setText(R.string.about_tab);
                 break;
         }
@@ -63,11 +74,15 @@ public class WebScreensAct extends AppCompatActivity {
     {
         switch (fragId)
         {
-            case 0:
-                return FAQFrag.class;
             case 1:
-                return TermsOfUseFrag.class;
+                return RidesHistoryFrag.class;
             case 2:
+                return FAQFrag.class;
+            case 3:
+                return FalaeFrag.class;
+            case 4:
+                return TermsOfUseFrag.class;
+            case 5:
                 return AboutFrag.class;
             default:
                 Log.e("Error:", " Null fragId");
