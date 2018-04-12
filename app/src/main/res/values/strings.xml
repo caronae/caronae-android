@@ -258,6 +258,6 @@
     <string name="title_allrides">Todas</string>
     <string name="title_myrides">Minhas</string>
     <string name="title_menu">Menu</string>
-    <string name="title_activity_about">AboutAct</string>
+    <string name="title_activity_web_screens">WebScreensAct</string>
 
 </resources>

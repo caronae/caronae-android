@@ -78,12 +78,6 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".acts.AboutAct"
-            android:label="@string/title_activity_about"
-            android:theme="@style/AppTheme"
-            android:screenOrientation="portrait">
-        </activity>
-        <activity
             android:name=".acts.RideOfferAct"
             android:label="@string/app_name"
             android:screenOrientation="portrait">
@@ -126,7 +120,10 @@
             android:name=".asyncs.FetchMyOfferedRidesService"
             android:exported="false" />
 
-
+        <activity
+            android:name=".acts.WebScreensAct"
+            android:label="@string/title_activity_web_screens"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

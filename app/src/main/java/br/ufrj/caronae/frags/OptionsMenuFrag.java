@@ -4,10 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -18,8 +15,7 @@ import com.squareup.picasso.Picasso;
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.RoundedTransformation;
-import br.ufrj.caronae.acts.AboutAct;
-import br.ufrj.caronae.acts.MainAct;
+import br.ufrj.caronae.acts.WebScreensAct;
 import br.ufrj.caronae.models.User;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -91,7 +87,9 @@ public class OptionsMenuFrag extends Fragment {
 
     @OnClick(R.id.faq_btn)
     public void openFAQ() {
-
+        Intent faqAct = new Intent(getActivity(), WebScreensAct.class);
+        faqAct.putExtra("fragId", 0);
+        startActivity(faqAct);
     }
 
     @OnClick(R.id.falae_btn)
@@ -101,12 +99,15 @@ public class OptionsMenuFrag extends Fragment {
 
     @OnClick(R.id.termsofuse_btn)
     public void openTermsOfUse() {
-
+        Intent termsOfUseAct = new Intent(getActivity(), WebScreensAct.class);
+        termsOfUseAct.putExtra("fragId", 1);
+        startActivity(termsOfUseAct);
     }
 
     @OnClick(R.id.about_btn)
     public void openAbout() {
-        Intent aboutAct = new Intent(getActivity(), AboutAct.class);
+        Intent aboutAct = new Intent(getActivity(), WebScreensAct.class);
+        aboutAct.putExtra("fragId", 2);
         startActivity(aboutAct);
     }
 }
