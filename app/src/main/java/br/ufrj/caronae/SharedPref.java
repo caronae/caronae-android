@@ -23,6 +23,7 @@ public class SharedPref {
     public static final String MISSING_PREF                          = "missing";
     public static final String TOPIC_GERAL                           = "general";
     public static final String MY_RIDE_LIST_KEY                      = "myRides";
+    public static String NAV_INDICATOR                               = "AllRides";
     public static String CHAT_ACT_STATUS                             = "chatStatus";
     public static String FRAGMENT_INDICATOR                          = "";
     public static final String DIALOG_CAMPUS_SEARCH_KEY              = "campus";

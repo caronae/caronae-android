@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
@@ -92,13 +93,22 @@ public class MainAct extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_allrides:
-                    selectDrawerItem(item);
+                    if(!SharedPref.NAV_INDICATOR.equals("AllRides")) {
+                        selectDrawerItem(item);
+                        SharedPref.NAV_INDICATOR = "AllRides";
+                    }
                     return true;
                 case R.id.navigation_myrides:
-                    selectDrawerItem(item);
+                    if(!SharedPref.NAV_INDICATOR.equals("MyRides")) {
+                        selectDrawerItem(item);
+                        SharedPref.NAV_INDICATOR = "MyRides";
+                    }
                     return true;
                 case R.id.navigation_menu:
-                    selectDrawerItem(item);
+                    if(!SharedPref.NAV_INDICATOR.equals("Menu")) {
+                        selectDrawerItem(item);
+                        SharedPref.NAV_INDICATOR = "Menu";
+                    }
                     return true;
             }
             return false;
@@ -222,27 +232,37 @@ public class MainAct extends AppCompatActivity {
         backstack = new ArrayList<>();
     }
 
-
-
     @Override
     protected void onStart() {
         super.onStart();
 
         User user = App.getUser();
         Fragment fragment;
-
         boolean goToMyRides = getIntent().getBooleanExtra(SharedPref.MY_RIDE_LIST_KEY, false);
         if (user.getEmail() == null || user.getEmail().isEmpty() ||
                 user.getPhoneNumber() == null || user.getPhoneNumber().isEmpty() ||
                 user.getLocation() == null || user.getLocation().isEmpty()) {
             fragment = new MyProfileFrag();
             Util.toast(getString(R.string.act_main_profileIncomplete));
-        } else if (goToMyRides){
+        }
+        else if (goToMyRides){
             fragment = new MyRidesFrag();
             backstack.add(new AllRidesFrag().getClass());
         }
         else {
             fragment = new AllRidesFrag();
+        }
+        if(SharedPref.NAV_INDICATOR.equals("AllRides"))
+        {
+            fragment = new AllRidesFrag();
+        }
+        else if(SharedPref.NAV_INDICATOR.equals("MyRides"))
+        {
+            fragment = new MyRidesFrag();
+        }
+        else
+        {
+            fragment = new OptionsMenuFrag();
         }
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
@@ -293,6 +313,7 @@ public class MainAct extends AppCompatActivity {
     private void selectDrawerItem(MenuItem menuItem) {
         Fragment fragment = null;
         Class fragmentClass;
+
         switch (menuItem.getItemId()) {
             case R.id.navigation_allrides:
                 if(!filterText.getText().equals(""))
@@ -458,7 +479,31 @@ public class MainAct extends AppCompatActivity {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
+            BottomNavigationView bNavView = (BottomNavigationView) findViewById(R.id.navigation);
+            if(fragmentClass.equals(AllRidesFrag.class))
+            {
+                if(!bNavView.getMenu().getItem(0).isChecked())
+                {
+                    SharedPref.NAV_INDICATOR = "AllRides";
+                    bNavView.getMenu().getItem(0).setChecked(true);
+                }
+            }
+            else if(fragmentClass.equals(MyRidesFrag.class))
+            {
+                if(!bNavView.getMenu().getItem(1).isChecked())
+                {
+                    SharedPref.NAV_INDICATOR = "MyRides";
+                    bNavView.getMenu().getItem(1).setChecked(true);
+                }
+            }
+            else if(fragmentClass.equals(OptionsMenuFrag.class))
+            {
+                if(!bNavView.getMenu().getItem(2).isChecked())
+                {
+                    SharedPref.NAV_INDICATOR = "Menu";
+                    bNavView.getMenu().getItem(2).setChecked(true);
+                }
+            }
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction transaction = fragmentManager.beginTransaction();
             transaction.setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out);

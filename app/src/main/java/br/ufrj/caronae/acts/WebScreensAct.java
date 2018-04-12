@@ -1,5 +1,6 @@
 package br.ufrj.caronae.acts;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -9,6 +10,7 @@ import android.util.Log;
 import android.widget.TextView;
 
 import br.ufrj.caronae.R;
+import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.frags.AboutFrag;
 import br.ufrj.caronae.frags.FAQFrag;
 import br.ufrj.caronae.frags.TermsOfUseFrag;
@@ -47,10 +49,14 @@ public class WebScreensAct extends AppCompatActivity {
             case 2:
                 header_tv.setText(R.string.about_tab);
                 break;
-            default:
-                header_tv.setText("");
-                break;
         }
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        super.onBackPressed();
+        backToMenu();
     }
 
     private Class setFrag(int fragId)
@@ -67,5 +73,12 @@ public class WebScreensAct extends AppCompatActivity {
                 Log.e("Error:", " Null fragId");
                 return null;
         }
+    }
+
+    private void backToMenu()
+    {
+        Intent mainAct = new Intent(this, MainAct.class);
+        SharedPref.NAV_INDICATOR = "Menu";
+        startActivity(mainAct);
     }
 }
