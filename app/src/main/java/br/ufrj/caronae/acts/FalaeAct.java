@@ -74,8 +74,15 @@ public class FalaeAct extends AppCompatActivity {
         backToMenu();
     }
 
+    @OnClick(R.id.back_bt)
+    public void backTouch()
+    {
+        backToMenu();
+    }
+
     private void backToMenu()
     {
+        finish();
         Intent mainAct = new Intent(this, MainAct.class);
         SharedPref.NAV_INDICATOR = "Menu";
         startActivity(mainAct);

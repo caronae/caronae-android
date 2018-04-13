@@ -16,6 +16,9 @@ import br.ufrj.caronae.frags.FAQFrag;
 import br.ufrj.caronae.frags.FalaeFrag;
 import br.ufrj.caronae.frags.RidesHistoryFrag;
 import br.ufrj.caronae.frags.TermsOfUseFrag;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class MenuOptionsAct extends AppCompatActivity {
 
@@ -26,6 +29,8 @@ public class MenuOptionsAct extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_menu_options);
+        ButterKnife.bind(this);
         Fragment fragment = null;
         Bundle b = getIntent().getExtras();
         int fragId = b.getInt("fragId");
@@ -35,7 +40,6 @@ public class MenuOptionsAct extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        setContentView(R.layout.activity_menu_options);
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.setCustomAnimations(R.anim.anim_right_slide_in, R.anim.anim_left_slide_out);
@@ -64,6 +68,12 @@ public class MenuOptionsAct extends AppCompatActivity {
         backToMenu();
     }
 
+    @OnClick(R.id.back_bt)
+    public void backTouch()
+    {
+        backToMenu();
+    }
+
     private Class setFrag(int fragId)
     {
         switch (fragId)
@@ -84,6 +94,7 @@ public class MenuOptionsAct extends AppCompatActivity {
 
     private void backToMenu()
     {
+        finish();
         Intent mainAct = new Intent(this, MainAct.class);
         SharedPref.NAV_INDICATOR = "Menu";
         startActivity(mainAct);

@@ -12,6 +12,7 @@ import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.frags.FalaeFrag;
 import br.ufrj.caronae.frags.MyProfileShowFrag;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class MyProfileAct extends AppCompatActivity {
     private Class fragmentClass;
@@ -41,8 +42,15 @@ public class MyProfileAct extends AppCompatActivity {
         backToMenu();
     }
 
+    @OnClick(R.id.back_bt)
+    public void backTouch()
+    {
+        backToMenu();
+    }
+
     private void backToMenu()
     {
+        finish();
         Intent mainAct = new Intent(this, MainAct.class);
         SharedPref.NAV_INDICATOR = "Menu";
         startActivity(mainAct);

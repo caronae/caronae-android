@@ -65,7 +65,23 @@
                             android:clickable="true"
                             android:focusable="true"
                             android:textSize="20sp"/>
-
+                    </RelativeLayout>
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="start|center">
+                        <TextView
+                            android:id="@+id/back_bt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="@string/title_menu"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginLeft="10dp"
+                            android:textColor="@color/dark_gray"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:textSize="20sp"/>
                     </RelativeLayout>
                 </FrameLayout>
 
