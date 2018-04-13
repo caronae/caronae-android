@@ -82,12 +82,14 @@ public class OptionsMenuFrag extends Fragment {
     public void clickProfileImage() {
         Intent myProfileAct = new Intent(getActivity(), MyProfileAct.class);
         startActivity(myProfileAct);
+        getActivity().overridePendingTransition(R.anim.anim_right_slide_in, R.anim.anim_left_slide_out);
     }
 
     @OnClick(R.id.myprofile_btn)
     public void openMyProfile() {
         Intent myProfileAct = new Intent(getActivity(), MyProfileAct.class);
         startActivity(myProfileAct);
+        getActivity().overridePendingTransition(R.anim.anim_right_slide_in, R.anim.anim_left_slide_out);
     }
 
     @OnClick(R.id.history_btn)

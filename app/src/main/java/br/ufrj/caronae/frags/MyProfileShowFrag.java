@@ -68,6 +68,8 @@ public class MyProfileShowFrag extends Fragment {
     @BindView(R.id.carColor_tv)
     TextView carColor_tv;
 
+    User user;
+
     public MyProfileShowFrag() {
         // Required empty public constructor
     }
@@ -81,7 +83,7 @@ public class MyProfileShowFrag extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_my_profile_show, container, false);
         ButterKnife.bind(this, view);
-        User user = App.getUser();
+        user = App.getUser();
         if (user != null) {
             fillUserFields(user);
             phone_tv.setOnClickListener((View v) -> {

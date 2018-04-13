@@ -578,6 +578,13 @@ public class MainAct extends AppCompatActivity {
         return drawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
     }
 
+    public CallbackManager getFbCallbackManager() {
+        if (callbackManager == null)
+            callbackManager = CallbackManager.Factory.create();
+
+        return callbackManager;
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -594,13 +601,6 @@ public class MainAct extends AppCompatActivity {
                         }
                     }).show();
         }
-    }
-
-    public CallbackManager getFbCallbackManager() {
-        if (callbackManager == null)
-            callbackManager = CallbackManager.Factory.create();
-
-        return callbackManager;
     }
 
     public void showRideOfferFrag() {

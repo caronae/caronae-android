@@ -1,13 +1,11 @@
 package br.ufrj.caronae.frags;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.SwitchCompat;
 import android.text.InputFilter;
 import android.text.TextUtils;
@@ -17,11 +15,9 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.facebook.CallbackManager;
@@ -43,10 +39,8 @@ import br.ufrj.caronae.R;
 import br.ufrj.caronae.RoundedTransformation;
 import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.Util;
-import br.ufrj.caronae.acts.LoginAct;
-import br.ufrj.caronae.acts.MainAct;
+import br.ufrj.caronae.acts.MyProfileAct;
 import br.ufrj.caronae.acts.ProfileAct;
-import br.ufrj.caronae.asyncs.LogOut;
 import br.ufrj.caronae.httpapis.CaronaeAPI;
 import br.ufrj.caronae.models.User;
 import br.ufrj.caronae.models.modelsforjson.HistoryRideCountForJson;
@@ -66,8 +60,6 @@ public class MyProfileEditFrag extends Fragment {
     TextView name_tv;
     @BindView(R.id.profile_tv)
     TextView profile_tv;
-    @BindView(R.id.course_tv)
-    TextView course_tv;
     @BindView(R.id.createdAt_tv)
     TextView createdAt_tv;
     @BindView(R.id.email_et)
@@ -78,8 +70,6 @@ public class MyProfileEditFrag extends Fragment {
     android.widget.EditText location_et;
     @BindView(R.id.carOwner_sw)
     SwitchCompat carOwner_sw;
-    @BindView(R.id.notif_sw)
-    SwitchCompat notif_sw;
     @BindView(R.id.carModel_et)
     android.widget.EditText carModel_et;
     @BindView(R.id.carColor_et)
@@ -92,14 +82,13 @@ public class MyProfileEditFrag extends Fragment {
     LoginButton loginButton;
     @BindView(R.id.user_pic)
     ImageView user_pic;
-    @BindView(R.id.scrollView)
-    ScrollView scrollView;
     @BindView(R.id.ridesOffered_tv)
     TextView ridesOffered_tv;
     @BindView(R.id.ridesTaken_tv)
     TextView ridesTaken_tv;
 
     private CallbackManager callbackManager;
+    private String course, profile;
 
     public MyProfileEditFrag() {
         // Required empty public constructor
@@ -115,7 +104,7 @@ public class MyProfileEditFrag extends Fragment {
         View view = inflater.inflate(R.layout.fragment_my_profile_edit, container, false);
         ButterKnife.bind(this, view);
 
-        callbackManager = ((MainAct) getActivity()).getFbCallbackManager();
+        callbackManager = ((MyProfileAct) getActivity()).getFbCallbackManager();
 
         carOwner_sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -316,8 +305,11 @@ public class MyProfileEditFrag extends Fragment {
     private void fillUserFields(User user) {
         car_lay.setVisibility(user.isCarOwner() ? View.VISIBLE : View.GONE);
         name_tv.setText(user.getName());
-        profile_tv.setText(user.getProfile());
-        course_tv.setText(user.getCourse());
+        profile = user.getProfile();
+        course = user.getCourse();
+        String info;
+        info =  profile + " | " + course;
+        profile_tv.setText(info);
         if(!TextUtils.isEmpty(user.getPhoneNumber()))
         {
             phoneNumber_et.setText(getFormatedNumber(user.getPhoneNumber()));
@@ -335,7 +327,6 @@ public class MyProfileEditFrag extends Fragment {
         createdAt_tv.setText(date);
 
         String notifOn = SharedPref.getNotifPref();
-        notif_sw.setChecked(notifOn.equals("true"));
 
         if (user.getProfilePicUrl() != null && !user.getProfilePicUrl().isEmpty())
             Picasso.with(getContext()).load(user.getProfilePicUrl())
@@ -422,39 +413,6 @@ public class MyProfileEditFrag extends Fragment {
         fragment.show(getFragmentManager(), null);
     }
 
-    @OnClick(R.id.logout_iv)
-    public void logoutIv() {
-        showExitAlertDialog();
-    }
-
-    //Creates an alert dialog to confirm if the user really wants to logout
-    private void showExitAlertDialog()
-    {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setTitle(R.string.confirm_logout)
-                .setCancelable(false)
-                .setPositiveButton(R.string.frag_logout_title, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        new LogOut(getContext()).execute();
-                        startActivity(new Intent(getContext(), LoginAct.class));
-                        getActivity().finish();
-                    }
-                })
-                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
-
-        AlertDialog alert = builder.create();
-        alert.show();
-        Button nbutton = alert.getButton(DialogInterface.BUTTON_NEGATIVE);
-        nbutton.setTextColor(getResources().getColor(R.color.darkblue2));
-        nbutton.setText(R.string.cancel);
-        Button pbutton = alert.getButton(DialogInterface.BUTTON_POSITIVE);
-        pbutton.setTextColor(getResources().getColor(R.color.red));
-        pbutton.setText(R.string.frag_logout_title);
-    }
     @OnClick(R.id.carOwner_sw)
     public void carOwnerSw() {
         car_lay.setVisibility(carOwner_sw.isChecked() ? View.VISIBLE : View.GONE);
@@ -462,14 +420,8 @@ public class MyProfileEditFrag extends Fragment {
         new Handler().post(new Runnable() {
             @Override
             public void run() {
-                scrollView.smoothScrollTo(0, scrollView.getBottom());
             }
         });
-    }
-
-    @OnClick(R.id.notif_sw)
-    public void notif_sw() {
-        SharedPref.saveNotifPref(notif_sw.isChecked() ? "true" : "false");
     }
 
     @OnClick(R.id.location_et)
@@ -556,7 +508,6 @@ public class MyProfileEditFrag extends Fragment {
         fragment.show(getFragmentManager(), null);
     }
 
-    @OnClick(R.id.save_profile_btn)
     public void saveProfileBtn() {
         if (App.getUser() == null)
             return;
@@ -642,9 +593,14 @@ public class MyProfileEditFrag extends Fragment {
             userPlate = carPlate_et.getText().toString();
         }
         editedUser.setName(name_tv.getText().toString());
-        editedUser.setProfile(profile_tv.getText().toString());
-        editedUser.setCourse(course_tv.getText().toString());
         editedUser.setPhoneNumber(userPhoneNumber);//(0XX) XXXXX-XXXX
+        if(!course.isEmpty()) {
+            editedUser.setCourse(course);
+        }
+        if(!profile.isEmpty())
+        {
+            editedUser.setProfile(profile);
+        }
         editedUser.setEmail(email_et.getText().toString());
         editedUser.setLocation(location_et.getText().toString());
         editedUser.setCarOwner(carOwner_sw.isChecked());
