@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
@@ -30,7 +29,6 @@ import android.text.SpannableString;
 import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -38,7 +36,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
@@ -57,7 +54,7 @@ import br.ufrj.caronae.frags.AboutFrag;
 import br.ufrj.caronae.frags.AllRidesFrag;
 import br.ufrj.caronae.frags.FAQFrag;
 import br.ufrj.caronae.frags.FalaeFrag;
-import br.ufrj.caronae.frags.MyProfileFrag;
+import br.ufrj.caronae.frags.MyProfileEditFrag;
 import br.ufrj.caronae.frags.MyRidesFrag;
 import br.ufrj.caronae.frags.OptionsMenuFrag;
 import br.ufrj.caronae.frags.RideFilterFrag;
@@ -242,7 +239,7 @@ public class MainAct extends AppCompatActivity {
         if (user.getEmail() == null || user.getEmail().isEmpty() ||
                 user.getPhoneNumber() == null || user.getPhoneNumber().isEmpty() ||
                 user.getLocation() == null || user.getLocation().isEmpty()) {
-            fragment = new MyProfileFrag();
+            fragment = new MyProfileEditFrag();
             Util.toast(getString(R.string.act_main_profileIncomplete));
         }
         else if (goToMyRides){
@@ -335,7 +332,7 @@ public class MainAct extends AppCompatActivity {
                 hideFilterCard(getBaseContext());
                 break;
             case R.id.nav_first_fragment:
-                fragmentClass = MyProfileFrag.class;
+                fragmentClass = MyProfileEditFrag.class;
                 hideFilterCard(getBaseContext());
                 break;
             case R.id.nav_second_fragment:
@@ -520,7 +517,7 @@ public class MainAct extends AppCompatActivity {
     }
 
     private int retrieveTitle(String fragmentClass) {
-        if (fragmentClass.equals(MyProfileFrag.class.toString()))
+        if (fragmentClass.equals(MyProfileEditFrag.class.toString()))
             return R.string.frag_profile_title;
         if (fragmentClass.equals(AllRidesFrag.class.toString()))
             return R.string.frag_allrides_title;
@@ -644,13 +641,13 @@ public class MainAct extends AppCompatActivity {
 
     private void showProfileFrag() {
         backstackSafeCheck();
-        backstack.remove(MyProfileFrag.class);
-        backstack.add(MyProfileFrag.class);
+        backstack.remove(MyProfileEditFrag.class);
+        backstack.add(MyProfileEditFrag.class);
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out);
-        transaction.replace(R.id.flContent, new MyProfileFrag()).commit();
-        setTitle(retrieveTitle(MyProfileFrag.class.toString()));
+        transaction.replace(R.id.flContent, new MyProfileEditFrag()).commit();
+        setTitle(retrieveTitle(MyProfileEditFrag.class.toString()));
         mDrawer.closeDrawers();
     }
 

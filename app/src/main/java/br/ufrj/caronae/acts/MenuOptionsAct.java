@@ -42,9 +42,6 @@ public class MenuOptionsAct extends AppCompatActivity {
         transaction.replace(R.id.flContent, fragment).commit();
         header_tv = (TextView)findViewById(R.id.header_text);
         switch (fragId) {
-            case 0:
-
-                break;
             case 1:
                 header_tv.setText(R.string.frag_history_title);
                 break;

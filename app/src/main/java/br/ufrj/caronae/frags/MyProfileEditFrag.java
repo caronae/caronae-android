@@ -2,7 +2,6 @@ package br.ufrj.caronae.frags;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -13,7 +12,6 @@ import android.support.v7.widget.SwitchCompat;
 import android.text.InputFilter;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -22,7 +20,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -63,7 +60,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MyProfileFrag extends Fragment {
+public class MyProfileEditFrag extends Fragment {
 
     @BindView(R.id.name_tv)
     TextView name_tv;
@@ -104,7 +101,7 @@ public class MyProfileFrag extends Fragment {
 
     private CallbackManager callbackManager;
 
-    public MyProfileFrag() {
+    public MyProfileEditFrag() {
         // Required empty public constructor
     }
 
@@ -115,7 +112,7 @@ public class MyProfileFrag extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_my_profile, container, false);
+        View view = inflater.inflate(R.layout.fragment_my_profile_edit, container, false);
         ButterKnife.bind(this, view);
 
         callbackManager = ((MainAct) getActivity()).getFbCallbackManager();

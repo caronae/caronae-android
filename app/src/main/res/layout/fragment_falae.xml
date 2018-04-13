@@ -14,6 +14,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/frag_falae_reason_tv"
+            android:layout_marginStart="3dp"
+            android:layout_marginLeft="3dp"
             android:textColor="@color/black"
             android:textStyle="bold"
             android:textSize="20sp" />
@@ -35,6 +37,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/reason_et"
             android:text="@string/frag_falae_subject"
+            android:layout_marginStart="3dp"
+            android:layout_marginLeft="3dp"
             android:textColor="@color/black"
             android:textStyle="bold"
             android:textSize="20sp" />
@@ -48,6 +52,9 @@
             android:singleLine="true" />
         <TextView
             android:id="@+id/message_tv"
+
+            android:layout_marginStart="3dp"
+            android:layout_marginLeft="3dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/subject_et"
@@ -61,6 +68,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/message_tv"
+
+            android:layout_marginStart="3dp"
+            android:layout_marginLeft="3dp"
             android:background="@color/default_white_transparency"
             android:gravity="top|start"
             android:inputType="textMultiLine"

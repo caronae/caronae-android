@@ -17,6 +17,8 @@ import br.ufrj.caronae.R;
 import br.ufrj.caronae.RoundedTransformation;
 import br.ufrj.caronae.acts.FalaeAct;
 import br.ufrj.caronae.acts.MenuOptionsAct;
+import br.ufrj.caronae.acts.MyProfileAct;
+import br.ufrj.caronae.acts.ProfileAct;
 import br.ufrj.caronae.models.User;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -78,7 +80,8 @@ public class OptionsMenuFrag extends Fragment {
 
     @OnClick(R.id.myprofile_btn)
     public void openMyProfile() {
-
+        Intent myProfileAct = new Intent(getActivity(), MyProfileAct.class);
+        startActivity(myProfileAct);
     }
 
     @OnClick(R.id.history_btn)
