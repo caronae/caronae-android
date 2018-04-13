@@ -78,6 +78,12 @@ public class OptionsMenuFrag extends Fragment {
                     .into(user_pic);
     }
 
+    @OnClick(R.id.user_pic)
+    public void clickProfileImage() {
+        Intent myProfileAct = new Intent(getActivity(), MyProfileAct.class);
+        startActivity(myProfileAct);
+    }
+
     @OnClick(R.id.myprofile_btn)
     public void openMyProfile() {
         Intent myProfileAct = new Intent(getActivity(), MyProfileAct.class);
