@@ -74,6 +74,14 @@
             android:label="@string/title_activity_profile"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".acts.FalaeAct"
+            android:label="@string/title_activity_falae"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".acts.MenuOptionsAct"
+            android:label="@string/title_activity_menu_options"
+            android:screenOrientation="portrait"/>
+        <activity
             android:name=".acts.ActiveRideAct"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
@@ -120,10 +128,7 @@
             android:name=".asyncs.FetchMyOfferedRidesService"
             android:exported="false" />
 
-        <activity
-            android:name=".acts.MenuOptionsAct"
-            android:label="@string/title_activity_web_screens"
-            android:theme="@style/AppTheme"></activity>
+
     </application>
 
 </manifest>

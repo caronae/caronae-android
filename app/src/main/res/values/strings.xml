@@ -106,18 +106,21 @@
     <string name="welcome">Bem vindo ao aplicativo de caronas para sua instituição. O acesso é restrito a usuários vinculados às universidades parceiras.</string>
     <string name="act_profile_mutualFriends">Vocês tem %1$d amigo%2$s em comum no Facebook.\n%3$d deles usa%4$s o Caronaê.</string>
     <string name="frag_falae_messageHint">Conte pra gente. O que houve?</string>
-    <string name="frag_falae_subjectHint">Assunto (Opcional)</string>
-    <string name="frag_falae_reason_tv">Motivo do contato</string>
+    <string name="frag_falae_subjectHint">Assunto (opcional)</string>
+    <string name="frag_falae_subject">ASSUNTO</string>
+    <string name="frag_falae_message">MENSAGEM</string>
     <string name="frag_falae_suggestion_rb">Sugestão</string>
     <string name="frag_falae_question_rb">Dúvida</string>
     <string name="frag_falae_critique_rb">Crítica</string>
     <string name="frag_falae_report_rb">Denúncia</string>
+    <string name="frag_falae_rb">Reclamação</string>
     <string name="frag_falae_msgblank">Campo de mensagem vazio</string>
     <string name="frag_falae_thanksSent">Mensagem enviada. Obrigado por entrar em contato!</string>
     <string name="frag_falae_errorSent">Erro ao enviar mensagem</string>
     <string name="frag_falae_suggestionRb">"[SUGESTÃO] "</string>
     <string name="frag_falae_questionRb">"[DÚVIDA] "</string>
     <string name="frag_falae_critiqueRb">"[CRÍTICA] "</string>
+    <string name="frag_falae_reason_tv">MOTIVO DO CONTATO</string>
     <string name="frag_falae_reportRb">"[DENÚNCIA] "</string>
     <string name="act_profile_report_bt">Reportar</string>
     <string name="act_profile_reportOk">Usuário reportado, obrigado por entrar em contato.</string>
@@ -258,6 +261,7 @@
     <string name="title_allrides">Todas</string>
     <string name="title_myrides">Minhas</string>
     <string name="title_menu">Menu</string>
-    <string name="title_activity_web_screens">WebScreensAct</string>
+    <string name="title_activity_menu_options">MenuOptionsAct</string>
+    <string name="title_activity_falae">FalaeAct</string>
 
 </resources>

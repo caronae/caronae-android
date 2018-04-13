@@ -35,7 +35,7 @@ public class MenuOptionsAct extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        setContentView(R.layout.activity_web_screens);
+        setContentView(R.layout.activity_menu_options);
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.setCustomAnimations(R.anim.anim_right_slide_in, R.anim.anim_left_slide_out);
@@ -50,9 +50,6 @@ public class MenuOptionsAct extends AppCompatActivity {
                 break;
             case 2:
                 header_tv.setText(R.string.frag_faq_title);
-                break;
-            case 3:
-                header_tv.setText(R.string.frag_falae_title);
                 break;
             case 4:
                 header_tv.setText(R.string.frag_termsofuse_title);
@@ -78,8 +75,6 @@ public class MenuOptionsAct extends AppCompatActivity {
                 return RidesHistoryFrag.class;
             case 2:
                 return FAQFrag.class;
-            case 3:
-                return FalaeFrag.class;
             case 4:
                 return TermsOfUseFrag.class;
             case 5:

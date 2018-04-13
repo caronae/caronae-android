@@ -15,6 +15,7 @@ import com.squareup.picasso.Picasso;
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.RoundedTransformation;
+import br.ufrj.caronae.acts.FalaeAct;
 import br.ufrj.caronae.acts.MenuOptionsAct;
 import br.ufrj.caronae.models.User;
 import butterknife.BindView;
@@ -96,8 +97,7 @@ public class OptionsMenuFrag extends Fragment {
 
     @OnClick(R.id.falae_btn)
     public void openFalae() {
-        Intent falaeAct = new Intent(getActivity(), MenuOptionsAct.class);
-        falaeAct.putExtra("fragId", 3);
+        Intent falaeAct = new Intent(getActivity(), FalaeAct.class);
         startActivity(falaeAct);
     }
 
