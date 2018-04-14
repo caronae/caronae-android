@@ -33,43 +33,25 @@ public class MyRidesFrag extends Fragment {
     TabLayout tabLayout;
     @BindView(R.id.viewpager)
     ViewPager viewPager;
-    @BindView(R.id.norides_tv)
-    TextView noRides_tv;
-
-    static ProgressBar progressBar;
 
     public MyRidesFrag() {
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_all_rides, container, false);
+        View view = inflater.inflate(R.layout.fragment_my_rides, container, false);
         ButterKnife.bind(this, view);
 
         setHasOptionsMenu(true);
-
-        if(noRides_tv.getVisibility() == View.VISIBLE)
-        {
-            noRides_tv.setVisibility(View.INVISIBLE);
-        }
 
         MainAct.showMainItems();
 
         viewPager.setAdapter(new RideDirectionFragmentPagerAdapter(getChildFragmentManager(), MyRidesListFrag.class, getResources().getStringArray(R.array.tab_tags)));
         tabLayout.setupWithViewPager(viewPager);
 
-        progressBar = (ProgressBar) view.findViewById(R.id.progressBar2);
-        if(!SharedPref.OPEN_MY_RIDES) {
-            SharedPref.OPEN_MY_RIDES = true;
-            progressBar.setVisibility(View.VISIBLE);
-        }
         configureTabIndicators();
 
         return view;
-    }
-
-    public static void hideProgressBar(){
-        progressBar.setVisibility(View.GONE);
     }
 
     private void configureTabIndicators() {

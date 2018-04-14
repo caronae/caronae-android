@@ -41,6 +41,6 @@
             android:textColor="@color/gray"
             android:text="@string/charging"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:visibility="visible" />
+            android:visibility="invisible" />
     </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>

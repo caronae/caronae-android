@@ -20,6 +20,10 @@
             android:background="@color/list_white_transparency" />
     </android.support.v4.widget.SwipeRefreshLayout>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="50dp">
         <TextView
             android:id="@+id/norides_tv"
             android:layout_width="wrap_content"
@@ -32,8 +36,9 @@
             android:layout_marginStart="10dp"
             android:gravity="center"
             android:textColor="@color/gray"
-            android:text="@string/frag_myrides_noRideFound"
+            android:text="@string/charging"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:visibility="gone" />
+            android:visibility="invisible" />
+    </RelativeLayout>
 
 </RelativeLayout>

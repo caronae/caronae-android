@@ -57,8 +57,6 @@ public class AllRidesFrag extends Fragment {
     TabLayout tabLayout;
     @BindView(R.id.viewpager)
     ViewPager viewPager;
-    @BindView(R.id.progressBar2)
-    ProgressBar progressBar2;
     @BindView(R.id.norides_tv)
     TextView noRides;
 
@@ -98,9 +96,12 @@ public class AllRidesFrag extends Fragment {
     private void listAllRides(final int pageNum) {
 
         final Snackbar snackbar = makeNoConexionSnack();
-
-        progressBar2.setVisibility(View.VISIBLE);
-
+        if(!SharedPref.OPEN_ALL_RIDES)
+        {
+            SharedPref.OPEN_ALL_RIDES = true;
+            noRides.setText(R.string.charging);
+            noRides.setVisibility(View.VISIBLE);
+        }
 
         if (isAdded() && (getActivity() != null)) {
 
@@ -126,7 +127,6 @@ public class AllRidesFrag extends Fragment {
                         @Override
                         public void onResponse(Call<RideForJsonDeserializer> call, Response<RideForJsonDeserializer> response) {
                             if (response.isSuccessful()) {
-                                progressBar2.setVisibility(View.GONE);
                                 noRides.setVisibility(View.INVISIBLE);
 
                                 RideForJsonDeserializer data = response.body();
@@ -172,15 +172,14 @@ public class AllRidesFrag extends Fragment {
                                 }
                             } else {
                                 Util.treatResponseFromServer(response);
-                                noRides.setVisibility(View.VISIBLE);
-                                progressBar2.setVisibility(View.GONE);
+                                noRides.setText(R.string.allrides_norides);
                                 Log.e("listAllRides", response.message());
                             }
                         }
 
                         @Override
                         public void onFailure(Call<RideForJsonDeserializer> call, Throwable t) {
-                            progressBar2.setVisibility(View.GONE);
+                            noRides.setText(R.string.frag_allrides_nointernettocharge);
                             noRides.setVisibility(View.VISIBLE);
                             Log.e("listAllRides", t.getMessage());
                             snackbar.setAction("CONECTAR", new View.OnClickListener() {

@@ -36,6 +36,7 @@
     <string name="title_myprofile_frag">Meu Perfil</string>
 
     <string name="wait">Aguarde</string>
+    <string name="charging">Carregando...</string>
     <string name="act_login_notFound">Usuário não encontrado</string>
     <string name="act_login_invalidLogin">CPF ou chave inválida</string>
     <string name="invalidToken">Chave inválida. Por favor logar novamente</string>
@@ -111,6 +112,7 @@
     <string name="hello">Olá :)</string>
     <string name="welcome">Bem vindo ao aplicativo de caronas para sua instituição. O acesso é restrito a usuários vinculados às universidades parceiras.</string>
     <string name="act_profile_mutualFriends">Vocês tem %1$d amigo%2$s em comum no Facebook.\n%3$d deles usa%4$s o Caronaê.</string>
+    <string name="frag_allrides_nointernettocharge">Não foi possível carregar as caronas.</string>
     <string name="frag_falae_messageHint">Conte pra gente. O que houve?</string>
     <string name="frag_falae_subjectHint">Assunto (opcional)</string>
     <string name="frag_falae_subject">ASSUNTO</string>
@@ -132,7 +134,6 @@
     <string name="act_profile_reportOk">Usuário reportado, obrigado por entrar em contato.</string>
     <string name="act_profile_openFbProfile">Veja o perfil de %1$s no Facebook</string>
     <string name="act_profile_openProfile">Veja o perfil de Fulano no Facebook</string>
-    <string name="frag_myactiverides_noRides">Você não tem caronas ativas</string>
     <string name="frag_myrides_noRides">Nenhuma carona encontrada</string>
     <string name="frag_rideoffer_neighborHint">Bairro</string>
     <string name="frag_rideoffer_placeHint">Referência Ex: Shopping Tijuca</string>
