@@ -99,6 +99,7 @@ public class OptionsMenuFrag extends Fragment {
         Intent historyAct = new Intent(getActivity(), MenuOptionsAct.class);
         historyAct.putExtra("fragId", 1);
         startActivity(historyAct);
+        getActivity().overridePendingTransition(R.anim.anim_right_slide_in, R.anim.anim_left_slide_out);
     }
 
     @OnClick(R.id.faq_btn)
@@ -106,12 +107,14 @@ public class OptionsMenuFrag extends Fragment {
         Intent faqAct = new Intent(getActivity(), MenuOptionsAct.class);
         faqAct.putExtra("fragId", 2);
         startActivity(faqAct);
+        getActivity().overridePendingTransition(R.anim.anim_right_slide_in, R.anim.anim_left_slide_out);
     }
 
     @OnClick(R.id.falae_btn)
     public void openFalae() {
         Intent falaeAct = new Intent(getActivity(), FalaeAct.class);
         startActivity(falaeAct);
+        getActivity().overridePendingTransition(R.anim.anim_right_slide_in, R.anim.anim_left_slide_out);
     }
 
     @OnClick(R.id.termsofuse_btn)
@@ -119,6 +122,7 @@ public class OptionsMenuFrag extends Fragment {
         Intent termsOfUseAct = new Intent(getActivity(), MenuOptionsAct.class);
         termsOfUseAct.putExtra("fragId", 4);
         startActivity(termsOfUseAct);
+        getActivity().overridePendingTransition(R.anim.anim_right_slide_in, R.anim.anim_left_slide_out);
     }
 
     @OnClick(R.id.about_btn)
@@ -126,5 +130,6 @@ public class OptionsMenuFrag extends Fragment {
         Intent aboutAct = new Intent(getActivity(), MenuOptionsAct.class);
         aboutAct.putExtra("fragId", 5);
         startActivity(aboutAct);
+        getActivity().overridePendingTransition(R.anim.anim_right_slide_in, R.anim.anim_left_slide_out);
     }
 }

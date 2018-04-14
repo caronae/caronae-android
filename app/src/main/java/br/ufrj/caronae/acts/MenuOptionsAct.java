@@ -98,5 +98,6 @@ public class MenuOptionsAct extends AppCompatActivity {
         Intent mainAct = new Intent(this, MainAct.class);
         SharedPref.NAV_INDICATOR = "Menu";
         startActivity(mainAct);
+        this.overridePendingTransition(R.anim.anim_left_slide_in,R.anim.anim_right_slide_out);
     }
 }

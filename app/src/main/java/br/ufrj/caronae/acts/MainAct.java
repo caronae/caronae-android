@@ -90,19 +90,19 @@ public class MainAct extends AppCompatActivity {
             switch (item.getItemId()) {
                 case R.id.navigation_allrides:
                     if(!SharedPref.NAV_INDICATOR.equals("AllRides")) {
-                        selectDrawerItem(item);
+                        selectDrawerItem(item, false);
                         SharedPref.NAV_INDICATOR = "AllRides";
                     }
                     return true;
                 case R.id.navigation_myrides:
                     if(!SharedPref.NAV_INDICATOR.equals("MyRides")) {
-                        selectDrawerItem(item);
+                        selectDrawerItem(item, false);
                         SharedPref.NAV_INDICATOR = "MyRides";
                     }
                     return true;
                 case R.id.navigation_menu:
                     if(!SharedPref.NAV_INDICATOR.equals("Menu")) {
-                        selectDrawerItem(item);
+                        selectDrawerItem(item, false);
                         SharedPref.NAV_INDICATOR = "Menu";
                     }
                     return true;
@@ -134,13 +134,13 @@ public class MainAct extends AppCompatActivity {
                 switch(SharedPref.NAV_INDICATOR)
                 {
                     case "AllRides":
-                        selectDrawerItem(navigation.getMenu().getItem(0));
+                        selectDrawerItem(navigation.getMenu().getItem(0), true);
                         break;
                     case "MyRides":
-                        selectDrawerItem(navigation.getMenu().getItem(1));
+                        selectDrawerItem(navigation.getMenu().getItem(1), true);
                         break;
                     case "Menu":
-                        selectDrawerItem(navigation.getMenu().getItem(2));
+                        selectDrawerItem(navigation.getMenu().getItem(2), true);
                         break;
                 }
             }
@@ -229,7 +229,7 @@ public class MainAct extends AppCompatActivity {
         }
     }
 
-    private void selectDrawerItem(MenuItem menuItem) {
+    private void selectDrawerItem(MenuItem menuItem, boolean slideVertical) {
         Fragment fragment = null;
         Class fragmentClass;
 
@@ -279,7 +279,10 @@ public class MainAct extends AppCompatActivity {
             backstack.add(fragmentClass);
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction transaction = fragmentManager.beginTransaction();
-            transaction.setCustomAnimations(R.anim.anim_right_slide_in, R.anim.anim_left_slide_out);
+            fragmentManager.popBackStack();
+            if(slideVertical) {
+                transaction.setCustomAnimations(R.anim.anim_up_slide_in, R.anim.anim_down_slide_out);
+            }
             transaction.replace(R.id.flContent, fragment).commit();
         }
     }
@@ -400,41 +403,37 @@ public class MainAct extends AppCompatActivity {
     //Controls the actions of the buttons of search and filter that are present in toolbar
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        navigation.setVisibility(View.INVISIBLE);
+        cancel_bt.setVisibility(View.VISIBLE);
+        backstackSafeCheck();
+        hideFilterCard(getBaseContext());
+        Class fragmentClass = null;
+        Fragment fragment = null;
         if (item.getItemId() == R.id.search_frag_bt) {
-            navigation.setVisibility(View.INVISIBLE);
-            cancel_bt.setVisibility(View.VISIBLE);
-            backstackSafeCheck();
             backstack.remove(RideSearchFrag.class);
             backstack.add(RideSearchFrag.class);
-            hideFilterCard(getBaseContext());
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            FragmentTransaction transaction = fragmentManager.beginTransaction();
-            transaction.setCustomAnimations(R.anim.anim_up_slide_in, R.anim.anim_down_slide_out);
-            transaction.replace(R.id.flContent, new RideSearchFrag()).commit();
+            fragmentClass = RideSearchFrag.class;
         } else if (item.getItemId() == R.id.filter_frag_bt){
-            navigation.setVisibility(View.INVISIBLE);
-            cancel_bt.setVisibility(View.VISIBLE);
-            backstackSafeCheck();
+
             backstack.remove(RideFilterFrag.class);
             backstack.add(RideFilterFrag.class);
-            hideFilterCard(getBaseContext());
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            FragmentTransaction transaction = fragmentManager.beginTransaction();
-            transaction.setCustomAnimations(R.anim.anim_up_slide_in, R.anim.anim_down_slide_out);
-            transaction.replace(R.id.flContent, new RideFilterFrag()).commit();
+            fragmentClass = RideFilterFrag.class;
         }
         else if(item.getItemId() == R.id.new_ride_bt) {
-            navigation.setVisibility(View.INVISIBLE);
-            cancel_bt.setVisibility(View.VISIBLE);
-            backstackSafeCheck();
             backstack.remove(TabbedRideOfferFrag.class);
             backstack.add(TabbedRideOfferFrag.class);
-            hideFilterCard(getBaseContext());
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            FragmentTransaction transaction = fragmentManager.beginTransaction();
-            transaction.setCustomAnimations(R.anim.anim_up_slide_in, R.anim.anim_down_slide_out);
-            transaction.replace(R.id.flContent, new TabbedRideOfferFrag()).commit();
+            fragmentClass = TabbedRideOfferFrag.class;
         }
+        try {
+            fragment = (Fragment) fragmentClass.newInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        fragmentManager.popBackStack();
+        transaction.setCustomAnimations(R.anim.anim_down_slide_in, R.anim.anim_up_slide_out);
+        transaction.replace(R.id.flContent, fragment).commit();
         return super.onOptionsItemSelected(item);
     }
 

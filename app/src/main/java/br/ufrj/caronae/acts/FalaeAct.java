@@ -86,6 +86,7 @@ public class FalaeAct extends AppCompatActivity {
         Intent mainAct = new Intent(this, MainAct.class);
         SharedPref.NAV_INDICATOR = "Menu";
         startActivity(mainAct);
+        this.overridePendingTransition(R.anim.anim_left_slide_in,R.anim.anim_right_slide_out);
     }
 
     @OnClick(R.id.send_bt)

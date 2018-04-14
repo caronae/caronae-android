@@ -647,7 +647,7 @@ public class RideOfferFrag extends Fragment {
                         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                         fragmentManager.popBackStack();
                         FragmentTransaction transaction = fragmentManager.beginTransaction();
-                        transaction.setCustomAnimations(R.anim.anim_right_slide_in, R.anim.anim_left_slide_out);
+                        transaction.setCustomAnimations(R.anim.anim_up_slide_in, R.anim.anim_down_slide_out);
                         transaction.replace(R.id.flContent, fragment).commit();
                         SharedPref.NAV_INDICATOR = "MyRides";
                         dialog.cancel();
