@@ -574,7 +574,17 @@ public class MainAct extends AppCompatActivity {
             transaction.replace(R.id.flContent, new RideFilterFrag()).commit();
             setTitle(item.getTitle());
         }
-
+        else if(item.getItemId() == R.id.new_ride_bt) {
+            backstackSafeCheck();
+            backstack.remove(TabbedRideOfferFrag.class);
+            backstack.add(TabbedRideOfferFrag.class);
+            hideFilterCard(getBaseContext());
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            transaction.setCustomAnimations(R.anim.anim_up_slide_in, R.anim.anim_down_slide_out);
+            transaction.replace(R.id.flContent, new TabbedRideOfferFrag()).commit();
+            setTitle(item.getTitle());
+        }
         return drawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
     }
 
@@ -604,13 +614,22 @@ public class MainAct extends AppCompatActivity {
     }
 
     public void showRideOfferFrag() {
+        Class fragmentClass;
+        Fragment fragment;
         backstackSafeCheck();
-        backstack.remove(TabbedRideOfferFrag.class);
-        backstack.add(TabbedRideOfferFrag.class);
+        fragment = null;
+        fragmentClass = TabbedRideOfferFrag.class;
+        backstack.remove(fragmentClass);
+        backstack.add(fragmentClass);
+        try {
+            fragment = (Fragment) fragmentClass.newInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.setCustomAnimations(R.anim.anim_right_slide_in, R.anim.anim_left_slide_out);
-        transaction.replace(R.id.flContent, new TabbedRideOfferFrag()).commit();
+        transaction.replace(R.id.flContent, fragment).commit();
         hideFilterCard(getBaseContext());
         setTitle(getString(R.string.act_main_setRideOfferFragTitle));
     }

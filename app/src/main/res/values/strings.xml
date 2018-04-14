@@ -30,7 +30,7 @@
     <string name="title_activity_opening">OpeningAct</string>
 
     <string name="gplay_unavailable">Sem o Google Play Services você não poderá receber notificações ou mensagens de bate-papo =(</string>
-    <string name="notCarOwner">Você deve possuir um carro em seu perfil para poder oferecer uma carona</string>
+    <string name="notCarOwner">Parece que você marcou no seu perfil que não possui um carro. Para criar uma carona, preencha os dados do seu carro no perfil.</string>
     <string name="title_activity_chat">ChatAct</string>
     <string name="title_activity_profile">Perfil do usuário</string>
     <string name="title_myprofile_frag">Meu Perfil</string>
@@ -205,6 +205,7 @@
     <string name="frag_falae_title">Falaê</string>
     <string name="frag_searchride_title">Buscar carona</string>
     <string name="frag_filterride_title">Filtrar caronas</string>
+    <string name="frag_rideOffer_title">Nova carona</string>
     <string name="frag_termsofuse_title">Termos de Uso</string>
     <string name="frag_filterride_description">Adicionando um filtro você pode visualizar apenas as caronas de seu interesse.</string>
     <string name="frag_about_title">Sobre o Caronaê</string>

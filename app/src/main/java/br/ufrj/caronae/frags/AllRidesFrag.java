@@ -58,10 +58,6 @@ public class AllRidesFrag extends Fragment {
     @BindView(R.id.progressBar2)
     ProgressBar progressBar2;
 
-    @BindView(R.id.fab_add_ride)
-    com.github.clans.fab.FloatingActionButton fab_add_ride;
-
-
     static CoordinatorLayout coordinatorLayout;
 
     Context context;
@@ -210,11 +206,6 @@ public class AllRidesFrag extends Fragment {
     public void onPause() {
         super.onPause();
         isFabPrepared = false;
-    }
-
-    @OnClick(R.id.fab_add_ride)
-    public void fab_add_ride() {
-        ((MainAct) getActivity()).showRideOfferFrag();
     }
 
     private ArrayList<RideForJson> filterList(ArrayList<RideForJson> listToFilter, CharSequence searchText) {

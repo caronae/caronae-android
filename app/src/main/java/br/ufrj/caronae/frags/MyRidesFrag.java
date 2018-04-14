@@ -6,6 +6,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
@@ -28,8 +30,6 @@ public class MyRidesFrag extends Fragment {
     TabLayout tabLayout;
     @BindView(R.id.viewpager)
     ViewPager viewPager;
-    @BindView(R.id.fab_add_ride)
-    FloatingActionButton fab_add_ride;
 
     static ProgressBar progressBar;
 
@@ -41,6 +41,8 @@ public class MyRidesFrag extends Fragment {
         View view = inflater.inflate(R.layout.fragment_all_rides, container, false);
         ButterKnife.bind(this, view);
 
+        setHasOptionsMenu(true);
+
         viewPager.setAdapter(new RideDirectionFragmentPagerAdapter(getChildFragmentManager(), MyRidesListFrag.class, getResources().getStringArray(R.array.tab_tags)));
         tabLayout.setupWithViewPager(viewPager);
 
@@ -50,11 +52,6 @@ public class MyRidesFrag extends Fragment {
         configureTabIndicators();
 
         return view;
-    }
-
-    @OnClick(R.id.fab_add_ride)
-    public void fab_add_ride() {
-        ((MainAct) getActivity()).showRideOfferFrag();
     }
 
     public static void hideProgressBar(){
@@ -71,5 +68,11 @@ public class MyRidesFrag extends Fragment {
         p = (ViewGroup.MarginLayoutParams) tab.getLayoutParams();
         p.setMargins(25, 0, 25, 0);
         tab.requestLayout();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.toolbar_my_rides, menu);
+        super.onCreateOptionsMenu(menu,inflater);
     }
 }

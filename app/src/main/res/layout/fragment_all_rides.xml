@@ -32,16 +32,4 @@
         android:layout_marginTop="100dp"
         android:layout_centerHorizontal="true" />
 
-    <com.github.clans.fab.FloatingActionButton xmlns:fab="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/fab_add_ride"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="48dp"
-        android:layout_gravity="bottom|end"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:layout_marginEnd="@dimen/activity_horizontal_margin"
-        android:visibility="visible"
-        android:src="@drawable/fab_add"
-        fab:fab_colorPressed="@color/fab_red"/>
-
 </android.support.design.widget.CoordinatorLayout>
