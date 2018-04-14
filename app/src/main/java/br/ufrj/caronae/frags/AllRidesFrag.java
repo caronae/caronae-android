@@ -82,6 +82,8 @@ public class AllRidesFrag extends Fragment {
 
         setHasOptionsMenu(true);
 
+        MainAct.showMainItems();
+
         coordinatorLayout = (CoordinatorLayout) view.findViewById(R.id.all_rides_coordinator);
 
         listAllRides(1);

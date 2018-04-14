@@ -16,6 +16,7 @@ import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.RoundedTransformation;
 import br.ufrj.caronae.acts.FalaeAct;
+import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.acts.MenuOptionsAct;
 import br.ufrj.caronae.acts.MyProfileAct;
 import br.ufrj.caronae.acts.ProfileAct;
@@ -58,6 +59,7 @@ public class OptionsMenuFrag extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_options_menu, container, false);
         ButterKnife.bind(this, view);
+        MainAct.showMainItems();
         User user = App.getUser();
         if (user != null) {
             fillUserFields(user);

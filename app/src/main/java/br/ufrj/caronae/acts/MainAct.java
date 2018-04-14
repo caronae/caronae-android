@@ -77,6 +77,8 @@ public class MainAct extends AppCompatActivity {
     static ImageButton dissmissFilter;
     static CardView filterCard;
     public static TextView filterText;
+    public static BottomNavigationView navigation;
+    static TextView cancel_bt;
 
     private ArrayList<Class> backstack;
 
@@ -115,14 +117,34 @@ public class MainAct extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
         setTitle("");
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+
+        navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        cancel_bt = (TextView)findViewById(R.id.cancel_bt);
 
         filterCard = (CardView) findViewById(R.id.filter_card);
         filterText = (TextView) findViewById(R.id.filter_text);
         dissmissFilter = (ImageButton) findViewById(R.id.dissmiss_filter);
 
         startFilterCard();
+
+        cancel_bt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch(SharedPref.NAV_INDICATOR)
+                {
+                    case "AllRides":
+                        selectDrawerItem(navigation.getMenu().getItem(0));
+                        break;
+                    case "MyRides":
+                        selectDrawerItem(navigation.getMenu().getItem(1));
+                        break;
+                    case "Menu":
+                        selectDrawerItem(navigation.getMenu().getItem(2));
+                        break;
+                }
+            }
+        });
 
         configureDissmissFilterButton();
 
@@ -205,37 +227,6 @@ public class MainAct extends AppCompatActivity {
                 SharedPref.FRAGMENT_INDICATOR = "";
             showActiveRidesFrag();
         }
-    }
-
-    private void getHeaderView(NavigationView nvDrawer) {
-        LayoutInflater inflater = LayoutInflater.from(this);
-        View nvHeader = inflater.inflate(R.layout.nav_header, null, false);
-
-        TextView name_tv = (TextView) nvHeader.findViewById(R.id.name_tv);
-        name_tv.setText(App.getUser().getName());
-        TextView course_tv = (TextView) nvHeader.findViewById(R.id.course_tv);
-        course_tv.setText(App.getUser().getCourse());
-        ImageView user_pic = (ImageView) nvHeader.findViewById(R.id.user_pic);
-        String profilePicUrl = App.getUser().getProfilePicUrl();
-        if (profilePicUrl != null && !profilePicUrl.isEmpty())
-            Picasso.with(this).load(profilePicUrl)
-                    .placeholder(R.drawable.user_pic)
-                    .error(R.drawable.user_pic)
-                    .transform(new RoundedTransformation())
-                    .into(user_pic);
-
-        nvDrawer.addHeaderView(nvHeader);
-    }
-
-    private void setupDrawerContent(NavigationView navigationView) {
-        navigationView.setNavigationItemSelectedListener(
-                new NavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(MenuItem menuItem) {
-                        selectDrawerItem(menuItem);
-                        return true;
-                    }
-                });
     }
 
     private void selectDrawerItem(MenuItem menuItem) {
@@ -394,30 +385,24 @@ public class MainAct extends AppCompatActivity {
             backstack = new ArrayList<>();
     }
 
-    private int retrieveTitle(String fragmentClass) {
-        if (fragmentClass.equals(MyProfileEditFrag.class.toString()))
-            return R.string.frag_profile_title;
-        if (fragmentClass.equals(AllRidesFrag.class.toString()))
-            return R.string.frag_allrides_title;
-        if (fragmentClass.equals(MyRidesFrag.class.toString()))
-            return R.string.frag_myactiverides_title;
-        if (fragmentClass.equals(RidesHistoryFrag.class.toString()))
-            return R.string.frag_history_title;
-        if (fragmentClass.equals(FalaeFrag.class.toString()))
-            return R.string.frag_falae_title;
-        if (fragmentClass.equals(TabbedRideOfferFrag.class.toString()))
-            return R.string.act_main_setRideOfferFragTitle;
-        if (fragmentClass.equals(RideSearchFrag.class.toString()))
-            return R.string.frag_searchride_title;
-        if (fragmentClass.equals(AboutFrag.class.toString()))
-            return R.string.frag_about_title;
-        return R.string.app_name;
+    public static void showMainItems()
+    {
+        if(navigation.getVisibility() == View.INVISIBLE) {
+            navigation.setVisibility(View.VISIBLE);
+        }
+        if(cancel_bt.getVisibility() == View.VISIBLE)
+        {
+            cancel_bt.setVisibility(View.INVISIBLE);
+        }
+
     }
 
     //Controls the actions of the buttons of search and filter that are present in toolbar
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.search_frag_bt) {
+            navigation.setVisibility(View.INVISIBLE);
+            cancel_bt.setVisibility(View.VISIBLE);
             backstackSafeCheck();
             backstack.remove(RideSearchFrag.class);
             backstack.add(RideSearchFrag.class);
@@ -427,6 +412,8 @@ public class MainAct extends AppCompatActivity {
             transaction.setCustomAnimations(R.anim.anim_up_slide_in, R.anim.anim_down_slide_out);
             transaction.replace(R.id.flContent, new RideSearchFrag()).commit();
         } else if (item.getItemId() == R.id.filter_frag_bt){
+            navigation.setVisibility(View.INVISIBLE);
+            cancel_bt.setVisibility(View.VISIBLE);
             backstackSafeCheck();
             backstack.remove(RideFilterFrag.class);
             backstack.add(RideFilterFrag.class);
@@ -437,6 +424,8 @@ public class MainAct extends AppCompatActivity {
             transaction.replace(R.id.flContent, new RideFilterFrag()).commit();
         }
         else if(item.getItemId() == R.id.new_ride_bt) {
+            navigation.setVisibility(View.INVISIBLE);
+            cancel_bt.setVisibility(View.VISIBLE);
             backstackSafeCheck();
             backstack.remove(TabbedRideOfferFrag.class);
             backstack.add(TabbedRideOfferFrag.class);
@@ -472,26 +461,6 @@ public class MainAct extends AppCompatActivity {
                         }
                     }).show();
         }
-    }
-
-    public void showRideOfferFrag() {
-        Class fragmentClass;
-        Fragment fragment;
-        backstackSafeCheck();
-        fragment = null;
-        fragmentClass = TabbedRideOfferFrag.class;
-        backstack.remove(fragmentClass);
-        backstack.add(fragmentClass);
-        try {
-            fragment = (Fragment) fragmentClass.newInstance();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.setCustomAnimations(R.anim.anim_right_slide_in, R.anim.anim_left_slide_out);
-        transaction.replace(R.id.flContent, fragment).commit();
-        hideFilterCard(getBaseContext());
     }
 
     public void showActiveRidesFrag() {

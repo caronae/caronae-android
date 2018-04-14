@@ -53,6 +53,8 @@ public class MyRidesFrag extends Fragment {
             noRides_tv.setVisibility(View.INVISIBLE);
         }
 
+        MainAct.showMainItems();
+
         viewPager.setAdapter(new RideDirectionFragmentPagerAdapter(getChildFragmentManager(), MyRidesListFrag.class, getResources().getStringArray(R.array.tab_tags)));
         tabLayout.setupWithViewPager(viewPager);
 
