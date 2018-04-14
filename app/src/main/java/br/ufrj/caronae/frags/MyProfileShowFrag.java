@@ -1,5 +1,6 @@
 package br.ufrj.caronae.frags;
 
+import android.app.ProgressDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.DialogInterface;
@@ -10,6 +11,7 @@ import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -26,16 +28,24 @@ import com.redmadrobot.inputmask.helper.Mask;
 import com.redmadrobot.inputmask.model.CaretString;
 import com.squareup.picasso.Picasso;
 
+import java.util.Collections;
+import java.util.List;
+
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.RoundedTransformation;
 import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.LoginAct;
+import br.ufrj.caronae.acts.MainAct;
+import br.ufrj.caronae.adapters.RidesHistoryAdapter;
 import br.ufrj.caronae.asyncs.LogOut;
+import br.ufrj.caronae.comparators.RideComparatorByDateAndTimeReverse;
 import br.ufrj.caronae.httpapis.CaronaeAPI;
 import br.ufrj.caronae.models.User;
 import br.ufrj.caronae.models.modelsforjson.HistoryRideCountForJson;
+import br.ufrj.caronae.models.modelsforjson.RideForJson;
+import br.ufrj.caronae.models.modelsforjson.RideHistoryForJson;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -85,7 +95,33 @@ public class MyProfileShowFrag extends Fragment {
         ButterKnife.bind(this, view);
         user = App.getUser();
         if (user != null) {
-            fillUserFields(user);
+            final ProgressDialog pd = ProgressDialog.show(getActivity(), "", getContext().getString(R.string.wait), true, true);
+                CaronaeAPI.service(getContext()).getRidesHistoryCount(user.getDbId() + "")
+                        .enqueue(new Callback<HistoryRideCountForJson>() {
+                            @Override
+                            public void onResponse(Call<HistoryRideCountForJson> call, Response<HistoryRideCountForJson> response) {
+
+                                if (response.isSuccessful()) {
+                                    HistoryRideCountForJson historyRideCountForJson = response.body();
+                                    ridesOffered_tv.setText(String.valueOf(historyRideCountForJson.getOfferedCount()));
+                                    ridesTaken_tv.setText(String.valueOf(historyRideCountForJson.getTakenCount()));
+                                    fillUserFields(user);
+                                    pd.dismiss();
+                                } else {
+                                    Util.treatResponseFromServer(response);
+                                    Util.toast(R.string.act_profile_errorCountRidesHistory);
+                                    Log.e("getRidesHistoryCount", response.message());
+                                    pd.dismiss();
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<HistoryRideCountForJson> call, Throwable t) {
+                                Util.toast(R.string.act_profile_errorCountRidesHistory);
+                                Log.e("getRidesHistoryCount", t.getMessage());
+                                pd.dismiss();
+                            }
+                        });
             phone_tv.setOnClickListener((View v) -> {
                 actionNumberTouch(0, user);
             });
@@ -93,28 +129,6 @@ public class MyProfileShowFrag extends Fragment {
                 actionNumberTouch(1, user);
                 return true;
             });
-            CaronaeAPI.service(getContext()).getRidesHistoryCount(user.getDbId() + "")
-                    .enqueue(new Callback<HistoryRideCountForJson>() {
-                        @Override
-                        public void onResponse(Call<HistoryRideCountForJson> call, Response<HistoryRideCountForJson> response) {
-
-                            if (response.isSuccessful()) {
-                                HistoryRideCountForJson historyRideCountForJson = response.body();
-                                ridesOffered_tv.setText(String.valueOf(historyRideCountForJson.getOfferedCount()));
-                                ridesTaken_tv.setText(String.valueOf(historyRideCountForJson.getTakenCount()));
-                            } else {
-                                Util.treatResponseFromServer(response);
-                                Util.toast(R.string.act_profile_errorCountRidesHistory);
-                                Log.e("getRidesHistoryCount", response.message());
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<HistoryRideCountForJson> call, Throwable t) {
-                            Util.toast(R.string.act_profile_errorCountRidesHistory);
-                            Log.e("getRidesHistoryCount", t.getMessage());
-                        }
-                    });
         }
         return view;
     }
