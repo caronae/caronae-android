@@ -187,7 +187,7 @@
     <string name="frag_myprofile_invalidPlate">Placa inválida</string>
     <string name="cancelCaps">CANCELAR</string>
     <string name="frag_allrides_errorGetRides">Erro ao pegar todas as caronas</string>
-    <string name="frag_allrides_noRides">Nenhuma carona foi encontrada</string>
+    <string name="allrides_norides">Não foi possível carregar as caronas.</string>
     <string name="frag_myprofile_invalidFields">Perfil não salvo (Campos inválidos)</string>
     <string name="frag_myprofile_invalidFieldsTelephone">Perfil não salvo (Telefone inválido)</string>
     <string name="frag_myprofile_invalidFieldsEmail">Perfil não salvo (Email inválido)</string>

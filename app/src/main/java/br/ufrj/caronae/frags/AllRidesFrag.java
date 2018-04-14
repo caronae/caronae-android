@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.github.clans.fab.FloatingActionMenu;
 import com.google.gson.Gson;
@@ -35,6 +36,7 @@ import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.adapters.AllRidesFragmentPagerAdapter;
+import br.ufrj.caronae.adapters.RideOfferAdapter;
 import br.ufrj.caronae.comparators.RideOfferComparatorByDateAndTime;
 import br.ufrj.caronae.httpapis.CaronaeAPI;
 import br.ufrj.caronae.models.modelsforjson.RideFiltersForJson;
@@ -57,6 +59,8 @@ public class AllRidesFrag extends Fragment {
     ViewPager viewPager;
     @BindView(R.id.progressBar2)
     ProgressBar progressBar2;
+    @BindView(R.id.norides_tv)
+    TextView noRides;
 
     static CoordinatorLayout coordinatorLayout;
 
@@ -121,13 +125,12 @@ public class AllRidesFrag extends Fragment {
                         public void onResponse(Call<RideForJsonDeserializer> call, Response<RideForJsonDeserializer> response) {
                             if (response.isSuccessful()) {
                                 progressBar2.setVisibility(View.GONE);
+                                noRides.setVisibility(View.INVISIBLE);
 
                                 RideForJsonDeserializer data = response.body();
                                 List<RideForJson> rideOffers = data.getData();
 
                                 if (rideOffers != null && !rideOffers.isEmpty()) {
-                                    Collections.sort(rideOffers, new RideOfferComparatorByDateAndTime());
-
                                     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
                                     Date todayDate = new Date();
                                     String todayString = simpleDateFormat.format(todayDate);
@@ -149,6 +152,8 @@ public class AllRidesFrag extends Fragment {
                                                     notGoingRides.add(rideOffer);
                                         }
                                     }
+                                    Collections.sort(goingRides, new RideOfferComparatorByDateAndTime());
+                                    Collections.sort(notGoingRides, new RideOfferComparatorByDateAndTime());
                                 }
 
                                 if (isAdded()) {
@@ -165,6 +170,7 @@ public class AllRidesFrag extends Fragment {
                                 }
                             } else {
                                 Util.treatResponseFromServer(response);
+                                noRides.setVisibility(View.VISIBLE);
                                 progressBar2.setVisibility(View.GONE);
                                 Log.e("listAllRides", response.message());
                             }
@@ -173,6 +179,7 @@ public class AllRidesFrag extends Fragment {
                         @Override
                         public void onFailure(Call<RideForJsonDeserializer> call, Throwable t) {
                             progressBar2.setVisibility(View.GONE);
+                            noRides.setVisibility(View.VISIBLE);
                             Log.e("listAllRides", t.getMessage());
                             snackbar.setAction("CONECTAR", new View.OnClickListener() {
                                 @Override

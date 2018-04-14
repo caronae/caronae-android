@@ -91,6 +91,18 @@ public class MyRidesListFrag extends Fragment {
 
         getActiveRides();
 
+        if(SharedPref.MY_RIDES != null)
+        {
+            if(SharedPref.MY_RIDES.size() == 0 && SharedPref.MY_RIDES != null)
+            {
+                norides_tv.setVisibility(View.VISIBLE);
+            }
+        }
+        else
+        {
+            norides_tv.setVisibility(View.VISIBLE);
+        }
+
         return view;
     }
 
@@ -198,13 +210,13 @@ public class MyRidesListFrag extends Fragment {
 
                                     List<RideForJson> rideWithUsersList = response.body();
                                     if (rideWithUsersList == null || rideWithUsersList.isEmpty()) {
-                                        MyRidesFrag.hideProgressBar();
-
+                                        if(MyRidesFrag.progressBar.getVisibility() == View.VISIBLE)
+                                            MyRidesFrag.hideProgressBar();
                                         myRidesList.setAdapter(new MyActiveRidesAdapter(new ArrayList<RideForJson>(), (MainAct) getActivity()));
                                         myRidesList.setHasFixedSize(true);
                                         myRidesList.setLayoutManager(new LinearLayoutManager(getActivity()));
-
                                         new LoadRides().execute();
+                                        SharedPref.MY_RIDES = rideWithUsersList;
                                         return;
                                     }
 
@@ -221,8 +233,9 @@ public class MyRidesListFrag extends Fragment {
 
                                     Collections.sort(rideWithUsersList, new RideOfferComparatorByDateAndTime());
                                     addAllActiveRidesToList(rideWithUsersList);
-
-                                    MyRidesFrag.hideProgressBar();
+                                    if(MyRidesFrag.progressBar.getVisibility() == View.VISIBLE)
+                                        MyRidesFrag.hideProgressBar();
+                                    SharedPref.MY_RIDES = rideWithUsersList;
                                 } else {
                                     Util.treatResponseFromServer(response);
                                     MyRidesFrag.hideProgressBar();
@@ -231,6 +244,7 @@ public class MyRidesListFrag extends Fragment {
                                     Util.toast(R.string.frag_myactiverides_errorGetActiveRides);
 
                                     Log.e("getMyActiveRides", response.message());
+                                    SharedPref.MY_RIDES = null;
                                 }
                                 new LoadRides().execute();
                             }
@@ -240,9 +254,9 @@ public class MyRidesListFrag extends Fragment {
                                 MyRidesFrag.hideProgressBar();
                                 norides_tv.setVisibility(View.VISIBLE);
                                 Util.toast(R.string.frag_myactiverides_errorGetActiveRides);
-
                                 new LoadRides().execute();
                                 Log.e("getMyActiveRides", t.getMessage());
+                                SharedPref.MY_RIDES = null;
                             }
                         });
             }

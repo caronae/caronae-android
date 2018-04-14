@@ -5,12 +5,14 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.github.clans.fab.FloatingActionButton;
 
@@ -18,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import br.ufrj.caronae.R;
+import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.adapters.RideDirectionFragmentPagerAdapter;
@@ -30,6 +33,8 @@ public class MyRidesFrag extends Fragment {
     TabLayout tabLayout;
     @BindView(R.id.viewpager)
     ViewPager viewPager;
+    @BindView(R.id.norides_tv)
+    TextView noRides_tv;
 
     static ProgressBar progressBar;
 
@@ -43,12 +48,19 @@ public class MyRidesFrag extends Fragment {
 
         setHasOptionsMenu(true);
 
+        if(noRides_tv.getVisibility() == View.VISIBLE)
+        {
+            noRides_tv.setVisibility(View.INVISIBLE);
+        }
+
         viewPager.setAdapter(new RideDirectionFragmentPagerAdapter(getChildFragmentManager(), MyRidesListFrag.class, getResources().getStringArray(R.array.tab_tags)));
         tabLayout.setupWithViewPager(viewPager);
 
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar2);
-        progressBar.setVisibility(View.VISIBLE);
-
+        if(!SharedPref.OPEN_MY_RIDES) {
+            SharedPref.OPEN_MY_RIDES = true;
+            progressBar.setVisibility(View.VISIBLE);
+        }
         configureTabIndicators();
 
         return view;

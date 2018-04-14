@@ -84,7 +84,7 @@ public class LoginAct extends AppCompatActivity {
                             Util.toast(R.string.act_login_invalidLogin);
                             return;
                         }
-
+                        pd.dismiss();
                         SharedPref.saveUser(userWithRides.getUser());
                         SharedPref.saveUserToken(token);
                         SharedPref.saveUserIdUfrj(idUfrj);
