@@ -72,10 +72,7 @@ public class MainAct extends AppCompatActivity {
 
     private static final int GPLAY_UNAVAILABLE = 123;
 
-    private DrawerLayout mDrawer;
-    private ActionBarDrawerToggle drawerToggle;
     private CallbackManager callbackManager;
-    private TextView versionText;
 
     static ImageButton dissmissFilter;
     static CardView filterCard;
@@ -117,7 +114,7 @@ public class MainAct extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
-
+        setTitle("");
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
@@ -141,9 +138,6 @@ public class MainAct extends AppCompatActivity {
         FirebaseTopicsHandler.subscribeFirebaseTopic("user-" + App.getUser().getDbId());
         FirebaseTopicsHandler.subscribeFirebaseTopic(SharedPref.TOPIC_GERAL);
 
-        versionText = (TextView) findViewById(R.id.text_version);
-        versionText.setText("Caronae " + Util.getAppVersionName(this));
-
         String title = PreferenceManager.getDefaultSharedPreferences(this).getString(MSG_TYPE_ALERT_HEADER, "");
         String alert = PreferenceManager.getDefaultSharedPreferences(this).getString(MSG_TYPE_ALERT, "");
 
@@ -162,69 +156,6 @@ public class MainAct extends AppCompatActivity {
             PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString(StartAct.MSG_TYPE_ALERT, "").commit();
             PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString(StartAct.MSG_TYPE_ALERT_HEADER, "").commit();
         }
-
-        mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-
-        drawerToggle = new ActionBarDrawerToggle(this,
-                mDrawer,
-                toolbar,
-                R.string.drawer_open,
-                R.string.drawer_close) {
-            @Override
-            public void onDrawerOpened(View drawerView) {
-                //update user pic on drawer if it changed
-                String profilePicUrl = SharedPref.getDrawerPic();
-                if (!profilePicUrl.equals(App.getUser().getProfilePicUrl())) {
-                    if (App.getUser().getProfilePicUrl() != null)
-                        profilePicUrl = App.getUser().getProfilePicUrl();
-                    else
-                        profilePicUrl = "";
-
-                    ImageView user_pic = (ImageView) drawerView.findViewById(R.id.user_pic);
-
-                    RelativeLayout drawerHeader = (RelativeLayout) drawerView.findViewById(R.id.drawer_header_layout);
-
-                    drawerHeader.setOnClickListener((View v) -> showProfileFrag());
-
-                    if (!profilePicUrl.isEmpty()) {
-                        Picasso.with(MainAct.this).load(profilePicUrl)
-                                .placeholder(R.drawable.user_pic)
-                                .error(R.drawable.user_pic)
-                                .transform(new RoundedTransformation())
-                                .into(user_pic);
-                    } else {
-                        Picasso.with(MainAct.this).load(R.drawable.user_pic)
-                                .placeholder(R.drawable.user_pic)
-                                .error(R.drawable.user_pic)
-                                .into(user_pic);
-                    }
-
-                    SharedPref.saveDrawerPic(profilePicUrl);
-                }
-
-                //hide keyboard when nav drawer opens
-                InputMethodManager inputMethodManager = (InputMethodManager) MainAct.this.getSystemService(Activity.INPUT_METHOD_SERVICE);
-                try {
-                    //noinspection ConstantConditions
-                    inputMethodManager.hideSoftInputFromWindow(MainAct.this.getCurrentFocus().getWindowToken(), 0);
-                } catch (NullPointerException e) {
-                    Log.e("onDrawerOpened", e.getMessage());
-                }
-            }
-        };
-        mDrawer.setDrawerListener(drawerToggle);
-
-        final ActionBar ab = getSupportActionBar();
-
-        if (ab != null) {
-            ab.setDisplayHomeAsUpEnabled(true);
-        }
-
-        getSupportActionBar().setTitle("");
-
-        NavigationView nvDrawer = (NavigationView) findViewById(R.id.nvView);
-        setupDrawerContent(nvDrawer);
-        getHeaderView(nvDrawer);
 
         backstack = new ArrayList<>();
     }
@@ -331,53 +262,6 @@ public class MainAct extends AppCompatActivity {
                 fragmentClass = OptionsMenuFrag.class;
                 hideFilterCard(getBaseContext());
                 break;
-            case R.id.nav_first_fragment:
-                fragmentClass = MyProfileEditFrag.class;
-                hideFilterCard(getBaseContext());
-                break;
-            case R.id.nav_second_fragment:
-                if(!filterText.getText().equals(""))
-                {
-                    showFilterCard(getBaseContext());
-                }
-                else
-                {
-                    hideFilterCard(getBaseContext());
-                }
-                fragmentClass = AllRidesFrag.class;
-
-                break;
-            case R.id.nav_third_fragment:
-                hideFilterCard(getBaseContext());
-                fragmentClass = MyRidesFrag.class;
-                break;
-            case R.id.nav_fifth_fragment:
-                hideFilterCard(getBaseContext());
-                fragmentClass = RidesHistoryFrag.class;
-                break;
-            case R.id.nav_sixth_fragment:
-                hideFilterCard(getBaseContext());
-                fragmentClass = FalaeFrag.class;
-                break;
-            case R.id.nav_seventh_fragment:
-                hideFilterCard(getBaseContext());
-                fragmentClass = TermsOfUseFrag.class;
-                break;
-            case R.id.nav_eigth_fragment:
-                hideFilterCard(getBaseContext());
-                fragmentClass = AboutFrag.class;
-                break;
-            case R.id.nav_ninth_fragment:
-                hideFilterCard(getBaseContext());
-                fragmentClass = FAQFrag.class;
-                break;
-            case R.id.nav_tenth_fragment:
-                hideFilterCard(getBaseContext());
-                fragmentClass = null;
-                //TODO: Transformar em um intent service, unsubscrive nao ta acontecendo imediatamente
-                //Unsubscribe from lists
-                App.LogOut();
-                break;
             default:
                 if(!filterText.getText().equals(""))
                 {
@@ -406,9 +290,6 @@ public class MainAct extends AppCompatActivity {
             FragmentTransaction transaction = fragmentManager.beginTransaction();
             transaction.setCustomAnimations(R.anim.anim_right_slide_in, R.anim.anim_left_slide_out);
             transaction.replace(R.id.flContent, fragment).commit();
-
-            setTitle(menuItem.getTitle());
-            mDrawer.closeDrawers();
         }
     }
 
@@ -449,7 +330,6 @@ public class MainAct extends AppCompatActivity {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.setCustomAnimations(R.anim.anim_right_slide_in, R.anim.anim_left_slide_out);
         transaction.replace(R.id.flContent, fragment).commit();
-        setTitle(retrieveTitle(fragmentClass.toString()));
     }
 
     @Override
@@ -505,8 +385,6 @@ public class MainAct extends AppCompatActivity {
             FragmentTransaction transaction = fragmentManager.beginTransaction();
             transaction.setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out);
             transaction.replace(R.id.flContent, fragment).commit();
-            setTitle(retrieveTitle(fragmentClass.toString()));
-            mDrawer.closeDrawers();
         }
     }
 
@@ -536,20 +414,6 @@ public class MainAct extends AppCompatActivity {
         return R.string.app_name;
     }
 
-    // Sync the toggle state after onRestoreInstanceState has occurred
-    @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        drawerToggle.syncState();
-    }
-
-    // Pass any configuration change to the drawer toggles
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        drawerToggle.onConfigurationChanged(newConfig);
-    }
-
     //Controls the actions of the buttons of search and filter that are present in toolbar
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -562,7 +426,6 @@ public class MainAct extends AppCompatActivity {
             FragmentTransaction transaction = fragmentManager.beginTransaction();
             transaction.setCustomAnimations(R.anim.anim_up_slide_in, R.anim.anim_down_slide_out);
             transaction.replace(R.id.flContent, new RideSearchFrag()).commit();
-            setTitle(item.getTitle());
         } else if (item.getItemId() == R.id.filter_frag_bt){
             backstackSafeCheck();
             backstack.remove(RideFilterFrag.class);
@@ -572,7 +435,6 @@ public class MainAct extends AppCompatActivity {
             FragmentTransaction transaction = fragmentManager.beginTransaction();
             transaction.setCustomAnimations(R.anim.anim_up_slide_in, R.anim.anim_down_slide_out);
             transaction.replace(R.id.flContent, new RideFilterFrag()).commit();
-            setTitle(item.getTitle());
         }
         else if(item.getItemId() == R.id.new_ride_bt) {
             backstackSafeCheck();
@@ -583,9 +445,8 @@ public class MainAct extends AppCompatActivity {
             FragmentTransaction transaction = fragmentManager.beginTransaction();
             transaction.setCustomAnimations(R.anim.anim_up_slide_in, R.anim.anim_down_slide_out);
             transaction.replace(R.id.flContent, new TabbedRideOfferFrag()).commit();
-            setTitle(item.getTitle());
         }
-        return drawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected(item);
     }
 
     public CallbackManager getFbCallbackManager() {
@@ -631,7 +492,6 @@ public class MainAct extends AppCompatActivity {
         transaction.setCustomAnimations(R.anim.anim_right_slide_in, R.anim.anim_left_slide_out);
         transaction.replace(R.id.flContent, fragment).commit();
         hideFilterCard(getBaseContext());
-        setTitle(getString(R.string.act_main_setRideOfferFragTitle));
     }
 
     public void showActiveRidesFrag() {
@@ -643,31 +503,6 @@ public class MainAct extends AppCompatActivity {
         transaction.setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out);
         transaction.replace(R.id.flContent, new MyRidesFrag()).commit();
         hideFilterCard(getBaseContext());
-        setTitle(getString(R.string.frag_myactiverides_title));
-    }
-
-    public void showRidesOfferListFrag() {
-        backstackSafeCheck();
-        backstack.remove(AllRidesFrag.class);
-        backstack.add(AllRidesFrag.class);
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out);
-        transaction.replace(R.id.flContent, new AllRidesFrag()).commit();
-        showFilterCard(getBaseContext());
-        setTitle(getString(R.string.frag_allrides_title));
-    }
-
-    private void showProfileFrag() {
-        backstackSafeCheck();
-        backstack.remove(MyProfileEditFrag.class);
-        backstack.add(MyProfileEditFrag.class);
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out);
-        transaction.replace(R.id.flContent, new MyProfileEditFrag()).commit();
-        setTitle(retrieveTitle(MyProfileEditFrag.class.toString()));
-        mDrawer.closeDrawers();
     }
 
     public void removeFromBackstack(Object o){
