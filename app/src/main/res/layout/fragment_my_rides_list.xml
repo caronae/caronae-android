@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     android:id="@+id/container"
     android:background="@android:color/transparent"
-    tools:context=".frags.MyRidesListFrag">
+    tools:context=".frags.MyRidesListFrag"
+    android:layout_marginBottom="30dp">
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshLayout"
@@ -38,7 +39,7 @@
             android:textColor="@color/gray"
             android:text="@string/charging"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:visibility="invisible" />
+            android:visibility="visible" />
     </RelativeLayout>
 
 </RelativeLayout>

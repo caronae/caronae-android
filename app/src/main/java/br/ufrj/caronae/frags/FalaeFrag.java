@@ -69,6 +69,7 @@ public class FalaeFrag extends Fragment {
         picker.setMinValue(0);
         picker.setMaxValue(options.length-1);
         picker.setDisplayedValues(options);
+        picker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         picker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
             public void onValueChange(NumberPicker picker, int oldVal, int newVal) {

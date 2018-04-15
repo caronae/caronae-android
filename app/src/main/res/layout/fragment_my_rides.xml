@@ -23,24 +23,4 @@
         app:tabTextAppearance="@style/TabLayoutTextAppearance"
         app:tabBackground="@drawable/tab_background_selector"
         app:tabIndicatorHeight="0dp" />
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="50dp">
-        <TextView
-            android:id="@+id/norides_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginStart="10dp"
-            android:gravity="center"
-            android:textColor="@color/gray"
-            android:text="@string/charging"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:visibility="invisible" />
-    </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>

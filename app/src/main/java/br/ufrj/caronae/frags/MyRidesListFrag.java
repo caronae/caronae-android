@@ -76,14 +76,10 @@ public class MyRidesListFrag extends Fragment {
         Bundle bundle = getArguments();
         going = bundle.getBoolean("going");
 
-        if(noRides_tv.getVisibility() == View.VISIBLE)
-        {
-            noRides_tv.setVisibility(View.INVISIBLE);
-        }
-
         if(!SharedPref.OPEN_MY_RIDES) {
             SharedPref.OPEN_MY_RIDES = true;
             noRides_tv.setText(R.string.charging);
+            noRides_tv.setVisibility(View.VISIBLE);
         }
 
         float offsetBottonPx = getResources().getDimension(R.dimen.recycler_view_botton_offset_my_rides);
