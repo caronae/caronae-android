@@ -16,6 +16,7 @@
     <string name="send_bt">Enviar</string>
     <string name="create_bt">Criar</string>
     <string name="acess_bt">Acessar</string>
+    <string name="edit_bt">Editar</string>
 
     <string name="go_rb">Chegando na UFRJ</string>
     <string name="back_rb">Saindo da UFRJ</string>
@@ -29,11 +30,13 @@
     <string name="title_activity_opening">OpeningAct</string>
 
     <string name="gplay_unavailable">Sem o Google Play Services você não poderá receber notificações ou mensagens de bate-papo =(</string>
-    <string name="notCarOwner">Você deve possuir um carro em seu perfil para poder oferecer uma carona</string>
+    <string name="notCarOwner">Parece que você marcou no seu perfil que não possui um carro. Para criar uma carona, preencha os dados do seu carro no perfil.</string>
     <string name="title_activity_chat">ChatAct</string>
     <string name="title_activity_profile">Perfil do usuário</string>
+    <string name="title_myprofile_frag">Meu Perfil</string>
 
     <string name="wait">Aguarde</string>
+    <string name="charging">Carregando...</string>
     <string name="act_login_notFound">Usuário não encontrado</string>
     <string name="act_login_invalidLogin">CPF ou chave inválida</string>
     <string name="invalidToken">Chave inválida. Por favor logar novamente</string>
@@ -77,7 +80,12 @@
     <string name="frag_myprofile_picChoice">Qual foto você prefere usar?</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancelar</string>
+    <string name="save">Salvar</string>
+    <string name="discard">Descartar</string>
+    <string name="continue_edit">Continuar editando</string>
+    <string name="cancel_profile_edit">Cancelar edição do perfil?</string>
     <string name="frag_myrides_ridesDeleted">Caronas excluídas</string>
+    <string name="frag_myrides_noRideFound">Você ainda não possui nenhuma carona.</string>
     <string name="frag_rideshistory_errorGetRides">Erro ao obter histórico de caronas</string>
     <string name="frag_rideSearch_pickZones">Escolha a zona</string>
     <string name="frag_rideSearch_pickNeighborhood">Escolha o(s) bairro(s)</string>
@@ -104,25 +112,28 @@
     <string name="hello">Olá :)</string>
     <string name="welcome">Bem vindo ao aplicativo de caronas para sua instituição. O acesso é restrito a usuários vinculados às universidades parceiras.</string>
     <string name="act_profile_mutualFriends">Vocês tem %1$d amigo%2$s em comum no Facebook.\n%3$d deles usa%4$s o Caronaê.</string>
+    <string name="frag_allrides_nointernettocharge">Não foi possível carregar as caronas.</string>
     <string name="frag_falae_messageHint">Conte pra gente. O que houve?</string>
-    <string name="frag_falae_subjectHint">Assunto (Opcional)</string>
-    <string name="frag_falae_reason_tv">Motivo do contato</string>
+    <string name="frag_falae_subjectHint">Assunto (opcional)</string>
+    <string name="frag_falae_subject">ASSUNTO</string>
+    <string name="frag_falae_message">MENSAGEM</string>
     <string name="frag_falae_suggestion_rb">Sugestão</string>
     <string name="frag_falae_question_rb">Dúvida</string>
     <string name="frag_falae_critique_rb">Crítica</string>
     <string name="frag_falae_report_rb">Denúncia</string>
+    <string name="frag_falae_rb">Reclamação</string>
     <string name="frag_falae_msgblank">Campo de mensagem vazio</string>
     <string name="frag_falae_thanksSent">Mensagem enviada. Obrigado por entrar em contato!</string>
     <string name="frag_falae_errorSent">Erro ao enviar mensagem</string>
     <string name="frag_falae_suggestionRb">"[SUGESTÃO] "</string>
     <string name="frag_falae_questionRb">"[DÚVIDA] "</string>
     <string name="frag_falae_critiqueRb">"[CRÍTICA] "</string>
+    <string name="frag_falae_reason_tv">MOTIVO DO CONTATO</string>
     <string name="frag_falae_reportRb">"[DENÚNCIA] "</string>
     <string name="act_profile_report_bt">Reportar</string>
     <string name="act_profile_reportOk">Usuário reportado, obrigado por entrar em contato.</string>
     <string name="act_profile_openFbProfile">Veja o perfil de %1$s no Facebook</string>
     <string name="act_profile_openProfile">Veja o perfil de Fulano no Facebook</string>
-    <string name="frag_myactiverides_noRides">Você não tem caronas ativas</string>
     <string name="frag_myrides_noRides">Nenhuma carona encontrada</string>
     <string name="frag_rideoffer_neighborHint">Bairro</string>
     <string name="frag_rideoffer_placeHint">Referência Ex: Shopping Tijuca</string>
@@ -142,7 +153,7 @@
     <string name="frag_ridesearch_searchBt">Buscar</string>
     <string name="frag_ridesearch_filterBt">Filtrar</string>
     <string name="frag_ridesearch_anotherSearchBt">Outra busca</string>
-    <string name="frag_ridehistory_noRides">Você não tem caronas no seu histórico</string>
+    <string name="frag_ridehistory_noRides">Você ainda não concluiu nenhuma carona.</string>
     <string name="frag_myprofile_changePic">Mudar foto</string>
     <string name="frag_myprofile_notif">Alertas e notificações</string>
     <string name="frag_myprofile_contacts">CONTATO</string>
@@ -177,7 +188,7 @@
     <string name="frag_myprofile_invalidPlate">Placa inválida</string>
     <string name="cancelCaps">CANCELAR</string>
     <string name="frag_allrides_errorGetRides">Erro ao pegar todas as caronas</string>
-    <string name="frag_allrides_noRides">Nenhuma carona foi encontrada</string>
+    <string name="allrides_norides">Não foi possível carregar as caronas.</string>
     <string name="frag_myprofile_invalidFields">Perfil não salvo (Campos inválidos)</string>
     <string name="frag_myprofile_invalidFieldsTelephone">Perfil não salvo (Telefone inválido)</string>
     <string name="frag_myprofile_invalidFieldsEmail">Perfil não salvo (Email inválido)</string>
@@ -195,9 +206,11 @@
     <string name="frag_falae_title">Falaê</string>
     <string name="frag_searchride_title">Buscar carona</string>
     <string name="frag_filterride_title">Filtrar caronas</string>
-    <string name="frag_termsofuse_title">Termos de uso</string>
+    <string name="frag_rideOffer_title">Nova carona</string>
+    <string name="frag_termsofuse_title">Termos de Uso</string>
     <string name="frag_filterride_description">Adicionando um filtro você pode visualizar apenas as caronas de seu interesse.</string>
-    <string name="frag_about_title">Sobre</string>
+    <string name="frag_about_title">Sobre o Caronaê</string>
+    <string name="about_tab">Sobre</string>
     <string name="frag_logout_title">Sair</string>
     <string name="confirm_logout">Você deseja mesmo sair da sua conta?</string>
     <string name="frag_myprofile_errorGetIntranetPhoto">Erro ao pegar foto do SIGA</string>
@@ -253,6 +266,10 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-
+    <string name="title_allrides">Todas</string>
+    <string name="title_myrides">Minhas</string>
+    <string name="title_menu">Menu</string>
+    <string name="title_activity_menu_options">MenuOptionsAct</string>
+    <string name="title_activity_falae">FalaeAct</string>
 
 </resources>

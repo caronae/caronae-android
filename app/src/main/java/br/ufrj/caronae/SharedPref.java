@@ -5,7 +5,11 @@ import android.preference.PreferenceManager;
 
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import br.ufrj.caronae.models.User;
+import br.ufrj.caronae.models.modelsforjson.RideForJson;
 
 public class SharedPref {
 
@@ -23,8 +27,13 @@ public class SharedPref {
     public static final String MISSING_PREF                          = "missing";
     public static final String TOPIC_GERAL                           = "general";
     public static final String MY_RIDE_LIST_KEY                      = "myRides";
+    public static String NAV_INDICATOR                               = "AllRides";
     public static String CHAT_ACT_STATUS                             = "chatStatus";
     public static String FRAGMENT_INDICATOR                          = "";
+    public static boolean OPEN_MY_RIDES                              = false;
+    public static List<RideForJson> MY_RIDES                         = null;
+    public static boolean OPEN_ALL_RIDES                             = false;
+    public static List<RideForJson> ALL_RIDES                        = null;
     public static final String DIALOG_CAMPUS_SEARCH_KEY              = "campus";
     public static final String DIALOG_CENTER_SEARCH_KEY              = "centro";
     public static final String DIALOG_DISMISS_KEY                    = "dismiss_key";

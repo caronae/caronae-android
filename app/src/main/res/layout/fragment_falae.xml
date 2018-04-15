@@ -1,133 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="20dp"
     android:background="@color/white">
 
-    <ImageView
-        android:id="@+id/user_pic_iv"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:src="@drawable/user_pic" />
-
-    <TextView
-        android:id="@+id/name_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/user_pic_iv"
-        android:layout_marginLeft="5dp"
-        android:layout_marginStart="5dp"
-        android:layout_toEndOf="@+id/user_pic_iv"
-        android:layout_toRightOf="@+id/user_pic_iv"
-        android:paddingTop="5dp"
-        android:text="Fulano da Silva"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/profile_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/name_tv"
-        android:layout_alignStart="@+id/name_tv"
-        android:layout_below="@+id/name_tv"
-        android:layout_toEndOf="@+id/user_pic_iv"
-        android:layout_toRightOf="@+id/user_pic_iv"
-        android:text="Aluno" />
-
-    <TextView
-        android:id="@+id/course_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/name_tv"
-        android:layout_alignStart="@+id/name_tv"
-        android:layout_below="@+id/profile_tv"
-        android:layout_toEndOf="@+id/user_pic_iv"
-        android:layout_toRightOf="@+id/user_pic_iv"
-        android:text="Ciência da computação" />
-
-    <ImageView
-        android:id="@+id/color_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/user_pic_iv"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="16dp"
-        android:paddingTop="5dp"
-        android:src="@drawable/color_bar" />
-
-    <TextView
-        android:id="@+id/reason_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/color_bar"
-        android:layout_margin="16dp"
-        android:text="@string/frag_falae_reason_tv"
-        android:textStyle="bold" />
-
-    <RadioGroup
-        android:id="@+id/radioGroup"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/reason_tv"
-        android:layout_centerHorizontal="true"
-        android:orientation="horizontal">
-
-        <RadioButton
-            android:id="@+id/suggestion_rb"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:checked="true"
-            android:text="@string/frag_falae_suggestion_rb" />
-
-        <RadioButton
-            android:id="@+id/question_rb"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/frag_falae_question_rb" />
-
-        <RadioButton
-            android:id="@+id/report_rb"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/frag_falae_report_rb" />
-    </RadioGroup>
-
-    <EditText
-        android:id="@+id/subject_et"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/radioGroup"
-        android:layout_margin="16dp"
-        android:hint="@string/frag_falae_subjectHint"
-        android:singleLine="true" />
+        android:layout_marginTop="15dp">
+        <TextView
+            android:id="@+id/reason_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/frag_falae_reason_tv"
+            android:layout_marginStart="3dp"
+            android:layout_marginLeft="3dp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="20sp" />
+        <EditText
+            android:id="@+id/reason_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:cursorVisible="false"
+            android:layout_below="@+id/reason_tv"
+            android:hint="@string/frag_falae_rb"
+            android:textColorHint="@color/black"
+            android:singleLine="true"
+            android:clickable="true"
+            android:focusable="false"
+            android:focusableInTouchMode="false"/>
+        <TextView
+            android:id="@+id/subject_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/reason_et"
+            android:text="@string/frag_falae_subject"
+            android:layout_marginStart="3dp"
+            android:layout_marginLeft="3dp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="20sp" />
+        <EditText
+            android:id="@+id/subject_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/subject_tv"
+            android:hint="@string/frag_falae_subjectHint"
+            android:backgroundTint="@color/black"
+            android:singleLine="true" />
+        <TextView
+            android:id="@+id/message_tv"
 
-    <EditText
-        android:id="@+id/message_et"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/subject_et"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:gravity="top"
-        android:hint="@string/frag_falae_messageHint"
-        android:lines="6" />
+            android:layout_marginStart="3dp"
+            android:layout_marginLeft="3dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/subject_et"
+            android:text="@string/frag_falae_message"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="20sp" />
 
-    <com.rey.material.widget.Button
-        android:id="@+id/send_bt"
-        style="@style/LightRaiseColorButtonRippleStyle"
-        android:layout_width="96dp"
-        android:layout_height="48dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/message_et"
-        android:layout_margin="16dp"
-        android:background="@drawable/btn_color"
-        android:text="@string/send_bt"
-        app:rd_enable="true" />
+        <EditText
+            android:id="@+id/message_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/message_tv"
 
-</RelativeLayout>
+            android:layout_marginStart="3dp"
+            android:layout_marginLeft="3dp"
+            android:background="@color/default_white_transparency"
+            android:gravity="top|start"
+            android:inputType="textMultiLine"
+            android:minLines="5"
+            android:hint="@string/frag_falae_messageHint" />
+    </RelativeLayout>
+</ScrollView>

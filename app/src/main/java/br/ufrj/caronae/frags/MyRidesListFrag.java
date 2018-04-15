@@ -48,12 +48,12 @@ public class MyRidesListFrag extends Fragment {
 
     @BindView(R.id.myRidesList)
     RecyclerView myRidesList;
-    @BindView(R.id.norides_tv)
-    TextView norides_tv;
     @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.container)
     RelativeLayout container;
+    @BindView(R.id.norides_tv)
+    TextView noRides_tv;
 
 
     ArrayList<Ride> rides;
@@ -75,6 +75,16 @@ public class MyRidesListFrag extends Fragment {
 
         Bundle bundle = getArguments();
         going = bundle.getBoolean("going");
+
+        if(noRides_tv.getVisibility() == View.VISIBLE)
+        {
+            noRides_tv.setVisibility(View.INVISIBLE);
+        }
+
+        if(!SharedPref.OPEN_MY_RIDES) {
+            SharedPref.OPEN_MY_RIDES = true;
+            noRides_tv.setText(R.string.charging);
+        }
 
         float offsetBottonPx = getResources().getDimension(R.dimen.recycler_view_botton_offset_my_rides);
         float offsetTopPx = getResources().getDimension(R.dimen.recycler_view_top_offset);
@@ -150,9 +160,10 @@ public class MyRidesListFrag extends Fragment {
                 addAllMyRidesToList(rides);
             }
             if (allRides.size() == 0) {
-                norides_tv.setVisibility(View.VISIBLE);
+                noRides_tv.setVisibility(View.VISIBLE);
+                noRides_tv.setText(R.string.frag_myrides_noRideFound);
             } else {
-                norides_tv.setVisibility(View.INVISIBLE);
+                noRides_tv.setVisibility(View.INVISIBLE);
                 updateAdapter();
             }
         }
@@ -198,13 +209,13 @@ public class MyRidesListFrag extends Fragment {
 
                                     List<RideForJson> rideWithUsersList = response.body();
                                     if (rideWithUsersList == null || rideWithUsersList.isEmpty()) {
-                                        MyRidesFrag.hideProgressBar();
-
                                         myRidesList.setAdapter(new MyActiveRidesAdapter(new ArrayList<RideForJson>(), (MainAct) getActivity()));
                                         myRidesList.setHasFixedSize(true);
                                         myRidesList.setLayoutManager(new LinearLayoutManager(getActivity()));
-
                                         new LoadRides().execute();
+                                        noRides_tv.setText(R.string.frag_myrides_noRideFound);
+                                        noRides_tv.setVisibility(View.VISIBLE);
+                                        SharedPref.MY_RIDES = rideWithUsersList;
                                         return;
                                     }
 
@@ -221,28 +232,25 @@ public class MyRidesListFrag extends Fragment {
 
                                     Collections.sort(rideWithUsersList, new RideOfferComparatorByDateAndTime());
                                     addAllActiveRidesToList(rideWithUsersList);
-
-                                    MyRidesFrag.hideProgressBar();
+                                    noRides_tv.setVisibility(View.INVISIBLE);
+                                    SharedPref.MY_RIDES = rideWithUsersList;
                                 } else {
                                     Util.treatResponseFromServer(response);
-                                    MyRidesFrag.hideProgressBar();
-
-                                    norides_tv.setVisibility(View.VISIBLE);
-                                    Util.toast(R.string.frag_myactiverides_errorGetActiveRides);
-
+                                    noRides_tv.setText(R.string.frag_myrides_noRideFound);
+                                    noRides_tv.setVisibility(View.VISIBLE);
                                     Log.e("getMyActiveRides", response.message());
+                                    SharedPref.MY_RIDES = null;
                                 }
                                 new LoadRides().execute();
                             }
 
                             @Override
                             public void onFailure(Call<List<RideForJson>> call, Throwable t) {
-                                MyRidesFrag.hideProgressBar();
-                                norides_tv.setVisibility(View.VISIBLE);
-                                Util.toast(R.string.frag_myactiverides_errorGetActiveRides);
-
+                                noRides_tv.setText(R.string.frag_myrides_noRideFound);
+                                noRides_tv.setVisibility(View.VISIBLE);
                                 new LoadRides().execute();
                                 Log.e("getMyActiveRides", t.getMessage());
+                                SharedPref.MY_RIDES = null;
                             }
                         });
             }

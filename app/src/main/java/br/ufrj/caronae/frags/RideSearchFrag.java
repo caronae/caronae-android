@@ -69,9 +69,6 @@ public class RideSearchFrag extends Fragment {
     @BindView(R.id.anotherSearch_bt)
     Button anotherSearch_bt;
 
-    @BindView(R.id.rvRides)
-    RecyclerView rvRides;
-
     private RideOfferAdapter adapter;
 
     private String neighborhoods;
@@ -88,9 +85,6 @@ public class RideSearchFrag extends Fragment {
         ButterKnife.bind(this, view);
 
         adapter = new RideOfferAdapter(new ArrayList<RideForJson>(), getActivity(), getActivity().getFragmentManager());
-        rvRides.setAdapter(adapter);
-        rvRides.setHasFixedSize(true);
-        rvRides.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         String lastRideSearchFilters = SharedPref.getLastRideSearchFiltersPref();
         if (!lastRideSearchFilters.equals(SharedPref.MISSING_PREF)) {

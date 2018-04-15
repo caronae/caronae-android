@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.github.clans.fab.FloatingActionMenu;
 import com.google.gson.Gson;
@@ -35,6 +36,7 @@ import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.adapters.AllRidesFragmentPagerAdapter;
+import br.ufrj.caronae.adapters.RideOfferAdapter;
 import br.ufrj.caronae.comparators.RideOfferComparatorByDateAndTime;
 import br.ufrj.caronae.httpapis.CaronaeAPI;
 import br.ufrj.caronae.models.modelsforjson.RideFiltersForJson;
@@ -55,12 +57,8 @@ public class AllRidesFrag extends Fragment {
     TabLayout tabLayout;
     @BindView(R.id.viewpager)
     ViewPager viewPager;
-    @BindView(R.id.progressBar2)
-    ProgressBar progressBar2;
-
-    @BindView(R.id.fab_add_ride)
-    com.github.clans.fab.FloatingActionButton fab_add_ride;
-
+    @BindView(R.id.norides_tv)
+    TextView noRides;
 
     static CoordinatorLayout coordinatorLayout;
 
@@ -82,6 +80,8 @@ public class AllRidesFrag extends Fragment {
 
         setHasOptionsMenu(true);
 
+        MainAct.showMainItems();
+
         coordinatorLayout = (CoordinatorLayout) view.findViewById(R.id.all_rides_coordinator);
 
         listAllRides(1);
@@ -96,9 +96,12 @@ public class AllRidesFrag extends Fragment {
     private void listAllRides(final int pageNum) {
 
         final Snackbar snackbar = makeNoConexionSnack();
-
-        progressBar2.setVisibility(View.VISIBLE);
-
+        if(!SharedPref.OPEN_ALL_RIDES)
+        {
+            SharedPref.OPEN_ALL_RIDES = true;
+            noRides.setText(R.string.charging);
+            noRides.setVisibility(View.VISIBLE);
+        }
 
         if (isAdded() && (getActivity() != null)) {
 
@@ -124,14 +127,12 @@ public class AllRidesFrag extends Fragment {
                         @Override
                         public void onResponse(Call<RideForJsonDeserializer> call, Response<RideForJsonDeserializer> response) {
                             if (response.isSuccessful()) {
-                                progressBar2.setVisibility(View.GONE);
+                                noRides.setVisibility(View.INVISIBLE);
 
                                 RideForJsonDeserializer data = response.body();
                                 List<RideForJson> rideOffers = data.getData();
 
                                 if (rideOffers != null && !rideOffers.isEmpty()) {
-                                    Collections.sort(rideOffers, new RideOfferComparatorByDateAndTime());
-
                                     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
                                     Date todayDate = new Date();
                                     String todayString = simpleDateFormat.format(todayDate);
@@ -153,6 +154,8 @@ public class AllRidesFrag extends Fragment {
                                                     notGoingRides.add(rideOffer);
                                         }
                                     }
+                                    Collections.sort(goingRides, new RideOfferComparatorByDateAndTime());
+                                    Collections.sort(notGoingRides, new RideOfferComparatorByDateAndTime());
                                 }
 
                                 if (isAdded()) {
@@ -169,14 +172,15 @@ public class AllRidesFrag extends Fragment {
                                 }
                             } else {
                                 Util.treatResponseFromServer(response);
-                                progressBar2.setVisibility(View.GONE);
+                                noRides.setText(R.string.allrides_norides);
                                 Log.e("listAllRides", response.message());
                             }
                         }
 
                         @Override
                         public void onFailure(Call<RideForJsonDeserializer> call, Throwable t) {
-                            progressBar2.setVisibility(View.GONE);
+                            noRides.setText(R.string.frag_allrides_nointernettocharge);
+                            noRides.setVisibility(View.VISIBLE);
                             Log.e("listAllRides", t.getMessage());
                             snackbar.setAction("CONECTAR", new View.OnClickListener() {
                                 @Override
@@ -210,11 +214,6 @@ public class AllRidesFrag extends Fragment {
     public void onPause() {
         super.onPause();
         isFabPrepared = false;
-    }
-
-    @OnClick(R.id.fab_add_ride)
-    public void fab_add_ride() {
-        ((MainAct) getActivity()).showRideOfferFrag();
     }
 
     private ArrayList<RideForJson> filterList(ArrayList<RideForJson> listToFilter, CharSequence searchText) {
