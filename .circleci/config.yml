@@ -2,7 +2,7 @@ version: 2
 references:
   defaults: &defaults
     docker:
-      - image: circleci/android:api-27-alpha
+      - image: circleci/android:api-26-alpha
     environment:
       TERM: dumb
       _JAVA_OPTIONS: "-Xmx2048m -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap"
