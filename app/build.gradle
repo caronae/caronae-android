@@ -23,7 +23,7 @@ android {
         applicationId "br.ufrj.caronae"
         minSdkVersion 15
         targetSdkVersion 27
-        versionCode buildVersionCode() ?: 39
+        versionCode buildVersionCode() ?: 37
         versionName "2.2.7"
         renderscriptTargetApi 15
         renderscriptSupportModeEnabled true
