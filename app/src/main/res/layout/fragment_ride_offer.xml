@@ -1,9 +1,10 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/scrollView"
+    android:layout_margin="20dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/transparent">
+    android:background="@android:color/white">
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
@@ -33,8 +34,8 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:hint="@string/frag_rideoffer_placeHint"
-            android:inputType="text"
-            android:singleLine="true" />
+            android:inputType="textCapSentences"
+            android:singleLine="true"/>
 
         <EditText
             android:id="@+id/way_et"
@@ -43,9 +44,9 @@
             android:layout_below="@+id/place_et"
             android:hint="@string/frag_rideoffer_wayhint"
             android:ellipsize="end"
+            android:inputType="textCapSentences"
             android:maxLines="1"
-            android:inputType="text"
-            android:singleLine="true" />
+            android:singleLine="true"/>
 
         <EditText
             android:id="@+id/campi_et"
@@ -120,13 +121,13 @@
 
         <EditText
             android:id="@+id/description_et"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/slots_tv"
+            android:inputType="textCapSentences"
             android:layout_marginTop="10dp"
             android:gravity="top"
-            android:hint="@string/frag_rideoffer_description"
-            android:lines="2" />
+            android:hint="@string/frag_rideoffer_description" />
 
         <CheckBox
             android:id="@+id/routine_cb"

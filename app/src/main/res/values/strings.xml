@@ -142,7 +142,7 @@
     <string name="frag_rideoffer_dateHint">Escolha a data (Obrigatório)</string>
     <string name="frag_rideoffer_timeHint">Escolha a hora (Obrigatório)</string>
     <string name="frag_rideoffer_slots">Vagas disponíveis</string>
-    <string name="frag_rideoffer_description">Notas adicionais Ex: Não fumo, pode trazer o cachorro etc</string>
+    <string name="frag_rideoffer_description">Notas adicionais. Ex: Não fumo, pode trazer o cachorro etc.</string>
     <string name="frag_ridesearch_locationHint">Escolha o bairro (Obrigatório)</string>
     <string name="frag_ridefilter_locationHint">Todos os Bairros</string>
     <string name="frag_ridesearch_dateHint">Escolha a data</string>
