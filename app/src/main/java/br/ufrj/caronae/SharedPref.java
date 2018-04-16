@@ -29,7 +29,6 @@ public class SharedPref {
     private static final String RIDESTAKEN_PREF_KEY                  = "taken";
     private static final String RIDESOFFERED_PREF_KEY                = "ridesOffered";
     private static final String NOTIFICATIONS_ON_PREF_KEY            = "notifOn";
-    private static final String USER_PIC_PREF                        = "userPic";
     private static final String RM_RIDE_LIST                         = "removeRideFromList";
     public static final String MISSING_PREF                          = "missing";
     public static final String TOPIC_GERAL                           = "general";
@@ -37,6 +36,7 @@ public class SharedPref {
     public static String NAV_INDICATOR                               = "AllRides";
     public static String CHAT_ACT_STATUS                             = "chatStatus";
     public static String FRAGMENT_INDICATOR                          = "";
+    private static final String USER_PIC_SAVED_KEY                    = "SavedImage";
     public static boolean OPEN_MY_RIDES                              = false;
     public static List<RideForJson> MY_RIDES                         = null;
     public static boolean OPEN_ALL_RIDES                             = false;
@@ -164,31 +164,6 @@ public class SharedPref {
         putPref(IDUFRJ_PREF_KEY, idUfrj);
     }
 
-    public static void savePic(Bitmap image) {
-        Bitmap img = image;
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        img.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-        byte[] bitmapdata = stream.toByteArray();
-        putPref(USER_PIC_PREF, Arrays.toString(bitmapdata));
-    }
-    public static Bitmap loadPic()
-    {
-        String profilePicUrl = getPref(USER_PIC_PREF);
-        if(!profilePicUrl.isEmpty()) {
-            String[] split = profilePicUrl.substring(1, profilePicUrl.length()-1).split(", ");
-            byte[] array = new byte[split.length];
-            for (int i = 0; i < split.length; i++) {
-                array[i] = Byte.parseByte(split[i]);
-            }
-            Bitmap bitmap = BitmapFactory.decodeByteArray(array, 0, array.length);
-            return bitmap;
-        }
-        else
-        {
-            return null;
-        }
-    }
-
     public static void saveRemoveRideFromList(String profilePicUrl) {
         putPref(RM_RIDE_LIST, profilePicUrl);
     }
@@ -208,7 +183,7 @@ public class SharedPref {
         removePref(LAST_RIDE_SEARCH_FILTERS_PREF_KEY);
         removePref(TOKEN_PREF_KEY);
         removePref(NOTIFICATIONS_ON_PREF_KEY);
-        removePref(USER_PIC_PREF);
+        removePref(USER_PIC_SAVED_KEY);
         removePref(RM_RIDE_LIST);
     }
 
@@ -238,5 +213,15 @@ public class SharedPref {
     public static String getRidesOffered()
     {
         return getPref(RIDESOFFERED_PREF_KEY);
+    }
+
+    public static void setSavedPic(boolean open)
+    {
+        putBooleanPref(USER_PIC_SAVED_KEY, open);
+    }
+
+    public static boolean getSavedPic()
+    {
+        return getBooleanPref(USER_PIC_SAVED_KEY);
     }
 }

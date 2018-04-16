@@ -3,12 +3,14 @@ package br.ufrj.caronae.frags;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,9 +21,11 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import br.ufrj.caronae.App;
+import br.ufrj.caronae.ImageSaver;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.RoundedTransformation;
 import br.ufrj.caronae.SharedPref;
+import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.FalaeAct;
 import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.acts.MenuOptionsAct;
@@ -31,6 +35,8 @@ import br.ufrj.caronae.models.User;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static android.content.Context.CONNECTIVITY_SERVICE;
 
 public class OptionsMenuFrag extends Fragment {
 
@@ -80,22 +86,27 @@ public class OptionsMenuFrag extends Fragment {
     }
 
     private void fillUserFields(User user) {
-        /*if(SharedPref.loadPic() != null)
-        {
-            user_pic.setImageBitmap(SharedPref.loadPic());
-        }*/
         name_tv.setText(user.getName());
         String info;
         info = user.getProfile() + " | " + user.getCourse();
         profile_tv.setText(info);
-        if (user.getProfilePicUrl() != null && !user.getProfilePicUrl().isEmpty())
+        if(SharedPref.getSavedPic())
         {
-            Picasso.with(getContext()).load(user.getProfilePicUrl())
-                    .placeholder(R.drawable.user_pic)
-                    .error(R.drawable.user_pic)
-                    .transform(new RoundedTransformation())
-                    .into(user_pic);
-            //SharedPref.savePic(((BitmapDrawable)user_pic.getDrawable()).getBitmap());
+                Bitmap bmp = new ImageSaver(getContext()).
+                        setFileName("myProfile.png").
+                        setDirectoryName("images").
+                        load();
+                user_pic.setImageBitmap(bmp);
+        }
+        else {
+            if (user.getProfilePicUrl() != null && !user.getProfilePicUrl().isEmpty())
+            {
+                Picasso.with(getContext()).load(user.getProfilePicUrl())
+                        .placeholder(R.drawable.user_pic)
+                        .error(R.drawable.user_pic)
+                        .transform(new RoundedTransformation())
+                        .into(user_pic);
+            }
         }
     }
 

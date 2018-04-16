@@ -1,13 +1,20 @@
 package br.ufrj.caronae.acts;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import android.app.Activity;
@@ -34,11 +41,17 @@ import android.widget.ImageButton;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
 import com.google.gson.Gson;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
+import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 
 import br.ufrj.caronae.App;
+import br.ufrj.caronae.ImageSaver;
 import br.ufrj.caronae.R;
+import br.ufrj.caronae.RoundedTransformation;
 import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.firebase.FirebaseTopicsHandler;
@@ -104,6 +117,14 @@ public class MainAct extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
+
+        if(App.isUserLoggedIn())
+        {
+            if (App.getUser().getProfilePicUrl() != null && !App.getUser().getProfilePicUrl().isEmpty())
+            {
+                saveProfilePhoto();
+            }
+        }
         setTitle("");
 
         navigation = (BottomNavigationView) findViewById(R.id.navigation);
@@ -669,5 +690,53 @@ public class MainAct extends AppCompatActivity {
                         Activity.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(
                 activity.getCurrentFocus().getWindowToken(), 0);
+    }
+
+    private void saveProfilePhoto()
+    {
+        try
+        {
+            if (isNetworkAvailable())
+            {
+                ImageView iv = new ImageView(getApplicationContext());
+                iv.setVisibility(View.INVISIBLE);
+                Picasso.with(getApplicationContext()).load(App.getUser().getProfilePicUrl())
+                        .placeholder(R.drawable.user_pic)
+                        .error(R.drawable.user_pic)
+                        .transform(new RoundedTransformation())
+                        .into(iv, new com.squareup.picasso.Callback() {
+                                    @Override
+                                    public void onSuccess() {
+                                        BitmapDrawable bmpDrawable = (BitmapDrawable)iv.getDrawable();
+                                        Bitmap bitmap = bmpDrawable.getBitmap();
+                                        new ImageSaver(getBaseContext()).
+                                                setFileName("myProfile.png").
+                                                setDirectoryName("images").
+                                                save(bitmap);
+                                        SharedPref.setSavedPic(true);
+                                    }
+
+                                    @Override
+                                    public void onError() {
+                                    }
+                                });
+            }
+        }
+        catch(Exception e){}
+    }
+
+    public boolean isNetworkAvailable() {
+        boolean isConnected;
+        try {
+            ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+            NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+            isConnected = activeNetworkInfo != null && activeNetworkInfo.isConnected();
+        }
+        catch (Exception e){
+            Log.d("Check Exception: ", "" + e.getMessage());
+            Log.d("Connectivity: ", e.toString());
+            isConnected = false;
+        }
+        return isConnected;
     }
 }

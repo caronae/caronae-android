@@ -1,7 +1,11 @@
 package br.ufrj.caronae.frags;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -36,6 +40,7 @@ import com.rey.material.app.SimpleDialog;
 import com.squareup.picasso.Picasso;
 
 import br.ufrj.caronae.App;
+import br.ufrj.caronae.ImageSaver;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.RoundedTransformation;
 import br.ufrj.caronae.SharedPref;
@@ -54,6 +59,8 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static android.content.Context.CONNECTIVITY_SERVICE;
 
 public class MyProfileEditFrag extends Fragment {
 
@@ -321,10 +328,9 @@ public class MyProfileEditFrag extends Fragment {
         profile = user.getProfile();
         course = user.getCourse();
         String info;
-        info =  profile + " | " + course;
+        info = profile + " | " + course;
         profile_tv.setText(info);
-        if(!TextUtils.isEmpty(user.getPhoneNumber()))
-        {
+        if (!TextUtils.isEmpty(user.getPhoneNumber())) {
             phoneNumber_et.setText(getFormatedNumber(user.getPhoneNumber()));
         }
         email_et.setText(user.getEmail());
@@ -332,23 +338,30 @@ public class MyProfileEditFrag extends Fragment {
         carOwner_sw.setChecked(user.isCarOwner());
         carModel_et.setText(user.getCarModel());
         carColor_et.setText(user.getCarColor());
-        if(!TextUtils.isEmpty(user.getCarPlate())) {
+        if (!TextUtils.isEmpty(user.getCarPlate())) {
             carPlate_et.setText(getFormatedPlate(user.getCarPlate()));
         }
         String date = user.getCreatedAt().split(" ")[0];
         date = Util.formatBadDateWithYear(date).substring(3);
         createdAt_tv.setText(date);
-
-        String notifOn = SharedPref.getNotifPref();
-
-        if (user.getProfilePicUrl() != null && !user.getProfilePicUrl().isEmpty())
+        if(SharedPref.getSavedPic())
         {
-            Picasso.with(getContext()).load(user.getProfilePicUrl())
-                    .placeholder(R.drawable.user_pic)
-                    .error(R.drawable.user_pic)
-                    .transform(new RoundedTransformation())
-                    .into(user_pic);
-            //SharedPref.savePic(((BitmapDrawable)user_pic.getDrawable()).getBitmap());
+                Bitmap bmp = new ImageSaver(getContext()).
+                    setFileName("myProfile.png").
+                    setDirectoryName("images").
+                    load();
+                user_pic.setImageBitmap(bmp);
+        }
+        else
+        {
+            if (user.getProfilePicUrl() != null && !user.getProfilePicUrl().isEmpty())
+            {
+                Picasso.with(getContext()).load(user.getProfilePicUrl())
+                        .placeholder(R.drawable.user_pic)
+                        .error(R.drawable.user_pic)
+                        .transform(new RoundedTransformation())
+                        .into(user_pic);
+            }
         }
     }
 

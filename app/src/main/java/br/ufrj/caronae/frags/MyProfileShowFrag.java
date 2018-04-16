@@ -5,7 +5,10 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -33,6 +36,7 @@ import java.util.Collections;
 import java.util.List;
 
 import br.ufrj.caronae.App;
+import br.ufrj.caronae.ImageSaver;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.RoundedTransformation;
 import br.ufrj.caronae.SharedPref;
@@ -55,6 +59,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static android.content.Context.CLIPBOARD_SERVICE;
+import static android.content.Context.CONNECTIVITY_SERVICE;
 
 public class MyProfileShowFrag extends Fragment {
 
@@ -108,6 +113,7 @@ public class MyProfileShowFrag extends Fragment {
                                     ridesTaken_tv.setText(String.valueOf(historyRideCountForJson.getTakenCount()));
                                     SharedPref.setRidesTaken(String.valueOf(historyRideCountForJson.getTakenCount()));
                                     SharedPref.setRidesOffered(String.valueOf(historyRideCountForJson.getOfferedCount()));
+                                    fillUserFields(user);
                                 } else {
                                     if(!SharedPref.getRidesOffered().isEmpty() && !SharedPref.getRidesOffered().equals("missing")) {
                                         ridesOffered_tv.setText(SharedPref.getRidesOffered());
@@ -139,21 +145,29 @@ public class MyProfileShowFrag extends Fragment {
     }
 
     private void fillUserFields(User user) {
-        /*if(SharedPref.loadPic() != null)
-        {
-            user_pic.setImageBitmap(SharedPref.loadPic());
-        }*/
         name_tv.setText(user.getName());
         String info;
         info = user.getProfile() + " | " + user.getCourse();
         profile_tv.setText(info);
-        if (user.getProfilePicUrl() != null && !user.getProfilePicUrl().isEmpty()) {
-            Picasso.with(getContext()).load(user.getProfilePicUrl())
-                    .placeholder(R.drawable.user_pic)
-                    .error(R.drawable.user_pic)
-                    .transform(new RoundedTransformation())
-                    .into(user_pic);
-            //SharedPref.savePic(((BitmapDrawable)user_pic.getDrawable()).getBitmap());
+        if(SharedPref.getSavedPic())
+        {
+
+                Bitmap bmp = new ImageSaver(getContext()).
+                        setFileName("myProfile.png").
+                        setDirectoryName("images").
+                        load();
+                user_pic.setImageBitmap(bmp);
+        }
+        else
+        {
+            if (user.getProfilePicUrl() != null && !user.getProfilePicUrl().isEmpty())
+            {
+                Picasso.with(getContext()).load(user.getProfilePicUrl())
+                        .placeholder(R.drawable.user_pic)
+                        .error(R.drawable.user_pic)
+                        .transform(new RoundedTransformation())
+                        .into(user_pic);
+            }
         }
         if(!TextUtils.isEmpty(user.getPhoneNumber()))
         {
