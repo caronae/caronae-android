@@ -107,6 +107,7 @@
             android:drawableStart="@drawable/ic_directions_car_24dp"
             android:drawablePadding="10dp"
             android:gravity="center"
+            android:text="0"
             android:textStyle="bold"
             android:layout_below="@id/course_tv"
             android:layout_centerHorizontal="true"/>
@@ -119,6 +120,7 @@
             android:drawableLeft="@drawable/ic_person_24dp"
             android:drawableStart="@drawable/ic_person_24dp"
             android:textStyle="bold"
+            android:text="0"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:drawablePadding="10dp"

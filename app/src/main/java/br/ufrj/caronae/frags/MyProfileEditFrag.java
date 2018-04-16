@@ -1,6 +1,7 @@
 package br.ufrj.caronae.frags;
 
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -176,16 +177,24 @@ public class MyProfileEditFrag extends Fragment {
                                 HistoryRideCountForJson historyRideCountForJson = response.body();
                                 ridesOffered_tv.setText(String.valueOf(historyRideCountForJson.getOfferedCount()));
                                 ridesTaken_tv.setText(String.valueOf(historyRideCountForJson.getTakenCount()));
+                                SharedPref.setRidesTaken(String.valueOf(historyRideCountForJson.getTakenCount()));
+                                SharedPref.setRidesOffered(String.valueOf(historyRideCountForJson.getOfferedCount()));
                             } else {
+                                if(!SharedPref.getRidesOffered().isEmpty() && !SharedPref.getRidesOffered().equals("missing")) {
+                                    ridesOffered_tv.setText(SharedPref.getRidesOffered());
+                                    ridesTaken_tv.setText(SharedPref.getRidesTaken());
+                                }
                                 Util.treatResponseFromServer(response);
-                                Util.toast(R.string.act_profile_errorCountRidesHistory);
                                 Log.e("getRidesHistoryCount", response.message());
                             }
                         }
 
                         @Override
                         public void onFailure(Call<HistoryRideCountForJson> call, Throwable t) {
-                            Util.toast(R.string.act_profile_errorCountRidesHistory);
+                            if(!SharedPref.getRidesOffered().isEmpty() && !SharedPref.getRidesOffered().equals("missing")) {
+                                ridesOffered_tv.setText(SharedPref.getRidesOffered());
+                                ridesTaken_tv.setText(SharedPref.getRidesTaken());
+                            }
                             Log.e("getRidesHistoryCount", t.getMessage());
                         }
                     });
@@ -303,6 +312,10 @@ public class MyProfileEditFrag extends Fragment {
     }
 
     private void fillUserFields(User user) {
+        /*if(SharedPref.loadPic() != null)
+        {
+            user_pic.setImageBitmap(SharedPref.loadPic());
+        }*/
         car_lay.setVisibility(user.isCarOwner() ? View.VISIBLE : View.GONE);
         name_tv.setText(user.getName());
         profile = user.getProfile();
@@ -329,11 +342,14 @@ public class MyProfileEditFrag extends Fragment {
         String notifOn = SharedPref.getNotifPref();
 
         if (user.getProfilePicUrl() != null && !user.getProfilePicUrl().isEmpty())
+        {
             Picasso.with(getContext()).load(user.getProfilePicUrl())
                     .placeholder(R.drawable.user_pic)
                     .error(R.drawable.user_pic)
                     .transform(new RoundedTransformation())
                     .into(user_pic);
+            //SharedPref.savePic(((BitmapDrawable)user_pic.getDrawable()).getBitmap());
+        }
     }
 
     @OnClick(R.id.user_pic)

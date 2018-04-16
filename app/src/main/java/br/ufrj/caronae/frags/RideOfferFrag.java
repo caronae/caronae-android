@@ -121,6 +121,8 @@ public class RideOfferFrag extends Fragment {
         Bundle bundle = getArguments();
         going = bundle.getBoolean("going");
 
+        MainAct.setupUI(container,getActivity());
+
         center_et.setHint(going ? R.string.frag_rideSearch_hintPickCenter : R.string.frag_rideOffer_hintPickHub);
 
         String[] items = new String[6];

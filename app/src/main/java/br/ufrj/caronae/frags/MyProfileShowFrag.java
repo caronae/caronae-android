@@ -5,6 +5,7 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -95,7 +96,7 @@ public class MyProfileShowFrag extends Fragment {
         ButterKnife.bind(this, view);
         user = App.getUser();
         if (user != null) {
-            final ProgressDialog pd = ProgressDialog.show(getActivity(), "", getContext().getString(R.string.wait), true, true);
+            fillUserFields(user);
                 CaronaeAPI.service(getContext()).getRidesHistoryCount(user.getDbId() + "")
                         .enqueue(new Callback<HistoryRideCountForJson>() {
                             @Override
@@ -105,21 +106,25 @@ public class MyProfileShowFrag extends Fragment {
                                     HistoryRideCountForJson historyRideCountForJson = response.body();
                                     ridesOffered_tv.setText(String.valueOf(historyRideCountForJson.getOfferedCount()));
                                     ridesTaken_tv.setText(String.valueOf(historyRideCountForJson.getTakenCount()));
-                                    fillUserFields(user);
-                                    pd.dismiss();
+                                    SharedPref.setRidesTaken(String.valueOf(historyRideCountForJson.getTakenCount()));
+                                    SharedPref.setRidesOffered(String.valueOf(historyRideCountForJson.getOfferedCount()));
                                 } else {
+                                    if(!SharedPref.getRidesOffered().isEmpty() && !SharedPref.getRidesOffered().equals("missing")) {
+                                        ridesOffered_tv.setText(SharedPref.getRidesOffered());
+                                        ridesTaken_tv.setText(SharedPref.getRidesTaken());
+                                    }
                                     Util.treatResponseFromServer(response);
-                                    Util.toast(R.string.act_profile_errorCountRidesHistory);
                                     Log.e("getRidesHistoryCount", response.message());
-                                    pd.dismiss();
                                 }
                             }
 
                             @Override
                             public void onFailure(Call<HistoryRideCountForJson> call, Throwable t) {
-                                Util.toast(R.string.act_profile_errorCountRidesHistory);
+                                if(!SharedPref.getRidesOffered().isEmpty() && !SharedPref.getRidesOffered().equals("missing")) {
+                                    ridesOffered_tv.setText(SharedPref.getRidesOffered());
+                                    ridesTaken_tv.setText(SharedPref.getRidesTaken());
+                                }
                                 Log.e("getRidesHistoryCount", t.getMessage());
-                                pd.dismiss();
                             }
                         });
             phone_tv.setOnClickListener((View v) -> {
@@ -134,16 +139,22 @@ public class MyProfileShowFrag extends Fragment {
     }
 
     private void fillUserFields(User user) {
+        /*if(SharedPref.loadPic() != null)
+        {
+            user_pic.setImageBitmap(SharedPref.loadPic());
+        }*/
         name_tv.setText(user.getName());
         String info;
         info = user.getProfile() + " | " + user.getCourse();
         profile_tv.setText(info);
-        if (user.getProfilePicUrl() != null && !user.getProfilePicUrl().isEmpty())
+        if (user.getProfilePicUrl() != null && !user.getProfilePicUrl().isEmpty()) {
             Picasso.with(getContext()).load(user.getProfilePicUrl())
                     .placeholder(R.drawable.user_pic)
                     .error(R.drawable.user_pic)
                     .transform(new RoundedTransformation())
                     .into(user_pic);
+            //SharedPref.savePic(((BitmapDrawable)user_pic.getDrawable()).getBitmap());
+        }
         if(!TextUtils.isEmpty(user.getPhoneNumber()))
         {
             String phone;

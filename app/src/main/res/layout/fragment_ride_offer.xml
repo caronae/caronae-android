@@ -12,7 +12,8 @@
         android:layout_height="wrap_content"
         android:focusableInTouchMode="true"
         android:background="@color/list_white_transparency"
-        tools:context="br.ufrj.caronae.frags.RideOfferFrag">
+        tools:context="br.ufrj.caronae.frags.RideOfferFrag"
+        android:focusable="true">
 
         <EditText
             android:id="@+id/neighborhood_et"
@@ -124,10 +125,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/slots_tv"
-            android:inputType="textCapSentences"
             android:layout_marginTop="10dp"
             android:gravity="top"
-            android:hint="@string/frag_rideoffer_description" />
+            android:inputType="textMultiLine|textCapSentences"
+            android:hint="@string/frag_rideoffer_description"
+            android:minLines="2"/>
 
         <CheckBox
             android:id="@+id/routine_cb"

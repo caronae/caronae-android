@@ -1,5 +1,8 @@
 package br.ufrj.caronae.frags;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -155,12 +158,14 @@ public class MyRidesListFrag extends Fragment {
                 Collections.sort(rides, new RideComparatorByDateAndTime());
                 addAllMyRidesToList(rides);
             }
-            if (allRides.size() == 0) {
-                noRides_tv.setVisibility(View.VISIBLE);
-                noRides_tv.setText(R.string.frag_myrides_noRideFound);
-            } else {
-                noRides_tv.setVisibility(View.INVISIBLE);
-                updateAdapter();
+            if(isNetworkAvailable()) {
+                if (allRides.size() == 0) {
+                    noRides_tv.setVisibility(View.VISIBLE);
+                    noRides_tv.setText(R.string.frag_myrides_noRideFound);
+                } else {
+                    noRides_tv.setVisibility(View.INVISIBLE);
+                    updateAdapter();
+                }
             }
         }
     }
@@ -232,7 +237,7 @@ public class MyRidesListFrag extends Fragment {
                                     SharedPref.MY_RIDES = rideWithUsersList;
                                 } else {
                                     Util.treatResponseFromServer(response);
-                                    noRides_tv.setText(R.string.frag_myrides_noRideFound);
+                                    noRides_tv.setText(R.string.allrides_norides);
                                     noRides_tv.setVisibility(View.VISIBLE);
                                     Log.e("getMyActiveRides", response.message());
                                     SharedPref.MY_RIDES = null;
@@ -242,7 +247,7 @@ public class MyRidesListFrag extends Fragment {
 
                             @Override
                             public void onFailure(Call<List<RideForJson>> call, Throwable t) {
-                                noRides_tv.setText(R.string.frag_myrides_noRideFound);
+                                noRides_tv.setText(R.string.allrides_norides);
                                 noRides_tv.setVisibility(View.VISIBLE);
                                 new LoadRides().execute();
                                 Log.e("getMyActiveRides", t.getMessage());
@@ -289,5 +294,11 @@ public class MyRidesListFrag extends Fragment {
             }
         }
         return false;
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 }

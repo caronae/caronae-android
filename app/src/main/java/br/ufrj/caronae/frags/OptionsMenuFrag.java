@@ -1,7 +1,11 @@
 package br.ufrj.caronae.frags;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -17,6 +21,7 @@ import com.squareup.picasso.Picasso;
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.RoundedTransformation;
+import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.acts.FalaeAct;
 import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.acts.MenuOptionsAct;
@@ -75,16 +80,23 @@ public class OptionsMenuFrag extends Fragment {
     }
 
     private void fillUserFields(User user) {
+        /*if(SharedPref.loadPic() != null)
+        {
+            user_pic.setImageBitmap(SharedPref.loadPic());
+        }*/
         name_tv.setText(user.getName());
         String info;
         info = user.getProfile() + " | " + user.getCourse();
         profile_tv.setText(info);
         if (user.getProfilePicUrl() != null && !user.getProfilePicUrl().isEmpty())
+        {
             Picasso.with(getContext()).load(user.getProfilePicUrl())
                     .placeholder(R.drawable.user_pic)
                     .error(R.drawable.user_pic)
                     .transform(new RoundedTransformation())
                     .into(user_pic);
+            //SharedPref.savePic(((BitmapDrawable)user_pic.getDrawable()).getBitmap());
+        }
     }
 
     @OnClick(R.id.user_pic)

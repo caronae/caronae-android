@@ -1,11 +1,16 @@
 package br.ufrj.caronae;
 
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.preference.PreferenceManager;
+import android.util.Base64;
 
 import com.google.gson.Gson;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import br.ufrj.caronae.models.User;
@@ -21,8 +26,10 @@ public class SharedPref {
     public static final String RIDE_FILTER_PREF_KEY                  = "filter";
     private static final String TOKEN_PREF_KEY                       = "token";
     private static final String IDUFRJ_PREF_KEY                      = "idUfrj";
+    private static final String RIDESTAKEN_PREF_KEY                  = "taken";
+    private static final String RIDESOFFERED_PREF_KEY                = "ridesOffered";
     private static final String NOTIFICATIONS_ON_PREF_KEY            = "notifOn";
-    private static final String DRAWER_PIC_PREF                      = "drawerPic";
+    private static final String USER_PIC_PREF                        = "userPic";
     private static final String RM_RIDE_LIST                         = "removeRideFromList";
     public static final String MISSING_PREF                          = "missing";
     public static final String TOPIC_GERAL                           = "general";
@@ -157,12 +164,29 @@ public class SharedPref {
         putPref(IDUFRJ_PREF_KEY, idUfrj);
     }
 
-    public static void saveDrawerPic(String profilePicUrl) {
-        putPref(DRAWER_PIC_PREF, profilePicUrl);
+    public static void savePic(Bitmap image) {
+        Bitmap img = image;
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        img.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+        byte[] bitmapdata = stream.toByteArray();
+        putPref(USER_PIC_PREF, Arrays.toString(bitmapdata));
     }
-
-    public static String getDrawerPic() {
-        return getPref(DRAWER_PIC_PREF);
+    public static Bitmap loadPic()
+    {
+        String profilePicUrl = getPref(USER_PIC_PREF);
+        if(!profilePicUrl.isEmpty()) {
+            String[] split = profilePicUrl.substring(1, profilePicUrl.length()-1).split(", ");
+            byte[] array = new byte[split.length];
+            for (int i = 0; i < split.length; i++) {
+                array[i] = Byte.parseByte(split[i]);
+            }
+            Bitmap bitmap = BitmapFactory.decodeByteArray(array, 0, array.length);
+            return bitmap;
+        }
+        else
+        {
+            return null;
+        }
     }
 
     public static void saveRemoveRideFromList(String profilePicUrl) {
@@ -184,7 +208,7 @@ public class SharedPref {
         removePref(LAST_RIDE_SEARCH_FILTERS_PREF_KEY);
         removePref(TOKEN_PREF_KEY);
         removePref(NOTIFICATIONS_ON_PREF_KEY);
-        removePref(DRAWER_PIC_PREF);
+        removePref(USER_PIC_PREF);
         removePref(RM_RIDE_LIST);
     }
 
@@ -194,5 +218,25 @@ public class SharedPref {
 
     public static boolean getChatActIsForeground(){
         return getBooleanPref(CHAT_ACT_STATUS);
+    }
+
+    public static void setRidesTaken(String ridesTaken)
+    {
+        putPref(RIDESTAKEN_PREF_KEY, ridesTaken);
+    }
+
+    public static void setRidesOffered(String ridesOffered)
+    {
+        putPref(RIDESOFFERED_PREF_KEY, ridesOffered);
+    }
+
+    public static String getRidesTaken()
+    {
+        return getPref(RIDESTAKEN_PREF_KEY);
+    }
+
+    public static String getRidesOffered()
+    {
+        return getPref(RIDESOFFERED_PREF_KEY);
     }
 }
