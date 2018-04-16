@@ -286,7 +286,10 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
         if (rideWithUsers.getRoute().equals("")) {
             way_dt.setText("- - -");
         } else {
-            way_dt.setText(rideWithUsers.getRoute());
+            String route = rideWithUsers.getRoute();
+            route = route.replace(", ","\n");
+            route = route.replace(",","");
+            way_dt.setText(route);
         }
         if (rideWithUsers.getPlace().equals("")) {
             place_dt.setText("- - -");
