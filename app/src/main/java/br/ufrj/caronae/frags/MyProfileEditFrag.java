@@ -332,16 +332,13 @@ public class MyProfileEditFrag extends Fragment {
     }
 
     private void fillUserFields(User user) {
-        /*if(SharedPref.loadPic() != null)
-        {
-            user_pic.setImageBitmap(SharedPref.loadPic());
-        }*/
         car_lay.setVisibility(user.isCarOwner() ? View.VISIBLE : View.GONE);
         name_tv.setText(user.getName());
         profile = user.getProfile();
         course = user.getCourse();
         String info;
         info = profile + " | " + course;
+        profileUrlPic = user.getProfilePicUrl();
         profile_tv.setText(info);
         if (!TextUtils.isEmpty(user.getPhoneNumber())) {
             phoneNumber_et.setText(getFormatedNumber(user.getPhoneNumber()));
