@@ -47,6 +47,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.content.Context.CONNECTIVITY_SERVICE;
+
 public class MyRidesListFrag extends Fragment {
 
     @BindView(R.id.myRidesList)
@@ -296,9 +298,18 @@ public class MyRidesListFrag extends Fragment {
         return false;
     }
 
-    private boolean isNetworkAvailable() {
-        ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    public boolean isNetworkAvailable() {
+        boolean isConnected;
+        try {
+            ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(CONNECTIVITY_SERVICE);
+            NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+            isConnected = activeNetworkInfo != null && activeNetworkInfo.isConnected();
+        }
+        catch (Exception e){
+            Log.d("Check Exception: ", "" + e.getMessage());
+            Log.d("Connectivity: ", e.toString());
+            isConnected = false;
+        }
+        return isConnected;
     }
 }

@@ -4,16 +4,17 @@
     android:layout_margin="20dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:scrollbars="none"
     android:background="@android:color/white">
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:focusableInTouchMode="true"
         android:background="@color/list_white_transparency"
         tools:context="br.ufrj.caronae.frags.RideOfferFrag"
-        android:focusable="true">
+        android:focusable="true"
+        android:focusableInTouchMode="true">
 
         <EditText
             android:id="@+id/neighborhood_et"
@@ -118,25 +119,30 @@
             android:layout_alignBaseline="@+id/slots_tv"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
+            android:layout_marginTop="10dp"
             app:rd_style="@style/Material.Drawable.Ripple.Wave" />
 
         <EditText
             android:id="@+id/description_et"
+            android:background="@drawable/edittext_bg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/slots_tv"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
+            android:focusableInTouchMode="true"
+            android:focusable="true"
+            android:padding="5dp"
             android:gravity="top"
             android:inputType="textMultiLine|textCapSentences"
             android:hint="@string/frag_rideoffer_description"
-            android:minLines="2"/>
+            android:minLines="10"/>
 
         <CheckBox
             android:id="@+id/routine_cb"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/description_et"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="30dp"
             android:checked="false"
             android:text="@string/routine_cb" />
 
@@ -259,12 +265,21 @@
             style="@style/LightRaiseColorButtonRippleStyle"
             android:layout_width="96dp"
             android:layout_height="48dp"
+            android:layout_marginTop="20dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_below="@+id/description_et"
             android:background="@drawable/btn_color"
             android:text="@string/create_bt"
             app:rd_enable="true" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/white"
+            android:layout_below="@id/send_bt">
+
+        </RelativeLayout>
 
     </RelativeLayout>
 </ScrollView>
