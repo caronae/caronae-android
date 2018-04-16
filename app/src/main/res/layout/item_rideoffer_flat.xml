@@ -14,7 +14,7 @@
         android:id="@+id/photo_iv"
         style="@style/item_circle_image"
         android:src="@drawable/user_pic"
-        app:civ_border_width="1dp"/>
+        app:civ_border_width="3dp"/>
 
     <LinearLayout
         android:id="@+id/linear_layout"
