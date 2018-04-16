@@ -235,7 +235,6 @@
     <string name="act_activeRide_sureWantToCancel">Deseja mesmo cancelar carona?</string>
     <string name="act_activeRide_sureWantToQuit">Deseja mesmo desistir da carona?</string>
     <string name="act_rideOffer_rideConflict">Você já possui uma carona ativa nesse dia e sentido!</string>
-    <string name="frag_allRidesList_Helper">Toque nas caronas para mais informações</string>
     <string name="frag_myprofile_SameFieldsState">Nenhum campo alterado</string>
     <string name="act_rideOffer_requestWarn">Ao solicitar você está ocupando uma vaga na carona até que obtenha uma resposta, faça isso com responsabilidade.\nDeseja mesmo solicitar participação nessa carona?</string>
     <string name="act_activeRide_cancelRideMsg">Você é livre para cancelar caronas caso não possa participar, mas é importante fazer isso com responsabilidade. Caso haja outros usuários na carona, eles serão notificados.</string>
