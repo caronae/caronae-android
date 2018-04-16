@@ -383,7 +383,22 @@ public class MyProfileEditFrag extends Fragment {
                             Picasso.with(getContext()).load(profilePicUrl)
                                     .error(R.drawable.auth_bg)
                                     .transform(new RoundedTransformation())
-                                    .into(user_pic);
+                                    .into(user_pic, new com.squareup.picasso.Callback() {
+                                @Override
+                                public void onSuccess() {
+                                    BitmapDrawable bmpDrawable = (BitmapDrawable)user_pic.getDrawable();
+                                    Bitmap bitmap = bmpDrawable.getBitmap();
+                                    new ImageSaver(getContext()).
+                                            setFileName("myProfile.png").
+                                            setDirectoryName("images").
+                                            save(bitmap);
+                                    SharedPref.setSavedPic(true);
+                                }
+
+                                @Override
+                                public void onError() {
+                                }
+                            });
 
                             saveProfilePicUrl(profilePicUrl);
 //                        }
@@ -406,7 +421,22 @@ public class MyProfileEditFrag extends Fragment {
                                             Picasso.with(getContext()).load(profilePicUrl)
                                                     .error(R.drawable.user_pic)
                                                     .transform(new RoundedTransformation())
-                                                    .into(user_pic);
+                                                    .into(user_pic, new com.squareup.picasso.Callback() {
+                                                        @Override
+                                                        public void onSuccess() {
+                                                            BitmapDrawable bmpDrawable = (BitmapDrawable)user_pic.getDrawable();
+                                                            Bitmap bitmap = bmpDrawable.getBitmap();
+                                                            new ImageSaver(getContext()).
+                                                                    setFileName("myProfile.png").
+                                                                    setDirectoryName("images").
+                                                                    save(bitmap);
+                                                            SharedPref.setSavedPic(true);
+                                                        }
+
+                                                        @Override
+                                                        public void onError() {
+                                                        }
+                                                    });
 
                                             saveProfilePicUrl(profilePicUrl);
                                         }
