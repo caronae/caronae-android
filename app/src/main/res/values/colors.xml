@@ -30,6 +30,7 @@
 
     <item name="dark_gray" type="color">#6e6e70</item>
     <item name="gray" type="color">#949499</item>
+    <item name="picchange" type="color">#80325658</item>
 
     <item name="fab_red" type="color">#B60000</item>
 

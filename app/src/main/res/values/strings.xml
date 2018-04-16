@@ -154,7 +154,7 @@
     <string name="frag_ridesearch_filterBt">Filtrar</string>
     <string name="frag_ridesearch_anotherSearchBt">Outra busca</string>
     <string name="frag_ridehistory_noRides">Você ainda não concluiu nenhuma carona.</string>
-    <string name="frag_myprofile_changePic">Mudar foto</string>
+    <string name="frag_myprofile_changePic">MUDAR\nFOTO</string>
     <string name="frag_myprofile_notif">Alertas e notificações</string>
     <string name="frag_myprofile_contacts">CONTATO</string>
     <string name="frag_myprofile_contactsText">As suas informações de contato só aparecem para os usuários que estiverem na mesma carona que você!</string>

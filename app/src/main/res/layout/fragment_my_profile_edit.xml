@@ -17,20 +17,42 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/user_pic"
+            <RelativeLayout
                 android:layout_width="75dp"
                 android:layout_height="75dp"
+                android:id="@+id/pic_content"
                 android:layout_marginTop="10dp"
-                android:layout_centerVertical="true"
-                android:src="@drawable/user_pic"
-                app:civ_border_color="@color/dark_gray"
-                app:civ_border_width="3dp" />
+                android:layout_centerVertical="true">
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/user_pic"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/user_pic"
+                    app:civ_border_color="@color/dark_gray"
+                    app:civ_border_width="3dp"/>
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/alpha"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@color/picchange"/>
+                <TextView
+                    android:id="@+id/changePhotoText"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/frag_myprofile_changePic"
+                    android:textColor="@color/white"
+                    android:minLines="2"
+                    android:gravity="center"
+                    android:focusable="true"
+                    android:clickable="true"
+                    android:layout_centerInParent="true"/>
+            </RelativeLayout>
+
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/user_pic"
-                android:layout_toEndOf="@+id/user_pic"
+                android:layout_toRightOf="@id/pic_content"
+                android:layout_toEndOf="@+id/pic_content"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="15dp"
                 android:layout_marginLeft="15dp">
@@ -43,6 +65,8 @@
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:maxWidth="210dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginLeft="10dp"
                     android:text="Paula Silva"
                     android:textSize="18sp"
                     android:textStyle="bold" />
@@ -51,6 +75,8 @@
                     android:layout_marginTop="5dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginLeft="10dp"
                     android:layout_below="@id/name_tv"
                     android:ellipsize="end"
                     android:textSize="14sp"
@@ -121,8 +147,11 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/lay2"
             android:layout_marginTop="10dp"
-            android:paddingBottom="10dp"
-            android:textSize="20sp"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:padding="500dp"
             app:com_facebook_login_text="Continuar com o Facebook"
             app:com_facebook_logout_text="Sair"/>
 

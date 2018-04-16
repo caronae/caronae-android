@@ -1,25 +1,34 @@
 package br.ufrj.caronae.frags;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.SwitchCompat;
 import android.text.InputFilter;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -45,6 +54,7 @@ import br.ufrj.caronae.R;
 import br.ufrj.caronae.RoundedTransformation;
 import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.Util;
+import br.ufrj.caronae.acts.FalaeAct;
 import br.ufrj.caronae.acts.MyProfileAct;
 import br.ufrj.caronae.acts.ProfileAct;
 import br.ufrj.caronae.httpapis.CaronaeAPI;
@@ -60,6 +70,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.content.Context.CLIPBOARD_SERVICE;
 import static android.content.Context.CONNECTIVITY_SERVICE;
 
 public class MyProfileEditFrag extends Fragment {
@@ -90,13 +101,15 @@ public class MyProfileEditFrag extends Fragment {
     LoginButton loginButton;
     @BindView(R.id.user_pic)
     ImageView user_pic;
+    @BindView(R.id.changePhotoText)
+    TextView changePhoto;
     @BindView(R.id.ridesOffered_tv)
     TextView ridesOffered_tv;
     @BindView(R.id.ridesTaken_tv)
     TextView ridesTaken_tv;
 
     private CallbackManager callbackManager;
-    private String course, profile;
+    private String course, profile, profileUrlPic;
 
     public MyProfileEditFrag() {
         // Required empty public constructor
@@ -365,111 +378,9 @@ public class MyProfileEditFrag extends Fragment {
         }
     }
 
-    @OnClick(R.id.user_pic)
+    @OnClick(R.id.changePhotoText)
     public void userPic() {
-        SimpleDialog.Builder builder = new SimpleDialog.Builder(R.style.SimpleDialogLight) {
-            @Override
-            public void onPositiveActionClicked(DialogFragment fragment) {
-                final User user = App.getUser();
-
-                if (getSelectedValue().toString().equals(getString(R.string.frag_myprofile_facePicChoice))) {
-                    Profile profile = Profile.getCurrentProfile();
-                    if (profile != null) {
-                        String faceId = profile.getId();
-                        String profilePicUrl = "https://graph.facebook.com/" + faceId + "/picture?type=large";
-//                        if (user.getProfilePicUrl() == null || !user.getProfilePicUrl().equals(profilePicUrl)) {
-                            user.setProfilePicUrl(profilePicUrl);
-
-                            Picasso.with(getContext()).load(profilePicUrl)
-                                    .error(R.drawable.auth_bg)
-                                    .transform(new RoundedTransformation())
-                                    .into(user_pic, new com.squareup.picasso.Callback() {
-                                @Override
-                                public void onSuccess() {
-                                    BitmapDrawable bmpDrawable = (BitmapDrawable)user_pic.getDrawable();
-                                    Bitmap bitmap = bmpDrawable.getBitmap();
-                                    new ImageSaver(getContext()).
-                                            setFileName("myProfile.png").
-                                            setDirectoryName("images").
-                                            save(bitmap);
-                                    SharedPref.setSavedPic(true);
-                                }
-
-                                @Override
-                                public void onError() {
-                                }
-                            });
-
-                            saveProfilePicUrl(profilePicUrl);
-//                        }
-                    } else {
-                        Util.toast(R.string.frag_myprofile_facePickChoiceNotOnFace);
-                    }
-                } else {
-                    CaronaeAPI.service(getContext()).getIntranetPhotoUrl()
-                            .enqueue(new Callback<UrlForJson>() {
-                                @Override
-                                public void onResponse(Call<UrlForJson> call, Response<UrlForJson> response) {
-                                    if (response.isSuccessful()) {
-                                        UrlForJson urlForJson = response.body();
-                                        if (urlForJson == null)
-                                            return;
-
-                                        String profilePicUrl = urlForJson.getUrl();
-                                        if (profilePicUrl != null && !profilePicUrl.isEmpty()) {
-                                            user.setProfilePicUrl(profilePicUrl);
-                                            Picasso.with(getContext()).load(profilePicUrl)
-                                                    .error(R.drawable.user_pic)
-                                                    .transform(new RoundedTransformation())
-                                                    .into(user_pic, new com.squareup.picasso.Callback() {
-                                                        @Override
-                                                        public void onSuccess() {
-                                                            BitmapDrawable bmpDrawable = (BitmapDrawable)user_pic.getDrawable();
-                                                            Bitmap bitmap = bmpDrawable.getBitmap();
-                                                            new ImageSaver(getContext()).
-                                                                    setFileName("myProfile.png").
-                                                                    setDirectoryName("images").
-                                                                    save(bitmap);
-                                                            SharedPref.setSavedPic(true);
-                                                        }
-
-                                                        @Override
-                                                        public void onError() {
-                                                        }
-                                                    });
-
-                                            saveProfilePicUrl(profilePicUrl);
-                                        }
-                                    } else {
-                                        Util.treatResponseFromServer(response);
-                                        Util.toast(R.string.frag_myprofile_errorGetIntranetPhoto);
-                                        Log.e("getIntranetPhotoUrl", response.message());
-                                    }
-                                }
-
-                                @Override
-                                public void onFailure(Call<UrlForJson> call, Throwable t) {
-                                    Util.toast(R.string.frag_myprofile_errorGetIntranetPhoto);
-                                    Log.e("getIntranetPhotoUrl", t.getMessage());
-                                }
-                            });
-
-                }
-                super.onPositiveActionClicked(fragment);
-            }
-
-            @Override
-            public void onNegativeActionClicked(DialogFragment fragment) {
-                super.onNegativeActionClicked(fragment);
-            }
-        };
-
-        builder.items(new String[]{getString(R.string.frag_myprofile_facePicChoice)}, 0)
-                .title("Usar foto do Facebook?")
-                .positiveAction(getString(R.string.ok))
-                .negativeAction(getString(R.string.cancel));
-        DialogFragment fragment = DialogFragment.newInstance(builder);
-        fragment.show(getFragmentManager(), null);
+       showPhotoOptions();
     }
 
     @OnClick(R.id.carOwner_sw)
@@ -571,6 +482,9 @@ public class MyProfileEditFrag extends Fragment {
         if (App.getUser() == null)
             return;
 
+        BitmapDrawable bmpDrawable = (BitmapDrawable)user_pic.getDrawable();
+        Bitmap bitmap = bmpDrawable.getBitmap();
+
         final User editedUser = new User();
         prepEditedUser(editedUser);
 
@@ -585,6 +499,11 @@ public class MyProfileEditFrag extends Fragment {
                                     User user = App.getUser();
                                     if (user == null)
                                         return;
+                                    new ImageSaver(getContext()).
+                                            setFileName("myProfile.png").
+                                            setDirectoryName("images").
+                                            save(bitmap);
+                                    SharedPref.setSavedPic(true);
                                     user.setUser(editedUser);
                                     SharedPref.saveUser(user);
                                     Util.toast(R.string.frag_myprofile_updated);
@@ -665,6 +584,8 @@ public class MyProfileEditFrag extends Fragment {
         editedUser.setCarOwner(carOwner_sw.isChecked());
         editedUser.setCarModel(carModel_et.getText().toString());
         editedUser.setCarColor(carColor_et.getText().toString());
+        editedUser.setProfilePicUrl(profileUrlPic);
+        saveProfilePicUrl(profileUrlPic);
         editedUser.setCarPlate(userPlate);//AAA-0000
     }
 
@@ -773,5 +694,77 @@ public class MyProfileEditFrag extends Fragment {
         );
         final String output = result.getFormattedText().getString();
         return output;
+    }
+
+    private void showPhotoOptions()
+    {
+        final User user = App.getUser();
+        CharSequence options[] = new CharSequence[] {"Usar foto do Facebook", "Remover minha foto"};
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setCancelable(true);
+        builder.setItems(options, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which)
+                {
+                    case 0:
+                        Profile profile = Profile.getCurrentProfile();
+                        if (profile != null) {
+                            String faceId = profile.getId();
+                            String profilePicUrl = "https://graph.facebook.com/" + faceId + "/picture?type=large";
+                            profileUrlPic = profilePicUrl;
+
+                            Picasso.with(getContext()).load(profilePicUrl)
+                                    .error(R.drawable.auth_bg)
+                                    .transform(new RoundedTransformation())
+                                    .into(user_pic, new com.squareup.picasso.Callback() {
+                                        @Override
+                                        public void onSuccess() {
+                                            BitmapDrawable bmpDrawable = (BitmapDrawable)user_pic.getDrawable();
+                                            Bitmap bitmap = bmpDrawable.getBitmap();
+                                            new ImageSaver(getContext()).
+                                                    setFileName("myProfile.png").
+                                                    setDirectoryName("images").
+                                                    save(bitmap);
+                                            SharedPref.setSavedPic(true);
+                                        }
+
+                                        @Override
+                                        public void onError() {
+                                        }
+                                    });
+                        }
+                        else {
+                            final android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(getContext());
+                            builder.setCancelable(false);
+                            builder.setTitle("Conta do Facebook não autorizada.");
+                            builder.setMessage("Você precisa ter feito login com sua conta do Facebook");
+                            builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.cancel();
+                                }
+                            });
+                            android.support.v7.app.AlertDialog d2 = builder.create();
+                            d2.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                            WindowManager.LayoutParams wmlp = d2.getWindow().getAttributes();
+                            wmlp.gravity = Gravity.CENTER;
+                            d2.show();
+                        }
+                        break;
+                    case 1:
+                        BitmapDrawable bmpDrawable = (BitmapDrawable)getResources().getDrawable(R.drawable.user_pic);
+                        Bitmap removedPhoto = bmpDrawable.getBitmap();
+                        user_pic.setImageBitmap(removedPhoto);
+                        profileUrlPic = "";
+                        break;
+                }
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        WindowManager.LayoutParams wmlp = dialog.getWindow().getAttributes();
+        wmlp.gravity = Gravity.BOTTOM;
+        dialog.show();
     }
 }

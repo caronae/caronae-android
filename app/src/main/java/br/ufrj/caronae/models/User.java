@@ -154,6 +154,8 @@ public class User implements Parcelable {
     public boolean sameFieldsState(User user) {
         if (isCarOwner() != user.isCarOwner()) return false;
         if (!getName().equals(user.getName())) return false;
+        if (getProfilePicUrl() != null ? !getProfilePicUrl().equals(user.getProfilePicUrl()) : user.getProfilePicUrl() != null)
+            return false;
         if (getProfile() != null ? !getProfile().equals(user.getProfile()) : user.getProfile() != null)
             return false;
         if (getCourse() != null ? !getCourse().equals(user.getCourse()) : user.getCourse() != null)
