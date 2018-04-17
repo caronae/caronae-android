@@ -22,8 +22,7 @@
                 android:gravity="center"
                 android:text="@string/ride"
                 android:textColor="@color/black"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+                android:textSize="20sp"/>
 
         </RelativeLayout>
 
@@ -103,13 +102,13 @@
                         android:id="@+id/time_dt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginStart="5dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginStart="10dp"
                         android:gravity="center"
+                        android:textSize="18sp"
                         android:layout_centerVertical="true"
                         android:layout_toRightOf="@id/clock"
                         android:layout_toEndOf="@id/clock"
-                        android:drawableTint="@color/zone_centro"
                         android:text="Chegando às 00:00 | Seg | 25/12"
                         android:textColor="@color/zone_centro"/>
 
@@ -118,16 +117,62 @@
                 </RelativeLayout>
 
                 <RelativeLayout
+                    android:id="@+id/share_lay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:layout_below="@id/time_lay"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginRight="10dp">
+
+                    <RelativeLayout
+                        android:id="@+id/share_bt"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:focusable="true"
+                        android:clickable="true"
+                        android:background="@drawable/rounded_stroke_button">
+                        <TextView
+                            android:id="@+id/share_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/ride_share"
+                            android:layout_centerInParent="true"
+                            android:textColor="@color/zone_centro"
+                            android:textSize="16sp"
+                            android:gravity="center"/>
+                        <ImageView
+                            android:id="@+id/share_ic"
+                            android:tint="@color/zone_centro"
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:src="@drawable/ic_share_24dp"
+                            android:layout_toLeftOf="@id/share_tv"
+                            android:layout_toStartOf="@id/share_tv"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginEnd ="10dp"
+                            android:layout_centerVertical="true"/>
+                    </RelativeLayout>
+
+                </RelativeLayout>
+
+                <RelativeLayout
                     android:id="@+id/profile_info"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/time_lay"
-                    android:layout_margin="15dp">
+                    android:layout_below="@id/share_lay"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginEnd="15dp">
 
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/user_pic"
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
+                        android:layout_width="75dp"
+                        android:layout_height="75dp"
                         android:layout_centerVertical="true"
                         android:src="@drawable/user_pic"
                         app:civ_border_color="@color/dark_gray"
@@ -138,8 +183,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginStart="20dp"
+                        android:layout_marginLeft="25dp"
+                        android:layout_marginStart="25dp"
                         android:layout_toEndOf="@+id/user_pic"
                         android:layout_toRightOf="@+id/user_pic">
 
@@ -149,6 +194,9 @@
                             android:layout_height="wrap_content"
                             android:text="Paula Silva"
                             android:textStyle="bold"
+                            android:textSize="20sp"
+                            android:maxLines="1"
+                            android:ellipsize="end"
                             android:textColor="@color/dark_gray"/>
 
                         <TextView
@@ -158,19 +206,41 @@
                             android:layout_below="@+id/name_dt"
                             android:textColor="@color/dark_gray"
                             android:ellipsize="end"
+                            android:textSize="20sp"
                             android:maxLines="1"
                             android:text="Graduação | Ciência da Computação" />
 
                     </RelativeLayout>
+                </RelativeLayout>
 
+                <RelativeLayout
+                    android:id="@+id/fb_mutual"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_below="@id/profile_info">
+                    <TextView
+                        android:id="@+id/mutual_friends_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/mutual_friends"
+                        android:textStyle="bold"
+                        android:textColor="@color/dark_gray"/>
                 </RelativeLayout>
 
                 <RelativeLayout
                     android:id="@+id/drive_info"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/profile_info"
-                    android:layout_margin="20dp">
+                    android:layout_below="@+id/fb_mutual"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginTop="10dp">
 
                     <RelativeLayout
                         android:id="@+id/place_text_frame"
@@ -187,7 +257,8 @@
                             android:text="@string/dialog_ride_detail_reference_point"
                             android:textAllCaps="true"
                             android:textSize="16sp"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            android:textColor="@color/dark_gray"/>
 
                         <TextView
                             android:id="@+id/place_dt"
@@ -195,7 +266,8 @@
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/place_text_dt"
                             android:text="- - -"
-                            android:textSize="14sp"/>
+                            android:textSize="14sp"
+                            android:textColor="@color/dark_gray"/>
                     </RelativeLayout>
 
                     <RelativeLayout
@@ -214,7 +286,8 @@
                             android:text="@string/dialog_ride_detail_driver_route"
                             android:textAllCaps="true"
                             android:textSize="16sp"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            android:textColor="@color/dark_gray"/>
 
                         <TextView
                             android:id="@+id/way_dt"
@@ -222,7 +295,8 @@
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/way_text_dt"
                             android:text="- - -"
-                            android:textSize="14sp"/>
+                            android:textSize="14sp"
+                            android:textColor="@color/dark_gray"/>
                     </RelativeLayout>
 
                     <RelativeLayout
@@ -239,7 +313,8 @@
                             android:paddingBottom="8dp"
                             android:text="@string/dialog_ride_detail_driver_message"
                             android:textSize="16sp"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            android:textColor="@color/dark_gray"/>
 
                         <TextView
                             android:id="@+id/description_dt"
@@ -247,7 +322,8 @@
                             android:layout_height="wrap_content"
                             android:layout_below="@id/description_text_dt"
                             android:text="- - -"
-                            android:textSize="14sp"/>
+                            android:textSize="14sp"
+                            android:textColor="@color/dark_gray"/>
                     </RelativeLayout>
 
                 </RelativeLayout>
@@ -290,6 +366,7 @@
             </RelativeLayout>
 
         </ScrollView>
+
     </RelativeLayout>
 
 </RelativeLayout>

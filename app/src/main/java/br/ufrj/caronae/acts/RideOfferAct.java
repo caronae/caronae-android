@@ -14,6 +14,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.facebook.AccessToken;
 import com.google.gson.Gson;
 import com.rey.material.app.SimpleDialog;
 import com.rey.material.widget.Button;
@@ -41,12 +43,14 @@ import br.ufrj.caronae.RoundedTransformation;
 import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.SwipeDismissBaseActivity;
 import br.ufrj.caronae.Util;
+import br.ufrj.caronae.adapters.RidersAdapter;
 import br.ufrj.caronae.frags.AllRidesFrag;
 import br.ufrj.caronae.httpapis.CaronaeAPI;
 import br.ufrj.caronae.models.ActiveRide;
 import br.ufrj.caronae.models.ChatAssets;
 import br.ufrj.caronae.models.RideRequestSent;
 import br.ufrj.caronae.models.User;
+import br.ufrj.caronae.models.modelsforjson.FacebookFriendForJson;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -61,8 +65,12 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
 
     @BindView(R.id.user_pic)
     public ImageView user_pic;
+    @BindView(R.id.share_ic)
+    public ImageView share_ic;
     @BindView(R.id.clock)
     public ImageView clock;
+    @BindView(R.id.share_tv)
+    public TextView share_tv;
     @BindView(R.id.location_dt)
     public TextView location_dt;
     @BindView(R.id.name_dt)
@@ -81,12 +89,14 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
     public TextView description_dt;
     @BindView(R.id.requested_dt)
     public TextView requested_dt;
-    /*@BindView(R.id.share_ride_button)
-    ImageButton shareButton;*/
+    @BindView(R.id.share_bt)
+    RelativeLayout shareButton;
     @BindView(R.id.title_lay)
     RelativeLayout locationBackground;
     @BindView(R.id.back_bt)
     TextView back_bt;
+    @BindView(R.id.mutual_friends_tv)
+    TextView mFriends_tv;
 
     RideForJson rideWithUsers;
 
@@ -208,7 +218,7 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
         overridePendingTransition(R.anim.anim_left_slide_in, R.anim.anim_right_slide_out);
     }
 
-    /*private void configureShareButton() {
+    private void configureShareButton() {
         shareButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -219,7 +229,7 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
                 startActivity(intent.createChooser(intent, "Compartilhar Carona"));
             }
         });
-    }*/
+    }
 
     private void configureActivityWithRide(final RideForJson rideWithUsers, boolean isFull) {
         final boolean requested = getIntent().getBooleanExtra("requested", false);
@@ -231,6 +241,53 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
         AllRidesFrag.setPageThatWas(rideWithUsers.isGoing());
         final User driver = rideWithUsers.getDriver();
 
+        try {
+            AccessToken token = AccessToken.getCurrentAccessToken();
+            if (token != null) {
+                if (driver.getFaceId() != null) {
+                    CaronaeAPI.service(getApplicationContext()).getMutualFriends(token.getToken(), driver.getFaceId())
+                            .enqueue(new Callback<FacebookFriendForJson>() {
+                                @Override
+                                public void onResponse(Call<FacebookFriendForJson> call, Response<FacebookFriendForJson> response) {
+                                    if (response.isSuccessful()) {
+                                        String mutualFriendsText;
+                                        FacebookFriendForJson mutualFriends = response.body();
+                                        if (mutualFriends.getTotalCount() < 1) {
+                                            mutualFriendsText = "Amigos em comum: 0";
+                                            mFriends_tv.setText(mutualFriendsText);
+                                            return;
+                                        }
+                                        int totalCount = mutualFriends.getTotalCount();
+                                        int size = mutualFriends.getMutualFriends().size();
+                                        if(totalCount > 1)
+                                        {
+                                            mutualFriendsText = "Amigos em comum: " + totalCount + " no total e " + size + " no Caronaê";
+                                        }
+                                        else
+                                        {
+                                            mutualFriendsText = "Amigos em comum: " + totalCount;
+                                        }
+                                        mFriends_tv.setText(mutualFriendsText);
+                                    } else {
+                                        Util.treatResponseFromServer(response);
+                                        //Util.toast(getString(R.string.act_profile_errorMutualFriends));
+                                        Log.e("getMutualFriends", response.message());
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<FacebookFriendForJson> call, Throwable t) {
+                                    Log.e("getMutualFriends", t.getMessage());
+                                }
+                            });
+
+                } else {
+                    Log.d("profileact,facebook", "user face id is null");
+                }
+            }
+        } catch (Exception e) {
+            Log.e("profileact", e.getMessage());
+        }
         final boolean isDriver = driver.getDbId() == App.getUser().getDbId();
         CircleImageView photo_iv;
         photo_iv = (CircleImageView)user_pic;
@@ -307,6 +364,10 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
 
         dateDescription = dateDescription + " | " + getWeekDayFromDate(rideWithUsers.getDate()) + " | " +Util.formatBadDateWithoutYear(rideWithUsers.getDate());
         clock.setColorFilter(color, PorterDuff.Mode.SRC_IN);
+        share_ic.setColorFilter(color, PorterDuff.Mode.SRC_IN);
+        share_tv.setTextColor(color);
+        GradientDrawable strokeShare_bt = (GradientDrawable)shareButton.getBackground();
+        strokeShare_bt.setStroke(2, color);
         time_dt.setText(dateDescription);
         time_dt.setTextColor(color);
         if (rideWithUsers.getDescription().equals("")) {
@@ -402,7 +463,7 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
             }
         }
 
-        //configureShareButton();
+        configureShareButton();
     }
 
     private void configureActivityWithLink() {

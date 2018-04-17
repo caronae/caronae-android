@@ -20,6 +20,8 @@
     <string name="ride">Carona</string>
     <string name="take_ride">PEGAR CARONA</string>
     <string name="full_ride">CARONA CHEIA</string>
+    <string name="ride_share">Compartilhar carona</string>
+    <string name="mutual_friends">Amigos em comum: - </string>
 
     <string name="go_rb">Chegando na UFRJ</string>
     <string name="back_rb">Saindo da UFRJ</string>
