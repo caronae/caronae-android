@@ -155,7 +155,7 @@
     <string name="frag_ridesearch_centerHint">Escolha o centro</string>
     <string name="frag_ridefilter_centerHint">Todos os Campi</string>
     <string name="frag_ridesearch_campiHint">Centro Universitário</string>
-    <string name="frag_ridesearch_searchBt">Buscar</string>
+    <string name="frag_ridesearch_searchBt">BUSCAR</string>
     <string name="frag_ridesearch_filterBt">Filtrar</string>
     <string name="frag_ridesearch_anotherSearchBt">Outra busca</string>
     <string name="frag_ridehistory_noRides">Você ainda não concluiu nenhuma carona.</string>
