@@ -2,6 +2,7 @@ package br.ufrj.caronae.acts;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -432,7 +433,6 @@ public class MainAct extends AppCompatActivity {
             backstack.remove(TabbedRideOfferFrag.class);
             backstack.add(TabbedRideOfferFrag.class);
             fragmentClass = TabbedRideOfferFrag.class;
-            setupUI(getWindow().getDecorView().getRootView(), this);
         }
         try {
             fragment = (Fragment) fragmentClass.newInstance();
@@ -662,34 +662,21 @@ public class MainAct extends AppCompatActivity {
         filterCard.startAnimation(animation);
     }
 
-    public static void setupUI(View view, Activity act) {
-
-        // Set up touch listener for non-text box views to hide keyboard.
-        if (!(view instanceof EditText)) {
-            view.setOnTouchListener(new View.OnTouchListener() {
-                public boolean onTouch(View v, MotionEvent event) {
-                    hideSoftKeyboard(act);
-                    act.getWindow().getDecorView().clearFocus();
-                    return false;
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            View v = getCurrentFocus();
+            if (v instanceof EditText) {
+                Rect outRect = new Rect();
+                v.getGlobalVisibleRect(outRect);
+                if (!outRect.contains((int)event.getRawX(), (int)event.getRawY())) {
+                    v.clearFocus();
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                 }
-            });
-        }
-
-        //If a layout container, iterate over children and seed recursion.
-        if (view instanceof ViewGroup) {
-            for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
-                View innerView = ((ViewGroup) view).getChildAt(i);
-                setupUI(innerView, act);
             }
         }
-    }
-
-    public static void hideSoftKeyboard(Activity activity) {
-        InputMethodManager inputMethodManager =
-                (InputMethodManager) activity.getSystemService(
-                        Activity.INPUT_METHOD_SERVICE);
-        inputMethodManager.hideSoftInputFromWindow(
-                activity.getCurrentFocus().getWindowToken(), 0);
+        return super.dispatchTouchEvent(event);
     }
 
     private void saveProfilePhoto()

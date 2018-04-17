@@ -47,6 +47,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/subject_tv"
+            android:clickable="true"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:cursorVisible="true"
             android:hint="@string/frag_falae_subjectHint"
             android:backgroundTint="@color/black"
             android:singleLine="true" />
@@ -68,7 +72,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/message_tv"
-
+            android:clickable="true"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:cursorVisible="true"
             android:layout_marginStart="3dp"
             android:layout_marginLeft="3dp"
             android:background="@color/default_white_transparency"

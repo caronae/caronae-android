@@ -185,6 +185,7 @@ public class SharedPref {
         removePref(NOTIFICATIONS_ON_PREF_KEY);
         removePref(USER_PIC_SAVED_KEY);
         removePref(RM_RIDE_LIST);
+        NAV_INDICATOR = "AllRides";
     }
 
     public static void setChatActIsForeground(boolean isForeground){
