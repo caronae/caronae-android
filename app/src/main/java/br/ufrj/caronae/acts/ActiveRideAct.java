@@ -56,6 +56,7 @@ import br.ufrj.caronae.models.modelsforjson.RideForJson;
 import br.ufrj.caronae.models.modelsforjson.RideIdForJson;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -65,8 +66,6 @@ public class ActiveRideAct extends SwipeDismissBaseActivity {
 
     @BindView(R.id.user_pic)
     public ImageView user_pic;
-    @BindView(R.id.seeProfile_iv)
-    public TextView seeProfile_iv;
     @BindView(R.id.location_tv)
     public TextView location_tv;
     @BindView(R.id.name_tv)
@@ -215,6 +214,7 @@ public class ActiveRideAct extends SwipeDismissBaseActivity {
                 }
             }
         });
+        CircleImageView profileCircledImage = (CircleImageView)user_pic;
         location_tv.setText(location);
         name_tv.setText(driver.getName());
         profile_tv.setText(driver.getProfile());
@@ -239,6 +239,7 @@ public class ActiveRideAct extends SwipeDismissBaseActivity {
         time_tv.setTextColor(color);
         date_tv.setText(Util.formatBadDateWithoutYear(rideWithUsers.getDate()));
         date_tv.setTextColor(color);
+        profileCircledImage.setBorderColor(color);
         carModel_tv.setText(driver.getCarModel());
         carColor_tv.setText(driver.getCarColor());
         carPlate_tv.setText(driver.getCarPlate());
@@ -274,7 +275,6 @@ public class ActiveRideAct extends SwipeDismissBaseActivity {
 
         if (isDriver) {
             leave_bt.setText(R.string.act_activeride_quitBtn);
-            seeProfile_iv.setVisibility(View.GONE);
         }
         leave_bt.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -1,96 +1,134 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/detail_coordinator_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white">
 
     <FrameLayout
-        android:id="@+id/progress_bar_layout"
+        android:id="@+id/toolbar_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone">
+        android:layout_height="48dp">
 
-        <ProgressBar
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:layout_gravity="center" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/title_ride"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:text="@string/ride"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="start|center">
+            <TextView
+                android:id="@+id/back_bt"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="@string/title_allrides"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/dark_gray"
+                android:clickable="true"
+                android:focusable="true"
+                android:textSize="20sp"/>
+        </RelativeLayout>
 
     </FrameLayout>
 
     <RelativeLayout
-        android:id="@+id/main_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar_layout">
 
-        <android.support.v7.widget.CardView
-            android:id="@+id/toolbar_card"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
+            <RelativeLayout
+                android:id="@+id/main_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white">
+                android:layout_height="wrap_content">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <ImageButton
-                        android:id="@+id/share_ride_button"
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="8dp"
-                        android:backgroundTint="@android:color/transparent"
-                        android:src="@drawable/ic_share_black_24dp" />
+                    android:layout_height="wrap_content"
+                    android:id="@+id/title_lay"
+                    android:background="@color/zone_centro">
 
                     <TextView
                         android:id="@+id/location_dt"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:layout_toLeftOf="@id/share_ride_button"
-                        android:gravity="center"
-                        android:text="COPACABANA -> CT"
-                        android:textColor="@color/dark_gray"
+                        android:paddingTop="15dp"
+                        android:paddingBottom="15dp"
                         android:textSize="20sp"
+                        android:textColor="@color/white"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginStart="15dp"
+                        android:textStyle="bold"
+                        android:text="BENFICA ➜ CCS"/>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/time_lay"
+                    android:layout_below="@id/title_lay"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp"
+                    android:background="@color/light_gray">
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/clock"
+                        android:src="@drawable/ic_access_time_24dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginStart="15dp"
+                        android:tint="@color/zone_centro"/>
+                    <TextView
+                        android:id="@+id/time_dt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginStart="5dp"
+                        android:gravity="center"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@id/clock"
+                        android:layout_toEndOf="@id/clock"
+                        android:drawableTint="@color/zone_centro"
+                        android:text="Chegando às 00:00 | Seg | 25/12"
+                        android:textColor="@color/zone_centro"
                         android:textStyle="bold" />
+
+
 
                 </RelativeLayout>
 
-            </android.support.v7.widget.Toolbar>
-        </android.support.v7.widget.CardView>
-
-        <ScrollView
-            android:id="@+id/scrollView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/toolbar_card">
-
-            <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
                 <RelativeLayout
-                    android:id="@+id/lay2"
+                    android:id="@+id/profile_info"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginRight="16dp"
-                    android:layout_marginTop="@dimen/activity_vertical_margin">
+                    android:layout_below="@id/time_lay"
+                    android:layout_margin="10dp">
 
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/user_pic"
                         android:layout_width="70dp"
                         android:layout_height="70dp"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="8dp"
                         android:src="@drawable/user_pic"
                         app:civ_border_color="@color/dark_gray"
                         app:civ_border_width="3dp"/>
@@ -110,96 +148,28 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Paula Silva"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            android:textColor="@color/dark_gray"/>
 
                         <TextView
                             android:id="@+id/profile_dt"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/name_dt"
-                            android:text="Graduação" />
+                            android:textColor="@color/dark_gray"
+                            android:text="Graduação | Ciência da Computação" />
 
-                        <TextView
-                            android:id="@+id/course_dt"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/profile_dt"
-                            android:text="Ciência da Computação" />
                     </RelativeLayout>
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:id="@+id/lay3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/lay2"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="8dp"
-                    android:paddingBottom="16dp">
-
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_below="@+id/rel1"
-                        android:src="@color/light_gray" />
-
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_alignParentTop="true"
-                        android:src="@color/light_gray" />
-
-                    <RelativeLayout
-                        android:id="@+id/rel1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginBottom="4dp"
-                        android:layout_marginTop="4dp">
-
-                        <TextView
-                            android:id="@+id/time_dt"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:drawableLeft="@drawable/ic_access_time_24dp"
-                            android:drawablePadding="5dp"
-                            android:drawableStart="@drawable/ic_access_time_24dp"
-                            android:gravity="center"
-                            android:text="Chegando ás 16:45"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/separator"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignBaseline="@+id/time_dt"
-                            android:layout_toEndOf="@+id/time_dt"
-                            android:layout_toRightOf="@+id/time_dt"
-                            android:gravity="center"
-                            android:text=" | " />
-
-                        <TextView
-                            android:id="@+id/date_dt"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignBaseline="@+id/time_dt"
-                            android:layout_toEndOf="@+id/separator"
-                            android:layout_toRightOf="@+id/separator"
-                            android:gravity="center"
-                            android:text="16/10"
-                            android:textStyle="bold" />
-                    </RelativeLayout>
-
 
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:id="@+id/lay4"
+                    android:id="@+id/drive_info"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/lay3"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginLeft="20dp">
+                    android:layout_below="@+id/profile_info"
+                    android:layout_margin="10dp">
+
                     <RelativeLayout
                         android:id="@+id/place_text_frame"
                         android:layout_width="match_parent"
@@ -225,6 +195,7 @@
                             android:text="- - -"
                             android:textSize="14sp"/>
                     </RelativeLayout>
+
                     <RelativeLayout
                         android:layout_width="wrap_content"
                         android:id="@+id/way_text_frame"
@@ -251,6 +222,7 @@
                             android:text="- - -"
                             android:textSize="14sp"/>
                     </RelativeLayout>
+
                     <RelativeLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -270,49 +242,51 @@
                         <TextView
                             android:id="@+id/description_dt"
                             android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
+                            android:layout_height="wrap_content"
                             android:layout_below="@id/description_text_dt"
                             android:text="- - -"
                             android:textSize="14sp"/>
                     </RelativeLayout>
+
                 </RelativeLayout>
 
-                <TextView
-                    android:id="@+id/requested_dt"
+                <RelativeLayout
+                    android:id="@+id/invite_lay"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/lay4"
-                    android:gravity="center"
-                    android:text="@string/act_rideoffer_requested"
-                    android:textColor="@color/green"
-                    android:textStyle="bold"
-                    android:visibility="invisible" />
+                    android:layout_marginTop="10dp"
+                    android:layout_below="@id/drive_info">
 
-                <TextView
+                    <TextView
+                        android:id="@+id/requested_dt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/act_rideoffer_requested"
+                        android:textColor="@color/green"
+                        android:visibility="invisible" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="112dp"
-                    android:layout_below="@id/requested_dt" />
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/invite_lay"
+                    android:layout_marginBottom="50dp">
+                    <Button
+                        android:id="@+id/join_bt"
+                        android:layout_width="150dp"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:background="@color/zone_centro"
+                        android:src="@drawable/ic_done_white_24dp"
+                        android:text="@string/take_ride"
+                        android:textColor="@android:color/white" />
+                </RelativeLayout>
+
             </RelativeLayout>
+
         </ScrollView>
-
-        <android.support.v7.widget.CardView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="38dp"
-            app:cardCornerRadius="8dp">
-
-            <com.rey.material.widget.Button
-                android:id="@+id/join_bt"
-                android:layout_width="168dp"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_done_white_24dp"
-                android:text="Pegar Carona"
-                android:textColor="@android:color/white" />
-        </android.support.v7.widget.CardView>
-
-
     </RelativeLayout>
 
-</android.support.design.widget.CoordinatorLayout>
+</RelativeLayout>

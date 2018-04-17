@@ -141,24 +141,15 @@
                 android:layout_marginStart="30dp"
                 android:layout_marginTop="5dp">
 
-                <ImageView
+                <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/user_pic"
                     android:layout_width="70dp"
                     android:layout_height="70dp"
                     android:layout_centerVertical="true"
-                    android:src="@drawable/user_pic" />
+                    android:src="@drawable/user_pic"
+                    app:civ_border_color="@color/gray"
+                    app:civ_border_width="3dp"/>
 
-                <TextView
-                    android:id="@+id/seeProfile_iv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/user_pic"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginStart="5dp"
-                    android:background="@color/gray"
-                    android:padding="1dp"
-                    android:text="@string/act_activeride_seeProfile"
-                    android:textColor="@color/white" />
 
                 <RelativeLayout
                     android:id="@+id/lay21"

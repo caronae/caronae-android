@@ -28,7 +28,7 @@
     <item name="light_zone_centro_transparency" type="color">#EEFFCC80</item>
     <item name="light_zone_baixada_transparency" type="color">#EEEF9A9A</item>
 
-    <item name="dark_gray" type="color">#6e6e70</item>
+    <item name="dark_gray" type="color">#565658</item>
     <item name="gray" type="color">#949499</item>
     <item name="picchange" type="color">#80325658</item>
 

@@ -6,22 +6,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
-import android.widget.FrameLayout;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -29,6 +23,9 @@ import com.rey.material.app.SimpleDialog;
 import com.rey.material.widget.Button;
 import com.squareup.picasso.Picasso;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -56,18 +53,16 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
 
     @BindView(R.id.user_pic)
     public ImageView user_pic;
+    @BindView(R.id.clock)
+    public ImageView clock;
     @BindView(R.id.location_dt)
     public TextView location_dt;
     @BindView(R.id.name_dt)
     public TextView name_dt;
     @BindView(R.id.profile_dt)
     public TextView profile_dt;
-    @BindView(R.id.course_dt)
-    public TextView course_dt;
     @BindView(R.id.time_dt)
     public TextView time_dt;
-    @BindView(R.id.date_dt)
-    public TextView date_dt;
     @BindView(R.id.join_bt)
     public Button join_bt;
     @BindView(R.id.way_dt)
@@ -78,16 +73,10 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
     public TextView description_dt;
     @BindView(R.id.requested_dt)
     public TextView requested_dt;
-    @BindView(R.id.share_ride_button)
-    ImageButton shareButton;
-    @BindView(R.id.scrollView)
-    ScrollView scrollView;
-    @BindView(R.id.main_layout)
-    RelativeLayout mainLayout;
-    @BindView(R.id.progress_bar_layout)
-    FrameLayout progressBarLayout;
-
-    CoordinatorLayout coordinatorLayout;
+    /*@BindView(R.id.share_ride_button)
+    ImageButton shareButton;*/
+    @BindView(R.id.title_lay)
+    RelativeLayout locationBackground;
 
     RideForJson rideWithUsers;
 
@@ -102,23 +91,10 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
         setContentView(R.layout.dialog_ride_detail);
         ButterKnife.bind(this);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
         final ActionBar ab = getSupportActionBar();
         if (ab != null) {
             ab.setDisplayHomeAsUpEnabled(true);
         }
-
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-                overridePendingTransition(R.anim.anim_left_slide_in, R.anim.anim_right_slide_out);
-            }
-        });
-
-        coordinatorLayout = (CoordinatorLayout) findViewById(R.id.detail_coordinator_layout);
 
         if (!startWithLink()) {
             rideWithUsers = getIntent().getExtras().getParcelable("ride");
@@ -222,7 +198,7 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
         overridePendingTransition(R.anim.anim_left_slide_in, R.anim.anim_right_slide_out);
     }
 
-    private void configureShareButton() {
+    /*private void configureShareButton() {
         shareButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -233,7 +209,7 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
                 startActivity(intent.createChooser(intent, "Compartilhar Carona"));
             }
         });
-    }
+    }*/
 
     private void configureActivityWithRide(final RideForJson rideWithUsers, boolean isFull) {
         final boolean requested = getIntent().getBooleanExtra("requested", false);
@@ -253,14 +229,14 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
 
         int color = Util.getColorbyZone(rideWithUsers.getZone());
         join_bt.setBackgroundColor(color);
-        location_dt.setTextColor(color);
+        locationBackground.setBackgroundColor(color);
         photo_iv.setBorderColor(color);
 
         final String location;
         if (rideWithUsers.isGoing())
-            location = rideWithUsers.getNeighborhood() + " ➜ " + rideWithUsers.getHub();
+            location = rideWithUsers.getNeighborhood().toUpperCase() + " ➜ " + rideWithUsers.getHub().toUpperCase();
         else
-            location = rideWithUsers.getHub() + " ➜ " + rideWithUsers.getNeighborhood();
+            location = rideWithUsers.getHub().toUpperCase() + " ➜ " + rideWithUsers.getNeighborhood().toUpperCase();
 
         String profilePicUrl = driver.getProfilePicUrl();
         if (profilePicUrl == null || profilePicUrl.isEmpty()) {
@@ -286,7 +262,8 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
         });
         location_dt.setText(location);
         name_dt.setText(driver.getName());
-        profile_dt.setText(driver.getProfile());
+        String info = driver.getProfile() + " | " + driver.getCourse();
+        profile_dt.setText(info);
         if (rideWithUsers.getRoute().equals("")) {
             way_dt.setText("- - -");
         } else {
@@ -300,14 +277,16 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
         } else {
             place_dt.setText(rideWithUsers.getPlace());
         }
-        course_dt.setText(driver.getCourse());
+        String dateDescription;
         if (rideWithUsers.isGoing())
-            time_dt.setText(getString(R.string.arrivingAt, Util.formatTime(rideWithUsers.getTime())));
+            dateDescription = getString(R.string.arrivingAt, Util.formatTime(rideWithUsers.getTime()));
         else
-            time_dt.setText(getString(R.string.leavingAt, Util.formatTime(rideWithUsers.getTime())));
+            dateDescription = getString(R.string.leavingAt, Util.formatTime(rideWithUsers.getTime()));
+
+        dateDescription = dateDescription + " | " + getWeekDayFromDate(Util.formatBadDateWithYear(rideWithUsers.getDate())) + " | " +Util.formatBadDateWithoutYear(rideWithUsers.getDate());
+        clock.setColorFilter(color, android.graphics.PorterDuff.Mode.MULTIPLY);
+        time_dt.setText(dateDescription);
         time_dt.setTextColor(color);
-        date_dt.setText(Util.formatBadDateWithoutYear(rideWithUsers.getDate()));
-        date_dt.setTextColor(color);
         if (rideWithUsers.getDescription().equals("")) {
             description_dt.setText("- - -");
         } else {
@@ -323,7 +302,7 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
                 requested_dt.setVisibility(View.VISIBLE);
             } else {
                 if (isFull) {
-                    join_bt.setText("CARONA CHEIA");
+                    join_bt.setText(R.string.full_ride);
                     join_bt.setClickable(false);
                 } else {
                     join_bt.setClickable(true);
@@ -365,11 +344,9 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
                                                         App.getBus().post(rideRequest);
 
                                                         pd.dismiss();
-                                                        Util.snack(coordinatorLayout, getResources().getString(R.string.requestSent));
                                                     } else {
                                                         Util.treatResponseFromServer(response);
                                                         pd.dismiss();
-                                                        Util.snack(coordinatorLayout, getResources().getString(R.string.errorRequestSent));
                                                         Log.e("requestJoin", response.message());
                                                     }
                                                 }
@@ -377,7 +354,6 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
                                                 @Override
                                                 public void onFailure(Call<ResponseBody> call, Throwable t) {
                                                     pd.dismiss();
-                                                    Util.snack(coordinatorLayout, getResources().getString(R.string.requestSent));
                                                     Log.e("requestJoin", t.getMessage());
                                                 }
                                             });
@@ -404,7 +380,7 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
             }
         }
 
-        configureShareButton();
+        //configureShareButton();
     }
 
     private void configureActivityWithLink() {
@@ -424,8 +400,7 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
         else
             rideId = params.get(1);
 
-        mainLayout.setVisibility(View.GONE);
-        progressBarLayout.setVisibility(View.VISIBLE);
+
         CaronaeAPI.service(this).getRide(rideId)
                 .enqueue(new Callback<RideForJson>() {
                     @Override
@@ -438,8 +413,6 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
                             } else {
                                 ride.setDbId(Integer.parseInt(ride.getId() + ""));
                                 configureActivityWithRide(ride, ride.getAvailableSlots() == 0);
-                                mainLayout.setVisibility(View.VISIBLE);
-                                progressBarLayout.setVisibility(View.GONE);
                             }
                         } else {
                             showCustomDialog(getResources().getString(R.string.ride_failure_header),
@@ -477,10 +450,49 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
 
         dialog.show();
     }
-
     @Override
     protected void onStop() {
         super.onStop();
         finish();
+    }
+    public static String getWeekDayFromDate(String dateString) {
+        int dayOfWeekInt = -1;
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Calendar c = Calendar.getInstance();
+            c.add(Calendar.DAY_OF_YEAR, 1);
+            Date date = format.parse(dateString);
+            c.setTime(date);
+            dayOfWeekInt = c.get(Calendar.DAY_OF_WEEK);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        String dayOfWeek = "";
+
+        switch (dayOfWeekInt) {
+            case 1:
+                dayOfWeek = "Dom";
+                break;
+            case 2:
+                dayOfWeek = "Seg";
+                break;
+            case 3:
+                dayOfWeek = "Ter";
+                break;
+            case 4:
+                dayOfWeek = "Qua";
+                break;
+            case 5:
+                dayOfWeek = "Qui";
+                break;
+            case 6:
+                dayOfWeek = "Sex";
+                break;
+            case 7:
+                dayOfWeek = "Sáb";
+                break;
+        }
+        return dayOfWeek;
     }
 }

@@ -17,6 +17,9 @@
     <string name="create_bt">Criar</string>
     <string name="acess_bt">Acessar</string>
     <string name="edit_bt">Editar</string>
+    <string name="ride">Carona</string>
+    <string name="take_ride">PEGAR CARONA</string>
+    <string name="full_ride">CARONA CHEIA</string>
 
     <string name="go_rb">Chegando na UFRJ</string>
     <string name="back_rb">Saindo da UFRJ</string>
