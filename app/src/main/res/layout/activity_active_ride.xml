@@ -42,8 +42,7 @@
                     android:layout_toLeftOf="@id/share_ride_button"
                     android:gravity="center_vertical"
                     android:textColor="@color/white"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
+                    android:textSize="20sp"/>
             </RelativeLayout>
 
         </android.support.v7.widget.Toolbar>
