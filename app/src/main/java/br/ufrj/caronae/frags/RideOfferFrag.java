@@ -525,6 +525,9 @@ public class RideOfferFrag extends Fragment {
             SharedPref.saveLastRideGoingPref(lastRideOffer);
         else
             SharedPref.saveLastRideNotGoingPref(lastRideOffer);
+
+        SharedPref.NAV_INDICATOR = "AllRides";
+        changeFragment(AllRidesFrag.class);
     }
 
     private void createChatAssets(Ride ride) {
@@ -636,22 +639,26 @@ public class RideOfferFrag extends Fragment {
                 .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Fragment fragment = null;
-                        Class fragmentClass = null;
-                        fragmentClass = MyRidesFrag.class;
-                        try {
-                            fragment = (Fragment) fragmentClass.newInstance();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                        fragmentManager.popBackStack();
-                        FragmentTransaction transaction = fragmentManager.beginTransaction();
-                        transaction.setCustomAnimations(R.anim.anim_up_slide_in, R.anim.anim_down_slide_out);
-                        transaction.replace(R.id.flContent, fragment).commit();
                         SharedPref.NAV_INDICATOR = "MyRides";
+                        changeFragment(MyRidesFrag.class);
                         dialog.cancel();
                     }
                 }).show();
+    }
+
+    private void changeFragment(Class fragmentClass)
+    {
+        Fragment fragment = null;
+        try {
+            fragment = (Fragment) fragmentClass.newInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        fragmentManager.popBackStack();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.setCustomAnimations(R.anim.anim_up_slide_in, R.anim.anim_down_slide_out);
+        transaction.replace(R.id.flContent, fragment).commit();
+        SharedPref.NAV_INDICATOR = "MyRides";
     }
 }
