@@ -46,6 +46,7 @@ import br.ufrj.caronae.models.User;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -247,10 +248,13 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
         final User driver = rideWithUsers.getDriver();
 
         final boolean isDriver = driver.getDbId() == App.getUser().getDbId();
+        CircleImageView photo_iv;
+        photo_iv = (CircleImageView)user_pic;
 
         int color = Util.getColorbyZone(rideWithUsers.getZone());
         join_bt.setBackgroundColor(color);
         location_dt.setTextColor(color);
+        photo_iv.setBorderColor(color);
 
         final String location;
         if (rideWithUsers.isGoing())

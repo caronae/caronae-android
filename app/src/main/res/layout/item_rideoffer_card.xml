@@ -19,11 +19,13 @@
         android:layout_margin="10dp"
         android:orientation="vertical">
 
-        <android.support.v4.widget.CircleImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/photo_iv"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:src="@drawable/user_pic" />
+            android:src="@drawable/user_pic"
+            card_view:civ_border_color="@color/dark_gray"
+            card_view:civ_border_width="3dp"/>
 
         <TextView
             android:id="@+id/location_tv"
@@ -73,7 +75,7 @@
             android:layout_alignLeft="@+id/location_tv"
             android:layout_alignStart="@+id/location_tv"
             android:layout_below="@+id/time_tv"
-            android:text="Fulano da Silva" />
+            android:text="Paula Silva" />
 
         <ImageView
             android:id="@+id/requestIndicator_iv"

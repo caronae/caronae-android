@@ -22,7 +22,7 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/user_pic_iv"
         android:layout_width="75dp"
         android:layout_height="75dp"
@@ -33,7 +33,9 @@
         android:layout_marginRight="5dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:src="@drawable/user_pic" />
+        android:src="@drawable/user_pic"
+        app:civ_border_color="@color/dark_gray"
+        app:civ_border_width="3dp"/>
 
     <TextView
         android:id="@+id/name_tv"

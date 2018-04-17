@@ -85,13 +85,15 @@
                     android:layout_marginRight="16dp"
                     android:layout_marginTop="@dimen/activity_vertical_margin">
 
-                    <ImageView
+                    <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/user_pic"
                         android:layout_width="70dp"
                         android:layout_height="70dp"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="8dp"
-                        android:src="@drawable/user_pic" />
+                        android:src="@drawable/user_pic"
+                        app:civ_border_color="@color/dark_gray"
+                        app:civ_border_width="3dp"/>
 
                     <RelativeLayout
                         android:id="@+id/lay21"
@@ -107,7 +109,7 @@
                             android:id="@+id/name_dt"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Fulano da Silva"
+                            android:text="Paula Silva"
                             android:textStyle="bold" />
 
                         <TextView
@@ -115,14 +117,14 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/name_dt"
-                            android:text="Aluno" />
+                            android:text="Graduação" />
 
                         <TextView
                             android:id="@+id/course_dt"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/profile_dt"
-                            android:text="Ciência da computação" />
+                            android:text="Ciência da Computação" />
                     </RelativeLayout>
                 </RelativeLayout>
 
