@@ -139,10 +139,11 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
                 viewHolder.parentLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                Intent intent = new Intent(context, RideOfferAct.class);
-                intent.putExtra("ride", rideOffer);
-                intent.putExtra("requested", finalRequested);
-                context.startActivity(intent);
+                        Intent intent = new Intent(context, RideOfferAct.class);
+                        intent.putExtra("ride", rideOffer);
+                        intent.putExtra("requested", finalRequested);
+                        intent.putExtra("fromAllRides", true);
+                        context.startActivity(intent);
 
                     }
                 });
@@ -177,7 +178,6 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
 
     public static String getWeekDayFromDate(String dateString) {
         int dayOfWeekInt = -1;
-        Log.e("LOGGING: ", dateString);
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         try {
             Calendar c = Calendar.getInstance();

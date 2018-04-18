@@ -1,5 +1,6 @@
 package br.ufrj.caronae.acts;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -9,9 +10,14 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.facebook.CallbackManager;
@@ -35,7 +41,9 @@ public class MyProfileAct extends AppCompatActivity {
     @BindView(R.id.edit_bt)
     TextView edit_bt;
     @BindView(R.id.back_bt)
-    TextView back_bt;
+    RelativeLayout back;
+    @BindView(R.id.cancel_bt)
+    RelativeLayout cancel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,10 +70,9 @@ public class MyProfileAct extends AppCompatActivity {
             InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
-        if(edit_bt.getText().equals("Editar"))
+        if(back.getVisibility() == View.VISIBLE)
         {
             edit_bt.setText(R.string.save);
-            back_bt.setText(R.string.cancel);
             fragment = null;
             fragmentClass = MyProfileEditFrag.class;
             try {
@@ -78,11 +85,13 @@ public class MyProfileAct extends AppCompatActivity {
             fragmentManager.popBackStack();
             transaction.setCustomAnimations(R.anim.anim_down_slide_in, R.anim.anim_up_slide_out);
             transaction.replace(R.id.flContent, fragment).commit();
+            back.setVisibility(View.GONE);
+            cancel.setVisibility(View.VISIBLE);
+
         }
         else
         {
             edit_bt.setText(R.string.edit_bt);
-            back_bt.setText(R.string.title_menu);
             MyProfileEditFrag frag = (MyProfileEditFrag)fragment;
             frag.saveProfileBtn();
             fragment = null;
@@ -97,6 +106,8 @@ public class MyProfileAct extends AppCompatActivity {
             fragmentManager.popBackStack();
             transaction.setCustomAnimations(R.anim.anim_up_slide_in, R.anim.anim_down_slide_out);
             transaction.replace(R.id.flContent, fragment).commit();
+            back.setVisibility(View.VISIBLE);
+            cancel.setVisibility(View.GONE);
         }
     }
 
@@ -113,14 +124,15 @@ public class MyProfileAct extends AppCompatActivity {
     }
 
     @OnClick(R.id.back_bt)
-    public void backTouch()
+    public void backMenuTouch()
     {
-        if(back_bt.getText().equals("Menu")) {
-            backToMenu();
-        }
-        else {
-            showAlert();
-        }
+        backToMenu();
+    }
+
+    @OnClick(R.id.cancel_bt)
+    public void backCancelTouch()
+    {
+        showAlert();
     }
 
     private void backToMenu()
@@ -164,7 +176,9 @@ public class MyProfileAct extends AppCompatActivity {
                         transaction.setCustomAnimations(R.anim.anim_up_slide_in, R.anim.anim_down_slide_out);
                         transaction.replace(R.id.flContent, fragment).commit();
                         edit_bt.setText(R.string.edit_bt);
-                        back_bt.setText(R.string.title_menu);
+                        back.setVisibility(View.VISIBLE);
+                        cancel.setVisibility(View.GONE);
+
                     }
                 })
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {

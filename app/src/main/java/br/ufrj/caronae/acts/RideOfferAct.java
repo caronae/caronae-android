@@ -93,8 +93,6 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
     RelativeLayout shareButton;
     @BindView(R.id.title_lay)
     RelativeLayout locationBackground;
-    @BindView(R.id.back_bt)
-    TextView back_bt;
     @BindView(R.id.mutual_friends_tv)
     TextView mFriends_tv;
 
@@ -106,7 +104,11 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
         super.onCreate(savedInstanceState);
 
         getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-
+        boolean fromAllRides = getIntent().getBooleanExtra("fromAllRides", false);;
+        if(fromAllRides)
+        {
+            overridePendingTransition(R.anim.anim_right_slide_in, R.anim.anim_left_slide_out);
+        }
         setContentView(R.layout.dialog_ride_detail);
         ButterKnife.bind(this);
 
@@ -208,7 +210,9 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        SharedPref.NAV_INDICATOR = "AllRides";
+        Intent intent = new Intent(this, MainAct.class);
+        startActivity(intent);
         overridePendingTransition(R.anim.anim_left_slide_in, R.anim.anim_right_slide_out);
     }
 
@@ -473,9 +477,11 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
         if (params.size() == 1) {
             rideId = params.get(0);
             if (rideId.equals("carona")){
-                Intent intent = new Intent(this, MainAct.class);
+                SharedPref.NAV_INDICATOR = "AllRides";
+                Intent intent = new Intent(App.getInst(), MainAct.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
+                overridePendingTransition(R.anim.anim_left_slide_in, R.anim.anim_right_slide_out);
             }
         }
         else
@@ -523,9 +529,11 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                SharedPref.NAV_INDICATOR = "AllRides";
                 Intent intent = new Intent(App.getInst(), MainAct.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 App.getInst().startActivity(intent);
+                overridePendingTransition(R.anim.anim_left_slide_in, R.anim.anim_right_slide_out);
             }
         });
 
@@ -538,7 +546,6 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
     }
     public static String getWeekDayFromDate(String dateString) {
         int dayOfWeekInt = -1;
-        Log.e("LOGGING: ", dateString);
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         try {
             Calendar c = Calendar.getInstance();

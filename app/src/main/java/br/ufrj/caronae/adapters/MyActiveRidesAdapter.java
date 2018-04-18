@@ -186,7 +186,6 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
 
     public static String getWeekDayFromDate(String dateString) {
         int dayOfWeekInt = -1;
-        Log.e("LOGGING: ", dateString);
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         try {
             Calendar c = Calendar.getInstance();
