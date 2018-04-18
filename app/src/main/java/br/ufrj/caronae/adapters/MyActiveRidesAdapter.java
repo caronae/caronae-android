@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,10 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import br.ufrj.caronae.App;
@@ -84,6 +89,7 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
             bgRes = R.drawable.bg_bt_raise_zone_niteroi;
         }
         viewHolder.location_tv.setTextColor(color);
+        viewHolder.time_tv.setTextColor(color);
 
         String profilePicUrl = rideOffer.getDriver().getProfilePicUrl();
         if (profilePicUrl != null && !profilePicUrl.isEmpty()) {
@@ -107,11 +113,12 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
 
         String timeText;
         if (rideOffer.isGoing())
-            timeText = activity.getResources().getString(R.string.arrivingAt, Util.formatTime(rideOffer.getTime()));
+            timeText = activity.getString(R.string.arrivingAt, Util.formatTime(rideOffer.getTime()));
         else
-            timeText = activity.getResources().getString(R.string.leavingAt, Util.formatTime(rideOffer.getTime()));
+            timeText = activity.getString(R.string.leavingAt, Util.formatTime(rideOffer.getTime()));
+
+        timeText =  timeText + " | " + getWeekDayFromDate(rideOffer.getDate()) + " | " +Util.formatBadDateWithoutYear(rideOffer.getDate());
         viewHolder.time_tv.setText(timeText);
-        viewHolder.date_tv.setText(Util.formatBadDateWithoutYear(rideOffer.getDate()));
         viewHolder.name_tv.setText(rideOffer.getDriver().getName());
         String location;
         if (rideOffer.isGoing())
@@ -177,6 +184,48 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
             }
     }
 
+    public static String getWeekDayFromDate(String dateString) {
+        int dayOfWeekInt = -1;
+        Log.e("LOGGING: ", dateString);
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Calendar c = Calendar.getInstance();
+            c.add(Calendar.DAY_OF_YEAR, 1);
+            Date date = format.parse(dateString);
+            c.setTime(date);
+            dayOfWeekInt = c.get(Calendar.DAY_OF_WEEK);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        String dayOfWeek = "";
+
+        switch (dayOfWeekInt) {
+            case 1:
+                dayOfWeek = "Dom";
+                break;
+            case 2:
+                dayOfWeek = "Seg";
+                break;
+            case 3:
+                dayOfWeek = "Ter";
+                break;
+            case 4:
+                dayOfWeek = "Qua";
+                break;
+            case 5:
+                dayOfWeek = "Qui";
+                break;
+            case 6:
+                dayOfWeek = "Sex";
+                break;
+            case 7:
+                dayOfWeek = "Sáb";
+                break;
+        }
+        return dayOfWeek;
+    }
+
     @Override
     public int getItemCount() {
         return ridesList.size();
@@ -185,7 +234,6 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public CircleImageView photo_iv;
         public TextView time_tv;
-        public TextView date_tv;
         public TextView name_tv;
         public TextView location_tv;
         public CardView cardView;
@@ -196,7 +244,6 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
 
             photo_iv = (CircleImageView) itemView.findViewById(R.id.photo_iv);
             time_tv = (TextView) itemView.findViewById(R.id.time_tv);
-            date_tv = (TextView) itemView.findViewById(R.id.date_tv);
             location_tv = (TextView) itemView.findViewById(R.id.location_tv);
             name_tv = (TextView) itemView.findViewById(R.id.name_tv);
             cardView = (CardView) itemView.findViewById(R.id.cardView);

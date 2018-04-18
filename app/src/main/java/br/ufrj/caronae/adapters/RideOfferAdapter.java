@@ -4,6 +4,7 @@ import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +16,11 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import br.ufrj.caronae.App;
@@ -30,7 +35,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.ViewHolder> {
 
-    private final int TYPE_HEADER = 0;
     private final int TYPE_BODY = 1;
     private static final int TYPE_ZERO = 2;
 
@@ -53,9 +57,7 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
         LayoutInflater inflater = LayoutInflater.from(context);
         View contactView = null;
 
-        if (viewType == TYPE_HEADER) {
-            contactView = inflater.inflate(R.layout.list_separator, parent, false);
-        } else if (viewType == TYPE_BODY) {
+       if (viewType == TYPE_BODY) {
             contactView = inflater.inflate(R.layout.item_rideoffer_flat, parent, false);
         } else {
             contactView = inflater.inflate(R.layout.list_no_rides, parent, false);
@@ -70,9 +72,6 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
             return TYPE_ZERO;
         } else if (mixedList.size() == 0){
             return TYPE_ZERO;
-        }
-        if (mixedList.get(position).getClass() == Integer.class) {
-            return TYPE_HEADER;
         }
         return TYPE_BODY;
     }
@@ -89,7 +88,6 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
                 viewHolder.location_tv.setTextColor(color);
                 viewHolder.time_tv.setTextColor(color);
                 viewHolder.name_tv.setTextColor(color);
-                viewHolder.date_tv.setTextColor(color);
 
                 viewHolder.photo_iv.setBorderColor(color);
 
@@ -109,8 +107,10 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
                     timeText = context.getResources().getString(R.string.arrivingAt, Util.formatTime(rideOffer.getTime()));
                 else
                     timeText = context.getResources().getString(R.string.leavingAt, Util.formatTime(rideOffer.getTime()));
+
+                timeText =  timeText + " | " + getWeekDayFromDate(rideOffer.getDate()) + " | " +Util.formatBadDateWithoutYear(rideOffer.getDate());
+
                 viewHolder.time_tv.setText(timeText);
-                viewHolder.date_tv.setText(Util.formatBadDateWithoutYear(rideOffer.getDate()));
 
                 String name = rideOffer.getDriver().getName();
                 try {
@@ -146,9 +146,10 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
 
                     }
                 });
-            } else {
-                viewHolder.header_text.setText(getDateText((RideForJson) mixedList.get(position + 1)));
-
+            }
+            else
+            {
+                remove(position);
             }
         }
     }
@@ -159,15 +160,10 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
         mixedList = new ArrayList<>();
         mixedList.addAll(rideOffers);
         if (headerPositions != null && headerPositions.size() > 0) {
-            for (int headerCount = 0; headerCount < headerPositions.size(); headerCount++) {
+            for (int headerCount = 1; headerCount < headerPositions.size(); headerCount++) {
                 mixedList.add(headerPositions.get(headerCount) + headerCount, headerPositions.get(headerCount));
             }
         }
-        notifyDataSetChanged();
-    }
-
-    public void addToList(List<RideForJson> rideOffers) {
-        this.rideOffers.addAll(rideOffers);
         notifyDataSetChanged();
     }
 
@@ -179,6 +175,47 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
             }
     }
 
+    public static String getWeekDayFromDate(String dateString) {
+        int dayOfWeekInt = -1;
+        Log.e("LOGGING: ", dateString);
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Calendar c = Calendar.getInstance();
+            c.add(Calendar.DAY_OF_YEAR, 1);
+            Date date = format.parse(dateString);
+            c.setTime(date);
+            dayOfWeekInt = c.get(Calendar.DAY_OF_WEEK);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        String dayOfWeek = "";
+
+        switch (dayOfWeekInt) {
+            case 1:
+                dayOfWeek = "Dom";
+                break;
+            case 2:
+                dayOfWeek = "Seg";
+                break;
+            case 3:
+                dayOfWeek = "Ter";
+                break;
+            case 4:
+                dayOfWeek = "Qua";
+                break;
+            case 5:
+                dayOfWeek = "Qui";
+                break;
+            case 6:
+                dayOfWeek = "Sex";
+                break;
+            case 7:
+                dayOfWeek = "Sáb";
+                break;
+        }
+        return dayOfWeek;
+    }
     @Override
     public int getItemCount() {
 //        return rideOffers.size()
@@ -191,28 +228,19 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public CircleImageView photo_iv;
         public ImageView requestIndicator_iv;
+        public RelativeLayout parentLayout;
         public TextView time_tv;
-        public TextView date_tv;
         public TextView location_tv;
         public TextView name_tv;
-        public RelativeLayout parentLayout;
-
-        public TextView header_text;
-        public FrameLayout header_card;
 
         public ViewHolder(View itemView) {
             super(itemView);
-
             photo_iv = (CircleImageView) itemView.findViewById(R.id.photo_iv);
             requestIndicator_iv = (ImageView) itemView.findViewById(R.id.requestIndicator_iv);
             time_tv = (TextView) itemView.findViewById(R.id.time_tv);
-            date_tv = (TextView) itemView.findViewById(R.id.date_tv);
             location_tv = (TextView) itemView.findViewById(R.id.location_tv);
             name_tv = (TextView) itemView.findViewById(R.id.name_tv);
-            parentLayout = (RelativeLayout) itemView.findViewById(R.id.item_rideoffer_parent_layout);
-
-            header_text = (TextView) itemView.findViewById(R.id.list_separator_text);
-            header_card = (FrameLayout) itemView.findViewById(R.id.card_list_separator);
+            parentLayout = (RelativeLayout)itemView.findViewById(R.id.mainlayout);
         }
     }
 
@@ -230,14 +258,5 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
             }
         }
         return null;
-    }
-
-    private String getDateText(RideForJson ride) {
-        String dateString = ride.getDate();
-        String weekDay = Util.getWeekDayFromDate(dateString);
-        if (weekDay.equals("Hoje") || weekDay.equals("Amanhã")){
-            return weekDay;
-        }
-        return weekDay + " - " + Util.getDayWithMonthFromDate(dateString);
     }
 }

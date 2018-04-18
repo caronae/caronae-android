@@ -21,61 +21,48 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/photo_iv"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
             android:src="@drawable/user_pic"
             card_view:civ_border_color="@color/dark_gray"
             card_view:civ_border_width="3dp"/>
-
-        <TextView
-            android:id="@+id/location_tv"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginStart="5dp"
-            android:layout_toEndOf="@+id/photo_iv"
-            android:layout_toRightOf="@+id/photo_iv"
-            android:text="COPACABANA -> CT"
-            android:textColor="@color/white"
-            android:textStyle="bold" />
+            android:layout_toRightOf="@id/photo_iv"
+            android:layout_toEndOf="@id/photo_iv"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_centerVertical="true">
+            <TextView
+                android:id="@+id/location_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
+                android:text="COPACABANA -> CT"/>
 
-        <TextView
-            android:id="@+id/time_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/location_tv"
-            android:layout_alignStart="@+id/location_tv"
-            android:layout_below="@+id/location_tv"
-            android:text="Chegando ás 16:45" />
+            <TextView
+                android:id="@+id/time_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/location_tv"
+                android:layout_alignStart="@+id/location_tv"
+                android:layout_below="@+id/location_tv"
+                android:text="Chegando ás 00:00 | Dom | 25/12" />
 
-        <TextView
-            android:id="@+id/separator1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/location_tv"
-            android:layout_toEndOf="@+id/time_tv"
-            android:layout_toRightOf="@+id/time_tv"
-            android:text=" | "
-            android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/date_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/location_tv"
-            android:layout_toEndOf="@+id/separator1"
-            android:layout_toRightOf="@+id/separator1"
-            android:text="03/11"
-            android:textStyle="bold" />
+            <TextView
+                android:id="@+id/name_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/location_tv"
+                android:layout_alignStart="@+id/location_tv"
+                android:layout_below="@+id/time_tv"
+                android:text="Paula Silva" />
 
-        <TextView
-            android:id="@+id/name_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/location_tv"
-            android:layout_alignStart="@+id/location_tv"
-            android:layout_below="@+id/time_tv"
-            android:text="Paula Silva" />
+
+        </RelativeLayout>
 
         <ImageView
             android:id="@+id/requestIndicator_iv"

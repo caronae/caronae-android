@@ -1,102 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/item_rideoffer_parent_layout"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?android:attr/selectableItemBackground"
     android:clickable="true"
-    android:foreground="?android:attr/selectableItemBackground"
-    style="@style/item_card">
+    android:layout_margin="@dimen/card_list_margin">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/photo_iv"
-        style="@style/item_circle_image"
-        android:src="@drawable/user_pic"
-        app:civ_border_width="3dp"/>
-
-    <LinearLayout
-        android:id="@+id/linear_layout"
+    <RelativeLayout
+        android:id="@+id/mainlayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="4dp"
-        android:gravity="center_vertical"
-        android:layout_marginBottom="16dp"
+        android:layout_margin="10dp"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/location_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/item_header_text"
-            android:text="COPACABANA -> CT"
-            android:textColor="@color/white" />
-
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/photo_iv"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/user_pic"
+            card_view:civ_border_color="@color/dark_gray"
+            card_view:civ_border_width="3dp"/>
         <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/photo_iv"
+            android:layout_toEndOf="@id/photo_iv"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_centerVertical="true">
+            <TextView
+                android:id="@+id/location_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
+                android:textStyle="bold"
+                android:textSize="17sp"
+                android:maxWidth="220dp"
+                android:text="COPACABANA -> CT"/>
 
             <TextView
                 android:id="@+id/time_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/item_sub_text"
-                android:layout_marginRight="0dp"
-                android:text="Chegando ás 16:45" />
+                android:layout_alignLeft="@+id/location_tv"
+                android:layout_alignStart="@+id/location_tv"
+                android:layout_below="@+id/location_tv"
+                android:textSize="13sp"
+                android:text="Chegando às 00:00 | Dom | 25/12" />
+
 
             <TextView
-                android:id="@+id/separator1"
+                android:id="@+id/name_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toEndOf="@+id/time_tv"
-                android:layout_toRightOf="@+id/time_tv"
-                android:text=" | "
-                android:textStyle="bold" />
+                android:layout_alignLeft="@+id/location_tv"
+                android:layout_alignStart="@+id/location_tv"
+                android:layout_below="@+id/time_tv"
+                android:textSize="13sp"
+                android:text="Paula Silva" />
 
-            <TextView
-                android:id="@+id/date_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toEndOf="@+id/separator1"
-                android:layout_toRightOf="@+id/separator1"
-                android:text="03/11"
-                android:textStyle="bold" />
 
         </RelativeLayout>
 
-        <TextView
-            android:id="@+id/name_tv"
+        <ImageView
+            android:id="@+id/arrow_right_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/item_sub_text"
-            android:layout_alignLeft="@+id/location_tv"
-            android:layout_alignStart="@+id/location_tv"
-            android:layout_below="@+id/time_tv"
-            android:text="Fulano da Silva" />
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:paddingRight="16dp"
+            android:textSize="24sp"
+            android:tint="@android:color/darker_gray"
+            android:src="@drawable/ic_keyboard_arrow_right_black_24dp"/>
 
+        <ImageView
+            android:id="@+id/requestIndicator_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/requested" />
 
-    </LinearLayout>
-
-    <ImageView
-        android:id="@+id/arrow_right_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:paddingRight="16dp"
-        android:textSize="24sp"
-        android:tint="@android:color/darker_gray"
-        android:src="@drawable/ic_keyboard_arrow_right_black_24dp"/>
-
-
-    <ImageView
-        android:id="@+id/requestIndicator_iv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toLeftOf="@id/arrow_right_image"
-        android:src="@drawable/requested" />
-</RelativeLayout>
-
+    </RelativeLayout>
+</LinearLayout>
