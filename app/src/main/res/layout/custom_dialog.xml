@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="200dp"
+    android:layout_height="113dp"
+    android:background="@drawable/custom_dialog_shape"
+    android:layout_centerHorizontal="true"
+    android:layout_centerVertical="true"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:text="Cancelar edição do perfil?"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/title"
+            android:gravity="center"
+            android:layout_marginTop="-10dp"
+            android:textSize="11sp"
+            android:textColor="@color/black"
+            android:text="Quaisquer mudanças serão descartadas."
+            />
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/color_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/color_bar"
+        android:layout_marginTop="15dp"
+        android:layout_below="@id/text"/>
+
+    <RelativeLayout
+        android:id="@+id/buttons"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/color_bar">
+
+        <TextView
+            android:id="@+id/positive_bt"
+            android:layout_width="99.5dp"
+            android:layout_height="30dp"
+            android:background="@color/default_white_transparency"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:text="Cont. editando"
+            android:textColor="@color/darkblue2"
+            android:textStyle="bold" />
+        <ImageView
+            android:id="@+id/separator"
+            android:layout_width="1dp"
+            android:layout_height="30dp"
+            android:layout_toRightOf="@id/positive_bt"
+            android:layout_toEndOf="@id/positive_bt"
+            android:background="@color/gray"/>
+
+        <TextView
+            android:id="@+id/negative_bt"
+            android:layout_width="99.5dp"
+            android:layout_height="30dp"
+            android:background="@color/default_white_transparency"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:layout_toRightOf="@id/separator"
+            android:layout_toEndOf="@id/separator"
+            android:text="Descartar"
+            android:textColor="@color/red"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+</RelativeLayout>
