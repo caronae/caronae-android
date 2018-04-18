@@ -4,6 +4,7 @@
     <item name="mygreen" type="color">#009688</item>
     <item name="mydarkgreen" type="color">#00796B</item>
     <item name="mylightgreen" type="color">#4CAF50</item>
+    <item name="reportred" type="color">#ED2E0D</item>
 
     <item name="zone_norte" type="color">#6e361f</item>
     <item name="zone_oeste" type="color">#2b388a</item>

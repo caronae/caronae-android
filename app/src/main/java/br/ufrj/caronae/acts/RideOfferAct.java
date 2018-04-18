@@ -99,6 +99,7 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
     TextView mFriends_tv;
 
     RideForJson rideWithUsers;
+    boolean requested;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,15 +107,8 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
 
         getWindow().requestFeature(Window.FEATURE_NO_TITLE);
 
-        overridePendingTransition(R.anim.anim_right_slide_in, R.anim.anim_left_slide_out);
-
         setContentView(R.layout.dialog_ride_detail);
         ButterKnife.bind(this);
-
-        final ActionBar ab = getSupportActionBar();
-        if (ab != null) {
-            ab.setDisplayHomeAsUpEnabled(true);
-        }
 
         if (!startWithLink()) {
             rideWithUsers = getIntent().getExtras().getParcelable("ride");
@@ -232,7 +226,7 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
     }
 
     private void configureActivityWithRide(final RideForJson rideWithUsers, boolean isFull) {
-        final boolean requested = getIntent().getBooleanExtra("requested", false);
+        requested = getIntent().getBooleanExtra("requested", false);
         if (rideWithUsers == null) {
             Util.toast(getString(R.string.act_activeride_rideNUll));
             finish();
@@ -328,19 +322,23 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
                     Intent intent = new Intent(getApplicationContext(), ProfileAct.class);
                     intent.putExtra("user", new Gson().toJson(driver));
                     intent.putExtra("from", "rideoffer");
+                    intent.putExtra("fromOffer", true);
+                    intent.putExtra("requested", requested);
+                    intent.putExtra("ride", rideWithUsers);
                     startActivity(intent);
+                    overridePendingTransition(R.anim.anim_right_slide_in, R.anim.anim_left_slide_out);
                 }
             }
         });
         location_dt.setText(location);
         name_dt.setText(driver.getName());
         String info;
-        if(driver.getProfile().equals("Graduação")) {
-            info = driver.getProfile() + " | " + driver.getCourse();
+        if(driver.getProfile().equals("Servidor")) {
+            info = driver.getProfile();
         }
         else
         {
-            info = driver.getProfile();
+            info = driver.getProfile() + " | " + driver.getCourse();
         }
         profile_dt.setText(info);
         if (rideWithUsers.getRoute().equals("")) {

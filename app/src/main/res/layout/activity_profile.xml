@@ -8,198 +8,212 @@
     android:fitsSystemWindows="true"
     tools:context="br.ufrj.caronae.acts.ProfileAct">
 
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/toolbar_lay"
+    <FrameLayout
+        android:id="@+id/toolbar_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white">
+        android:layout_height="48dp">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:theme="@style/ThemeOverlay.AppCompat.Light" />
+            android:layout_height="match_parent"
+            android:gravity="start|center">
+            <TextView
+                android:id="@+id/back_bt"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="@string/ride"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/dark_gray"
+                android:clickable="true"
+                android:focusable="true"
+                android:textSize="20sp"/>
+            <TextView
+                android:id="@+id/title_ride"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_toRightOf="@id/back_bt"
+                android:layout_toEndOf="@id/back_bt"
+                android:layout_marginStart="20dp"
+                android:layout_marginLeft="20dp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:text="Paula Silva"
+                android:textColor="@color/black"
+                android:textSize="20sp"/>
+        </RelativeLayout>
 
-    </android.support.design.widget.AppBarLayout>
-
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/user_pic_iv"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
-        android:layout_below="@+id/toolbar_lay"
-        android:layout_marginBottom="16dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:src="@drawable/user_pic"
-        app:civ_border_color="@color/dark_gray"
-        app:civ_border_width="3dp"/>
-
-    <TextView
-        android:id="@+id/name_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/user_pic_iv"
-        android:layout_toEndOf="@+id/user_pic_iv"
-        android:layout_toRightOf="@+id/user_pic_iv"
-        android:gravity="center"
-        android:paddingTop="5dp"
-        android:text="Paula Silva"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/profile_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/name_tv"
-        android:layout_toEndOf="@+id/user_pic_iv"
-        android:layout_toRightOf="@+id/user_pic_iv"
-        android:text="Graduação" />
-
-    <TextView
-        android:id="@+id/course_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/profile_tv"
-        android:layout_toEndOf="@+id/user_pic_iv"
-        android:layout_toRightOf="@+id/user_pic_iv"
-        android:text="Bacharelado em Ciência da Computação" />
-
-    <ImageView
-        android:id="@+id/phone_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/phone_tv"
-        android:layout_below="@+id/course_tv"
-        android:layout_toEndOf="@+id/user_pic_iv"
-        android:layout_toRightOf="@+id/user_pic_iv"
-        android:src="@drawable/ic_phone_24dp" />
-
-    <TextView
-        android:id="@+id/phone_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/course_tv"
-        android:layout_marginLeft="5dp"
-        android:layout_marginStart="5dp"
-        android:layout_toEndOf="@+id/phone_icon"
-        android:layout_toRightOf="@+id/phone_icon"
-        android:clickable="true"
-        android:focusable="true"
-        android:text="(021) 12345-6543"
-        android:textColor="@color/textBcolor" />
-
-        <TextView
-            android:id="@+id/createdAt_tv"
-            style="@style/bold_text"
-            android:layout_width="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/user_pic_iv"
-            android:layout_marginTop="15dp"
-            android:drawableLeft="@drawable/ic_calendar_24dp"
-            android:drawableStart="@drawable/ic_calendar_24dp"
-            android:gravity="center_vertical"
-            android:layout_alignStart="@id/user_pic_iv"
-            android:layout_alignLeft="@id/user_pic_iv"
-            android:drawablePadding="10dp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/ridesOffered_tv"
-            style="@style/bold_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/user_pic_iv"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="15dp"
-            android:drawableLeft="@drawable/ic_directions_car_24dp"
-            android:drawableStart="@drawable/ic_directions_car_24dp"
-            android:gravity="center_vertical"
-            android:drawablePadding="10dp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/ridesTaken_tv"
-            style="@style/bold_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/user_pic_iv"
-            android:layout_marginTop="15dp"
-            android:layout_centerHorizontal="true"
-            android:drawableLeft="@drawable/ic_person_24dp"
-            android:drawableStart="@drawable/ic_person_24dp"
-            android:gravity="center_vertical"
-            android:layout_alignRight="@id/report_bt"
-            android:layout_alignEnd="@id/report_bt"
-            android:drawablePadding="10dp"
-            android:textStyle="bold" />
-
-    <ImageView
-        android:id="@+id/color_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/ridesTaken_tv"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:paddingTop="5dp"
-        android:src="@drawable/color_bar" />
-
-    <com.rey.material.widget.Button
-        android:id="@+id/report_bt"
-        style="@style/LightRaiseColorButtonRippleStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@id/color_bar"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="5dp"
-        android:background="@drawable/bg_bt_raise"
-        android:gravity="center"
-        android:text="@string/act_profile_report_bt"
-        android:textColor="@color/red"
-        app:rd_enable="true" />
-
-    <TextView
-        android:id="@+id/openProfile_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/report_bt"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="5dp"
-        android:background="@color/blue"
-        android:padding="4dp"
-        android:textColor="@color/white"
-        android:textStyle="bold"
-        android:visibility="gone" />
+    </FrameLayout>
 
     <RelativeLayout
-        android:id="@+id/mutualFriends_lay"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/openProfile_tv"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="5dp"
-        android:visibility="gone">
+        android:id="@+id/main_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        android:layout_below="@id/toolbar_layout">
 
-        <TextView
-            android:id="@+id/mutualFriends_tv"
+        <RelativeLayout
+            android:id="@+id/profile_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/user_pic_iv"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/user_pic"
+                app:civ_border_color="@color/dark_gray"
+                app:civ_border_width="3dp"/>
+
+            <RelativeLayout
+                android:id="@+id/lay21"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="25dp"
+                android:layout_marginStart="25dp"
+                android:layout_toEndOf="@+id/user_pic_iv"
+                android:layout_toRightOf="@+id/user_pic_iv">
+
+                <TextView
+                    android:id="@+id/name_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Paula Silva"
+                    android:textStyle="bold"
+                    android:textSize="20sp"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:textColor="@color/dark_gray"/>
+
+                <TextView
+                    android:id="@+id/profile_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/name_tv"
+                    android:textColor="@color/dark_gray"
+                    android:ellipsize="end"
+                    android:textSize="20sp"
+                    android:maxLines="1"
+                    android:text="Graduação | Ciência da Computação" />
+                <ImageView
+                    android:id="@+id/phone_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/phone_tv"
+                    android:layout_below="@+id/profile_tv"
+                    android:src="@drawable/ic_phone_24dp"
+                    android:visibility="gone"/>
+
+                <TextView
+                    android:id="@+id/phone_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/profile_tv"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_toEndOf="@+id/phone_icon"
+                    android:layout_toRightOf="@+id/phone_icon"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:text="(021) 12345-6543"
+                    android:visibility="gone"
+                    android:textColor="@color/textBcolor" />
+            </RelativeLayout>
+
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/ride_history_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/profile_info"
+            android:layout_marginTop="15dp">
+
+            <TextView
+                android:id="@+id/createdAt_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_calendar_24dp"
+                android:drawableStart="@drawable/ic_calendar_24dp"
+                android:gravity="center"
+                android:text="0"
+                android:textColor="@color/dark_gray"
+                android:textStyle="bold"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:drawablePadding="10dp"/>
+
+            <TextView
+                android:id="@+id/ridesOffered_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="0"
+                android:textColor="@color/dark_gray"
+                android:textStyle="bold"
+                android:drawableLeft="@drawable/ic_directions_car_24dp"
+                android:drawableStart="@drawable/ic_directions_car_24dp"
+                android:gravity="center"
+                android:drawablePadding="10dp"/>
+
+            <TextView
+                android:id="@+id/ridesTaken_tv"
+                style="@style/bold_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_person_24dp"
+                android:drawableStart="@drawable/ic_person_24dp"
+                android:gravity="center"
+                android:textColor="@color/dark_gray"
+                android:textStyle="bold"
+                android:text="0"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:drawablePadding="10dp"/>
+
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/color_bar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:textStyle="bold" />
+            android:layout_below="@id/ride_history_info"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/color_bar" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/mutualFriendsList"
+        <RelativeLayout
+            android:id="@+id/fb_mutual"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/mutualFriends_tv"
-            android:layout_marginTop="5dp" />
+            android:layout_marginTop="10dp"
+            android:layout_below="@id/color_bar">
+            <TextView
+                android:id="@+id/mutual_friends_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/mutual_friends"
+                android:textStyle="bold"
+                android:textColor="@color/dark_gray"/>
+
+            <Button
+                android:id="@+id/report_bt"
+                android:layout_width="111dp"
+                android:layout_height="28dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/mutual_friends_tv"
+                android:layout_marginTop="50dp"
+                android:background="@drawable/report_button"
+                android:gravity="center"
+                android:text="@string/act_profile_report_bt"
+                android:textColor="@color/reportred"/>
+        </RelativeLayout>
     </RelativeLayout>
-
 </RelativeLayout>

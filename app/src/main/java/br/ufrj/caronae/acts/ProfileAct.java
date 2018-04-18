@@ -34,6 +34,7 @@ import com.squareup.picasso.Picasso;
 
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.RoundedTransformation;
+import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.adapters.RidersAdapter;
 import br.ufrj.caronae.httpapis.CaronaeAPI;
@@ -41,6 +42,7 @@ import br.ufrj.caronae.models.User;
 import br.ufrj.caronae.models.modelsforjson.FacebookFriendForJson;
 import br.ufrj.caronae.models.modelsforjson.FalaeMsgForJson;
 import br.ufrj.caronae.models.modelsforjson.HistoryRideCountForJson;
+import br.ufrj.caronae.models.modelsforjson.RideForJson;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -57,10 +59,10 @@ public class ProfileAct extends AppCompatActivity {
     ImageView phone_icon;
     @BindView(R.id.name_tv)
     TextView name_tv;
+    @BindView(R.id.title_ride)
+    TextView title_tv;
     @BindView(R.id.profile_tv)
     TextView profile_tv;
-    @BindView(R.id.course_tv)
-    TextView course_tv;
     @BindView(R.id.createdAt_tv)
     TextView createdAt_tv;
     @BindView(R.id.ridesOffered_tv)
@@ -69,37 +71,39 @@ public class ProfileAct extends AppCompatActivity {
     TextView ridesTaken_tv;
     @BindView(R.id.phone_tv)
     TextView phone_tv;
-    @BindView(R.id.mutualFriendsList)
-    RecyclerView mutualFriendsList;
-    @BindView(R.id.mutualFriends_lay)
-    RelativeLayout mutualFriends_lay;
-    @BindView(R.id.mutualFriends_tv)
-    TextView mutualFriends_tv;
-    @BindView(R.id.openProfile_tv)
-    TextView openProfile_tv;
+    @BindView(R.id.mutual_friends_tv)
+    TextView mFriends_tv;
 
     User user;
+
+    private boolean fromOffer;
+    private boolean requested;
+    private RideForJson rideOffer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         ButterKnife.bind(this);
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        final ActionBar ab = getSupportActionBar();
-        if (ab != null) {
-            ab.setDisplayHomeAsUpEnabled(true);
+        fromOffer = getIntent().getBooleanExtra("fromOffer", false);
+        if(fromOffer) {
+            rideOffer = getIntent().getExtras().getParcelable("ride");
+            requested = getIntent().getBooleanExtra("requested", false);
         }
-
         String user2 = getIntent().getExtras().getString("user");
         user = new Gson().fromJson(user2, User.class);
-
+        title_tv.setText(user.getName());
         name_tv.setText(user.getName());
-        profile_tv.setText(user.getProfile());
-        course_tv.setText(user.getCourse());
+        String profileInfo;
+        if(user.getProfile().equals("Servidor"))
+        {
+            profileInfo = user.getProfile();
+        }
+        else
+        {
+            profileInfo = user.getProfile() + " | " + user.getCourse();
+        }
+        profile_tv.setText(profileInfo);
         phone_tv.setText(user.getPhoneNumber());
         String profilePicUrl = user.getProfilePicUrl();
         if (profilePicUrl != null && !profilePicUrl.isEmpty())
@@ -146,30 +150,29 @@ public class ProfileAct extends AppCompatActivity {
             AccessToken token = AccessToken.getCurrentAccessToken();
             if (token != null) {
                 if (user.getFaceId() != null) {
-                    String name = user.getName().split(" ")[0];
-                    openProfile_tv.setText(getString(R.string.act_profile_openFbProfile, name));
-                    openProfile_tv.setVisibility(View.VISIBLE);
                     CaronaeAPI.service(getApplicationContext()).getMutualFriends(token.getToken(), user.getFaceId())
                             .enqueue(new Callback<FacebookFriendForJson>() {
                                 @Override
                                 public void onResponse(Call<FacebookFriendForJson> call, Response<FacebookFriendForJson> response) {
                                     if (response.isSuccessful()) {
-
+                                        String mutualFriendsText;
                                         FacebookFriendForJson mutualFriends = response.body();
-                                        if (mutualFriends.getTotalCount() < 1)
+                                        if (mutualFriends.getTotalCount() < 1) {
+                                            mutualFriendsText = "Amigos em comum: 0";
+                                            mFriends_tv.setText(mutualFriendsText);
                                             return;
-
-                                        mutualFriends_lay.setVisibility(View.VISIBLE);
-
+                                        }
                                         int totalCount = mutualFriends.getTotalCount();
-                                        String s = mutualFriends.getTotalCount() > 1 ? "s" : "";
                                         int size = mutualFriends.getMutualFriends().size();
-                                        String s1 = mutualFriends.getMutualFriends().size() != 1 ? "m" : "";
-                                        mutualFriends_tv.setText(getString(R.string.act_profile_mutualFriends, totalCount, s, size, s1));
-
-                                        mutualFriendsList.setAdapter(new RidersAdapter(mutualFriends.getMutualFriends(), ProfileAct.this));
-                                        mutualFriendsList.setHasFixedSize(true);
-                                        mutualFriendsList.setLayoutManager(new LinearLayoutManager(ProfileAct.this, LinearLayoutManager.HORIZONTAL, false));
+                                        if(totalCount > 1)
+                                        {
+                                            mutualFriendsText = "Amigos em comum: " + totalCount + " no total e " + size + " no Caronaê";
+                                        }
+                                        else
+                                        {
+                                            mutualFriendsText = "Amigos em comum: " + totalCount;
+                                        }
+                                        mFriends_tv.setText(mutualFriendsText);
                                     } else {
                                         Util.treatResponseFromServer(response);
                                         //Util.toast(getString(R.string.act_profile_errorMutualFriends));
@@ -184,7 +187,7 @@ public class ProfileAct extends AppCompatActivity {
                             });
 
                 } else {
-                    Log.i("profileact,facebook", "user face id is null");
+                    Log.d("profileact,facebook", "user face id is null");
                 }
             }
         } catch (Exception e) {
@@ -202,20 +205,9 @@ public class ProfileAct extends AppCompatActivity {
                 return true;
             });
         } else {
-            phone_icon.setVisibility(View.INVISIBLE);
-            phone_tv.setVisibility(View.INVISIBLE);
+            phone_icon.setVisibility(View.GONE);
+            phone_tv.setVisibility(View.GONE);
         }
-    }
-
-    @OnClick(R.id.openProfile_tv)
-    public void openProfileTv() {
-        Intent facebookIntent = getFBIntent(user.getFaceId());
-        startActivity(facebookIntent);
-    }
-
-    public Intent getFBIntent(String facebookId) {
-        String facebookProfileUri = "https://www.facebook.com/" + facebookId;
-        return new Intent(Intent.ACTION_VIEW, Uri.parse(facebookProfileUri));
     }
 
     @OnClick(R.id.report_bt)
@@ -326,7 +318,6 @@ public class ProfileAct extends AppCompatActivity {
         }
     }
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -336,5 +327,29 @@ public class ProfileAct extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @OnClick(R.id.back_bt)
+    public void backToRide()
+    {
+        Intent intent = new Intent(this, RideOfferAct.class);
+        intent.putExtra("ride", rideOffer);
+        intent.putExtra("requested", requested);
+        startActivity(intent);
+        overridePendingTransition(R.anim.anim_left_slide_in, R.anim.anim_right_slide_out);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(fromOffer) {
+            Intent intent = new Intent(this, RideOfferAct.class);
+            intent.putExtra("ride", rideOffer);
+            intent.putExtra("requested", requested);
+            startActivity(intent);
+            overridePendingTransition(R.anim.anim_left_slide_in, R.anim.anim_right_slide_out);
+        }
+        else{
+            super.onBackPressed();
+        }
     }
 }

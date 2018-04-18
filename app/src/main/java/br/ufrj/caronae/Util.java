@@ -736,35 +736,36 @@ public class Util {
 
     static public void createChatAssets(Ride ride, Context context) {
         Ride rideWithUsers = ride;
-
         int color = 0, bgRes = 0;
-        if (rideWithUsers.getZone().equals("Centro")) {
-            color = ContextCompat.getColor(context, R.color.zone_centro);
-            bgRes = R.drawable.bg_bt_raise_zone_centro;
-        }
-        if (rideWithUsers.getZone().equals("Zona Sul")) {
-            color = ContextCompat.getColor(context, R.color.zone_sul);
-            bgRes = R.drawable.bg_bt_raise_zone_sul;
-        }
-        if (rideWithUsers.getZone().equals("Zona Oeste")) {
-            color = ContextCompat.getColor(context, R.color.zone_oeste);
-            bgRes = R.drawable.bg_bt_raise_zone_oeste;
-        }
-        if (rideWithUsers.getZone().equals("Zona Norte")) {
-            color = ContextCompat.getColor(context, R.color.zone_norte);
-            bgRes = R.drawable.bg_bt_raise_zone_norte;
-        }
-        if (rideWithUsers.getZone().equals("Baixada")) {
-            color = ContextCompat.getColor(context, R.color.zone_baixada);
-            bgRes = R.drawable.bg_bt_raise_zone_baixada;
-        }
-        if (rideWithUsers.getZone().equals("Grande Niterói")) {
-            color = ContextCompat.getColor(context, R.color.zone_niteroi);
-            bgRes = R.drawable.bg_bt_raise_zone_niteroi;
-        }
-        if (rideWithUsers.getZone().equals("Outros")) {
-            color = ContextCompat.getColor(context, R.color.zone_outros);
-            bgRes = R.drawable.bg_bt_raise_zone_outros;
+        if(rideWithUsers.getZone().isEmpty()) {
+            if (rideWithUsers.getZone().equals("Centro")) {
+                color = ContextCompat.getColor(context, R.color.zone_centro);
+                bgRes = R.drawable.bg_bt_raise_zone_centro;
+            }
+            if (rideWithUsers.getZone().equals("Zona Sul")) {
+                color = ContextCompat.getColor(context, R.color.zone_sul);
+                bgRes = R.drawable.bg_bt_raise_zone_sul;
+            }
+            if (rideWithUsers.getZone().equals("Zona Oeste")) {
+                color = ContextCompat.getColor(context, R.color.zone_oeste);
+                bgRes = R.drawable.bg_bt_raise_zone_oeste;
+            }
+            if (rideWithUsers.getZone().equals("Zona Norte")) {
+                color = ContextCompat.getColor(context, R.color.zone_norte);
+                bgRes = R.drawable.bg_bt_raise_zone_norte;
+            }
+            if (rideWithUsers.getZone().equals("Baixada")) {
+                color = ContextCompat.getColor(context, R.color.zone_baixada);
+                bgRes = R.drawable.bg_bt_raise_zone_baixada;
+            }
+            if (rideWithUsers.getZone().equals("Grande Niterói")) {
+                color = ContextCompat.getColor(context, R.color.zone_niteroi);
+                bgRes = R.drawable.bg_bt_raise_zone_niteroi;
+            }
+            if (rideWithUsers.getZone().equals("Outros")) {
+                color = ContextCompat.getColor(context, R.color.zone_outros);
+                bgRes = R.drawable.bg_bt_raise_zone_outros;
+            }
         }
 
         final String location;

@@ -135,7 +135,7 @@
     <string name="frag_falae_critiqueRb">"[CRÍTICA] "</string>
     <string name="frag_falae_reason_tv">MOTIVO DO CONTATO</string>
     <string name="frag_falae_reportRb">"[DENÚNCIA] "</string>
-    <string name="act_profile_report_bt">Reportar</string>
+    <string name="act_profile_report_bt">REPORTAR</string>
     <string name="act_profile_reportOk">Usuário reportado, obrigado por entrar em contato.</string>
     <string name="act_profile_openFbProfile">Veja o perfil de %1$s no Facebook</string>
     <string name="act_profile_openProfile">Veja o perfil de Fulano no Facebook</string>
