@@ -145,6 +145,19 @@
             android:hint="@string/frag_rideoffer_description"
             android:minLines="10"/>
 
+        <Button
+            android:id="@+id/search_bt"
+            android:layout_toRightOf="@id/days_lo"
+            android:layout_width="96dp"
+            android:layout_height="38dp"
+            android:layout_marginTop="30dp"
+            android:layout_below="@id/description_et"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/btn_color"
+            android:text="@string/create_bt"
+            android:textColor="@color/dark_gray"/>
+
         <CheckBox
             android:id="@+id/routine_cb"
             android:layout_width="wrap_content"
@@ -267,19 +280,6 @@
             </RadioGroup>
 
         </RelativeLayout>
-
-        <com.rey.material.widget.Button
-            android:id="@+id/send_bt"
-            style="@style/LightRaiseColorButtonRippleStyle"
-            android:layout_width="96dp"
-            android:layout_height="48dp"
-            android:layout_marginTop="20dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_below="@+id/description_et"
-            android:background="@drawable/btn_color"
-            android:text="@string/create_bt"
-            app:rd_enable="true" />
 
         <RelativeLayout
             android:layout_width="match_parent"

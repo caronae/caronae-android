@@ -1,9 +1,11 @@
 package br.ufrj.caronae.acts;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
@@ -38,6 +40,7 @@ import java.util.Date;
 import java.util.List;
 
 import br.ufrj.caronae.App;
+import br.ufrj.caronae.CustomDialogClass;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.RoundedTransformation;
 import br.ufrj.caronae.SharedPref;
@@ -250,12 +253,12 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
                                     if (response.isSuccessful()) {
                                         String mutualFriendsText;
                                         FacebookFriendForJson mutualFriends = response.body();
-                                        if (mutualFriends.getTotalCount() < 1) {
+                                        int totalCount = mutualFriends.getTotalCount();
+                                        if (totalCount < 1) {
                                             mutualFriendsText = "Amigos em comum: 0";
                                             mFriends_tv.setText(mutualFriendsText);
                                             return;
                                         }
-                                        int totalCount = mutualFriends.getTotalCount();
                                         int size = mutualFriends.getMutualFriends().size();
                                         if(totalCount > 1)
                                         {
@@ -392,73 +395,26 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
                 } else {
                     join_bt.setClickable(true);
                     final Context context = this;
+                    final Activity activity = this;
                     join_bt.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                             List<ActiveRide> list = ActiveRide.find(ActiveRide.class, "date = ? and going = ?", rideWithUsers.getDate(), rideWithUsers.isGoing() ? "1" : "0");
                             if (list != null && !list.isEmpty()) {
                                 Util.toast(getString(R.string.act_rideOffer_rideConflict));
-                                return;
                             }
-
-                            com.rey.material.app.Dialog.Builder builder = new SimpleDialog.Builder(R.style.SlideInDialog) {
-
-                                @Override
-                                protected void onBuildDone(com.rey.material.app.Dialog dialog) {
-                                    dialog.layoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                                    dialog.getWindow().getAttributes().windowAnimations = R.style.SlideInRightDialog;
-                                }
-
-                                @Override
-                                public void onPositiveActionClicked(com.rey.material.app.DialogFragment fragment) {
-                                    final ProgressDialog pd = ProgressDialog.show(context, "", getString(R.string.wait), true, true);
-                                    CaronaeAPI.service(context).requestJoin(String.valueOf(rideWithUsers.getDbId()))
-                                            .enqueue(new Callback<ResponseBody>() {
-                                                @Override
-                                                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                                    if (response.isSuccessful()) {
-                                                        RideRequestSent rideRequest = new RideRequestSent(rideWithUsers.getDbId(), rideWithUsers.isGoing(), rideWithUsers.getDate());
-                                                        rideRequest.save();
-
-                                                        createChatAssets(rideWithUsers);
-
-                                                        join_bt.startAnimation(getAnimationForSendButton());
-
-                                                        requested_dt.startAnimation(getAnimationForResquestedText());
-
-                                                        App.getBus().post(rideRequest);
-
-                                                        pd.dismiss();
-                                                    } else {
-                                                        Util.treatResponseFromServer(response);
-                                                        pd.dismiss();
-                                                        Log.e("requestJoin", response.message());
-                                                    }
-                                                }
-
-                                                @Override
-                                                public void onFailure(Call<ResponseBody> call, Throwable t) {
-                                                    pd.dismiss();
-                                                    Log.e("requestJoin", t.getMessage());
-                                                }
-                                            });
-
-                                    super.onPositiveActionClicked(fragment);
-                                }
-
-                                @Override
-                                public void onNegativeActionClicked(com.rey.material.app.DialogFragment fragment) {
-                                    super.onNegativeActionClicked(fragment);
-                                }
-                            };
-
-                            ((SimpleDialog.Builder) builder).message(getString(R.string.act_rideOffer_requestWarn))
-                                    .title(getString(R.string.attention))
-                                    .positiveAction(getString(R.string.ok))
-                                    .negativeAction(getString(R.string.cancel));
-
-                            com.rey.material.app.DialogFragment fragment = com.rey.material.app.DialogFragment.newInstance(builder);
-                            fragment.show(getSupportFragmentManager(), "a");
+                            else
+                            {
+                                CustomDialogClass customDialogClass;
+                                customDialogClass = new CustomDialogClass(activity, "RideOfferAct", null);
+                                customDialogClass.show();
+                                int colorInt = getResources().getColor(R.color.darkblue2);
+                                customDialogClass.setNegativeButtonColor(colorInt);
+                                customDialogClass.setTitleText(getString(R.string.act_rideOffer_request_warning_title));
+                                customDialogClass.setMessageText(getString(R.string.act_rideOffer_request_warning_message));
+                                customDialogClass.setNButtonText(getString(R.string.act_rideOffer_request_warning_positive_button));
+                                customDialogClass.setPButtonText(getString(R.string.cancel));
+                            }
                         }
                     });
                 }
@@ -594,4 +550,32 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
         overridePendingTransition(R.anim.anim_left_slide_in, R.anim.anim_right_slide_out);
     }
 
+    public void joinAction() {
+        CaronaeAPI.service(this).requestJoin(String.valueOf(rideWithUsers.getDbId()))
+                .enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        if (response.isSuccessful()) {
+                            RideRequestSent rideRequest = new RideRequestSent(rideWithUsers.getDbId(), rideWithUsers.isGoing(), rideWithUsers.getDate());
+                            rideRequest.save();
+
+                            createChatAssets(rideWithUsers);
+
+                            join_bt.startAnimation(getAnimationForSendButton());
+
+                            requested_dt.startAnimation(getAnimationForResquestedText());
+
+                            App.getBus().post(rideRequest);
+                        } else {
+                            Util.treatResponseFromServer(response);
+                            Log.e("requestJoin", response.message());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        Log.e("requestJoin", t.getMessage());
+                    }
+                });
+    }
 }

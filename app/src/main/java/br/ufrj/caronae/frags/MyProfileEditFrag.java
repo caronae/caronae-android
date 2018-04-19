@@ -1,5 +1,6 @@
 package br.ufrj.caronae.frags;
 
+import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.DialogInterface;
@@ -48,7 +49,10 @@ import com.rey.material.app.DialogFragment;
 import com.rey.material.app.SimpleDialog;
 import com.squareup.picasso.Picasso;
 
+import java.net.URL;
+
 import br.ufrj.caronae.App;
+import br.ufrj.caronae.CustomDialogClass;
 import br.ufrj.caronae.ImageSaver;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.RoundedTransformation;
@@ -476,8 +480,10 @@ public class MyProfileEditFrag extends Fragment {
     }
 
     public void saveProfileBtn() {
-        if (App.getUser() == null)
+
+        if (App.getUser() == null) {
             return;
+        }
 
         BitmapDrawable bmpDrawable = (BitmapDrawable)user_pic.getDrawable();
         Bitmap bitmap = bmpDrawable.getBitmap();
@@ -485,54 +491,66 @@ public class MyProfileEditFrag extends Fragment {
         final User editedUser = new User();
         prepEditedUser(editedUser);
 
-        if (!App.getUser().sameFieldsState(editedUser)) {
-            int validation = fieldsValidated();
-            if (validation == 0) {
+        int validation = fieldsValidated();
+        if (validation == 1) {
+            Util.toast(getString(R.string.frag_myprofile_invalidFieldsTelephone));
+            return;
+        } else if (validation == 2) {
+            Util.toast(getString(R.string.frag_myprofile_invalidFieldsEmail));
+            return;
+        } else if (validation == 3) {
+            Util.toast(getString(R.string.frag_myprofile_invalidFieldsPlate));
+            return;
+        } else if (validation == 0) {
+            if(Util.isNetworkAvailable(getContext())) {
                 CaronaeAPI.service(getContext()).updateUser(String.valueOf(App.getUser().getDbId()), editedUser)
                         .enqueue(new Callback<ResponseBody>() {
                             @Override
                             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                                 if (response.isSuccessful()) {
-                                    User user = App.getUser();
-                                    if (user == null)
-                                        return;
-                                    new ImageSaver(getContext()).
-                                            setFileName("myProfile.png").
-                                            setDirectoryName("images").
-                                            save(bitmap);
-                                    SharedPref.setSavedPic(true);
-                                    user.setUser(editedUser);
-                                    SharedPref.saveUser(user);
-                                    Util.toast(R.string.frag_myprofile_updated);
+                                    if (!App.getUser().sameFieldsState(editedUser)) {
+                                        User user = App.getUser();
+                                        if (user == null) {
+                                            return;
+                                        }
+                                        new ImageSaver(getContext()).
+                                                setFileName("myProfile.png").
+                                                setDirectoryName("images").
+                                                save(bitmap);
+                                        SharedPref.setSavedPic(true);
+                                        user.setUser(editedUser);
+                                        saveProfilePicUrl(profileUrlPic);
+                                        SharedPref.saveUser(user);
+                                    }
+                                    try {
+                                        ((MyProfileAct) getActivity()).onSuccessSave();
+                                    } catch (Exception e) {
+                                        Log.e("Error:", "Getting null activity: " + e.toString());
+                                    }
                                 } else {
                                     Util.treatResponseFromServer(response);
+                                    onErrorUpdatingProfile();
                                     Log.e("updateUser", response.message());
-                                    Util.toast(R.string.frag_myprofile_errorUpdated);
                                 }
                             }
 
                             @Override
                             public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                onErrorUpdatingProfile();
                                 Log.e("updateUser", t.getMessage());
-                                Util.toast(R.string.frag_myprofile_errorUpdated);
                             }
                         });
-            } else if (validation == 1) {
-                Util.toast(getString(R.string.frag_myprofile_invalidFieldsTelephone));
-            } else if (validation == 2) {
-                Util.toast(getString(R.string.frag_myprofile_invalidFieldsEmail));
-            } else if (validation == 3) {
-                Util.toast(getString(R.string.frag_myprofile_invalidFieldsPlate));
             }
-        } else {
-            Util.toast(getString(R.string.frag_myprofile_SameFieldsState));
+            else
+            {
+                onErrorUpdatingProfile();
+            }
         }
     }
 
     private int fieldsValidated() {
         String phone = phoneNumber_et.getText().toString();
         String mail = email_et.getText().toString();
-        boolean result = validatePhone(phone) && validateMail(mail);
         if (!validatePhone(phone))
             return 1;
         if (!validateMail(mail))
@@ -542,7 +560,6 @@ public class MyProfileEditFrag extends Fragment {
             if (!validatePlate(plate))
                 return 3;
         }
-
         return 0;
     }
 
@@ -582,7 +599,6 @@ public class MyProfileEditFrag extends Fragment {
         editedUser.setCarModel(carModel_et.getText().toString());
         editedUser.setCarColor(carColor_et.getText().toString());
         editedUser.setProfilePicUrl(profileUrlPic);
-        saveProfilePicUrl(profileUrlPic);
         editedUser.setCarPlate(userPlate);//AAA-0000
     }
 
@@ -732,21 +748,7 @@ public class MyProfileEditFrag extends Fragment {
                                     });
                         }
                         else {
-                            final android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(getContext());
-                            builder.setCancelable(false);
-                            builder.setTitle("Conta do Facebook não autorizada.");
-                            builder.setMessage("Você precisa ter feito login com sua conta do Facebook");
-                            builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    dialogInterface.cancel();
-                                }
-                            });
-                            android.support.v7.app.AlertDialog d2 = builder.create();
-                            d2.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                            WindowManager.LayoutParams wmlp = d2.getWindow().getAttributes();
-                            wmlp.gravity = Gravity.CENTER;
-                            d2.show();
+                            onFacebookPhotoChangeFailed();
                         }
                         break;
                     case 1:
@@ -764,4 +766,26 @@ public class MyProfileEditFrag extends Fragment {
         wmlp.gravity = Gravity.BOTTOM;
         dialog.show();
     }
+
+    public void onFacebookPhotoChangeFailed()
+    {
+        CustomDialogClass customDialogClass = new CustomDialogClass(getActivity(), "MyProfileEdit", this);
+        customDialogClass.show();
+        customDialogClass.setTitleText(getActivity().getResources().getString(R.string.facebook_error_title));
+        customDialogClass.setMessageText(getActivity().getResources().getString(R.string.facebook_error_message));
+        customDialogClass.setPButtonText(getActivity().getResources().getString(R.string.ok));
+        customDialogClass.enableOnePositiveOption();
+    }
+
+    public void onErrorUpdatingProfile()
+    {
+        Activity activity = getActivity();
+        CustomDialogClass customDialogClass = new CustomDialogClass(activity, "MyProfileEdit", this);
+        customDialogClass.show();
+        customDialogClass.setTitleText(getActivity().getResources().getString(R.string.saving_profile_error_title));
+        customDialogClass.setMessageText(getActivity().getResources().getString(R.string.saving_profile_error_message));
+        customDialogClass.setPButtonText(getActivity().getResources().getString(R.string.ok));
+        customDialogClass.enableOnePositiveOption();
+    }
+
 }

@@ -14,7 +14,7 @@
 
     <string name="tokenHint_et">Sua chave aqui</string>
     <string name="send_bt">Enviar</string>
-    <string name="create_bt">Criar</string>
+    <string name="create_bt">CRIAR</string>
     <string name="acess_bt">Acessar</string>
     <string name="edit_bt">Editar</string>
     <string name="ride">Carona</string>
@@ -22,7 +22,11 @@
     <string name="full_ride">CARONA CHEIA</string>
     <string name="ride_share">Compartilhar carona</string>
     <string name="mutual_friends">Amigos em comum: - </string>
-
+    <string name="facebook_error_title">Conta do Facebook não autorizada.</string>
+    <string name="facebook_error_message">Você precisa ter feito login com sua conta do Facebook</string>
+    <string name="saving_profile_error_title">Erro atualizando perfil</string>
+    <string name="saving_profile_error_message">Ocorreu um erro salvando as alterações no seu perfil.</string>
+    <string name="frag_ridesearch_filterBt">FILTRAR</string>
     <string name="go_rb">Chegando na UFRJ</string>
     <string name="back_rb">Saindo da UFRJ</string>
     <string name="routine_cb">Repetir</string>
@@ -156,7 +160,7 @@
     <string name="frag_ridefilter_centerHint">Todos os Campi</string>
     <string name="frag_ridesearch_campiHint">Centro Universitário</string>
     <string name="frag_ridesearch_searchBt">BUSCAR</string>
-    <string name="frag_ridesearch_filterBt">Filtrar</string>
+
     <string name="frag_ridesearch_anotherSearchBt">Outra busca</string>
     <string name="frag_ridehistory_noRides">Você ainda não concluiu nenhuma carona.</string>
     <string name="frag_myprofile_changePic">MUDAR\nFOTO</string>
@@ -241,7 +245,9 @@
     <string name="act_activeRide_sureWantToQuit">Deseja mesmo desistir da carona?</string>
     <string name="act_rideOffer_rideConflict">Você já possui uma carona ativa nesse dia e sentido!</string>
     <string name="frag_myprofile_SameFieldsState">Nenhum campo alterado</string>
-    <string name="act_rideOffer_requestWarn">Ao solicitar você está ocupando uma vaga na carona até que obtenha uma resposta, faça isso com responsabilidade.\nDeseja mesmo solicitar participação nessa carona?</string>
+    <string name="act_rideOffer_request_warning_positive_button">Solicitar</string>
+    <string name="act_rideOffer_request_warning_title">Deseja mesmo solicitar a carona?</string>
+    <string name="act_rideOffer_request_warning_message">Ao confirmar, o motorista receberá uma notificação e poderá aceitar ou recusar a carona.</string>
     <string name="act_activeRide_cancelRideMsg">Você é livre para cancelar caronas caso não possa participar, mas é importante fazer isso com responsabilidade. Caso haja outros usuários na carona, eles serão notificados.</string>
     <string name="act_login_tokenBtn">Obtenha sua chave de acesso aqui</string>
     <string name="act_login_getTokenBtn"><u>OBTENHA SUA CHAVE AQUI</u></string>

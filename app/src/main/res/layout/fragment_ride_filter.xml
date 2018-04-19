@@ -1,5 +1,4 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -64,29 +63,20 @@
             android:layout_below="@id/location_et"
             android:text="@string/frag_filterride_description"/>
 
-        <com.rey.material.widget.Button
+        <Button
             android:id="@+id/search_bt"
-            style="@style/LightRaiseColorButtonRippleStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_width="96dp"
+            android:layout_height="38dp"
+            android:layout_marginTop="30dp"
             android:layout_below="@+id/filter_description"
-            android:layout_centerHorizontal="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:background="@drawable/btn_color"
             android:text="@string/frag_ridesearch_filterBt"
-            app:rd_enable="true" />
+            android:textColor="@color/dark_gray"/>
+
     </RelativeLayout>
-
-    <com.rey.material.widget.Button
-        android:id="@+id/anotherSearch_bt"
-        style="@style/Material.Drawable.Ripple.Wave.Light"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/lay"
-        android:layout_centerHorizontal="true"
-        android:background="@null"
-        android:text="@string/frag_ridesearch_anotherSearchBt"
-        android:visibility="gone"
-        app:rd_enable="true" />
-
 </RelativeLayout>
+
+
+

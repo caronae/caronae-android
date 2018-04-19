@@ -36,6 +36,7 @@ import java.util.Collections;
 import java.util.List;
 
 import br.ufrj.caronae.App;
+import br.ufrj.caronae.CustomDialogClass;
 import br.ufrj.caronae.ImageSaver;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.RoundedTransformation;
@@ -200,34 +201,24 @@ public class MyProfileShowFrag extends Fragment {
         showExitAlertDialog();
     }
 
+    public void setActionExit()
+    {
+        new LogOut(getContext()).execute();
+        startActivity(new Intent(getContext(), LoginAct.class));
+        getActivity().finish();
+        SharedPref.NAV_INDICATOR = "AllRides";
+    }
+
     //Creates an alert dialog to confirm if the user really wants to logout
     private void showExitAlertDialog()
     {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setTitle(R.string.confirm_logout)
-                .setCancelable(false)
-                .setPositiveButton(R.string.frag_logout_title, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        new LogOut(getContext()).execute();
-                        startActivity(new Intent(getContext(), LoginAct.class));
-                        getActivity().finish();
-                        SharedPref.NAV_INDICATOR = "AllRides";
-                    }
-                })
-                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
-
-        AlertDialog alert = builder.create();
-        alert.show();
-        Button nbutton = alert.getButton(DialogInterface.BUTTON_NEGATIVE);
-        nbutton.setTextColor(getResources().getColor(R.color.darkblue2));
-        nbutton.setText(R.string.cancel);
-        Button pbutton = alert.getButton(DialogInterface.BUTTON_POSITIVE);
-        pbutton.setTextColor(getResources().getColor(R.color.red));
-        pbutton.setText(R.string.frag_logout_title);
+        CustomDialogClass customDialogClass;
+        customDialogClass = new CustomDialogClass(getActivity(), "MyProfileShow", this);
+        customDialogClass.show();
+        customDialogClass.setTitleText(getActivity().getResources().getString(R.string.confirm_logout));
+        customDialogClass.setPButtonText(getActivity().getResources().getString(R.string.cancel));
+        customDialogClass.setNButtonText(getActivity().getResources().getString(R.string.frag_logout_title));
+        customDialogClass.setMessageVisibility(View.GONE);
     }
 
     //Use this function to get user phone number correctly formated

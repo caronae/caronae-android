@@ -3,6 +3,9 @@ package br.ufrj.caronae.adapters;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,12 +13,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
+import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -98,6 +103,7 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
                             .error(R.drawable.user_pic)
                             .transform(new RoundedTransformation())
                             .into(viewHolder.photo_iv);
+                    Log.e(rideOffer.getDriver().getName()+": ", profilePicUrl + " ID: "+ rideOffer.getDriver().getFaceId());
                 } else {
                     viewHolder.photo_iv.setImageResource(R.drawable.user_pic);
                 }
@@ -113,6 +119,10 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
                 viewHolder.time_tv.setText(timeText);
 
                 String name = rideOffer.getDriver().getName();
+                if(name.isEmpty())
+                {
+                    viewHolder.allHolder.setVisibility(View.GONE);
+                }
                 try {
                     String[] split = name.split(" ");
                     String shortName = split[0] + " " + split[split.length - 1];
@@ -229,12 +239,14 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
         public CircleImageView photo_iv;
         public ImageView requestIndicator_iv;
         public RelativeLayout parentLayout;
+        public LinearLayout allHolder;
         public TextView time_tv;
         public TextView location_tv;
         public TextView name_tv;
 
         public ViewHolder(View itemView) {
             super(itemView);
+            allHolder = (LinearLayout) itemView.findViewById(R.id.cardView);
             photo_iv = (CircleImageView) itemView.findViewById(R.id.photo_iv);
             requestIndicator_iv = (ImageView) itemView.findViewById(R.id.requestIndicator_iv);
             time_tv = (TextView) itemView.findViewById(R.id.time_tv);

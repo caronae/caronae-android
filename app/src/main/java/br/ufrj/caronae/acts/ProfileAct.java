@@ -157,12 +157,12 @@ public class ProfileAct extends AppCompatActivity {
                                     if (response.isSuccessful()) {
                                         String mutualFriendsText;
                                         FacebookFriendForJson mutualFriends = response.body();
-                                        if (mutualFriends.getTotalCount() < 1) {
+                                        int totalCount = mutualFriends.getTotalCount();
+                                        if (totalCount < 1) {
                                             mutualFriendsText = "Amigos em comum: 0";
                                             mFriends_tv.setText(mutualFriendsText);
                                             return;
                                         }
-                                        int totalCount = mutualFriends.getTotalCount();
                                         int size = mutualFriends.getMutualFriends().size();
                                         if(totalCount > 1)
                                         {
@@ -175,7 +175,6 @@ public class ProfileAct extends AppCompatActivity {
                                         mFriends_tv.setText(mutualFriendsText);
                                     } else {
                                         Util.treatResponseFromServer(response);
-                                        //Util.toast(getString(R.string.act_profile_errorMutualFriends));
                                         Log.e("getMutualFriends", response.message());
                                     }
                                 }

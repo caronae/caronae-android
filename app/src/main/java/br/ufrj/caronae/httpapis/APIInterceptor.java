@@ -1,6 +1,7 @@
 package br.ufrj.caronae.httpapis;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.io.IOException;
 
@@ -36,6 +37,8 @@ class APIInterceptor implements Interceptor {
                 .header("User-Agent", Util.getHeaderForHttp(context))
                 .method(original.method(), original.body())
                 .build();
+
+        Log.e("Specify TLS: ",""+chain.proceed(request).protocol());
         return chain.proceed(request);
     }
 }
