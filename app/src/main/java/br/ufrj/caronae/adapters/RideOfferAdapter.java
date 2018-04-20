@@ -103,7 +103,6 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
                             .error(R.drawable.user_pic)
                             .transform(new RoundedTransformation())
                             .into(viewHolder.photo_iv);
-                    Log.e(rideOffer.getDriver().getName()+": ", profilePicUrl + " ID: "+ rideOffer.getDriver().getFaceId());
                 } else {
                     viewHolder.photo_iv.setImageResource(R.drawable.user_pic);
                 }

@@ -329,7 +329,7 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
                     Intent intent = new Intent(getApplicationContext(), ProfileAct.class);
                     intent.putExtra("user", new Gson().toJson(driver));
                     intent.putExtra("from", "rideoffer");
-                    intent.putExtra("fromOffer", true);
+                    intent.putExtra("fromAnother", true);
                     intent.putExtra("requested", requested);
                     intent.putExtra("ride", rideWithUsers);
                     startActivity(intent);

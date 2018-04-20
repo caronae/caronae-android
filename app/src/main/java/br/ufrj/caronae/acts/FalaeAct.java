@@ -26,12 +26,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.frags.FalaeFrag;
 import br.ufrj.caronae.httpapis.CaronaeAPI;
 import br.ufrj.caronae.models.modelsforjson.FalaeMsgForJson;
+import br.ufrj.caronae.models.modelsforjson.RideForJson;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -42,23 +45,31 @@ import retrofit2.Response;
 
 public class FalaeAct extends AppCompatActivity {
 
-    private Class fragmentClass;
-
     @BindView(R.id.send_bt)
     TextView send_bt;
+    @BindView(R.id.activity_back)
+    TextView title;
 
     FalaeFrag frag;
 
     public String message;
     public String subject;
 
+    private RideForJson rideOffer;
+    private String from, user2;
+
+    boolean requested, fromAnother;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_falae);
         ButterKnife.bind(this);
+        boolean fromProfile;
+        fromProfile = getIntent().getBooleanExtra("fromProfile", false);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         Fragment fragment = null;
+        Class fragmentClass;
         fragmentClass = FalaeFrag.class;
         try {
             fragment = (Fragment) fragmentClass.newInstance();
@@ -67,22 +78,47 @@ public class FalaeAct extends AppCompatActivity {
         }
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.setCustomAnimations(R.anim.anim_right_slide_in, R.anim.anim_left_slide_out);
         transaction.replace(R.id.flContent, fragment).commit();
         frag = (FalaeFrag) fragment;
+        if(fromProfile)
+        {
+            String driverName;
+            title.setText(getResources().getString(R.string.back));
+            user2 = getIntent().getExtras().getString("user");
+            from = getIntent().getExtras().getString("from");
+            fromAnother = getIntent().getBooleanExtra("fromAnother", false);
+            requested = getIntent().getBooleanExtra("requested", false);
+            rideOffer = getIntent().getExtras().getParcelable("ride");
+            driverName = getIntent().getStringExtra("driver");
+            ((FalaeFrag)fragment).reason_txt = getResources().getString(R.string.frag_falae_report_rb);
+            ((FalaeFrag)fragment).subject_txt = "Denúncia sobre usuário " + driverName;
+        }
     }
 
     @Override
     public void onBackPressed()
     {
         super.onBackPressed();
-        backToMenu();
+        if(title.getText().equals("Menu")) {
+            backToMenu();
+        }
+        else
+        {
+            backToProfile();
+        }
     }
 
     @OnClick(R.id.back_bt)
     public void backTouch()
     {
-        backToMenu();
+        if(title.getText().equals("Menu")) {
+            backToMenu();
+        }
+        else
+        {
+            backToProfile();
+        }
+
     }
 
     private void backToMenu()
@@ -91,6 +127,19 @@ public class FalaeAct extends AppCompatActivity {
         Intent mainAct = new Intent(this, MainAct.class);
         SharedPref.NAV_INDICATOR = "Menu";
         startActivity(mainAct);
+        this.overridePendingTransition(R.anim.anim_left_slide_in,R.anim.anim_right_slide_out);
+    }
+
+    private void backToProfile()
+    {
+        finish();
+        Intent profileAct = new Intent(this, ProfileAct.class);
+        profileAct.putExtra("user", user2);
+        profileAct.putExtra("from", from);
+        profileAct.putExtra("fromAnother", true);
+        profileAct.putExtra("requested", requested);
+        profileAct.putExtra("ride", rideOffer);
+        startActivity(profileAct);
         this.overridePendingTransition(R.anim.anim_left_slide_in,R.anim.anim_right_slide_out);
     }
 

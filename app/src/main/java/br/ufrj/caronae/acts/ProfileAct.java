@@ -76,21 +76,22 @@ public class ProfileAct extends AppCompatActivity {
 
     User user;
 
-    private boolean fromOffer;
+    private boolean fromAnother;
     private boolean requested;
     private RideForJson rideOffer;
+    private String from, user2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         ButterKnife.bind(this);
-        fromOffer = getIntent().getBooleanExtra("fromOffer", false);
-        if(fromOffer) {
+        fromAnother = getIntent().getBooleanExtra("fromAnother", false);
+        if(fromAnother) {
             rideOffer = getIntent().getExtras().getParcelable("ride");
             requested = getIntent().getBooleanExtra("requested", false);
         }
-        String user2 = getIntent().getExtras().getString("user");
+        user2 = getIntent().getExtras().getString("user");
         user = new Gson().fromJson(user2, User.class);
         title_tv.setText(user.getName());
         name_tv.setText(user.getName());
@@ -193,7 +194,7 @@ public class ProfileAct extends AppCompatActivity {
             Log.e("profileact", e.getMessage());
         }
 
-        String from = getIntent().getExtras().getString("from");
+        from = getIntent().getExtras().getString("from");
         if (from != null && (from.equals("activeRides"))) {
             //Controls the options that appears on app when user touch (short or long) on phone number
             phone_tv.setOnClickListener((View v) -> {
@@ -211,63 +212,17 @@ public class ProfileAct extends AppCompatActivity {
 
     @OnClick(R.id.report_bt)
     public void reportBt() {
-        Dialog.Builder builder = new SimpleDialog.Builder(R.style.SimpleDialogLight) {
-
-            @Override
-            protected void onBuildDone(Dialog dialog) {
-                dialog.layoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            }
-
-            @Override
-            public void onPositiveActionClicked(DialogFragment fragment) {
-                EditText msg_et = (EditText) fragment.getDialog().findViewById(R.id.msg_et);
-                String msg = msg_et.getText().toString();
-                if (msg.isEmpty()) {
-                    Util.toast(getString(R.string.frag_falae_msgblank));
-                    return;
-                }
-                msg= msg
-                        + "\n\n--------------------------------\n"
-                        + "Device: " + android.os.Build.MODEL + " (Android " + android.os.Build.VERSION.RELEASE + ")\n"
-                        + "Versão do app: " + Util.getAppVersionName(getBaseContext());
-                CaronaeAPI.service(getApplicationContext()).falaeSendMessage(new FalaeMsgForJson(getString(R.string.frag_falae_reportRb) + user.getName() + " - ID:" + user.getDbId(), msg))
-                        .enqueue(new Callback<ResponseBody>() {
-                            @Override
-                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                if (response.isSuccessful()) {
-                                    Util.toast(getString(R.string.act_profile_reportOk));
-                                    Log.i("falaeSendMessage", "falae message sent succesfully");
-                                } else {
-                                    Util.treatResponseFromServer(response);
-                                    Util.toast(getString(R.string.frag_falae_errorSent));
-                                    Log.e("falaeSendMessage", response.message());
-                                }
-                            }
-
-                            @Override
-                            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                                Util.toast(getString(R.string.frag_falae_errorSent));
-                                Log.e("falaeSendMessage", t.getMessage());
-                            }
-                        });
-
-                super.onPositiveActionClicked(fragment);
-            }
-
-            @Override
-            public void onNegativeActionClicked(DialogFragment fragment) {
-                super.onNegativeActionClicked(fragment);
-            }
-        };
-
-        String name = user.getName().split(" ")[0];
-        builder.title("Reportar " + name)
-                .positiveAction(getString(R.string.send_bt))
-                .negativeAction(getString(R.string.cancel))
-                .contentView(R.layout.report_dialog);
-
-        DialogFragment fragment = DialogFragment.newInstance(builder);
-        fragment.show(getSupportFragmentManager(), null);
+        finish();
+        Intent intent = new Intent(this, FalaeAct.class);
+        intent.putExtra("user", user2);
+        intent.putExtra("from", "rideoffer");
+        intent.putExtra("fromAnother", true);
+        intent.putExtra("fromProfile", true);
+        intent.putExtra("requested", requested);
+        intent.putExtra("driver", name_tv.getText());
+        intent.putExtra("ride", rideOffer);
+        startActivity(intent);
+        overridePendingTransition(R.anim.anim_right_slide_in, R.anim.anim_left_slide_out);
     }
 
     //Define actions when the user holds or touch the number on Profile Activity
@@ -340,7 +295,7 @@ public class ProfileAct extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if(fromOffer) {
+        if(fromAnother) {
             Intent intent = new Intent(this, RideOfferAct.class);
             intent.putExtra("ride", rideOffer);
             intent.putExtra("requested", requested);

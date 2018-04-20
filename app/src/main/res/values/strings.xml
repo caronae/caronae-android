@@ -91,6 +91,7 @@
     <string name="cancel">Cancelar</string>
     <string name="save">Salvar</string>
     <string name="discard">Descartar</string>
+    <string name="back">Voltar</string>
     <string name="continue_edit">Continuar editando</string>
     <string name="cancel_profile_edit">Cancelar edição do perfil?</string>
     <string name="frag_myrides_ridesDeleted">Caronas excluídas</string>

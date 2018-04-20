@@ -50,8 +50,12 @@
             android:clickable="true"
             android:focusable="true"
             android:focusableInTouchMode="true"
+            android:theme="@style/DisabledEditText"
             android:cursorVisible="true"
             android:hint="@string/frag_falae_subjectHint"
+            android:ellipsize="end"
+            android:lines="1"
+            android:scrollHorizontally="true"
             android:backgroundTint="@color/black"
             android:singleLine="true" />
         <TextView

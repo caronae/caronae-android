@@ -12,6 +12,12 @@
         <item name="di_outAnimation">@anim/anim_scale_out</item>
     </style>
 
+    <style name="DisabledEditText" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorControlNormal">@color/gray</item>
+        <item name="colorControlActivated">@color/gray</item>
+        <item name="colorControlHighlight">@color/gray</item>
+    </style>
+
     <style name="AlertDialog" parent="Theme.AppCompat.Dialog">
         <item name="android:windowNoTitle">true</item>
     </style>

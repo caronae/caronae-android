@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,15 +22,13 @@ import butterknife.OnClick;
 
 public class FalaeFrag extends Fragment {
 
-
-    @BindView(R.id.subject_et)
+    EditText reason_et;
     EditText subject_et;
     @BindView(R.id.message_et)
     EditText message_et;
-    @BindView(R.id.reason_et)
-    EditText reason_et;
 
     public static String selectedOption;
+    public String reason_txt, subject_txt;
 
     public FalaeFrag() {
         // Required empty public constructor
@@ -37,10 +36,18 @@ public class FalaeFrag extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        selectedOption = "Reclamação";
         View view = inflater.inflate(R.layout.fragment_falae, container, false);
+        subject_et = view.findViewById(R.id.subject_et);
+        reason_et = view.findViewById(R.id.reason_et);
         ButterKnife.bind(this, view);
-        User user = App.getUser();
+        selectedOption = "Reclamação";
+        if(reason_txt != null)
+        {
+            if(!reason_txt.isEmpty())
+            {
+                setFalaeText();
+            }
+        }
         return view;
     }
 
@@ -57,8 +64,7 @@ public class FalaeFrag extends Fragment {
 
     public String getMessage()
     {
-        String message = message_et.getText().toString();
-        return message;
+        return message_et.getText().toString();
     }
 
     @OnClick(R.id.reason_et)
@@ -93,5 +99,16 @@ public class FalaeFrag extends Fragment {
             })
             .setNegativeButton(android.R.string.cancel, null)
             .show();
+    }
+
+    public void setFalaeText()
+    {
+        subject_et.setKeyListener(null);
+        subject_et.setPressed(false);
+        subject_et.setFocusable(false);
+        subject_et.setClickable(false);
+        subject_et.setFocusableInTouchMode(false);
+        reason_et.setText(reason_txt);
+        subject_et.setText(subject_txt);
     }
 }
