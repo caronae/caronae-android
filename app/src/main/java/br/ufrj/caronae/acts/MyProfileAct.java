@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -30,11 +31,13 @@ public class MyProfileAct extends AppCompatActivity {
     private CallbackManager callbackManager;
 
     @BindView(R.id.edit_bt)
-    TextView edit_bt;
+    public TextView edit_bt;
     @BindView(R.id.back_bt)
     RelativeLayout back;
     @BindView(R.id.cancel_bt)
     RelativeLayout cancel;
+    @BindView(R.id.progress_bar)
+    public ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -154,7 +157,11 @@ public class MyProfileAct extends AppCompatActivity {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.setCustomAnimations(R.anim.anim_up_slide_in, R.anim.anim_down_slide_out);
         transaction.replace(R.id.flContent, fragment).commit();
-        edit_bt.setText(R.string.edit_bt);
+        if(progressBar.getVisibility() == View.VISIBLE) {
+            progressBar.setVisibility(View.GONE);
+            edit_bt.setText(R.string.edit_bt);
+            edit_bt.setVisibility(View.VISIBLE);
+        }
         back.setVisibility(View.VISIBLE);
         cancel.setVisibility(View.GONE);
     }

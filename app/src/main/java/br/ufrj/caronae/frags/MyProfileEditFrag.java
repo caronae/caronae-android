@@ -480,6 +480,11 @@ public class MyProfileEditFrag extends Fragment {
     }
 
     public void saveProfileBtn() {
+        try {
+            ((MyProfileAct) getActivity()).progressBar.getIndeterminateDrawable().setColorFilter(0xFF000000, android.graphics.PorterDuff.Mode.MULTIPLY);
+            ((MyProfileAct) getActivity()).edit_bt.setVisibility(View.GONE);
+            ((MyProfileAct) getActivity()).progressBar.setVisibility(View.VISIBLE);
+        } catch (Exception e) { Log.e("Error:", "Getting null activity: " + e.toString());}
 
         if (App.getUser() == null) {
             return;
@@ -523,6 +528,8 @@ public class MyProfileEditFrag extends Fragment {
                                         SharedPref.saveUser(user);
                                     }
                                     try {
+                                        ((MyProfileAct) getActivity()).progressBar.setVisibility(View.GONE);
+                                        ((MyProfileAct) getActivity()).edit_bt.setVisibility(View.VISIBLE);
                                         ((MyProfileAct) getActivity()).onSuccessSave();
                                     } catch (Exception e) {
                                         Log.e("Error:", "Getting null activity: " + e.toString());
@@ -780,6 +787,12 @@ public class MyProfileEditFrag extends Fragment {
     public void onErrorUpdatingProfile()
     {
         Activity activity = getActivity();
+        try {
+            ((MyProfileAct) activity).progressBar.setVisibility(View.GONE);
+            ((MyProfileAct) activity).edit_bt.setVisibility(View.VISIBLE);
+        }catch (Exception e) {
+            Log.e("Error:", "Getting null activity: " + e.toString());
+        }
         CustomDialogClass customDialogClass = new CustomDialogClass(activity, "MyProfileEdit", this);
         customDialogClass.show();
         customDialogClass.setTitleText(getActivity().getResources().getString(R.string.saving_profile_error_title));

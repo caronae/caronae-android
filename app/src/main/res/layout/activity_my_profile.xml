@@ -52,11 +52,19 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="end|center">
+                        <ProgressBar
+                            android:id="@+id/progress_bar"
+                            style="?android:attr/progressBarStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="10dp"
+                            android:visibility="invisible" />
                         <TextView
                             android:id="@+id/edit_bt"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:gravity="center"
+                            android:visibility="visible"
                             android:text="@string/edit_bt"
                             android:layout_marginEnd="10dp"
                             android:layout_marginRight="10dp"
