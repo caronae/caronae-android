@@ -146,7 +146,7 @@
             android:minLines="10"/>
 
         <Button
-            android:id="@+id/search_bt"
+            android:id="@+id/send_bt"
             android:layout_toRightOf="@id/days_lo"
             android:layout_width="96dp"
             android:layout_height="38dp"

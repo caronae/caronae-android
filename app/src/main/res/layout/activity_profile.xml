@@ -8,57 +8,61 @@
     android:fitsSystemWindows="true"
     tools:context="br.ufrj.caronae.acts.ProfileAct">
 
-    <FrameLayout
+    <android.support.v7.widget.CardView
         android:id="@+id/toolbar_layout"
         android:layout_width="match_parent"
-        android:layout_height="48dp">
-
-        <RelativeLayout
+        android:layout_height="wrap_content"
+        app:cardElevation="4dp">
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="start|center">
+            android:layout_height="45dp"
+            android:background="@color/light_gray">
+
             <RelativeLayout
-                android:id="@+id/back_bt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:focusable="true">
-                <ImageView
-                    android:id="@+id/arrow"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:background="@drawable/ic_keyboard_arrow_left_24dp"
-                    android:layout_centerVertical="true"/>
-                <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="start">
+                <RelativeLayout
+                    android:id="@+id/back_bt"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="@string/ride"
-                    android:layout_toRightOf="@id/arrow"
-                    android:layout_toEndOf="@id/arrow"
-                    android:textColor="@color/dark_gray"
-                    android:layout_marginLeft="-15dp"
-                    android:layout_marginStart="-15dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:clickable="true"
+                    android:focusable="true">
+                    <ImageView
+                        android:id="@+id/arrow"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/ic_keyboard_arrow_left_24dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/ride"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@id/arrow"
+                        android:layout_toEndOf="@id/arrow"
+                        android:textColor="@color/dark_gray"
+                        android:layout_marginLeft="-10dp"
+                        android:layout_marginStart="-10dp"
+                        android:textSize="20sp"/>
+                </RelativeLayout>
+                <TextView
+                    android:id="@+id/title_ride"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/back_bt"
+                    android:layout_toEndOf="@id/back_bt"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_centerVertical="true"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:text="Paula Silva"
+                    android:textColor="@color/black"
                     android:textSize="20sp"/>
             </RelativeLayout>
-            <TextView
-                android:id="@+id/title_ride"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_toRightOf="@id/back_bt"
-                android:layout_toEndOf="@id/back_bt"
-                android:layout_marginStart="20dp"
-                android:layout_marginLeft="20dp"
-                android:maxLines="1"
-                android:ellipsize="end"
-                android:textStyle="bold"
-                android:text="Paula Silva"
-                android:textColor="@color/black"
-                android:textSize="20sp"/>
-        </RelativeLayout>
-
-    </FrameLayout>
+        </FrameLayout>
+    </android.support.v7.widget.CardView>
 
     <RelativeLayout
         android:id="@+id/main_layout"

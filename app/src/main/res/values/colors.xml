@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <color name="colorPrimary">#EEEEEE</color>
+    <color name="colorPrimaryDark">#EEEEEE</color>
+    <color name="colorAccent">#000000</color>
+
     <item name="mygreen" type="color">#009688</item>
     <item name="mydarkgreen" type="color">#00796B</item>
     <item name="mylightgreen" type="color">#4CAF50</item>
@@ -58,7 +62,7 @@
     <color name="list_white_transparency">#EEFFFFFF</color>
     <color name="light_gray_transparency" type="color">#CCEEEEEE</color>
     <color name="gray_transparency" type="color">#CC949499</color>
-
-
-    <item name="light_gray" type="color">#EEEEEE</item>
+    <color name="dark_gray2" type="color">#CCCCCC</color>
+    <color name="dark_gray3" type="color">#565658</color>
+    <color name="light_gray" type="color">#EEEEEE</color>
 </resources>
