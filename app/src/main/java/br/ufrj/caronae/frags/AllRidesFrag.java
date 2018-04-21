@@ -1,6 +1,8 @@
 package br.ufrj.caronae.frags;
 
 import android.content.Context;
+import android.graphics.drawable.GradientDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
@@ -16,8 +18,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
-import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.github.clans.fab.FloatingActionMenu;
@@ -60,6 +63,16 @@ public class AllRidesFrag extends Fragment {
     ViewPager viewPager;
     @BindView(R.id.norides_tv)
     TextView noRides;
+    @BindView(R.id.tab1)
+    RelativeLayout isGoing_bt;
+    @BindView(R.id.tab2)
+    RelativeLayout isLeaving_bt;
+    @BindView(R.id.tab1_tv)
+    TextView isGoing_tv;
+    @BindView(R.id.tab2_tv)
+    TextView isLeaving_tv;
+
+    boolean isGoing;
 
     static CoordinatorLayout coordinatorLayout;
 
@@ -77,11 +90,7 @@ public class AllRidesFrag extends Fragment {
         View view = inflater.inflate(R.layout.fragment_all_rides, container, false);
         ButterKnife.bind(this, view);
 
-        View v = getActivity().getCurrentFocus();
-        if (v != null) {
-            InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
-        }
+        isGoing = true;
 
         context = getContext();
 
@@ -156,7 +165,7 @@ public class AllRidesFrag extends Fragment {
                                             if (rideOffer.isGoing())
                                                 if (!checkIfRideIsInList(goingRides, rideOffer))
                                                     goingRides.add(rideOffer);
-                                            else
+                                                else
                                                 if (!checkIfRideIsInList(notGoingRides, rideOffer))
                                                     notGoingRides.add(rideOffer);
                                         }
@@ -173,8 +182,9 @@ public class AllRidesFrag extends Fragment {
                                     else
                                         viewPager.setCurrentItem(1);
 
-                                    tabLayout.setBackground(ContextCompat.getDrawable(App.getInst(), R.drawable.transparency_gradient_top_botton));
-
+                                    if(Build.VERSION.SDK_INT >= 16) {
+                                        tabLayout.setBackground(ContextCompat.getDrawable(App.getInst(), R.drawable.transparency_gradient_top_botton));
+                                    }
                                     configureTabIndicators();
                                 }
                             } else {
@@ -265,5 +275,43 @@ public class AllRidesFrag extends Fragment {
 
     public static void setPageThatWas(boolean page){
         PAGE_WAS_GOING = page;
+    }
+
+    @OnClick(R.id.tab1)
+    public void goingTabSelected()
+    {
+        if(!isGoing)
+        {
+            isGoing = true;
+            isGoing_bt.setFocusable(false);
+            isGoing_bt.setClickable(false);
+            isLeaving_bt.setFocusable(true);
+            isLeaving_bt.setClickable(true);
+            GradientDrawable isGoingShape = (GradientDrawable)isGoing_bt.getBackground();
+            GradientDrawable isLeavingShape = (GradientDrawable)isLeaving_bt.getBackground();
+            isGoingShape.setColor(getResources().getColor(R.color.dark_gray));
+            isLeavingShape.setColor(getResources().getColor(R.color.white));
+            isLeaving_tv.setTextColor(getResources().getColor(R.color.dark_gray));
+            isGoing_tv.setTextColor(getResources().getColor(R.color.white));
+        }
+    }
+
+    @OnClick(R.id.tab2)
+    public void leavingTabSelected()
+    {
+        if(isGoing)
+        {
+            isGoing = false;
+            isGoing_bt.setFocusable(true);
+            isGoing_bt.setClickable(true);
+            isLeaving_bt.setFocusable(false);
+            isLeaving_bt.setClickable(false);
+            GradientDrawable isGoingShape = (GradientDrawable)isGoing_bt.getBackground();
+            GradientDrawable isLeavingShape = (GradientDrawable)isLeaving_bt.getBackground();
+            isGoingShape.setColor(getResources().getColor(R.color.white));
+            isLeavingShape.setColor(getResources().getColor(R.color.dark_gray));
+            isLeaving_tv.setTextColor(getResources().getColor(R.color.white));
+            isGoing_tv.setTextColor(getResources().getColor(R.color.dark_gray));
+        }
     }
 }

@@ -3,11 +3,7 @@ package br.ufrj.caronae.adapters;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,12 +16,7 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
-import java.net.URL;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import br.ufrj.caronae.App;
@@ -40,8 +31,9 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.ViewHolder> {
 
+    private final int TYPE_HEADER = 0;
     private final int TYPE_BODY = 1;
-    private static final int TYPE_ZERO = 2;
+    private final int TYPE_ZERO = 2;
 
     private final Context context;
     private List<RideForJson> rideOffers;
@@ -52,7 +44,7 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
         this.rideOffers = rideOffers;
         this.context = context;
         this.fm = fm;
-        List<Object> mixedList = new ArrayList<>();
+        List<Object> mixedList = new ArrayList<Object>();
 
     }
 
@@ -62,7 +54,9 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
         LayoutInflater inflater = LayoutInflater.from(context);
         View contactView = null;
 
-       if (viewType == TYPE_BODY) {
+        if (viewType == TYPE_HEADER) {
+            contactView = inflater.inflate(R.layout.list_separator, parent, false);
+        } else if (viewType == TYPE_BODY) {
             contactView = inflater.inflate(R.layout.item_rideoffer_flat, parent, false);
         } else {
             contactView = inflater.inflate(R.layout.list_no_rides, parent, false);
@@ -77,6 +71,9 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
             return TYPE_ZERO;
         } else if (mixedList.size() == 0){
             return TYPE_ZERO;
+        }
+        if (mixedList.get(position).getClass() == Integer.class) {
+            return TYPE_HEADER;
         }
         return TYPE_BODY;
     }
@@ -93,7 +90,6 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
                 viewHolder.location_tv.setTextColor(color);
                 viewHolder.time_tv.setTextColor(color);
                 viewHolder.name_tv.setTextColor(color);
-
                 viewHolder.photo_iv.setBorderColor(color);
 
                 String profilePicUrl = rideOffer.getDriver().getProfilePicUrl();
@@ -113,15 +109,11 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
                 else
                     timeText = context.getResources().getString(R.string.leavingAt, Util.formatTime(rideOffer.getTime()));
 
-                timeText =  timeText + " | " + getWeekDayFromDate(rideOffer.getDate()) + " | " +Util.formatBadDateWithoutYear(rideOffer.getDate());
+                timeText =  timeText + " | " + Util.getWeekDayFromDateWithoutTodayString(rideOffer.getDate()) + " | " +Util.formatBadDateWithoutYear(rideOffer.getDate());
 
                 viewHolder.time_tv.setText(timeText);
 
                 String name = rideOffer.getDriver().getName();
-                if(name.isEmpty())
-                {
-                    viewHolder.allHolder.setVisibility(View.GONE);
-                }
                 try {
                     String[] split = name.split(" ");
                     String shortName = split[0] + " " + split[split.length - 1];
@@ -151,15 +143,10 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
                         Intent intent = new Intent(context, RideOfferAct.class);
                         intent.putExtra("ride", rideOffer);
                         intent.putExtra("requested", finalRequested);
-                        intent.putExtra("fromAllRides", true);
                         context.startActivity(intent);
 
                     }
                 });
-            }
-            else
-            {
-                remove(position);
             }
         }
     }
@@ -170,10 +157,15 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
         mixedList = new ArrayList<>();
         mixedList.addAll(rideOffers);
         if (headerPositions != null && headerPositions.size() > 0) {
-            for (int headerCount = 1; headerCount < headerPositions.size(); headerCount++) {
+            for (int headerCount = 0; headerCount < headerPositions.size(); headerCount++) {
                 mixedList.add(headerPositions.get(headerCount) + headerCount, headerPositions.get(headerCount));
             }
         }
+        notifyDataSetChanged();
+    }
+
+    public void addToList(List<RideForJson> rideOffers) {
+        this.rideOffers.addAll(rideOffers);
         notifyDataSetChanged();
     }
 
@@ -185,46 +177,6 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
             }
     }
 
-    public static String getWeekDayFromDate(String dateString) {
-        int dayOfWeekInt = -1;
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        try {
-            Calendar c = Calendar.getInstance();
-            c.add(Calendar.DAY_OF_YEAR, 1);
-            Date date = format.parse(dateString);
-            c.setTime(date);
-            dayOfWeekInt = c.get(Calendar.DAY_OF_WEEK);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        String dayOfWeek = "";
-
-        switch (dayOfWeekInt) {
-            case 1:
-                dayOfWeek = "Dom";
-                break;
-            case 2:
-                dayOfWeek = "Seg";
-                break;
-            case 3:
-                dayOfWeek = "Ter";
-                break;
-            case 4:
-                dayOfWeek = "Qua";
-                break;
-            case 5:
-                dayOfWeek = "Qui";
-                break;
-            case 6:
-                dayOfWeek = "Sex";
-                break;
-            case 7:
-                dayOfWeek = "Sáb";
-                break;
-        }
-        return dayOfWeek;
-    }
     @Override
     public int getItemCount() {
 //        return rideOffers.size()
@@ -237,21 +189,20 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public CircleImageView photo_iv;
         public ImageView requestIndicator_iv;
-        public RelativeLayout parentLayout;
-        public LinearLayout allHolder;
         public TextView time_tv;
         public TextView location_tv;
         public TextView name_tv;
+        public LinearLayout parentLayout;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            allHolder = (LinearLayout) itemView.findViewById(R.id.cardView);
+
             photo_iv = (CircleImageView) itemView.findViewById(R.id.photo_iv);
             requestIndicator_iv = (ImageView) itemView.findViewById(R.id.requestIndicator_iv);
             time_tv = (TextView) itemView.findViewById(R.id.time_tv);
             location_tv = (TextView) itemView.findViewById(R.id.location_tv);
             name_tv = (TextView) itemView.findViewById(R.id.name_tv);
-            parentLayout = (RelativeLayout)itemView.findViewById(R.id.mainlayout);
+            parentLayout = (LinearLayout) itemView.findViewById(R.id.cardView);
         }
     }
 

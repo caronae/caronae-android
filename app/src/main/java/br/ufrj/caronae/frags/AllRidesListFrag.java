@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.os.Process;
 import android.preference.PreferenceManager;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -48,9 +47,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Response;
-
-import static br.ufrj.caronae.frags.AllRidesFrag.makeLoadingRidesSnack;
-import static br.ufrj.caronae.frags.AllRidesFrag.makeNoConexionSnack;
 
 public class AllRidesListFrag extends Fragment implements Callback {
 
@@ -115,7 +111,7 @@ public class AllRidesListFrag extends Fragment implements Callback {
 
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                    loadOneMorePage();
+                loadOneMorePage();
             }
         };
         rvRides.addOnScrollListener(scrollListener);
@@ -259,13 +255,13 @@ public class AllRidesListFrag extends Fragment implements Callback {
                             if (pageIdentifier == AllRidesFragmentPagerAdapter.PAGE_GOING) {
                                 if (goingRides == null || goingRides.isEmpty()) {
                                 } else {
-                                        adapter.makeList(goingRides);
+                                    adapter.makeList(goingRides);
                                     scrollListener.resetState();
                                 }
                             } else {
                                 if (notGoingRides == null || notGoingRides.isEmpty()) {
                                 } else {
-                                        adapter.makeList(notGoingRides);
+                                    adapter.makeList(notGoingRides);
                                     scrollListener.resetState();
                                 }
                             }

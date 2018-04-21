@@ -23,4 +23,5 @@
         app:tabTextAppearance="@style/TabLayoutTextAppearance"
         app:tabBackground="@drawable/tab_background_selector"
         app:tabIndicatorHeight="0dp" />
+
 </android.support.design.widget.CoordinatorLayout>

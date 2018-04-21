@@ -21,6 +21,7 @@
         android:layout_alignParentTop="true"
         android:paddingBottom="@dimen/tab_indicator_padding_botton"
         android:paddingTop="8dp"
+        android:visibility="gone"
         app:tabTextAppearance="@style/TabLayoutTextAppearance"
         app:tabBackground="@drawable/tab_background_selector"
         app:tabIndicatorHeight="0dp" />
@@ -44,4 +45,61 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:visibility="visible" />
     </RelativeLayout>
+    <LinearLayout
+        android:id="@+id/tabs"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:weightSum="2"
+        android:layout_marginTop="25dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginEnd="25dp"
+        android:layout_centerHorizontal="true"
+        android:background="@color/default_white_transparency"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:id="@+id/tab1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="@drawable/tab_left"
+            android:layout_marginRight="-2dp"
+            android:layout_marginEnd="-2dp">
+
+            <TextView
+                android:id="@+id/tab1_tv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textSize="12sp"
+                android:maxLines="1"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:text="@string/go_rb"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/tab2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_marginLeft="-2dp"
+            android:layout_marginStart="-2dp"
+            android:background="@drawable/tab_right">
+            <TextView
+                android:id="@+id/tab2_tv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textSize="12sp"
+                android:maxLines="1"
+                android:gravity="center"
+                android:text="@string/back_rb"
+                android:textColor="@color/dark_gray"/>
+
+        </RelativeLayout>
+    </LinearLayout>
 </android.support.design.widget.CoordinatorLayout>
