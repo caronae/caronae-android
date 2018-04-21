@@ -29,7 +29,7 @@
     <string name="frag_ridesearch_filterBt">FILTRAR</string>
     <string name="go_rb">Chegando na UFRJ</string>
     <string name="back_rb">Saindo da UFRJ</string>
-    <string name="routine_cb">Repetir</string>
+    <string name="routine_cb">Gerar Rotina</string>
 
     <string-array name="tab_tags">
         <item>Chegando na UFRJ</item>

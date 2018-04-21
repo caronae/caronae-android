@@ -2,8 +2,8 @@
 <resources>
 
     <color name="colorPrimary">#EEEEEE</color>
-    <color name="colorPrimaryDark">#EEEEEE</color>
-    <color name="colorAccent">#000000</color>
+    <color name="colorPrimaryDark">#00FF00</color>
+    <color name="colorAccent">#565658</color>
 
     <item name="mygreen" type="color">#009688</item>
     <item name="mydarkgreen" type="color">#00796B</item>

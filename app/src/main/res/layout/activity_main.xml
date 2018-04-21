@@ -45,7 +45,7 @@
                             android:id="@+id/header_image"
                             android:layout_width="107dp"
                             android:layout_height="30dp"
-                            android:layout_centerHorizontal="true"
+                            android:layout_centerInParent="true"
                             android:src="@drawable/logo" />
 
                     </RelativeLayout>

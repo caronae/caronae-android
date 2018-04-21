@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -69,12 +70,8 @@ public class RideOfferFrag extends Fragment {
     EditText place_et;
     @BindView(R.id.way_et)
     EditText way_et;
-    @BindView(R.id.date_et)
-    TextView date_et;
     @BindView(R.id.time_et)
     TextView time_et;
-    @BindView(R.id.slots_et)
-    Spinner slots_et;
     @BindView(R.id.center_et)
     EditText center_et;
     @BindView(R.id.campi_et)
@@ -83,7 +80,7 @@ public class RideOfferFrag extends Fragment {
     EditText description_et;
 
     @BindView(R.id.routine_cb)
-    CheckBox routine_cb;
+    SwitchCompat routine_cb;
     @BindView(R.id.days_lo)
     RelativeLayout days_lo;
 
@@ -128,7 +125,6 @@ public class RideOfferFrag extends Fragment {
             items[i] = String.valueOf(i + 1);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), R.layout.row_spn, items);
         adapter.setDropDownViewResource(R.layout.row_spn_dropdown);
-        slots_et.setAdapter(adapter);
         neighborhood_et.setText(R.string.frag_rideoffer_neighborHint);
         center_et.setText(R.string.frag_ridesearch_campiHint);
         String lastRideOffer = going ? SharedPref.getLastRideGoingPref() : SharedPref.getLastRideNotGoingPref();
@@ -156,7 +152,6 @@ public class RideOfferFrag extends Fragment {
         neighborhood_et.setText(ride.getNeighborhood());
         place_et.setText(ride.getPlace());
         way_et.setText(ride.getRoute());
-        slots_et.setSelection(Integer.parseInt(ride.getSlots()) - 1);
         center_et.setText(ride.getHub());
         description_et.setText(ride.getDescription());
         boolean isRoutine = ride.isRoutine();
@@ -356,29 +351,6 @@ public class RideOfferFrag extends Fragment {
         }
     }
 
-    @OnClick(R.id.date_et)
-    public void date_et() {
-        Dialog.Builder builder = new DatePickerDialog.Builder(R.style.Material_App_Dialog_DatePicker_Light) {
-            @Override
-            public void onPositiveActionClicked(DialogFragment fragment) {
-                DatePickerDialog dialog = (DatePickerDialog) fragment.getDialog();
-                date_et.setText(dialog.getFormattedDate(new SimpleDateFormat("dd/MM/yyyy", Locale.US)));
-                super.onPositiveActionClicked(fragment);
-            }
-
-            @Override
-            public void onNegativeActionClicked(DialogFragment fragment) {
-                super.onNegativeActionClicked(fragment);
-            }
-        };
-
-        builder.positiveAction(getContext().getString(R.string.ok))
-                .negativeAction(getContext().getString(R.string.cancel));
-
-        DialogFragment fragment = DialogFragment.newInstance(builder);
-        fragment.show(getFragmentManager(), null);
-    }
-
     @OnClick(R.id.time_et)
     public void time_et() {
         Dialog.Builder builder = new TimePickerDialog.Builder(R.style.Material_App_Dialog_TimePicker_Light, 24, 0) {
@@ -432,7 +404,7 @@ public class RideOfferFrag extends Fragment {
         String way = way_et.getText().toString();
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
-        String etDateString = date_et.getText().toString();
+        String etDateString = time_et.getText().toString();
         Date todayDate = new Date();
         String todayString = simpleDateFormat.format(todayDate);
         try {
@@ -460,7 +432,6 @@ public class RideOfferFrag extends Fragment {
             Util.toast(getString(R.string.frag_rideoffer_nullTime));
             return;
         }
-        String slots = slots_et.getSelectedItemPosition() + 1 + "";
         String description = description_et.getText().toString();
         if (hub.isEmpty()) {
             if (going) {
@@ -515,7 +486,7 @@ public class RideOfferFrag extends Fragment {
 
         String campus = campi_et.getText().toString();
 
-        final Ride ride = new Ride(zone, neighborhood, place, way, etDateString, time, slots, hub, campus, description, going, routine, weekDays, repeatsUntil);
+        final Ride ride = new Ride(zone, neighborhood, place, way, etDateString, time, "", hub, campus, description, going, routine, weekDays, repeatsUntil);
 
 
         checkAndCreateRide(ride);
