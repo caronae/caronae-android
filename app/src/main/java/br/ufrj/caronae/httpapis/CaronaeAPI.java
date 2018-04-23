@@ -7,7 +7,6 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -20,14 +19,13 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import static br.ufrj.caronae.Constants.API_DEV_BASE_URL;
 import static br.ufrj.caronae.Constants.API_PRODUCTION_BASE_URL;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static okhttp3.logging.HttpLoggingInterceptor.Level.BODY;
 
 public class CaronaeAPI {
-    //public static final String BASE_URL = API_PRODUCTION_BASE_URL;
-            public static final String BASE_URL = API_DEV_BASE_URL;
+    public static final String BASE_URL = API_PRODUCTION_BASE_URL;
+    //        public static final String BASE_URL = API_DEV_BASE_URL;
 
     private static CaronaeAPIService service;
 
