@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import br.ufrj.caronae.models.Ride;
 import br.ufrj.caronae.models.User;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
 
@@ -37,11 +38,12 @@ public class SharedPref {
     public static String NAV_INDICATOR                               = "AllRides";
     public static String CHAT_ACT_STATUS                             = "chatStatus";
     public static String FRAGMENT_INDICATOR                          = "";
-    private static final String USER_PIC_SAVED_KEY                    = "SavedImage";
+    private static final String USER_PIC_SAVED_KEY                   = "SavedImage";
     public static boolean OPEN_MY_RIDES                              = false;
-    public static List<RideForJson> MY_RIDES                         = null;
+    public static ArrayList<Ride> ALL_MY_RIDES                       = null;
     public static boolean OPEN_ALL_RIDES                             = false;
-    public static List<RideForJson> ALL_RIDES                        = null;
+    public static ArrayList<RideForJson> ALL_RIDES_GOING             = null;
+    public static ArrayList<RideForJson> ALL_RIDES_LEAVING           = null;
     public static final String DIALOG_CAMPUS_SEARCH_KEY              = "campus";
     public static final String DIALOG_CENTER_SEARCH_KEY              = "centro";
     public static final String DIALOG_DISMISS_KEY                    = "dismiss_key";

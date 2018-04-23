@@ -1,5 +1,6 @@
 package br.ufrj.caronae.frags;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.TrafficStats;
 import android.os.Bundle;
@@ -88,6 +89,9 @@ public class AllRidesListFrag extends Fragment implements Callback {
         View view = inflater.inflate(R.layout.fragment_all_rides_list, container, false);
         ButterKnife.bind(this, view);
 
+        Context ctx;
+        ctx = getContext();
+
         Bundle bundle = getArguments();
         ArrayList<RideForJson> rideOffers = bundle.getParcelableArrayList("rides");
         pageIdentifier = bundle.getInt("ID");
@@ -120,7 +124,24 @@ public class AllRidesListFrag extends Fragment implements Callback {
         if(SharedPref.OPEN_ALL_RIDES)
         {
             noRides.setVisibility(View.GONE);
-            setRides(SharedPref.ALL_RIDES);
+            if (pageIdentifier == AllRidesFragmentPagerAdapter.PAGE_GOING) {
+                if (SharedPref.ALL_RIDES_GOING == null || SharedPref.ALL_RIDES_GOING.isEmpty()) {
+                } else {
+                    adapter.makeList(SharedPref.ALL_RIDES_GOING);
+                    scrollListener.resetState();
+                }
+            } else {
+                if (SharedPref.ALL_RIDES_LEAVING == null || SharedPref.ALL_RIDES_LEAVING.isEmpty()) {
+                } else {
+                    adapter.makeList(SharedPref.ALL_RIDES_LEAVING);
+                    scrollListener.resetState();
+                }
+            }
+        }
+        else if(!Util.isNetworkAvailable(ctx))
+        {
+            noRides.setText(R.string.allrides_norides);
+            noRides.setVisibility(View.VISIBLE);
         }
         else
         {
@@ -213,9 +234,14 @@ public class AllRidesListFrag extends Fragment implements Callback {
                             RideForJsonDeserializer data = response.body();
                             List<RideForJson> rideOffers = data.getData();
                             if(rideOffers.size() != 0) {
-                                SharedPref.ALL_RIDES = rideOffers;
-                                SharedPref.OPEN_ALL_RIDES = true;
-                                setRides(rideOffers);
+                                if (!filtersJsonString.equals(SharedPref.MISSING_PREF)){
+                                    setRides(rideOffers, false);
+                                }
+                                else
+                                {
+                                    SharedPref.OPEN_ALL_RIDES = true;
+                                    setRides(rideOffers, true);
+                                }
                                 noRides.setVisibility(View.GONE);
                             }
                             else if(!SharedPref.OPEN_ALL_RIDES)
@@ -289,7 +315,7 @@ public class AllRidesListFrag extends Fragment implements Callback {
         rvRides.startAnimation(anim);
     }
 
-    private void setRides(List<RideForJson> rideOffers)
+    private void setRides(List<RideForJson> rideOffers, boolean saveList)
     {
         if (rideOffers != null && !rideOffers.isEmpty()) {
 
@@ -325,12 +351,14 @@ public class AllRidesListFrag extends Fragment implements Callback {
             if (goingRides == null || goingRides.isEmpty()) {
             } else {
                 adapter.makeList(goingRides);
+                SharedPref.ALL_RIDES_GOING = goingRides;
                 scrollListener.resetState();
             }
         } else {
             if (notGoingRides == null || notGoingRides.isEmpty()) {
             } else {
                 adapter.makeList(notGoingRides);
+                SharedPref.ALL_RIDES_LEAVING = notGoingRides;
                 scrollListener.resetState();
             }
         }
