@@ -66,7 +66,7 @@ public class MyRidesListFrag extends Fragment {
     private boolean going;
 
     MyRidesAdapter adapter;
-
+    private Context ctx;
     public MyRidesListFrag() {
         // Required empty public constructor
     }
@@ -75,12 +75,11 @@ public class MyRidesListFrag extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_my_rides_list, container, false);
         ButterKnife.bind(this, view);
-
+        ctx = getContext();
         allRides = new ArrayList<>();
 
         Bundle bundle = getArguments();
         going = bundle.getBoolean("going");
-
         if(!SharedPref.OPEN_MY_RIDES) {
             SharedPref.OPEN_MY_RIDES = true;
             noRides_tv.setText(R.string.charging);
@@ -104,7 +103,6 @@ public class MyRidesListFrag extends Fragment {
 
         return view;
     }
-
 
     //TODO: Remove Deprecated functions
     public static class TimeIgnoringComparator implements Comparator<Date> {
@@ -160,7 +158,7 @@ public class MyRidesListFrag extends Fragment {
                 Collections.sort(rides, new RideComparatorByDateAndTime());
                 addAllMyRidesToList(rides);
             }
-            if(isNetworkAvailable()) {
+            if(Util.isNetworkAvailable(ctx)){
                 if (allRides.size() == 0) {
                     noRides_tv.setVisibility(View.VISIBLE);
                     noRides_tv.setText(R.string.frag_myrides_noRideFound);
@@ -197,7 +195,6 @@ public class MyRidesListFrag extends Fragment {
                     }
                 });
     }
-
 
     private void getActiveRides() {
         getActivity().runOnUiThread(new Runnable() {
@@ -269,7 +266,6 @@ public class MyRidesListFrag extends Fragment {
     private void addAllActiveRidesToList(List<RideForJson> rideWithUsersList) {
         allRides = new ArrayList<>();
 
-
         for (int ridesIndex = 0; ridesIndex < rideWithUsersList.size(); ridesIndex++) {
             if (rideWithUsersList.get(ridesIndex).isGoing() == going) {
                 allRides.add(rideWithUsersList.get(ridesIndex));
@@ -296,20 +292,5 @@ public class MyRidesListFrag extends Fragment {
             }
         }
         return false;
-    }
-
-    public boolean isNetworkAvailable() {
-        boolean isConnected;
-        try {
-            ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(CONNECTIVITY_SERVICE);
-            NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-            isConnected = activeNetworkInfo != null && activeNetworkInfo.isConnected();
-        }
-        catch (Exception e){
-            Log.d("Check Exception: ", "" + e.getMessage());
-            Log.d("Connectivity: ", e.toString());
-            isConnected = false;
-        }
-        return isConnected;
     }
 }

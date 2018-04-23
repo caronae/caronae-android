@@ -18,6 +18,7 @@ import br.ufrj.caronae.models.modelsforjson.RideForJson;
 
 public class SharedPref {
 
+    private static final String  IS_GOING_PREF_KEY                   = "going";
     private static final String USER_PREF_KEY                        = "user";
     private static final String LAST_RIDE_OFFER_GOING_PREF_KEY       = "lastRideOfferGoing";
     private static final String LAST_RIDE_OFFER_NOT_GOING_PREF_KEY   = "lastRideOfferNotGoing";
@@ -185,6 +186,7 @@ public class SharedPref {
         removePref(NOTIFICATIONS_ON_PREF_KEY);
         removePref(USER_PIC_SAVED_KEY);
         removePref(RM_RIDE_LIST);
+        removePref(IS_GOING_PREF_KEY);
         NAV_INDICATOR = "AllRides";
     }
 
@@ -224,5 +226,14 @@ public class SharedPref {
     public static boolean getSavedPic()
     {
         return getBooleanPref(USER_PIC_SAVED_KEY);
+    }
+
+    public static void setIsGoingPref(String isGoing)
+    {
+        putPref(IS_GOING_PREF_KEY, isGoing);
+    }
+    public static String getIsGoingPref()
+    {
+        return getPref(IS_GOING_PREF_KEY);
     }
 }

@@ -4,33 +4,22 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-
-import com.github.clans.fab.FloatingActionButton;
-
-import java.util.ArrayList;
-import java.util.Random;
 
 import br.ufrj.caronae.R;
-import br.ufrj.caronae.SharedPref;
-import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.adapters.RideDirectionFragmentPagerAdapter;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class MyRidesFrag extends Fragment {
+
     @BindView(R.id.sliding_tabs)
     TabLayout tabLayout;
     @BindView(R.id.viewpager)
@@ -51,14 +40,12 @@ public class MyRidesFrag extends Fragment {
         }
 
         setHasOptionsMenu(true);
-
         MainAct.showMainItems();
 
         viewPager.setAdapter(new RideDirectionFragmentPagerAdapter(getChildFragmentManager(), MyRidesListFrag.class, getResources().getStringArray(R.array.tab_tags)));
+
         tabLayout.setupWithViewPager(viewPager);
-
         configureTabIndicators();
-
         return view;
     }
 

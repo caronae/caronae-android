@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.squareup.otto.Subscribe;
@@ -56,11 +57,10 @@ public class AllRidesListFrag extends Fragment implements Callback {
     SwipeRefreshLayout refreshLayout;
     @BindView(R.id.all_rides_list_coordinator_layout)
     CoordinatorLayout coordinatorLayout;
-
+    @BindView(R.id.norides_tv)
+    TextView noRides;
 
     private final int FIRST_PAGE_TO_LOAD = 0;
-
-    long totalBytesConsumed = 0;
 
     RideOfferAdapter adapter;
 
@@ -103,7 +103,6 @@ public class AllRidesListFrag extends Fragment implements Callback {
         });
 
         adapter = new RideOfferAdapter(new ArrayList<RideForJson>(), getContext(), getActivity().getFragmentManager());
-
         mLayoutManager = new LinearLayoutManager(getContext());
         rvRides.setLayoutManager(mLayoutManager);
 
@@ -116,8 +115,18 @@ public class AllRidesListFrag extends Fragment implements Callback {
         };
         rvRides.addOnScrollListener(scrollListener);
 
-
         rvRides.setAdapter(adapter);
+
+        if(SharedPref.OPEN_ALL_RIDES)
+        {
+            noRides.setVisibility(View.GONE);
+            setRides(SharedPref.ALL_RIDES);
+        }
+        else
+        {
+            noRides.setText(R.string.charging);
+            noRides.setVisibility(View.VISIBLE);
+        }
 
         if (!(rideOffers == null || rideOffers.isEmpty())) {
             adapter.makeList(rideOffers);
@@ -162,7 +171,6 @@ public class AllRidesListFrag extends Fragment implements Callback {
     @Override
     public void onStart() {
         super.onStart();
-//        refreshRideList(pageCounter);
     }
 
     @Override
@@ -171,9 +179,6 @@ public class AllRidesListFrag extends Fragment implements Callback {
     }
 
     void refreshRideList(final int pageNumber) {
-
-        final long bytesSoFar = TrafficStats.getUidRxBytes(Process.myUid());
-
         String going = null;
         if (pageIdentifier == AllRidesFragmentPagerAdapter.PAGE_GOING)
             going = "1";
@@ -198,17 +203,6 @@ public class AllRidesListFrag extends Fragment implements Callback {
                 .enqueue(new retrofit2.Callback<RideForJsonDeserializer>() {
                     @Override
                     public void onResponse(Call<RideForJsonDeserializer> call, Response<RideForJsonDeserializer> response) {
-                        totalBytesConsumed = totalBytesConsumed + TrafficStats.getUidRxBytes(Process.myUid()) - bytesSoFar;
-                        Log.e("CONSUMPTION", "Bytes Consumed: " + totalBytesConsumed);
-
-                        switch (pageIdentifier) {
-                            case 0:
-                                Log.e("CONSUMPTION", "Tamanho da lista " + goingRides.size());
-                                break;
-                            case 1:
-                                Log.e("CONSUMPTION", "Tamanho da lista " + notGoingRides.size());
-                                break;
-                        }
                         if (response.isSuccessful()) {
 
                             if (pageCounter == FIRST_PAGE_TO_LOAD) {
@@ -218,57 +212,19 @@ public class AllRidesListFrag extends Fragment implements Callback {
 
                             RideForJsonDeserializer data = response.body();
                             List<RideForJson> rideOffers = data.getData();
-
-                            if (rideOffers != null && !rideOffers.isEmpty()) {
-
-                                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
-                                Date todayDate = new Date();
-                                String todayString = simpleDateFormat.format(todayDate);
-                                simpleDateFormat = new SimpleDateFormat("HH:mm", Locale.US);
-                                String time = simpleDateFormat.format(todayDate);
-
-                                Iterator<RideForJson> it = rideOffers.iterator();
-                                while (it.hasNext()) {
-                                    RideForJson rideOffer = it.next();
-                                    if (Util.formatBadDateWithYear(rideOffer.getDate()).equals(todayString) && Util.formatTime(rideOffer.getTime()).compareTo(time) < 0)
-                                        it.remove();
-                                    else {
-                                        rideOffer.setDbId(rideOffer.getId().intValue());
-                                        if (rideOffer.isGoing()) {
-                                            if (!checkIfRideIsInList(goingRides, rideOffer)){
-                                                goingRides.add(rideOffer);
-                                            }
-                                        } else {
-                                            if (!checkIfRideIsInList(notGoingRides, rideOffer)) {
-                                                notGoingRides.add(rideOffer);
-                                            }
-                                        }
-                                    }
-                                }
-
-                                Collections.sort(goingRides, new RideOfferComparatorByDateAndTime());
-                                Collections.sort(notGoingRides, new RideOfferComparatorByDateAndTime());
-
+                            if(rideOffers.size() != 0) {
+                                SharedPref.ALL_RIDES = rideOffers;
+                                SharedPref.OPEN_ALL_RIDES = true;
+                                setRides(rideOffers);
+                                noRides.setVisibility(View.GONE);
                             }
-
-
-                            if (pageIdentifier == AllRidesFragmentPagerAdapter.PAGE_GOING) {
-                                if (goingRides == null || goingRides.isEmpty()) {
-                                } else {
-                                    adapter.makeList(goingRides);
-                                    scrollListener.resetState();
-                                }
-                            } else {
-                                if (notGoingRides == null || notGoingRides.isEmpty()) {
-                                } else {
-                                    adapter.makeList(notGoingRides);
-                                    scrollListener.resetState();
-                                }
+                            else if(!SharedPref.OPEN_ALL_RIDES)
+                            {
+                                noRides.setText(R.string.frag_rideSearch_noRideFound);
                             }
-                            refreshLayout.setRefreshing(false);
                         } else {
                             Util.treatResponseFromServer(response);
-                            Util.toast(R.string.frag_allrides_errorGetRides);
+                            noRides.setText(R.string.allrides_norides);
                             refreshLayout.setRefreshing(false);
                             Log.e("listAllRides", response.message());
                         }
@@ -279,6 +235,9 @@ public class AllRidesListFrag extends Fragment implements Callback {
                     public void onFailure(Call<RideForJsonDeserializer> call, Throwable t) {
                         refreshLayout.setRefreshing(false);
                         Log.e("listAllRides", t.getMessage());
+                        if(!SharedPref.OPEN_ALL_RIDES) {
+                            noRides.setText(R.string.allrides_norides);
+                        }
                         scrollListener.resetState();
                     }
                 });
@@ -322,7 +281,6 @@ public class AllRidesListFrag extends Fragment implements Callback {
         return contains;
     }
 
-
     private void animateListFadeIn() {
         Animation anim = new AlphaAnimation(0, 1);
         anim.setDuration(300);
@@ -331,6 +289,53 @@ public class AllRidesListFrag extends Fragment implements Callback {
         rvRides.startAnimation(anim);
     }
 
+    private void setRides(List<RideForJson> rideOffers)
+    {
+        if (rideOffers != null && !rideOffers.isEmpty()) {
+
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
+            Date todayDate = new Date();
+            String todayString = simpleDateFormat.format(todayDate);
+            simpleDateFormat = new SimpleDateFormat("HH:mm", Locale.US);
+            String time = simpleDateFormat.format(todayDate);
+
+            Iterator<RideForJson> it = rideOffers.iterator();
+            while (it.hasNext()) {
+                RideForJson rideOffer = it.next();
+                if (Util.formatBadDateWithYear(rideOffer.getDate()).equals(todayString) && Util.formatTime(rideOffer.getTime()).compareTo(time) < 0)
+                    it.remove();
+                else {
+                    rideOffer.setDbId(rideOffer.getId().intValue());
+                    if (rideOffer.isGoing()) {
+                        if (!checkIfRideIsInList(goingRides, rideOffer)){
+                            goingRides.add(rideOffer);
+                        }
+                    } else {
+                        if (!checkIfRideIsInList(notGoingRides, rideOffer)) {
+                            notGoingRides.add(rideOffer);
+                        }
+                    }
+                }
+            }
+            Collections.sort(goingRides, new RideOfferComparatorByDateAndTime());
+            Collections.sort(notGoingRides, new RideOfferComparatorByDateAndTime());
+        }
+
+        if (pageIdentifier == AllRidesFragmentPagerAdapter.PAGE_GOING) {
+            if (goingRides == null || goingRides.isEmpty()) {
+            } else {
+                adapter.makeList(goingRides);
+                scrollListener.resetState();
+            }
+        } else {
+            if (notGoingRides == null || notGoingRides.isEmpty()) {
+            } else {
+                adapter.makeList(notGoingRides);
+                scrollListener.resetState();
+            }
+        }
+        refreshLayout.setRefreshing(false);
+    }
 
     @Subscribe
     public void updateAdapter(ArrayList<Object> listFiltered) {

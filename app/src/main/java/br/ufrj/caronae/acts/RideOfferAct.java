@@ -230,7 +230,6 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
             finish();
         }
 
-        AllRidesFrag.setPageThatWas(rideWithUsers.isGoing());
         final User driver = rideWithUsers.getDriver();
 
         try {

@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
@@ -137,10 +138,9 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
         public TextView location_tv;
         public TextView routine_tv;
         public TextView slots_tv;
-        public TextView date_tv;
         public android.widget.ImageButton delete_bt;
         public android.widget.ImageButton share_bt;
-        public android.widget.RelativeLayout layout;
+        public LinearLayout layout;
         public SwipeLayout myRideLayout;
         public ImageView newRequest_iv;
 
@@ -159,10 +159,9 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
             location_tv = (TextView) itemView.findViewById(R.id.location_tv);
             routine_tv = (TextView) itemView.findViewById(R.id.routine_tv);
             slots_tv = (TextView) itemView.findViewById(R.id.slots_tv);
-            date_tv = (TextView) itemView.findViewById(R.id.date_tv);
             delete_bt = (android.widget.ImageButton) itemView.findViewById(R.id.delete_bt);
             share_bt = (android.widget.ImageButton) itemView.findViewById(R.id.share_bt);
-            layout = (android.widget.RelativeLayout) itemView.findViewById(R.id.cardView);
+            layout = (LinearLayout) itemView.findViewById(R.id.cardView);
             myRideLayout = (SwipeLayout) itemView.findViewById(R.id.card_view_my_ride);
             newRequest_iv = (ImageView) itemView.findViewById(R.id.newRequest_iv);
 
@@ -190,7 +189,6 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
         if (ride.getDate().contains("-")){
             ride.setDate(Util.formatBadDateWithYear(ride.getDate()));
         }
-        holder.date_tv.setText(Util.formatGoodDateWithoutYear(ride.getDate()));
         holder.slots_tv.setText(activity.getString(R.string.Xslots, ride.getSlots(), (Integer.parseInt(ride.getSlots()) > 1 ? "s" : "")));
         String location;
         if (ride.isGoing())
@@ -539,7 +537,6 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
         else
             timeText = activity.getResources().getString(R.string.leavingAt, Util.formatTime(rideOffer.getTime()));
         holder.time_tv.setText(timeText);
-        holder.date_tv.setText(Util.formatBadDateWithoutYear(rideOffer.getDate()));
         holder.name_tv.setText(rideOffer.getDriver().getName());
         String location;
         if (rideOffer.isGoing())

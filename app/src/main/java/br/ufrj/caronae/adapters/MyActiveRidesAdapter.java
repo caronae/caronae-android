@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -100,17 +101,6 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
                     .into(viewHolder.photo_iv);
         }
 
-        if (App.getUser().getDbId() != rideOffer.getDriver().getDbId())
-            viewHolder.photo_iv.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(activity, ProfileAct.class);
-                    intent.putExtra("user", new Gson().toJson(rideOffer.getDriver()));
-                    intent.putExtra("from", "myactiveridesadapter");
-                    activity.startActivity(intent);
-                }
-            });
-
         String timeText;
         if (rideOffer.isGoing())
             timeText = activity.getString(R.string.arrivingAt, Util.formatTime(rideOffer.getTime()));
@@ -127,7 +117,7 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
             location = rideOffer.getHub() + " ➜ " + rideOffer.getNeighborhood();
         viewHolder.location_tv.setText(location);
 
-        viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
+        viewHolder.parentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 NewChatMsgIndicator.deleteAll(NewChatMsgIndicator.class, "db_id = ?", rideOffer.getDbId()+"");
@@ -233,9 +223,9 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public CircleImageView photo_iv;
         public TextView time_tv;
-        public TextView name_tv;
         public TextView location_tv;
-        public CardView cardView;
+        public TextView name_tv;
+        public LinearLayout parentLayout;
         public ImageView newMsgIndicator_iv;
 
         public ViewHolder(View itemView) {
@@ -245,8 +235,8 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
             time_tv = (TextView) itemView.findViewById(R.id.time_tv);
             location_tv = (TextView) itemView.findViewById(R.id.location_tv);
             name_tv = (TextView) itemView.findViewById(R.id.name_tv);
-            cardView = (CardView) itemView.findViewById(R.id.cardView);
             newMsgIndicator_iv = (ImageView) itemView.findViewById(R.id.newMsgIndicator_iv);
+            parentLayout = (LinearLayout) itemView.findViewById(R.id.cardView);
         }
     }
 }
