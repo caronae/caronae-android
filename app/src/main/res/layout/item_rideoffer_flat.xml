@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:clickable="true"
+    android:focusable="true"
     android:layout_margin="@dimen/card_list_margin">
 
     <RelativeLayout
@@ -17,8 +18,8 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/photo_iv"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
             android:src="@drawable/user_pic"
             card_view:civ_border_color="@color/dark_gray"
             android:layout_centerVertical="true"
@@ -37,10 +38,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:layout_marginStart="5dp"
+                android:layout_marginEnd="50dp"
+                android:layout_marginRight="50dp"
                 android:textStyle="bold"
-                android:textSize="13sp"
-                android:maxWidth="180dp"
-                android:text="NOVA IGUAÇU -> PRAIA VERMELHA"/>
+                android:textSize="16sp"
+                android:text="BARRA DA TIJUCA ➜ PRAIA VERMELHA"/>
 
             <TextView
                 android:id="@+id/time_tv"
@@ -48,6 +50,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignLeft="@+id/location_tv"
                 android:layout_alignStart="@+id/location_tv"
+                android:layout_marginEnd="50dp"
+                android:layout_marginRight="50dp"
                 android:layout_below="@+id/location_tv"
                 android:textSize="13sp"
                 android:text="Chegando às 00:00 | Dom | 25/12" />
@@ -59,6 +63,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignLeft="@+id/location_tv"
                 android:layout_alignStart="@+id/location_tv"
+                android:layout_marginEnd="50dp"
+                android:layout_marginRight="50dp"
                 android:layout_below="@+id/time_tv"
                 android:textSize="13sp"
                 android:text="Paula Silva" />
@@ -74,6 +80,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:paddingRight="16dp"
+            android:paddingEnd="16dp"
             android:textSize="24sp"
             android:tint="@android:color/darker_gray"
             android:src="@drawable/ic_keyboard_arrow_right_black_24dp"/>

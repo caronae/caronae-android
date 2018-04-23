@@ -3,6 +3,7 @@ package br.ufrj.caronae;
 import android.content.Context;
 import android.content.Intent;
 import android.support.multidex.MultiDex;
+import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
@@ -78,11 +79,15 @@ public class App extends SugarApp {
     }
 
     public static void LogOut(){
-        FirebaseMessaging.getInstance().unsubscribeFromTopic(SharedPref.TOPIC_GERAL);
-        FirebaseMessaging.getInstance().unsubscribeFromTopic(App.getUser().getDbId() + "");
-        new LogOut(App.getInst()).execute();
-        Intent intent = new Intent(App.getInst(), LoginAct.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        App.getInst().startActivity(intent);
+        try {
+            FirebaseMessaging.getInstance().unsubscribeFromTopic(SharedPref.TOPIC_GERAL);
+            FirebaseMessaging.getInstance().unsubscribeFromTopic(App.getUser().getDbId() + "");
+            new LogOut(App.getInst()).execute();
+            Intent intent = new Intent(App.getInst(), LoginAct.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            App.getInst().startActivity(intent);
+        }catch (Exception e){
+            Log.e("LogOut ERROR: ", e + "");
+        }
     }
 }

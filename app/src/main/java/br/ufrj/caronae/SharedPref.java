@@ -40,7 +40,7 @@ public class SharedPref {
     public static String FRAGMENT_INDICATOR                          = "";
     private static final String USER_PIC_SAVED_KEY                   = "SavedImage";
     public static boolean OPEN_MY_RIDES                              = false;
-    public static ArrayList<Ride> ALL_MY_RIDES                       = null;
+    public static List<RideForJson> MY_RIDES                       = null;
     public static boolean OPEN_ALL_RIDES                             = false;
     public static ArrayList<RideForJson> ALL_RIDES_GOING             = null;
     public static ArrayList<RideForJson> ALL_RIDES_LEAVING           = null;

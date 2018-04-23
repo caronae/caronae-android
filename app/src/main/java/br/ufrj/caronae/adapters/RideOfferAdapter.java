@@ -55,11 +55,11 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
         View contactView = null;
 
         if (viewType == TYPE_HEADER) {
-            contactView = inflater.inflate(R.layout.list_separator, parent, false);
+            contactView = inflater.inflate(R.layout.separator_all_rides, parent, false);
         } else if (viewType == TYPE_BODY) {
             contactView = inflater.inflate(R.layout.item_rideoffer_flat, parent, false);
         } else {
-            contactView = inflater.inflate(R.layout.list_no_rides, parent, false);
+            contactView = inflater.inflate(R.layout.separator_all_rides, parent, false);
         }
 
         return new ViewHolder(contactView);
