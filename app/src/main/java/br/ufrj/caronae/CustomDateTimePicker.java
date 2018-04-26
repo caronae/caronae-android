@@ -2,32 +2,22 @@ package br.ufrj.caronae;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.app.Fragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
-import java.text.DateFormatSymbols;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-import br.ufrj.caronae.acts.MyProfileAct;
-import br.ufrj.caronae.acts.RideOfferAct;
-import br.ufrj.caronae.frags.MyProfileShowFrag;
 import br.ufrj.caronae.frags.RideOfferFrag;
 
 public class CustomDateTimePicker extends Dialog implements View.OnClickListener {
 
-    private Activity activity;
     private TextView title_tv, positive_bt, negative_bt;
     private NumberPicker dayTime_np, hour_np, minute_np;
     private String title, time;
@@ -39,7 +29,6 @@ public class CustomDateTimePicker extends Dialog implements View.OnClickListener
 
     public CustomDateTimePicker(Activity activity, String title, String time, RideOfferFrag fragment) {
         super(activity);
-        this.activity = activity;
         this.title = title;
         this.time = time;
         this.fragment = fragment;

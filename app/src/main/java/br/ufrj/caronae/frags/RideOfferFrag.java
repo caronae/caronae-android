@@ -2,7 +2,6 @@ package br.ufrj.caronae.frags;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,7 +12,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
 import android.util.TypedValue;
-import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -78,12 +76,10 @@ public class RideOfferFrag extends Fragment {
     EditText campi_et;
     @BindView(R.id.description_et)
     EditText description_et;
-
     @BindView(R.id.routine_cb)
     SwitchCompat routine_cb;
     @BindView(R.id.days_lo)
     RelativeLayout days_lo;
-
     @BindView(R.id.monday_cb)
     CheckBox monday_cb;
     @BindView(R.id.tuesday_cb)
@@ -115,14 +111,10 @@ public class RideOfferFrag extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_ride_offer, container, false);
         ButterKnife.bind(this, view);
-
         Bundle bundle = getArguments();
         going = bundle.getBoolean("going");
-
         setInitialDate();
-
         center_et.setHint(going ? R.string.frag_rideSearch_hintPickCenter : R.string.frag_rideOffer_hintPickHub);
-
         String[] items = new String[6];
         for (int i = 0; i < items.length; i++)
             items[i] = String.valueOf(i + 1);
@@ -263,7 +255,6 @@ public class RideOfferFrag extends Fragment {
             public void onPositiveActionClicked(DialogFragment fragment) {
                 campi_et.setText(getSelectedValue());
                 if ((campi_et.getText().toString().equals("") || campi_et.getText().toString().equals(Util.getCampi()[2]) && (going))) {
-//                    center_et.setVisibility(View.GONE);
                 } else
                     center_et.setVisibility(View.VISIBLE);
                 super.onPositiveActionClicked(fragment);
@@ -290,7 +281,6 @@ public class RideOfferFrag extends Fragment {
             @Override
             public void onPositiveActionClicked(DialogFragment fragment) {
                 if (getSelectedValue().equals(Util.getCampi()[2]) && (going)) {
-//                    center_et.setVisibility(View.GONE);
                     center_et.setText(getSelectedValue());
                 } else
                 showCenterListDialog(getSelectedValue().toString());
@@ -339,18 +329,6 @@ public class RideOfferFrag extends Fragment {
                     .negativeAction(getContext().getString(R.string.cancel));
             DialogFragment fragment = DialogFragment.newInstance(builder);
             fragment.show(getFragmentManager(), null);
-//            if (campi_et.getText().toString().equals("")){
-//                campi_et.setError("Escolher o campus");
-//            } else {
-//                if (campi_et.getText().toString().equals(Util.getCampus()[1])) {
-//                    builder.items(Util.getFundaoHubs(), 0);
-//                }
-//                if (campi_et.getText().toString().equals(Util.getCampus()[2])) {
-//                    builder.items(Util.getPraiaVermelhaHubs(), 0);
-//                }
-//                DialogFragment fragment = DialogFragment.newInstance(builder);
-//                fragment.show(getFragmentManager(), null);
-//            }
         }
     }
 
