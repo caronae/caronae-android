@@ -1,6 +1,8 @@
 package br.ufrj.caronae.frags;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
@@ -10,9 +12,14 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
+import android.util.TypedValue;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -35,6 +42,7 @@ import java.util.List;
 import java.util.Locale;
 
 import br.ufrj.caronae.App;
+import br.ufrj.caronae.CustomDateTimePicker;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.Util;
@@ -63,7 +71,7 @@ public class RideOfferFrag extends Fragment {
     @BindView(R.id.way_et)
     EditText way_et;
     @BindView(R.id.time_et)
-    TextView time_et;
+    public TextView time_et;
     @BindView(R.id.center_et)
     EditText center_et;
     @BindView(R.id.campi_et)
@@ -95,6 +103,7 @@ public class RideOfferFrag extends Fragment {
 
     private String zone;
     private boolean going;
+    public String time;
     ProgressDialog pd;
 
     public RideOfferFrag() {
@@ -109,6 +118,8 @@ public class RideOfferFrag extends Fragment {
 
         Bundle bundle = getArguments();
         going = bundle.getBoolean("going");
+
+        setInitialDate();
 
         center_et.setHint(going ? R.string.frag_rideSearch_hintPickCenter : R.string.frag_rideOffer_hintPickHub);
 
@@ -345,25 +356,25 @@ public class RideOfferFrag extends Fragment {
 
     @OnClick(R.id.time_et)
     public void time_et() {
-        /*Dialog.Builder builder = new TimePickerDialog.Builder(R.style.Material_App_Dialog_TimePicker_Light, 24, 0) {
-            @Override
-            public void onPositiveActionClicked(DialogFragment fragment) {
-                TimePickerDialog dialog = (TimePickerDialog) fragment.getDialog();
-                time_et.setText(dialog.getFormattedTime(new SimpleDateFormat("HH:mm", Locale.US)));
-                super.onPositiveActionClicked(fragment);
-            }
-
-            @Override
-            public void onNegativeActionClicked(DialogFragment fragment) {
-                super.onNegativeActionClicked(fragment);
-            }
-        };
-
-        builder.positiveAction(getContext().getString(R.string.ok))
-                .negativeAction(getContext().getString(R.string.cancel));
-
-        DialogFragment fragment = DialogFragment.newInstance(builder);
-        fragment.show(getFragmentManager(), null);*/
+        Activity activity = getActivity();
+        CustomDateTimePicker cdtp;
+        if(going) {
+            cdtp = new CustomDateTimePicker(activity, getResources().getString(R.string.go_rb), time, this);
+        }else
+        {
+            cdtp = new CustomDateTimePicker(activity, getResources().getString(R.string.back_rb), time, this);
+        }
+        Window window = cdtp.getWindow();
+        WindowManager.LayoutParams wlp = window.getAttributes();
+        wlp.gravity = Gravity.BOTTOM;
+        wlp.flags &= ~WindowManager.LayoutParams.FLAG_DIM_BEHIND;
+        window.setAttributes(wlp);
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(cdtp.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 320, getResources().getDisplayMetrics());
+        cdtp.show();
+        cdtp.getWindow().setAttributes(lp);
     }
 
     @OnClick(R.id.routine_cb)
@@ -623,5 +634,41 @@ public class RideOfferFrag extends Fragment {
         transaction.setCustomAnimations(R.anim.anim_up_slide_in, R.anim.anim_down_slide_out);
         transaction.replace(R.id.flContent, fragment).commit();
         SharedPref.NAV_INDICATOR = "MyRides";
+    }
+
+    private void setInitialDate()
+    {
+        Calendar rightNow = Calendar.getInstance();
+        Date date = rightNow.getTime();
+        SimpleDateFormat dateWithYear = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        String ddmmyyyy = dateWithYear.format(date);
+        int hourInt = rightNow.get(Calendar.HOUR_OF_DAY);
+        int minuteInt = rightNow.get(Calendar.MINUTE) + 5;
+        if(minuteInt >= 60)
+        {
+            hourInt += 2;
+        }
+        else{
+            hourInt += 1;
+        }
+
+        if(hourInt >= 24)
+        {
+            hourInt -= 24;
+            rightNow.add(Calendar.DAY_OF_YEAR, 1);
+            date = rightNow.getTime();
+            ddmmyyyy = dateWithYear.format(date);
+        }
+
+        if(hourInt < 10)
+        {
+            time = ddmmyyyy + " 0" + hourInt + ":00";
+        }
+        else
+        {
+            time = ddmmyyyy + " " + hourInt + ":00";
+        }
+
+        time_et.setText(time);
     }
 }

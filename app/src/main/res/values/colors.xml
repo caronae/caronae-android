@@ -60,6 +60,7 @@
     <color name="black_overlay">#66000000</color>
 
     <color name="default_white_transparency">#CCFFFFFF</color>
+    <color name="transparent">#FFFFFFFF</color>
     <color name="list_white_transparency">#EEFFFFFF</color>
     <color name="light_gray_transparency" type="color">#CCEEEEEE</color>
     <color name="gray_transparency" type="color">#CC949499</color>

@@ -102,7 +102,8 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="10dp"
-            android:checked="false" />
+            android:checked="true"
+            android:theme="@style/WidgetSC"/>
 
         <RelativeLayout
             android:id="@+id/days_lo"
@@ -112,7 +113,7 @@
             android:layout_centerHorizontal="true"
             android:orientation="horizontal"
             android:layout_marginTop="10dp"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <RelativeLayout
                 android:id="@+id/days"
@@ -193,7 +194,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/routine_text_tv"
-                android:layout_centerHorizontal="true"
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal">
 
@@ -203,6 +203,8 @@
                     android:layout_height="wrap_content"
                     android:checked="true"
                     android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:gravity="center"
                     android:textColor="@color/dark_gray"
                     android:text="2 meses" />
 
@@ -211,6 +213,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:gravity="center"
                     android:textColor="@color/dark_gray"
                     android:text="3 meses" />
 
@@ -218,6 +222,8 @@
                     android:id="@+id/r4months_rb"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
                     android:layout_weight="1"
                     android:textColor="@color/dark_gray"
                     android:text="4 meses" />
@@ -239,7 +245,7 @@
             android:text="21/04/2018 14:00"
             android:gravity="end"
             android:textAlignment="textEnd"
-            android:textColor="@color/dark_gray"
+            android:textColor="@color/gray"
             android:maxLines="1" />
 
         <TextView
