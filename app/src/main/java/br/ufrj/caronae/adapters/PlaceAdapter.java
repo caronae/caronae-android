@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.ufrj.caronae.R;
+import br.ufrj.caronae.models.modelsforjson.PlacesForJson;
 
 public class PlaceAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -35,7 +36,7 @@ public class PlaceAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (!(placeList == null || placeList.size() == 0)) {
-            if (placeList.get(position).getClass().equals(PlaceForJson.class)) {
+            if (placeList.get(position).getClass().equals(PlacesForJson.class)) {
 
             }
         }

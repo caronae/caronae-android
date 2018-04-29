@@ -86,6 +86,11 @@ public class Util {
         Snackbar.make(coordinator, msg, Snackbar.LENGTH_LONG).show();
     }
 
+    public static void debug(String msg)
+    {
+        Log.d("DEBUG: ", msg);
+    }
+
     public static String[] getZones() {
         return new String[]{"Centro", "Zona Sul", "Zona Oeste", "Zona Norte", "Baixada", "Grande Niterói", "Outros"};
     }

@@ -15,6 +15,7 @@ import br.ufrj.caronae.models.modelsforjson.HistoryRideCountForJson;
 import br.ufrj.caronae.models.modelsforjson.IdForJson;
 import br.ufrj.caronae.models.modelsforjson.JoinRequestIDsForJson;
 import br.ufrj.caronae.models.modelsforjson.LoginForJson;
+import br.ufrj.caronae.models.modelsforjson.PlacesForJson;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
 import br.ufrj.caronae.models.modelsforjson.RideForJsonDeserializer;
 import br.ufrj.caronae.models.modelsforjson.RideHistoryForJson;
@@ -77,6 +78,9 @@ public interface CaronaeAPIService {
 
     @GET("api/v1/rides")
     Call<RideForJsonDeserializer> listAllRides(@Query("page") String pageNum, @Query("going") String going, @Query("neighborhoods") String neighborhoods, @Query("zone") String zone, @Query("hubs") String hub, @Query("place") String place, @Query("campus") String campus);
+
+    @GET("api/v1/places")
+    Call<PlacesForJson> getPlaces();
 
     @POST("api/v1/rides/{rideId}/requests")
     Call<ResponseBody> requestJoin(@Path("rideId") String rideId);
