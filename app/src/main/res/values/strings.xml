@@ -37,6 +37,8 @@
     </string-array>
 
     <string name="title_activity_opening">OpeningAct</string>
+    <string name="title_activity_place">PlaceAct</string>
+    <string name="title_activity_my_profile">MyProfileAct</string>
 
     <string name="gplay_unavailable">Sem o Google Play Services você não poderá receber notificações ou mensagens de bate-papo =(</string>
     <string name="notCarOwner">Parece que você marcou no seu perfil que não possui um carro. Para criar uma carona, preencha os dados do seu carro no perfil.</string>

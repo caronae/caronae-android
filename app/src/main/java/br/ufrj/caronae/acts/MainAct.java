@@ -1,28 +1,21 @@
 package br.ufrj.caronae.acts;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.MotionEvent;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -47,10 +40,7 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
-import java.io.InputStream;
-import java.net.URL;
 import java.util.ArrayList;
 
 import br.ufrj.caronae.App;

@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="br.ufrj.caronae">
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
@@ -13,9 +14,9 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:vmSafeMode="true"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:vmSafeMode="true">
         <meta-data
             android:name="DATABASE"
             android:value="caronaee.db" />
@@ -76,18 +77,22 @@
         <activity
             android:name=".acts.FalaeAct"
             android:label="@string/title_activity_falae"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".acts.MenuOptionsAct"
             android:label="@string/title_activity_menu_options"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".acts.MyProfileAct"
-            android:label="@string/title_activity_menu_options"
-            android:screenOrientation="portrait"/>
+            android:label="@string/title_activity_my_profile"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".acts.ActiveRideAct"
             android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".acts.PlaceAct"
+            android:label="@string/title_activity_place"
             android:screenOrientation="portrait" />
         <activity
             android:name=".acts.RideOfferAct"
@@ -131,7 +136,6 @@
         <service
             android:name=".asyncs.FetchMyOfferedRidesService"
             android:exported="false" />
-
 
     </application>
 

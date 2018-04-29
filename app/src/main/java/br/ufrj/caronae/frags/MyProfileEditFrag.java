@@ -60,6 +60,7 @@ import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.FalaeAct;
 import br.ufrj.caronae.acts.MyProfileAct;
+import br.ufrj.caronae.acts.PlaceAct;
 import br.ufrj.caronae.acts.ProfileAct;
 import br.ufrj.caronae.httpapis.CaronaeAPI;
 import br.ufrj.caronae.models.User;
@@ -397,30 +398,8 @@ public class MyProfileEditFrag extends Fragment {
 
     @OnClick(R.id.location_et)
     public void locationEt() {
-        SimpleDialog.Builder builder = new SimpleDialog.Builder(R.style.SimpleDialogLight) {
-            @Override
-            public void onPositiveActionClicked(DialogFragment fragment) {
-                String selectedZone = getSelectedValue().toString();
-                if (selectedZone.equals("Outros")) {
-                    showOtherNeighborhoodDialog();
-                } else {
-                    locationEt2(selectedZone);
-                }
-                super.onPositiveActionClicked(fragment);
-            }
-
-            @Override
-            public void onNegativeActionClicked(DialogFragment fragment) {
-                super.onNegativeActionClicked(fragment);
-            }
-        };
-
-        builder.items(Util.getZones(), 0)
-                .title("Escolha sua zona")
-                .positiveAction(getString(R.string.ok))
-                .negativeAction(getString(R.string.cancel));
-        DialogFragment fragment = DialogFragment.newInstance(builder);
-        fragment.show(getFragmentManager(), null);
+        Intent intent = new Intent(getActivity(), PlaceAct.class);
+        startActivity(intent);
     }
 
     public void showOtherNeighborhoodDialog() {
