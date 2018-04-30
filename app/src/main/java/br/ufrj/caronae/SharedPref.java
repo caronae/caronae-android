@@ -15,6 +15,7 @@ import java.util.List;
 
 import br.ufrj.caronae.models.Ride;
 import br.ufrj.caronae.models.User;
+import br.ufrj.caronae.models.Zone;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
 
 public class SharedPref {

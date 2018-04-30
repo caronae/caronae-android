@@ -1,17 +1,22 @@
 package br.ufrj.caronae.acts;
 
+import android.content.Context;
+import android.content.Intent;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-
-import java.util.List;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.Util;
+import br.ufrj.caronae.frags.ZonesFrag;
 import br.ufrj.caronae.httpapis.CaronaeAPI;
-import br.ufrj.caronae.models.Campi;
-import br.ufrj.caronae.models.Institution;
-import br.ufrj.caronae.models.Zone;
 import br.ufrj.caronae.models.modelsforjson.PlacesForJson;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -19,40 +24,102 @@ import retrofit2.Response;
 
 public class PlaceAct extends AppCompatActivity {
 
-    List<Campi> campi;
-    List<Zone> zones;
-    Institution institution;
+    RelativeLayout back_bt;
+    TextView back_tv, title_tv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_place);
+        back_bt = (RelativeLayout)findViewById(R.id.back_bt);
+        back_tv = (TextView) findViewById(R.id.activity_back);
+        title_tv = (TextView) findViewById(R.id.header_text);
+        back_bt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeFrag(back_tv.getText().toString());
+            }
+        });
         CaronaeAPI.service(getApplicationContext()).getPlaces()
-                .enqueue(new Callback<PlacesForJson>() {
-                    @Override
-                    public void onResponse(Call<PlacesForJson> call, Response<PlacesForJson> response) {
-                        if (response.isSuccessful()) {
-                            PlacesForJson places = response.body();
-                            campi = places.getCampi();
-                            zones = places.getZones();
-                            institution = places.getInstitutions();
-                            for(int i = 0; i < zones.size(); i++)
-                            {
-                                Util.debug(zones.get(i).getName());
-                                for(int j = 0; j < zones.get(i).getNeighborhoods().size(); j++)
-                                {
-                                    Util.debug(zones.get(i).getNeighborhoods().get(j));
-                                }
-                            }
-                        }
-                        else {
-                            Log.e("REQUEST FAILED: ", "NO CONNECTION");
-                        }
-                    }
-                    @Override
-                    public void onFailure(Call<PlacesForJson> call, Throwable t) {
-                        Log.e("ERROR: ", t.getMessage());
-                    }
-            });
+        .enqueue(new Callback<PlacesForJson>() {
+            @Override
+            public void onResponse(Call<PlacesForJson> call, Response<PlacesForJson> response) {
+                if (response.isSuccessful()) {
+                    PlacesForJson places = response.body();
+                    Util.campi = places.getCampi();
+                    Util.zones = places.getZones();
+                    Util.institution = places.getInstitutions();
+                    changeToZone();
+                }
+                else {
+                    Log.e("REQUEST FAILED: ", "NO CONNECTION");
+                }
+            }
+            @Override
+            public void onFailure(Call<PlacesForJson> call, Throwable t) {
+                Log.e("ERROR: ", t.getMessage());
+            }
+        });
+    }
+
+    public void changeToZone()
+    {
+        Fragment fragment;
+        fragment = new ZonesFrag();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+    }
+
+    public void changeFrag(String title)
+    {
+        switch (title)
+        {
+            case "Editar Perfil":
+                hideKeyboard();
+                Intent myProfileAct = new Intent(this, MyProfileAct.class);
+                startActivity(myProfileAct);
+                overridePendingTransition(R.anim.anim_left_slide_in, R.anim.anim_right_slide_out);
+                break;
+            case "Zona":
+                hideKeyboard();
+                Fragment fragment = null;
+                FragmentManager fragmentManager;
+                Class fragmentClass;
+                fragmentClass = ZonesFrag.class;
+                try {
+                    fragment = (Fragment) fragmentClass.newInstance();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                fragmentManager = getSupportFragmentManager();
+                FragmentTransaction transaction = fragmentManager.beginTransaction();
+                fragmentManager.popBackStack();
+                transaction.setCustomAnimations(R.anim.anim_left_slide_in, R.anim.anim_right_slide_out);
+                transaction.replace(R.id.flContent, fragment).commit();
+                setBackText("Editar Perfil");
+                setTitle("Zona");
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void setTitle(String text)
+    {
+        title_tv.setText(text);
+    }
+
+    public void setBackText(String text)
+    {
+        back_tv.setText(text);
+    }
+
+    public void hideKeyboard()
+    {
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
     }
 }

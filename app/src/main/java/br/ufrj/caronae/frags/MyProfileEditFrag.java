@@ -400,6 +400,7 @@ public class MyProfileEditFrag extends Fragment {
     public void locationEt() {
         Intent intent = new Intent(getActivity(), PlaceAct.class);
         startActivity(intent);
+        getActivity().overridePendingTransition(R.anim.anim_right_slide_in, R.anim.anim_left_slide_out);
     }
 
     public void showOtherNeighborhoodDialog() {

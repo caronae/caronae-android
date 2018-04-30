@@ -36,13 +36,19 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 
+import br.ufrj.caronae.models.Campi;
 import br.ufrj.caronae.models.ChatAssets;
+import br.ufrj.caronae.models.Institution;
 import br.ufrj.caronae.models.Ride;
+import br.ufrj.caronae.models.Zone;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
 import retrofit2.Response;
 
 
 public class Util {
+    public static List<Zone> zones;
+    public static List<Campi> campi;
+    public static Institution institution;
 
     public static void expandOrCollapse(final View v, boolean expand) {
         TranslateAnimation anim;
