@@ -107,21 +107,27 @@ public class RideOfferFrag extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    {
         View view = inflater.inflate(R.layout.fragment_ride_offer, container, false);
         ButterKnife.bind(this, view);
+
         Bundle bundle = getArguments();
         going = bundle.getBoolean("going");
+
         setInitialDate();
-        center_et.setHint(going ? R.string.frag_rideSearch_hintPickCenter : R.string.frag_rideOffer_hintPickHub);
+
         String[] items = new String[6];
-        for (int i = 0; i < items.length; i++)
+        for (int i = 0; i < items.length; i++) {
             items[i] = String.valueOf(i + 1);
+        }
+
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), R.layout.row_spn, items);
         adapter.setDropDownViewResource(R.layout.row_spn_dropdown);
+
         neighborhood_et.setText(R.string.frag_rideoffer_neighborHint);
-        center_et.setText(R.string.frag_ridesearch_campiHint);
+        center_et.setText(going ?R.string.frag_ridesearch_campiHint : R.string.frag_rideOffer_hintPickHub);
+
         String lastRideOffer = going ? SharedPref.getLastRideGoingPref() : SharedPref.getLastRideNotGoingPref();
         if (!lastRideOffer.equals(SharedPref.MISSING_PREF)) {
             loadLastRide(lastRideOffer);
@@ -129,6 +135,7 @@ public class RideOfferFrag extends Fragment {
         if(going) {
             checkCarOwnerDialog();
         }
+
         return view;
     }
 
@@ -337,10 +344,16 @@ public class RideOfferFrag extends Fragment {
         Activity activity = getActivity();
         CustomDateTimePicker cdtp;
         if(going) {
-            cdtp = new CustomDateTimePicker(activity, getResources().getString(R.string.go_rb), time, this);
+            if(SharedPref.getGoingLabel() == null)
+                cdtp = new CustomDateTimePicker(activity, getResources().getString(R.string.go_rb), time, this, "Offer");
+            else
+                cdtp = new CustomDateTimePicker(activity, SharedPref.getGoingLabel(), time, this, "Offer");
         }else
         {
-            cdtp = new CustomDateTimePicker(activity, getResources().getString(R.string.back_rb), time, this);
+            if(SharedPref.getLeavingLabel() == null)
+                cdtp = new CustomDateTimePicker(activity, getResources().getString(R.string.back_rb), time, this, "Offer");
+            else
+                cdtp = new CustomDateTimePicker(activity, SharedPref.getLeavingLabel(), time, this, "Offer");
         }
         Window window = cdtp.getWindow();
         WindowManager.LayoutParams wlp = window.getAttributes();

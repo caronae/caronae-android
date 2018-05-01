@@ -58,8 +58,14 @@ import br.ufrj.caronae.frags.RideFilterFrag;
 import br.ufrj.caronae.frags.RideSearchFrag;
 import br.ufrj.caronae.frags.RidesHistoryFrag;
 import br.ufrj.caronae.frags.TabbedRideOfferFrag;
+import br.ufrj.caronae.httpapis.CaronaeAPI;
+import br.ufrj.caronae.models.Institution;
 import br.ufrj.caronae.models.User;
+import br.ufrj.caronae.models.modelsforjson.PlacesForJson;
 import br.ufrj.caronae.models.modelsforjson.RideFiltersForJson;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static br.ufrj.caronae.acts.StartAct.MSG_TYPE_ALERT;
 import static br.ufrj.caronae.acts.StartAct.MSG_TYPE_ALERT_HEADER;
@@ -111,6 +117,27 @@ public class MainAct extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        CaronaeAPI.service(getApplicationContext()).getPlaces()
+            .enqueue(new Callback<PlacesForJson>() {
+                @Override
+                public void onResponse(Call<PlacesForJson> call, Response<PlacesForJson> response) {
+                    if (response.isSuccessful()) {
+                        PlacesForJson places = response.body();
+                        Institution institution = places.getInstitutions();
+                        SharedPref.setInstitution(institution.getName());
+                        SharedPref.setGoingLabel(institution.getGoing_label());
+                        SharedPref.setLeavingLabel(institution.getLeaving_label());
+                    }
+                    else {
+                        Log.e("REQUEST FAILED: ", "NO CONNECTION");
+                    }
+                }
+                @Override
+                public void onFailure(Call<PlacesForJson> call, Throwable t) {
+                    Log.e("ERROR: ", t.getMessage());
+                }
+            });
 
         if(App.isUserLoggedIn())
         {
@@ -183,6 +210,7 @@ public class MainAct extends AppCompatActivity {
         }
 
         backstack = new ArrayList<>();
+
     }
 
     @Override

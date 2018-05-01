@@ -20,8 +20,6 @@ import butterknife.ButterKnife;
 
 public class MyRidesFrag extends Fragment {
 
-    @BindView(R.id.sliding_tabs)
-    TabLayout tabLayout;
     @BindView(R.id.viewpager)
     ViewPager viewPager;
 
@@ -43,13 +41,11 @@ public class MyRidesFrag extends Fragment {
         MainAct.showMainItems();
 
         viewPager.setAdapter(new RideDirectionFragmentPagerAdapter(getChildFragmentManager(), MyRidesListFrag.class, getResources().getStringArray(R.array.tab_tags)));
-
-        tabLayout.setupWithViewPager(viewPager);
-        configureTabIndicators();
+        //configureTabIndicators();
         return view;
     }
 
-    private void configureTabIndicators() {
+  /*  private void configureTabIndicators() {
         View tab = ((ViewGroup) tabLayout.getChildAt(0)).getChildAt(0);
         ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) tab.getLayoutParams();
         p.setMargins(25, 0, 25, 0);
@@ -59,7 +55,7 @@ public class MyRidesFrag extends Fragment {
         p = (ViewGroup.MarginLayoutParams) tab.getLayoutParams();
         p.setMargins(25, 0, 25, 0);
         tab.requestLayout();
-    }
+    }*/
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {

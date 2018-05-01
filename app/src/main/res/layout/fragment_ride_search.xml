@@ -12,82 +12,103 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp">
 
-        <RadioGroup
-            android:id="@+id/radioGroup"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <LinearLayout
+            android:id="@+id/tabs"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:weightSum="2"
+            android:layout_margin="25dp"
             android:layout_centerHorizontal="true"
-            android:focusableInTouchMode="true"
+            android:background="@color/default_white_transparency"
             android:orientation="horizontal">
 
-            <RadioButton
-                android:id="@+id/go_rb"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checked="true"
-                android:text="@string/go_rb" />
+            <RelativeLayout
+                android:id="@+id/tab1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="@drawable/tab_left"
+                android:layout_marginRight="-2dp"
+                android:layout_marginEnd="-2dp">
 
-            <RadioButton
-                android:id="@+id/back_rb"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/back_rb" />
-        </RadioGroup>
+                <TextView
+                    android:id="@+id/tab1_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textSize="12sp"
+                    android:maxLines="1"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:text="@string/go_rb"/>
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/tab2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:focusable="true"
+                android:layout_marginLeft="-2dp"
+                android:layout_marginStart="-2dp"
+                android:background="@drawable/tab_right">
+                <TextView
+                    android:id="@+id/tab2_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textSize="12sp"
+                    android:maxLines="1"
+                    android:gravity="center"
+                    android:text="@string/back_rb"
+                    android:textColor="@color/dark_gray"/>
+
+            </RelativeLayout>
+        </LinearLayout>
 
         <EditText
-            android:id="@+id/location_et"
+            android:id="@+id/center_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/radioGroup"
+            android:layout_below="@+id/tabs"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="5dp"
             android:layout_marginStart="5dp"
             android:drawableLeft="@drawable/ic_location_on_24dp"
             android:drawablePadding="5dp"
             android:drawableStart="@drawable/ic_location_on_24dp"
             android:focusable="false"
-            android:hint="@string/frag_ridesearch_locationHint" />
+            android:text="@string/frag_ridefilter_centerHint"/>
 
         <EditText
-            android:id="@+id/date_et"
-            android:inputType="date"
+            android:id="@+id/location_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/location_et"
+            android:layout_below="@+id/center_et"
             android:layout_marginLeft="5dp"
             android:layout_marginStart="5dp"
-            android:drawableLeft="@drawable/ic_calendar_24dp"
+            android:drawableLeft="@drawable/ic_location_on_24dp"
             android:drawablePadding="5dp"
-            android:drawableStart="@drawable/ic_calendar_24dp"
+            android:drawableStart="@drawable/ic_location_on_24dp"
             android:focusable="false"
-            android:hint="@string/frag_ridesearch_dateHint" />
+            android:text="@string/frag_ridefilter_locationHint"/>
 
         <EditText
             android:id="@+id/time_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/date_et"
+            android:layout_below="@+id/location_et"
             android:layout_centerVertical="true"
             android:layout_marginLeft="5dp"
             android:layout_marginStart="5dp"
-            android:drawableLeft="@drawable/ic_access_time_24dp"
+            android:textAlignment="viewEnd"
+            android:gravity="end"
+            android:textColor="@color/dark_gray"
+            android:text="sexta-feira, 01/05/2018 07:00"
+            android:drawableLeft="@drawable/ics_date_and_time"
             android:drawablePadding="5dp"
-            android:drawableStart="@drawable/ic_access_time_24dp"
-            android:focusable="false"
-            android:hint="@string/frag_ridesearch_timeHint" />
-
-        <EditText
-            android:id="@+id/center_et"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/time_et"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="5dp"
-            android:layout_marginStart="5dp"
-            android:drawableLeft="@drawable/ic_business_black_24dp"
-            android:drawablePadding="5dp"
-            android:drawableStart="@drawable/ic_business_black_24dp"
-            android:focusable="false"
-            android:hint="@string/frag_ridesearch_centerHint" />
+            android:drawableStart="@drawable/ics_date_and_time"
+            android:focusable="false"/>
 
         <Button
             android:id="@+id/search_bt"
@@ -95,7 +116,7 @@
             android:layout_width="96dp"
             android:layout_height="38dp"
             android:layout_marginTop="20dp"
-            android:layout_below="@+id/center_et"
+            android:layout_below="@+id/time_et"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             android:background="@drawable/btn_color"
@@ -121,16 +142,5 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/anotherSearch_bt"
         android:layout_margin="8dp" />
-
-    <!--<android.support.design.widget.FloatingActionButton-->
-        <!--android:id="@+id/fab"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_alignParentBottom="true"-->
-        <!--android:layout_alignParentEnd="true"-->
-        <!--android:layout_alignParentRight="true"-->
-        <!--android:layout_margin="16dp"-->
-        <!--android:src="@drawable/ic_add_white_24dp"-->
-        <!--app:backgroundTint="@color/fab_red" />-->
 
 </RelativeLayout>

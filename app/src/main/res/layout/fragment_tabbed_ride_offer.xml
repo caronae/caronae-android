@@ -2,24 +2,62 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-    <!--<android.support.design.widget.TabLayout-->
-        <!--android:id="@+id/sliding_tabs"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content" />-->
 
-    <android.support.design.widget.TabLayout
-        android:id="@+id/sliding_tabs"
+    <LinearLayout
+        android:id="@+id/tabs"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/tab_indicator_height"
-        android:layout_alignParentTop="true"
-        android:paddingBottom="@dimen/tab_indicator_padding_botton"
-        android:paddingTop="8dp"
-        app:tabTextAppearance="@style/TabLayoutTextAppearance"
-        app:tabBackground="@drawable/tab_background_selector"
-        app:tabIndicatorHeight="0dp" />
+        android:layout_height="30dp"
+        android:weightSum="2"
+        android:layout_margin="25dp"
+        android:layout_centerHorizontal="true"
+        android:background="@color/default_white_transparency"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:id="@+id/tab1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="@drawable/tab_left"
+            android:layout_marginRight="-2dp"
+            android:layout_marginEnd="-2dp">
+
+            <TextView
+                android:id="@+id/tab1_tv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textSize="12sp"
+                android:maxLines="1"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:text="@string/go_rb"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/tab2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_marginLeft="-2dp"
+            android:layout_marginStart="-2dp"
+            android:background="@drawable/tab_right">
+            <TextView
+                android:id="@+id/tab2_tv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textSize="12sp"
+                android:maxLines="1"
+                android:gravity="center"
+                android:text="@string/back_rb"
+                android:textColor="@color/dark_gray"/>
+
+        </RelativeLayout>
+    </LinearLayout>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewpager"
@@ -29,7 +67,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_below="@+id/sliding_tabs"
+        android:layout_below="@+id/tabs"
         android:background="@android:color/white" />
 
 

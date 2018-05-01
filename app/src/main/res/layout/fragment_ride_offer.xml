@@ -18,6 +18,7 @@
             android:id="@+id/neighborhood_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/tabs"
             android:drawableLeft="@drawable/ic_location_on_24dp"
             android:drawablePadding="5dp"
             android:drawableStart="@drawable/ic_location_on_24dp"

@@ -19,6 +19,7 @@ import java.util.ArrayList;
 
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.SharedPref;
+import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.adapters.AllRidesFragmentPagerAdapter;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
@@ -51,6 +52,15 @@ public class AllRidesFrag extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_all_rides, container, false);
         ButterKnife.bind(this, view);
+
+        if(SharedPref.getGoingLabel() != null)
+        {
+            isGoing_tv.setText(SharedPref.getGoingLabel());
+        }
+        if(SharedPref.getLeavingLabel() != null)
+        {
+            isLeaving_tv.setText(SharedPref.getLeavingLabel());
+        }
 
         View v = getActivity().getCurrentFocus();
         if (v != null) {

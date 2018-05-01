@@ -3,6 +3,7 @@ package br.ufrj.caronae;
 import android.app.Activity;
 import android.app.Dialog;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.View;
 import android.view.Window;
 import android.widget.NumberPicker;
@@ -15,23 +16,25 @@ import java.util.Date;
 import java.util.Locale;
 
 import br.ufrj.caronae.frags.RideOfferFrag;
+import br.ufrj.caronae.frags.RideSearchFrag;
 
 public class CustomDateTimePicker extends Dialog implements View.OnClickListener {
 
     private TextView title_tv, positive_bt, negative_bt;
     private NumberPicker dayTime_np, hour_np, minute_np;
-    private String title, time;
+    private String title, time, type;
     private String[] hours, minutes, dateTime;
     private Calendar calendar;
     private Date today;
     private SimpleDateFormat dateFormat, dateUS, dateBR;
-    private RideOfferFrag fragment;
+    private Fragment fragment;
 
-    public CustomDateTimePicker(Activity activity, String title, String time, RideOfferFrag fragment) {
+    public CustomDateTimePicker(Activity activity, String title, String time, Fragment fragment, String type) {
         super(activity);
         this.title = title;
         this.time = time;
         this.fragment = fragment;
+        this.type = type;
     }
 
     @Override
@@ -87,9 +90,20 @@ public class CustomDateTimePicker extends Dialog implements View.OnClickListener
                 calendar.add(Calendar.DAY_OF_YEAR, d - 360);
                 Date thatDate = calendar.getTime();
                 String date_txt = dateBR.format(thatDate);
-                final String result = date_txt + " " + hours[h] + ":" + minutes[m];
-                fragment.time = result;
-                fragment.time_et.setText(result);
+                String result = date_txt + " " + hours[h] + ":" + minutes[m];
+                if(type.equals("Offer"))
+                {
+                    RideOfferFrag frag = (RideOfferFrag)fragment;
+                    frag.time = result;
+                    frag.time_et.setText(result);
+                }
+                else
+                {
+                    RideSearchFrag frag = (RideSearchFrag) fragment;
+                    frag.time = result;
+                    result = Util.getWeekDayFromBRDate(date_txt) + ", " + result;
+                    frag.time_et.setText(result);
+                }
                 dismiss();
                 break;
 

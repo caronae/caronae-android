@@ -20,6 +20,9 @@ import br.ufrj.caronae.models.modelsforjson.RideForJson;
 
 public class SharedPref {
 
+    private static final String INSTITUTION_KEY                      = "institution";
+    private static final String GOING_LABEL_KEY                      = "goingLabel";
+    private static final String LEAVING_LABEL_KEY                    = "leavingLabel";
     private static final String  IS_GOING_PREF_KEY                   = "going";
     private static final String USER_PREF_KEY                        = "user";
     private static final String LAST_RIDE_OFFER_GOING_PREF_KEY       = "lastRideOfferGoing";
@@ -41,7 +44,7 @@ public class SharedPref {
     public static String FRAGMENT_INDICATOR                          = "";
     private static final String USER_PIC_SAVED_KEY                   = "SavedImage";
     public static boolean OPEN_MY_RIDES                              = false;
-    public static List<RideForJson> MY_RIDES                       = null;
+    public static List<RideForJson> MY_RIDES                         = null;
     public static boolean OPEN_ALL_RIDES                             = false;
     public static ArrayList<RideForJson> ALL_RIDES_GOING             = null;
     public static ArrayList<RideForJson> ALL_RIDES_LEAVING           = null;
@@ -190,6 +193,9 @@ public class SharedPref {
         removePref(USER_PIC_SAVED_KEY);
         removePref(RM_RIDE_LIST);
         removePref(IS_GOING_PREF_KEY);
+        removePref(INSTITUTION_KEY);
+        removePref(GOING_LABEL_KEY);
+        removePref(LEAVING_LABEL_KEY);
         NAV_INDICATOR = "AllRides";
     }
 
@@ -209,6 +215,45 @@ public class SharedPref {
     public static void setRidesOffered(String ridesOffered)
     {
         putPref(RIDESOFFERED_PREF_KEY, ridesOffered);
+    }
+
+    public static void setInstitution(String institution)
+    {
+        putPref(INSTITUTION_KEY, institution);
+    }
+
+    public static void setGoingLabel(String goingLabel)
+    {
+        putPref(GOING_LABEL_KEY, goingLabel);
+    }
+
+    public static void setLeavingLabel(String leavingLabel)
+    {
+        putPref(LEAVING_LABEL_KEY, leavingLabel);
+    }
+
+    public static String getInstitution()
+    {
+        if(getSharedPreferences().contains(INSTITUTION_KEY))
+            return getPref(INSTITUTION_KEY);
+        else
+            return null;
+    }
+
+    public static String getGoingLabel()
+    {
+        if(getSharedPreferences().contains(GOING_LABEL_KEY))
+            return getPref(GOING_LABEL_KEY);
+        else
+            return null;
+    }
+
+    public static String getLeavingLabel()
+    {
+        if(getSharedPreferences().contains(LEAVING_LABEL_KEY))
+            return getPref(LEAVING_LABEL_KEY);
+        else
+            return null;
     }
 
     public static String getRidesTaken()

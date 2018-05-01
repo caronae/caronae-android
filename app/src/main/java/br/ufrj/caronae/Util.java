@@ -372,27 +372,18 @@ public class Util {
         return date.substring(8, 10) + "/" + date.substring(5, 7);
     }
 
-    // Input Date Format: "YYYY-MM-DD"
-    public static String getWeekDayFromDate(String dateString) {
+    public static String getWeekDayFromBRDate(String dateString) {
         int dayOfWeekInt = -1;
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        try {
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        try
+        {
             Calendar c = Calendar.getInstance();
-            Date today = c.getTime();
-            c.add(Calendar.DAY_OF_YEAR, 1);
-            Date tomorrow = c.getTime();
-            String currentDate = format.format(today);
-            String tomorrowString = format.format(tomorrow);
-            if (currentDate.equals(dateString)) {
-                return "Hoje";
-            }
-            if (tomorrowString.equals(dateString)) {
-                return "Amanhã";
-            }
             Date date = format.parse(dateString);
             c.setTime(date);
             dayOfWeekInt = c.get(Calendar.DAY_OF_WEEK);
-        } catch (ParseException e) {
+        }
+        catch (ParseException e)
+        {
             e.printStackTrace();
         }
 
@@ -400,25 +391,25 @@ public class Util {
 
         switch (dayOfWeekInt) {
             case 1:
-                dayOfWeek = "Domingo";
+                dayOfWeek = "domingo";
                 break;
             case 2:
-                dayOfWeek = "Segunda-Feira";
+                dayOfWeek = "segunda-feira";
                 break;
             case 3:
-                dayOfWeek = "Terça-Feira";
+                dayOfWeek = "terça-feira";
                 break;
             case 4:
-                dayOfWeek = "Quarta-Feira";
+                dayOfWeek = "quarta-feira";
                 break;
             case 5:
-                dayOfWeek = "Quinta-Feira";
+                dayOfWeek = "quinta-feira";
                 break;
             case 6:
-                dayOfWeek = "Sexta-Feira";
+                dayOfWeek = "sexta-feira";
                 break;
             case 7:
-                dayOfWeek = "Sábado";
+                dayOfWeek = "sábado";
                 break;
         }
         return dayOfWeek;
@@ -471,10 +462,6 @@ public class Util {
 
     public static String fixBlankSpaces(String word) {
         return word.replace(" ", "").trim();
-    }
-
-    public static int convertDpToPixel(int dp) {
-        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, App.getInst().getResources().getDisplayMetrics());
     }
 
     public static String getHeaderForHttp(Context context) {
@@ -570,33 +557,6 @@ public class Util {
             }
         }
 
-    }
-
-    public static Bitmap getCircularBitmapWithWhiteBorder(Bitmap bitmap,
-                                                          int borderWidth,
-                                                          int borderColor) {
-        if (bitmap == null || bitmap.isRecycled()) {
-            return null;
-        }
-
-        final int width = bitmap.getWidth() + borderWidth;
-        final int height = bitmap.getHeight() + borderWidth;
-
-        Bitmap canvasBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        BitmapShader shader = new BitmapShader(bitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
-        Paint paint = new Paint();
-        paint.setAntiAlias(true);
-        paint.setShader(shader);
-
-        Canvas canvas = new Canvas(canvasBitmap);
-        float radius = width > height ? ((float) height) / 2f : ((float) width) / 2f;
-        canvas.drawCircle(width / 2, height / 2, radius, paint);
-        paint.setShader(null);
-        paint.setStyle(Paint.Style.STROKE);
-        paint.setColor(borderColor);
-        paint.setStrokeWidth(borderWidth);
-        canvas.drawCircle(width / 2, height / 2, radius - borderWidth / 2, paint);
-        return canvasBitmap;
     }
 
     static public int getBgResByZone(String zone) {
