@@ -16,6 +16,7 @@ import java.util.List;
 
 import br.ufrj.caronae.CustomPlaceBar;
 import br.ufrj.caronae.R;
+import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.models.Zone;
 import butterknife.BindView;
@@ -25,8 +26,6 @@ public class NeighborhoodsFrag extends Fragment {
 
     @BindView(R.id.main_layout)
     LinearLayout mainLayout;
-    @BindView(R.id.loading_tv)
-    TextView loading_tv;
     @BindView(R.id.others)
     EditText otherOption;
 
@@ -40,7 +39,7 @@ public class NeighborhoodsFrag extends Fragment {
         ButterKnife.bind(this, view);
         String zoneName = getArguments().getString("zone");
         Activity activity = getActivity();
-        List<Zone> zones = Util.zones;
+        List<Zone> zones = SharedPref.getPlace().getZones();
         Zone selectedZone = null;
         if(zones != null && zones.size() != 0) {
             for(int i = 0; i < zones.size(); i++)
@@ -64,8 +63,6 @@ public class NeighborhoodsFrag extends Fragment {
                 otherOption.requestFocus();
                 showKeyboard(getContext());
             }
-
-            loading_tv.setVisibility(View.GONE);
         }
         return view;
     }

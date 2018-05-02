@@ -46,9 +46,6 @@ import retrofit2.Response;
 
 
 public class Util {
-    public static List<Zone> zones;
-    public static List<Campi> campi;
-    public static Institution institution;
 
     public static void expandOrCollapse(final View v, boolean expand) {
         TranslateAnimation anim;

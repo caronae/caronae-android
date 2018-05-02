@@ -59,7 +59,6 @@ import br.ufrj.caronae.frags.RideSearchFrag;
 import br.ufrj.caronae.frags.RidesHistoryFrag;
 import br.ufrj.caronae.frags.TabbedRideOfferFrag;
 import br.ufrj.caronae.httpapis.CaronaeAPI;
-import br.ufrj.caronae.models.Institution;
 import br.ufrj.caronae.models.User;
 import br.ufrj.caronae.models.modelsforjson.PlacesForJson;
 import br.ufrj.caronae.models.modelsforjson.RideFiltersForJson;
@@ -119,25 +118,19 @@ public class MainAct extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         CaronaeAPI.service(getApplicationContext()).getPlaces()
-            .enqueue(new Callback<PlacesForJson>() {
-                @Override
-                public void onResponse(Call<PlacesForJson> call, Response<PlacesForJson> response) {
-                    if (response.isSuccessful()) {
-                        PlacesForJson places = response.body();
-                        Institution institution = places.getInstitutions();
-                        SharedPref.setInstitution(institution.getName());
-                        SharedPref.setGoingLabel(institution.getGoing_label());
-                        SharedPref.setLeavingLabel(institution.getLeaving_label());
-                    }
-                    else {
-                        Log.e("REQUEST FAILED: ", "NO CONNECTION");
-                    }
+        .enqueue(new Callback<PlacesForJson>() {
+            @Override
+            public void onResponse(Call<PlacesForJson> call, Response<PlacesForJson> response) {
+                if (response.isSuccessful()) {
+                    PlacesForJson places = response.body();
+                    SharedPref.setPlace(places);
                 }
-                @Override
-                public void onFailure(Call<PlacesForJson> call, Throwable t) {
-                    Log.e("ERROR: ", t.getMessage());
-                }
-            });
+            }
+            @Override
+            public void onFailure(Call<PlacesForJson> call, Throwable t) {
+                Log.e("ERROR: ", t.getMessage());
+            }
+        });
 
         if(App.isUserLoggedIn())
         {

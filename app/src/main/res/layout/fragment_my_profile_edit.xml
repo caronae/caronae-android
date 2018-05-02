@@ -249,7 +249,8 @@
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/carOwner_tv"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true" />
+            android:layout_alignParentRight="true"
+            android:theme="@style/WidgetSC"/>
 
         <RelativeLayout
             android:id="@+id/car_lay"

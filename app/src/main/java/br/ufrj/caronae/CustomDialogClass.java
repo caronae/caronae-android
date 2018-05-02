@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import br.ufrj.caronae.acts.MyProfileAct;
+import br.ufrj.caronae.acts.PlaceAct;
 import br.ufrj.caronae.acts.RideOfferAct;
 import br.ufrj.caronae.frags.MyProfileShowFrag;
 
@@ -53,6 +54,11 @@ public class CustomDialogClass extends Dialog implements android.view.View.OnCli
         {
             case R.id.positive_bt:
                 dismiss();
+                if(currentFrag.equals("PlaceAct"))
+                {
+                    PlaceAct act = (PlaceAct) activity;
+                    act.actReturn();
+                }
                 break;
 
             case R.id.negative_bt:

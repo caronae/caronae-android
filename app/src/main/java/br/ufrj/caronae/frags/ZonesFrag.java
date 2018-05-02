@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -17,9 +16,11 @@ import java.util.List;
 
 import br.ufrj.caronae.CustomPlaceBar;
 import br.ufrj.caronae.R;
+import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.PlaceAct;
 import br.ufrj.caronae.models.Zone;
+import br.ufrj.caronae.models.modelsforjson.PlacesForJson;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -27,8 +28,7 @@ public class ZonesFrag extends Fragment {
 
     @BindView(R.id.main_layout)
     LinearLayout mainLayout;
-    @BindView(R.id.loading_tv)
-    TextView loading_tv;
+
     Activity activity;
 
     public ZonesFrag() {
@@ -40,8 +40,11 @@ public class ZonesFrag extends Fragment {
         View view = inflater.inflate(R.layout.fragment_places, container, false);
         ButterKnife.bind(this, view);
         activity = getActivity();
-        List<Zone> zones = Util.zones;
-        if(zones != null && zones.size() != 0) {
+        PlacesForJson places = SharedPref.getPlace();
+        List<Zone> zones = places.getZones();
+
+        if(zones != null && zones.size() != 0)
+        {
             Collections.sort(zones, new Comparator<Zone>() {
                 public int compare(Zone z1, Zone z2) {
                     return z1.getName().compareTo(z2.getName());
@@ -55,7 +58,6 @@ public class ZonesFrag extends Fragment {
             }
             cPB = new CustomPlaceBar(activity, getContext(), fragment, false, "Outra","#919191" );
             mainLayout.addView(cPB);
-            loading_tv.setVisibility(View.GONE);
         }
         return view;
     }
