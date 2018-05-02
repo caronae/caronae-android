@@ -1,7 +1,9 @@
 package br.ufrj.caronae.models;
 
+import java.text.Collator;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 public class Campi
 {
@@ -21,12 +23,14 @@ public class Campi
     }
 
     public List<String> getCenters() {
-        Collections.sort(centers);
+        Collator collator = Collator.getInstance(new Locale("pt"));
+        Collections.sort(centers, collator);
         return centers;
     }
 
     public List<String> getHubs() {
-        Collections.sort(hubs);
+        Collator collator = Collator.getInstance(new Locale("pt"));
+        Collections.sort(hubs, collator);
         return hubs;
     }
 }

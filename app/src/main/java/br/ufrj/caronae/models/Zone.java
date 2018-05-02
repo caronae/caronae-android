@@ -1,7 +1,9 @@
 package br.ufrj.caronae.models;
 
+import java.text.Collator;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 public class Zone
 {
@@ -21,7 +23,8 @@ public class Zone
 
     public List<String> getNeighborhoods()
     {
-	Collections.sort(neighborhoods);
+        Collator collator = Collator.getInstance(new Locale("pt"));
+	    Collections.sort(neighborhoods, collator);
         return neighborhoods;
     }
 }
