@@ -66,6 +66,9 @@ public class ActiveRideAct extends SwipeDismissBaseActivity {
 
     @BindView(R.id.user_pic)
     public ImageView user_pic;
+    @BindView(R.id.share_ride_button)
+    public ImageButton shareBt;
+
     @BindView(R.id.location_tv)
     public TextView location_tv;
     @BindView(R.id.name_tv)
@@ -76,16 +79,10 @@ public class ActiveRideAct extends SwipeDismissBaseActivity {
     public TextView course_tv;
     @BindView(R.id.phoneNumber_tv)
     public TextView phoneNumber_tv;
-    @BindView(R.id.chat_bt)
-    public com.github.clans.fab.FloatingActionButton chat_bt;
-    @BindView(R.id.finish_bt)
-    public Button finish_bt;
     @BindView(R.id.time_tv)
     public TextView time_tv;
     @BindView(R.id.date_tv)
     public TextView date_tv;
-    @BindView(R.id.leave_bt)
-    public Button leave_bt;
     @BindView(R.id.way_tv)
     public TextView way_tv;
     @BindView(R.id.way_text_tv)
@@ -104,12 +101,19 @@ public class ActiveRideAct extends SwipeDismissBaseActivity {
     public TextView description_tv;
     @BindView(R.id.description_text_tv)
     public TextView description_text_tv;
+
+    @BindView(R.id.chat_bt)
+    public com.github.clans.fab.FloatingActionButton chat_bt;
+
+    @BindView(R.id.finish_bt)
+    public Button finish_bt;
+    @BindView(R.id.leave_bt)
+    public Button leave_bt;
+
     @BindView(R.id.lay1)
     public RelativeLayout lay1;
     @BindView(R.id.ridersList)
     public RecyclerView ridersList;
-    @BindView(R.id.share_ride_button)
-    public ImageButton shareBt;
 
     private String rideId2;
 

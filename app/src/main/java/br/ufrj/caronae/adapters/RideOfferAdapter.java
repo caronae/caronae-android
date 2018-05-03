@@ -3,6 +3,7 @@ package br.ufrj.caronae.adapters;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +23,7 @@ import java.util.List;
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.RoundedTransformation;
+import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.ProfileAct;
 import br.ufrj.caronae.acts.RideOfferAct;
@@ -85,8 +87,15 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
             if (mixedList.get(position).getClass().equals(RideForJson.class)) {
                 final RideForJson rideOffer = (RideForJson) mixedList.get(position);
 
-                int color = Util.getColorbyZone(rideOffer.getZone());
+                int color = 0;
 
+                for(int i = 0; i < SharedPref.getPlace().getZones().size(); i++)
+                {
+                    if(rideOffer.getZone().equals(SharedPref.getPlace().getZones().get(i).getName()))
+                    {
+                        color = Color.parseColor(SharedPref.getPlace().getZones().get(i).getColor());
+                    }
+                }
                 viewHolder.location_tv.setTextColor(color);
                 viewHolder.time_tv.setTextColor(color);
                 viewHolder.name_tv.setTextColor(color);

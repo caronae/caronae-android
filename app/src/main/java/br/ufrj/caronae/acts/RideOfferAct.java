@@ -3,6 +3,7 @@ package br.ufrj.caronae.acts;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -10,7 +11,6 @@ import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -94,6 +94,7 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
 
     RideForJson rideWithUsers;
 
+    int zoneColorInt;
     boolean requested;
 
     @Override
@@ -124,49 +125,23 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
 
     private void createChatAssets(RideForJson rideWithUsers) {
 
-        Context context = this.getApplicationContext();
-
-        int color = 0, bgRes = 0;
-        if (rideWithUsers.getZone().equals("Centro")) {
-            color = ContextCompat.getColor(context, R.color.zone_centro);
-            bgRes = R.drawable.bg_bt_raise_zone_centro;
-        }
-        if (rideWithUsers.getZone().equals("Zona Sul")) {
-            color = ContextCompat.getColor(context, R.color.zone_sul);
-            bgRes = R.drawable.bg_bt_raise_zone_sul;
-        }
-        if (rideWithUsers.getZone().equals("Zona Oeste")) {
-            color = ContextCompat.getColor(context, R.color.zone_oeste);
-            bgRes = R.drawable.bg_bt_raise_zone_oeste;
-        }
-        if (rideWithUsers.getZone().equals("Zona Norte")) {
-            color = ContextCompat.getColor(context, R.color.zone_norte);
-            bgRes = R.drawable.bg_bt_raise_zone_norte;
-        }
-        if (rideWithUsers.getZone().equals("Baixada")) {
-            color = ContextCompat.getColor(context, R.color.zone_baixada);
-            bgRes = R.drawable.bg_bt_raise_zone_baixada;
-        }
-        if (rideWithUsers.getZone().equals("Grande Niterói")) {
-            color = ContextCompat.getColor(context, R.color.zone_niteroi);
-            bgRes = R.drawable.bg_bt_raise_zone_niteroi;
-        }
-        if (rideWithUsers.getZone().equals("Outros")) {
-            color = ContextCompat.getColor(context, R.color.zone_outros);
-            bgRes = R.drawable.bg_bt_raise_zone_outros;
-        }
-
         final String location;
         if (rideWithUsers.isGoing())
             location = rideWithUsers.getNeighborhood() + " ➜ " + rideWithUsers.getHub();
         else
             location = rideWithUsers.getHub() + " ➜ " + rideWithUsers.getNeighborhood();
 
-        final int finalColor = color, finalBgRes = bgRes;
+        for(int i = 0; i < SharedPref.getPlace().getZones().size(); i++)
+        {
+            if(rideWithUsers.getZone().equals(SharedPref.getPlace().getZones().get(i).getName()))
+            {
+                zoneColorInt = Color.parseColor(SharedPref.getPlace().getZones().get(i).getColor());
+            }
+        }
 
         List<ChatAssets> l = ChatAssets.find(ChatAssets.class, "ride_id = ?", rideWithUsers.getDbId() + "");
         if (l == null || l.isEmpty())
-            new ChatAssets(rideWithUsers.getDbId() + "", location, finalColor, finalBgRes,
+            new ChatAssets(rideWithUsers.getDbId() + "", location, zoneColorInt, zoneColorInt,
                     Util.formatBadDateWithoutYear(rideWithUsers.getDate()),
                     Util.formatTime(rideWithUsers.getTime())).save();
     }
@@ -286,17 +261,24 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
         CircleImageView photo_iv;
         photo_iv = (CircleImageView)user_pic;
 
-        int color = Util.getColorbyZone(rideWithUsers.getZone());
+        for(int i = 0; i < SharedPref.getPlace().getZones().size(); i++)
+        {
+            if(rideWithUsers.getZone().equals(SharedPref.getPlace().getZones().get(i).getName()))
+            {
+                zoneColorInt = Color.parseColor(SharedPref.getPlace().getZones().get(i).getColor());
+            }
+        }
+
         Drawable background = join_bt.getBackground();
         if (background instanceof ShapeDrawable) {
-            ((ShapeDrawable)background).getPaint().setColor(color);
+            ((ShapeDrawable)background).getPaint().setColor(zoneColorInt);
         } else if (background instanceof GradientDrawable) {
-            ((GradientDrawable)background).setColor(color);
+            ((GradientDrawable)background).setColor(zoneColorInt);
         } else if (background instanceof ColorDrawable) {
-            ((ColorDrawable)background).setColor(color);
+            ((ColorDrawable)background).setColor(zoneColorInt);
         }
-        locationBackground.setBackgroundColor(color);
-        photo_iv.setBorderColor(color);
+        locationBackground.setBackgroundColor(zoneColorInt);
+        photo_iv.setBorderColor(zoneColorInt);
 
         final String location;
         if (rideWithUsers.isGoing())
@@ -360,14 +342,14 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
         else
             dateDescription = getString(R.string.leavingAt, Util.formatTime(rideWithUsers.getTime()));
 
-        dateDescription = dateDescription + " | " + getWeekDayFromDate(rideWithUsers.getDate()) + " | " +Util.formatBadDateWithoutYear(rideWithUsers.getDate());
-        clock.setColorFilter(color, PorterDuff.Mode.SRC_IN);
-        share_ic.setColorFilter(color, PorterDuff.Mode.SRC_IN);
-        share_tv.setTextColor(color);
+        dateDescription = dateDescription + " | " + Util.getWeekDayFromDate(rideWithUsers.getDate()) + " | " +Util.formatBadDateWithoutYear(rideWithUsers.getDate());
+        clock.setColorFilter(zoneColorInt, PorterDuff.Mode.SRC_IN);
+        share_ic.setColorFilter(zoneColorInt, PorterDuff.Mode.SRC_IN);
+        share_tv.setTextColor(zoneColorInt);
         GradientDrawable strokeShare_bt = (GradientDrawable)shareButton.getBackground();
-        strokeShare_bt.setStroke(2, color);
+        strokeShare_bt.setStroke(2, zoneColorInt);
         time_dt.setText(dateDescription);
-        time_dt.setTextColor(color);
+        time_dt.setTextColor(zoneColorInt);
         if (rideWithUsers.getDescription().equals("")) {
             description_dt.setText("- - -");
         } else {
@@ -486,47 +468,6 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
     protected void onStop() {
         super.onStop();
         finish();
-    }
-
-    public static String getWeekDayFromDate(String dateString) {
-        int dayOfWeekInt = -1;
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        try {
-            Calendar c = Calendar.getInstance();
-            c.add(Calendar.DAY_OF_YEAR, 1);
-            Date date = format.parse(dateString);
-            c.setTime(date);
-            dayOfWeekInt = c.get(Calendar.DAY_OF_WEEK);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        String dayOfWeek = "";
-
-        switch (dayOfWeekInt) {
-            case 1:
-                dayOfWeek = "Dom";
-                break;
-            case 2:
-                dayOfWeek = "Seg";
-                break;
-            case 3:
-                dayOfWeek = "Ter";
-                break;
-            case 4:
-                dayOfWeek = "Qua";
-                break;
-            case 5:
-                dayOfWeek = "Qui";
-                break;
-            case 6:
-                dayOfWeek = "Sex";
-                break;
-            case 7:
-                dayOfWeek = "Sáb";
-                break;
-        }
-        return dayOfWeek;
     }
 
     @OnClick(R.id.back_bt)
