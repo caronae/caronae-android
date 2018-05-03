@@ -29,8 +29,6 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
-import com.rey.material.app.DialogFragment;
-import com.rey.material.app.SimpleDialog;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -61,7 +59,6 @@ import retrofit2.Response;
 
 public class RideOfferFrag extends Fragment {
 
-
     @BindView(R.id.tab1)
     RelativeLayout isGoing_bt;
     @BindView(R.id.tab2)
@@ -87,8 +84,6 @@ public class RideOfferFrag extends Fragment {
     EditText way_et;
     @BindView(R.id.center_et)
     EditText center_et;
-    @BindView(R.id.campi_et)
-    EditText campi_et;
     @BindView(R.id.description_et)
     EditText description_et;
 
@@ -169,7 +164,6 @@ public class RideOfferFrag extends Fragment {
             showAlertDialog();
             return false;
         }
-
         return true;
     }
 
@@ -204,6 +198,11 @@ public class RideOfferFrag extends Fragment {
             neighborhood_et.setText(SharedPref.LOCATION_INFO);
             SharedPref.LOCATION_INFO = "";
         }
+        if(!SharedPref.CAMPI_INFO.isEmpty() && !SharedPref.CAMPI_INFO.equals(""))
+        {
+            center_et.setText(SharedPref.CAMPI_INFO);
+            SharedPref.CAMPI_INFO = "";
+        }
         super.onStart();
     }
 
@@ -215,6 +214,11 @@ public class RideOfferFrag extends Fragment {
             neighborhood_et.setText(SharedPref.LOCATION_INFO);
             SharedPref.LOCATION_INFO = "";
         }
+        if(!SharedPref.CAMPI_INFO.isEmpty() && !SharedPref.CAMPI_INFO.equals(""))
+        {
+            center_et.setText(SharedPref.CAMPI_INFO);
+            SharedPref.CAMPI_INFO = "";
+        }
         super.onResume();
     }
 
@@ -223,94 +227,29 @@ public class RideOfferFrag extends Fragment {
         Intent intent = new Intent(getActivity(), PlaceAct.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra("backText", "Criar");
+        intent.putExtra("selection", "neigh");
         intent.putExtra("allP", false);
         intent.putExtra("otherP", true);
         startActivity(intent);
         getActivity().overridePendingTransition(R.anim.anim_right_slide_in, R.anim.anim_left_slide_out);
     }
 
-    @OnClick(R.id.campi_et)
-    public void campiEt() {
-        SimpleDialog.Builder builder = new SimpleDialog.Builder(R.style.SimpleDialogLight) {
-            @Override
-            public void onPositiveActionClicked(DialogFragment fragment) {
-                campi_et.setText(getSelectedValue());
-                if ((campi_et.getText().toString().equals("") || campi_et.getText().toString().equals(Util.getCampi()[2]) && (going))) {
-                } else
-                    center_et.setVisibility(View.VISIBLE);
-                super.onPositiveActionClicked(fragment);
-            }
-
-            @Override
-            public void onNegativeActionClicked(DialogFragment fragment) {
-                super.onNegativeActionClicked(fragment);
-            }
-        };
-
-        builder.items(Util.getCampiWithoutAllCampi(), 0)
-                .title(getContext().getString(R.string.frag_rideOffer_pickCampi))
-                .positiveAction(getContext().getString(R.string.ok))
-                .negativeAction(getContext().getString(R.string.cancel));
-        DialogFragment fragment = DialogFragment.newInstance(builder);
-        fragment.show(getFragmentManager(), null);
-    }
-
     @OnClick(R.id.center_et)
     public void centerEt() {
-
-        SimpleDialog.Builder campiBuilder = new SimpleDialog.Builder(R.style.SimpleDialogLight) {
-            @Override
-            public void onPositiveActionClicked(DialogFragment fragment) {
-                if (getSelectedValue().equals(Util.getCampi()[2]) && (going)) {
-                    center_et.setText(getSelectedValue());
-                } else
-                showCenterListDialog(getSelectedValue().toString());
-                super.onPositiveActionClicked(fragment);
-            }
-
-            @Override
-            public void onNegativeActionClicked(DialogFragment fragment) {
-                super.onNegativeActionClicked(fragment);
-            }
-        };
-
-        campiBuilder.items(Util.getCampiWithoutAllCampi(), 0)
-                .title(getContext().getString(R.string.frag_rideOffer_pickCampi))
-                .positiveAction(getContext().getString(R.string.ok))
-                .negativeAction(getContext().getString(R.string.cancel));
-        DialogFragment fragmentCampi = DialogFragment.newInstance(campiBuilder);
-        fragmentCampi.show(getFragmentManager(), null);
-    }
-
-    public void showCenterListDialog(String campus) {
-        SimpleDialog.Builder builder = new SimpleDialog.Builder(R.style.SimpleDialogLight) {
-            @Override
-            public void onPositiveActionClicked(DialogFragment fragment) {
-                center_et.setText(getSelectedValue());
-                super.onPositiveActionClicked(fragment);
-            }
-
-            @Override
-            public void onNegativeActionClicked(DialogFragment fragment) {
-                super.onNegativeActionClicked(fragment);
-            }
-        };
-
-        if (going) {
-            builder.items(Util.getCentersWithoutAllCenters(), 0)
-                    .title(getContext().getString(R.string.frag_rideOffer_pickCenter))
-                    .positiveAction(getContext().getString(R.string.ok))
-                    .negativeAction(getContext().getString(R.string.cancel));
-            DialogFragment fragment = DialogFragment.newInstance(builder);
-            fragment.show(getFragmentManager(), null);
-        } else {
-            builder.items(Util.getHubsByCampi(campus), 0)
-                    .title(getContext().getString(R.string.frag_rideOffer_pickHub))
-                    .positiveAction(getContext().getString(R.string.ok))
-                    .negativeAction(getContext().getString(R.string.cancel));
-            DialogFragment fragment = DialogFragment.newInstance(builder);
-            fragment.show(getFragmentManager(), null);
+        Intent intent = new Intent(getActivity(), PlaceAct.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra("backText", "Criar");
+        if(going) {
+            intent.putExtra("selection", "center");
         }
+        else
+        {
+            intent.putExtra("selection", "hub");
+        }
+        intent.putExtra("allP", false);
+        intent.putExtra("otherP", false);
+        startActivity(intent);
+        getActivity().overridePendingTransition(R.anim.anim_right_slide_in, R.anim.anim_left_slide_out);
     }
 
     @OnClick(R.id.time_et)
@@ -452,10 +391,7 @@ public class RideOfferFrag extends Fragment {
             repeatsUntil = simpleDateFormat.format(c.getTime());
         }
 
-        String campus = campi_et.getText().toString();
-
-        final Ride ride = new Ride(zone, neighborhood, place, way, etDateString, time, "", hub, campus, description, going, routine, weekDays, repeatsUntil);
-
+        final Ride ride = new Ride(zone, neighborhood, place, way, etDateString, time, "", hub, "", description, going, routine, weekDays, repeatsUntil);
 
         checkAndCreateRide(ride);
 

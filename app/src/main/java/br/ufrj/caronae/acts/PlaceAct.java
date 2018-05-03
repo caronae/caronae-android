@@ -17,6 +17,7 @@ import br.ufrj.caronae.CustomDialogClass;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.Util;
+import br.ufrj.caronae.frags.CampiFrag;
 import br.ufrj.caronae.frags.ZonesFrag;
 import br.ufrj.caronae.httpapis.CaronaeAPI;
 import br.ufrj.caronae.models.modelsforjson.PlacesForJson;
@@ -31,12 +32,14 @@ public class PlaceAct extends AppCompatActivity {
     RelativeLayout progressBar, ok_bt, othersLay;
     EditText otherOption;
     String backText;
+    public String fragType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_place);
         Activity a = this;
+        fragType = "";
         back_bt = (RelativeLayout)findViewById(R.id.back_bt);
         back_tv = (TextView) findViewById(R.id.activity_back);
         title_tv = (TextView) findViewById(R.id.header_text);
@@ -46,7 +49,12 @@ public class PlaceAct extends AppCompatActivity {
         otherOption = (EditText) findViewById(R.id.others);
         try {
             backText = getIntent().getExtras().getString("backText");
+            fragType = getIntent().getExtras().getString("selection");
         }catch (Exception e){}
+        if(fragType.equals("center") || fragType.equals("hub"))
+        {
+            setTitle("Campus");
+        }
         back_tv.setText(backText);
         back_bt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,7 +81,13 @@ public class PlaceAct extends AppCompatActivity {
                                 if (response.isSuccessful()) {
                                     SharedPref.setPlace(response.body());
                                     progressBar.setVisibility(View.GONE);
-                                    goToZone();
+                                    if(fragType.equals("center"))
+                                    {
+                                        goToCampi();
+                                    }
+                                    else {
+                                        goToZone();
+                                    }
                                 } else {
                                     progressBar.setVisibility(View.GONE);
                                     CustomDialogClass cdc = new CustomDialogClass(a, "PlaceAct", null);
@@ -111,7 +125,12 @@ public class PlaceAct extends AppCompatActivity {
         else
         {
             progressBar.setVisibility(View.GONE);
-            goToZone();
+            if(fragType.equals("center") || fragType.equals("hub")) {
+                goToCampi();
+            }
+            else {
+                goToZone();
+            }
         }
     }
 
@@ -121,6 +140,15 @@ public class PlaceAct extends AppCompatActivity {
         fragment = new ZonesFrag();
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+    }
+
+    public void goToCampi()
+    {
+        Fragment fragment;
+        fragment = new CampiFrag();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+        setTitle("Campus");
     }
 
     public void backToZone()
@@ -143,6 +171,26 @@ public class PlaceAct extends AppCompatActivity {
         setTitle("Zona");
     }
 
+    public void backToCampi()
+    {
+        Fragment fragment = null;
+        FragmentManager fragmentManager;
+        Class fragmentClass;
+        fragmentClass = CampiFrag.class;
+        try {
+            fragment = (Fragment) fragmentClass.newInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        fragmentManager.popBackStack();
+        transaction.setCustomAnimations(R.anim.anim_left_slide_in, R.anim.anim_right_slide_out);
+        transaction.replace(R.id.flContent, fragment).commit();
+        setBackText(backText);
+        setTitle("Campus");
+    }
+
     public void changeFrag(String title)
     {
         if(title.equals(backText))
@@ -154,6 +202,11 @@ public class PlaceAct extends AppCompatActivity {
         else if(title.equals("Zona")) {
             hideKeyboard();
             backToZone();
+        }
+        else if(title.equals("Campus"))
+        {
+            hideKeyboard();
+            backToCampi();
         }
     }
 
@@ -188,6 +241,11 @@ public class PlaceAct extends AppCompatActivity {
         {
             hideKeyboard();
             backToZone();
+        }
+        else if(back_tv.getText().toString().equals("Campus"))
+        {
+            hideKeyboard();
+            backToCampi();
         }
         overridePendingTransition(R.anim.anim_left_slide_in, R.anim.anim_right_slide_out);
     }

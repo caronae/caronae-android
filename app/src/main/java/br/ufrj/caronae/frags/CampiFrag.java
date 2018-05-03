@@ -41,7 +41,7 @@ public class CampiFrag extends Fragment {
         activity = getActivity();
         PlacesForJson places = SharedPref.getPlace();
         List<Campi> campi = places.getCampi();
-
+        String selection = ((PlaceAct) activity).fragType;
         if(campi != null && campi.size() != 0)
         {
             Collections.sort(campi, new Comparator<Campi>() {
@@ -52,26 +52,25 @@ public class CampiFrag extends Fragment {
             CustomPlaceBar cPB;
             Fragment fragment = (Fragment) this;
             for (int i = 0; i < campi.size(); i++) {
-                cPB = new CustomPlaceBar(activity, getContext(), fragment, false, campi.get(i).getName(), campi.get(i).getColor(), "campi");
+                cPB = new CustomPlaceBar(activity, getContext(), fragment, false, campi.get(i).getName(), campi.get(i).getColor(), selection);
                 mainLayout.addView(cPB);
             }
-            cPB = new CustomPlaceBar(activity, getContext(), fragment, false, "Outra","#919191", "campi" );
-            mainLayout.addView(cPB);
         }
         return view;
     }
 
-    public void changeToCenters(String campi)
+    public void changeToCentersHubs(String campi)
     {
         PlaceAct act = (PlaceAct)activity;
-        act.setBackText("Centros");
+        act.setBackText("Campus");
         act.hideKeyboard();
+        act.setTitle(campi);
         Fragment fragment = null;
         FragmentManager fragmentManager;
         Class fragmentClass;
         Bundle bundle = new Bundle();
         bundle.putString("campi", campi);
-        fragmentClass = NeighborhoodsFrag.class;
+        fragmentClass = CentersHubsFrag.class;
         try {
             fragment = (Fragment) fragmentClass.newInstance();
         } catch (Exception e) {

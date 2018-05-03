@@ -88,7 +88,7 @@
                 android:ellipsize="end"
                 android:focusable="false"
                 android:textColor="@color/dark_gray"
-                android:text="Copacabana"
+                android:hint="Bairro"
                 android:maxLines="1" />
 
             <EditText
@@ -122,22 +122,10 @@
                 android:singleLine="true" />
 
             <EditText
-                android:id="@+id/campi_et"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/way_et"
-                android:drawableLeft="@drawable/ic_account_balance_24dp"
-                android:drawablePadding="5dp"
-                android:drawableStart="@drawable/ic_account_balance_24dp"
-                android:focusable="false"
-                android:hint="@string/frag_ridesearch_campiHint"
-                android:visibility="gone"/>
-
-            <EditText
                 android:id="@+id/center_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/campi_et"
+                android:layout_below="@+id/way_et"
                 android:drawableLeft="@drawable/ic_location_on_24dp"
                 android:drawablePadding="5dp"
                 android:drawableStart="@drawable/ic_location_on_24dp"

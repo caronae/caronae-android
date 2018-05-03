@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import br.ufrj.caronae.acts.PlaceAct;
+import br.ufrj.caronae.frags.CampiFrag;
 import br.ufrj.caronae.frags.ZonesFrag;
 
 
@@ -65,6 +66,23 @@ public class CustomPlaceBar extends LinearLayout {
                     SharedPref.LOCATION_INFO = "Outros";
                     act.finish();
                     act.overridePendingTransition(R.anim.anim_left_slide_in, R.anim.anim_right_slide_out);
+                }
+                else if(code.equals("center"))
+                {
+                    if(bar_tv.getText().toString().equals("Cidade Universitária"))
+                    {
+                        ((CampiFrag)frag).changeToCentersHubs(bar_tv.getText().toString());
+                    }
+                    else
+                    {
+                        SharedPref.CAMPI_INFO = bar_tv.getText().toString();
+                        act.finish();
+                        act.overridePendingTransition(R.anim.anim_left_slide_in, R.anim.anim_right_slide_out);
+                    }
+                }
+                else if(code.equals("hub"))
+                {
+                    ((CampiFrag)frag).changeToCentersHubs(bar_tv.getText().toString());
                 }
             }
         });

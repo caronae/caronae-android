@@ -40,11 +40,12 @@ public class SharedPref {
     public static final String MISSING_PREF                          = "missing";
     public static final String TOPIC_GERAL                           = "general";
     public static final String MY_RIDE_LIST_KEY                      = "myRides";
-    public static final String PLACE_KEY                            = "preloadedplaces";
+    public static final String PLACE_KEY                             = "preloadedplaces";
     public static String NAV_INDICATOR                               = "AllRides";
     public static String CHAT_ACT_STATUS                             = "chatStatus";
     public static String FRAGMENT_INDICATOR                          = "";
     public static String LOCATION_INFO                               = "";
+    public static String CAMPI_INFO                                  = "";
     public static List<RideForJson> MY_RIDES                         = null;
     public static ArrayList<RideForJson> ALL_RIDES_GOING             = null;
     public static ArrayList<RideForJson> ALL_RIDES_LEAVING           = null;
