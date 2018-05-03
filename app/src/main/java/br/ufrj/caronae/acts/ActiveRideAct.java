@@ -1,6 +1,6 @@
 package br.ufrj.caronae.acts;
 
-import android.app.ProgressDialog;
+
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.DialogInterface;
@@ -18,7 +18,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
+
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -28,9 +28,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
-import com.rey.material.app.Dialog;
-import com.rey.material.app.DialogFragment;
-import com.rey.material.app.SimpleDialog;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
 
@@ -44,23 +41,14 @@ import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.SwipeDismissBaseActivity;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.adapters.RidersAdapter;
-import br.ufrj.caronae.firebase.FirebaseTopicsHandler;
 import br.ufrj.caronae.frags.MyRidesFrag;
-import br.ufrj.caronae.httpapis.CaronaeAPI;
-import br.ufrj.caronae.models.ActiveRide;
 import br.ufrj.caronae.models.ChatAssets;
-import br.ufrj.caronae.models.Ride;
 import br.ufrj.caronae.models.RideEndedEvent;
 import br.ufrj.caronae.models.User;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
-import br.ufrj.caronae.models.modelsforjson.RideIdForJson;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class ActiveRideAct extends SwipeDismissBaseActivity {
 
@@ -284,74 +272,7 @@ public class ActiveRideAct extends SwipeDismissBaseActivity {
             @Override
             public void onClick(View view) {
 
-                Dialog.Builder builder = new SimpleDialog.Builder(R.style.SimpleDialogLight) {
 
-                    @Override
-                    public void onPositiveActionClicked(DialogFragment fragment) {
-                        final ProgressDialog pd = ProgressDialog.show(ActiveRideAct.this, "", getString(R.string.wait), true, true);
-                        CaronaeAPI.service(getApplicationContext()).leaveRide(rideId)
-                                .enqueue(new Callback<ResponseBody>() {
-                                    @Override
-                                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                        if (response.isSuccessful()){
-                                            pd.dismiss();
-                                            if (isDriver)
-                                                Util.toast(getString(R.string.act_activeride_cancelledRide));
-                                            else
-                                                Util.toast(getString(R.string.act_activeride_quitRide));
-
-
-                                            FirebaseTopicsHandler.unsubscribeFirebaseTopic(rideId + "");
-
-                                            List<Ride> rides = Ride.find(Ride.class, "db_id = ?", rideId);
-                                            if (rides != null && !rides.isEmpty())
-                                                rides.get(0).delete();
-
-                                            ActiveRide.deleteAll(ActiveRide.class, "db_id = ?", rideId);
-
-                                            SharedPref.saveRemoveRideFromList(rideId);
-                                            finish();
-                                        } else {
-                                            Util.treatResponseFromServer(response);
-                                            pd.dismiss();
-                                            Util.toast(R.string.errorRideDeleted);
-                                            Log.e("leaveRide", response.message());
-                                        }
-                                    }
-
-                                    @Override
-                                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-                                        pd.dismiss();
-                                        Util.toast(R.string.errorRideDeleted);
-                                        Log.e("leaveRide", t.getMessage());
-                                    }
-                                });
-
-                        super.onPositiveActionClicked(fragment);
-                    }
-
-                    @Override
-                    public void onNegativeActionClicked(DialogFragment fragment) {
-                        super.onNegativeActionClicked(fragment);
-                    }
-                };
-                String title;
-                if (isDriver) {
-                    title = getString(R.string.act_activeRide_sureWantToCancel);
-
-                    ((SimpleDialog.Builder) builder).message(getString(R.string.act_activeRide_cancelRideMsg))
-                            .title(title)
-                            .positiveAction(getString(R.string.ok))
-                            .negativeAction(getString(R.string.cancel));
-                } else {
-                    title = getString(R.string.act_activeRide_sureWantToQuit);
-                    builder.title(title)
-                            .positiveAction(getString(R.string.ok))
-                            .negativeAction(getString(R.string.cancel));
-                }
-
-                DialogFragment fragment = DialogFragment.newInstance(builder);
-                fragment.show(getSupportFragmentManager(), null);
             }
         });
 
@@ -362,66 +283,6 @@ public class ActiveRideAct extends SwipeDismissBaseActivity {
             @Override
             public void onClick(View view) {
 
-                Dialog.Builder builder = new SimpleDialog.Builder(R.style.SimpleDialogLight) {
-
-                    @Override
-                    public void onPositiveActionClicked(DialogFragment fragment) {
-                        final ProgressDialog pd = ProgressDialog.show(ActiveRideAct.this, "", getString(R.string.wait), true, true);
-                        CaronaeAPI.service(getApplicationContext()).finishRide(rideId)
-                                .enqueue(new Callback<ResponseBody>() {
-                                    @Override
-                                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                        if (response.isSuccessful()){
-                                            pd.dismiss();
-                                            Util.toast(R.string.rideFinished);
-
-                                            FirebaseTopicsHandler.unsubscribeFirebaseTopic(rideId + "");
-
-                                            List<Ride> rides = Ride.find(Ride.class, "db_id = ?", rideId);
-                                            if (rides != null && !rides.isEmpty())
-                                                rides.get(0).delete();
-
-                                            ActiveRide.deleteAll(ActiveRide.class, "db_id = ?", rideId);
-
-                                            SharedPref.saveRemoveRideFromList(rideId);
-                                            finish();
-                                        } else {
-                                            Util.treatResponseFromServer(response);
-                                            pd.dismiss();
-                                            if (response.code() == 403){
-                                                Util.toast(R.string.finishFutureRide);
-                                            } else {
-                                                Util.toast(R.string.errorFinishRide);
-
-                                                Log.e("finish_bt", response.message());
-                                            }
-                                        }
-                                    }
-
-                                    @Override
-                                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-                                        pd.dismiss();
-                                        Util.toast(R.string.errorFinishRide);
-
-                                        Log.e("finish_bt", t.getMessage());
-                                    }
-                                });
-
-                        super.onPositiveActionClicked(fragment);
-                    }
-
-                    @Override
-                    public void onNegativeActionClicked(DialogFragment fragment) {
-                        super.onNegativeActionClicked(fragment);
-                    }
-                };
-
-                builder.title(getString(R.string.act_activeride_sureWantToFinish))
-                        .positiveAction(getString(R.string.ok))
-                        .negativeAction(getString(R.string.cancel));
-
-                DialogFragment fragment = DialogFragment.newInstance(builder);
-                fragment.show(getSupportFragmentManager(), null);
             }
         });
 
@@ -498,33 +359,7 @@ public class ActiveRideAct extends SwipeDismissBaseActivity {
     }
 
     private void showCloseDialog() {
-        Dialog.Builder builder = new SimpleDialog.Builder(R.style.SimpleDialogLight) {
 
-            @Override
-            protected void onBuildDone(Dialog dialog) {
-                dialog.layoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            }
-
-            @Override
-            public void onPositiveActionClicked(DialogFragment fragment) {
-                SharedPref.saveRemoveRideFromList(rideId2);
-                ActiveRideAct.this.finish();
-
-                super.onPositiveActionClicked(fragment);
-            }
-
-            @Override
-            public void onNegativeActionClicked(DialogFragment fragment) {
-                super.onNegativeActionClicked(fragment);
-            }
-        };
-
-        builder.title("Opa...")
-                .positiveAction(getString(R.string.ok))
-                .contentView(R.layout.rideended);
-
-        DialogFragment fragment = DialogFragment.newInstance(builder);
-        fragment.show(getSupportFragmentManager(), null);
     }
 
     @Override

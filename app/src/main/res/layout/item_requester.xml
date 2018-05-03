@@ -66,9 +66,8 @@
             android:layout_below="@+id/lay"
             android:layout_centerHorizontal="true">
 
-            <com.rey.material.widget.Button
+            <Button
                 android:id="@+id/accept_bt"
-                style="@style/LightRaiseColorButtonRippleStyle"
                 android:layout_width="145dp"
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@+id/reject_bt"
@@ -78,20 +77,17 @@
                 android:layout_toRightOf="@+id/reject_bt"
                 android:background="@null"
                 android:gravity="center"
-                android:text="@string/acceptRiderBtn"
-                tools:rd_enable="true" />
+                android:text="@string/acceptRiderBtn"/>
 
-            <com.rey.material.widget.Button
+            <Button
                 android:id="@+id/reject_bt"
-                style="@style/LightRaiseColorButtonRippleStyle"
                 android:layout_width="145dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
                 android:layout_marginRight="10dp"
                 android:background="@null"
                 android:gravity="center"
-                android:text="@string/refuseRriderBtn"
-                tools:rd_enable="true" />
+                android:text="@string/refuseRriderBtn"/>
         </RelativeLayout>
     </RelativeLayout>
 </android.support.v7.widget.CardView>

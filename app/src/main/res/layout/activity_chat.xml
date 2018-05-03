@@ -115,15 +115,13 @@
 
                 <com.github.clans.fab.FloatingActionButton
                     android:id="@+id/send_bt"
-                    style="@style/LightRaiseColorButtonRippleStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end|center_vertical"
                     android:gravity="center"
                     android:src="@drawable/ic_send_white_24dp"
                     android:text="@string/send_bt"
-                    android:textColor="@color/white"
-                    app:rd_enable="true" />
+                    android:textColor="@color/white"/>
             </LinearLayout>
 
         </RelativeLayout>

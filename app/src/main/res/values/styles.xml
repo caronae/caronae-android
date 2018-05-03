@@ -10,10 +10,6 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="SimpleDialogLight" parent="Material.App.Dialog.Simple.Light">
-        <item name="di_inAnimation">@anim/anim_scale_in</item>
-        <item name="di_outAnimation">@anim/anim_scale_out</item>
-    </style>
 
     <style name="DisabledEditText" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorControlNormal">@color/gray</item>
@@ -23,16 +19,6 @@
 
     <style name="AlertDialog" parent="Theme.AppCompat.Dialog">
         <item name="android:windowNoTitle">true</item>
-    </style>
-
-    <style name="SlideInDialog" parent="Material.App.Dialog.Simple.Light">
-        <item name="android:windowEnterAnimation">@anim/anim_right_slide_in</item>
-        <item name="android:windowExitAnimation">@anim/anim_right_slide_out</item>
-    </style>
-
-    <style name="SlideInRightDialog" parent="Material.App.Dialog.Simple.Light">
-        <item name="android:windowEnterAnimation">@anim/anim_right_slide_in</item>
-        <item name="android:windowExitAnimation">@anim/anim_right_slide_out</item>
     </style>
 
     <style name="CustomDialog" parent="@style/Theme.AppCompat.Light.Dialog">
@@ -51,35 +37,12 @@
         <item name="android:background">@color/black_overlay</item>
     </style>
 
-    <style name="LightRaiseColorButtonRippleStyle" parent="Material.Drawable.Ripple.Touch.Light">
-        <item name="rd_rippleColor">#33000000</item>
-        <item name="rd_leftPadding">1dp</item>
-        <item name="rd_topPadding">1dp</item>
-        <item name="rd_rightPadding">1dp</item>
-        <item name="rd_bottomPadding">2dp</item>
-        <item name="rd_delayClick">afterRelease</item>
-        <item name="android:textAppearance">@style/Base.TextAppearance.AppCompat.Button</item>
-    </style>
 
-    <style name="LightRaiseColorButtonRippleStyleNoPadding" parent="Material.Drawable.Ripple.Touch.Light">
-        <item name="rd_rippleColor">#33000000</item>
-        <item name="rd_delayClick">afterRelease</item>
-        <item name="android:textAppearance">@style/Base.TextAppearance.AppCompat.Button</item>
-    </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="LightSpinnerItem" parent="Material.Drawable.Ripple.Wave">
-        <item name="rd_rippleColor">#33000000</item>
-        <item name="rd_rippleAnimDuration">300</item>
-        <item name="rd_maskType">rectangle</item>
-        <item name="rd_cornerRadius">0dp</item>
-        <item name="rd_delayClick">afterRelease</item>
-        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Body1</item>
-        <item name="android:textColor">@color/black</item>
-    </style>
 
     <style name="TabLayoutTextAppearance" parent="TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse">
         <item name="android:textSize">24sp</item>

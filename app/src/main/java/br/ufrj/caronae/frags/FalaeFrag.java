@@ -29,6 +29,7 @@ public class FalaeFrag extends Fragment {
 
     public static String selectedOption;
     public String reason_txt, subject_txt;
+    boolean locked;
 
     public FalaeFrag() {
         // Required empty public constructor
@@ -37,6 +38,7 @@ public class FalaeFrag extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_falae, container, false);
+        locked = false;
         subject_et = view.findViewById(R.id.subject_et);
         reason_et = view.findViewById(R.id.reason_et);
         ButterKnife.bind(this, view);
@@ -46,6 +48,7 @@ public class FalaeFrag extends Fragment {
             if(!reason_txt.isEmpty())
             {
                 setFalaeText();
+                locked = true;
             }
         }
         return view;
@@ -70,45 +73,53 @@ public class FalaeFrag extends Fragment {
     @OnClick(R.id.reason_et)
     public void reason_et()
     {
-        final NumberPicker picker = new NumberPicker(getContext());
-        String options[] = new String[]{"Reclamação", "Sugestão", "Denúncia", "Dúvida"};
-        picker.setMinValue(0);
-        picker.setMaxValue(options.length-1);
-        picker.setDisplayedValues(options);
-        picker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
-        picker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
-            @Override
-            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                selectedOption= ("" + options[newVal]);
-            }
-        });
-        final FrameLayout layout = new FrameLayout(getContext());
-        layout.addView(picker, new FrameLayout.LayoutParams(
-                FrameLayout.LayoutParams.MATCH_PARENT,
-                FrameLayout.LayoutParams.WRAP_CONTENT,
-                Gravity.BOTTOM));
-
-        new AlertDialog.Builder(getContext())
-            .setTitle("Qual o motivo do seu contato?")
-            .setView(layout)
-            .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+        if(!locked) {
+            final NumberPicker picker = new NumberPicker(getContext());
+            String options[] = new String[]{"Reclamação", "Sugestão", "Denúncia", "Dúvida"};
+            picker.setMinValue(0);
+            picker.setMaxValue(options.length - 1);
+            picker.setDisplayedValues(options);
+            picker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+            picker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
                 @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    reason_et.setHint(selectedOption);
+                public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                    selectedOption = ("" + options[newVal]);
                 }
-            })
-            .setNegativeButton(android.R.string.cancel, null)
-            .show();
+            });
+            final FrameLayout layout = new FrameLayout(getContext());
+            layout.addView(picker, new FrameLayout.LayoutParams(
+                    FrameLayout.LayoutParams.MATCH_PARENT,
+                    FrameLayout.LayoutParams.WRAP_CONTENT,
+                    Gravity.BOTTOM));
+
+            new AlertDialog.Builder(getContext())
+                    .setTitle("Qual o motivo do seu contato?")
+                    .setView(layout)
+                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            reason_et.setHint(selectedOption);
+                        }
+                    })
+                    .setNegativeButton(android.R.string.cancel, null)
+                    .show();
+        }
     }
 
     public void setFalaeText()
     {
+        selectedOption = "Denúncia";
         subject_et.setKeyListener(null);
         subject_et.setPressed(false);
         subject_et.setFocusable(false);
         subject_et.setClickable(false);
         subject_et.setFocusableInTouchMode(false);
-        reason_et.setText(reason_txt);
         subject_et.setText(subject_txt);
+        reason_et.setKeyListener(null);
+        reason_et.setPressed(false);
+        reason_et.setFocusable(false);
+        reason_et.setClickable(false);
+        reason_et.setFocusableInTouchMode(false);
+        reason_et.setText(reason_txt);
     }
 }

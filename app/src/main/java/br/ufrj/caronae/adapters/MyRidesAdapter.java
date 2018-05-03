@@ -1,5 +1,7 @@
 package br.ufrj.caronae.adapters;
 
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -14,9 +16,6 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.daimajia.swipe.SwipeLayout;
-import com.rey.material.app.Dialog;
-import com.rey.material.app.DialogFragment;
-import com.rey.material.app.SimpleDialog;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -215,167 +214,11 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
         holder.delete_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (ride.isRoutine()) {
-                    Dialog.Builder builder = new SimpleDialog.Builder(R.style.SimpleDialogLight) {
 
-                        @Override
-                        protected void onBuildDone(Dialog dialog) {
-                            dialog.layoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                        }
-
-                        @Override
-                        public void onPositiveActionClicked(DialogFragment fragment) {
-                            RadioGroup radioGroup = (RadioGroup) fragment.getDialog().findViewById(R.id.radioGroup);
-                            int checkedRadioButton = radioGroup.getCheckedRadioButtonId();
-                            switch (checkedRadioButton) {
-                                case R.id.all_rb:
-                                    deleteAllRidesFromRoutine();
-                                    break;
-                                case R.id.single_rb:
-                                    deleteSingleRide();
-                                    break;
-                            }
-
-                            super.onPositiveActionClicked(fragment);
-                        }
-
-                        @Override
-                        public void onNegativeActionClicked(DialogFragment fragment) {
-                            super.onNegativeActionClicked(fragment);
-                        }
-                    };
-
-                    builder.title(activity.getString(R.string.attention))
-                            .positiveAction(activity.getString(R.string.ok))
-                            .negativeAction(activity.getString(R.string.cancel))
-                            .contentView(R.layout.delete_routine_dialog);
-
-                    DialogFragment fragment = DialogFragment.newInstance(builder);
-                    fragment.show(activity.getSupportFragmentManager(), null);
-                } else {
-                    deleteSingleRide();
-                }
-            }
-
-            private void deleteAllRidesFromRoutine() {
-                Dialog.Builder builder = new SimpleDialog.Builder(R.style.SimpleDialogLight) {
-
-                    @Override
-                    public void onPositiveActionClicked(DialogFragment fragment) {
-                        final ProgressDialog pd = ProgressDialog.show(activity, "", activity.getString(R.string.wait), true, true);
-                        final String routineId = ride.getRoutineId();
-                        CaronaeAPI.service(activity.getApplicationContext()).deleteAllRidesFromRoutine(routineId)
-                                .enqueue(new Callback<ResponseBody>() {
-                                    @Override
-                                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                        if (response.isSuccessful()) {
-                                            pd.dismiss();
-                                            Util.toast(R.string.ridesDeleted);
-                                            if (routineId != null) {
-                                                Iterator<Object> it = rides.iterator();
-                                                while (it.hasNext()) {
-                                                    Object object = it.next();
-                                                    if (object.getClass() == Ride.class) {
-                                                        Ride ride2 = (Ride) object;
-                                                        if (ride2.getRoutineId().equals(routineId))
-                                                            it.remove();
-                                                    }
-                                                }
-                                            }
-                                            notifyDataSetChanged();
-                                            Ride.deleteAll(Ride.class, "routine_id = ?", routineId);
-                                        } else {
-                                            Util.treatResponseFromServer(response);
-                                            pd.dismiss();
-                                            Util.toast(activity.getString(R.string.errorDeleteRide));
-                                            Log.e("deleteAllFromRoutine", response.message());
-                                        }
-                                    }
-
-                                    @Override
-                                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-                                        pd.dismiss();
-                                        Util.toast(activity.getString(R.string.errorDeleteRide));
-                                        Log.e("deleteAllFromRoutine", t.getMessage());
-                                    }
-                                });
-
-                        super.onPositiveActionClicked(fragment);
-                    }
-
-                    @Override
-                    public void onNegativeActionClicked(DialogFragment fragment) {
-                        super.onNegativeActionClicked(fragment);
-                    }
-                };
-
-                ((SimpleDialog.Builder) builder).message(activity.getString(R.string.warnDeleteRidesCouldBeActive))
-                        .title(activity.getString(R.string.attention))
-                        .positiveAction(activity.getString(R.string.ok))
-                        .negativeAction(activity.getString(R.string.cancel));
-
-                DialogFragment fragment = DialogFragment.newInstance(builder);
-                fragment.show(activity.getSupportFragmentManager(), null);
             }
 
             private void deleteSingleRide() {
-                Dialog.Builder builder = new SimpleDialog.Builder(R.style.SimpleDialogLight) {
 
-                    @Override
-                    public void onPositiveActionClicked(DialogFragment fragment) {
-                        final ProgressDialog pd = ProgressDialog.show(activity, "", activity.getString(R.string.wait), true, true);
-                        CaronaeAPI.service(activity.getApplicationContext()).deleteRide(ride.getDbId() + "")
-                                .enqueue(new Callback<ResponseBody>() {
-                                    @Override
-                                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                        if (response.isSuccessful()) {
-                                            pd.dismiss();
-                                            Util.toast(R.string.rideDeleted);
-                                            rides.remove(ride);
-                                            notifyItemRemoved(holder.getAdapterPosition());
-                                            for (int rideCounter = 0; rideCounter < rides.size(); rideCounter++){
-                                                if (rides.get(rideCounter).getClass() == RideForJson.class){
-                                                    RideForJson rideForJson = (RideForJson) rides.get(rideCounter);
-                                                    if (rideForJson.getId() == ride.getId()){
-                                                        rides.remove(rideForJson);
-                                                        notifyItemRemoved(rideCounter);
-                                                    }
-                                                }
-                                            }
-                                            ride.delete();
-                                        } else {
-                                            Util.treatResponseFromServer(response);
-                                            pd.dismiss();
-                                            Util.toast(activity.getString(R.string.errorDeleteRide));
-                                            Log.e("deleteRide", response.message());
-                                        }
-                                    }
-
-                                    @Override
-                                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-                                        pd.dismiss();
-                                        Util.toast(activity.getString(R.string.errorDeleteRide));
-                                        Log.e("deleteRide", t.getMessage());
-
-                                    }
-                                });
-
-                        super.onPositiveActionClicked(fragment);
-                    }
-
-                    @Override
-                    public void onNegativeActionClicked(DialogFragment fragment) {
-                        super.onNegativeActionClicked(fragment);
-                    }
-                };
-
-                ((SimpleDialog.Builder) builder).message(activity.getString(R.string.warnDeleteRideCouldBeActive))
-                        .title(activity.getString(R.string.attention))
-                        .positiveAction(activity.getString(R.string.ok))
-                        .negativeAction(activity.getString(R.string.cancel));
-
-                DialogFragment fragment = DialogFragment.newInstance(builder);
-                fragment.show(activity.getSupportFragmentManager(), null);
             }
         });
 

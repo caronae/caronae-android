@@ -116,7 +116,6 @@
 
         <ImageButton
             android:id="@+id/share_bt"
-            style="@style/LightRaiseColorButtonRippleStyleNoPadding"
             android:layout_width="88dp"
             android:layout_height="88dp"
             android:layout_alignParentEnd="true"

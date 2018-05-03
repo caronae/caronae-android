@@ -58,17 +58,11 @@ public interface CaronaeAPIService {
     @GET("user/{id}/mutualFriends")
     Call<FacebookFriendForJson> getMutualFriends(@Header("Facebook-Token") String faceToken, @Path("id") String faceId);
 
-    @GET("user/intranetPhotoUrl")
-    Call<UrlForJson> getIntranetPhotoUrl();
-
     @POST("api/v1/rides")
     Call<List<RideRountine>> offerRide(@Body Ride ride);
 
     @GET("api/v1/rides/{rideId}")
     Call<RideForJson> getRide(@Path("rideId") String rideId);
-
-    @DELETE("ride/{rideId}")
-    Call<ResponseBody> deleteRide(@Path("rideId") String rideId);
 
     @DELETE("ride/allFromRoutine/{routineId}")
     Call<ResponseBody> deleteAllRidesFromRoutine(@Path("routineId") String routineId);

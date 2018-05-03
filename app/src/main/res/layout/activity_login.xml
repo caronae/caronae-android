@@ -110,15 +110,13 @@
             android:layout_centerHorizontal="true"
             android:background="@android:color/transparent">
 
-            <com.rey.material.widget.Button
+            <Button
                 android:id="@+id/send_bt"
-                style="@style/LightRaiseColorButtonRippleStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="96dp"
+                android:layout_height="38dp"
                 android:background="@drawable/btn_color"
                 android:gravity="center"
-                android:text="@string/acess_bt"
-                app:rd_enable="true" />
+                android:text="@string/acess_bt"/>
         </FrameLayout>
     </RelativeLayout>
 </RelativeLayout>

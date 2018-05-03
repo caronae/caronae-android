@@ -9,10 +9,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
-import com.rey.material.widget.Button;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;

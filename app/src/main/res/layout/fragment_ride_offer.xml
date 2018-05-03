@@ -312,7 +312,6 @@
 
             <Spinner
                 android:id="@+id/slots_et"
-                style="@style/Material.Widget.Spinner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBaseline="@+id/slots_tv"
