@@ -8,24 +8,19 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.RoundedTransformation;
 import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.Util;
-import br.ufrj.caronae.acts.ProfileAct;
 import br.ufrj.caronae.acts.RideOfferAct;
 import br.ufrj.caronae.models.RideRequestSent;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
@@ -96,6 +91,12 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
                         color = Color.parseColor(SharedPref.getPlace().getZones().get(i).getColor());
                     }
                 }
+
+                if(color == 0)
+                {
+                    color = Color.parseColor("#565658");
+                }
+
                 viewHolder.location_tv.setTextColor(color);
                 viewHolder.time_tv.setTextColor(color);
                 viewHolder.name_tv.setTextColor(color);

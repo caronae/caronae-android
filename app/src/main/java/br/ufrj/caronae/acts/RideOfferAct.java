@@ -25,9 +25,6 @@ import com.facebook.AccessToken;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -103,7 +100,6 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
         getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.dialog_ride_detail);
         ButterKnife.bind(this);
-
         boolean fromAllRides = getIntent().getBooleanExtra("fromAllRides", false);
 
         if(fromAllRides)
@@ -131,12 +127,17 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
         else
             location = rideWithUsers.getHub() + " ➜ " + rideWithUsers.getNeighborhood();
 
+        zoneColorInt = 0;
         for(int i = 0; i < SharedPref.getPlace().getZones().size(); i++)
         {
             if(rideWithUsers.getZone().equals(SharedPref.getPlace().getZones().get(i).getName()))
             {
                 zoneColorInt = Color.parseColor(SharedPref.getPlace().getZones().get(i).getColor());
             }
+        }
+        if(zoneColorInt == 0)
+        {
+            zoneColorInt = Color.parseColor("#565658");
         }
 
         List<ChatAssets> l = ChatAssets.find(ChatAssets.class, "ride_id = ?", rideWithUsers.getDbId() + "");
@@ -261,12 +262,19 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
         CircleImageView photo_iv;
         photo_iv = (CircleImageView)user_pic;
 
+        zoneColorInt = 0;
+
         for(int i = 0; i < SharedPref.getPlace().getZones().size(); i++)
         {
             if(rideWithUsers.getZone().equals(SharedPref.getPlace().getZones().get(i).getName()))
             {
                 zoneColorInt = Color.parseColor(SharedPref.getPlace().getZones().get(i).getColor());
             }
+        }
+
+        if(zoneColorInt == 0)
+        {
+            zoneColorInt = Color.parseColor("#565658");
         }
 
         Drawable background = join_bt.getBackground();
