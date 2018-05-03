@@ -509,7 +509,7 @@ public class MainAct extends AppCompatActivity {
         });
     }
 
-    public static void updateFilterCard(Context context, String filtersJsonString){
+    public void updateFilterCard(Context context, String filtersJsonString){
         if (!filtersJsonString.equals(SharedPref.MISSING_PREF)) {
             RideFiltersForJson filters = loadFilters(filtersJsonString);
             String resumeLocation = filters.getResumeLocation();
@@ -570,7 +570,7 @@ public class MainAct extends AppCompatActivity {
         return new Gson().fromJson(filters, RideFiltersForJson.class);
     }
 
-    private void startFilterCard() {
+    public void startFilterCard() {
         String filtersJsonString = SharedPref.getFiltersPref();
         if (!filtersJsonString.equals(SharedPref.MISSING_PREF)) {
             RideFiltersForJson filters = loadFilters(filtersJsonString);
@@ -633,7 +633,7 @@ public class MainAct extends AppCompatActivity {
         }
     }
 
-    public static void showFilterCard(final Context context){
+    public void showFilterCard(final Context context){
         Animation animation = AnimationUtils.loadAnimation(context, R.anim.anim_fade_in);
         filterCard.startAnimation(animation);
         animation.setAnimationListener(new Animation.AnimationListener() {

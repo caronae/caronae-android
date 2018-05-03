@@ -57,7 +57,7 @@ public class StartAct extends AppCompatActivity {
             }
         }
 
-        if (App.isUserLoggedIn())
+        if (App.isUserLoggedIn()) {
             if (bundle != null
                     && bundle.get(MSG_TYPE_BUNDLE_KEY) != null
                     && bundle.get(MSG_TYPE_BUNDLE_KEY).equals("chat")) {
@@ -75,20 +75,22 @@ public class StartAct extends AppCompatActivity {
             } else if (bundle != null
                     && bundle.get(MSG_TYPE_BUNDLE_KEY) != null
                     && (bundle.get(MSG_TYPE_BUNDLE_KEY).equals("joinRequest")
-                        || (bundle.get(MSG_TYPE_BUNDLE_KEY).equals("accepted")))) {
-                if (bundle.get(MSG_TYPE_BUNDLE_KEY).equals("joinRequest")){
+                    || (bundle.get(MSG_TYPE_BUNDLE_KEY).equals("accepted")))) {
+                if (bundle.get(MSG_TYPE_BUNDLE_KEY).equals("joinRequest")) {
                     new RideRequestReceived(Integer.valueOf((String) bundle.get(RIDE_ID_BUNDLE_KEY))).save();
                 }
                 Intent intent = new Intent(this, MainAct.class);
                 intent.putExtra(SharedPref.MY_RIDE_LIST_KEY, true);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
-            } else {
-                startActivity(new Intent(this, MainAct.class));
             }
-        else
+            else{
+                startActivity(new Intent(this, OpeningAct.class));
+            }
+        }
+        else {
             startActivity(new Intent(this, OpeningAct.class));
-
+        }
         finish();
     }
 }

@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.WindowManager;
 
+import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
 
 public class OpeningAct extends AppCompatActivity {
@@ -32,12 +33,24 @@ public class OpeningAct extends AppCompatActivity {
             decorView.setSystemUiVisibility(uiOptions);
         }
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                startActivity(new Intent(OpeningAct.this, LoginAct.class));
-                OpeningAct.this.finish();
-            }
-        }, SPLASH_SCREEN_DURATION);
+        if(App.isUserLoggedIn())
+        {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    startActivity(new Intent(OpeningAct.this, MainAct.class));
+                    OpeningAct.this.finish();
+                }
+            }, SPLASH_SCREEN_DURATION);
+        }
+        else {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    startActivity(new Intent(OpeningAct.this, LoginAct.class));
+                    OpeningAct.this.finish();
+                }
+            }, SPLASH_SCREEN_DURATION);
+        }
     }
 }

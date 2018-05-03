@@ -3,7 +3,8 @@ package br.ufrj.caronae.frags;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +18,6 @@ import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.acts.PlaceAct;
-import br.ufrj.caronae.acts.StartAct;
 import br.ufrj.caronae.models.modelsforjson.RideFiltersForJson;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -69,29 +69,50 @@ public class RideFilterFrag extends Fragment {
 
     @OnClick(R.id.search_bt)
     public void search() {
-        Log.e("CENTRO", "campi: "+ center);
+        Fragment fragment;
+        Class fragmentClass;
         RideFiltersForJson rideFilters;
         String lastRideFilters;
         if(center_et.getText().toString().isEmpty() && location_et.getText().toString().isEmpty())
         {
-            Intent intent = new Intent(getActivity(), StartAct.class);
-            startActivity(intent);
+            fragment = null;
+            fragmentClass = AllRidesFrag.class;
+            try {
+                fragment = (Fragment) fragmentClass.newInstance();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            transaction.setCustomAnimations(R.anim.anim_up_slide_in, R.anim.anim_down_slide_out);
+            transaction.replace(R.id.flContent, fragment).commit();
         }
         else
         {
             if (center.equals("Cidade Universitária")) {
                 center = "";
             }
-            if (campi.equals(Util.getCampi()[0]) || center_et.getText().toString().isEmpty())
+            if (campi.equals(Util.getCampi()[0]) || center_et.getText().toString().isEmpty()) {
                 campi = "Todos os Campi";
-            Log.e("CENTRO", "campi: "+ center);
-            rideFilters = new RideFiltersForJson(location, center, campi, zone, resumeLocation);
+            }
+            rideFilters = new RideFiltersForJson(location_et.getText().toString(), center, campi, zone, resumeLocation);
             lastRideFilters = new Gson().toJson(rideFilters);
             SharedPref.saveLastFiltersPref(lastRideFilters);
             SharedPref.saveFilterPref(lastRideFilters);
-            MainAct.updateFilterCard(getContext(), lastRideFilters);
-            Intent intent = new Intent(getActivity(), StartAct.class);
-            startActivity(intent);
+            MainAct act = (MainAct) getActivity();
+            fragment = null;
+            fragmentClass = AllRidesFrag.class;
+            try {
+                fragment = (Fragment) fragmentClass.newInstance();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            transaction.setCustomAnimations(R.anim.anim_up_slide_in, R.anim.anim_down_slide_out);
+            transaction.replace(R.id.flContent, fragment).commit();
+            act.updateFilterCard(getContext(), lastRideFilters);
+            act.startFilterCard();
         }
     }
 
