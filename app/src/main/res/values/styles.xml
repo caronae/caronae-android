@@ -3,7 +3,7 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="23">false</item>
         <item name="android:statusBarColor" tools:targetApi="lollipop">@color/colorPrimary</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -81,25 +81,6 @@
         <item name="android:textColor">@color/black</item>
     </style>
 
-    <style name="post_it_text_header">
-        <item name="android:layout_marginLeft">32dp</item>
-        <item name="android:layout_marginStart">32dp</item>
-        <item name="android:paddingRight">50dp</item>
-        <item name="android:layout_marginTop">22dp</item>
-        <item name="android:layout_marginBottom">8dp</item>
-        <item name="android:textSize">12sp</item>
-        <item name="android:textAllCaps">true</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
-    <style name="post_it_text">
-        <item name="android:layout_marginLeft">28dp</item>
-        <item name="android:layout_marginStart">28dp</item>
-        <item name="android:paddingRight">32dp</item>
-        <item name="android:maxHeight">96dp</item>
-        <item name="android:layout_gravity">center</item>
-    </style>
-
     <style name="TabLayoutTextAppearance" parent="TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse">
         <item name="android:textSize">24sp</item>
         <item name="android:textColor">@color/black</item>
@@ -140,7 +121,7 @@
     <style name="separator_text">
         <item name="android:textSize">14sp</item>
         <item name="android:layout_marginLeft">16dp</item>
-        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:fontFamily" tools:targetApi="16">sans-serif-medium</item>
         <item name="android:textColor">@android:color/darker_gray</item>
     </style>
 

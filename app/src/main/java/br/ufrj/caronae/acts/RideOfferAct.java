@@ -1,7 +1,6 @@
 package br.ufrj.caronae.acts;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.PorterDuff;
@@ -17,6 +16,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -38,7 +38,6 @@ import br.ufrj.caronae.RoundedTransformation;
 import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.SwipeDismissBaseActivity;
 import br.ufrj.caronae.Util;
-import br.ufrj.caronae.frags.AllRidesFrag;
 import br.ufrj.caronae.httpapis.CaronaeAPI;
 import br.ufrj.caronae.models.ActiveRide;
 import br.ufrj.caronae.models.ChatAssets;
@@ -63,6 +62,7 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
     public ImageView share_ic;
     @BindView(R.id.clock)
     public ImageView clock;
+
     @BindView(R.id.share_tv)
     public TextView share_tv;
     @BindView(R.id.location_dt)
@@ -73,8 +73,6 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
     public TextView profile_dt;
     @BindView(R.id.time_dt)
     public TextView time_dt;
-    @BindView(R.id.join_bt)
-    public android.widget.Button join_bt;
     @BindView(R.id.way_dt)
     public TextView way_dt;
     @BindView(R.id.place_dt)
@@ -83,29 +81,34 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
     public TextView description_dt;
     @BindView(R.id.requested_dt)
     public TextView requested_dt;
+    @BindView(R.id.mutual_friends_tv)
+    TextView mFriends_tv;
+
+    @BindView(R.id.join_bt)
+    public Button join_bt;
+
     @BindView(R.id.share_bt)
     RelativeLayout shareButton;
     @BindView(R.id.title_lay)
     RelativeLayout locationBackground;
-    @BindView(R.id.mutual_friends_tv)
-    TextView mFriends_tv;
 
     RideForJson rideWithUsers;
+
     boolean requested;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-        boolean fromAllRides = getIntent().getBooleanExtra("fromAllRides", false);;
+        setContentView(R.layout.dialog_ride_detail);
+        ButterKnife.bind(this);
+
+        boolean fromAllRides = getIntent().getBooleanExtra("fromAllRides", false);
+
         if(fromAllRides)
         {
             overridePendingTransition(R.anim.anim_right_slide_in, R.anim.anim_left_slide_out);
         }
-        setContentView(R.layout.dialog_ride_detail);
-        ButterKnife.bind(this);
-
         if (!startWithLink()) {
             rideWithUsers = getIntent().getExtras().getParcelable("ride");
             configureActivityWithRide(rideWithUsers, false);
@@ -461,35 +464,30 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
                 });
     }
 
-    private void showCustomDialog(String header, String text) {
-        final Dialog dialog = new Dialog(this);
-        dialog.setContentView(R.layout.fragment_alert_dialog);
-
-        TextView title = (TextView) dialog.findViewById(R.id.title);
-        title.setText(header);
-        TextView body = (TextView) dialog.findViewById(R.id.body);
-        body.setText(text);
-
-        android.widget.Button okButton = (android.widget.Button) dialog.findViewById(R.id.ok_button);
-
-        okButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                SharedPref.NAV_INDICATOR = "AllRides";
-                Intent intent = new Intent(App.getInst(), MainAct.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                App.getInst().startActivity(intent);
-                overridePendingTransition(R.anim.anim_left_slide_in, R.anim.anim_right_slide_out);
-            }
-        });
-
-        dialog.show();
+    private void showCustomDialog(String title, String text) {
+        CustomDialogClass cdc = new CustomDialogClass(this, "RideOfferActError", null);
+        cdc.show();
+        cdc.enableOnePositiveOption();
+        cdc.setPButtonText("OK");
+        cdc.setMessageText(text);
+        cdc.setTitleText(title);
     }
+
+    public void customDialogAction()
+    {
+        SharedPref.NAV_INDICATOR = "AllRides";
+        Intent intent = new Intent(App.getInst(), MainAct.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        App.getInst().startActivity(intent);
+        overridePendingTransition(R.anim.anim_left_slide_in, R.anim.anim_right_slide_out);
+    }
+
     @Override
     protected void onStop() {
         super.onStop();
         finish();
     }
+
     public static String getWeekDayFromDate(String dateString) {
         int dayOfWeekInt = -1;
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");

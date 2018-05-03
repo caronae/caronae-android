@@ -60,6 +60,11 @@ public class CustomDialogClass extends Dialog implements android.view.View.OnCli
                     act.finish();
                     act.overridePendingTransition(R.anim.anim_left_slide_in, R.anim.anim_right_slide_out);
                 }
+                else if(currentFrag.equals("RideOfferActError"))
+                {
+                    RideOfferAct act = (RideOfferAct) activity;
+                    act.customDialogAction();
+                }
                 break;
 
             case R.id.negative_bt:
