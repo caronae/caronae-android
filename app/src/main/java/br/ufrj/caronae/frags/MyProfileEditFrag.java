@@ -24,6 +24,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -70,32 +71,35 @@ public class MyProfileEditFrag extends Fragment {
     TextView profile_tv;
     @BindView(R.id.createdAt_tv)
     TextView createdAt_tv;
-    @BindView(R.id.email_et)
-    android.widget.EditText email_et;
-    @BindView(R.id.phoneNumber_et)
-    android.widget.EditText phoneNumber_et;
-    @BindView(R.id.location_et)
-    android.widget.EditText location_et;
-    @BindView(R.id.carOwner_sw)
-    SwitchCompat carOwner_sw;
-    @BindView(R.id.carModel_et)
-    android.widget.EditText carModel_et;
-    @BindView(R.id.carColor_et)
-    android.widget.EditText carColor_et;
-    @BindView(R.id.carPlate_et)
-    android.widget.EditText carPlate_et;
-    @BindView(R.id.car_lay)
-    RelativeLayout car_lay;
-    @BindView(R.id.login_button)
-    LoginButton loginButton;
-    @BindView(R.id.user_pic)
-    ImageView user_pic;
     @BindView(R.id.changePhotoText)
     TextView changePhoto;
     @BindView(R.id.ridesOffered_tv)
     TextView ridesOffered_tv;
     @BindView(R.id.ridesTaken_tv)
     TextView ridesTaken_tv;
+
+    @BindView(R.id.email_et)
+    EditText email_et;
+    @BindView(R.id.phoneNumber_et)
+    EditText phoneNumber_et;
+    @BindView(R.id.location_et)
+    EditText location_et;
+    @BindView(R.id.carModel_et)
+    EditText carModel_et;
+    @BindView(R.id.carColor_et)
+    EditText carColor_et;
+    @BindView(R.id.carPlate_et)
+    EditText carPlate_et;
+
+    @BindView(R.id.carOwner_sw)
+    SwitchCompat carOwner_sw;
+
+    @BindView(R.id.car_lay)
+    RelativeLayout car_lay;
+    @BindView(R.id.login_button)
+    LoginButton loginButton;
+    @BindView(R.id.user_pic)
+    ImageView user_pic;
 
     private CallbackManager callbackManager;
     private String course, profile, profileUrlPic;
@@ -407,6 +411,7 @@ public class MyProfileEditFrag extends Fragment {
         Intent intent = new Intent(getActivity(), PlaceAct.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra("backText", "Editar Perfil");
+        intent.putExtra("selection", "neigh");
         intent.putExtra("allP", false);
         intent.putExtra("otherP", true);
         startActivity(intent);

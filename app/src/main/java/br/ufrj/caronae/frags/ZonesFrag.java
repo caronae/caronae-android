@@ -57,7 +57,7 @@ public class ZonesFrag extends Fragment {
             boolean backFromOthers = activity.getIntent().getExtras().getBoolean("getBack", false);
             if(all)
             {
-                cPB = new CustomPlaceBar(activity, getContext(), fragment, false, "Todos os Bairros", "#505050", "zone");
+                cPB = new CustomPlaceBar(activity, getContext(), fragment, false, "Todos os Bairros", "#606060", "zone");
                 mainLayout.addView(cPB);
             }
             for (int i = 0; i < zones.size(); i++) {

@@ -104,8 +104,6 @@ public class RideSearchFrag extends Fragment {
             isLeaving_tv.setText(SharedPref.getLeavingLabel());
         }
 
-        setInitialDate();
-
         adapter = new RideOfferAdapter(new ArrayList<RideForJson>(), getActivity(), getActivity().getFragmentManager());
         rvRides.setAdapter(adapter);
         rvRides.setHasFixedSize(true);
@@ -119,7 +117,7 @@ public class RideSearchFrag extends Fragment {
         }
 
         App.getBus().register(this);
-
+        setInitialDate();
         return view;
     }
 
@@ -138,6 +136,12 @@ public class RideSearchFrag extends Fragment {
             location_et.setText(SharedPref.LOCATION_INFO);
             SharedPref.LOCATION_INFO = "";
         }
+        if(!SharedPref.CAMPI_INFO.isEmpty() && !SharedPref.CAMPI_INFO.equals(""))
+        {
+            center_et.setText(SharedPref.CAMPI_INFO);
+            SharedPref.CAMPI_INFO = "";
+        }
+        setInitialDate();
         super.onStart();
     }
 
@@ -149,6 +153,12 @@ public class RideSearchFrag extends Fragment {
             location_et.setText(SharedPref.LOCATION_INFO);
             SharedPref.LOCATION_INFO = "";
         }
+        if(!SharedPref.CAMPI_INFO.isEmpty() && !SharedPref.CAMPI_INFO.equals(""))
+        {
+            center_et.setText(SharedPref.CAMPI_INFO);
+            SharedPref.CAMPI_INFO = "";
+        }
+        setInitialDate();
         super.onResume();
     }
 
@@ -174,6 +184,7 @@ public class RideSearchFrag extends Fragment {
         Intent intent = new Intent(getActivity(), PlaceAct.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra("backText", "Buscar");
+        intent.putExtra("selection", "neigh");
         intent.putExtra("allP", true);
         intent.putExtra("otherP", true);
         intent.putExtra("getBack", true);
@@ -212,7 +223,14 @@ public class RideSearchFrag extends Fragment {
 
     @OnClick(R.id.center_et)
     public void centerEt() {
-
+        Intent intent = new Intent(getActivity(), PlaceAct.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra("backText", "Buscar");
+        intent.putExtra("selection", "center");
+        intent.putExtra("allP", true);
+        intent.putExtra("getBack", false);
+        startActivity(intent);
+        getActivity().overridePendingTransition(R.anim.anim_right_slide_in, R.anim.anim_left_slide_out);
     }
 
     @OnClick(R.id.search_bt)

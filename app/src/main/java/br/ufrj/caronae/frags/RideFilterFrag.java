@@ -125,6 +125,11 @@ public class RideFilterFrag extends Fragment {
             location_et.setText(SharedPref.LOCATION_INFO);
             SharedPref.LOCATION_INFO = "";
         }
+        if(!SharedPref.CAMPI_INFO.isEmpty() && !SharedPref.CAMPI_INFO.equals(""))
+        {
+            center_et.setText(SharedPref.CAMPI_INFO);
+            SharedPref.CAMPI_INFO = "";
+        }
         super.onStart();
     }
 
@@ -136,6 +141,11 @@ public class RideFilterFrag extends Fragment {
             location_et.setText(SharedPref.LOCATION_INFO);
             SharedPref.LOCATION_INFO = "";
         }
+        if(!SharedPref.CAMPI_INFO.isEmpty() && !SharedPref.CAMPI_INFO.equals(""))
+        {
+            center_et.setText(SharedPref.CAMPI_INFO);
+            SharedPref.CAMPI_INFO = "";
+        }
         super.onResume();
     }
 
@@ -144,6 +154,7 @@ public class RideFilterFrag extends Fragment {
         Intent intent = new Intent(getActivity(), PlaceAct.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra("backText", "Filtrar");
+        intent.putExtra("selection", "neigh");
         intent.putExtra("allP", true);
         intent.putExtra("otherP", true);
         intent.putExtra("getBack", true);
@@ -153,6 +164,15 @@ public class RideFilterFrag extends Fragment {
 
     @OnClick(R.id.center_et)
     public void centerEt() {
+        Intent intent = new Intent(getActivity(), PlaceAct.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra("backText", "Filtrar");
+        intent.putExtra("allP", true);
+        intent.putExtra("selection", "center");
+        intent.putExtra("otherP", false);
+        intent.putExtra("getBack", false);
+        startActivity(intent);
+        getActivity().overridePendingTransition(R.anim.anim_right_slide_in, R.anim.anim_left_slide_out);
 
     }
 

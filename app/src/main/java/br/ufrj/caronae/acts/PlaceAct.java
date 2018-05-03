@@ -31,8 +31,10 @@ public class PlaceAct extends AppCompatActivity {
     TextView back_tv, title_tv;
     RelativeLayout progressBar, ok_bt, othersLay;
     EditText otherOption;
+
     String backText;
     public String fragType;
+    public boolean enableAll;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +52,7 @@ public class PlaceAct extends AppCompatActivity {
         try {
             backText = getIntent().getExtras().getString("backText");
             fragType = getIntent().getExtras().getString("selection");
+            enableAll = getIntent().getBooleanExtra("allP", false);
         }catch (Exception e){}
         if(fragType.equals("center") || fragType.equals("hub"))
         {
@@ -208,6 +211,11 @@ public class PlaceAct extends AppCompatActivity {
             hideKeyboard();
             backToCampi();
         }
+        else if(title.equals(""))
+        {
+            hideKeyboard();
+            backToCampi();
+        }
     }
 
     public void setTitle(String text)
@@ -243,6 +251,11 @@ public class PlaceAct extends AppCompatActivity {
             backToZone();
         }
         else if(back_tv.getText().toString().equals("Campus"))
+        {
+            hideKeyboard();
+            backToCampi();
+        }
+        else if(back_tv.getText().toString().equals(""))
         {
             hideKeyboard();
             backToCampi();
