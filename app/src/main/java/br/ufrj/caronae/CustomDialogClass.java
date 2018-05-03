@@ -57,7 +57,8 @@ public class CustomDialogClass extends Dialog implements android.view.View.OnCli
                 if(currentFrag.equals("PlaceAct"))
                 {
                     PlaceAct act = (PlaceAct) activity;
-                    act.actReturn();
+                    act.finish();
+                    act.overridePendingTransition(R.anim.anim_left_slide_in, R.anim.anim_right_slide_out);
                 }
                 break;
 

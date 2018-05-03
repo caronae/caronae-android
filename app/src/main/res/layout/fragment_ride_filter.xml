@@ -37,22 +37,6 @@
             android:focusable="false"
             android:hint="@string/frag_ridefilter_locationHint" />
 
-        <EditText
-            android:id="@+id/campi_et"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/center_et"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="5dp"
-            android:layout_marginStart="5dp"
-            android:drawableLeft="@drawable/ic_account_balance_24dp"
-            android:drawablePadding="5dp"
-            android:drawableStart="@drawable/ic_account_balance_24dp"
-            android:focusable="false"
-            android:visibility="gone"
-            android:hint="@string/frag_ridesearch_campiHint" />
-
-
         <TextView
             android:id="@+id/filter_description"
             android:layout_centerVertical="true"

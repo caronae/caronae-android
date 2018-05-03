@@ -3,24 +3,13 @@ package br.ufrj.caronae;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapShader;
-import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.graphics.Rect;
-import android.graphics.Shader;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
-import android.renderscript.Allocation;
-import android.renderscript.Element;
-import android.renderscript.RenderScript;
-import android.renderscript.ScriptIntrinsicBlur;
-import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
@@ -34,13 +23,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.Random;
 
-import br.ufrj.caronae.models.Campi;
 import br.ufrj.caronae.models.ChatAssets;
-import br.ufrj.caronae.models.Institution;
 import br.ufrj.caronae.models.Ride;
-import br.ufrj.caronae.models.Zone;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
 import retrofit2.Response;
 
@@ -85,21 +70,9 @@ public class Util {
         Toast.makeText(App.getInst(), msg, Toast.LENGTH_SHORT).show();
     }
 
-    public static void snack(View coordinator, String msg) {
-        Snackbar.make(coordinator, msg, Snackbar.LENGTH_LONG).show();
-    }
-
     public static void debug(String msg)
     {
         Log.d("DEBUG: ", msg);
-    }
-
-    public static String[] getZones() {
-        return new String[]{"Centro", "Zona Sul", "Zona Oeste", "Zona Norte", "Baixada", "Grande Niterói", "Outros"};
-    }
-
-    public static String[] getZonesForFilter() {
-        return new String[]{"Centro", "Zona Sul", "Zona Oeste", "Zona Norte", "Baixada", "Grande Niterói"};
     }
 
     public static String[] getNeighborhoods(String zone) {
@@ -156,55 +129,6 @@ public class Util {
         return new String[]{"Todos os Bairros"};
     }
 
-    public static String[] getAllNeighborhoods() {
-        return new String[]{"Benfica", "Caju", "Catumbi", "Centro (Bairro)", "Cidade Nova",
-                "Estácio", "Gamboa", "Glória", "Lapa", "Mangueira", "Rio Comprido",
-                "Santa Teresa", "Santo Cristo", "São Cristóvão", "Saúde", "Vasco da Gama",
-                "Botafogo", "Catete", "Copacabana", "Cosme Velho",
-                "Flamengo", "Gávea", "Humaitá", "Ipanema", "Jardim Botânico", "Lagoa",
-                "Laranjeiras", "Leblon", "Leme", "Rocinha", "São Conrado", "Urca", "Vidigal",
-                "Anil", "Bangu", "Barra de Guaratiba",
-                "Barra da Tijuca", "Camorim", "Campo Grande", "Cidade de Deus", "Cosmos",
-                "Curicica", "Deodoro", "Freguesia de Jacarepaguá", "Gardênia Azul", "Gericinó",
-                "Grumari", "Guaratiba", "Inhoaíba", "Itanhangá", "Jacarepaguá",
-                "Jardim Sulacap", "Joá", "Magalhães Bastos", "Paciência", "Padre Miguel",
-                "Pedra de Guaratiba", "Praça Seca ", "Pechincha", "Realengo",
-                "Recreio dos Bandeirantes", "Santa Cruz", "Santíssimo", "Senador Camará",
-                "Senador Vasconcelos", "Sepetiba", "Tanque", "Taquara", "Vargem Grande",
-                "Vargem Pequena", "Vila Militar", "Vila Valqueire",
-                "Abolição", "Acari", "Água Santa", "Alto da Boa Vista",
-                "Anchieta", "Andaraí", "Bancários", "Barros Filho", "Bento Ribeiro",
-                "Bonsucesso", "Brás de Pina", "Cachambi", "Cacuia", "Campinho", "Cascadura",
-                "Cavalcanti", "Cocotá", "Coelho Neto", "Colégio",
-                "Complexo do Alemão", "Cordovil", "Costa Barros", "Del Castilho", "Encantado",
-                "Engenheiro Leal", "Engenho Novo", "Engenho da Rainha", "Engenho de Dentro",
-                "Freguesia (Ilha do Governador)", "Galeão", "Grajaú", "Guadalupe",
-                "Higienópolis", "Honório Gurgel", "Inhaúma", "Irajá", "Jacarezinho", "Jacaré",
-                "Jardim América", "Jardim Carioca", "Jardim Guanabara", "Lins de Vasconcelos",
-                "Madureira", "Manguinhos", "Maracanã", "Marechal Hermes", "Maria da Graça",
-                "Maré", "Monero", "Méier", "Olaria", "Oswaldo Cruz", "Parada de Lucas",
-                "Parque Colúmbia", "Pavuna", "Penha", "Penha Circular", "Piedade", "Pilares",
-                "Pitangueiras", "Portuguesa", "Praia da Bandeira", "Praça da Bandeira",
-                "Quintino Bocaiuva", "Ramos", "Riachuelo", "Ribeira", "Ricardo de Albuquerque",
-                "Rocha", "Rocha Miranda", "Sampaio", "São Francisco Xavier", "Tauá", "Tijuca",
-                "Todos os Santos", "Tomás Coelho", "Turiaçu", "Vaz Lobo",
-                "Vicente de Carvalho", "Vigário Geral", "Vila Isabel", "Vila Kosmos",
-                "Vila da Penha", "Vista Alegre", "Zumbi",
-                "Belford Roxo", "Duque de Caxias", "Guapimirim", "Itaguai",
-                "Japeri", "Magé", "Mesquita", "Nilópolis", "Nova Iguaçu", "Paracambi",
-                "Queimados", "São João de Meriti", "Seropédica",
-                "Itaboraí", "Maricá", "Centro (Niterói)",
-                "Região oceânica (Niterói)", "Rio Bonito", "São Gonçalo", "Tanguá"};
-    }
-
-    public static String[] getAllNeighborhoodsLowerCase() {
-        String[] neighborhoods = getAllNeighborhoods();
-        for (int index = 0; index < neighborhoods.length; index++) {
-            neighborhoods[index] = neighborhoods[index].toLowerCase();
-        }
-        return neighborhoods;
-    }
-
     public static String[] getFundaoHubs() {
         return new String[]{"CCMN: Frente", "CCMN: Fundos", "CCS: Frente", "CCS: HUCFF", "CT: Bloco A", "CT: Bloco D", "CT: Bloco H", "EEFD", "Letras", "Reitoria"};
     }
@@ -220,14 +144,6 @@ public class Util {
 
     public static String[] getCampi() {
         return new String[]{"Todos os Centros", "Cidade Universitária", "Praia Vermelha"};
-    }
-
-    public static String[] getCentersLowerCase() {
-        String[] center = getFundaoCenters();
-        for (int index = 0; index < center.length; index++) {
-            center[index] = center[index].toLowerCase();
-        }
-        return center;
     }
 
     public static String[] getCentersWithoutAllCenters() {
@@ -294,13 +210,6 @@ public class Util {
         return getAvailableHubs();
     }
 
-    public static String[] getCentersByCampi(String campi) {
-        if (campi.equals(getCampi()[2])) {
-            return new String[]{""};
-        }
-        return getFundaoCenters();
-    }
-
     public static String formatTime(String time) {
         String formattedTime = "";
         try {
@@ -332,17 +241,6 @@ public class Util {
         return hour.substring(0, hour.length() - 3);
     }
 
-    public static String formatGoodDateWithoutYear(String date) {
-        String formattedTime = "";
-        try {
-            Date date2 = new SimpleDateFormat("dd/MM/yyyy", Locale.US).parse(date);
-            formattedTime = new SimpleDateFormat("dd/MM", Locale.US).format(date2);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return formattedTime;
-    }
-
     public static String formatBadDateWithoutYear(String date) {
         String formattedTime = "";
         try {
@@ -361,12 +259,6 @@ public class Util {
     // Input Date Format: "YYYY-MM-DD"
     public static int getDayFromDate(String date) {
         return Integer.parseInt(date.substring(8, 10));
-    }
-
-    // Input Date Format: "YYYY-MM-DD"
-    // Return DD/MM
-    public static String getDayWithMonthFromDate(String date) {
-        return date.substring(8, 10) + "/" + date.substring(5, 7);
     }
 
     public static String getWeekDayFromBRDate(String dateString) {
@@ -496,42 +388,6 @@ public class Util {
         }
     }
 
-
-    public static class BlurBuilder {
-        private static final float BITMAP_SCALE = 0.4f;
-        private static final float BLUR_RADIUS = 24.5f;
-
-        public static Bitmap blur(View v) {
-            return blur(v.getContext(), getScreenshot(v));
-        }
-
-        public static Bitmap blur(Context ctx, Bitmap image) {
-            int width = Math.round(image.getWidth() * BITMAP_SCALE);
-            int height = Math.round(image.getHeight() * BITMAP_SCALE);
-
-            Bitmap inputBitmap = Bitmap.createScaledBitmap(image, width, height, false);
-            Bitmap outputBitmap = Bitmap.createBitmap(inputBitmap);
-
-            RenderScript rs = RenderScript.create(ctx);
-            ScriptIntrinsicBlur theIntrinsic = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));
-            Allocation tmpIn = Allocation.createFromBitmap(rs, inputBitmap);
-            Allocation tmpOut = Allocation.createFromBitmap(rs, outputBitmap);
-            theIntrinsic.setRadius(BLUR_RADIUS);
-            theIntrinsic.setInput(tmpIn);
-            theIntrinsic.forEach(tmpOut);
-            tmpOut.copyTo(outputBitmap);
-
-            return outputBitmap;
-        }
-
-        private static Bitmap getScreenshot(View v) {
-            Bitmap b = Bitmap.createBitmap(v.getWidth(), v.getHeight(), Bitmap.Config.ARGB_8888);
-            Canvas c = new Canvas(b);
-            v.draw(c);
-            return b;
-        }
-    }
-
     public static class OffsetDecoration extends RecyclerView.ItemDecoration {
         private int mBottomOffset;
         private int mTopOffset;
@@ -598,63 +454,6 @@ public class Util {
         }
         if (zone.equals("Grande Niterói")) {
             color = ContextCompat.getColor(App.getInst(), R.color.zone_niteroi);
-        }
-        return color;
-    }
-
-    static public int getColorbyCampi(String campi) {
-        int color = ContextCompat.getColor(App.getInst(), R.color.zone_outros);
-        if (campi.equals(getCampi()[1])) {
-            color = ContextCompat.getColor(App.getInst(), R.color.zone_oeste);
-            Log.e("COR", "campus passado: " + campi + "  campi comparado: " + getCampi()[1]);
-        }
-        if (campi.equals(getCampi()[2])) {
-            color = ContextCompat.getColor(App.getInst(), R.color.zone_baixada);
-            Log.e("COR", "campus passado: " + campi + "  campi comparado: " + getCampi()[2]);
-        }
-        return color;
-    }
-
-    static public int getColorRamdom() {
-        Random random = new Random();
-        int num = random.nextInt(6);
-        switch (num){
-            case 0:
-                return ContextCompat.getColor(App.getInst(), R.color.zone_centro);
-            case 1:
-                return ContextCompat.getColor(App.getInst(), R.color.zone_sul);
-            case 2:
-                return ContextCompat.getColor(App.getInst(), R.color.zone_oeste);
-            case 3:
-                return ContextCompat.getColor(App.getInst(), R.color.zone_norte);
-            case 4:
-                return ContextCompat.getColor(App.getInst(), R.color.zone_baixada);
-            case 5:
-                return ContextCompat.getColor(App.getInst(), R.color.zone_niteroi);
-            default:
-                return ContextCompat.getColor(App.getInst(), R.color.zone_outros);
-        }
-    }
-
-    static public int getPressedColorbyZone(String zone) {
-        int color = ContextCompat.getColor(App.getInst(), R.color.zone_outros);
-        if (zone.equals("Centro")) {
-            color = ContextCompat.getColor(App.getInst(), R.color.light_zone_centro_transparency);
-        }
-        if (zone.equals("Zona Sul")) {
-            color = ContextCompat.getColor(App.getInst(), R.color.light_zone_sul_transparency);
-        }
-        if (zone.equals("Zona Oeste")) {
-            color = ContextCompat.getColor(App.getInst(), R.color.light_zone_oeste_transparency);
-        }
-        if (zone.equals("Zona Norte")) {
-            color = ContextCompat.getColor(App.getInst(), R.color.light_zone_norte_transparency);
-        }
-        if (zone.equals("Baixada")) {
-            color = ContextCompat.getColor(App.getInst(), R.color.light_zone_baixada_transparency);
-        }
-        if (zone.equals("Grande Niterói")) {
-            color = ContextCompat.getColor(App.getInst(), R.color.light_zone_niteroi_transparency);
         }
         return color;
     }

@@ -18,19 +18,19 @@ import br.ufrj.caronae.CustomPlaceBar;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.acts.PlaceAct;
-import br.ufrj.caronae.models.Zone;
+import br.ufrj.caronae.models.Campi;
 import br.ufrj.caronae.models.modelsforjson.PlacesForJson;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ZonesFrag extends Fragment {
+public class CampiFrag extends Fragment {
 
     @BindView(R.id.main_layout)
     LinearLayout mainLayout;
 
     Activity activity;
 
-    public ZonesFrag() {
+    public CampiFrag() {
         // Required empty public constructor
     }
 
@@ -39,55 +39,38 @@ public class ZonesFrag extends Fragment {
         View view = inflater.inflate(R.layout.fragment_places, container, false);
         ButterKnife.bind(this, view);
         activity = getActivity();
-        PlaceAct placeAct = (PlaceAct)activity;
-        placeAct.setOtherVisibility(View.GONE);
         PlacesForJson places = SharedPref.getPlace();
-        List<Zone> zones = places.getZones();
-        if(zones != null && zones.size() != 0)
+        List<Campi> campi = places.getCampi();
+
+        if(campi != null && campi.size() != 0)
         {
-            Collections.sort(zones, new Comparator<Zone>() {
-                public int compare(Zone z1, Zone z2) {
-                    return z1.getName().compareTo(z2.getName());
+            Collections.sort(campi, new Comparator<Campi>() {
+                public int compare(Campi c1, Campi c2) {
+                    return c1.getName().compareTo(c2.getName());
                 }
             });
             CustomPlaceBar cPB;
             Fragment fragment = (Fragment) this;
-            boolean other = activity.getIntent().getExtras().getBoolean("otherP", false);
-            boolean all = activity.getIntent().getExtras().getBoolean("allP", false);
-            boolean backFromOthers = activity.getIntent().getExtras().getBoolean("getBack", false);
-            if(all)
-            {
-                cPB = new CustomPlaceBar(activity, getContext(), fragment, false, "Todos os Bairros", "#505050", "zone");
+            for (int i = 0; i < campi.size(); i++) {
+                cPB = new CustomPlaceBar(activity, getContext(), fragment, false, campi.get(i).getName(), campi.get(i).getColor(), "campi");
                 mainLayout.addView(cPB);
             }
-            for (int i = 0; i < zones.size(); i++) {
-                cPB = new CustomPlaceBar(activity, getContext(), fragment, false, zones.get(i).getName(), zones.get(i).getColor(), "zone");
-                mainLayout.addView(cPB);
-            }
-            if(other) {
-                if(backFromOthers) {
-                    cPB = new CustomPlaceBar(activity, getContext(), fragment, false, "Outra", "#919191", "willback");
-                }
-                else
-                {
-                    cPB = new CustomPlaceBar(activity, getContext(), fragment, false, "Outra", "#919191", "zone");
-                }
-                mainLayout.addView(cPB);
-            }
+            cPB = new CustomPlaceBar(activity, getContext(), fragment, false, "Outra","#919191", "campi" );
+            mainLayout.addView(cPB);
         }
         return view;
     }
 
-    public void changeToNeighborhoods(String zone)
+    public void changeToCenters(String campi)
     {
         PlaceAct act = (PlaceAct)activity;
-        act.setBackText("Zona");
+        act.setBackText("Centros");
         act.hideKeyboard();
         Fragment fragment = null;
         FragmentManager fragmentManager;
         Class fragmentClass;
         Bundle bundle = new Bundle();
-        bundle.putString("zone", zone);
+        bundle.putString("campi", campi);
         fragmentClass = NeighborhoodsFrag.class;
         try {
             fragment = (Fragment) fragmentClass.newInstance();

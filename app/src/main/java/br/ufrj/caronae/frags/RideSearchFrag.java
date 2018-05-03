@@ -2,7 +2,7 @@ package br.ufrj.caronae.frags;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -36,6 +36,7 @@ import br.ufrj.caronae.CustomDateTimePicker;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.Util;
+import br.ufrj.caronae.acts.PlaceAct;
 import br.ufrj.caronae.adapters.RideOfferAdapter;
 import br.ufrj.caronae.comparators.RideOfferComparatorByDateAndTime;
 import br.ufrj.caronae.httpapis.CaronaeAPI;
@@ -93,7 +94,7 @@ public class RideSearchFrag extends Fragment {
         ButterKnife.bind(this, view);
 
         going = true;
-
+        setButton(isLeaving_bt,isGoing_bt, isLeaving_tv, isGoing_tv);
         if(SharedPref.getGoingLabel() != null)
         {
             isGoing_tv.setText(SharedPref.getGoingLabel());
@@ -128,6 +129,29 @@ public class RideSearchFrag extends Fragment {
         App.getBus().unregister(this);
     }
 
+    @Override
+    public void onStart()
+    {
+        Util.debug(SharedPref.LOCATION_INFO);
+        if(!SharedPref.LOCATION_INFO.isEmpty() && !SharedPref.LOCATION_INFO.equals(""))
+        {
+            location_et.setText(SharedPref.LOCATION_INFO);
+            SharedPref.LOCATION_INFO = "";
+        }
+        super.onStart();
+    }
+
+    @Override
+    public void onResume()
+    {
+        if(!SharedPref.LOCATION_INFO.isEmpty() && !SharedPref.LOCATION_INFO.equals(""))
+        {
+            location_et.setText(SharedPref.LOCATION_INFO);
+            SharedPref.LOCATION_INFO = "";
+        }
+        super.onResume();
+    }
+
     private void loadLastFilters(String lastRideSearchFilters) {
         RideSearchFiltersForJson rideSearchFilters = new Gson().fromJson(lastRideSearchFilters, RideSearchFiltersForJson.class);
         location_et.setText(rideSearchFilters.getLocationResumedField());
@@ -147,7 +171,14 @@ public class RideSearchFrag extends Fragment {
 
     @OnClick(R.id.location_et)
     public void locationEt() {
-
+        Intent intent = new Intent(getActivity(), PlaceAct.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra("backText", "Buscar");
+        intent.putExtra("allP", true);
+        intent.putExtra("otherP", true);
+        intent.putExtra("getBack", true);
+        startActivity(intent);
+        getActivity().overridePendingTransition(R.anim.anim_right_slide_in, R.anim.anim_left_slide_out);
     }
 
     @OnClick(R.id.time_et)
@@ -181,20 +212,7 @@ public class RideSearchFrag extends Fragment {
 
     @OnClick(R.id.center_et)
     public void centerEt() {
-        /*
-        final ArrayList<String> selectedItems = new ArrayList<>();
-        String[] campis = Util.getCampi();
-        String selectedCampi = campi;
-        boolean[] ifCampiAreSelected = new boolean[campis.length];
-        for (int campi = 0; campi < campis.length; campi++) {
-            ifCampiAreSelected[campi] = false;
-            if (campis[campi].equals(selectedCampi)) {
-                ifCampiAreSelected[campi] = true;
-                selectedItems.add(campis[campi]);
-            }
-        }
 
-        showCampiListFragment();*/
     }
 
     @OnClick(R.id.search_bt)

@@ -3,8 +3,6 @@ package br.ufrj.caronae.acts;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -55,9 +53,9 @@ import br.ufrj.caronae.frags.MyProfileEditFrag;
 import br.ufrj.caronae.frags.MyRidesFrag;
 import br.ufrj.caronae.frags.OptionsMenuFrag;
 import br.ufrj.caronae.frags.RideFilterFrag;
+import br.ufrj.caronae.frags.RideOfferFrag;
 import br.ufrj.caronae.frags.RideSearchFrag;
 import br.ufrj.caronae.frags.RidesHistoryFrag;
-import br.ufrj.caronae.frags.TabbedRideOfferFrag;
 import br.ufrj.caronae.httpapis.CaronaeAPI;
 import br.ufrj.caronae.models.User;
 import br.ufrj.caronae.models.modelsforjson.PlacesForJson;
@@ -80,6 +78,7 @@ public class MainAct extends AppCompatActivity {
     public static TextView filterText;
     public static BottomNavigationView navigation;
     static TextView cancel_bt;
+    boolean backToMain;
 
     private ArrayList<Class> backstack;
 
@@ -157,12 +156,15 @@ public class MainAct extends AppCompatActivity {
                 switch(SharedPref.NAV_INDICATOR)
                 {
                     case "AllRides":
+                        backToMain = false;
                         selectDrawerItem(navigation.getMenu().getItem(0), true);
                         break;
                     case "MyRides":
+                        backToMain = false;
                         selectDrawerItem(navigation.getMenu().getItem(1), true);
                         break;
                     case "Menu":
+                        backToMain = false;
                         selectDrawerItem(navigation.getMenu().getItem(2), true);
                         break;
                 }
@@ -209,47 +211,44 @@ public class MainAct extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
         User user = App.getUser();
         Fragment fragment;
-        boolean goToMyRides = getIntent().getBooleanExtra(SharedPref.MY_RIDE_LIST_KEY, false);
-        if (user.getEmail() == null || user.getEmail().isEmpty() ||
-                user.getPhoneNumber() == null || user.getPhoneNumber().isEmpty() ||
-                user.getLocation() == null || user.getLocation().isEmpty()) {
-            fragment = new MyProfileEditFrag();
-            Util.toast(getString(R.string.act_main_profileIncomplete));
+        if(!backToMain) {
+            boolean goToMyRides = getIntent().getBooleanExtra(SharedPref.MY_RIDE_LIST_KEY, false);
+            if (user.getEmail() == null || user.getEmail().isEmpty() ||
+                    user.getPhoneNumber() == null || user.getPhoneNumber().isEmpty() ||
+                    user.getLocation() == null || user.getLocation().isEmpty()) {
+                fragment = new MyProfileEditFrag();
+                Util.toast(getString(R.string.act_main_profileIncomplete));
+            } else if (goToMyRides) {
+                fragment = new MyRidesFrag();
+                backstack.add(new AllRidesFrag().getClass());
+            } else {
+                fragment = new AllRidesFrag();
+            }
+            if (SharedPref.NAV_INDICATOR.equals("AllRides")) {
+                fragment = new AllRidesFrag();
+            } else if (SharedPref.NAV_INDICATOR.equals("MyRides")) {
+                fragment = new MyRidesFrag();
+            } else {
+                fragment = new OptionsMenuFrag();
+            }
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+            backstack.add(fragment.getClass());
         }
-        else if (goToMyRides){
-            fragment = new MyRidesFrag();
-            backstack.add(new AllRidesFrag().getClass());
-        }
-        else {
-            fragment = new AllRidesFrag();
-        }
-        if(SharedPref.NAV_INDICATOR.equals("AllRides"))
-        {
-            fragment = new AllRidesFrag();
-        }
-        else if(SharedPref.NAV_INDICATOR.equals("MyRides"))
-        {
-            fragment = new MyRidesFrag();
-        }
-        else
-        {
-            fragment = new OptionsMenuFrag();
-        }
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
-        backstack.add(fragment.getClass());
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (!SharedPref.FRAGMENT_INDICATOR.equals("")){
-            if (SharedPref.FRAGMENT_INDICATOR.equals(MyRidesFrag.class.getName()))
-                SharedPref.FRAGMENT_INDICATOR = "";
-            showActiveRidesFrag();
+        if(!backToMain)
+        {
+            if (!SharedPref.FRAGMENT_INDICATOR.equals("")) {
+                if (SharedPref.FRAGMENT_INDICATOR.equals(MyRidesFrag.class.getName()))
+                    SharedPref.FRAGMENT_INDICATOR = "";
+                showActiveRidesFrag();
+            }
         }
     }
 
@@ -433,6 +432,7 @@ public class MainAct extends AppCompatActivity {
         hideFilterCard(getBaseContext());
         Class fragmentClass = null;
         Fragment fragment = null;
+        backToMain = true;
         if (item.getItemId() == R.id.search_frag_bt) {
             backstack.remove(RideSearchFrag.class);
             backstack.add(RideSearchFrag.class);
@@ -444,9 +444,9 @@ public class MainAct extends AppCompatActivity {
             fragmentClass = RideFilterFrag.class;
         }
         else if(item.getItemId() == R.id.new_ride_bt) {
-            backstack.remove(TabbedRideOfferFrag.class);
-            backstack.add(TabbedRideOfferFrag.class);
-            fragmentClass = TabbedRideOfferFrag.class;
+            backstack.remove(RideOfferFrag.class);
+            backstack.add(RideOfferFrag.class);
+            fragmentClass = RideOfferFrag.class;
         }
         try {
             fragment = (Fragment) fragmentClass.newInstance();
@@ -697,7 +697,7 @@ public class MainAct extends AppCompatActivity {
     {
         try
         {
-            if (isNetworkAvailable())
+            if (Util.isNetworkAvailable(getBaseContext()))
             {
                 ImageView iv = new ImageView(getApplicationContext());
                 iv.setVisibility(View.INVISIBLE);
@@ -724,20 +724,5 @@ public class MainAct extends AppCompatActivity {
             }
         }
         catch(Exception e){}
-    }
-
-    public boolean isNetworkAvailable() {
-        boolean isConnected;
-        try {
-            ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
-            NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-            isConnected = activeNetworkInfo != null && activeNetworkInfo.isConnected();
-        }
-        catch (Exception e){
-            Log.d("Check Exception: ", "" + e.getMessage());
-            Log.d("Connectivity: ", e.toString());
-            isConnected = false;
-        }
-        return isConnected;
     }
 }

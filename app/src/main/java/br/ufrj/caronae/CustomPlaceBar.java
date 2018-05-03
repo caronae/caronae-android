@@ -17,23 +17,15 @@ import br.ufrj.caronae.frags.ZonesFrag;
 
 public class CustomPlaceBar extends LinearLayout {
 
-    private Activity activity;
-    private LinearLayout mainLayout;
-    private RelativeLayout arrow;
     private ImageView bar_iv;
     private TextView bar_tv;
-    private Fragment frag;
-    private boolean secondPlace;
 
-    public CustomPlaceBar(Activity activity, Context context, Fragment frag, boolean secondPlace, String text, String color)
+    public CustomPlaceBar(Activity activity, Context context, Fragment frag, boolean secondPlace, String text, String color, String code)
     {
         super(context);
         LayoutInflater.from(getContext()).inflate(R.layout.custom_placebar, this);
-        this.frag = frag;
-        this.secondPlace = secondPlace;
-        this.activity = activity;
-        mainLayout = (LinearLayout) findViewById(R.id.main_layout);
-        arrow = (RelativeLayout) findViewById(R.id.lay_3);
+        LinearLayout mainLayout = (LinearLayout) findViewById(R.id.main_layout);
+        RelativeLayout arrow = (RelativeLayout) findViewById(R.id.lay_3);
         bar_iv = (ImageView) findViewById(R.id.bar_iv);
         bar_tv = (TextView) findViewById(R.id.bar_tv);
         setText(text);
@@ -42,24 +34,40 @@ public class CustomPlaceBar extends LinearLayout {
         if(secondPlace) {
             arrow.setVisibility(View.INVISIBLE);
         }
-        else
-        {
-            mainLayout.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
+        PlaceAct act = (PlaceAct) activity;
+        mainLayout.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(code.equals("zone")) {
                     ZonesFrag fragment = (ZonesFrag) frag;
-                    PlaceAct act = (PlaceAct)activity;
-                    if(!bar_tv.getText().toString().equals("Outra")) {
-                        act.setTitle(bar_tv.getText().toString());
-                    }
-                    else
-                    {
+                    if (bar_tv.getText().toString().equals("Outra")) {
                         act.setTitle(bar_tv.getText().toString() + " região");
-                    }
                         fragment.changeToNeighborhoods(bar_tv.getText().toString());
+                    }
+                    else if(bar_tv.getText().toString().equals("Todos os Bairros")) {
+                        SharedPref.LOCATION_INFO = "Todos os Bairros";
+                        act.finish();
+                        act.overridePendingTransition(R.anim.anim_left_slide_in, R.anim.anim_right_slide_out);
+                    }
+                    else {
+                        act.setTitle(bar_tv.getText().toString());
+                        fragment.changeToNeighborhoods(bar_tv.getText().toString());
+                    }
                 }
-            });
-        }
+                else if(code.equals("neighborhood"))
+                {
+                    SharedPref.LOCATION_INFO = bar_tv.getText().toString();
+                    act.finish();
+                    act.overridePendingTransition(R.anim.anim_left_slide_in, R.anim.anim_right_slide_out);
+                }
+                else if(code.equals("willback"))
+                {
+                    SharedPref.LOCATION_INFO = "Outros";
+                    act.finish();
+                    act.overridePendingTransition(R.anim.anim_left_slide_in, R.anim.anim_right_slide_out);
+                }
+            }
+        });
     }
 
     public void setText(String text)

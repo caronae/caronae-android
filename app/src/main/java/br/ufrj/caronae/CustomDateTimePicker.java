@@ -71,6 +71,9 @@ public class CustomDateTimePicker extends Dialog implements View.OnClickListener
         dayTime_np = (NumberPicker) findViewById(R.id.day_time);
         hour_np = (NumberPicker) findViewById(R.id.hour);
         minute_np = (NumberPicker) findViewById(R.id.minutes);
+        dayTime_np.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+        hour_np.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+        minute_np.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         positive_bt.setOnClickListener(this);
         negative_bt.setOnClickListener(this);
         setNumberPicker(time);

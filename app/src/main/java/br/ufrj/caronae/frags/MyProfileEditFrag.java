@@ -1,19 +1,12 @@
 package br.ufrj.caronae.frags;
 
 import android.app.Activity;
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -44,12 +37,7 @@ import com.facebook.login.widget.LoginButton;
 import com.redmadrobot.inputmask.MaskedTextChangedListener;
 import com.redmadrobot.inputmask.helper.Mask;
 import com.redmadrobot.inputmask.model.CaretString;
-import com.rey.material.app.Dialog;
-import com.rey.material.app.DialogFragment;
-import com.rey.material.app.SimpleDialog;
 import com.squareup.picasso.Picasso;
-
-import java.net.URL;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.CustomDialogClass;
@@ -58,7 +46,6 @@ import br.ufrj.caronae.R;
 import br.ufrj.caronae.RoundedTransformation;
 import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.Util;
-import br.ufrj.caronae.acts.FalaeAct;
 import br.ufrj.caronae.acts.MyProfileAct;
 import br.ufrj.caronae.acts.PlaceAct;
 import br.ufrj.caronae.acts.ProfileAct;
@@ -74,9 +61,6 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static android.content.Context.CLIPBOARD_SERVICE;
-import static android.content.Context.CONNECTIVITY_SERVICE;
 
 public class MyProfileEditFrag extends Fragment {
 
@@ -226,6 +210,28 @@ public class MyProfileEditFrag extends Fragment {
         }
         setETFormat();
         return view;
+    }
+
+    @Override
+    public void onStart()
+    {
+        if(!SharedPref.LOCATION_INFO.isEmpty() && !SharedPref.LOCATION_INFO.equals(""))
+        {
+            location_et.setText(SharedPref.LOCATION_INFO);
+            SharedPref.LOCATION_INFO = "";
+        }
+        super.onStart();
+    }
+
+    @Override
+    public void onResume()
+    {
+        if(!SharedPref.LOCATION_INFO.isEmpty() && !SharedPref.LOCATION_INFO.equals(""))
+        {
+            location_et.setText(SharedPref.LOCATION_INFO);
+            SharedPref.LOCATION_INFO = "";
+        }
+        super.onResume();
     }
 
     private void setFieldValidatorsListeners() {
@@ -399,64 +405,12 @@ public class MyProfileEditFrag extends Fragment {
     @OnClick(R.id.location_et)
     public void locationEt() {
         Intent intent = new Intent(getActivity(), PlaceAct.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra("backText", "Editar Perfil");
+        intent.putExtra("allP", false);
+        intent.putExtra("otherP", true);
         startActivity(intent);
         getActivity().overridePendingTransition(R.anim.anim_right_slide_in, R.anim.anim_left_slide_out);
-    }
-
-    public void showOtherNeighborhoodDialog() {
-        Dialog.Builder builder = new SimpleDialog.Builder(R.style.SimpleDialogLight) {
-
-            @Override
-            protected void onBuildDone(Dialog dialog) {
-                dialog.layoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            }
-
-            @Override
-            public void onPositiveActionClicked(DialogFragment fragment) {
-                android.widget.EditText neighborhood_et = (android.widget.EditText) fragment.getDialog().findViewById(R.id.neighborhood_et);
-                String neighborhood = neighborhood_et.getText().toString();
-                if (!neighborhood.isEmpty()) {
-                    location_et.setText(neighborhood);
-                }
-
-                super.onPositiveActionClicked(fragment);
-            }
-
-            @Override
-            public void onNegativeActionClicked(DialogFragment fragment) {
-                super.onNegativeActionClicked(fragment);
-            }
-        };
-
-        builder.title(getActivity().getString(R.string.frag_ridesearch_typeNeighborhood))
-                .positiveAction(getString(R.string.ok))
-                .negativeAction(getString(R.string.cancel))
-                .contentView(R.layout.other_neighborhood);
-
-        DialogFragment fragment2 = DialogFragment.newInstance(builder);
-        fragment2.show(getActivity().getSupportFragmentManager(), null);
-    }
-
-    public void locationEt2(String zone) {
-        SimpleDialog.Builder builder = new SimpleDialog.Builder(R.style.SimpleDialogLight) {
-            @Override
-            public void onPositiveActionClicked(DialogFragment fragment) {
-                location_et.setText(getSelectedValue());
-                super.onPositiveActionClicked(fragment);
-            }
-
-            @Override
-            public void onNegativeActionClicked(DialogFragment fragment) {
-                super.onNegativeActionClicked(fragment);
-            }
-        };
-
-        builder.items(Util.getNeighborhoods(zone), 0)
-                .title("Escolha seu bairro")
-                .positiveAction(getString(R.string.ok))
-                .negativeAction(getString(R.string.cancel));
-        DialogFragment fragment = DialogFragment.newInstance(builder);
-        fragment.show(getFragmentManager(), null);
     }
 
     public void saveProfileBtn() {

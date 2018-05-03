@@ -24,6 +24,7 @@ import br.ufrj.caronae.R;
 import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.MainAct;
+import br.ufrj.caronae.acts.PlaceAct;
 import br.ufrj.caronae.acts.StartAct;
 import br.ufrj.caronae.models.modelsforjson.RideFiltersForJson;
 import butterknife.BindView;
@@ -36,8 +37,6 @@ public class RideFilterFrag extends Fragment {
     EditText location_et;
     @BindView(R.id.center_et)
     EditText center_et;
-    @BindView(R.id.campi_et)
-    EditText campi_et;
     @BindView(R.id.search_bt)
     Button search_bt;
 
@@ -53,7 +52,6 @@ public class RideFilterFrag extends Fragment {
     public RideFilterFrag() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -76,7 +74,6 @@ public class RideFilterFrag extends Fragment {
         neighborhoods = rideFilters.getLocation();
         location_et.setText(rideFilters.getResumeLocation());
         center_et.setText(rideFilters.getCenter());
-        campi_et.setText(rideFilters.getCampus());
     }
 
     @OnClick(R.id.search_bt)
@@ -107,29 +104,39 @@ public class RideFilterFrag extends Fragment {
         }
     }
 
+    @Override
+    public void onStart()
+    {
+        Util.debug(SharedPref.LOCATION_INFO);
+        if(!SharedPref.LOCATION_INFO.isEmpty() && !SharedPref.LOCATION_INFO.equals(""))
+        {
+            location_et.setText(SharedPref.LOCATION_INFO);
+            SharedPref.LOCATION_INFO = "";
+        }
+        super.onStart();
+    }
+
+    @Override
+    public void onResume()
+    {
+        if(!SharedPref.LOCATION_INFO.isEmpty() && !SharedPref.LOCATION_INFO.equals(""))
+        {
+            location_et.setText(SharedPref.LOCATION_INFO);
+            SharedPref.LOCATION_INFO = "";
+        }
+        super.onResume();
+    }
+
     @OnClick(R.id.location_et)
     public void locationEt() {
-        SimpleDialog.Builder builder = new SimpleDialog.Builder(R.style.SimpleDialogLight) {
-            @Override
-            public void onPositiveActionClicked(DialogFragment fragment) {
-                String selectedZone = getSelectedValue().toString();
-                location_et.setText(selectedZone);
-                locationEt2(selectedZone);
-                super.onPositiveActionClicked(fragment);
-            }
-
-            @Override
-            public void onNegativeActionClicked(DialogFragment fragment) {
-                super.onNegativeActionClicked(fragment);
-            }
-        };
-
-        builder.items(Util.getZonesForFilter(), 0)
-                .title(getContext().getString(R.string.frag_rideSearch_pickZones))
-                .positiveAction(getContext().getString(R.string.ok))
-                .negativeAction(getContext().getString(R.string.cancel));
-        DialogFragment fragment = DialogFragment.newInstance(builder);
-        fragment.show(getFragmentManager(), null);
+        Intent intent = new Intent(getActivity(), PlaceAct.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra("backText", "Filtrar");
+        intent.putExtra("allP", true);
+        intent.putExtra("otherP", true);
+        intent.putExtra("getBack", true);
+        startActivity(intent);
+        getActivity().overridePendingTransition(R.anim.anim_right_slide_in, R.anim.anim_left_slide_out);
     }
 
     public void showOtherNeighborhoodDialog() {
@@ -269,7 +276,6 @@ public class RideFilterFrag extends Fragment {
                             if (selectedItems.get(selectedValues).equals(Util.getFundaoCenters()[0])
                                     || selectedItems.size() == Util.getFundaoCenters().length - 1) {
                                 selectedItems.clear();
-//                                selectedItems.add(Util.getFundaoCenters()[0]);
                                 selectedItems.add("Cidade Universitária");
                                 campi = "Cidade Universitária";
                                 centers = selectedItems.get(0) + ", ";
@@ -300,13 +306,6 @@ public class RideFilterFrag extends Fragment {
                     center_et.setText(getSelectedValue());
                     campi = getSelectedValue().toString();
                 } else {
-//                        centerBuilder.items(Util.getCentersByCampi(getSelectedValue().toString()), 0)
-//                                .title(getContext().getString(R.string.frag_rideOffer_pickCenter))
-//                                .positiveAction(getContext().getString(R.string.ok))
-//                                .negativeAction(getContext().getString(R.string.cancel));
-//                        DialogFragment centerFragment = DialogFragment.newInstance(centerBuilder);
-//                        centerFragment.show(getFragmentManager(), null);
-
                     builder.show();
                 }
                 super.onPositiveActionClicked(fragment);
@@ -326,20 +325,12 @@ public class RideFilterFrag extends Fragment {
         fragment.show(getFragmentManager(), null);
     }
 
-    @OnClick(R.id.campi_et)
     public void campiEt() {
         final ArrayList<String> selectedItems = new ArrayList<>();
 
-        String[] selectedCampis = campi_et.getText().toString().split(", ");
         boolean[] ifCampisAreSelected = new boolean[Util.getCampi().length];
         for (int campis = 0; campis < Util.getCampi().length; campis++) {
             ifCampisAreSelected[campis] = false;
-            for (int selecteds = 0; selecteds < selectedCampis.length; selecteds++) {
-                if (Util.getCampi()[campis].equals(selectedCampis[selecteds])) {
-                    ifCampisAreSelected[campis] = true;
-                    selectedItems.add(Util.getCampi()[campis]);
-                }
-            }
         }
 
         AlertDialog builder = new AlertDialog.Builder(getContext())
@@ -383,7 +374,6 @@ public class RideFilterFrag extends Fragment {
                         } else {
                             center_et.setVisibility(View.VISIBLE);
                         }
-                        campi_et.setText(campis);
                     }
                 })
                 .setNegativeButton(getContext().getString(R.string.cancel), new DialogInterface.OnClickListener() {

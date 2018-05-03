@@ -3,6 +3,8 @@ package br.ufrj.caronae.frags;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -27,7 +29,6 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
-import com.rey.material.app.Dialog;
 import com.rey.material.app.DialogFragment;
 import com.rey.material.app.SimpleDialog;
 
@@ -45,6 +46,7 @@ import br.ufrj.caronae.R;
 import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.MainAct;
+import br.ufrj.caronae.acts.PlaceAct;
 import br.ufrj.caronae.firebase.FirebaseTopicsHandler;
 import br.ufrj.caronae.httpapis.CaronaeAPI;
 import br.ufrj.caronae.models.ModelValidateDuplicate;
@@ -59,6 +61,21 @@ import retrofit2.Response;
 
 public class RideOfferFrag extends Fragment {
 
+
+    @BindView(R.id.tab1)
+    RelativeLayout isGoing_bt;
+    @BindView(R.id.tab2)
+    RelativeLayout isLeaving_bt;
+    @BindView(R.id.days_lo)
+    RelativeLayout days_lo;
+
+    @BindView(R.id.tab1_tv)
+    TextView isGoing_tv;
+    @BindView(R.id.tab2_tv)
+    TextView isLeaving_tv;
+    @BindView(R.id.time_et)
+    public TextView time_et;
+
     @BindView(R.id.radioGroup2)
     RadioGroup radioGroup2;
 
@@ -68,18 +85,16 @@ public class RideOfferFrag extends Fragment {
     EditText place_et;
     @BindView(R.id.way_et)
     EditText way_et;
-    @BindView(R.id.time_et)
-    public TextView time_et;
     @BindView(R.id.center_et)
     EditText center_et;
     @BindView(R.id.campi_et)
     EditText campi_et;
     @BindView(R.id.description_et)
     EditText description_et;
+
     @BindView(R.id.routine_cb)
     SwitchCompat routine_cb;
-    @BindView(R.id.days_lo)
-    RelativeLayout days_lo;
+
     @BindView(R.id.monday_cb)
     CheckBox monday_cb;
     @BindView(R.id.tuesday_cb)
@@ -94,6 +109,7 @@ public class RideOfferFrag extends Fragment {
     CheckBox saturday_cb;
     @BindView(R.id.sunday_cb)
     CheckBox sunday_cb;
+
     @BindView(R.id.scrollView)
     ScrollView scrollView;
 
@@ -112,8 +128,17 @@ public class RideOfferFrag extends Fragment {
         View view = inflater.inflate(R.layout.fragment_ride_offer, container, false);
         ButterKnife.bind(this, view);
 
-        Bundle bundle = getArguments();
-        going = bundle.getBoolean("going");
+        going = true;
+        setButton(isLeaving_bt, isGoing_bt,isLeaving_tv, isGoing_tv);
+
+        if(SharedPref.getGoingLabel() != null)
+        {
+            isGoing_tv.setText(SharedPref.getGoingLabel());
+        }
+        if(SharedPref.getLeavingLabel() != null)
+        {
+            isLeaving_tv.setText(SharedPref.getLeavingLabel());
+        }
 
         setInitialDate();
 
@@ -170,89 +195,38 @@ public class RideOfferFrag extends Fragment {
         }
     }
 
+    @Override
+    public void onStart()
+    {
+        Util.debug(SharedPref.LOCATION_INFO);
+        if(!SharedPref.LOCATION_INFO.isEmpty() && !SharedPref.LOCATION_INFO.equals(""))
+        {
+            neighborhood_et.setText(SharedPref.LOCATION_INFO);
+            SharedPref.LOCATION_INFO = "";
+        }
+        super.onStart();
+    }
+
+    @Override
+    public void onResume()
+    {
+        if(!SharedPref.LOCATION_INFO.isEmpty() && !SharedPref.LOCATION_INFO.equals(""))
+        {
+            neighborhood_et.setText(SharedPref.LOCATION_INFO);
+            SharedPref.LOCATION_INFO = "";
+        }
+        super.onResume();
+    }
+
     @OnClick(R.id.neighborhood_et)
     public void neighborhoodEt() {
-        SimpleDialog.Builder builder = new SimpleDialog.Builder(R.style.SimpleDialogLight) {
-            @Override
-            public void onPositiveActionClicked(DialogFragment fragment) {
-                String selectedZone = getSelectedValue().toString();
-                zone = selectedZone;
-                if (selectedZone.equals("Outros")) {
-                    showOtherNeighborhoodDialog();
-                } else {
-                    locationEt2(selectedZone);
-                }
-                super.onPositiveActionClicked(fragment);
-            }
-
-            @Override
-            public void onNegativeActionClicked(DialogFragment fragment) {
-                super.onNegativeActionClicked(fragment);
-            }
-        };
-
-        builder.items(Util.getZones(), 0)
-                .title(getContext().getString(R.string.frag_rideOffer_pickZone))
-                .positiveAction(getContext().getString(R.string.ok))
-                .negativeAction(getContext().getString(R.string.cancel));
-        DialogFragment fragment = DialogFragment.newInstance(builder);
-        fragment.show(getFragmentManager(), null);
-    }
-
-    public void showOtherNeighborhoodDialog() {
-        Dialog.Builder builder = new SimpleDialog.Builder(R.style.SimpleDialogLight) {
-
-            @Override
-            protected void onBuildDone(Dialog dialog) {
-                dialog.layoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            }
-
-            @Override
-            public void onPositiveActionClicked(DialogFragment fragment) {
-                EditText neighborhood_et2 = (EditText) fragment.getDialog().findViewById(R.id.neighborhood_et);
-                String neighborhood = neighborhood_et2.getText().toString();
-                if (!neighborhood.isEmpty()) {
-                    neighborhood_et.setText(neighborhood);
-                }
-
-                super.onPositiveActionClicked(fragment);
-            }
-
-            @Override
-            public void onNegativeActionClicked(DialogFragment fragment) {
-                super.onNegativeActionClicked(fragment);
-            }
-        };
-
-        builder.title(getActivity().getString(R.string.frag_ridesearch_typeNeighborhood))
-                .positiveAction(getString(R.string.ok))
-                .negativeAction(getString(R.string.cancel))
-                .contentView(R.layout.other_neighborhood);
-
-        DialogFragment fragment2 = DialogFragment.newInstance(builder);
-        fragment2.show(getActivity().getSupportFragmentManager(), null);
-    }
-
-    public void locationEt2(String zone) {
-        SimpleDialog.Builder builder = new SimpleDialog.Builder(R.style.SimpleDialogLight) {
-            @Override
-            public void onPositiveActionClicked(DialogFragment fragment) {
-                neighborhood_et.setText(getSelectedValue());
-                super.onPositiveActionClicked(fragment);
-            }
-
-            @Override
-            public void onNegativeActionClicked(DialogFragment fragment) {
-                super.onNegativeActionClicked(fragment);
-            }
-        };
-
-        builder.items(Util.getNeighborhoods(zone), 0)
-                .title(getContext().getString(R.string.frag_rideOffer_pickNeighborhood))
-                .positiveAction(getContext().getString(R.string.ok))
-                .negativeAction(getContext().getString(R.string.cancel));
-        DialogFragment fragment = DialogFragment.newInstance(builder);
-        fragment.show(getFragmentManager(), null);
+        Intent intent = new Intent(getActivity(), PlaceAct.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra("backText", "Criar");
+        intent.putExtra("allP", false);
+        intent.putExtra("otherP", true);
+        startActivity(intent);
+        getActivity().overridePendingTransition(R.anim.anim_right_slide_in, R.anim.anim_left_slide_out);
     }
 
     @OnClick(R.id.campi_et)
@@ -661,5 +635,54 @@ public class RideOfferFrag extends Fragment {
         }
 
         time_et.setText(time);
+    }
+
+    private void setHint()
+    {
+        center_et.setText("");
+        if(going)
+        {
+            center_et.setHint("Centro Universitário");
+        }
+        else
+        {
+            center_et.setHint("Escolha o hub de encontro");
+        }
+    }
+
+    @OnClick(R.id.tab1)
+    public void goingTabSelected()
+    {
+        if(!going)
+        {
+            going = true;
+            setHint();
+            setButton(isLeaving_bt, isGoing_bt,isLeaving_tv, isGoing_tv);
+        }
+    }
+
+    @OnClick(R.id.tab2)
+    public void leavingTabSelected()
+    {
+        if(going)
+        {
+            going = false;
+            setHint();
+            setButton(isGoing_bt, isLeaving_bt, isGoing_tv, isLeaving_tv);
+        }
+    }
+
+    private void setButton(RelativeLayout button1, RelativeLayout button2, TextView bt1_tv, TextView bt2_tv)
+    {
+        button1.setFocusable(true);
+        button1.setClickable(true);
+        button2.setFocusable(false);
+        button2.setClickable(false);
+        GradientDrawable bt1Shape = (GradientDrawable)button1.getBackground();
+        GradientDrawable bt2Shape = (GradientDrawable)button2.getBackground();
+        bt1Shape.setColor(getResources().getColor(R.color.white));
+        bt2Shape.setColor(getResources().getColor(R.color.dark_gray));
+        bt1_tv.setTextColor(getResources().getColor(R.color.dark_gray));
+        bt2_tv.setTextColor(getResources().getColor(R.color.white));
     }
 }

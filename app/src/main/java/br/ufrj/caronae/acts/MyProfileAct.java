@@ -81,7 +81,6 @@ public class MyProfileAct extends AppCompatActivity {
             transaction.replace(R.id.flContent, fragment).commit();
             back.setVisibility(View.GONE);
             cancel.setVisibility(View.VISIBLE);
-
         }
         else
         {
@@ -159,9 +158,9 @@ public class MyProfileAct extends AppCompatActivity {
         transaction.replace(R.id.flContent, fragment).commit();
         if(progressBar.getVisibility() == View.VISIBLE) {
             progressBar.setVisibility(View.GONE);
-            edit_bt.setText(R.string.edit_bt);
-            edit_bt.setVisibility(View.VISIBLE);
         }
+        edit_bt.setText(R.string.edit_bt);
+        edit_bt.setVisibility(View.VISIBLE);
         back.setVisibility(View.VISIBLE);
         cancel.setVisibility(View.GONE);
     }
