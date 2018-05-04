@@ -2,9 +2,7 @@ package br.ufrj.caronae.frags;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.net.TrafficStats;
 import android.os.Bundle;
-import android.os.Process;
 import android.preference.PreferenceManager;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
@@ -125,14 +123,12 @@ public class AllRidesListFrag extends Fragment implements Callback {
         {
             noRides.setVisibility(View.GONE);
             if (pageIdentifier == AllRidesFragmentPagerAdapter.PAGE_GOING) {
-                if (SharedPref.ALL_RIDES_GOING == null || SharedPref.ALL_RIDES_GOING.isEmpty()) {
-                } else {
+                if (SharedPref.ALL_RIDES_GOING != null && !SharedPref.ALL_RIDES_GOING.isEmpty()) {
                     adapter.makeList(SharedPref.ALL_RIDES_GOING);
                     scrollListener.resetState();
                 }
             } else {
-                if (SharedPref.ALL_RIDES_LEAVING == null || SharedPref.ALL_RIDES_LEAVING.isEmpty()) {
-                } else {
+                if (SharedPref.ALL_RIDES_LEAVING != null && !SharedPref.ALL_RIDES_LEAVING.isEmpty()) {
                     adapter.makeList(SharedPref.ALL_RIDES_LEAVING);
                     scrollListener.resetState();
                 }
@@ -351,17 +347,17 @@ public class AllRidesListFrag extends Fragment implements Callback {
             if (goingRides == null || goingRides.isEmpty()) {
             } else {
                 adapter.makeList(goingRides);
-                SharedPref.ALL_RIDES_GOING = goingRides;
                 scrollListener.resetState();
             }
         } else {
             if (notGoingRides == null || notGoingRides.isEmpty()) {
             } else {
                 adapter.makeList(notGoingRides);
-                SharedPref.ALL_RIDES_LEAVING = notGoingRides;
                 scrollListener.resetState();
             }
         }
+        SharedPref.ALL_RIDES_GOING = goingRides;
+        SharedPref.ALL_RIDES_LEAVING = notGoingRides;
         refreshLayout.setRefreshing(false);
     }
 

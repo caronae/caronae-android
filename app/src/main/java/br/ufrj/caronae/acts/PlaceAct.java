@@ -2,6 +2,7 @@ package br.ufrj.caronae.acts;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -82,8 +83,10 @@ public class PlaceAct extends AppCompatActivity {
                             @Override
                             public void onResponse(Call<PlacesForJson> call, Response<PlacesForJson> response) {
                                 if (response.isSuccessful()) {
-                                    SharedPref.setPlace(response.body());
+                                    PlacesForJson places = response.body();
+                                    SharedPref.setPlace(places);
                                     progressBar.setVisibility(View.GONE);
+                                    Util.setColors();
                                     if(fragType.equals("center"))
                                     {
                                         goToCampi();

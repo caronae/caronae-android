@@ -41,7 +41,7 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
         this.rideOffers = rideOffers;
         this.context = context;
         this.fm = fm;
-        List<Object> mixedList = new ArrayList<Object>();
+        this.mixedList = new ArrayList<>();
 
     }
 
@@ -49,7 +49,7 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
     public RideOfferAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
-        View contactView = null;
+        View contactView;
 
         if (viewType == TYPE_HEADER) {
             contactView = inflater.inflate(R.layout.separator_all_rides, parent, false);
@@ -82,21 +82,7 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
             if (mixedList.get(position).getClass().equals(RideForJson.class)) {
                 final RideForJson rideOffer = (RideForJson) mixedList.get(position);
 
-                int color = 0;
-
-                for(int i = 0; i < SharedPref.getPlace().getZones().size(); i++)
-                {
-                    if(rideOffer.getZone().equals(SharedPref.getPlace().getZones().get(i).getName()))
-                    {
-                        color = Color.parseColor(SharedPref.getPlace().getZones().get(i).getColor());
-                    }
-                }
-
-                if(color == 0)
-                {
-                    color = Color.parseColor("#565658");
-                }
-
+                int color = Util.getColors(rideOffer.getZone());
                 viewHolder.location_tv.setTextColor(color);
                 viewHolder.time_tv.setTextColor(color);
                 viewHolder.name_tv.setTextColor(color);
@@ -120,7 +106,6 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
                     timeText = context.getResources().getString(R.string.leavingAt, Util.formatTime(rideOffer.getTime()));
 
                 timeText =  timeText + " | " + Util.getWeekDayFromDateWithoutTodayString(rideOffer.getDate()) + " | " +Util.formatBadDateWithoutYear(rideOffer.getDate());
-
                 viewHolder.time_tv.setText(timeText);
 
                 String name = rideOffer.getDriver().getName();
@@ -137,6 +122,7 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
                     location = rideOffer.getNeighborhood() + " ➜ " + rideOffer.getHub();
                 else
                     location = rideOffer.getHub() + " ➜ " + rideOffer.getNeighborhood();
+
                 viewHolder.location_tv.setText(location);
 
                 List<RideRequestSent> rideRequests = RideRequestSent.find(RideRequestSent.class, "db_id = ?", rideOffer.getDbId() + "");
@@ -154,7 +140,6 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
                         intent.putExtra("ride", rideOffer);
                         intent.putExtra("requested", finalRequested);
                         context.startActivity(intent);
-
                     }
                 });
             }
@@ -189,7 +174,6 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
 
     @Override
     public int getItemCount() {
-//        return rideOffers.size()
         if (mixedList == null || mixedList.size() == 0) {
             return 1;
         }
@@ -206,7 +190,6 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
 
         public ViewHolder(View itemView) {
             super(itemView);
-
             photo_iv = (CircleImageView) itemView.findViewById(R.id.photo_iv);
             requestIndicator_iv = (ImageView) itemView.findViewById(R.id.requestIndicator_iv);
             time_tv = (TextView) itemView.findViewById(R.id.time_tv);

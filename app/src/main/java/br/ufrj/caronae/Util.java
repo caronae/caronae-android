@@ -3,6 +3,7 @@ package br.ufrj.caronae;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -23,14 +24,58 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.TreeMap;
 
+import br.ufrj.caronae.httpapis.CaronaeAPI;
 import br.ufrj.caronae.models.ChatAssets;
 import br.ufrj.caronae.models.Ride;
+import br.ufrj.caronae.models.modelsforjson.PlacesForJson;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
+import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.Response;
 
 
 public class Util {
+
+    public static Map<String, Integer> colorZone = new TreeMap<>();
+
+    public static void setColors()
+    {
+        if(Util.colorZone.isEmpty()) {
+            CaronaeAPI.service(App.getInst()).getPlaces()
+                .enqueue(new Callback<PlacesForJson>() {
+                    @Override
+                    public void onResponse(Call<PlacesForJson> call, Response<PlacesForJson> response) {
+                        if (response.isSuccessful()) {
+                            PlacesForJson places = response.body();
+                            SharedPref.setPlace(places);
+                            if (Util.colorZone.isEmpty()) {
+                                int color;
+                                for (int i = 0; i < places.getZones().size(); i++) {
+                                    color = Color.parseColor(places.getZones().get(i).getColor());
+                                    colorZone.put(places.getZones().get(i).getName(), color);
+                                }
+                                color = Color.parseColor("#565658");
+                                colorZone.put("Outros", color);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<PlacesForJson> call, Throwable t) {
+                        Log.e("ERROR: ", t.getMessage());
+                    }
+                });
+        }
+    }
+
+    public static int getColors(String key)
+    {
+        Util.setColors();
+        return colorZone.get(key);
+    }
 
     public static void expandOrCollapse(final View v, boolean expand) {
         TranslateAnimation anim;

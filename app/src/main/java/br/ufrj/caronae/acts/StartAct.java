@@ -8,6 +8,7 @@ import android.util.Log;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.SharedPref;
+import br.ufrj.caronae.Util;
 import br.ufrj.caronae.asyncs.FetchMyOfferedRidesService;
 import br.ufrj.caronae.models.RideRequestReceived;
 
@@ -85,6 +86,7 @@ public class StartAct extends AppCompatActivity {
                 startActivity(intent);
             }
             else{
+                Util.setColors();
                 startActivity(new Intent(this, OpeningAct.class));
             }
         }
