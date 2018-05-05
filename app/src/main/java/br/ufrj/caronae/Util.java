@@ -39,41 +39,58 @@ import retrofit2.Response;
 
 public class Util {
 
-    public static Map<String, Integer> colorZone = new TreeMap<>();
+    private static Map<String, Integer> colorZone = new TreeMap<>();
+    private static boolean colorsSaved;
 
     public static void setColors()
     {
         if(Util.colorZone.isEmpty()) {
-            CaronaeAPI.service(App.getInst()).getPlaces()
-                .enqueue(new Callback<PlacesForJson>() {
-                    @Override
-                    public void onResponse(Call<PlacesForJson> call, Response<PlacesForJson> response) {
-                        if (response.isSuccessful()) {
-                            PlacesForJson places = response.body();
-                            SharedPref.setPlace(places);
-                            if (Util.colorZone.isEmpty()) {
-                                int color;
-                                for (int i = 0; i < places.getZones().size(); i++) {
-                                    color = Color.parseColor(places.getZones().get(i).getColor());
-                                    colorZone.put(places.getZones().get(i).getName(), color);
+            if(SharedPref.checkExistence(SharedPref.PLACE_KEY))
+            {
+                int color;
+                PlacesForJson places = SharedPref.getPlace();
+                for (int i = 0; i < places.getZones().size(); i++) {
+                    color = Color.parseColor(places.getZones().get(i).getColor());
+                    colorZone.put(places.getZones().get(i).getName(), color);
+                }
+                color = Color.parseColor("#565658");
+                colorZone.put("Outros", color);
+                colorsSaved = true;
+            }
+            else {
+                CaronaeAPI.service(App.getInst()).getPlaces()
+                        .enqueue(new Callback<PlacesForJson>() {
+                            @Override
+                            public void onResponse(Call<PlacesForJson> call, Response<PlacesForJson> response) {
+                                if (response.isSuccessful()) {
+                                    PlacesForJson places = response.body();
+                                    SharedPref.setPlace(places);
+                                    int color;
+                                    for (int i = 0; i < places.getZones().size(); i++) {
+                                        color = Color.parseColor(places.getZones().get(i).getColor());
+                                        colorZone.put(places.getZones().get(i).getName(), color);
+                                    }
+                                    color = Color.parseColor("#565658");
+                                    colorZone.put("Outros", color);
+                                    colorsSaved = true;
                                 }
-                                color = Color.parseColor("#565658");
-                                colorZone.put("Outros", color);
                             }
-                        }
-                    }
 
-                    @Override
-                    public void onFailure(Call<PlacesForJson> call, Throwable t) {
-                        Log.e("ERROR: ", t.getMessage());
-                    }
-                });
+                            @Override
+                            public void onFailure(Call<PlacesForJson> call, Throwable t) {
+                                Log.e("ERROR: ", t.getMessage());
+                            }
+                        });
+            }
         }
     }
 
     public static int getColors(String key)
     {
-        Util.setColors();
+        while(!colorsSaved)
+        {
+            Util.setColors();
+        }
         return colorZone.get(key);
     }
 

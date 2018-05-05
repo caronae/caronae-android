@@ -86,7 +86,6 @@ public class StartAct extends AppCompatActivity {
                 startActivity(intent);
             }
             else{
-                Util.setColors();
                 startActivity(new Intent(this, OpeningAct.class));
             }
         }
