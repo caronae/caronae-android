@@ -51,19 +51,30 @@ public class CustomDateTimePicker extends Dialog implements View.OnClickListener
         dateUS = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
         dateBR = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
         hours = new String[24];
-        minutes = new String[60];
+        if(type.equals("Search")) {
+            String [] m = {"00", "30","00", "30","00", "30","00", "30","00", "30"};
+            minutes = m;
+        }
+        else
+        {
+            minutes = new String[60];
+        }
         dateTime = new String[720];
         for(int i = 0; i < 60; i++)
         {
             if(i < 10) {
                 hours[i] = "0"+i;
-                minutes[i] = "0"+i;
+                if(!type.equals("Search")) {
+                    minutes[i] = "0" + i;
+                }
             }else
             {
                 if(i < 24) {
                     hours[i] = Integer.toString(i);
                 }
-                minutes[i] = Integer.toString(i);
+                if(!type.equals("Search")) {
+                    minutes[i] = Integer.toString(i);
+                }
             }
         }
         positive_bt = (TextView) findViewById(R.id.positive_bt);
@@ -152,7 +163,9 @@ public class CustomDateTimePicker extends Dialog implements View.OnClickListener
                 {
                     dayTime_np.setValue(values[0]);
                     hour_np.setValue(values[1]);
-                    minute_np.setValue(values[2]);
+                    if(!type.equals("Search")) {
+                        minute_np.setValue(values[2]);
+                    }
                 }
             }
         });
@@ -165,7 +178,9 @@ public class CustomDateTimePicker extends Dialog implements View.OnClickListener
                 {
                     dayTime_np.setValue(values[0]);
                     hour_np.setValue(values[1]);
-                    minute_np.setValue(values[2]);
+                    if(!type.equals("Search")) {
+                        minute_np.setValue(values[2]);
+                    }
                 }
             }
         });
@@ -178,7 +193,9 @@ public class CustomDateTimePicker extends Dialog implements View.OnClickListener
                 {
                     dayTime_np.setValue(values[0]);
                     hour_np.setValue(values[1]);
-                    minute_np.setValue(values[2]);
+                    if(!type.equals("Search")) {
+                        minute_np.setValue(values[2]);
+                    }
                 }
             }
         });
