@@ -40,6 +40,7 @@ import java.util.Locale;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.CustomDateTimePicker;
+import br.ufrj.caronae.CustomDialogClass;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.Util;
@@ -112,6 +113,7 @@ public class RideOfferFrag extends Fragment {
     private boolean going;
     public String time;
     ProgressDialog pd;
+    public Ride ride;
 
     public RideOfferFrag() {
         // Required empty public constructor
@@ -160,15 +162,22 @@ public class RideOfferFrag extends Fragment {
     }
 
     private boolean checkCarOwnerDialog() {
+        Activity act = getActivity();
+        Fragment frag = this;
         if (!App.getUser().isCarOwner()) {
-            showAlertDialog();
+            CustomDialogClass cdc = new CustomDialogClass(act,"ROFINCO", frag);
+            cdc.show();
+            cdc.setTitleText("Você possui carro?");
+            cdc.setMessageText( "Parece que você marcou no seu perfil que não possui um carro. Para criar uma carona, preencha os dados do seu carro no seu perfil.");
+            cdc.setPButtonText("OK");
+            cdc.enableOnePositiveOption();
             return false;
         }
         return true;
     }
 
     private void loadLastRide(String lastRideOffer) {
-        Ride ride = new Gson().fromJson(lastRideOffer, Ride.class);
+        ride = new Gson().fromJson(lastRideOffer, Ride.class);
         zone = ride.getZone();
         neighborhood_et.setText(ride.getNeighborhood());
         place_et.setText(ride.getPlace());
@@ -295,55 +304,34 @@ public class RideOfferFrag extends Fragment {
 
     @OnClick(R.id.send_bt)
     public void sendBt() {
-        if (!checkCarOwnerDialog())
+        Activity act = getActivity();
+        Fragment frag = this;
+        if (!checkCarOwnerDialog()) {
             return;
-
+        }
         String neighborhood = neighborhood_et.getText().toString();
         String hub = center_et.getText().toString();
-
-        if(hub.isEmpty() || hub.equals("Centro Universitário") || neighborhood.isEmpty() || neighborhood.equals("Bairro"))
+        if(hub.isEmpty() || neighborhood.isEmpty())
         {
-            Util.toast(R.string.frag_rideoffer_nullLocation);
+            CustomDialogClass cdc = new CustomDialogClass(act,"ROFD", frag);
+            cdc.show();
+            cdc.setTitleText("Dados incompletos");
+            cdc.setMessageText( "Ops! Parece que você esqueceu de preencher o local da sua carona.");
+            cdc.setPButtonText("OK");
+            cdc.enableOnePositiveOption();
             return;
         }
-
         String place = place_et.getText().toString();
         String way = way_et.getText().toString();
+        String time = time_et.getText().toString();
+        String date = time_et.getText().toString();
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
-        String etDateString = time_et.getText().toString();
-        Date todayDate = new Date();
-        String todayString = simpleDateFormat.format(todayDate);
-        try {
-            todayDate = simpleDateFormat.parse(todayString);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        if (etDateString.isEmpty()) {
-            Util.toast(getString(R.string.frag_rideoffer_nullDate));
-            return;
-        } else {
-            try {
-                Date etDate = simpleDateFormat.parse(etDateString);
-                if (etDate.before(todayDate)) {
-                    Util.toast(getActivity().getString(R.string.frag_rideoffersearch_pastdate));
-                    return;
-                }
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-        }
-        String time = time_et.getText().toString();
-        if (time.isEmpty()) {
-            Util.toast(getString(R.string.frag_rideoffer_nullTime));
-            return;
-        }
-
         String description = description_et.getText().toString();
 
         boolean routine = routine_cb.isChecked();
         String weekDays = "", repeatsUntil = "";
+
         if (routine) {
             weekDays = monday_cb.isChecked() ? "1," : "";
             weekDays += tuesday_cb.isChecked() ? "2," : "";
@@ -354,7 +342,12 @@ public class RideOfferFrag extends Fragment {
             weekDays += sunday_cb.isChecked() ? "7," : "";
 
             if (weekDays.isEmpty()) {
-                Util.toast(R.string.frag_rideOffer_noRoutineDays);
+                CustomDialogClass cdc = new CustomDialogClass(act,"ROFD", frag);
+                cdc.show();
+                cdc.setTitleText("Dados incompletos");
+                cdc.setMessageText("Ops! Parece que você esqueceu de marcar os dias da rotina.");
+                cdc.setPButtonText("OK");
+                cdc.enableOnePositiveOption();
                 return;
             }
             weekDays = weekDays.substring(0, weekDays.length() - 1);
@@ -375,7 +368,7 @@ public class RideOfferFrag extends Fragment {
 
             Calendar c = Calendar.getInstance();
             try {
-                c.setTime(simpleDateFormat.parse(etDateString));
+                c.setTime(simpleDateFormat.parse(date));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -383,25 +376,24 @@ public class RideOfferFrag extends Fragment {
             repeatsUntil = simpleDateFormat.format(c.getTime());
         }
 
-        final Ride ride = new Ride(zone, neighborhood, place, way, etDateString, time, "", hub, "", description, going, routine, weekDays, repeatsUntil);
+        ride = new Ride(zone, neighborhood, place, way, date, time, "", hub, "", description, going, routine, weekDays, repeatsUntil);
 
-        checkAndCreateRide(ride);
+        checkAndCreateRide();
 
         String lastRideOffer = new Gson().toJson(ride);
         if (going)
             SharedPref.saveLastRideGoingPref(lastRideOffer);
         else
             SharedPref.saveLastRideNotGoingPref(lastRideOffer);
-
-        SharedPref.NAV_INDICATOR = "AllRides";
-        changeFragment(AllRidesFrag.class);
     }
 
     private void createChatAssets(Ride ride) {
         Util.createChatAssets(ride, getContext());
     }
 
-    private void checkAndCreateRide(final Ride ride) {
+    private void checkAndCreateRide() {
+        Activity act = getActivity();
+        Fragment frag = this;
         pd = ProgressDialog.show(getContext(), "", getString(R.string.wait), true, true);
         CaronaeAPI.service(getContext()).validateDuplicates(ride.getDate(), ride.getTime() + ":00", ride.isGoing() ? 1 : 0)
                 .enqueue(new Callback<ModelValidateDuplicate>() {
@@ -410,49 +402,53 @@ public class RideOfferFrag extends Fragment {
                         if (response.isSuccessful()) {
                             ModelValidateDuplicate validateDuplicate = response.body();
                             if (validateDuplicate.isValid()) {
-                                createRide(ride);
+                                createRide();
+                                changeFragment();
                             } else {
+                                CustomDialogClass cdc;
                                 if (validateDuplicate.getStatus().equals("possible_duplicate")) {
-                                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                                    builder.setView(R.layout.possible_duplicate_rides_dialog);
-                                    builder.setPositiveButton("Criar", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialogInterface, int i) {
-                                            createRide(ride);
-                                        }
-                                    });
-                                    builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialogInterface, int i) {
-                                            dialogInterface.dismiss();
-                                        }
-                                    });
-                                    builder.create().show();
-                                } else {
-                                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                                    builder.setView(R.layout.duplicate_rides_dialog);
-                                    builder.setNegativeButton("Ok", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialogInterface, int i) {
-                                            dialogInterface.dismiss();
-                                        }
-                                    });
-                                    builder.create().show();
+                                    cdc = new CustomDialogClass(act,"ROFPD", frag);
+                                    cdc.show();
+                                    cdc.setTitleText( "Parece que você já ofereceu uma carona para este dia");
+                                    cdc.setMessageText("Você pode cancelar e verificar as suas caronas ou continuar e criar a carona mesmo assim.");
+                                    cdc.setNButtonText("Criar");
+                                    cdc.setPButtonText("Cancelar");
+                                    cdc.setNegativeButtonColor(R.color.darkblue2);
+
+                                } else{
+                                    cdc = new CustomDialogClass(act,"ROFD", frag);
+                                    cdc.show();
+                                    cdc.setTitleText( "Você já ofereceu uma carona muito parecida com essa");
+                                    cdc.setMessageText("Você pode verificar as suas caronas na seção 'Minhas' do aplicativo.");
+                                    cdc.setPButtonText("OK");
+                                    cdc.enableOnePositiveOption();
                                 }
                             }
                         } else {
+                            CustomDialogClass cdc = new CustomDialogClass(act,"ROFD", frag);;
+                            cdc.show();
+                            cdc.setTitleText( "Não foi possível validar sua carona");
+                            cdc.setMessageText("Houve um erro de comunicação com nosso servidor. Por favor, tente novamente.");
+                            cdc.setPButtonText("OK");
+                            cdc.enableOnePositiveOption();
                         }
                         pd.dismiss();
                     }
 
                     @Override
                     public void onFailure(Call<ModelValidateDuplicate> call, Throwable t) {
+                        CustomDialogClass cdc = new CustomDialogClass(act,"ROFD", frag);;
+                        cdc.show();
+                        cdc.setTitleText( "Não foi possível validar sua carona");
+                        cdc.setMessageText("Houve um erro de comunicação com nosso servidor. Por favor, tente novamente."+t.getLocalizedMessage());
+                        cdc.setPButtonText("OK");
+                        cdc.enableOnePositiveOption();
                         pd.dismiss();
                     }
                 });
     }
 
-    private void createRide(Ride ride) {
+    public void createRide() {
         CaronaeAPI.service(getContext()).offerRide(ride)
                 .enqueue(new Callback<List<RideRountine>>() {
                     @Override
@@ -497,27 +493,11 @@ public class RideOfferFrag extends Fragment {
                 });
     }
 
-    private void showAlertDialog()
-    {
-        new AlertDialog.Builder(getContext())
-                .setTitle("Você possui carro?")
-                .setCancelable(false)
-                .setMessage(R.string.notCarOwner)
-                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        SharedPref.NAV_INDICATOR = "MyRides";
-                        changeFragment(MyRidesFrag.class);
-                        dialog.cancel();
-                    }
-                }).show();
-    }
-
-    private void changeFragment(Class fragmentClass)
+    public void changeFragment()
     {
         Fragment fragment = null;
         try {
-            fragment = (Fragment) fragmentClass.newInstance();
+            fragment = (Fragment) MyRidesFrag.class.newInstance();
         } catch (Exception e) {
             e.printStackTrace();
         }

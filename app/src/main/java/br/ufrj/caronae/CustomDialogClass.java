@@ -14,6 +14,7 @@ import br.ufrj.caronae.acts.MyProfileAct;
 import br.ufrj.caronae.acts.PlaceAct;
 import br.ufrj.caronae.acts.RideOfferAct;
 import br.ufrj.caronae.frags.MyProfileShowFrag;
+import br.ufrj.caronae.frags.RideOfferFrag;
 
 public class CustomDialogClass extends Dialog implements android.view.View.OnClickListener {
 
@@ -65,6 +66,17 @@ public class CustomDialogClass extends Dialog implements android.view.View.OnCli
                     RideOfferAct act = (RideOfferAct) activity;
                     act.customDialogAction();
                 }
+                else if(currentFrag.equals("ROFD")) {
+                    dismiss();
+                }
+                else if(currentFrag.equals("ROFPD")) {
+                    dismiss();
+                }
+                else if(currentFrag.equals("ROFINCO"))
+                {
+                    dismiss();
+                    ((RideOfferFrag)fragment).changeFragment();
+                }
                 break;
 
             case R.id.negative_bt:
@@ -87,6 +99,12 @@ public class CustomDialogClass extends Dialog implements android.view.View.OnCli
                     RideOfferAct rideOfferAct;
                     rideOfferAct = (RideOfferAct) activity;
                     rideOfferAct.joinAction();
+                    dismiss();
+                }
+                else if(currentFrag.equals("ROFPD"))
+                {
+                    ((RideOfferFrag)fragment).createRide();
+                    ((RideOfferFrag)fragment).changeFragment();
                     dismiss();
                 }
                 break;
@@ -134,5 +152,10 @@ public class CustomDialogClass extends Dialog implements android.view.View.OnCli
     public void setNegativeButtonColor(int color)
     {
         this.negative_bt.setTextColor(color);
+    }
+
+    public void setPositiveButtonColor(int color)
+    {
+        this.positive_bt.setTextColor(color);
     }
 }
