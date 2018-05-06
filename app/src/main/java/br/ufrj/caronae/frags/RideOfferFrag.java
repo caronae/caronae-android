@@ -388,7 +388,7 @@ public class RideOfferFrag extends Fragment {
     }
 
     private void createChatAssets(Ride ride) {
-        Util.createChatAssets(ride, getContext());
+        Util.createChatAssets(ride);
     }
 
     private void checkAndCreateRide() {

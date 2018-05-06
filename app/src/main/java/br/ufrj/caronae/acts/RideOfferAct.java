@@ -3,7 +3,6 @@ package br.ufrj.caronae.acts;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -127,18 +126,7 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
         else
             location = rideWithUsers.getHub() + " ➜ " + rideWithUsers.getNeighborhood();
 
-        zoneColorInt = 0;
-        for(int i = 0; i < SharedPref.getPlace().getZones().size(); i++)
-        {
-            if(rideWithUsers.getZone().equals(SharedPref.getPlace().getZones().get(i).getName()))
-            {
-                zoneColorInt = Color.parseColor(SharedPref.getPlace().getZones().get(i).getColor());
-            }
-        }
-        if(zoneColorInt == 0)
-        {
-            zoneColorInt = Color.parseColor("#565658");
-        }
+        zoneColorInt = Util.getColors(rideWithUsers.getZone());
 
         List<ChatAssets> l = ChatAssets.find(ChatAssets.class, "ride_id = ?", rideWithUsers.getDbId() + "");
         if (l == null || l.isEmpty())
@@ -262,20 +250,7 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
         CircleImageView photo_iv;
         photo_iv = (CircleImageView)user_pic;
 
-        zoneColorInt = 0;
-
-        for(int i = 0; i < SharedPref.getPlace().getZones().size(); i++)
-        {
-            if(rideWithUsers.getZone().equals(SharedPref.getPlace().getZones().get(i).getName()))
-            {
-                zoneColorInt = Color.parseColor(SharedPref.getPlace().getZones().get(i).getColor());
-            }
-        }
-
-        if(zoneColorInt == 0)
-        {
-            zoneColorInt = Color.parseColor("#565658");
-        }
+        zoneColorInt = Util.getColors(rideWithUsers.getZone());
 
         Drawable background = join_bt.getBackground();
         if (background instanceof ShapeDrawable) {
