@@ -51,7 +51,37 @@ public class AllRidesFrag extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_all_rides, container, false);
         ButterKnife.bind(this, view);
+
         Util.setColors();
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if(position == 0)
+                {
+                    isGoing = "1";
+                    SharedPref.setIsGoingPref(isGoing);
+                    setButton(isLeaving_bt, isGoing_bt,isLeaving_tv, isGoing_tv);
+                }
+                else
+                {
+                    isGoing = "0";
+                    SharedPref.setIsGoingPref(isGoing);
+                    setButton(isGoing_bt, isLeaving_bt, isGoing_tv, isLeaving_tv);
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
         if(SharedPref.getGoingLabel() != null)
         {
             isGoing_tv.setText(SharedPref.getGoingLabel());
