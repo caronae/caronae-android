@@ -188,6 +188,7 @@ public class RideSearchFrag extends Fragment {
         intent.putExtra("allP", true);
         intent.putExtra("otherP", true);
         intent.putExtra("getBack", true);
+        intent.putExtra("selectable", true);
         startActivity(intent);
         getActivity().overridePendingTransition(R.anim.anim_right_slide_in, R.anim.anim_left_slide_out);
     }
@@ -229,6 +230,7 @@ public class RideSearchFrag extends Fragment {
         intent.putExtra("selection", "center");
         intent.putExtra("allP", true);
         intent.putExtra("getBack", false);
+        intent.putExtra("selectable", true);
         startActivity(intent);
         getActivity().overridePendingTransition(R.anim.anim_right_slide_in, R.anim.anim_left_slide_out);
     }
@@ -250,9 +252,6 @@ public class RideSearchFrag extends Fragment {
         String time = time_et.getText().toString().substring(time_et.getText().toString().length()-6);
 
         String center = center_et.getText().toString();
-
-        if (center.equals(Util.getFundaoCenters()[0]) || center.equals("Cidade Universitária"))
-            center = "";
 
         String campus = "";
 

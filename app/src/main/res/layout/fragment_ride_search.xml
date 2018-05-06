@@ -85,6 +85,11 @@
                 android:drawableStart="@drawable/ic_location_on_24dp"
                 android:drawablePadding="5dp"
                 android:focusable="false"
+                android:lines="1"
+                android:scrollHorizontally="true"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:editable="false"
                 android:text="@string/frag_ridefilter_centerHint" />
             <EditText
                 android:id="@+id/location_et"
@@ -93,6 +98,11 @@
                 android:layout_below="@id/center_et"
                 android:drawableLeft="@drawable/ic_location_on_24dp"
                 android:drawablePadding="5dp"
+                android:lines="1"
+                android:scrollHorizontally="true"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:editable="false"
                 android:drawableStart="@drawable/ic_location_on_24dp"
                 android:focusable="false"
                 android:text="@string/frag_ridefilter_locationHint" />

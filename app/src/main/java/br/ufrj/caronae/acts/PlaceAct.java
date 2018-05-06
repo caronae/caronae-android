@@ -2,7 +2,6 @@ package br.ufrj.caronae.acts;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Color;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -29,13 +28,13 @@ import retrofit2.Response;
 public class PlaceAct extends AppCompatActivity {
 
     RelativeLayout back_bt;
-    TextView back_tv, title_tv;
-    RelativeLayout progressBar, ok_bt, othersLay;
+    TextView back_tv, title_tv, finish_tv;
+    RelativeLayout progressBar, ok_bt, othersLay, finish_bt;
     EditText otherOption;
 
     String backText;
     public String fragType;
-    public boolean enableAll;
+    public boolean enableAll, selectable, allSelected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,14 +45,17 @@ public class PlaceAct extends AppCompatActivity {
         back_bt = (RelativeLayout)findViewById(R.id.back_bt);
         back_tv = (TextView) findViewById(R.id.activity_back);
         title_tv = (TextView) findViewById(R.id.header_text);
+        finish_tv = (TextView) findViewById(R.id.finish_tv);
         othersLay = (RelativeLayout) findViewById(R.id.other_lay);
         ok_bt = (RelativeLayout) findViewById(R.id.activity_ok);
+        finish_bt = (RelativeLayout) findViewById(R.id.finish_bt);
         progressBar = (RelativeLayout) findViewById(R.id.progress_bar);
         otherOption = (EditText) findViewById(R.id.others);
         try {
             backText = getIntent().getExtras().getString("backText");
             fragType = getIntent().getExtras().getString("selection");
             enableAll = getIntent().getBooleanExtra("allP", false);
+            selectable = getIntent().getBooleanExtra("selectable", false);
         }catch (Exception e){}
         if(fragType.equals("center") || fragType.equals("hub"))
         {
@@ -71,8 +73,18 @@ public class PlaceAct extends AppCompatActivity {
             public void onClick(View v) {
                 if(!otherOption.getText().toString().isEmpty()) {
                     SharedPref.LOCATION_INFO = otherOption.getText().toString();
+                    hideKeyboard();
                     finish();
+                    overridePendingTransition(R.anim.anim_left_slide_in, R.anim.anim_right_slide_out);
                 }
+            }
+        });
+        finish_bt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hideKeyboard();
+                finish();
+                overridePendingTransition(R.anim.anim_left_slide_in, R.anim.anim_right_slide_out);
             }
         });
         if(!SharedPref.checkExistence(SharedPref.PLACE_KEY))
@@ -199,6 +211,8 @@ public class PlaceAct extends AppCompatActivity {
 
     public void changeFrag(String title)
     {
+        SharedPref.LOCATION_INFO = "";
+        SharedPref.CAMPI_INFO = "";
         if(title.equals(backText))
         {
             hideKeyboard();
@@ -243,6 +257,8 @@ public class PlaceAct extends AppCompatActivity {
     @Override
     public void onBackPressed()
     {
+        SharedPref.LOCATION_INFO = "";
+        SharedPref.CAMPI_INFO = "";
         if(back_tv.getText().toString().equals(backText))
         {
             hideKeyboard();
@@ -272,5 +288,25 @@ public class PlaceAct extends AppCompatActivity {
         otherOption.setVisibility(v);
         otherOption.requestFocus();
         ok_bt.setVisibility(v);
+    }
+
+    public void setFinishButtonVisibility(int v)
+    {
+        finish_bt.setVisibility(v);
+        finish_tv.setText(R.string.all);
+    }
+
+    public void setFinishText(int optionsSelected)
+    {
+        if(optionsSelected > 0 && !finish_tv.getText().toString().equals("OK"))
+        {
+            finish_tv.setText(R.string.ok);
+        }
+        else if(optionsSelected == 0)
+        {
+            if(!finish_tv.getText().toString().equals("Todos")) {
+                finish_tv.setText(R.string.all);
+            }
+        }
     }
 }

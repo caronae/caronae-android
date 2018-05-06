@@ -41,6 +41,7 @@ public class CampiFrag extends Fragment {
         activity = getActivity();
         PlacesForJson places = SharedPref.getPlace();
         List<Campi> campi = places.getCampi();
+        ((PlaceAct)activity).setFinishButtonVisibility(View.GONE);
         String selection = ((PlaceAct) activity).fragType;
         boolean enableAll = ((PlaceAct)activity).enableAll;
         if(campi != null && campi.size() != 0)
@@ -54,11 +55,11 @@ public class CampiFrag extends Fragment {
             Fragment fragment = (Fragment) this;
             if(enableAll)
             {
-                cPB = new CustomPlaceBar(activity, getContext(), fragment, false, "Todos os Campi", "#606060", "center");
+                cPB = new CustomPlaceBar(activity, getContext(), fragment, false, "Todos os Campi", "#606060", "center", false);
                 mainLayout.addView(cPB);
             }
             for (int i = 0; i < campi.size(); i++) {
-                cPB = new CustomPlaceBar(activity, getContext(), fragment, false, campi.get(i).getName(), campi.get(i).getColor(), selection);
+                cPB = new CustomPlaceBar(activity, getContext(), fragment, false, campi.get(i).getName(), campi.get(i).getColor(), selection, false);
                 mainLayout.addView(cPB);
             }
         }

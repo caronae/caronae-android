@@ -339,16 +339,8 @@ public class RideOfferFrag extends Fragment {
             Util.toast(getString(R.string.frag_rideoffer_nullTime));
             return;
         }
+
         String description = description_et.getText().toString();
-        if (hub.isEmpty()) {
-            if (going) {
-                center_et.setText(Util.getFundaoCenters()[0]);
-                hub = center_et.getText().toString();
-            } else {
-                center_et.setText(Util.getFundaoHubs()[0]);
-                hub = center_et.getText().toString();
-            }
-        }
 
         boolean routine = routine_cb.isChecked();
         String weekDays = "", repeatsUntil = "";

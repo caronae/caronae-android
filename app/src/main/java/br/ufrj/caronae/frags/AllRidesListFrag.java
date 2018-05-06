@@ -346,18 +346,18 @@ public class AllRidesListFrag extends Fragment implements Callback {
         if (pageIdentifier == AllRidesFragmentPagerAdapter.PAGE_GOING) {
             if (goingRides == null || goingRides.isEmpty()) {
             } else {
+                SharedPref.ALL_RIDES_GOING = goingRides;
                 adapter.makeList(goingRides);
                 scrollListener.resetState();
             }
         } else {
             if (notGoingRides == null || notGoingRides.isEmpty()) {
             } else {
+                SharedPref.ALL_RIDES_LEAVING = notGoingRides;
                 adapter.makeList(notGoingRides);
                 scrollListener.resetState();
             }
         }
-        SharedPref.ALL_RIDES_GOING = goingRides;
-        SharedPref.ALL_RIDES_LEAVING = notGoingRides;
         refreshLayout.setRefreshing(false);
     }
 

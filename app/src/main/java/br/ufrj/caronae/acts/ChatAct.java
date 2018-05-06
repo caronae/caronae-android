@@ -54,7 +54,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-
 public class ChatAct extends AppCompatActivity {
 
     @BindView(R.id.chatMsgs_rv)
@@ -72,9 +71,6 @@ public class ChatAct extends AppCompatActivity {
     @BindView(R.id.loading_message_text)
     TextView loadMessageText;
 
-    int textCounter = 0;
-
-
     private String rideId;
     private static List<ChatMessageReceived> chatMsgsList;
     static int color;
@@ -84,7 +80,6 @@ public class ChatAct extends AppCompatActivity {
 
     Animation translate;
 
-    private final String BROADCAST_NEW_MESSAGES_NULL = "messagesNull";
     private final String RIDE_ID_BUNDLE_KEY = "rideId";
 
 
@@ -107,7 +102,6 @@ public class ChatAct extends AppCompatActivity {
         }
 
         rideId = getIntent().getExtras().getString(RIDE_ID_BUNDLE_KEY);
-//        ChatAssets chatAssets;
         List<ChatAssets> l = ChatAssets.find(ChatAssets.class, "ride_id = ?", rideId);
         if (l == null || l.isEmpty()) {
             List<Ride> ride = Ride.find(Ride.class, "db_id = ?", rideId);
@@ -123,19 +117,14 @@ public class ChatAct extends AppCompatActivity {
     private void configureActivityWithChatAssets(ChatAssets chatAssets) {
         context = this;
         color = chatAssets.getColor();
-        int colorPressed = Util.getPressedColorbyNormalColor(color);
+        int colorPressed = color;
         lay1.setBackgroundColor(color);
         toolbar.setBackgroundColor(color);
-        int bgRes = chatAssets.getBgRes();
-//        send_bt.setBackgroundResource(bgRes);
         send_bt.setColorNormal(color);
         send_bt.setColorPressed(colorPressed);
         String neighborhood = chatAssets.getLocation();
-//        neighborhood_tv.setText(neighborhood);
         String date = chatAssets.getDate();
-//        date_tv.setText(date);
         String time = chatAssets.getTime();
-//        time_tv.setText(time);
         headerText.setText(neighborhood + " - " + date + " - " + time);
 
         chatMsgsList = ChatMessageReceived.find(ChatMessageReceived.class, "ride_id = ?", rideId);
@@ -271,14 +260,6 @@ public class ChatAct extends AppCompatActivity {
         }
     }
 
-    public void updateLoadText(ArrayList<String> textToLoad) {
-        loadMessageText.setText(textToLoad.get(textCounter));
-        textCounter++;
-        if (textCounter >= 3) {
-            textCounter = 0;
-        }
-    }
-
     @Subscribe
     public void updateMsgsListWithServer(final String rideId) {
 
@@ -373,34 +354,6 @@ public class ChatAct extends AppCompatActivity {
         return -1;
     }
 
-    private class ReceiveBroadcastNewMessagesNull extends BroadcastReceiver {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (translate.hasEnded()) {
-                translate = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim_loading_messages_up);
-                cardLoadingMessages.startAnimation(translate);
-            } else {
-                translate.setAnimationListener(new Animation.AnimationListener() {
-                    @Override
-                    public void onAnimationStart(Animation animation) {
-                    }
-
-                    @Override
-                    public void onAnimationEnd(Animation animation) {
-                        translate = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim_loading_messages_up);
-                        cardLoadingMessages.startAnimation(translate);
-                    }
-
-                    @Override
-                    public void onAnimationRepeat(Animation animation) {
-                    }
-                });
-            }
-
-        }
-    }
-
     private Ride getRideFromServer(final Activity activity) {
         final RideForJson[] ride = {null};
         activity.runOnUiThread(new Runnable() {
@@ -434,8 +387,8 @@ public class ChatAct extends AppCompatActivity {
                                         else
                                             location = ride[0].getHub() + " -> " + ride[0].getNeighborhood();
                                         ChatAssets chatAssets = new ChatAssets(rideId, location,
-                                                Util.getColorbyZone(ride[0].getZone()),
-                                                Util.getBgResByZone(ride[0].getZone()),
+                                                Util.getColors(ride[0].getZone()),
+                                                Util.getColors(ride[0].getZone()),
                                                 Util.formatBadDateWithoutYear(ride[0].getDate()),
                                                 Util.formatTime(ride[0].getTime()));
                                         chatAssets.save();

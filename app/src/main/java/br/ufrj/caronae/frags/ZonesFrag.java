@@ -41,6 +41,7 @@ public class ZonesFrag extends Fragment {
         activity = getActivity();
         PlaceAct placeAct = (PlaceAct)activity;
         placeAct.setOtherVisibility(View.GONE);
+        placeAct.setFinishButtonVisibility(View.GONE);
         PlacesForJson places = SharedPref.getPlace();
         List<Zone> zones = places.getZones();
         if(zones != null && zones.size() != 0)
@@ -57,20 +58,20 @@ public class ZonesFrag extends Fragment {
             boolean backFromOthers = activity.getIntent().getExtras().getBoolean("getBack", false);
             if(all)
             {
-                cPB = new CustomPlaceBar(activity, getContext(), fragment, false, "Todos os Bairros", "#606060", "zone");
+                cPB = new CustomPlaceBar(activity, getContext(), fragment, false, "Todos os Bairros", "#606060", "zone", false);
                 mainLayout.addView(cPB);
             }
             for (int i = 0; i < zones.size(); i++) {
-                cPB = new CustomPlaceBar(activity, getContext(), fragment, false, zones.get(i).getName(), zones.get(i).getColor(), "zone");
+                cPB = new CustomPlaceBar(activity, getContext(), fragment, false, zones.get(i).getName(), zones.get(i).getColor(), "zone", false);
                 mainLayout.addView(cPB);
             }
             if(other) {
                 if(backFromOthers) {
-                    cPB = new CustomPlaceBar(activity, getContext(), fragment, false, "Outra", "#919191", "willback");
+                    cPB = new CustomPlaceBar(activity, getContext(), fragment, false, "Outra", "#919191", "willback", false);
                 }
                 else
                 {
-                    cPB = new CustomPlaceBar(activity, getContext(), fragment, false, "Outra", "#919191", "zone");
+                    cPB = new CustomPlaceBar(activity, getContext(), fragment, false, "Outra", "#919191", "zone", false);
                 }
                 mainLayout.addView(cPB);
             }

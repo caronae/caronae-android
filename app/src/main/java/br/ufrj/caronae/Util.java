@@ -19,7 +19,6 @@ import android.widget.Toast;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -134,50 +133,7 @@ public class Util {
 
     public static void debug(String msg)
     {
-        Log.d("DEBUG: ", msg);
-    }
-
-    public static String[] getFundaoHubs() {
-        return new String[]{"CCMN: Frente", "CCMN: Fundos", "CCS: Frente", "CCS: HUCFF", "CT: Bloco A", "CT: Bloco D", "CT: Bloco H", "EEFD", "Letras", "Reitoria"};
-    }
-
-    public static String[] getFundaoCenters() {
-        return new String[]{"Todos os Centros", "CCMN", "CCS", "CT", "EEFD", "Letras", "Reitoria"};
-    }
-
-    public static String[] getPraiaVermelhaHubs() {
-        return new String[]{"Praia Vermelha: Pinel-Fundos", "Praia Vermelha: Psicologia"};
-
-    }
-
-    public static String[] getCampi() {
-        return new String[]{"Todos os Centros", "Cidade Universitária", "Praia Vermelha"};
-    }
-
-    public static int getNumberAvailableCampis() {
-        return 2;
-    }
-
-    public static String[] getCampiHubsByIndex(int index) {
-        switch (index) {
-            case 0:
-                return getFundaoHubs();
-            case 1:
-                return getPraiaVermelhaHubs();
-            default:
-                return getFundaoHubs();
-        }
-    }
-
-    public static ArrayList<ArrayList<String>> getListAvailableHubs() {
-        ArrayList<ArrayList<String>> hubs = new ArrayList<>();
-        for (int i = 0; i < getNumberAvailableCampis(); i++) {
-            String[] campiHubs = getCampiHubsByIndex(i);
-            for (int j = 0; j < campiHubs.length; j++) {
-                hubs.get(i).add(campiHubs[j]);
-            }
-        }
-        return hubs;
+        Log.e("DEBUG: ", msg);
     }
 
     public static String formatTime(String time) {
@@ -382,75 +338,6 @@ public class Util {
 
     }
 
-    static public int getBgResByZone(String zone) {
-        int bgRes = R.drawable.bg_bt_raise_zone_outros;
-        if (zone.equals("Centro")) {
-            bgRes = R.drawable.bg_bt_raise_zone_centro;
-        }
-        if (zone.equals("Zona Sul")) {
-            bgRes = R.drawable.bg_bt_raise_zone_sul;
-        }
-        if (zone.equals("Zona Oeste")) {
-            bgRes = R.drawable.bg_bt_raise_zone_oeste;
-        }
-        if (zone.equals("Zona Norte")) {
-            bgRes = R.drawable.bg_bt_raise_zone_norte;
-        }
-        if (zone.equals("Baixada")) {
-            bgRes = R.drawable.bg_bt_raise_zone_baixada;
-        }
-        if (zone.equals("Grande Niterói")) {
-            bgRes = R.drawable.bg_bt_raise_zone_niteroi;
-        }
-        return bgRes;
-    }
-
-    static public int getColorbyZone(String zone) {
-        int color = ContextCompat.getColor(App.getInst(), R.color.zone_outros);
-        if (zone.equals("Centro")) {
-            color = ContextCompat.getColor(App.getInst(), R.color.zone_centro);
-        }
-        if (zone.equals("Zona Sul")) {
-            color = ContextCompat.getColor(App.getInst(), R.color.zone_sul);
-        }
-        if (zone.equals("Zona Oeste")) {
-            color = ContextCompat.getColor(App.getInst(), R.color.zone_oeste);
-        }
-        if (zone.equals("Zona Norte")) {
-            color = ContextCompat.getColor(App.getInst(), R.color.zone_norte);
-        }
-        if (zone.equals("Baixada")) {
-            color = ContextCompat.getColor(App.getInst(), R.color.zone_baixada);
-        }
-        if (zone.equals("Grande Niterói")) {
-            color = ContextCompat.getColor(App.getInst(), R.color.zone_niteroi);
-        }
-        return color;
-    }
-
-    static public int getPressedColorbyNormalColor(int color) {
-        int PressedColor = ContextCompat.getColor(App.getInst(), R.color.zone_outros);
-        if (color == ContextCompat.getColor(App.getInst(), R.color.zone_centro)) {
-            PressedColor = ContextCompat.getColor(App.getInst(), R.color.light_zone_centro_transparency);
-        }
-        if (color == ContextCompat.getColor(App.getInst(), R.color.zone_sul)) {
-            PressedColor = ContextCompat.getColor(App.getInst(), R.color.light_zone_sul_transparency);
-        }
-        if (color == ContextCompat.getColor(App.getInst(), R.color.zone_oeste)) {
-            PressedColor = ContextCompat.getColor(App.getInst(), R.color.light_zone_oeste_transparency);
-        }
-        if (color == ContextCompat.getColor(App.getInst(), R.color.zone_norte)) {
-            PressedColor = ContextCompat.getColor(App.getInst(), R.color.light_zone_norte_transparency);
-        }
-        if (color == ContextCompat.getColor(App.getInst(), R.color.zone_baixada)) {
-            PressedColor = ContextCompat.getColor(App.getInst(), R.color.light_zone_baixada_transparency);
-        }
-        if (color == ContextCompat.getColor(App.getInst(), R.color.zone_niteroi)) {
-            PressedColor = ContextCompat.getColor(App.getInst(), R.color.light_zone_niteroi_transparency);
-        }
-        return PressedColor;
-    }
-
     static public void createChatAssets(Ride ride, Context context) {
         Ride rideWithUsers = ride;
         int color = 0, bgRes = 0;
@@ -566,8 +453,8 @@ public class Util {
 
     public static String getTextToShareRide(Ride ride) {
         String text;
+        String dayMonth;
 
-        String dayMonth = "";
         if (ride.getDate().contains("/")){
             dayMonth = formatDateRemoveYear(ride.getDate());
         } else {

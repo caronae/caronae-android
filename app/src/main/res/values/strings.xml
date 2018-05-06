@@ -94,6 +94,7 @@
     <string name="cancel">Cancelar</string>
     <string name="save">Salvar</string>
     <string name="discard">Descartar</string>
+    <string name="all">Todos</string>
     <string name="back">Voltar</string>
     <string name="zone">Zona</string>
     <string name="continue_edit">Continuar editando</string>

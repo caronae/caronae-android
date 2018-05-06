@@ -1,7 +1,5 @@
 package br.ufrj.caronae.adapters;
 
-import android.app.Dialog;
-import android.app.DialogFragment;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -12,14 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.daimajia.swipe.SwipeLayout;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import br.ufrj.caronae.R;
@@ -35,7 +31,6 @@ import br.ufrj.caronae.models.RideRequestReceived;
 import br.ufrj.caronae.models.User;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
 import de.hdodenhof.circleimageview.CircleImageView;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -177,7 +172,7 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
 
         final Ride ride = (Ride)rides.get(position);
 
-        int color = Util.getColorbyZone(ride.getZone());
+        int color = Util.getColors(ride.getZone());
 
         holder.location_tv.setTextColor(color);
 
@@ -360,7 +355,7 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
     private void configureMyActiveRides(int position, final MyRidesAdapter.ViewHolder holder){
         final RideForJson rideOffer = (RideForJson) rides.get(position);
 
-        int color = Util.getColorbyZone(rideOffer.getZone());
+        int color = Util.getColors(rideOffer.getZone());
 
         holder.location_tv.setTextColor(color);
         holder.photo_iv.setBorderColor(color);

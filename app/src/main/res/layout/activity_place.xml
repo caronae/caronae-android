@@ -29,9 +29,9 @@
                 </android.support.v7.widget.Toolbar>
 
                 <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center">
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true">
                     <TextView
                         android:id="@+id/header_text"
                         android:layout_width="wrap_content"
@@ -42,12 +42,16 @@
                         android:text="@string/zone" />
                 </RelativeLayout>
                 <RelativeLayout
-                    android:layout_width="match_parent"
+                    android:id="@+id/finish_bt"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:visibility="gone"
-                    android:gravity="end|center">
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:visibility="gone">
                     <TextView
-                        android:id="@+id/finish_bt"
+                        android:id="@+id/finish_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center"
@@ -55,8 +59,6 @@
                         android:layout_marginEnd="10dp"
                         android:layout_marginRight="10dp"
                         android:textColor="@color/dark_gray"
-                        android:clickable="true"
-                        android:focusable="true"
                         android:textSize="20sp"/>
                 </RelativeLayout>
                 <RelativeLayout

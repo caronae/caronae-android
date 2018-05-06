@@ -20,6 +20,11 @@
             android:layout_alignStart="@+id/filter_description"
             android:drawableLeft="@drawable/ic_location_on_24dp"
             android:drawablePadding="5dp"
+            android:lines="1"
+            android:scrollHorizontally="true"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:editable="false"
             android:drawableStart="@drawable/ic_location_on_24dp"
             android:focusable="false"
             android:hint="@string/frag_ridefilter_centerHint" />
@@ -33,6 +38,11 @@
             android:layout_marginStart="5dp"
             android:drawableLeft="@drawable/ic_location_on_24dp"
             android:drawablePadding="5dp"
+            android:lines="1"
+            android:scrollHorizontally="true"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:editable="false"
             android:drawableStart="@drawable/ic_location_on_24dp"
             android:focusable="false"
             android:hint="@string/frag_ridefilter_locationHint" />

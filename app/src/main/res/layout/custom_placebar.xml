@@ -55,8 +55,20 @@
                 android:layout_centerVertical="true"
                 android:tint="@android:color/darker_gray"
                 android:src="@drawable/ic_keyboard_arrow_right_black_24dp"/>
-
         </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/checked"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:visibility="gone"
+            android:tint="@color/darkblue2"
+            android:src="@drawable/ic_check_black_24dp"/>
 
     </RelativeLayout>
 </LinearLayout>

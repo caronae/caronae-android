@@ -92,9 +92,7 @@ public class RideFilterFrag extends Fragment {
             if (center.equals("Cidade Universitária")) {
                 center = "";
             }
-            if (campi.equals(Util.getCampi()[0]) || center_et.getText().toString().isEmpty()) {
-                campi = "Todos os Campi";
-            }
+
             rideFilters = new RideFiltersForJson(location_et.getText().toString(), center, campi, zone, resumeLocation);
             lastRideFilters = new Gson().toJson(rideFilters);
             SharedPref.saveLastFiltersPref(lastRideFilters);
@@ -158,6 +156,7 @@ public class RideFilterFrag extends Fragment {
         intent.putExtra("allP", true);
         intent.putExtra("otherP", true);
         intent.putExtra("getBack", true);
+        intent.putExtra("selectable", true);
         startActivity(intent);
         getActivity().overridePendingTransition(R.anim.anim_right_slide_in, R.anim.anim_left_slide_out);
     }
@@ -171,6 +170,7 @@ public class RideFilterFrag extends Fragment {
         intent.putExtra("selection", "center");
         intent.putExtra("otherP", false);
         intent.putExtra("getBack", false);
+        intent.putExtra("selectable", true);
         startActivity(intent);
         getActivity().overridePendingTransition(R.anim.anim_right_slide_in, R.anim.anim_left_slide_out);
 

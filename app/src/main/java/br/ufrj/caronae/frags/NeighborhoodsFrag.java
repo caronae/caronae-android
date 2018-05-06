@@ -23,6 +23,10 @@ public class NeighborhoodsFrag extends Fragment {
     @BindView(R.id.main_layout)
     LinearLayout mainLayout;
 
+    CustomPlaceBar[] cPB;
+
+    String zoneName;
+
     public NeighborhoodsFrag() {
         // Required empty public constructor
     }
@@ -31,10 +35,20 @@ public class NeighborhoodsFrag extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_places, container, false);
         ButterKnife.bind(this, view);
-        String zoneName = getArguments().getString("zone");
+        zoneName = getArguments().getString("zone");
+        SharedPref.LOCATION_INFO = zoneName;
         Activity activity = getActivity();
         PlaceAct placeAct = (PlaceAct)activity;
         placeAct.setOtherVisibility(View.GONE);
+        boolean selectable = placeAct.selectable;
+        if(selectable)
+        {
+            placeAct.setFinishButtonVisibility(View.VISIBLE);
+        }
+        else
+        {
+            placeAct.setFinishButtonVisibility(View.GONE);
+        }
         List<Zone> zones = SharedPref.getPlace().getZones();
         Zone selectedZone = null;
         if(zones != null && zones.size() != 0)
@@ -47,11 +61,11 @@ public class NeighborhoodsFrag extends Fragment {
                 }
             }
             if(selectedZone != null) {
-                CustomPlaceBar cPB;
+                cPB = new CustomPlaceBar[selectedZone.getNeighborhoods().size()];
                 Fragment fragment = (Fragment) this;
                 for (int i = 0; i < selectedZone.getNeighborhoods().size(); i++) {
-                    cPB = new CustomPlaceBar(activity, getContext(), fragment, true, selectedZone.getNeighborhoods().get(i), selectedZone.getColor(), "neighborhood");
-                    mainLayout.addView(cPB);
+                    cPB[i] = new CustomPlaceBar(activity, getContext(), fragment, true, selectedZone.getNeighborhoods().get(i), selectedZone.getColor(), "neighborhood", selectable);
+                    mainLayout.addView(cPB[i]);
                 }
             }
             else if(zoneName.equals("Outra"))
@@ -62,5 +76,27 @@ public class NeighborhoodsFrag extends Fragment {
         return view;
     }
 
-
+    public int optionsSelected()
+    {
+        int isChecked = 0;
+        String selectedOptions = "";
+        for(int i = 0; i < cPB.length; i++)
+        {
+            if(cPB[i].isChecked())
+            {
+                isChecked++;
+                selectedOptions = selectedOptions.concat(cPB[i].getText() + ", ");
+            }
+        }
+        if(isChecked == cPB.length || isChecked == 0)
+        {
+            SharedPref.LOCATION_INFO = zoneName;
+        }
+        else
+        {
+            selectedOptions = selectedOptions.substring(0, selectedOptions.length()-2);
+            SharedPref.LOCATION_INFO = selectedOptions.substring(0, selectedOptions.length());
+        }
+        return isChecked;
+    }
 }
