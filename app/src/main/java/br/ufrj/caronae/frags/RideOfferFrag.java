@@ -2,7 +2,6 @@ package br.ufrj.caronae.frags;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
@@ -10,7 +9,6 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
 import android.util.TypedValue;
@@ -21,7 +19,6 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
@@ -66,13 +63,52 @@ public class RideOfferFrag extends Fragment {
     RelativeLayout isLeaving_bt;
     @BindView(R.id.days_lo)
     RelativeLayout days_lo;
+    @BindView(R.id.monday_cb)
+    RelativeLayout monday_cb;
+    @BindView(R.id.tuesday_cb)
+    RelativeLayout tuesday_cb;
+    @BindView(R.id.wednesday_cb)
+    RelativeLayout wednesday_cb;
+    @BindView(R.id.thursday_cb)
+    RelativeLayout thursday_cb;
+    @BindView(R.id.friday_cb)
+    RelativeLayout friday_cb;
+    @BindView(R.id.saturday_cb)
+    RelativeLayout saturday_cb;
+    @BindView(R.id.sunday_cb)
+    RelativeLayout sunday_cb;
+    @BindView(R.id.add_slot)
+    RelativeLayout addSlotButton;
+    @BindView(R.id.remove_slot)
+    RelativeLayout removeSlotButton;
 
     @BindView(R.id.tab1_tv)
     TextView isGoing_tv;
     @BindView(R.id.tab2_tv)
     TextView isLeaving_tv;
+    @BindView(R.id.mon_tv)
+    TextView mon_tv;
+    @BindView(R.id.tue_tv)
+    TextView tue_tv;
+    @BindView(R.id.wed_tv)
+    TextView wed_tv;
+    @BindView(R.id.thu_tv)
+    TextView thu_tv;
+    @BindView(R.id.fri_tv)
+    TextView fri_tv;
+    @BindView(R.id.sat_tv)
+    TextView sat_tv;
+    @BindView(R.id.sun_tv)
+    TextView sun_tv;
     @BindView(R.id.time_et)
     public TextView time_et;
+
+    @BindView(R.id.slots_n)
+    TextView slotNumber;
+    @BindView(R.id.remove_tv)
+    TextView remove_tv;
+    @BindView(R.id.add_tv)
+    TextView add_tv;
 
     @BindView(R.id.radioGroup2)
     RadioGroup radioGroup2;
@@ -91,26 +127,13 @@ public class RideOfferFrag extends Fragment {
     @BindView(R.id.routine_cb)
     SwitchCompat routine_cb;
 
-    @BindView(R.id.monday_cb)
-    CheckBox monday_cb;
-    @BindView(R.id.tuesday_cb)
-    CheckBox tuesday_cb;
-    @BindView(R.id.wednesday_cb)
-    CheckBox wednesday_cb;
-    @BindView(R.id.thursday_cb)
-    CheckBox thursday_cb;
-    @BindView(R.id.friday_cb)
-    CheckBox friday_cb;
-    @BindView(R.id.saturday_cb)
-    CheckBox saturday_cb;
-    @BindView(R.id.sunday_cb)
-    CheckBox sunday_cb;
-
     @BindView(R.id.scrollView)
     ScrollView scrollView;
 
     private String zone;
+    private int slots;
     private boolean going;
+    private boolean[] checked;
     public String time;
     ProgressDialog pd;
     public Ride ride;
@@ -125,6 +148,8 @@ public class RideOfferFrag extends Fragment {
         View view = inflater.inflate(R.layout.fragment_ride_offer, container, false);
         ButterKnife.bind(this, view);
 
+        checked = new boolean[7];
+        slots = 1;
         going = true;
         setButton(isLeaving_bt, isGoing_bt,isLeaving_tv, isGoing_tv);
 
@@ -147,12 +172,14 @@ public class RideOfferFrag extends Fragment {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), R.layout.row_spn, items);
         adapter.setDropDownViewResource(R.layout.row_spn_dropdown);
 
-        neighborhood_et.setText(R.string.frag_rideoffer_neighborHint);
-        center_et.setText(going ?R.string.frag_ridesearch_campiHint : R.string.frag_rideOffer_hintPickHub);
-
         String lastRideOffer = going ? SharedPref.getLastRideGoingPref() : SharedPref.getLastRideNotGoingPref();
         if (!lastRideOffer.equals(SharedPref.MISSING_PREF)) {
             loadLastRide(lastRideOffer);
+        }
+        else
+        {
+            neighborhood_et.setText(R.string.frag_rideoffer_neighborHint);
+            center_et.setText(going ? R.string.frag_ridesearch_campiHint : R.string.frag_rideOffer_hintPickHub);
         }
         if(going) {
             checkCarOwnerDialog();
@@ -187,21 +214,22 @@ public class RideOfferFrag extends Fragment {
         boolean isRoutine = ride.isRoutine();
         routine_cb.setChecked(isRoutine);
         if (isRoutine) {
-            days_lo.setVisibility(routine_cb.isChecked() ? View.VISIBLE : View.GONE);
-            monday_cb.setChecked(ride.getWeekDays().contains("1"));
-            tuesday_cb.setChecked(ride.getWeekDays().contains("2"));
-            wednesday_cb.setChecked(ride.getWeekDays().contains("3"));
-            thursday_cb.setChecked(ride.getWeekDays().contains("4"));
-            friday_cb.setChecked(ride.getWeekDays().contains("5"));
-            saturday_cb.setChecked(ride.getWeekDays().contains("6"));
-            sunday_cb.setChecked(ride.getWeekDays().contains("7"));
+            days_lo.setVisibility(View.VISIBLE);
+            for(int i = 0; i < 7; i++)
+            {
+                checked[i] = (ride.getWeekDays().contains(Integer.toString(i+1)));
+                setChecked(i);
+            }
+        }
+        else
+        {
+            days_lo.setVisibility(View.GONE);
         }
     }
 
     @Override
     public void onStart()
     {
-        Util.debug(SharedPref.LOCATION_INFO);
         if(!SharedPref.LOCATION_INFO.isEmpty() && !SharedPref.LOCATION_INFO.equals(""))
         {
             neighborhood_et.setText(SharedPref.LOCATION_INFO);
@@ -293,7 +321,21 @@ public class RideOfferFrag extends Fragment {
     @OnClick(R.id.routine_cb)
     public void routineCb() {
         days_lo.setVisibility(routine_cb.isChecked() ? View.VISIBLE : View.GONE);
-
+        if(routine_cb.isChecked())
+        {
+            String lastRideOffer = going ? SharedPref.getLastRideGoingPref() : SharedPref.getLastRideNotGoingPref();
+            if (!lastRideOffer.equals(SharedPref.MISSING_PREF)) {
+                ride = new Gson().fromJson(lastRideOffer, Ride.class);
+                if(ride.isRoutine())
+                {
+                    for(int i = 0; i < 7; i++)
+                    {
+                        checked[i] = (ride.getWeekDays().contains(Integer.toString(i+1)));
+                        setChecked(i);
+                    }
+                }
+            }
+        }
         new Handler().post(new Runnable() {
             @Override
             public void run() {
@@ -310,8 +352,8 @@ public class RideOfferFrag extends Fragment {
             return;
         }
         String neighborhood = neighborhood_et.getText().toString();
-        String hub = center_et.getText().toString();
-        if(hub.isEmpty() || neighborhood.isEmpty())
+        String hubCenter = center_et.getText().toString();
+        if(hubCenter.isEmpty() || neighborhood.isEmpty() || hubCenter.equals("Centro Universitário") || hubCenter.equals("Escolha o hub de encontro") || neighborhood.equals("Bairro"))
         {
             CustomDialogClass cdc = new CustomDialogClass(act,"ROFD", frag);
             cdc.show();
@@ -323,23 +365,22 @@ public class RideOfferFrag extends Fragment {
         }
         String place = place_et.getText().toString();
         String way = way_et.getText().toString();
-        String time = time_et.getText().toString();
-        String date = time_et.getText().toString();
+        //39/19/9999 24:69
+        //0123456789012345
+        String time = time_et.getText().toString().substring(11);
+        String date = time_et.getText().toString().substring(0,10);
+        String description = description_et.getText().toString();
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
-        String description = description_et.getText().toString();
 
         boolean routine = routine_cb.isChecked();
         String weekDays = "", repeatsUntil = "";
 
         if (routine) {
-            weekDays = monday_cb.isChecked() ? "1," : "";
-            weekDays += tuesday_cb.isChecked() ? "2," : "";
-            weekDays += wednesday_cb.isChecked() ? "3," : "";
-            weekDays += thursday_cb.isChecked() ? "4," : "";
-            weekDays += friday_cb.isChecked() ? "5," : "";
-            weekDays += saturday_cb.isChecked() ? "6," : "";
-            weekDays += sunday_cb.isChecked() ? "7," : "";
+            for(int i = 0; i < 7; i++)
+            {
+                weekDays = weekDays.concat(checked[i] ? (i+1)+"," : "");
+            }
 
             if (weekDays.isEmpty()) {
                 CustomDialogClass cdc = new CustomDialogClass(act,"ROFD", frag);
@@ -376,15 +417,17 @@ public class RideOfferFrag extends Fragment {
             repeatsUntil = simpleDateFormat.format(c.getTime());
         }
 
-        ride = new Ride(zone, neighborhood, place, way, date, time, "", hub, "", description, going, routine, weekDays, repeatsUntil);
+        ride = new Ride(zone, neighborhood, place, way, date, time, Integer.toString(slots), hubCenter, "", description, going, routine, weekDays, repeatsUntil);
 
         checkAndCreateRide();
 
         String lastRideOffer = new Gson().toJson(ride);
-        if (going)
+        if (going) {
             SharedPref.saveLastRideGoingPref(lastRideOffer);
-        else
+        }
+        else {
             SharedPref.saveLastRideNotGoingPref(lastRideOffer);
+        }
     }
 
     private void createChatAssets(Ride ride) {
@@ -454,13 +497,11 @@ public class RideOfferFrag extends Fragment {
                     @Override
                     public void onResponse(Call<List<RideRountine>> call, Response<List<RideRountine>> response) {
                         if (response.isSuccessful()) {
-
                             List<RideRountine> rideRountines = response.body();
                             List<Ride> rides = new ArrayList<>();
                             for (RideRountine rideRountine : rideRountines) {
                                 rides.add(new Ride(rideRountine));
                             }
-
                             for (Ride ride : rides) {
                                 Ride ride2 = new Ride(ride);
                                 ride2.setDbId(ride.getId().intValue());
@@ -547,15 +588,73 @@ public class RideOfferFrag extends Fragment {
 
     private void setHint()
     {
-        center_et.setText("");
-        if(going)
-        {
-            center_et.setHint("Centro Universitário");
+        String lastRideOffer = going ? SharedPref.getLastRideGoingPref() : SharedPref.getLastRideNotGoingPref();
+
+        if (!lastRideOffer.equals(SharedPref.MISSING_PREF)) {
+            ride = new Gson().fromJson(lastRideOffer, Ride.class);
+            center_et.setText(ride.getHub());
         }
         else
         {
-            center_et.setHint("Escolha o hub de encontro");
+            String newRide = going ? "Centro Universitário" : "Escolha o hub de encontro";
+            center_et.setText(newRide);
         }
+    }
+
+    @OnClick(R.id.monday_cb)
+    public void monClick()
+    {
+        isChecked(0);
+    }
+
+    @OnClick(R.id.tuesday_cb)
+    public void tueClick()
+    {
+        isChecked(1);
+    }
+
+    @OnClick(R.id.wednesday_cb)
+    public void wedClick()
+    {
+        isChecked(2);
+    }
+
+    @OnClick(R.id.thursday_cb)
+    public void thuClick()
+    {
+        isChecked(3);
+    }
+
+    @OnClick(R.id.friday_cb)
+    public void friClick()
+    {
+        isChecked(4);
+    }
+
+    @OnClick(R.id.saturday_cb)
+    public void satClick()
+    {
+        isChecked(5);
+    }
+
+    @OnClick(R.id.sunday_cb)
+    public void sunClick()
+    {
+        isChecked(6);
+    }
+
+    @OnClick(R.id.remove_slot)
+    public void removeSlotClick()
+    {
+        slots -= 1;
+        updateSlots();
+    }
+
+    @OnClick(R.id.add_slot)
+    public void addSlotClick()
+    {
+        slots += 1;
+        updateSlots();
     }
 
     @OnClick(R.id.tab1)
@@ -592,5 +691,144 @@ public class RideOfferFrag extends Fragment {
         bt2Shape.setColor(getResources().getColor(R.color.dark_gray));
         bt1_tv.setTextColor(getResources().getColor(R.color.dark_gray));
         bt2_tv.setTextColor(getResources().getColor(R.color.white));
+    }
+
+    private void isChecked(int pos)
+    {
+        if(checked[pos])
+        {
+            checked[pos] = false;
+        }
+        else
+        {
+            checked[pos] = true;
+        }
+        setChecked(pos);
+    }
+
+    private void setChecked(int pos)
+    {
+        GradientDrawable layoutShape = new GradientDrawable();
+        switch (pos)
+        {
+            case 0:
+                layoutShape = (GradientDrawable)monday_cb.getBackground();
+                if(checked[pos])
+                {
+                    mon_tv.setTextColor(getResources().getColor(R.color.white));
+                }
+                else
+                {
+                    mon_tv.setTextColor(getResources().getColor(R.color.dark_gray));
+                }
+                break;
+            case 1:
+                layoutShape = (GradientDrawable)tuesday_cb.getBackground();
+                if(checked[pos])
+                {
+                    tue_tv.setTextColor(getResources().getColor(R.color.white));
+                }
+                else
+                {
+                    tue_tv.setTextColor(getResources().getColor(R.color.dark_gray));
+                }
+                break;
+            case 2:
+                layoutShape = (GradientDrawable)wednesday_cb.getBackground();
+                if(checked[pos])
+                {
+                    wed_tv.setTextColor(getResources().getColor(R.color.white));
+                }
+                else
+                {
+                    wed_tv.setTextColor(getResources().getColor(R.color.dark_gray));
+                }
+                break;
+            case 3:
+                layoutShape = (GradientDrawable)thursday_cb.getBackground();
+                if(checked[pos])
+                {
+                    thu_tv.setTextColor(getResources().getColor(R.color.white));
+                }
+                else
+                {
+                    thu_tv.setTextColor(getResources().getColor(R.color.dark_gray));
+                }
+                break;
+            case 4:
+                layoutShape = (GradientDrawable)friday_cb.getBackground();
+                if(checked[pos])
+                {
+                    fri_tv.setTextColor(getResources().getColor(R.color.white));
+                }
+                else
+                {
+                    fri_tv.setTextColor(getResources().getColor(R.color.dark_gray));
+                }
+                break;
+            case 5:
+                layoutShape = (GradientDrawable)saturday_cb.getBackground();
+                if(checked[pos])
+                {
+                    sat_tv.setTextColor(getResources().getColor(R.color.white));
+                }
+                else
+                {
+                    sat_tv.setTextColor(getResources().getColor(R.color.dark_gray));
+                }
+                break;
+            case 6:
+                layoutShape = (GradientDrawable)sunday_cb.getBackground();
+                if(checked[pos])
+                {
+                    sun_tv.setTextColor(getResources().getColor(R.color.white));
+                }
+                else
+                {
+                    sun_tv.setTextColor(getResources().getColor(R.color.dark_gray));
+                }
+                break;
+        }
+
+        if(checked[pos])
+        {
+            layoutShape.setColor(getResources().getColor(R.color.dark_gray));
+        }
+        else
+        {
+            layoutShape.setColor(getResources().getColor(R.color.white));
+        }
+    }
+
+    private void updateSlots()
+    {
+        if(slots <= 1)
+        {
+            removeSlotButton.setFocusable(false);
+            removeSlotButton.setClickable(false);
+            addSlotButton.setFocusable(true);
+            addSlotButton.setClickable(true);
+            remove_tv.setTextColor(getResources().getColor(R.color.gray));
+            add_tv.setTextColor(getResources().getColor(R.color.black));
+        }
+        else if(slots >= 6)
+        {
+            addSlotButton.setFocusable(false);
+            addSlotButton.setClickable(false);
+            removeSlotButton.setFocusable(true);
+            removeSlotButton.setClickable(true);
+            remove_tv.setTextColor(getResources().getColor(R.color.black));
+            add_tv.setTextColor(getResources().getColor(R.color.gray));
+        }
+        else
+        {
+            removeSlotButton.setFocusable(true);
+            removeSlotButton.setClickable(true);
+            addSlotButton.setFocusable(true);
+            addSlotButton.setClickable(true);
+            remove_tv.setTextColor(getResources().getColor(R.color.black));
+            add_tv.setTextColor(getResources().getColor(R.color.black));
+        }
+        slotNumber.setText(Integer.toString(slots));
     }
 }

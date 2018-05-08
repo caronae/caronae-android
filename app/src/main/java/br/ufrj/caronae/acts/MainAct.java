@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import android.content.Context;
@@ -69,9 +70,12 @@ public class MainAct extends AppCompatActivity {
 
     static ImageButton dissmissFilter;
     static CardView filterCard;
+    public static RelativeLayout secondary;
     public static TextView filterText;
     public static BottomNavigationView navigation;
     static TextView cancel_bt;
+    public static ImageView logo;
+    public static TextView title;
     boolean backToMain;
 
     private ArrayList<Class> backstack;
@@ -124,11 +128,12 @@ public class MainAct extends AppCompatActivity {
         navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         cancel_bt = (TextView)findViewById(R.id.cancel_bt);
-
+        secondary = (RelativeLayout)findViewById(R.id.secondaryitems);
+        logo = (ImageView) findViewById(R.id.header_image);
         filterCard = (CardView) findViewById(R.id.filter_card);
         filterText = (TextView) findViewById(R.id.filter_text);
         dissmissFilter = (ImageButton) findViewById(R.id.dissmiss_filter);
-
+        title = (TextView) findViewById(R.id.title);
         startFilterCard();
 
         cancel_bt.setOnClickListener(new View.OnClickListener() {
@@ -396,35 +401,38 @@ public class MainAct extends AppCompatActivity {
     {
         if(navigation.getVisibility() == View.INVISIBLE) {
             navigation.setVisibility(View.VISIBLE);
+            logo.setVisibility(View.VISIBLE);
         }
-        if(cancel_bt.getVisibility() == View.VISIBLE)
+        if(secondary.getVisibility() == View.VISIBLE)
         {
-            cancel_bt.setVisibility(View.INVISIBLE);
+            secondary.setVisibility(View.INVISIBLE);
         }
-
     }
 
     //Controls the actions of the buttons of search and filter that are present in toolbar
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         navigation.setVisibility(View.INVISIBLE);
-        cancel_bt.setVisibility(View.VISIBLE);
+        logo.setVisibility(View.INVISIBLE);
+        secondary.setVisibility(View.VISIBLE);
         backstackSafeCheck();
         hideFilterCard(getBaseContext());
         Class fragmentClass = null;
         Fragment fragment = null;
         backToMain = true;
         if (item.getItemId() == R.id.search_frag_bt) {
+            title.setText("Buscar carona");
             backstack.remove(RideSearchFrag.class);
             backstack.add(RideSearchFrag.class);
             fragmentClass = RideSearchFrag.class;
         } else if (item.getItemId() == R.id.filter_frag_bt){
-
+            title.setText("Filtrar carona");
             backstack.remove(RideFilterFrag.class);
             backstack.add(RideFilterFrag.class);
             fragmentClass = RideFilterFrag.class;
         }
         else if(item.getItemId() == R.id.new_ride_bt) {
+            title.setText("Criar carona");
             backstack.remove(RideOfferFrag.class);
             backstack.add(RideOfferFrag.class);
             fragmentClass = RideOfferFrag.class;
@@ -706,4 +714,6 @@ public class MainAct extends AppCompatActivity {
         }
         catch(Exception e){}
     }
+
+
 }

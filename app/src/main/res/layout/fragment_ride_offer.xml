@@ -1,5 +1,4 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="br.ufrj.caronae.frags.RideOfferFrag"
     android:id="@+id/scrollView"
@@ -87,8 +86,8 @@
                 android:drawableStart="@drawable/ic_location_on_24dp"
                 android:ellipsize="end"
                 android:focusable="false"
-                android:textColor="@color/dark_gray"
-                android:hint="Bairro"
+                android:textColor="@color/black"
+                android:text="@string/frag_myprofile_locationHint"
                 android:maxLines="1" />
 
             <EditText
@@ -100,6 +99,7 @@
                 android:cursorVisible="true"
                 android:ellipsize="end"
                 android:focusable="true"
+                android:textColor="@color/black"
                 android:focusableInTouchMode="true"
                 android:hint="@string/frag_rideoffer_placeHint"
                 android:inputType="textCapSentences"
@@ -115,6 +115,7 @@
                 android:cursorVisible="true"
                 android:ellipsize="end"
                 android:focusable="true"
+                android:textColor="@color/black"
                 android:focusableInTouchMode="true"
                 android:hint="@string/frag_rideoffer_wayhint"
                 android:inputType="textCapSentences"
@@ -132,7 +133,8 @@
                 android:ellipsize="end"
                 android:hint="@string/frag_ridesearch_campiHint"
                 android:focusable="false"
-                android:textColor="@color/dark_gray"
+                android:text="@string/frag_ridesearch_campiHint"
+                android:textColor="@color/black"
                 android:maxLines="1" />
 
             <TextView
@@ -142,6 +144,7 @@
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/center_et"
                 android:layout_marginTop="10dp"
+                android:textSize="17sp"
                 android:text="@string/routine_cb"
                 android:textColor="@color/dark_gray"
                 android:textStyle="bold"/>
@@ -167,65 +170,157 @@
                 android:layout_marginTop="10dp"
                 android:visibility="visible">
 
+                <TextView
+                    android:id="@+id/days_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/dark_gray"
+                    android:textStyle="bold"
+                    android:text="@string/days_of_the_week"/>
+
                 <RelativeLayout
                     android:id="@+id/days"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_below="@id/days_title"
                     android:layout_centerHorizontal="true">
 
-                    <CheckBox
-                        android:id="@+id/sunday_cb"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="D" />
-
-                    <CheckBox
+                    <RelativeLayout
                         android:id="@+id/monday_cb"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_toEndOf="@+id/sunday_cb"
-                        android:layout_toRightOf="@+id/sunday_cb"
-                        android:text="S" />
+                        android:layout_height="30dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:background="@drawable/rounded_layout">
+                        <TextView
+                            android:id="@+id/mon_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:text="Seg"
+                            android:textColor="@color/dark_gray" />
+                    </RelativeLayout>
 
-                    <CheckBox
+                    <RelativeLayout
                         android:id="@+id/tuesday_cb"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="30dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:background="@drawable/rounded_layout"
                         android:layout_toEndOf="@+id/monday_cb"
                         android:layout_toRightOf="@+id/monday_cb"
-                        android:text="T" />
+                        android:layout_marginStart="10dp"
+                        android:layout_marginLeft="10dp">
+                        <TextView
+                            android:id="@+id/tue_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:text="Ter"
+                            android:textColor="@color/dark_gray" />
+                    </RelativeLayout>
 
-                    <CheckBox
+                    <RelativeLayout
                         android:id="@+id/wednesday_cb"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="30dp"
+                        android:background="@drawable/rounded_layout"
                         android:layout_toEndOf="@+id/tuesday_cb"
                         android:layout_toRightOf="@+id/tuesday_cb"
-                        android:text="Q" />
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginLeft="10dp">
+                        <TextView
+                            android:id="@+id/wed_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:text="Qua"
+                            android:textColor="@color/dark_gray" />
+                    </RelativeLayout>
 
-                    <CheckBox
+                    <RelativeLayout
                         android:id="@+id/thursday_cb"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="30dp"
+                        android:background="@drawable/rounded_layout"
                         android:layout_toEndOf="@+id/wednesday_cb"
                         android:layout_toRightOf="@+id/wednesday_cb"
-                        android:text="Q" />
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginLeft="10dp">
+                        <TextView
+                            android:id="@+id/thu_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:text="Qui"
+                            android:textColor="@color/dark_gray" />
+                    </RelativeLayout>
 
-                    <CheckBox
+                    <RelativeLayout
                         android:id="@+id/friday_cb"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="30dp"
+                        android:background="@drawable/rounded_layout"
                         android:layout_toEndOf="@+id/thursday_cb"
                         android:layout_toRightOf="@+id/thursday_cb"
-                        android:text="S" />
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginLeft="10dp">
+                        <TextView
+                            android:id="@+id/fri_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:text="Sex"
+                            android:textColor="@color/dark_gray" />
+                    </RelativeLayout>
 
-                    <CheckBox
+                    <RelativeLayout
                         android:id="@+id/saturday_cb"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="30dp"
+                        android:background="@drawable/rounded_layout"
                         android:layout_toEndOf="@+id/friday_cb"
                         android:layout_toRightOf="@+id/friday_cb"
-                        android:text="S" />
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginLeft="10dp">
+                        <TextView
+                            android:id="@+id/sat_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:text="Sab"
+                            android:textColor="@color/dark_gray" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/sunday_cb"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:background="@drawable/rounded_layout"
+                        android:layout_toEndOf="@+id/saturday_cb"
+                        android:layout_toRightOf="@+id/saturday_cb"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginLeft="10dp">
+                        <TextView
+                            android:id="@+id/sun_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:text="Dom"
+                            android:textColor="@color/dark_gray" />
+                    </RelativeLayout>
                 </RelativeLayout>
 
                 <TextView
@@ -247,6 +342,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/routine_text_tv"
                     android:layout_marginTop="10dp"
+                    android:layout_centerHorizontal="true"
                     android:orientation="horizontal">
 
                     <RadioButton
@@ -255,8 +351,8 @@
                         android:layout_height="wrap_content"
                         android:checked="true"
                         android:layout_weight="1"
-                        android:layout_gravity="center"
-                        android:gravity="center"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginLeft="10dp"
                         android:textColor="@color/dark_gray"
                         android:text="2 meses" />
 
@@ -265,8 +361,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:layout_gravity="center"
-                        android:gravity="center"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginLeft="10dp"
                         android:textColor="@color/dark_gray"
                         android:text="3 meses" />
 
@@ -275,8 +371,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:gravity="center"
                         android:layout_weight="1"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginLeft="10dp"
                         android:textColor="@color/dark_gray"
                         android:text="4 meses" />
                 </RadioGroup>
@@ -300,37 +397,100 @@
                 android:textColor="@color/gray"
                 android:maxLines="1" />
 
-            <TextView
-                android:id="@+id/slots_tv"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:id="@+id/slots_manager"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/time_et"
-                android:layout_marginTop="10dp"
-                android:text="@string/frag_rideoffer_slots"
-                android:textColor="@color/dark_gray"
-                android:textStyle="bold" />
+                android:layout_marginTop="10dp">
+                <TextView
+                    android:id="@+id/slots_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:textSize="19sp"
+                    android:text="@string/frag_rideoffer_slots"
+                    android:textColor="@color/dark_gray" />
+                <RelativeLayout
+                    android:layout_width="140dp"
+                    android:layout_height="35dp"
+                    android:layout_alignTop="@id/slots_tv"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true">
+                    <TextView
+                        android:id="@+id/slots_n"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/dark_gray"
+                        android:layout_centerVertical="true"
+                        android:text="1"/>
+                    <LinearLayout
+                        android:id="@+id/slots"
+                        android:layout_width="120dp"
+                        android:layout_height="35dp"
+                        android:weightSum="2"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerHorizontal="true"
+                        android:orientation="horizontal">
 
-            <Spinner
-                android:id="@+id/slots_et"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/slots_tv"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginTop="10dp"/>
+                        <RelativeLayout
+                            android:id="@+id/remove_slot"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:enabled="false"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:background="@drawable/btn_left"
+                            android:layout_marginRight="-2dp"
+                            android:layout_marginEnd="-2dp">
+                            <TextView
+                                android:id="@+id/remove_tv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="25sp"
+                                android:textColor="@color/gray"
+                                android:text="-"
+                                android:layout_centerInParent="true"/>
+                        </RelativeLayout>
+                        <RelativeLayout
+                            android:id="@+id/add_slot"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:layout_marginLeft="-2dp"
+                            android:layout_marginStart="-2dp"
+                            android:background="@drawable/btn_right">
+                            <TextView
+                                android:id="@+id/add_tv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="25sp"
+                                android:textColor="@color/black"
+                                android:text="+"
+                                android:layout_centerInParent="true"/>
+                        </RelativeLayout>
+                    </LinearLayout>
+                </RelativeLayout>
+
+            </RelativeLayout>
 
             <EditText
                 android:id="@+id/description_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/slots_tv"
-                android:layout_marginTop="10dp"
+                android:layout_below="@+id/slots_manager"
+                android:layout_marginTop="20dp"
                 android:background="@drawable/edittext_bg"
                 android:clickable="true"
                 android:cursorVisible="true"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
                 android:gravity="top"
+                android:textColor="@color/black"
                 android:hint="@string/frag_rideoffer_description"
                 android:inputType="textMultiLine|textCapSentences"
                 android:minLines="10"

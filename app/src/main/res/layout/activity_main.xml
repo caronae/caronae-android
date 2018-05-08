@@ -42,6 +42,7 @@
 
                         <ImageView
                             android:id="@+id/header_image"
+                            android:visibility="visible"
                             android:layout_width="107dp"
                             android:layout_height="30dp"
                             android:layout_centerInParent="true"
@@ -49,9 +50,19 @@
 
                     </RelativeLayout>
                     <RelativeLayout
+                        android:id="@+id/secondaryitems"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:gravity="start|center">
+                        android:gravity="start|center"
+                        android:visibility="invisible">
+                        <TextView
+                            android:id="@+id/title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:text="Criar carona"
+                            android:textColor="@color/black"
+                            android:textSize="20sp"/>
                         <TextView
                             android:id="@+id/cancel_bt"
                             android:layout_width="wrap_content"
@@ -63,7 +74,6 @@
                             android:textColor="@color/dark_gray"
                             android:clickable="true"
                             android:focusable="true"
-                            android:visibility="invisible"
                             android:textSize="20sp"/>
                     </RelativeLayout>
                 </FrameLayout>
