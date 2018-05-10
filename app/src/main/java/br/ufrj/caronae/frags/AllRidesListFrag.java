@@ -27,6 +27,8 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.security.auth.callback.Callback;
 
@@ -170,6 +172,8 @@ public class AllRidesListFrag extends Fragment implements Callback {
                 }
             }
         });
+
+        reloadRidesIfNecessary();
 
         return view;
     }
@@ -400,5 +404,22 @@ public class AllRidesListFrag extends Fragment implements Callback {
     private void loadOneMorePage() {
         pageCounter++;
         refreshRideList(pageCounter);
+    }
+
+    private void reloadRidesIfNecessary()
+    {
+        //Verifies every 10 seconds if a reload is necessary
+        Timer timer = new Timer ();
+        TimerTask hourlyTask = new TimerTask () {
+            @Override
+            public void run () {
+                if(SharedPref.lastAllRidesUpdate >= 300)
+                {
+                    SharedPref.lastAllRidesUpdate = 0;
+                    refreshRideList(pageCounter);
+                }
+            }
+        };
+        timer.schedule (hourlyTask, 0, 10000);
     }
 }

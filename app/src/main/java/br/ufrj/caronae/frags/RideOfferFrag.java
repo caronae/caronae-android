@@ -512,6 +512,7 @@ public class RideOfferFrag extends Fragment {
                             pd.dismiss();
                             ((MainAct) getActivity()).removeFromBackstack(RideOfferFrag.class);
                             ((MainAct) getActivity()).showActiveRidesFrag();
+                            SharedPref.lastAllRidesUpdate = 300;
                             Util.toast(R.string.frag_rideOffer_rideSaved);
                         } else {
                             Util.treatResponseFromServer(response);

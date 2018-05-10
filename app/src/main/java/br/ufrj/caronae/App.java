@@ -13,6 +13,9 @@ import org.acra.ACRA;
 import org.acra.ReportingInteractionMode;
 import org.acra.annotation.ReportsCrashes;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import br.ufrj.caronae.ACRAreport.CrashReportFactory;
 import br.ufrj.caronae.acts.LoginAct;
 import br.ufrj.caronae.asyncs.LogOut;
@@ -38,6 +41,14 @@ public class App extends SugarApp {
     private static MainThreadBus bus;
 
     public App() {
+        Timer timer = new Timer ();
+        TimerTask hourlyTask = new TimerTask () {
+            @Override
+            public void run () {
+                SharedPref.lastAllRidesUpdate += 1;
+            }
+        };
+        timer.schedule (hourlyTask, 0, 1000);
         inst = this;
     }
 

@@ -136,46 +136,12 @@ public class ActiveRideAct extends SwipeDismissBaseActivity {
 
         final boolean isDriver = driver.getDbId() == App.getUser().getDbId();
 
-        int color = 0, colorPressed = 0, bgRes = 0;
-        if (rideWithUsers.getZone().equals("Centro")) {
-            color = ContextCompat.getColor(this, R.color.zone_centro);
-            colorPressed = ContextCompat.getColor(this, R.color.light_zone_centro_transparency);
-            bgRes = R.drawable.bg_bt_raise_zone_centro;
-        }
-        if (rideWithUsers.getZone().equals("Zona Sul")) {
-            color = ContextCompat.getColor(this, R.color.zone_sul);
-            colorPressed = ContextCompat.getColor(this, R.color.light_zone_sul_transparency);
-            bgRes = R.drawable.bg_bt_raise_zone_sul;
-        }
-        if (rideWithUsers.getZone().equals("Zona Oeste")) {
-            color = ContextCompat.getColor(this, R.color.zone_oeste);
-            colorPressed = ContextCompat.getColor(this, R.color.light_zone_oeste_transparency);
-            bgRes = R.drawable.bg_bt_raise_zone_oeste;
-        }
-        if (rideWithUsers.getZone().equals("Zona Norte")) {
-            color = ContextCompat.getColor(this, R.color.zone_norte);
-            colorPressed = ContextCompat.getColor(this, R.color.light_zone_norte_transparency);
-            bgRes = R.drawable.bg_bt_raise_zone_norte;
-        }
-        if (rideWithUsers.getZone().equals("Baixada")) {
-            color = ContextCompat.getColor(this, R.color.zone_baixada);
-            colorPressed = ContextCompat.getColor(this, R.color.light_zone_baixada_transparency);
-            bgRes = R.drawable.bg_bt_raise_zone_baixada;
-        }
-        if (rideWithUsers.getZone().equals("Grande Niterói")) {
-            color = ContextCompat.getColor(this, R.color.zone_niteroi);
-            colorPressed = ContextCompat.getColor(this, R.color.light_zone_niteroi_transparency);
-            bgRes = R.drawable.bg_bt_raise_zone_niteroi;
-        }
-        if (rideWithUsers.getZone().equals("Outros")) {
-            color = ContextCompat.getColor(this, R.color.zone_outros);
-            colorPressed = ContextCompat.getColor(this, R.color.light_gray);
-            bgRes = R.drawable.bg_bt_raise_zone_outros;
-        }
+        int color = Util.getColors(rideWithUsers.getZone());
+
         lay1.setBackgroundColor(color);
         toolbar.setBackgroundColor(color);
         chat_bt.setColorNormal(color);
-        chat_bt.setColorPressed(colorPressed);
+        chat_bt.setColorPressed(color);
         finish_bt.setTextColor(color);
 
         final String location;
@@ -246,13 +212,12 @@ public class ActiveRideAct extends SwipeDismissBaseActivity {
         ridersList.setHasFixedSize(true);
         ridersList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 
-        final int finalColor = color, finalBgRes = bgRes;
         chat_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 List<ChatAssets> l = ChatAssets.find(ChatAssets.class, "ride_id = ?", rideWithUsers.getDbId() + "");
                 if (l == null || l.isEmpty())
-                    new ChatAssets(rideWithUsers.getDbId() + "", location, finalColor, finalBgRes,
+                    new ChatAssets(rideWithUsers.getDbId() + "", location, color, color,
                             Util.formatBadDateWithoutYear(rideWithUsers.getDate()),
                             Util.formatTime(rideWithUsers.getTime())).save();
 
