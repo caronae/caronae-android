@@ -91,7 +91,7 @@ public class AllRidesListFrag extends Fragment implements Callback {
 
         Context ctx;
         ctx = getContext();
-
+        refreshLayout.setProgressViewOffset(false, getResources().getDimensionPixelSize(R.dimen.refresher_offset), getResources().getDimensionPixelSize(R.dimen.refresher_offset_end));
         Bundle bundle = getArguments();
         ArrayList<RideForJson> rideOffers = bundle.getParcelableArrayList("rides");
         pageIdentifier = bundle.getInt("ID");
@@ -100,6 +100,7 @@ public class AllRidesListFrag extends Fragment implements Callback {
             @Override
             public void onRefresh() {
                 pageCounter = FIRST_PAGE_TO_LOAD;
+                SharedPref.lastAllRidesUpdate = 0;
                 for (int counter = FIRST_PAGE_TO_LOAD; counter <= pageCounter; counter++) {
                     refreshRideList(counter);
                 }
@@ -200,7 +201,7 @@ public class AllRidesListFrag extends Fragment implements Callback {
     }
 
     void refreshRideList(final int pageNumber) {
-        String going = null;
+        String going;
         if (pageIdentifier == AllRidesFragmentPagerAdapter.PAGE_GOING)
             going = "1";
         else
@@ -318,7 +319,6 @@ public class AllRidesListFrag extends Fragment implements Callback {
     private void setRides(List<RideForJson> rideOffers, boolean saveList)
     {
         if (rideOffers != null && !rideOffers.isEmpty()) {
-
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
             Date todayDate = new Date();
             String todayString = simpleDateFormat.format(todayDate);
@@ -348,18 +348,18 @@ public class AllRidesListFrag extends Fragment implements Callback {
         }
 
         if (pageIdentifier == AllRidesFragmentPagerAdapter.PAGE_GOING) {
-            if (goingRides == null || goingRides.isEmpty()) {
-            } else {
+            if (goingRides != null && !goingRides.isEmpty()) {
                 SharedPref.ALL_RIDES_GOING = goingRides;
                 adapter.makeList(goingRides);
                 scrollListener.resetState();
+                adapter.notifyDataSetChanged();
             }
         } else {
-            if (notGoingRides == null || notGoingRides.isEmpty()) {
-            } else {
+            if (notGoingRides != null && !notGoingRides.isEmpty()) {
                 SharedPref.ALL_RIDES_LEAVING = notGoingRides;
                 adapter.makeList(notGoingRides);
                 scrollListener.resetState();
+                adapter.notifyDataSetChanged();
             }
         }
         refreshLayout.setRefreshing(false);
@@ -415,8 +415,11 @@ public class AllRidesListFrag extends Fragment implements Callback {
             public void run () {
                 if(SharedPref.lastAllRidesUpdate >= 300)
                 {
+                    pageCounter = FIRST_PAGE_TO_LOAD;
                     SharedPref.lastAllRidesUpdate = 0;
-                    refreshRideList(pageCounter);
+                    for (int counter = FIRST_PAGE_TO_LOAD; counter <= pageCounter; counter++) {
+                        refreshRideList(counter);
+                    }
                 }
             }
         };

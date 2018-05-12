@@ -337,57 +337,83 @@ public class MainAct extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        backstackSafeCheck();
-        if (!backstack.isEmpty())
-            backstack.remove(backstack.size() - 1);
-        if (backstack.isEmpty()) {
-            finish();
-        } else {
-            Class fragmentClass = backstack.get(backstack.size() - 1);
-
+        if(secondary.getVisibility() == View.VISIBLE)
+        {
             Fragment fragment = null;
+            Class fragmentClass;
+            if (!backstack.isEmpty())
+                backstack.remove(backstack.size() - 1);
+            if(title.getText().equals("Filtrar carona"))
+            {
+                backstack.remove(AllRidesFrag.class);
+                backstack.add(AllRidesFrag.class);
+                fragmentClass = AllRidesFrag.class;
+            }
+            else if(title.getText().equals("Criar carona"))
+            {
+                backstack.remove(MyRidesFrag.class);
+                backstack.add(MyRidesFrag.class);
+                fragmentClass = MyRidesFrag.class;
+            }
+            else
+            {
+                backstack.remove(AllRidesFrag.class);
+                backstack.add(AllRidesFrag.class);
+                fragmentClass = AllRidesFrag.class;
+            }
             try {
-                if(!filterText.getText().equals("") && fragmentClass.equals(AllRidesFrag.class))
-                {
-                    showFilterCard(getBaseContext());
-                }
-                else
-                {
-                    hideFilterCard(getBaseContext());
-                }
                 fragment = (Fragment) fragmentClass.newInstance();
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            BottomNavigationView bNavView = (BottomNavigationView) findViewById(R.id.navigation);
-            if(fragmentClass.equals(AllRidesFrag.class))
-            {
-                if(!bNavView.getMenu().getItem(0).isChecked())
-                {
-                    SharedPref.NAV_INDICATOR = "AllRides";
-                    bNavView.getMenu().getItem(0).setChecked(true);
-                }
-            }
-            else if(fragmentClass.equals(MyRidesFrag.class))
-            {
-                if(!bNavView.getMenu().getItem(1).isChecked())
-                {
-                    SharedPref.NAV_INDICATOR = "MyRides";
-                    bNavView.getMenu().getItem(1).setChecked(true);
-                }
-            }
-            else if(fragmentClass.equals(OptionsMenuFrag.class))
-            {
-                if(!bNavView.getMenu().getItem(2).isChecked())
-                {
-                    SharedPref.NAV_INDICATOR = "Menu";
-                    bNavView.getMenu().getItem(2).setChecked(true);
-                }
-            }
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction transaction = fragmentManager.beginTransaction();
-            transaction.setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out);
+            fragmentManager.popBackStack();
+            transaction.setCustomAnimations(R.anim.anim_up_slide_in, R.anim.anim_down_slide_out);
             transaction.replace(R.id.flContent, fragment).commit();
+        }
+        else {
+            backstackSafeCheck();
+            if (!backstack.isEmpty())
+                backstack.remove(backstack.size() - 1);
+            if (backstack.isEmpty()) {
+                finish();
+            } else {
+                Class fragmentClass = backstack.get(backstack.size() - 1);
+
+                Fragment fragment = null;
+                try {
+                    if (!filterText.getText().equals("") && fragmentClass.equals(AllRidesFrag.class)) {
+                        showFilterCard(getBaseContext());
+                    } else {
+                        hideFilterCard(getBaseContext());
+                    }
+                    fragment = (Fragment) fragmentClass.newInstance();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                BottomNavigationView bNavView = (BottomNavigationView) findViewById(R.id.navigation);
+                if (fragmentClass.equals(AllRidesFrag.class)) {
+                    if (!bNavView.getMenu().getItem(0).isChecked()) {
+                        SharedPref.NAV_INDICATOR = "AllRides";
+                        bNavView.getMenu().getItem(0).setChecked(true);
+                    }
+                } else if (fragmentClass.equals(MyRidesFrag.class)) {
+                    if (!bNavView.getMenu().getItem(1).isChecked()) {
+                        SharedPref.NAV_INDICATOR = "MyRides";
+                        bNavView.getMenu().getItem(1).setChecked(true);
+                    }
+                } else if (fragmentClass.equals(OptionsMenuFrag.class)) {
+                    if (!bNavView.getMenu().getItem(2).isChecked()) {
+                        SharedPref.NAV_INDICATOR = "Menu";
+                        bNavView.getMenu().getItem(2).setChecked(true);
+                    }
+                }
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                FragmentTransaction transaction = fragmentManager.beginTransaction();
+                transaction.setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out);
+                transaction.replace(R.id.flContent, fragment).commit();
+            }
         }
     }
 

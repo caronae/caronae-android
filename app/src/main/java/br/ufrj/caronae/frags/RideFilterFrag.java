@@ -173,7 +173,5 @@ public class RideFilterFrag extends Fragment {
         intent.putExtra("selectable", true);
         startActivity(intent);
         getActivity().overridePendingTransition(R.anim.anim_right_slide_in, R.anim.anim_left_slide_out);
-
     }
-
 }

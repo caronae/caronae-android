@@ -149,7 +149,7 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
     public void makeList(List<RideForJson> rideOffers) {
         this.rideOffers = rideOffers;
         List<Integer> headerPositions = getHeaderPositionsOnList(rideOffers);
-        mixedList = new ArrayList<>();
+        mixedList.clear();
         mixedList.addAll(rideOffers);
         if (headerPositions != null && headerPositions.size() > 0) {
             for (int headerCount = 0; headerCount < headerPositions.size(); headerCount++) {

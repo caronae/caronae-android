@@ -77,7 +77,7 @@ public class MyRidesListFrag extends Fragment {
         ButterKnife.bind(this, view);
         ctx = getContext();
         allRides = new ArrayList<>();
-
+        swipeRefreshLayout.setProgressViewOffset(false, getResources().getDimensionPixelSize(R.dimen.refresher_offset), getResources().getDimensionPixelSize(R.dimen.refresher_offset_end));
         Bundle bundle = getArguments();
         going = bundle.getBoolean("going");
         if(!SharedPref.OPEN_MY_RIDES) {
