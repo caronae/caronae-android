@@ -164,9 +164,9 @@
             android:layout_marginTop="20dp"
             android:textSize="14sp"
             android:text=" - "
-            android:drawableLeft="@drawable/ic_directions_car_24dp"
+            android:drawableLeft="@drawable/ic_plate_24dp"
             android:drawablePadding="5dp"
-            android:drawableStart="@drawable/ic_directions_car_24dp" />
+            android:drawableStart="@drawable/ic_plate_24dp" />
         <TextView
             android:id="@+id/carModel_tv"
             android:textStyle="bold"

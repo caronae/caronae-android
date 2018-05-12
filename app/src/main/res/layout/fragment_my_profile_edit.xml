@@ -279,9 +279,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/car_text_tv"
-                android:drawableLeft="@drawable/ic_directions_car_24dp"
+                android:drawableLeft="@drawable/ic_plate_24dp"
                 android:drawablePadding="5dp"
-                android:drawableStart="@drawable/ic_directions_car_24dp"
+                android:drawableStart="@drawable/ic_plate_24dp"
                 android:hint="@string/frag_myprofile_carPlateHint"
                 android:inputType="textNoSuggestions|textVisiblePassword"
                 app:backgroundTint="@color/black_overlay" />

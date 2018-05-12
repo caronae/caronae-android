@@ -32,7 +32,7 @@
                     android:layout_marginRight="8dp"
                     android:tint="@android:color/white"
                     android:backgroundTint="@android:color/transparent"
-                    android:src="@drawable/ic_share_black_24dp" />
+                    android:src="@drawable/ic_share_24dp" />
 
                 <TextView
                     android:id="@+id/location_tv"
@@ -308,7 +308,7 @@
                 android:layout_marginLeft="30dp"
                 android:layout_marginStart="30dp"
                 android:layout_marginTop="5dp"
-                android:src="@drawable/ic_car_plate" />
+                android:src="@drawable/ic_plate_24dp" />
 
             <TextView
                 android:id="@+id/carPlate_tv"

@@ -674,7 +674,7 @@ public class MyProfileEditFrag extends Fragment {
                             profileUrlPic = profilePicUrl;
 
                             Picasso.with(getContext()).load(profilePicUrl)
-                                    .error(R.drawable.auth_bg)
+                                    .error(R.drawable.user_pic)
                                     .transform(new RoundedTransformation())
                                     .into(user_pic, new com.squareup.picasso.Callback() {
                                         @Override

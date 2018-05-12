@@ -62,33 +62,8 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
     public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
         final RideForJson rideOffer = ridesList.get(position);
 
-        int color = ContextCompat.getColor(activity, R.color.zone_outros);
-        int bgRes = R.drawable.bg_bt_raise_zone_outros;
+        int color = Util.getColors(rideOffer.getZone());
 
-        if (rideOffer.getZone().equals("Centro")) {
-            color = ContextCompat.getColor(activity, R.color.zone_centro);
-            bgRes = R.drawable.bg_bt_raise_zone_centro;
-        }
-        if (rideOffer.getZone().equals("Zona Sul")) {
-            color = ContextCompat.getColor(activity, R.color.zone_sul);
-            bgRes = R.drawable.bg_bt_raise_zone_sul;
-        }
-        if (rideOffer.getZone().equals("Zona Oeste")) {
-            color = ContextCompat.getColor(activity, R.color.zone_oeste);
-            bgRes = R.drawable.bg_bt_raise_zone_oeste;
-        }
-        if (rideOffer.getZone().equals("Zona Norte")) {
-            color = ContextCompat.getColor(activity, R.color.zone_norte);
-            bgRes = R.drawable.bg_bt_raise_zone_norte;
-        }
-        if (rideOffer.getZone().equals("Baixada")) {
-            color = ContextCompat.getColor(activity, R.color.zone_baixada);
-            bgRes = R.drawable.bg_bt_raise_zone_baixada;
-        }
-        if (rideOffer.getZone().equals("Grande Niterói")) {
-            color = ContextCompat.getColor(activity, R.color.zone_niteroi);
-            bgRes = R.drawable.bg_bt_raise_zone_niteroi;
-        }
         viewHolder.location_tv.setTextColor(color);
         viewHolder.time_tv.setTextColor(color);
 
@@ -132,14 +107,13 @@ public class MyActiveRidesAdapter extends RecyclerView.Adapter<MyActiveRidesAdap
         });
 
         final int finalColor = color;
-        final int finalBgRes = bgRes;
         final String finallocation = location;
         viewHolder.newMsgIndicator_iv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 List<ChatAssets> l = ChatAssets.find(ChatAssets.class, "ride_id = ?", rideOffer.getDbId() + "");
                 if (l == null || l.isEmpty())
-                    new ChatAssets(rideOffer.getDbId() + "", finallocation, finalColor, finalBgRes,
+                    new ChatAssets(rideOffer.getDbId() + "", finallocation, finalColor, finalColor,
                             Util.formatBadDateWithoutYear(rideOffer.getDate()),
                             Util.formatTime(rideOffer.getTime())).save();
 

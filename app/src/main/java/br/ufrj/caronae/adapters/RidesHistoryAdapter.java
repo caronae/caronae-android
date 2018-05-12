@@ -44,35 +44,7 @@ public class RidesHistoryAdapter extends RecyclerView.Adapter<RidesHistoryAdapte
     public void onBindViewHolder(final RidesHistoryAdapter.ViewHolder holder, int position) {
         final RideHistoryForJson historyRide = historyRides.get(position);
 
-        int color = 0, bgRes = 0;
-        if (historyRide.getZone().equals("Centro")) {
-            color = ContextCompat.getColor(activity, R.color.zone_centro);
-            bgRes = R.drawable.bg_bt_raise_zone_centro;
-        }
-        if (historyRide.getZone().equals("Zona Sul")) {
-            color = ContextCompat.getColor(activity, R.color.zone_sul);
-            bgRes = R.drawable.bg_bt_raise_zone_sul;
-        }
-        if (historyRide.getZone().equals("Zona Oeste")) {
-            color = ContextCompat.getColor(activity, R.color.zone_oeste);
-            bgRes = R.drawable.bg_bt_raise_zone_oeste;
-        }
-        if (historyRide.getZone().equals("Zona Norte")) {
-            color = ContextCompat.getColor(activity, R.color.zone_norte);
-            bgRes = R.drawable.bg_bt_raise_zone_norte;
-        }
-        if (historyRide.getZone().equals("Baixada")) {
-            color = ContextCompat.getColor(activity, R.color.zone_baixada);
-            bgRes = R.drawable.bg_bt_raise_zone_baixada;
-        }
-        if (historyRide.getZone().equals("Grande Niterói")) {
-            color = ContextCompat.getColor(activity, R.color.zone_niteroi);
-            bgRes = R.drawable.bg_bt_raise_zone_niteroi;
-        }
-        if (historyRide.getZone().equals("Outros")) {
-            color = ContextCompat.getColor(activity, R.color.zone_outros);
-            bgRes = R.drawable.bg_bt_raise_zone_outros;
-        }
+        int color = Util.getColors(historyRide.getZone());
 
         if (historyRide.isGoing())
             holder.time_tv.setText(activity.getString(R.string.arrivedAt, historyRide.getTime() + " | "));
