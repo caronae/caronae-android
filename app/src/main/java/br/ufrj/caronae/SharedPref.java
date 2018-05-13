@@ -45,6 +45,7 @@ public class SharedPref {
     public static String FRAGMENT_INDICATOR                          = "";
     public static String LOCATION_INFO                               = "";
     public static String CAMPI_INFO                                  = "";
+    public static String isGoing                                     = "1";
     public static int lastAllRidesUpdate                             = 0;
     public static List<RideForJson> MY_RIDES                         = null;
     public static ArrayList<RideForJson> ALL_RIDES_GOING             = null;

@@ -245,12 +245,12 @@ public class AllRidesListFrag extends Fragment implements Callback {
                             if(rideOffers.size() != 0) {
                                 noRides.setVisibility(View.GONE);
                                 if (isFiltering){
-                                    setRides(rideOffers, false);
+                                    setRides(rideOffers);
                                 }
                                 else
                                 {
                                     SharedPref.OPEN_ALL_RIDES = true;
-                                    setRides(rideOffers, true);
+                                    setRides(rideOffers);
                                 }
                                 noRides.setVisibility(View.GONE);
                             }
@@ -330,7 +330,7 @@ public class AllRidesListFrag extends Fragment implements Callback {
         rvRides.startAnimation(anim);
     }
 
-    private void setRides(List<RideForJson> rideOffers, boolean saveList)
+    private void setRides(List<RideForJson> rideOffers)
     {
         if (rideOffers != null && !rideOffers.isEmpty()) {
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.US);

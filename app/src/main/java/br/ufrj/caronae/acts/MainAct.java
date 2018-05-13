@@ -596,79 +596,66 @@ public class MainAct extends AppCompatActivity {
     }
 
     public void startFilterCard() {
-        String resumeLocations = "", center = "", campus = "", zone = "";
+        if(SharedPref.getFiltersPref()) {
+            String resumeLocations = "", center = "", campus = "", zone = "";
 
-        if(Util.isZone(SharedPref.getLocationFilter()))
-        {
-            zone = SharedPref.getLocationFilter();
-        }
-        else
-        {
-            if(!SharedPref.getLocationFilter().equals("Todos os Bairros")) {
-                resumeLocations = SharedPref.getLocationFilter();
-            }
-        }
-        if(Util.isCampus(SharedPref.getCenterFilter()))
-        {
-            campus = SharedPref.getCenterFilter();
-        }
-        else
-        {
-            if(!SharedPref.getCenterFilter().equals("Todos os Campi")) {
-                center = SharedPref.getCenterFilter();
-            }
-        }
-        String filtering = "Filtrando: ";
-        SpannableString cardText;
-
-        if (!resumeLocations.equals("")) {
-            if (center.equals("")) {
-                if (campus.equals("")) {
-                    center = "Todos os Campi";
-                } else {
-                    center = campus;
+            if (Util.isZone(SharedPref.getLocationFilter())) {
+                zone = SharedPref.getLocationFilter();
+            } else {
+                if (!SharedPref.getLocationFilter().equals("Todos os Bairros")) {
+                    resumeLocations = SharedPref.getLocationFilter();
                 }
             }
-            if(center.equals("Todos os Campi"))
-            {
-                cardText = new SpannableString(filtering + resumeLocations);
-            }
-            else if(zone.equals("Todos os Bairros"))
-            {
-                cardText = new SpannableString(filtering + center);
-            }
-            else {
-                cardText = new SpannableString(filtering + center + ", " + resumeLocations);
-            }
-            cardText.setSpan(new StyleSpan(Typeface.BOLD), 0, filtering.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            filterText.setText(cardText);
-            filterCard.setVisibility(View.VISIBLE);
-        } else
-        {
-            if (zone.equals("")) {
-                zone = "Todos os Bairros";
-            }
-            if (center.equals("")) {
-                if (campus.equals("")) {
-                    center = "Todos os Campi";
-                } else {
-                    center = campus;
+            if (Util.isCampus(SharedPref.getCenterFilter())) {
+                campus = SharedPref.getCenterFilter();
+            } else {
+                if (!SharedPref.getCenterFilter().equals("Todos os Campi")) {
+                    center = SharedPref.getCenterFilter();
                 }
             }
-            if(center.equals("Todos os Campi"))
-            {
-                cardText = new SpannableString(filtering + zone);
+            String filtering = "Filtrando: ";
+            SpannableString cardText;
+
+            if (!resumeLocations.equals("")) {
+                if (center.equals("")) {
+                    if (campus.equals("")) {
+                        center = "Todos os Campi";
+                    } else {
+                        center = campus;
+                    }
+                }
+                if (center.equals("Todos os Campi")) {
+                    cardText = new SpannableString(filtering + resumeLocations);
+                } else if (zone.equals("Todos os Bairros")) {
+                    cardText = new SpannableString(filtering + center);
+                } else {
+                    cardText = new SpannableString(filtering + center + ", " + resumeLocations);
+                }
+                cardText.setSpan(new StyleSpan(Typeface.BOLD), 0, filtering.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                filterText.setText(cardText);
+                filterCard.setVisibility(View.VISIBLE);
+            } else {
+                if (zone.equals("")) {
+                    zone = "Todos os Bairros";
+                }
+                if (center.equals("")) {
+                    if (campus.equals("")) {
+                        center = "Todos os Campi";
+                    } else {
+                        center = campus;
+                    }
+                }
+                if (center.equals("Todos os Campi")) {
+                    cardText = new SpannableString(filtering + zone);
+                } else if (zone.equals("Todos os Bairros")) {
+                    cardText = new SpannableString(filtering + center);
+                } else {
+                    cardText = new SpannableString(filtering + center + ", " + zone);
+                }
+                cardText.setSpan(new StyleSpan(Typeface.BOLD), 0, filtering.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                filterText.setText(cardText);
+                filterCard.setVisibility(View.VISIBLE);
             }
-            else if(zone.equals("Todos os Bairros"))
-            {
-                cardText = new SpannableString(filtering + center);
-            }
-            else {
-                cardText = new SpannableString(filtering + center + ", " + zone);
-            }
-            cardText.setSpan(new StyleSpan(Typeface.BOLD), 0, filtering.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            filterText.setText(cardText);
-            filterCard.setVisibility(View.VISIBLE);
         }
     }
 

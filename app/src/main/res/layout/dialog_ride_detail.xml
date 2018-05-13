@@ -91,10 +91,11 @@
                         android:layout_height="wrap_content"
                         android:paddingTop="15dp"
                         android:paddingBottom="15dp"
-                        android:textSize="20sp"
+                        android:textSize="24sp"
                         android:textColor="@color/white"
                         android:layout_marginLeft="15dp"
                         android:layout_marginStart="15dp"
+                        android:textStyle="bold"
                         android:text="BENFICA ➜ CCS"/>
                 </RelativeLayout>
 

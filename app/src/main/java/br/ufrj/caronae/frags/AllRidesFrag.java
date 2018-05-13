@@ -100,24 +100,20 @@ public class AllRidesFrag extends Fragment {
         setHasOptionsMenu(true);
         MainAct.showMainItems();
 
-        if(SharedPref.getIsGoingPref().contains("going"))
-        {
-            isGoing = SharedPref.getIsGoingPref();
-        }
-        else
-        {
-            isGoing = "1";
-        }
+        viewPager.setAdapter(new AllRidesFragmentPagerAdapter(getChildFragmentManager(), goingRides, notGoingRides, getResources().getStringArray(R.array.tab_tags)));
+
+        isGoing = SharedPref.isGoing;
+
         if(isGoing.equals("1"))
         {
             setButton(isLeaving_bt, isGoing_bt, isLeaving_tv, isGoing_tv);
+            viewPager.setCurrentItem(0);
         }
         else
         {
             setButton(isGoing_bt, isLeaving_bt, isGoing_tv, isLeaving_tv);
+            viewPager.setCurrentItem(1);
         }
-
-        viewPager.setAdapter(new AllRidesFragmentPagerAdapter(getChildFragmentManager(), goingRides, notGoingRides, getResources().getStringArray(R.array.tab_tags)));
 
         if(((MainAct)getActivity()).filterText.getText().equals(""))
         {
@@ -139,6 +135,7 @@ public class AllRidesFrag extends Fragment {
         if(isGoing.equals("0"))
         {
             isGoing = "1";
+            SharedPref.isGoing = "1";
             SharedPref.setIsGoingPref(isGoing);
             viewPager.setCurrentItem(0);
             setButton(isLeaving_bt, isGoing_bt,isLeaving_tv, isGoing_tv);
@@ -151,6 +148,7 @@ public class AllRidesFrag extends Fragment {
         if(isGoing.equals("1"))
         {
             isGoing = "0";
+            SharedPref.isGoing = "0";
             SharedPref.setIsGoingPref(isGoing);
             viewPager.setCurrentItem(1);
             setButton(isGoing_bt, isLeaving_bt, isGoing_tv, isLeaving_tv);

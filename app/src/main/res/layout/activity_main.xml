@@ -98,6 +98,7 @@
                         android:layout_marginStart="@dimen/activity_horizontal_margin"
                         android:background="@color/light_gray"
                         android:gravity="center_vertical"
+                        android:singleLine="true"
                         android:text=""
                         android:textColor="@color/dark_gray" />
 
