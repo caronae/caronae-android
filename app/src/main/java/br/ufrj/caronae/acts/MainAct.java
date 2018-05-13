@@ -113,6 +113,12 @@ public class MainAct extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        dissmissFilter = (ImageButton) findViewById(R.id.dissmiss_filter);
+        filterCard = (CardView) findViewById(R.id.filter_card);
+        filterText = (TextView) findViewById(R.id.filter_text);
+        startFilterCard();
+        configureDissmissFilterButton();
+
         Util.setColors();
 
         if(App.isUserLoggedIn())
@@ -129,12 +135,7 @@ public class MainAct extends AppCompatActivity {
         cancel_bt = (TextView)findViewById(R.id.cancel_bt);
         secondary = (RelativeLayout)findViewById(R.id.secondaryitems);
         logo = (ImageView) findViewById(R.id.header_image);
-        filterCard = (CardView) findViewById(R.id.filter_card);
-        filterText = (TextView) findViewById(R.id.filter_text);
-        dissmissFilter = (ImageButton) findViewById(R.id.dissmiss_filter);
         title = (TextView) findViewById(R.id.title);
-        startFilterCard();
-
         cancel_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -155,8 +156,6 @@ public class MainAct extends AppCompatActivity {
                 }
             }
         });
-
-        configureDissmissFilterButton();
 
         SharedPref.setChatActIsForeground(false);
 
@@ -525,144 +524,58 @@ public class MainAct extends AppCompatActivity {
     }
 
     public void updateFilterCard(Context context){
-        boolean isFiltering = SharedPref.checkExistence(SharedPref.RIDE_FILTER_PREF_KEY) ? SharedPref.getFiltersPref() : false;
-        if (isFiltering) {
-            String resumeLocation = "", center = "", campus = "", zone = "";
-            if(Util.isZone(SharedPref.getLocationFilter()))
-            {
-                zone = SharedPref.getLocationFilter();
-            }
-            else
-            {
-                if(!SharedPref.getLocationFilter().equals("Todos os Bairros")) {
-                    resumeLocation = SharedPref.getLocationFilter();
-                }
-            }
-
-            if(Util.isCampus(SharedPref.getCenterFilter()))
-            {
-                campus = SharedPref.getCenterFilter();
-            }
-            else
-            {
-                if(!SharedPref.getCenterFilter().equals("Todos os Campi")) {
-                    center = SharedPref.getCenterFilter();
-                }
-            }
-            String filtering = "Filtrando: ";
-            SpannableString cardText;
-
-            if (!resumeLocation.equals("")) {
-                if (center.equals("")) {
-                    if (campus.equals("")) {
-                        center = "Todos os Campi";
-                    } else {
-                        center = campus;
-                    }
-                    if(center.equals("Todos os Campi"))
-                    {
-                        cardText = new SpannableString(filtering + resumeLocation);
-                    }
-                    else if(resumeLocation.equals("Todos os Bairros"))
-                    {
-                        cardText = new SpannableString(filtering + center);
-                    }
-                    else {
-                        cardText = new SpannableString(filtering + center + ", " + resumeLocation);
-                    }
-                    cardText.setSpan(new StyleSpan(Typeface.BOLD), 0, filtering.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                    filterText.setText(cardText);
-                }
-            } else if (!zone.equals("")){
-                if (center.equals("")) {
-                    if (campus.equals("")) {
-                        center = "Todos os Campi";
-                    } else {
-                        center = campus;
-                    }
-                    if(center.equals("Todos os Campi"))
-                    {
-                        cardText = new SpannableString(filtering + zone);
-                    }
-                    else if(zone.equals("Todos os Bairros"))
-                    {
-                        cardText = new SpannableString(filtering + center);
-                    }
-                    else {
-                        cardText = new SpannableString(filtering + center + ", " + zone);
-                    }
-                    cardText.setSpan(new StyleSpan(Typeface.BOLD), 0, filtering.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                    filterText.setText(cardText);
-                }
-            }
-            showFilterCard(context);
+        String resumeLocation = "", center = "", campus = "", zone = "";
+        if(Util.isZone(SharedPref.getLocationFilter()))
+        {
+            zone = SharedPref.getLocationFilter();
         }
-        else {
-            hideFilterCard(getBaseContext());
+        else
+        {
+            if(!SharedPref.getLocationFilter().equals("Todos os Bairros")) {
+                resumeLocation = SharedPref.getLocationFilter();
+            }
         }
-    }
 
-    public void startFilterCard() {
-        boolean isFiltering = SharedPref.checkExistence(SharedPref.RIDE_FILTER_PREF_KEY) ? SharedPref.getFiltersPref() : false;
-        if (isFiltering) {
-            String resumeLocations = "", center = "", campus = "", zone = "";
+        if(Util.isCampus(SharedPref.getCenterFilter()))
+        {
+            campus = SharedPref.getCenterFilter();
+        }
+        else
+        {
+            if(!SharedPref.getCenterFilter().equals("Todos os Campi")) {
+                center = SharedPref.getCenterFilter();
+            }
+        }
+        String filtering = "Filtrando: ";
+        SpannableString cardText;
 
-            if(Util.isZone(SharedPref.getLocationFilter()))
-            {
-                zone = SharedPref.getLocationFilter();
-            }
-            else
-            {
-                if(!SharedPref.getLocationFilter().equals("Todos os Bairros")) {
-                    resumeLocations = SharedPref.getLocationFilter();
-                }
-            }
-            if(Util.isCampus(SharedPref.getCenterFilter()))
-            {
-                campus = SharedPref.getCenterFilter();
-            }
-            else
-            {
-                if(!SharedPref.getCenterFilter().equals("Todos os Campi")) {
-                    center = SharedPref.getCenterFilter();
-                }
-            }
-            String filtering = "Filtrando: ";
-            SpannableString cardText;
-
-            if (!resumeLocations.equals("")) {
-                if (center.equals("")) {
-                    if (campus.equals("")) {
-                        center = "Todos os Campi";
-                    } else {
-                        center = campus;
-                    }
+        if (!resumeLocation.equals("")) {
+            if (center.equals("")) {
+                if (campus.equals("")) {
+                    center = "Todos os Campi";
+                } else {
+                    center = campus;
                 }
                 if(center.equals("Todos os Campi"))
                 {
-                    cardText = new SpannableString(filtering + resumeLocations);
+                    cardText = new SpannableString(filtering + resumeLocation);
                 }
-                else if(zone.equals("Todos os Bairros"))
+                else if(resumeLocation.equals("Todos os Bairros"))
                 {
                     cardText = new SpannableString(filtering + center);
                 }
                 else {
-                    cardText = new SpannableString(filtering + center + ", " + resumeLocations);
+                    cardText = new SpannableString(filtering + center + ", " + resumeLocation);
                 }
                 cardText.setSpan(new StyleSpan(Typeface.BOLD), 0, filtering.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 filterText.setText(cardText);
-                filterCard.setVisibility(View.VISIBLE);
-            } else
-            {
-                if (zone.equals("")) {
-                    zone = "Todos os Bairros";
-                }
-                if (center.equals("")) {
-                    if (campus.equals("")) {
-                        center = "Todos os Campi";
-                    } else {
-                        center = campus;
-                    }
+            }
+        } else if (!zone.equals("")){
+            if (center.equals("")) {
+                if (campus.equals("")) {
+                    center = "Todos os Campi";
+                } else {
+                    center = campus;
                 }
                 if(center.equals("Todos os Campi"))
                 {
@@ -677,60 +590,129 @@ public class MainAct extends AppCompatActivity {
                 }
                 cardText.setSpan(new StyleSpan(Typeface.BOLD), 0, filtering.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 filterText.setText(cardText);
-                filterCard.setVisibility(View.VISIBLE);
             }
-        }else {
-            hideFilterCard(getBaseContext());
+        }
+        showFilterCard(context);
+    }
+
+    public void startFilterCard() {
+        String resumeLocations = "", center = "", campus = "", zone = "";
+
+        if(Util.isZone(SharedPref.getLocationFilter()))
+        {
+            zone = SharedPref.getLocationFilter();
+        }
+        else
+        {
+            if(!SharedPref.getLocationFilter().equals("Todos os Bairros")) {
+                resumeLocations = SharedPref.getLocationFilter();
+            }
+        }
+        if(Util.isCampus(SharedPref.getCenterFilter()))
+        {
+            campus = SharedPref.getCenterFilter();
+        }
+        else
+        {
+            if(!SharedPref.getCenterFilter().equals("Todos os Campi")) {
+                center = SharedPref.getCenterFilter();
+            }
+        }
+        String filtering = "Filtrando: ";
+        SpannableString cardText;
+
+        if (!resumeLocations.equals("")) {
+            if (center.equals("")) {
+                if (campus.equals("")) {
+                    center = "Todos os Campi";
+                } else {
+                    center = campus;
+                }
+            }
+            if(center.equals("Todos os Campi"))
+            {
+                cardText = new SpannableString(filtering + resumeLocations);
+            }
+            else if(zone.equals("Todos os Bairros"))
+            {
+                cardText = new SpannableString(filtering + center);
+            }
+            else {
+                cardText = new SpannableString(filtering + center + ", " + resumeLocations);
+            }
+            cardText.setSpan(new StyleSpan(Typeface.BOLD), 0, filtering.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            filterText.setText(cardText);
+            filterCard.setVisibility(View.VISIBLE);
+        } else
+        {
+            if (zone.equals("")) {
+                zone = "Todos os Bairros";
+            }
+            if (center.equals("")) {
+                if (campus.equals("")) {
+                    center = "Todos os Campi";
+                } else {
+                    center = campus;
+                }
+            }
+            if(center.equals("Todos os Campi"))
+            {
+                cardText = new SpannableString(filtering + zone);
+            }
+            else if(zone.equals("Todos os Bairros"))
+            {
+                cardText = new SpannableString(filtering + center);
+            }
+            else {
+                cardText = new SpannableString(filtering + center + ", " + zone);
+            }
+            cardText.setSpan(new StyleSpan(Typeface.BOLD), 0, filtering.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            filterText.setText(cardText);
+            filterCard.setVisibility(View.VISIBLE);
         }
     }
 
     public void showFilterCard(final Context context){
-        boolean isFiltering = SharedPref.checkExistence(SharedPref.RIDE_FILTER_PREF_KEY) ? SharedPref.getFiltersPref() : false;
-        if(isFiltering) {
-            Animation animation = AnimationUtils.loadAnimation(context, R.anim.anim_fade_in);
-            filterCard.startAnimation(animation);
-            animation.setAnimationListener(new Animation.AnimationListener() {
-                @Override
-                public void onAnimationStart(Animation animation) {
+        Animation animation = AnimationUtils.loadAnimation(context, R.anim.anim_fade_in);
+        filterCard.startAnimation(animation);
+        animation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
 
-                }
+            }
 
-                @Override
-                public void onAnimationEnd(Animation animation) {
-                    filterCard.setVisibility(View.VISIBLE);
-                }
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                filterCard.setVisibility(View.VISIBLE);
+            }
 
-                @Override
-                public void onAnimationRepeat(Animation animation) {
+            @Override
+            public void onAnimationRepeat(Animation animation) {
 
-                }
-            });
-            filterCard.startAnimation(animation);
-        }
+            }
+        });
+        filterCard.startAnimation(animation);
     }
 
     public void hideFilterCard(final Context context){
-        boolean isFiltering = SharedPref.checkExistence(SharedPref.RIDE_FILTER_PREF_KEY) ? SharedPref.getFiltersPref() : false;
-        if(!isFiltering) {
-            Animation animation = AnimationUtils.loadAnimation(context, R.anim.anim_fade_out);
-            animation.setAnimationListener(new Animation.AnimationListener() {
-                @Override
-                public void onAnimationStart(Animation animation) {
+        Animation animation = AnimationUtils.loadAnimation(context, R.anim.anim_fade_out);
+        animation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
 
-                }
+            }
 
-                @Override
-                public void onAnimationEnd(Animation animation) {
-                    filterCard.setVisibility(View.GONE);
-                }
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                filterCard.setVisibility(View.GONE);
+            }
 
-                @Override
-                public void onAnimationRepeat(Animation animation) {
+            @Override
+            public void onAnimationRepeat(Animation animation) {
 
-                }
-            });
-            filterCard.startAnimation(animation);
-        }
+            }
+        });
+        filterCard.startAnimation(animation);
     }
 
     @Override

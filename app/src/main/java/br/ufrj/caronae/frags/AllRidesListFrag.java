@@ -17,7 +17,6 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.squareup.otto.Subscribe;
 
 import java.text.SimpleDateFormat;
@@ -37,6 +36,7 @@ import br.ufrj.caronae.EndlessRecyclerViewScrollListener;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.Util;
+import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.adapters.AllRidesFragmentPagerAdapter;
 import br.ufrj.caronae.adapters.RideOfferAdapter;
 import br.ufrj.caronae.comparators.RideOfferComparatorByDateAndTime;
@@ -181,6 +181,12 @@ public class AllRidesListFrag extends Fragment implements Callback {
 
     @Override
     public void onStart() {
+        try {
+            if(!SharedPref.getFiltersPref()) {
+                MainAct act = (MainAct) getActivity();
+                act.hideFilterCard(getContext());
+            }
+        }catch (Exception e){}
         super.onStart();
     }
 
@@ -237,6 +243,7 @@ public class AllRidesListFrag extends Fragment implements Callback {
                             RideForJsonDeserializer data = response.body();
                             List<RideForJson> rideOffers = data.getData();
                             if(rideOffers.size() != 0) {
+                                noRides.setVisibility(View.GONE);
                                 if (isFiltering){
                                     setRides(rideOffers, false);
                                 }
@@ -250,6 +257,11 @@ public class AllRidesListFrag extends Fragment implements Callback {
                             else if(!SharedPref.OPEN_ALL_RIDES)
                             {
                                 noRides.setText(R.string.frag_rideSearch_noRideFound);
+                            }
+                            else
+                            {
+                                noRides.setText(R.string.frag_rideSearch_noRideFound);
+                                noRides.setVisibility(View.VISIBLE);
                             }
                         } else {
                             Util.treatResponseFromServer(response);
@@ -427,6 +439,6 @@ public class AllRidesListFrag extends Fragment implements Callback {
                 }
             }
         };
-        timer.schedule (hourlyTask, 0, 1000);
+        timer.schedule (hourlyTask, 0, 500);
     }
 }
