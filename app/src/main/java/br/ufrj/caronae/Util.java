@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -39,6 +40,8 @@ import retrofit2.Response;
 public class Util {
 
     private static Map<String, Integer> colorZone = new TreeMap<>();
+    private static ArrayList<String> zones = new ArrayList<>();
+    private static ArrayList<String> campus = new ArrayList<>();
     private static boolean colorsSaved;
 
     public static void setColors()
@@ -84,13 +87,50 @@ public class Util {
         }
     }
 
+    public static boolean isZone(String location)
+    {
+        if(zones.isEmpty())
+        {
+            if(SharedPref.checkExistence(SharedPref.PLACE_KEY))
+            {
+                PlacesForJson places = SharedPref.getPlace();
+                for (int i = 0; i < places.getZones().size(); i++) {
+                   zones.add(places.getZones().get(i).getName());
+                }
+                zones.add("Outros");
+            }
+        }
+        return zones.contains(location);
+    }
+
+    public static boolean isCampus(String campi)
+    {
+        if(campus.isEmpty())
+        {
+            if(SharedPref.checkExistence(SharedPref.PLACE_KEY))
+            {
+                PlacesForJson places = SharedPref.getPlace();
+                for (int i = 0; i < places.getCampi().size(); i++) {
+                    campus.add(places.getCampi().get(i).getName());
+                }
+            }
+        }
+        return campus.contains(campi);
+    }
+
     public static int getColors(String key)
     {
         while(!colorsSaved)
         {
             Util.setColors();
         }
-        return colorZone.get(key);
+        if(colorZone.containsKey(key)) {
+            return colorZone.get(key);
+        }
+        else
+        {
+            return Color.parseColor("#565658");
+        }
     }
 
     public static void expandOrCollapse(final View v, boolean expand) {

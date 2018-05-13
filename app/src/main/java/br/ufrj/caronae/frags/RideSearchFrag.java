@@ -1,7 +1,6 @@
 package br.ufrj.caronae.frags;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
@@ -20,15 +19,12 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.squareup.otto.Subscribe;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 import br.ufrj.caronae.App;
@@ -38,17 +34,11 @@ import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.PlaceAct;
 import br.ufrj.caronae.adapters.RideOfferAdapter;
-import br.ufrj.caronae.comparators.RideOfferComparatorByDateAndTime;
-import br.ufrj.caronae.httpapis.CaronaeAPI;
 import br.ufrj.caronae.models.RideRequestSent;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
-import br.ufrj.caronae.models.modelsforjson.RideSearchFiltersForJson;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class RideSearchFrag extends Fragment {
 
@@ -79,7 +69,6 @@ public class RideSearchFrag extends Fragment {
 
     private RideOfferAdapter adapter;
 
-    private String neighborhoods;
     private boolean going;
     public String time;
 
@@ -109,12 +98,7 @@ public class RideSearchFrag extends Fragment {
         rvRides.setHasFixedSize(true);
         rvRides.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        String lastRideSearchFilters = SharedPref.getLastRideSearchFiltersPref();
-
-        if (!lastRideSearchFilters.equals(SharedPref.MISSING_PREF))
-        {
-            loadLastFilters(lastRideSearchFilters);
-        }
+        loadLastFilters();
 
         App.getBus().register(this);
         setInitialDate();
@@ -162,13 +146,13 @@ public class RideSearchFrag extends Fragment {
         super.onResume();
     }
 
-    private void loadLastFilters(String lastRideSearchFilters) {
-        RideSearchFiltersForJson rideSearchFilters = new Gson().fromJson(lastRideSearchFilters, RideSearchFiltersForJson.class);
+    private void loadLastFilters() {
+        /*
         location_et.setText(rideSearchFilters.getLocationResumedField());
         neighborhoods = rideSearchFilters.getLocation();
         time_et.setText(rideSearchFilters.getTime());
         center_et.setText(rideSearchFilters.getCenter());
-        going = rideSearchFilters.isGo();
+        going = rideSearchFilters.isGo();*/
         if(going)
         {
             setButton(isLeaving_bt, isGoing_bt,isLeaving_tv, isGoing_tv);
@@ -239,70 +223,14 @@ public class RideSearchFrag extends Fragment {
     public void searchBt()
     {
         String location = location_et.getText().toString();
-
-        if (location.contains("+"))
-        {
-            location = neighborhoods;
-        }
-
+        String center = center_et.getText().toString();
         //sexta-feira, 11/05/2018 07:00
         //01234567890123456789012345678
-
-        String etDateString = time_et.getText().toString().substring(time_et.getText().toString().length()-17, time_et.getText().toString().length()-7);
+        String date = time_et.getText().toString().substring(time_et.getText().toString().length()-17, time_et.getText().toString().length()-7);
         String time = time_et.getText().toString().substring(time_et.getText().toString().length()-6);
 
-        String center = center_et.getText().toString();
 
-        String campus = "";
 
-        RideSearchFiltersForJson rideSearchFilters = new RideSearchFiltersForJson(location, etDateString, time, center, campus, going, location_et.getText().toString());
-
-        String lastRideSearchFilters = new Gson().toJson(rideSearchFilters);
-        SharedPref.saveLastRideSearchFiltersPref(lastRideSearchFilters);
-        rideSearchFilters.setDate(Util.formatBadDateWithYear(etDateString));
-
-        Log.e("INPUT", "location: " + location);
-        Log.e("INPUT", "data: " + etDateString);
-        Log.e("INPUT", "hora: " + time);
-        Log.e("INPUT", "center: " + center);
-        Log.e("INPUT", "campus: " + campus);
-        Log.e("INPUT", "locationResumeField: " + location_et.getText().toString());
-
-        final ProgressDialog pd = ProgressDialog.show(getActivity(), "", getContext().getString(R.string.wait), true, true);
-        CaronaeAPI.service(getContext()).listFiltered(rideSearchFilters)
-            .enqueue(new Callback<List<RideForJson>>() {
-                @Override
-                public void onResponse(Call<List<RideForJson>> call, Response<List<RideForJson>> response) {
-                    if (response.isSuccessful()) {
-                        List<RideForJson> rideOffers = response.body();
-                        if (rideOffers != null && !rideOffers.isEmpty()) {
-                            Util.expandOrCollapse(lay, false);
-                            anotherSearch_bt.setVisibility(View.VISIBLE);
-                            Collections.sort(rideOffers, new RideOfferComparatorByDateAndTime());
-                            for (RideForJson rideOffer : rideOffers) {
-                                rideOffer.setDbId(rideOffer.getId().intValue());
-                            }
-                            adapter.makeList(rideOffers);
-                        } else {
-                            Util.treatResponseFromServer(response);
-                            Util.toast(R.string.frag_rideSearch_noRideFound);
-                            adapter.makeList(new ArrayList<RideForJson>());
-                        }
-                        pd.dismiss();
-                    } else {
-                        pd.dismiss();
-                        Util.toast(R.string.frag_rideSearch_errorListFiltered);
-                        Log.e("listFiltered", response.message());
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<List<RideForJson>> call, Throwable t) {
-                    pd.dismiss();
-                    Util.toast(R.string.frag_rideSearch_errorListFiltered);
-                    Log.e("listFiltered", t.getMessage());
-                }
-            });
     }
 
     @OnClick(R.id.anotherSearch_bt)

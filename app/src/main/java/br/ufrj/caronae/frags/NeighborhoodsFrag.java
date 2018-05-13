@@ -68,7 +68,7 @@ public class NeighborhoodsFrag extends Fragment {
                     mainLayout.addView(cPB[i]);
                 }
             }
-            else if(zoneName.equals("Outra"))
+            else if(zoneName.equals("Outros"))
             {
                 placeAct.setOtherVisibility(View.VISIBLE);
             }

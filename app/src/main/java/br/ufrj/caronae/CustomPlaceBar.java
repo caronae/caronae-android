@@ -50,8 +50,8 @@ public class CustomPlaceBar extends LinearLayout {
                     {
                         case "zone":
                             ZonesFrag fragment = (ZonesFrag) frag;
-                            if (bar_tv.getText().toString().equals("Outra")) {
-                                act.setTitle(bar_tv.getText().toString() + " região");
+                            if (bar_tv.getText().toString().equals("Outros")) {
+                                act.setTitle("Outra região");
                                 fragment.changeToNeighborhoods(bar_tv.getText().toString());
                             } else if (bar_tv.getText().toString().equals("Todos os Bairros")) {
                                 SharedPref.LOCATION_INFO = "Todos os Bairros";

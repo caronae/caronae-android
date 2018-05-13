@@ -99,7 +99,7 @@
                         android:background="@color/light_gray"
                         android:gravity="center_vertical"
                         android:text=""
-                        android:textColor="@android:color/darker_gray" />
+                        android:textColor="@color/dark_gray" />
 
                     <ImageButton
                         android:id="@+id/dissmiss_filter"
@@ -108,7 +108,7 @@
                         android:layout_gravity="end"
                         android:layout_marginEnd="10dp"
                         android:layout_marginRight="10dp"
-                        android:tint="@android:color/darker_gray"
+                        android:tint="@color/dark_gray"
                         android:background="@color/light_gray"
                         android:src="@drawable/ic_clear_white_24dp" />
                 </android.support.v7.widget.CardView>

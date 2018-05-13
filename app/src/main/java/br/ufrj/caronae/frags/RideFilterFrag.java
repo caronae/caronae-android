@@ -11,14 +11,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.google.gson.Gson;
-
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.SharedPref;
-import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.acts.PlaceAct;
-import br.ufrj.caronae.models.modelsforjson.RideFiltersForJson;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -32,14 +28,6 @@ public class RideFilterFrag extends Fragment {
     @BindView(R.id.search_bt)
     Button search_bt;
 
-    private String resumeLocation = "";
-    private String neighborhoods = "";
-    private String location = "";
-    private String center = "";
-    private String campi = "";
-    private String zone = "";
-
-
     public RideFilterFrag() {
         // Required empty public constructor
     }
@@ -50,31 +38,30 @@ public class RideFilterFrag extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_ride_filter, container, false);
         ButterKnife.bind(this, view);
-
-        String lastFilters = SharedPref.getRideFiltersPref();
-        if (!lastFilters.equals(SharedPref.MISSING_PREF)) {
-            loadLastFilters(lastFilters);
-        }
-
+        loadLastFilters();
         return view;
     }
 
-    private void loadLastFilters(String lastFilters) {
-        RideFiltersForJson rideFilters = new Gson().fromJson(lastFilters, RideFiltersForJson.class);
-
-        neighborhoods = rideFilters.getLocation();
-        location_et.setText(rideFilters.getResumeLocation());
-        center_et.setText(rideFilters.getCenter());
+    private void loadLastFilters() {
+        String l, c;
+        c = !SharedPref.getCenterFilter().equals(SharedPref.MISSING_PREF) ? SharedPref.getCenterFilter() : "Todos os Campi";
+        l = !SharedPref.getLocationFilter().equals(SharedPref.MISSING_PREF) ? SharedPref.getLocationFilter() : "Todos os Bairros";
+        center_et.setText(c);
+        location_et.setText(l);
     }
 
     @OnClick(R.id.search_bt)
     public void search() {
+        String location, center;
         Fragment fragment;
         Class fragmentClass;
-        RideFiltersForJson rideFilters;
-        String lastRideFilters;
-        if(center_et.getText().toString().isEmpty() && location_et.getText().toString().isEmpty())
+        center = center_et.getText().toString();
+        location = location_et.getText().toString();
+        SharedPref.setCenterFilter(center);
+        SharedPref.setLocationFilter(location);
+        if(center_et.getText().toString().isEmpty() && location_et.getText().toString().isEmpty() || center_et.getText().toString().equals("Todos os Campi") && location_et.getText().toString().equals("Todos os Bairros"))
         {
+            SharedPref.setFilterPref(false);
             fragment = null;
             fragmentClass = AllRidesFrag.class;
             try {
@@ -89,15 +76,8 @@ public class RideFilterFrag extends Fragment {
         }
         else
         {
-            if (center.equals("Cidade Universitária")) {
-                center = "";
-            }
-
-            rideFilters = new RideFiltersForJson(location_et.getText().toString(), center, campi, zone, resumeLocation);
-            lastRideFilters = new Gson().toJson(rideFilters);
-            SharedPref.saveLastFiltersPref(lastRideFilters);
-            SharedPref.saveFilterPref(lastRideFilters);
             MainAct act = (MainAct) getActivity();
+            SharedPref.setFilterPref(true);
             fragment = null;
             fragmentClass = AllRidesFrag.class;
             try {
@@ -109,15 +89,15 @@ public class RideFilterFrag extends Fragment {
             FragmentTransaction transaction = fragmentManager.beginTransaction();
             transaction.setCustomAnimations(R.anim.anim_up_slide_in, R.anim.anim_down_slide_out);
             transaction.replace(R.id.flContent, fragment).commit();
-            act.updateFilterCard(getContext(), lastRideFilters);
+            act.updateFilterCard(getContext());
             act.startFilterCard();
         }
+        SharedPref.lastAllRidesUpdate = 300;
     }
 
     @Override
     public void onStart()
     {
-        Util.debug(SharedPref.LOCATION_INFO);
         if(!SharedPref.LOCATION_INFO.isEmpty() && !SharedPref.LOCATION_INFO.equals(""))
         {
             location_et.setText(SharedPref.LOCATION_INFO);

@@ -67,11 +67,11 @@ public class ZonesFrag extends Fragment {
             }
             if(other) {
                 if(backFromOthers) {
-                    cPB = new CustomPlaceBar(activity, getContext(), fragment, false, "Outra", "#919191", "willback", false);
+                    cPB = new CustomPlaceBar(activity, getContext(), fragment, false, "Outros", "#919191", "willback", false);
                 }
                 else
                 {
-                    cPB = new CustomPlaceBar(activity, getContext(), fragment, false, "Outra", "#919191", "zone", false);
+                    cPB = new CustomPlaceBar(activity, getContext(), fragment, false, "Outros", "#919191", "zone", false);
                 }
                 mainLayout.addView(cPB);
             }

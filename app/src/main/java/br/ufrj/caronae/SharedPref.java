@@ -33,9 +33,8 @@ public class SharedPref {
     public static boolean OPEN_ALL_RIDES                             = false;
     public static boolean OPEN_MY_RIDES                              = false;
     public static final String RIDE_FILTER_PREF_KEY                  = "filter";
-    public static final String DIALOG_CAMPUS_SEARCH_KEY              = "campus";
-    public static final String DIALOG_CENTER_SEARCH_KEY              = "centro";
-    public static final String DIALOG_DISMISS_KEY                    = "dismiss_key";
+    public static final String RIDE_FILTER_CENTER_KEY                = "filterCenter";
+    public static final String RIDE_FILTER_LOCATION_KEY              = "filterLocation";
     public static final String MY_RIDES_DELETE_TUTORIAL              = "my_rides_delete_tut";
     public static final String MISSING_PREF                          = "missing";
     public static final String TOPIC_GERAL                           = "general";
@@ -97,6 +96,9 @@ public class SharedPref {
         removePref(INSTITUTION_KEY);
         removePref(GOING_LABEL_KEY);
         removePref(LEAVING_LABEL_KEY);
+        removePref(RIDE_FILTER_PREF_KEY);
+        removePref(RIDE_FILTER_CENTER_KEY);
+        removePref(RIDE_FILTER_LOCATION_KEY);
         NAV_INDICATOR = "AllRides";
     }
 
@@ -198,22 +200,6 @@ public class SharedPref {
         putPref(LAST_RIDE_OFFER_GOING_PREF_KEY, lastRideOffer);
     }
 
-    public static void saveDialogSearchPref(String key, String search) {
-        putPref(key, search);
-    }
-
-    public static String getDialogSearchPref(String key) {
-        return getPref(key);
-    }
-
-    public static void saveDialogTypePref(String key, String type) {
-        putPref(key, type);
-    }
-
-    public static String getDialogTypePref(String Type) {
-        return getPref(Type);
-    }
-
     public static String getLastRideGoingPref() {
         return getPref(LAST_RIDE_OFFER_GOING_PREF_KEY);
     }
@@ -234,24 +220,12 @@ public class SharedPref {
         return getPref(LAST_RIDE_SEARCH_FILTERS_PREF_KEY);
     }
 
-    public static String getRideFiltersPref() {
-        return getPref(LAST_RIDE_FILTERS_PREF_KEY);
+    public static void setFilterPref(boolean filtering){
+        putBooleanPref(RIDE_FILTER_PREF_KEY, filtering);
     }
 
-    public static void saveLastFiltersPref(String lastFilters){
-        putPref(LAST_RIDE_FILTERS_PREF_KEY, lastFilters);
-    }
-
-    public static void saveFilterPref(String filters){
-        putPref(RIDE_FILTER_PREF_KEY, filters);
-    }
-
-    public static String getFiltersPref() {
-        return getPref(RIDE_FILTER_PREF_KEY);
-    }
-
-    public static void saveLastRideSearchFiltersPref(String lastRideSearchFilters) {
-        putPref(LAST_RIDE_SEARCH_FILTERS_PREF_KEY, lastRideSearchFilters);
+    public static Boolean getFiltersPref() {
+        return getBooleanPref(RIDE_FILTER_PREF_KEY);
     }
 
     public static void saveUser(User user) {
@@ -262,10 +236,6 @@ public class SharedPref {
         return getPref(TOKEN_PREF_KEY);
     }
 
-    public static String getUserIdUfrj() {
-        return getPref(IDUFRJ_PREF_KEY);
-    }
-
     public static void saveUserToken(String token) {
         putPref(TOKEN_PREF_KEY, token.toUpperCase());
     }
@@ -274,15 +244,23 @@ public class SharedPref {
         putPref(IDUFRJ_PREF_KEY, idUfrj);
     }
 
-    public static void saveRemoveRideFromList(String profilePicUrl) {
-        putPref(RM_RIDE_LIST, profilePicUrl);
+    public static void setLocationFilter(String neighborhood)
+    {
+        putPref(RIDE_FILTER_LOCATION_KEY, neighborhood);
     }
 
-    public static String getRemoveRideFromList() {
-        return getPref(RM_RIDE_LIST);
+    public static String getLocationFilter()
+    {
+        return getPref(RIDE_FILTER_LOCATION_KEY);
     }
 
-    public static void removeRemoveRideFromList() {
-        removePref(RM_RIDE_LIST);
+    public static void setCenterFilter(String campus)
+    {
+        putPref(RIDE_FILTER_CENTER_KEY, campus);
+    }
+
+    public static String getCenterFilter()
+    {
+        return getPref(RIDE_FILTER_CENTER_KEY);
     }
 }

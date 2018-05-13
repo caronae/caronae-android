@@ -34,7 +34,7 @@ public class PlaceAct extends AppCompatActivity {
 
     String backText;
     public String fragType;
-    public boolean enableAll, selectable, allSelected;
+    public boolean enableAll, selectable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

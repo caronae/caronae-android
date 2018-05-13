@@ -42,7 +42,6 @@ import br.ufrj.caronae.adapters.RideOfferAdapter;
 import br.ufrj.caronae.comparators.RideOfferComparatorByDateAndTime;
 import br.ufrj.caronae.httpapis.CaronaeAPI;
 import br.ufrj.caronae.models.RideRequestSent;
-import br.ufrj.caronae.models.modelsforjson.RideFiltersForJson;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
 import br.ufrj.caronae.models.modelsforjson.RideForJsonDeserializer;
 import butterknife.BindView;
@@ -122,7 +121,9 @@ public class AllRidesListFrag extends Fragment implements Callback {
 
         rvRides.setAdapter(adapter);
 
-        if(SharedPref.OPEN_ALL_RIDES)
+        boolean isFiltering = SharedPref.checkExistence(SharedPref.RIDE_FILTER_PREF_KEY) ? SharedPref.getFiltersPref() : false;
+
+        if(SharedPref.OPEN_ALL_RIDES && !isFiltering)
         {
             noRides.setVisibility(View.GONE);
             if (pageIdentifier == AllRidesFragmentPagerAdapter.PAGE_GOING) {
@@ -162,18 +163,6 @@ public class AllRidesListFrag extends Fragment implements Callback {
 
         animateListFadeIn();
 
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(App.getInst());
-
-        sharedPreferences.registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener() {
-            @Override
-            public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-                if (key.equals(SharedPref.RIDE_FILTER_PREF_KEY)){
-                    pageCounter = FIRST_PAGE_TO_LOAD;
-                    refreshRideList(pageCounter);
-                }
-            }
-        });
-
         reloadRidesIfNecessary();
 
         return view;
@@ -210,17 +199,30 @@ public class AllRidesListFrag extends Fragment implements Callback {
         String zone = null;
         String hub = null;
         String campus = null;
-        String filtersJsonString = SharedPref.getFiltersPref();
-        if (!filtersJsonString.equals(SharedPref.MISSING_PREF)){
-            RideFiltersForJson rideFilters = new Gson().fromJson(filtersJsonString, RideFiltersForJson.class);
-            neighborhoods = rideFilters.getLocation();
-            if(!rideFilters.getCampus().equals("Todos os Campi"))
+        boolean isFiltering = SharedPref.getFiltersPref();
+        if (isFiltering){
+            if(Util.isZone(SharedPref.getLocationFilter()))
             {
-                hub = rideFilters.getCenter();
-                campus = rideFilters.getCampus();
+                zone = SharedPref.getLocationFilter();
             }
-            zone = rideFilters.getZone();
+            else
+            {
+                if(!SharedPref.getLocationFilter().equals("Todos os Bairros")) {
+                    neighborhoods = SharedPref.getLocationFilter();
+                }
+            }
+            if(Util.isCampus(SharedPref.getCenterFilter()))
+            {
+                campus = SharedPref.getCenterFilter();
+            }
+            else
+            {
+                if(!SharedPref.getCenterFilter().equals("Todos os Campi")) {
+                    hub = SharedPref.getCenterFilter();
+                }
+            }
         }
+
         CaronaeAPI.service(getContext()).listAllRides(pageNumber + "", going, neighborhoods, zone, hub,  "", campus)
                 .enqueue(new retrofit2.Callback<RideForJsonDeserializer>() {
                     @Override
@@ -235,7 +237,7 @@ public class AllRidesListFrag extends Fragment implements Callback {
                             RideForJsonDeserializer data = response.body();
                             List<RideForJson> rideOffers = data.getData();
                             if(rideOffers.size() != 0) {
-                                if (!filtersJsonString.equals(SharedPref.MISSING_PREF)){
+                                if (isFiltering){
                                     setRides(rideOffers, false);
                                 }
                                 else
@@ -362,7 +364,9 @@ public class AllRidesListFrag extends Fragment implements Callback {
                 adapter.notifyDataSetChanged();
             }
         }
+        SharedPref.lastAllRidesUpdate = 0;
         refreshLayout.setRefreshing(false);
+        rvRides.setVisibility(View.VISIBLE);
     }
 
     @Subscribe
@@ -408,7 +412,8 @@ public class AllRidesListFrag extends Fragment implements Callback {
 
     private void reloadRidesIfNecessary()
     {
-        //Verifies every 10 seconds if a reload is necessary
+        Context ctx = getContext();
+        //Verifies every half second if a reload is necessary
         Timer timer = new Timer ();
         TimerTask hourlyTask = new TimerTask () {
             @Override
@@ -416,13 +421,12 @@ public class AllRidesListFrag extends Fragment implements Callback {
                 if(SharedPref.lastAllRidesUpdate >= 300)
                 {
                     pageCounter = FIRST_PAGE_TO_LOAD;
-                    SharedPref.lastAllRidesUpdate = 0;
                     for (int counter = FIRST_PAGE_TO_LOAD; counter <= pageCounter; counter++) {
                         refreshRideList(counter);
                     }
                 }
             }
         };
-        timer.schedule (hourlyTask, 0, 10000);
+        timer.schedule (hourlyTask, 0, 1000);
     }
 }
