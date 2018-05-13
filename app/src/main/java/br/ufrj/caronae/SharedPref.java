@@ -22,7 +22,6 @@ public class SharedPref {
     private static final String LAST_RIDE_OFFER_GOING_PREF_KEY       = "lastRideOfferGoing";
     private static final String LAST_RIDE_OFFER_NOT_GOING_PREF_KEY   = "lastRideOfferNotGoing";
     private static final String LAST_RIDE_SEARCH_FILTERS_PREF_KEY    = "lastRideSearchFilters";
-    private static final String LAST_RIDE_FILTERS_PREF_KEY           = "lastRideFilters";
     private static final String USER_PIC_SAVED_KEY                   = "SavedImage";
     private static final String TOKEN_PREF_KEY                       = "token";
     private static final String IDUFRJ_PREF_KEY                      = "idUfrj";
@@ -35,6 +34,10 @@ public class SharedPref {
     public static final String RIDE_FILTER_PREF_KEY                  = "filter";
     public static final String RIDE_FILTER_CENTER_KEY                = "filterCenter";
     public static final String RIDE_FILTER_LOCATION_KEY              = "filterLocation";
+    public static final String RIDE_SEARCH_CENTER_KEY                = "searchCenter";
+    public static final String RIDE_SEARCH_LOCATION_KEY              = "searchLocation";
+    public static final String RIDE_SEARCH_DATE_KEY                  = "searchDate";
+    public static final String RIDE_SEARCH_TIME_KEY                  = "searchTime";
     public static final String MY_RIDES_DELETE_TUTORIAL              = "my_rides_delete_tut";
     public static final String MISSING_PREF                          = "missing";
     public static final String TOPIC_GERAL                           = "general";
@@ -245,9 +248,9 @@ public class SharedPref {
         putPref(IDUFRJ_PREF_KEY, idUfrj);
     }
 
-    public static void setLocationFilter(String neighborhood)
+    public static void setLocationFilter(String location)
     {
-        putPref(RIDE_FILTER_LOCATION_KEY, neighborhood);
+        putPref(RIDE_FILTER_LOCATION_KEY, location);
     }
 
     public static String getLocationFilter()
@@ -255,13 +258,53 @@ public class SharedPref {
         return getPref(RIDE_FILTER_LOCATION_KEY);
     }
 
-    public static void setCenterFilter(String campus)
+    public static void setCenterFilter(String center)
     {
-        putPref(RIDE_FILTER_CENTER_KEY, campus);
+        putPref(RIDE_FILTER_CENTER_KEY, center);
     }
 
     public static String getCenterFilter()
     {
         return getPref(RIDE_FILTER_CENTER_KEY);
+    }
+
+    public static void setCenterSearch(String center)
+    {
+        putPref(RIDE_SEARCH_CENTER_KEY, center);
+    }
+
+    public static String getCenterSearch()
+    {
+        return getPref(RIDE_SEARCH_CENTER_KEY);
+    }
+
+    public static void setLocationSearch(String location)
+    {
+        putPref(RIDE_SEARCH_LOCATION_KEY, location);
+    }
+
+    public static String getLocationSearch()
+    {
+        return getPref(RIDE_SEARCH_LOCATION_KEY);
+    }
+
+    public static void setDateSearch(String date)
+    {
+        putPref(RIDE_SEARCH_DATE_KEY, date);
+    }
+
+    public static String getDateSearch()
+    {
+        return getPref(RIDE_SEARCH_DATE_KEY);
+    }
+
+    public static void setTimeSearch(String time)
+    {
+        putPref(RIDE_SEARCH_TIME_KEY, time);
+    }
+
+    public static String getTimeSearch()
+    {
+        return getPref(RIDE_SEARCH_TIME_KEY);
     }
 }

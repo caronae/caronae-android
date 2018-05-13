@@ -48,6 +48,12 @@
             android:label="@string/title_activity_main"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
+
+        <activity android:name=".acts.RideSearchAct"
+            android:label="@string/title_ride_search"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
+
         <activity
             android:name=".acts.LoginAct"
             android:label="@string/title_activity_login"
@@ -136,7 +142,6 @@
         <service
             android:name=".asyncs.FetchMyOfferedRidesService"
             android:exported="false" />
-
     </application>
 
 </manifest>

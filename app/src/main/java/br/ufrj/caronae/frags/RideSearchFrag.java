@@ -5,9 +5,6 @@ import android.content.Intent;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -15,27 +12,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.squareup.otto.Subscribe;
-
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-import br.ufrj.caronae.App;
 import br.ufrj.caronae.CustomDateTimePicker;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.PlaceAct;
-import br.ufrj.caronae.adapters.RideOfferAdapter;
-import br.ufrj.caronae.models.RideRequestSent;
-import br.ufrj.caronae.models.modelsforjson.RideForJson;
+import br.ufrj.caronae.acts.RideSearchAct;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -57,17 +47,6 @@ public class RideSearchFrag extends Fragment {
     TextView location_et;
     @BindView(R.id.time_et)
     public TextView time_et;
-
-    @BindView(R.id.lay)
-    RelativeLayout lay;
-
-    @BindView(R.id.anotherSearch_bt)
-    Button anotherSearch_bt;
-
-    @BindView(R.id.rvRides)
-    RecyclerView rvRides;
-
-    private RideOfferAdapter adapter;
 
     private boolean going;
     public String time;
@@ -92,23 +71,8 @@ public class RideSearchFrag extends Fragment {
         {
             isLeaving_tv.setText(SharedPref.getLeavingLabel());
         }
-
-        adapter = new RideOfferAdapter(new ArrayList<RideForJson>(), getActivity(), getActivity().getFragmentManager());
-        rvRides.setAdapter(adapter);
-        rvRides.setHasFixedSize(true);
-        rvRides.setLayoutManager(new LinearLayoutManager(getActivity()));
-
         loadLastFilters();
-
-        App.getBus().register(this);
-        setInitialDate();
         return view;
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        App.getBus().unregister(this);
     }
 
     @Override
@@ -125,7 +89,6 @@ public class RideSearchFrag extends Fragment {
             center_et.setText(SharedPref.CAMPI_INFO);
             SharedPref.CAMPI_INFO = "";
         }
-        setInitialDate();
         super.onStart();
     }
 
@@ -142,17 +105,29 @@ public class RideSearchFrag extends Fragment {
             center_et.setText(SharedPref.CAMPI_INFO);
             SharedPref.CAMPI_INFO = "";
         }
-        setInitialDate();
         super.onResume();
     }
 
     private void loadLastFilters() {
-        /*
-        location_et.setText(rideSearchFilters.getLocationResumedField());
-        neighborhoods = rideSearchFilters.getLocation();
-        time_et.setText(rideSearchFilters.getTime());
-        center_et.setText(rideSearchFilters.getCenter());
-        going = rideSearchFilters.isGo();*/
+        String l, c, d, tm;
+        l = !SharedPref.getLocationSearch().equals(SharedPref.MISSING_PREF) ? SharedPref.getLocationSearch() : "Todos os Bairros";
+        c = !SharedPref.getCenterSearch().equals(SharedPref.MISSING_PREF) ? SharedPref.getCenterSearch() : "Todos os Campi";
+        d = !SharedPref.getDateSearch().equals(SharedPref.MISSING_PREF) ? SharedPref.getDateSearch() : "";
+        tm = !SharedPref.getTimeSearch().equals(SharedPref.MISSING_PREF) ? SharedPref.getTimeSearch() : "";
+        if(d.isEmpty() || tm.isEmpty())
+        {
+            setInitialDate();
+        }
+        else
+        {
+            //sexta-feira, 11/05/2018 07:00
+            //01234567890123456789012345678
+            String result = Util.getWeekDayFromBRDate(d) + ", " + d + tm;
+            time = d+tm;
+            time_et.setText(result);
+        }
+        location_et.setText(l);
+        center_et.setText(c);
         if(going)
         {
             setButton(isLeaving_bt, isGoing_bt,isLeaving_tv, isGoing_tv);
@@ -226,17 +201,19 @@ public class RideSearchFrag extends Fragment {
         String center = center_et.getText().toString();
         //sexta-feira, 11/05/2018 07:00
         //01234567890123456789012345678
-        String date = time_et.getText().toString().substring(time_et.getText().toString().length()-17, time_et.getText().toString().length()-7);
+        String date = time_et.getText().toString().substring(time_et.getText().toString().length()-16, time_et.getText().toString().length()-6);
         String time = time_et.getText().toString().substring(time_et.getText().toString().length()-6);
 
+        SharedPref.setLocationSearch(location);
+        SharedPref.setCenterSearch(center);
+        SharedPref.setDateSearch(date);
+        SharedPref.setTimeSearch(time);
 
-
-    }
-
-    @OnClick(R.id.anotherSearch_bt)
-    public void anotherSearchBt() {
-        Util.expandOrCollapse(lay, true);
-        anotherSearch_bt.setVisibility(View.GONE);
+        Intent rideSearchAct = new Intent(getActivity(), RideSearchAct.class);
+        String isGoing = going ? "1" : "0";
+        rideSearchAct.putExtra("isGoing", isGoing);
+        startActivity(rideSearchAct);
+        getActivity().overridePendingTransition(R.anim.anim_right_slide_in, R.anim.anim_left_slide_out);
     }
 
     @OnClick(R.id.tab1)
@@ -271,12 +248,6 @@ public class RideSearchFrag extends Fragment {
         bt2Shape.setColor(getResources().getColor(R.color.dark_gray));
         bt1_tv.setTextColor(getResources().getColor(R.color.dark_gray));
         bt2_tv.setTextColor(getResources().getColor(R.color.white));
-    }
-
-    @Subscribe
-    public void removeRideFromList(RideRequestSent ride) {
-        adapter.remove(ride.getDbId());
-        Log.i("removeRideFromList,srch", "remove called");
     }
 
     private void setInitialDate()
@@ -314,110 +285,5 @@ public class RideSearchFrag extends Fragment {
         }
         String result = weekday + ", " + time;
         time_et.setText(result);
-    }
-
-    {
-    /*private void showDefaultMultichoiceList(final boolean[] mSelectedItems) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        final ArrayList<String> selectedItems = new ArrayList<>();
-        for (int i = 0; i < mSelectedItems.length; i++){
-            if (mSelectedItems[i])
-                selectedItems.add(Util.getFundaoCenters()[i]);
-        }
-        builder.setTitle("CENTROS")
-                .setMultiChoiceItems(Util.getFundaoCenters(), mSelectedItems,
-                        new DialogInterface.OnMultiChoiceClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which,
-                                                boolean isChecked) {
-                                if (isChecked) {
-                                    selectedItems.add(Util.getFundaoCenters()[which]);
-                                } else if (selectedItems.contains(Util.getFundaoCenters()[which])) {
-                                    selectedItems.remove(Util.getFundaoCenters()[which]);
-                                }
-                            }
-                        })
-                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        String centers = "";
-                        if (selectedItems.size() == 9 || mSelectedItems[0]){
-                            centers = "Cidade Universitária";
-                        } else {
-                            for (int i = 0; i < selectedItems.size(); i++) {
-                                centers = centers + selectedItems.get(i) + ", ";
-                            }
-                            if (centers.length() > 0) {
-                                centers = centers.substring(0, centers.length() - 2);
-                            }
-                        }
-                        center_et.setText(centers);
-                    }
-                })
-                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                    }
-                });
-        builder.show();
-    }*/
-
-    /*public void locationEt2(final String zone) {
-        SimpleDialog.Builder builder = new SimpleDialog.Builder(R.style.SimpleDialogLight) {
-            @Override
-            public void onPositiveActionClicked(DialogFragment fragment) {
-                CharSequence[] selectedNeighborhoods = null;
-                try {
-                    selectedNeighborhoods = getSelectedValues();
-                } catch (Exception e) {
-                    //do nothing
-                }
-                if (selectedNeighborhoods != null) {
-                    String resumedField = "";
-                    neighborhoods = "";
-                    for (int i = 0; i < selectedNeighborhoods.length; i++) {
-                        if (selectedNeighborhoods[i].equals(Util.getNeighborhoods("")[0])) {
-                            super.onPositiveActionClicked(fragment);
-                            return;
-                        }
-                        neighborhoods += selectedNeighborhoods[i];
-                        if (i == 2) {
-                            resumedField = neighborhoods + " + " + (selectedNeighborhoods.length - 3);
-                        }
-                        if (i + 1 != selectedNeighborhoods.length) {
-                            neighborhoods += ", ";
-                        }
-                    }
-
-                    if (selectedNeighborhoods.length > 3) {
-                        location_et.setText(resumedField);
-                    } else {
-                        location_et.setText(neighborhoods);
-                    }
-
-                } else {
-                    location_et.setText(zone);
-                }
-                super.onPositiveActionClicked(fragment);
-            }
-
-            @Override
-            public void onNegativeActionClicked(DialogFragment fragment) {
-                super.onNegativeActionClicked(fragment);
-            }
-        };
-
-        @SuppressWarnings("ConstantConditions")
-        ArrayList<String> neighborhoods = new ArrayList<>(Arrays.asList(Util.getNeighborhoods(zone)));
-        neighborhoods.add(0, Util.getNeighborhoods("")[0]);
-        String[] neighborhoodsArray = new String[neighborhoods.size()];
-        neighborhoods.toArray(neighborhoodsArray);
-        builder.multiChoiceItems(neighborhoodsArray, -1)
-                .title(getContext().getString(R.string.frag_rideSearch_pickNeighborhood))
-                .positiveAction(getContext().getString(R.string.ok))
-                .negativeAction(getContext().getString(R.string.cancel));
-        DialogFragment fragment = DialogFragment.newInstance(builder);
-        fragment.show(getFragmentManager(), null);
-    }*/
     }
 }

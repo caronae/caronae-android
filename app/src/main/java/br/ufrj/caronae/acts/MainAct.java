@@ -153,6 +153,10 @@ public class MainAct extends AppCompatActivity {
                         backToMain = false;
                         selectDrawerItem(navigation.getMenu().getItem(2), true);
                         break;
+                    default:
+                        backToMain = false;
+                        selectDrawerItem(navigation.getMenu().getItem(0), true);
+                        break;
                 }
             }
         });

@@ -33,8 +33,6 @@ import br.ufrj.caronae.EndlessRecyclerViewScrollListener;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.Util;
-import br.ufrj.caronae.acts.MainAct;
-import br.ufrj.caronae.adapters.AllRidesFragmentPagerAdapter;
 import br.ufrj.caronae.adapters.RideOfferAdapter;
 import br.ufrj.caronae.comparators.RideOfferComparatorByDateAndTime;
 import br.ufrj.caronae.httpapis.CaronaeAPI;
@@ -46,7 +44,7 @@ import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Response;
 
-public class AllRidesListFrag extends Fragment implements Callback {
+public class SearchRidesListFrag extends Fragment implements Callback {
 
     @BindView(R.id.rvRides)
     RecyclerView rvRides;
@@ -55,46 +53,37 @@ public class AllRidesListFrag extends Fragment implements Callback {
     @BindView(R.id.norides_tv)
     TextView noRides;
 
-    private final int FIRST_PAGE_TO_LOAD = 0;
-
     RideOfferAdapter adapter;
-
-    int pageCounter = FIRST_PAGE_TO_LOAD;
-
+    LinearLayoutManager mLayoutManager;
     private EndlessRecyclerViewScrollListener scrollListener;
 
-    LinearLayoutManager mLayoutManager;
+    private final int FIRST_PAGE_TO_LOAD = 0;
+    int pageCounter = FIRST_PAGE_TO_LOAD;
+    String going;
 
-    int pageIdentifier;
+    ArrayList<RideForJson> rides = new ArrayList<>();
 
-    CharSequence filter = null;
 
-    ArrayList<RideForJson> goingRides = new ArrayList<>();
-    ArrayList<RideForJson> notGoingRides = new ArrayList<>();
-
-    ArrayList<RideForJson> filteredGoingList = new ArrayList<>();
-    ArrayList<RideForJson> filteredNotGoingList = new ArrayList<>();
-
-    public AllRidesListFrag() {
+    public SearchRidesListFrag() {
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_all_rides_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_search_rides_list, container, false);
         ButterKnife.bind(this, view);
 
         Context ctx;
         ctx = getContext();
         refreshLayout.setProgressViewOffset(false, getResources().getDimensionPixelSize(R.dimen.refresher_offset), getResources().getDimensionPixelSize(R.dimen.refresher_offset_end));
-        Bundle bundle = getArguments();
-        ArrayList<RideForJson> rideOffers = bundle.getParcelableArrayList("rides");
-        pageIdentifier = bundle.getInt("ID");
-
+        try {
+            going = getArguments().getString("isGoing", "1");
+        }catch (Exception e){}
+        SharedPref.lastAllRidesUpdate = 350;
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                pageCounter = FIRST_PAGE_TO_LOAD;
                 SharedPref.lastAllRidesUpdate = 0;
+                pageCounter = FIRST_PAGE_TO_LOAD;
                 for (int counter = FIRST_PAGE_TO_LOAD; counter <= pageCounter; counter++) {
                     refreshRideList(counter);
                 }
@@ -116,24 +105,7 @@ public class AllRidesListFrag extends Fragment implements Callback {
 
         rvRides.setAdapter(adapter);
 
-        boolean isFiltering = SharedPref.checkExistence(SharedPref.RIDE_FILTER_PREF_KEY) ? SharedPref.getFiltersPref() : false;
-
-        if(SharedPref.OPEN_ALL_RIDES && !isFiltering)
-        {
-            noRides.setVisibility(View.GONE);
-            if (pageIdentifier == AllRidesFragmentPagerAdapter.PAGE_GOING) {
-                if (SharedPref.ALL_RIDES_GOING != null && !SharedPref.ALL_RIDES_GOING.isEmpty()) {
-                    adapter.makeList(SharedPref.ALL_RIDES_GOING);
-                    scrollListener.resetState();
-                }
-            } else {
-                if (SharedPref.ALL_RIDES_LEAVING != null && !SharedPref.ALL_RIDES_LEAVING.isEmpty()) {
-                    adapter.makeList(SharedPref.ALL_RIDES_LEAVING);
-                    scrollListener.resetState();
-                }
-            }
-        }
-        else if(!Util.isNetworkAvailable(ctx))
+        if(!Util.isNetworkAvailable(ctx))
         {
             noRides.setText(R.string.allrides_norides);
             noRides.setVisibility(View.VISIBLE);
@@ -142,10 +114,6 @@ public class AllRidesListFrag extends Fragment implements Callback {
         {
             noRides.setText(R.string.charging);
             noRides.setVisibility(View.VISIBLE);
-        }
-
-        if (!(rideOffers == null || rideOffers.isEmpty())) {
-            adapter.makeList(rideOffers);
         }
 
         App.getBus().register(this);
@@ -159,7 +127,6 @@ public class AllRidesListFrag extends Fragment implements Callback {
         animateListFadeIn();
 
         reloadRidesIfNecessary();
-
         return view;
     }
 
@@ -176,12 +143,6 @@ public class AllRidesListFrag extends Fragment implements Callback {
 
     @Override
     public void onStart() {
-        try {
-            if(!SharedPref.getFiltersPref()) {
-                MainAct act = (MainAct) getActivity();
-                act.hideFilterCard(getContext());
-            }
-        }catch (Exception e){}
         super.onStart();
     }
 
@@ -191,67 +152,49 @@ public class AllRidesListFrag extends Fragment implements Callback {
     }
 
     void refreshRideList(final int pageNumber) {
-        String going;
-        if (pageIdentifier == AllRidesFragmentPagerAdapter.PAGE_GOING)
-            going = "1";
-        else
-            going = "0";
         String neighborhoods = null;
         String zone = null;
         String hub = null;
         String campus = null;
-        boolean isFiltering = SharedPref.getFiltersPref();
-        if (isFiltering){
-            if(Util.isZone(SharedPref.getLocationFilter()))
-            {
-                zone = SharedPref.getLocationFilter();
-            }
-            else
-            {
-                if(!SharedPref.getLocationFilter().equals("Todos os Bairros")) {
-                    neighborhoods = SharedPref.getLocationFilter();
-                }
-            }
-            if(Util.isCampus(SharedPref.getCenterFilter()))
-            {
-                campus = SharedPref.getCenterFilter();
-            }
-            else
-            {
-                if(!SharedPref.getCenterFilter().equals("Todos os Campi")) {
-                    hub = SharedPref.getCenterFilter();
-                }
+        String date = Util.formatBadDateWithYear(SharedPref.getDateSearch());
+        String time = SharedPref.getTimeSearch();
+
+        if(Util.isZone(SharedPref.getLocationSearch()))
+        {
+            zone = SharedPref.getLocationSearch();
+        }
+        else
+        {
+            if(!SharedPref.getLocationSearch().equals("Todos os Bairros")) {
+                neighborhoods = SharedPref.getLocationSearch();
             }
         }
+        if(Util.isCampus(SharedPref.getCenterSearch()))
+        {
+            campus = SharedPref.getCenterSearch();
+        }
+        else
+        {
+            if(!SharedPref.getCenterSearch().equals("Todos os Campi")) {
+                hub = SharedPref.getCenterSearch();
+            }
+        }
+        time = time.replace(" ", "");
 
-        CaronaeAPI.service(getContext()).listAllRides(pageNumber + "", going, neighborhoods, zone, hub,  "", campus, "", "")
+        CaronaeAPI.service(getContext()).listAllRides(pageNumber + "", going, neighborhoods, zone, hub,  "", campus, date, time)
                 .enqueue(new retrofit2.Callback<RideForJsonDeserializer>() {
                     @Override
                     public void onResponse(Call<RideForJsonDeserializer> call, Response<RideForJsonDeserializer> response) {
                         if (response.isSuccessful()) {
-
                             if (pageCounter == FIRST_PAGE_TO_LOAD) {
-                                goingRides = new ArrayList<>();
-                                notGoingRides = new ArrayList<>();
+                                rides = new ArrayList<>();
                             }
-
                             RideForJsonDeserializer data = response.body();
                             List<RideForJson> rideOffers = data.getData();
                             if(rideOffers.size() != 0) {
                                 noRides.setVisibility(View.GONE);
-                                if (isFiltering){
-                                    setRides(rideOffers);
-                                }
-                                else
-                                {
-                                    SharedPref.OPEN_ALL_RIDES = true;
-                                    setRides(rideOffers);
-                                }
+                                setRides(rideOffers);
                                 noRides.setVisibility(View.GONE);
-                            }
-                            else if(!SharedPref.OPEN_ALL_RIDES)
-                            {
-                                noRides.setText(R.string.frag_rideSearch_noRideFound);
                             }
                             else
                             {
@@ -261,6 +204,7 @@ public class AllRidesListFrag extends Fragment implements Callback {
                         } else {
                             Util.treatResponseFromServer(response);
                             noRides.setText(R.string.allrides_norides);
+                            noRides.setVisibility(View.VISIBLE);
                             refreshLayout.setRefreshing(false);
                             Log.e("listAllRides", response.message());
                         }
@@ -271,34 +215,11 @@ public class AllRidesListFrag extends Fragment implements Callback {
                     public void onFailure(Call<RideForJsonDeserializer> call, Throwable t) {
                         refreshLayout.setRefreshing(false);
                         Log.e("listAllRides", t.getMessage());
-                        if(!SharedPref.OPEN_ALL_RIDES) {
-                            noRides.setText(R.string.allrides_norides);
-                        }
+                        noRides.setText(R.string.allrides_norides);
+                        noRides.setVisibility(View.VISIBLE);
                         scrollListener.resetState();
                     }
                 });
-
-        if (filter != null) {
-            switch (pageNumber) {
-                case 0:
-                    if (filteredGoingList.size() <= 8) {
-                        loadOneMorePage();
-                    }
-                    if (filteredNotGoingList.size() <= 8) {
-                        loadOneMorePage();
-                    }
-                    break;
-                case 1:
-                    if (filteredGoingList.size() <= 8) {
-                        loadOneMorePage();
-                    }
-                    if (filteredNotGoingList.size() <= 8) {
-                        loadOneMorePage();
-                    }
-                    break;
-            }
-        }
-
     }
 
     private boolean checkIfRideIsInList(ArrayList<RideForJson> list, RideForJson ride) {
@@ -341,37 +262,18 @@ public class AllRidesListFrag extends Fragment implements Callback {
                     it.remove();
                 else {
                     rideOffer.setDbId(rideOffer.getId().intValue());
-                    if (rideOffer.isGoing()) {
-                        if (!checkIfRideIsInList(goingRides, rideOffer)){
-                            goingRides.add(rideOffer);
-                        }
-                    } else {
-                        if (!checkIfRideIsInList(notGoingRides, rideOffer)) {
-                            notGoingRides.add(rideOffer);
-                        }
+                    if (!checkIfRideIsInList(rides, rideOffer)){
+                        rides.add(rideOffer);
                     }
                 }
             }
-            Collections.sort(goingRides, new RideOfferComparatorByDateAndTime());
-            Collections.sort(notGoingRides, new RideOfferComparatorByDateAndTime());
+            Collections.sort(rides, new RideOfferComparatorByDateAndTime());
         }
-
-        if (pageIdentifier == AllRidesFragmentPagerAdapter.PAGE_GOING) {
-            if (goingRides != null && !goingRides.isEmpty()) {
-                SharedPref.ALL_RIDES_GOING = goingRides;
-                adapter.makeList(goingRides);
-                scrollListener.resetState();
-                adapter.notifyDataSetChanged();
-            }
-        } else {
-            if (notGoingRides != null && !notGoingRides.isEmpty()) {
-                SharedPref.ALL_RIDES_LEAVING = notGoingRides;
-                adapter.makeList(notGoingRides);
-                scrollListener.resetState();
-                adapter.notifyDataSetChanged();
-            }
+        if (rides != null && !rides.isEmpty()) {
+            adapter.makeList(rides);
+            scrollListener.resetState();
+            adapter.notifyDataSetChanged();
         }
-        SharedPref.lastAllRidesUpdate = 0;
         refreshLayout.setRefreshing(false);
         rvRides.setVisibility(View.VISIBLE);
     }

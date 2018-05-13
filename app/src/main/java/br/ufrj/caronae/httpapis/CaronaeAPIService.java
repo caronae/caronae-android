@@ -56,7 +56,7 @@ public interface CaronaeAPIService {
     Call<ResponseBody> updateUser(@Path("userId") String userId, @Body User user);
 
     @GET("api/v1/rides")
-    Call<RideForJsonDeserializer> listAllRides(@Query("page") String pageNum, @Query("going") String going, @Query("neighborhoods") String neighborhoods, @Query("zone") String zone, @Query("hubs") String hub, @Query("place") String place, @Query("campus") String campus);
+    Call<RideForJsonDeserializer> listAllRides(@Query("page") String pageNum, @Query("going") String going, @Query("neighborhoods") String neighborhoods, @Query("zone") String zone, @Query("hubs") String hub, @Query("place") String place, @Query("campus") String campus, @Query("date") String date, @Query("time") String time);
 
     @GET("api/v1/places")
     Call<PlacesForJson> getPlaces();

@@ -116,8 +116,10 @@
                 android:drawableLeft="@drawable/ics_date_and_time"
                 android:drawablePadding="5dp"
                 android:focusable="false"
+                android:singleLine="true"
+                android:textSize="16sp"
                 android:gravity="end"
-                android:text="sexta-feira, 01/05/2018 07:00"
+                android:text="segunda-feira, 01/05/2018 07:00"
                 android:textAlignment="viewEnd"
                 android:textColor="@color/dark_gray" />
 
@@ -134,22 +136,5 @@
                 android:textColor="@color/dark_gray" />
 
         </RelativeLayout>
-
-        <Button
-            android:id="@+id/anotherSearch_bt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/lay"
-            android:layout_centerHorizontal="true"
-            android:background="@null"
-            android:text="@string/frag_ridesearch_anotherSearchBt"
-            android:visibility="gone"/>
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rvRides"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/anotherSearch_bt"
-            android:layout_margin="8dp" />
     </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>

@@ -8,13 +8,9 @@ import android.graphics.Rect;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.Animation;
-import android.view.animation.TranslateAnimation;
 import android.widget.Toast;
 
 import java.text.ParseException;
@@ -131,36 +127,6 @@ public class Util {
         {
             return Color.parseColor("#565658");
         }
-    }
-
-    public static void expandOrCollapse(final View v, boolean expand) {
-        TranslateAnimation anim;
-        if (expand) {
-            anim = new TranslateAnimation(0.0f, 0.0f, -v.getHeight(), 0.0f);
-            v.setVisibility(View.VISIBLE);
-        } else {
-            anim = new TranslateAnimation(0.0f, 0.0f, 0.0f, -v.getHeight());
-            Animation.AnimationListener collapselistener = new Animation.AnimationListener() {
-                @Override
-                public void onAnimationStart(Animation animation) {
-                }
-
-                @Override
-                public void onAnimationRepeat(Animation animation) {
-                }
-
-                @Override
-                public void onAnimationEnd(Animation animation) {
-                    v.setVisibility(View.GONE);
-                }
-            };
-
-            anim.setAnimationListener(collapselistener);
-        }
-
-        anim.setDuration(300);
-        anim.setInterpolator(new AccelerateInterpolator(0.5f));
-        v.startAnimation(anim);
     }
 
     public static void toast(int msg) {
@@ -343,7 +309,7 @@ public class Util {
 
     public static String getAppVersionName(Context context) {
         PackageManager manager = context.getPackageManager();
-        PackageInfo info = null;
+        PackageInfo info;
         try {
             info = manager.getPackageInfo(
                     context.getPackageName(), 0);
