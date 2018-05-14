@@ -48,7 +48,7 @@ public class RideSearchFrag extends Fragment {
     @BindView(R.id.time_et)
     public TextView time_et;
 
-    private boolean going;
+    private boolean going, fromSearch;
     public String time;
 
     public RideSearchFrag() {
@@ -60,7 +60,9 @@ public class RideSearchFrag extends Fragment {
     {
         View view = inflater.inflate(R.layout.fragment_ride_search, container, false);
         ButterKnife.bind(this, view);
-
+        try {
+            fromSearch = getArguments().getBoolean("fromSearch", false);
+        }catch (Exception e){}
         going = true;
         setButton(isLeaving_bt,isGoing_bt, isLeaving_tv, isGoing_tv);
         if(SharedPref.getGoingLabel() != null)
@@ -120,11 +122,22 @@ public class RideSearchFrag extends Fragment {
         }
         else
         {
-            //sexta-feira, 11/05/2018 07:00
-            //01234567890123456789012345678
-            String result = Util.getWeekDayFromBRDate(d) + ", " + d + tm;
+            Calendar calendar = Calendar.getInstance();
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
+            String getCurrentDateTime = sdf.format(calendar.getTime());
             time = d+tm;
-            time_et.setText(result);
+
+            if (getCurrentDateTime.compareTo(time) < 0)
+            {
+                //Future
+                String result = Util.getWeekDayFromBRDate(d) + ", " + d + tm;
+                time_et.setText(result);
+            }
+            else
+            {
+                //Past
+                setInitialDate();
+            }
         }
         location_et.setText(l);
         center_et.setText(c);
@@ -208,12 +221,18 @@ public class RideSearchFrag extends Fragment {
         SharedPref.setCenterSearch(center);
         SharedPref.setDateSearch(date);
         SharedPref.setTimeSearch(time);
-
-        Intent rideSearchAct = new Intent(getActivity(), RideSearchAct.class);
         String isGoing = going ? "1" : "0";
-        rideSearchAct.putExtra("isGoing", isGoing);
-        startActivity(rideSearchAct);
-        getActivity().overridePendingTransition(R.anim.anim_right_slide_in, R.anim.anim_left_slide_out);
+        if(!fromSearch) {
+            Intent rideSearchAct = new Intent(getActivity(), RideSearchAct.class);
+            rideSearchAct.putExtra("isGoing", isGoing);
+            startActivity(rideSearchAct);
+            getActivity().overridePendingTransition(R.anim.anim_right_slide_in, R.anim.anim_left_slide_out);
+        }
+        else
+        {
+            ((RideSearchAct)getActivity()).isGoing = isGoing;
+            ((RideSearchAct)getActivity()).changeToList(true);
+        }
     }
 
     @OnClick(R.id.tab1)

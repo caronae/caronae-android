@@ -13,6 +13,9 @@
     <string name="title_activity_login">Login</string>
     <string name="title_ride_search">Pesquisa</string>
 
+    <string name="no_rides_found_title">Nenhuma carona encontrada :(</string>
+    <string name="no_rides_found_msg">Você pode ampliar sua pesquisa selecionando vários bairros ou escolhendo um horário mais cedo.</string>
+
     <string name="tokenHint_et">Sua chave aqui</string>
     <string name="send_bt">Enviar</string>
     <string name="create_bt">CRIAR</string>
@@ -108,7 +111,7 @@
     <string name="frag_rideSearch_pickNeighborhood">Escolha o(s) bairro(s)</string>
     <string name="frag_rideSearch_hintPickCenter">Escolha o centro</string>
     <string name="frag_rideSearch_hintPickCampi">Escolha o campus</string>
-    <string name="frag_rideSearch_noRideFound">Nenhuma carona encontrada</string>
+    <string name="frag_rideSearch_noRideFound">Nenhuma carona encontrada.</string>
     <string name="frag_rideSearch_errorListFiltered">Erro ao obter caronas</string>
     <string name="frag_rideOffer_hintPickHub">Escolha o hub de encontro</string>
     <string name="frag_rideOffer_pickZone">Escolha a zona</string>

@@ -29,6 +29,7 @@ import java.util.TimerTask;
 import javax.security.auth.callback.Callback;
 
 import br.ufrj.caronae.App;
+import br.ufrj.caronae.CustomDialogClass;
 import br.ufrj.caronae.EndlessRecyclerViewScrollListener;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.SharedPref;
@@ -78,7 +79,6 @@ public class SearchRidesListFrag extends Fragment implements Callback {
         try {
             going = getArguments().getString("isGoing", "1");
         }catch (Exception e){}
-        SharedPref.lastAllRidesUpdate = 350;
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -152,6 +152,7 @@ public class SearchRidesListFrag extends Fragment implements Callback {
     }
 
     void refreshRideList(final int pageNumber) {
+        final Fragment frag = this;
         String neighborhoods = null;
         String zone = null;
         String hub = null;
@@ -180,7 +181,6 @@ public class SearchRidesListFrag extends Fragment implements Callback {
             }
         }
         time = time.replace(" ", "");
-
         CaronaeAPI.service(getContext()).listAllRides(pageNumber + "", going, neighborhoods, zone, hub,  "", campus, date, time)
                 .enqueue(new retrofit2.Callback<RideForJsonDeserializer>() {
                     @Override
@@ -194,17 +194,21 @@ public class SearchRidesListFrag extends Fragment implements Callback {
                             if(rideOffers.size() != 0) {
                                 noRides.setVisibility(View.GONE);
                                 setRides(rideOffers);
-                                noRides.setVisibility(View.GONE);
                             }
                             else
                             {
+                                refreshLayout.setRefreshing(false);
+                                CustomDialogClass cdc = new CustomDialogClass(getActivity(), "searchList", frag);
+                                cdc.show();
+                                cdc.enableOnePositiveOption();
+                                cdc.setPButtonText(getResources().getString(R.string.ok));
+                                cdc.setTitleText(getResources().getString(R.string.no_rides_found_title));
+                                cdc.setMessageText(getResources().getString(R.string.no_rides_found_msg));
                                 noRides.setText(R.string.frag_rideSearch_noRideFound);
-                                noRides.setVisibility(View.VISIBLE);
                             }
                         } else {
                             Util.treatResponseFromServer(response);
                             noRides.setText(R.string.allrides_norides);
-                            noRides.setVisibility(View.VISIBLE);
                             refreshLayout.setRefreshing(false);
                             Log.e("listAllRides", response.message());
                         }
@@ -216,7 +220,6 @@ public class SearchRidesListFrag extends Fragment implements Callback {
                         refreshLayout.setRefreshing(false);
                         Log.e("listAllRides", t.getMessage());
                         noRides.setText(R.string.allrides_norides);
-                        noRides.setVisibility(View.VISIBLE);
                         scrollListener.resetState();
                     }
                 });

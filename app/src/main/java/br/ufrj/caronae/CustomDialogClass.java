@@ -15,6 +15,7 @@ import br.ufrj.caronae.acts.PlaceAct;
 import br.ufrj.caronae.acts.RideOfferAct;
 import br.ufrj.caronae.frags.MyProfileShowFrag;
 import br.ufrj.caronae.frags.RideOfferFrag;
+import br.ufrj.caronae.frags.SearchRidesListFrag;
 
 public class CustomDialogClass extends Dialog implements android.view.View.OnClickListener {
 
@@ -66,15 +67,8 @@ public class CustomDialogClass extends Dialog implements android.view.View.OnCli
                     RideOfferAct act = (RideOfferAct) activity;
                     act.customDialogAction();
                 }
-                else if(currentFrag.equals("ROFD")) {
-                    dismiss();
-                }
-                else if(currentFrag.equals("ROFPD")) {
-                    dismiss();
-                }
                 else if(currentFrag.equals("ROFINCO"))
                 {
-                    dismiss();
                     ((RideOfferFrag)fragment).changeFragment();
                 }
                 break;
@@ -152,10 +146,5 @@ public class CustomDialogClass extends Dialog implements android.view.View.OnCli
     public void setNegativeButtonColor(int color)
     {
         this.negative_bt.setTextColor(color);
-    }
-
-    public void setPositiveButtonColor(int color)
-    {
-        this.positive_bt.setTextColor(color);
     }
 }
