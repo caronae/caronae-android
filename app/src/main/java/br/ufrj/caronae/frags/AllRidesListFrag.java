@@ -337,6 +337,7 @@ public class AllRidesListFrag extends Fragment implements Callback {
             Iterator<RideForJson> it = rideOffers.iterator();
             while (it.hasNext()) {
                 RideForJson rideOffer = it.next();
+                rideOffer.fromWhere = "AllRides";
                 if (Util.formatBadDateWithYear(rideOffer.getDate()).equals(todayString) && Util.formatTime(rideOffer.getTime()).compareTo(time) < 0)
                     it.remove();
                 else {

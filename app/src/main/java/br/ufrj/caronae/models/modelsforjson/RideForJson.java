@@ -11,6 +11,7 @@ import br.ufrj.caronae.models.User;
 public class RideForJson extends Ride implements Parcelable {
     private User driver;
     private List<User> riders;
+    public String fromWhere;
 
     public User getDriver() {
         return driver;

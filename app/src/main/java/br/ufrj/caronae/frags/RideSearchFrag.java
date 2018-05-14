@@ -226,7 +226,7 @@ public class RideSearchFrag extends Fragment {
             Intent rideSearchAct = new Intent(getActivity(), RideSearchAct.class);
             rideSearchAct.putExtra("isGoing", isGoing);
             startActivity(rideSearchAct);
-            getActivity().overridePendingTransition(R.anim.anim_right_slide_in, R.anim.anim_left_slide_out);
+            getActivity().overridePendingTransition(R.anim.anim_up_slide_in, R.anim.anim_down_slide_out);
         }
         else
         {

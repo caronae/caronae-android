@@ -65,13 +65,16 @@ public class ProfileAct extends AppCompatActivity {
     private boolean fromAnother;
     private boolean requested;
     private RideForJson rideOffer;
-    private String from, user2;
+    private String from, user2, fromWhere = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         ButterKnife.bind(this);
+        try {
+            fromWhere = getIntent().getStringExtra("fromWhere");
+        }catch(Exception e){}
         fromAnother = getIntent().getBooleanExtra("fromAnother", false);
         if(fromAnother) {
             rideOffer = getIntent().getExtras().getParcelable("ride");
@@ -207,6 +210,7 @@ public class ProfileAct extends AppCompatActivity {
         intent.putExtra("requested", requested);
         intent.putExtra("driver", name_tv.getText());
         intent.putExtra("ride", rideOffer);
+        intent.putExtra("fromWhere", fromWhere);
         startActivity(intent);
         overridePendingTransition(R.anim.anim_right_slide_in, R.anim.anim_left_slide_out);
     }
@@ -275,6 +279,7 @@ public class ProfileAct extends AppCompatActivity {
         Intent intent = new Intent(this, RideOfferAct.class);
         intent.putExtra("ride", rideOffer);
         intent.putExtra("requested", requested);
+        intent.putExtra("fromWhere", fromWhere);
         startActivity(intent);
         overridePendingTransition(R.anim.anim_left_slide_in, R.anim.anim_right_slide_out);
     }
@@ -285,6 +290,7 @@ public class ProfileAct extends AppCompatActivity {
             Intent intent = new Intent(this, RideOfferAct.class);
             intent.putExtra("ride", rideOffer);
             intent.putExtra("requested", requested);
+            intent.putExtra("fromWhere", fromWhere);
             startActivity(intent);
             overridePendingTransition(R.anim.anim_left_slide_in, R.anim.anim_right_slide_out);
         }

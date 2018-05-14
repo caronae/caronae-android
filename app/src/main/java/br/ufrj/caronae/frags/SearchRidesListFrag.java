@@ -85,7 +85,7 @@ public class SearchRidesListFrag extends Fragment implements Callback {
                 SharedPref.lastAllRidesUpdate = 0;
                 pageCounter = FIRST_PAGE_TO_LOAD;
                 for (int counter = FIRST_PAGE_TO_LOAD; counter <= pageCounter; counter++) {
-                    refreshRideList(counter);
+                    refreshRideList();
                 }
             }
         });
@@ -151,7 +151,7 @@ public class SearchRidesListFrag extends Fragment implements Callback {
         super.onResume();
     }
 
-    void refreshRideList(final int pageNumber) {
+    void refreshRideList() {
         final Fragment frag = this;
         String neighborhoods = null;
         String zone = null;
@@ -181,7 +181,7 @@ public class SearchRidesListFrag extends Fragment implements Callback {
             }
         }
         time = time.replace(" ", "");
-        CaronaeAPI.service(getContext()).listAllRides(pageNumber + "", going, neighborhoods, zone, hub,  "", campus, date, time)
+        CaronaeAPI.service(getContext()).listAllRides("", going, neighborhoods, zone, hub,  "", campus, date, time)
                 .enqueue(new retrofit2.Callback<RideForJsonDeserializer>() {
                     @Override
                     public void onResponse(Call<RideForJsonDeserializer> call, Response<RideForJsonDeserializer> response) {
@@ -198,12 +198,14 @@ public class SearchRidesListFrag extends Fragment implements Callback {
                             else
                             {
                                 refreshLayout.setRefreshing(false);
-                                CustomDialogClass cdc = new CustomDialogClass(getActivity(), "searchList", frag);
-                                cdc.show();
-                                cdc.enableOnePositiveOption();
-                                cdc.setPButtonText(getResources().getString(R.string.ok));
-                                cdc.setTitleText(getResources().getString(R.string.no_rides_found_title));
-                                cdc.setMessageText(getResources().getString(R.string.no_rides_found_msg));
+                                try {
+                                    CustomDialogClass cdc = new CustomDialogClass(getActivity(), "searchList", frag);
+                                    cdc.show();
+                                    cdc.enableOnePositiveOption();
+                                    cdc.setPButtonText(getResources().getString(R.string.ok));
+                                    cdc.setTitleText(getResources().getString(R.string.no_rides_found_title));
+                                    cdc.setMessageText(getResources().getString(R.string.no_rides_found_msg));
+                                }catch (Exception e){}
                                 noRides.setText(R.string.frag_rideSearch_noRideFound);
                             }
                         } else {
@@ -265,6 +267,7 @@ public class SearchRidesListFrag extends Fragment implements Callback {
                     it.remove();
                 else {
                     rideOffer.setDbId(rideOffer.getId().intValue());
+                    rideOffer.fromWhere = "SearchRides";
                     if (!checkIfRideIsInList(rides, rideOffer)){
                         rides.add(rideOffer);
                     }
@@ -283,7 +286,7 @@ public class SearchRidesListFrag extends Fragment implements Callback {
 
     private void loadOneMorePage() {
         pageCounter++;
-        refreshRideList(pageCounter);
+        refreshRideList();
     }
 
     private void reloadRidesIfNecessary()
@@ -297,7 +300,7 @@ public class SearchRidesListFrag extends Fragment implements Callback {
                 {
                     pageCounter = FIRST_PAGE_TO_LOAD;
                     for (int counter = FIRST_PAGE_TO_LOAD; counter <= pageCounter; counter++) {
-                        refreshRideList(counter);
+                        refreshRideList();
                     }
                 }
             }

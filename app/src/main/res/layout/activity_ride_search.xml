@@ -5,12 +5,13 @@
     android:layout_height="match_parent"
     android:background="@color/white">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
         <android.support.v7.widget.CardView
+            android:id="@+id/first_lay"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardElevation="4dp">
@@ -108,7 +109,8 @@
         </android.support.v7.widget.CardView>
         <FrameLayout
             android:id="@+id/flContent"
+            android:layout_below="@id/first_lay"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
-    </LinearLayout>
+    </RelativeLayout>
 </android.support.v4.widget.DrawerLayout>

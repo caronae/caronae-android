@@ -59,6 +59,8 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
     @BindView(R.id.clock)
     public ImageView clock;
 
+    @BindView(R.id.back_title)
+    public TextView back_tv;
     @BindView(R.id.share_tv)
     public TextView share_tv;
     @BindView(R.id.location_dt)
@@ -92,18 +94,30 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
 
     int zoneColorInt;
     boolean requested;
+    String fromWhere = "", isGoing;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.dialog_ride_detail);
-        ButterKnife.bind(this);
-        boolean fromAllRides = getIntent().getBooleanExtra("fromAllRides", false);
-
-        if(fromAllRides)
+        boolean starting = getIntent().getBooleanExtra("starting", false);
+        if(starting)
         {
             overridePendingTransition(R.anim.anim_right_slide_in, R.anim.anim_left_slide_out);
+        }
+        getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        setContentView(R.layout.activity_ride_offer);
+        ButterKnife.bind(this);
+        isGoing = "1";
+        try {
+            fromWhere = getIntent().getStringExtra("fromWhere");
+        }catch(Exception e){}
+
+
+        if(fromWhere != null) {
+            if (fromWhere.equals("SearchRides"))
+            {
+                back_tv.setText(R.string.title_ride_search);
+            }
         }
         if (!startWithLink()) {
             rideWithUsers = getIntent().getExtras().getParcelable("ride");
@@ -171,10 +185,18 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
 
     @Override
     public void onBackPressed() {
-        SharedPref.NAV_INDICATOR = "AllRides";
-        Intent intent = new Intent(this, MainAct.class);
-        startActivity(intent);
-        overridePendingTransition(R.anim.anim_left_slide_in, R.anim.anim_right_slide_out);
+        if(fromWhere.equals("AllRides")) {
+            SharedPref.NAV_INDICATOR = "AllRides";
+            Intent intent = new Intent(this, MainAct.class);
+            startActivity(intent);
+            overridePendingTransition(R.anim.anim_left_slide_in, R.anim.anim_right_slide_out);
+        }
+        else if(fromWhere.equals("SearchRides")) {
+            Intent intent = new Intent(this, RideSearchAct.class);
+            intent.putExtra("isGoing", isGoing);
+            startActivity(intent);
+            overridePendingTransition(R.anim.anim_left_slide_in, R.anim.anim_right_slide_out);
+        }
     }
 
     private void configureShareButton() {
@@ -264,11 +286,14 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
         photo_iv.setBorderColor(zoneColorInt);
 
         final String location;
-        if (rideWithUsers.isGoing())
+        if (rideWithUsers.isGoing()) {
             location = rideWithUsers.getNeighborhood().toUpperCase() + " ➜ " + rideWithUsers.getHub().toUpperCase();
-        else
+            isGoing = "1";
+        }
+        else {
             location = rideWithUsers.getHub().toUpperCase() + " ➜ " + rideWithUsers.getNeighborhood().toUpperCase();
-
+            isGoing = "0";
+        }
         String profilePicUrl = driver.getProfilePicUrl();
         if (profilePicUrl == null || profilePicUrl.isEmpty()) {
             Picasso.with(this.getApplicationContext()).load(R.drawable.user_pic)
@@ -290,6 +315,7 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
                     intent.putExtra("fromAnother", true);
                     intent.putExtra("requested", requested);
                     intent.putExtra("ride", rideWithUsers);
+                    intent.putExtra("fromWhere", fromWhere);
                     startActivity(intent);
                     overridePendingTransition(R.anim.anim_right_slide_in, R.anim.anim_left_slide_out);
                 }
@@ -456,10 +482,19 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
     @OnClick(R.id.back_bt)
     public void backToMain()
     {
-        SharedPref.NAV_INDICATOR = "AllRides";
-        Intent intent = new Intent(this, MainAct.class);
-        startActivity(intent);
-        overridePendingTransition(R.anim.anim_left_slide_in, R.anim.anim_right_slide_out);
+        if(fromWhere != null) {
+            if (fromWhere.equals("AllRides")) {
+                SharedPref.NAV_INDICATOR = "AllRides";
+                Intent intent = new Intent(this, MainAct.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.anim_left_slide_in, R.anim.anim_right_slide_out);
+            } else if (fromWhere.equals("SearchRides")) {
+                Intent intent = new Intent(this, RideSearchAct.class);
+                intent.putExtra("isGoing", isGoing);
+                startActivity(intent);
+                overridePendingTransition(R.anim.anim_left_slide_in, R.anim.anim_right_slide_out);
+            }
+        }
     }
 
     public void joinAction() {

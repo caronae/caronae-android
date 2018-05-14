@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -22,6 +23,7 @@ public class RideSearchAct extends AppCompatActivity {
     RelativeLayout backV, cancelV;
     ImageView searchBt;
     TextView titleTv;
+    FrameLayout content;
 
     public String isGoing;
 
@@ -33,6 +35,7 @@ public class RideSearchAct extends AppCompatActivity {
         cancelV = findViewById(R.id.cancel_bt);
         searchBt = findViewById(R.id.search_bt);
         titleTv = findViewById(R.id.header_text);
+        content = findViewById(R.id.flContent);
         isGoing = getIntent().getExtras().getString("isGoing");
         setBackBt();
         setSearchIv();
@@ -83,6 +86,9 @@ public class RideSearchAct extends AppCompatActivity {
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
                 transaction.setCustomAnimations(R.anim.anim_down_slide_in, R.anim.anim_up_slide_out);
                 transaction.replace(R.id.flContent, fragment).commit();
+                RelativeLayout.LayoutParams rlp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,RelativeLayout.LayoutParams.MATCH_PARENT);
+                rlp.addRule(RelativeLayout.BELOW, R.id.first_lay);
+                content.setLayoutParams(rlp);
             }
         });
     }
@@ -110,5 +116,7 @@ public class RideSearchAct extends AppCompatActivity {
             transaction.setCustomAnimations(R.anim.anim_up_slide_in, R.anim.anim_down_slide_out);
         }
         transaction.replace(R.id.flContent, fragment).commit();
+        RelativeLayout.LayoutParams rlp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,RelativeLayout.LayoutParams.MATCH_PARENT);
+        content.setLayoutParams(rlp);
     }
 }

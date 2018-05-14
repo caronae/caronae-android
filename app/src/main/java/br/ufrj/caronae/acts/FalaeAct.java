@@ -1,8 +1,8 @@
 package br.ufrj.caronae.acts;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -10,15 +10,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import br.ufrj.caronae.CustomDialogClass;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.Util;
@@ -45,6 +44,7 @@ public class FalaeAct extends AppCompatActivity {
 
     public String message;
     public String subject;
+    public String fromWhere = "";
 
     private RideForJson rideOffer;
     private String from, user2;
@@ -57,6 +57,9 @@ public class FalaeAct extends AppCompatActivity {
         setContentView(R.layout.activity_falae);
         ButterKnife.bind(this);
         boolean fromProfile;
+        try {
+            fromWhere = getIntent().getStringExtra("fromWhere");
+        }catch(Exception e){}
         fromProfile = getIntent().getBooleanExtra("fromProfile", false);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         Fragment fragment = null;
@@ -112,7 +115,7 @@ public class FalaeAct extends AppCompatActivity {
 
     }
 
-    private void backToMenu()
+    public void backToMenu()
     {
         finish();
         Intent mainAct = new Intent(this, MainAct.class);
@@ -130,6 +133,7 @@ public class FalaeAct extends AppCompatActivity {
         profileAct.putExtra("fromAnother", true);
         profileAct.putExtra("requested", requested);
         profileAct.putExtra("ride", rideOffer);
+        profileAct.putExtra("fromWhere", fromWhere);
         startActivity(profileAct);
         this.overridePendingTransition(R.anim.anim_left_slide_in,R.anim.anim_right_slide_out);
     }
@@ -137,24 +141,16 @@ public class FalaeAct extends AppCompatActivity {
     @OnClick(R.id.send_bt)
     public void sendBt()
     {
+        Activity act = this;
         message = frag.getMessage();
         subject = frag.getSubject();
         if (message.isEmpty()) {
-            final android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(FalaeAct.this);
-            builder.setCancelable(false);
-            builder.setTitle("Ops!");
-            builder.setMessage("Parece que você esqueceu de preencher sua mensagem.");
-            builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-
-                }
-            });
-            android.support.v7.app.AlertDialog dialog = builder.create();
-            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-            WindowManager.LayoutParams wmlp = dialog.getWindow().getAttributes();
-            wmlp.gravity = Gravity.CENTER;
-            dialog.show();
+            CustomDialogClass cdc = new CustomDialogClass(this, "", null);
+            cdc.show();
+            cdc.setTitleText("Ops!");
+            cdc.setMessageText("Parece que você esqueceu de preencher sua mensagem.");
+            cdc.setPButtonText(getResources().getString(R.string.ok));
+            cdc.enableOnePositiveOption();
             return;
         }
         else {
@@ -170,61 +166,34 @@ public class FalaeAct extends AppCompatActivity {
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                         if (response.isSuccessful()) {
                             pd.dismiss();
-                            final android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(FalaeAct.this);
-                            builder.setCancelable(false);
-                            builder.setTitle("Mensagem enviada!");
-                            builder.setMessage("Obrigado por nos mandar uma mensagem. Nossa equipe irá entrar em contato em breve.");
-                            builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    SharedPref.NAV_INDICATOR = "Menu";
-                                    backToMenu();
-                                }
-                            });
-                            android.support.v7.app.AlertDialog dialog = builder.create();
-                            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                            WindowManager.LayoutParams wmlp = dialog.getWindow().getAttributes();
-                            wmlp.gravity = Gravity.CENTER;
-                            dialog.show();
+                            CustomDialogClass cdc = new CustomDialogClass(act, "Falae", null);
+                            cdc.show();
+                            cdc.setTitleText("Mensagem enviada!");
+                            cdc.setMessageText("Obrigado por nos mandar uma mensagem. Nossa equipe irá entrar em contato em breve.");
+                            cdc.setPButtonText(getResources().getString(R.string.ok));
+                            cdc.enableOnePositiveOption();
+                            SharedPref.NAV_INDICATOR = "Menu";
                         } else {
                             Util.treatResponseFromServer(response);
                             pd.dismiss();
-                            final android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(FalaeAct.this);
-                            builder.setCancelable(false);
-                            builder.setTitle("Mensagem não enviada");
-                            builder.setMessage("Ocorreu um erro enviando sua mensagem. Verifique sua conexão e tente novamente.");
-                            builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-
-                                }
-                            });
-                            android.support.v7.app.AlertDialog dialog = builder.create();
-                            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                            WindowManager.LayoutParams wmlp = dialog.getWindow().getAttributes();
-                            wmlp.gravity = Gravity.CENTER;
-                            dialog.show();
+                            CustomDialogClass cdc = new CustomDialogClass(act, "", null);
+                            cdc.show();
+                            cdc.setTitleText("Mensagem não enviada");
+                            cdc.setMessageText("Ocorreu um erro enviando sua mensagem. Verifique sua conexão e tente novamente.");
+                            cdc.setPButtonText(getResources().getString(R.string.ok));
+                            cdc.enableOnePositiveOption();
                         }
                     }
 
                     @Override
                     public void onFailure(Call<ResponseBody> call, Throwable t) {
                         pd.dismiss();
-                        final android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(FalaeAct.this);
-                        builder.setCancelable(false);
-                        builder.setTitle("Mensagem não enviada");
-                        builder.setMessage("Ocorreu um erro enviando sua mensagem. Verifique sua conexão e tente novamente.");
-                        builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-
-                            }
-                        });
-                        android.support.v7.app.AlertDialog dialog = builder.create();
-                        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                        WindowManager.LayoutParams wmlp = dialog.getWindow().getAttributes();
-                        wmlp.gravity = Gravity.CENTER;
-                        dialog.show();
+                        CustomDialogClass cdc = new CustomDialogClass(act, "", null);
+                        cdc.show();
+                        cdc.setTitleText("Mensagem não enviada");
+                        cdc.setMessageText("Ocorreu um erro enviando sua mensagem. Verifique sua conexão e tente novamente.");
+                        cdc.setPButtonText(getResources().getString(R.string.ok));
+                        cdc.enableOnePositiveOption();
                     }
                 });
     }

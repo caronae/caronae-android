@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import br.ufrj.caronae.acts.FalaeAct;
 import br.ufrj.caronae.acts.MyProfileAct;
 import br.ufrj.caronae.acts.PlaceAct;
 import br.ufrj.caronae.acts.RideOfferAct;
@@ -70,6 +71,10 @@ public class CustomDialogClass extends Dialog implements android.view.View.OnCli
                 else if(currentFrag.equals("ROFINCO"))
                 {
                     ((RideOfferFrag)fragment).changeFragment();
+                }
+                else if(currentFrag.equals("Falae"))
+                {
+                    ((FalaeAct)activity).backToMenu();
                 }
                 break;
 
