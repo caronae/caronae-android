@@ -247,7 +247,6 @@ public class AllRidesListFrag extends Fragment implements Callback {
                                     SharedPref.OPEN_ALL_RIDES = true;
                                     setRides(rideOffers);
                                 }
-                                noRides.setVisibility(View.GONE);
                             }
                             else if(!SharedPref.OPEN_ALL_RIDES)
                             {
@@ -256,7 +255,6 @@ public class AllRidesListFrag extends Fragment implements Callback {
                             else
                             {
                                 noRides.setText(R.string.frag_rideSearch_noRideFound);
-                                noRides.setVisibility(View.VISIBLE);
                             }
                         } else {
                             Util.treatResponseFromServer(response);

@@ -46,6 +46,7 @@ import br.ufrj.caronae.models.NewChatMsgIndicator;
 import br.ufrj.caronae.models.Ride;
 import br.ufrj.caronae.models.RideEndedEvent;
 import br.ufrj.caronae.models.modelsforjson.ChatSendMessageForJson;
+import br.ufrj.caronae.models.modelsforjson.MyRidesForJson;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -360,13 +361,14 @@ public class ChatAct extends AppCompatActivity {
             @Override
             public void run() {
                 final ProgressDialog pd = ProgressDialog.show(activity, "", activity.getString(R.string.wait), true, true);
-                CaronaeAPI.service(activity).getMyActiveRides()
-                        .enqueue(new Callback<List<RideForJson>>() {
+                CaronaeAPI.service(activity).getMyRides(Integer.toString(App.getUser().getDbId()))
+                        .enqueue(new Callback<MyRidesForJson>() {
                             @Override
-                            public void onResponse(Call<List<RideForJson>> call, Response<List<RideForJson>> response) {
+                            public void onResponse(Call<MyRidesForJson> call, Response<MyRidesForJson> response) {
 
                                 if (response.isSuccessful()) {
-                                    List<RideForJson> rideWithUsersList = response.body();
+                                    MyRidesForJson data = response.body();
+                                    List<RideForJson> rideWithUsersList = data.getActiveRides();
 
                                     Log.e("RIDE", "rides encontradas: " + rideWithUsersList.size());
 
@@ -409,7 +411,7 @@ public class ChatAct extends AppCompatActivity {
                             }
 
                             @Override
-                            public void onFailure(Call<List<RideForJson>> call, Throwable t) {
+                            public void onFailure(Call<MyRidesForJson> call, Throwable t) {
                                 pd.dismiss();
                                 Log.e("getMyActiveRides", t.getMessage());
                             }

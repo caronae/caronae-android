@@ -9,6 +9,7 @@ import java.util.List;
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.httpapis.CaronaeAPI;
 import br.ufrj.caronae.models.Ride;
+import br.ufrj.caronae.models.modelsforjson.MyRidesForJson;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
 import br.ufrj.caronae.models.modelsforjson.RideForJsonDeserializer;
 import retrofit2.Call;
@@ -28,13 +29,13 @@ public class FetchMyOfferedRidesService extends IntentService {
 
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
-        CaronaeAPI.service(App.getInst()).getOfferedRides(App.getUser().getDbId() + "")
-                .enqueue(new Callback<RideForJsonDeserializer>() {
+        CaronaeAPI.service(App.getInst()).getMyRides(Integer.toString(App.getUser().getDbId()))
+                .enqueue(new Callback<MyRidesForJson>() {
                     @Override
-                    public void onResponse(Call<RideForJsonDeserializer> call, Response<RideForJsonDeserializer> response) {
+                    public void onResponse(Call<MyRidesForJson> call, Response<MyRidesForJson> response) {
                         if (response.isSuccessful()) {
-                            RideForJsonDeserializer deserializer = response.body();
-                            List<RideForJson> rides = deserializer.getRides();
+                            MyRidesForJson data = response.body();
+                            List<RideForJson> rides = data.getOfferedRides();
                             if (rides != null) {
                                 Ride.deleteAll(Ride.class);
                                 for (RideForJson ride : rides) {
@@ -45,7 +46,7 @@ public class FetchMyOfferedRidesService extends IntentService {
                     }
 
                     @Override
-                    public void onFailure(Call<RideForJsonDeserializer> call, Throwable t) {
+                    public void onFailure(Call<MyRidesForJson> call, Throwable t) {
                     }
                 });
     }

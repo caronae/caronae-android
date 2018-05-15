@@ -2,10 +2,6 @@ package br.ufrj.caronae.models;
 
 import com.google.gson.annotations.SerializedName;
 
-/**
- * Created by Luis on 5/9/2017.
- */
-
 public class RideRountine {
 
         @SerializedName("myzone")
