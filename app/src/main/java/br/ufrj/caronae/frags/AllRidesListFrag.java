@@ -118,11 +118,13 @@ public class AllRidesListFrag extends Fragment implements Callback {
             noRides.setVisibility(View.GONE);
             if (pageIdentifier == AllRidesFragmentPagerAdapter.PAGE_GOING) {
                 if (SharedPref.ALL_RIDES_GOING != null && !SharedPref.ALL_RIDES_GOING.isEmpty()) {
+                    noRides.setVisibility(View.GONE);
                     adapter.makeList(SharedPref.ALL_RIDES_GOING);
                     scrollListener.resetState();
                 }
             } else {
                 if (SharedPref.ALL_RIDES_LEAVING != null && !SharedPref.ALL_RIDES_LEAVING.isEmpty()) {
+                    noRides.setVisibility(View.GONE);
                     adapter.makeList(SharedPref.ALL_RIDES_LEAVING);
                     scrollListener.resetState();
                 }
@@ -178,11 +180,6 @@ public class AllRidesListFrag extends Fragment implements Callback {
             }
         }catch (Exception e){}
         super.onStart();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
     }
 
     void refreshRideList(final int pageNumber) {
@@ -243,10 +240,6 @@ public class AllRidesListFrag extends Fragment implements Callback {
                                     setRides(rideOffers);
                                 }
                             }
-                            else if(!SharedPref.OPEN_ALL_RIDES)
-                            {
-                                noRides.setText(R.string.frag_rideSearch_noRideFound);
-                            }
                             else
                             {
                                 noRides.setText(R.string.frag_rideSearch_noRideFound);
@@ -294,30 +287,6 @@ public class AllRidesListFrag extends Fragment implements Callback {
 
     }
 
-    private boolean checkIfRideIsInList(ArrayList<RideForJson> list, RideForJson ride) {
-        boolean contains = false;
-        for (int counter = 0; counter < list.size(); counter++) {
-            if (list.get(counter).getDbId() == ride.getDbId()) {
-                contains = true;
-            }
-            if (!contains
-                    && (list.get(counter).getDriver().getDbId() == (ride.getDriver().getDbId()))
-                    && (list.get(counter).getDate().equals(ride.getDate()))
-                    && (list.get(counter).getTime().equals(ride.getTime()))){
-                contains = true;
-            }
-        }
-        return contains;
-    }
-
-    private void animateListFadeIn() {
-        Animation anim = new AlphaAnimation(0, 1);
-        anim.setDuration(300);
-        anim.setFillEnabled(true);
-        anim.setFillAfter(true);
-        rvRides.startAnimation(anim);
-    }
-
     private void setRides(List<RideForJson> rideOffers)
     {
         if (rideOffers != null && !rideOffers.isEmpty()) {
@@ -327,13 +296,10 @@ public class AllRidesListFrag extends Fragment implements Callback {
                 rideOffer.fromWhere = "AllRides";
                 rideOffer.setDbId(rideOffer.getId().intValue());
                 if (rideOffer.isGoing()) {
-                    if (!checkIfRideIsInList(goingRides, rideOffer)){
-                        goingRides.add(rideOffer);
-                    }
+                    goingRides.add(rideOffer);
+
                 } else {
-                    if (!checkIfRideIsInList(notGoingRides, rideOffer)) {
-                        notGoingRides.add(rideOffer);
-                    }
+                    notGoingRides.add(rideOffer);
                 }
             }
         }
@@ -358,11 +324,6 @@ public class AllRidesListFrag extends Fragment implements Callback {
         rvRides.setVisibility(View.VISIBLE);
     }
 
-    private void loadOneMorePage() {
-        pageCounter++;
-        refreshRideList(pageCounter);
-    }
-
     private void reloadRidesIfNecessary()
     {
         //Verifies every half second if a reload is necessary
@@ -380,5 +341,18 @@ public class AllRidesListFrag extends Fragment implements Callback {
             }
         };
         timer.schedule (hourlyTask, 0, 500);
+    }
+
+    private void loadOneMorePage() {
+        pageCounter++;
+        refreshRideList(pageCounter);
+    }
+
+    private void animateListFadeIn() {
+        Animation anim = new AlphaAnimation(0, 1);
+        anim.setDuration(300);
+        anim.setFillEnabled(true);
+        anim.setFillAfter(true);
+        rvRides.startAnimation(anim);
     }
 }

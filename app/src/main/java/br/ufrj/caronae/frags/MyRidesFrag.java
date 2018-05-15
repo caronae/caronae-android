@@ -26,7 +26,7 @@ import br.ufrj.caronae.R;
 import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.MainAct;
-import br.ufrj.caronae.adapters.RidesAdapter;
+import br.ufrj.caronae.adapters.MyRidesAdapter;
 import br.ufrj.caronae.httpapis.CaronaeAPI;
 import br.ufrj.caronae.models.modelsforjson.MyRidesForJson;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
@@ -47,7 +47,7 @@ public class MyRidesFrag extends Fragment implements Callback
 
     List<RideForJson> myRides;
 
-    RidesAdapter adapter;
+    MyRidesAdapter adapter;
 
     public MyRidesFrag() {
     }
@@ -56,6 +56,8 @@ public class MyRidesFrag extends Fragment implements Callback
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_my_rides, container, false);
         ButterKnife.bind(this, view);
+
+        refreshLayout.setProgressViewOffset(false, getResources().getDimensionPixelSize(R.dimen.refresher_offset), getResources().getDimensionPixelSize(R.dimen.refresher_offset_end));
 
         View v = getActivity().getCurrentFocus();
         if (v != null) {
@@ -74,10 +76,35 @@ public class MyRidesFrag extends Fragment implements Callback
         setHasOptionsMenu(true);
         MainAct.showMainItems();
 
-        adapter = new RidesAdapter(new ArrayList<>(), getContext(), getActivity().getFragmentManager());
+        adapter = new MyRidesAdapter(new ArrayList<>(), getContext(), getActivity().getFragmentManager());
         mLayoutManager = new LinearLayoutManager(getContext());
         rvRides.setLayoutManager(mLayoutManager);
         rvRides.setAdapter(adapter);
+
+        if(SharedPref.OPEN_MY_RIDES)
+        {
+            noRides.setVisibility(View.GONE);
+            if(!SharedPref.MY_RIDES_ACTIVE.isEmpty() || !SharedPref.MY_RIDES_OFFERED.isEmpty() || !SharedPref.MY_RIDES_PENDING.isEmpty())
+            {
+                noRides.setVisibility(View.GONE);
+                setMyRides(SharedPref.MY_RIDES_ACTIVE, SharedPref.MY_RIDES_OFFERED, SharedPref.MY_RIDES_PENDING);
+            }
+            else
+            {
+                noRides.setText(R.string.frag_rideSearch_noRideFound);
+                noRides.setVisibility(View.VISIBLE);
+            }
+        }
+        else if(!Util.isNetworkAvailable(getContext()))
+        {
+            noRides.setText(R.string.allrides_norides);
+            noRides.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            noRides.setText(R.string.charging);
+            noRides.setVisibility(View.VISIBLE);
+        }
 
         refreshRideList();
 
@@ -108,15 +135,36 @@ public class MyRidesFrag extends Fragment implements Callback
                         List<RideForJson> offeredRides = data.getOfferedRides();
                         List<RideForJson> pendingRides = data.getPendingRides();
 
-                        setMyRides(activeRides, offeredRides, pendingRides);
+                        SharedPref.OPEN_MY_RIDES = true;
+                        SharedPref.MY_RIDES_ACTIVE = activeRides;
+                        SharedPref.MY_RIDES_OFFERED = offeredRides;
+                        SharedPref.MY_RIDES_PENDING = pendingRides;
+
+                        if(!activeRides.isEmpty() || !offeredRides.isEmpty() || !pendingRides.isEmpty())
+                        {
+                            setMyRides(activeRides, offeredRides, pendingRides);
+                            noRides.setVisibility(View.GONE);
+                        }
+                        else
+                        {
+                            noRides.setText(R.string.frag_rideSearch_noRideFound);
+                            noRides.setVisibility(View.VISIBLE);
+                        }
+                        refreshLayout.setRefreshing(false);
                     } else {
                         Util.treatResponseFromServer(response);
+                        refreshLayout.setRefreshing(false);
+                        noRides.setText(R.string.allrides_norides);
+                        noRides.setVisibility(View.VISIBLE);
                         Util.debug(response.message());
                     }
                 }
                 @Override
                 public void onFailure(Call<MyRidesForJson> call, Throwable t) {
-                        Util.debug(t.getMessage());
+                    refreshLayout.setRefreshing(false);
+                    noRides.setText(R.string.allrides_norides);
+                    noRides.setVisibility(View.VISIBLE);
+                    Util.debug(t.getMessage());
                 }
             });
     }
@@ -124,11 +172,19 @@ public class MyRidesFrag extends Fragment implements Callback
     private void setMyRides(List<RideForJson> activeRides, List<RideForJson> offeredRides, List<RideForJson> pendingRides)
     {
         myRides = new ArrayList<>();
+        if (pendingRides != null && !pendingRides.isEmpty())
+        {
+            for(RideForJson pRide : pendingRides)
+            {
+                pRide.type = "Pendentes";
+                myRides.add(pRide);
+            }
+        }
         if (activeRides != null && !activeRides.isEmpty())
         {
             for(RideForJson aRide : activeRides)
             {
-                aRide.type = "active";
+                aRide.type = "Ativas";
                 myRides.add(aRide);
             }
         }
@@ -136,16 +192,8 @@ public class MyRidesFrag extends Fragment implements Callback
         {
             for(RideForJson oRide : offeredRides)
             {
-                oRide.type = "offered";
+                oRide.type = "Ofertadas";
                 myRides.add(oRide);
-            }
-        }
-        if (pendingRides != null && !pendingRides.isEmpty())
-        {
-            for(RideForJson pRide : pendingRides)
-            {
-                pRide.type = "pending";
-                myRides.add(pRide);
             }
         }
         if (myRides != null && !myRides.isEmpty()) {

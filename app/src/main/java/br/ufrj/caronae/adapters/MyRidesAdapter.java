@@ -7,8 +7,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -34,13 +34,16 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
     private List<RideForJson> rideOffers;
     private FragmentManager fm;
     private List<Object> mixedList;
+    private boolean activeCardShow, offeredCardShow, pendingCardShow;
 
     public MyRidesAdapter(List<RideForJson> rideOffers, Context context, FragmentManager fm) {
         this.rideOffers = rideOffers;
         this.context = context;
         this.fm = fm;
         this.mixedList = new ArrayList<>();
-
+        activeCardShow = false;
+        offeredCardShow = false;
+        pendingCardShow = false;
     }
 
     @Override
@@ -52,7 +55,7 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
         if (viewType == TYPE_HEADER) {
             contactView = inflater.inflate(R.layout.separator_all_rides, parent, false);
         } else if (viewType == TYPE_BODY) {
-            contactView = inflater.inflate(R.layout.item_rides_card, parent, false);
+            contactView = inflater.inflate(R.layout.item_my_rides_card, parent, false);
         } else {
             contactView = inflater.inflate(R.layout.separator_all_rides, parent, false);
         }
@@ -79,6 +82,25 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
         if (!(mixedList == null || mixedList.size() == 0)) {
             if (mixedList.get(position).getClass().equals(RideForJson.class)) {
                 final RideForJson rideOffer = (RideForJson) mixedList.get(position);
+
+                if(!activeCardShow && rideOffer.type.equals("Ativas"))
+                {
+                   activeCardShow = true;
+                   viewHolder.typeCardText.setText(rideOffer.type);
+                   viewHolder.typeCard.setVisibility(View.VISIBLE);
+                }
+                else if(!offeredCardShow && rideOffer.type.equals("Ofertadas"))
+                {
+                    offeredCardShow = true;
+                    viewHolder.typeCardText.setText(rideOffer.type);
+                    viewHolder.typeCard.setVisibility(View.VISIBLE);
+                }
+                else if(!pendingCardShow && rideOffer.type.equals("Pendentes"))
+                {
+                    pendingCardShow = true;
+                    viewHolder.typeCardText.setText(rideOffer.type);
+                    viewHolder.typeCard.setVisibility(View.VISIBLE);
+                }
 
                 int color = Util.getColors(rideOffer.getZone());
                 viewHolder.location_tv.setTextColor(color);
@@ -127,8 +149,6 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
                 boolean requested = false;
                 if (rideRequests != null && !rideRequests.isEmpty())
                     requested = true;
-
-                viewHolder.requestIndicator_iv.setVisibility(requested ? View.VISIBLE : View.INVISIBLE);
 
                 final boolean finalRequested = requested;
                 viewHolder.parentLayout.setOnClickListener(new View.OnClickListener() {
@@ -182,20 +202,19 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public CircleImageView photo_iv;
-        public ImageView requestIndicator_iv;
-        public TextView time_tv;
-        public TextView location_tv;
-        public TextView name_tv;
+        public TextView time_tv, name_tv, location_tv, typeCardText;
         public LinearLayout parentLayout;
+        public RelativeLayout typeCard;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            photo_iv = (CircleImageView) itemView.findViewById(R.id.photo_iv);
-            requestIndicator_iv = (ImageView) itemView.findViewById(R.id.requestIndicator_iv);
-            time_tv = (TextView) itemView.findViewById(R.id.time_tv);
-            location_tv = (TextView) itemView.findViewById(R.id.location_tv);
-            name_tv = (TextView) itemView.findViewById(R.id.name_tv);
-            parentLayout = (LinearLayout) itemView.findViewById(R.id.cardView);
+            photo_iv = itemView.findViewById(R.id.photo_iv);
+            time_tv = itemView.findViewById(R.id.time_tv);
+            location_tv = itemView.findViewById(R.id.location_tv);
+            name_tv = itemView.findViewById(R.id.name_tv);
+            parentLayout = itemView.findViewById(R.id.cardView);
+            typeCard = itemView.findViewById(R.id.typeCard);
+            typeCardText = itemView.findViewById(R.id.typeCardText);
         }
     }
 
