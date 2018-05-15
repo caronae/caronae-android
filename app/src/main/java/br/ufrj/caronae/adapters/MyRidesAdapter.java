@@ -32,18 +32,12 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
 
     private final Context context;
     private List<RideForJson> rideOffers;
-    private FragmentManager fm;
     private List<Object> mixedList;
-    private boolean activeCardShow, offeredCardShow, pendingCardShow;
 
     public MyRidesAdapter(List<RideForJson> rideOffers, Context context, FragmentManager fm) {
         this.rideOffers = rideOffers;
         this.context = context;
-        this.fm = fm;
         this.mixedList = new ArrayList<>();
-        activeCardShow = false;
-        offeredCardShow = false;
-        pendingCardShow = false;
     }
 
     @Override
@@ -82,24 +76,16 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
         if (!(mixedList == null || mixedList.size() == 0)) {
             if (mixedList.get(position).getClass().equals(RideForJson.class)) {
                 final RideForJson rideOffer = (RideForJson) mixedList.get(position);
-
-                if(!activeCardShow && rideOffer.type.equals("Ativas"))
-                {
-                   activeCardShow = true;
-                   viewHolder.typeCardText.setText(rideOffer.type);
-                   viewHolder.typeCard.setVisibility(View.VISIBLE);
+                if(rideOffer.type != null) {
+                    if (rideOffer.type.equals("Ativas") || rideOffer.type.equals("Ofertadas") || rideOffer.type.equals("Pendentes")) {
+                        viewHolder.typeCardText.setText(rideOffer.type);
+                        viewHolder.typeCard.setVisibility(View.VISIBLE);
+                    } else {
+                        viewHolder.typeCard.setVisibility(View.GONE);
+                    }
                 }
-                else if(!offeredCardShow && rideOffer.type.equals("Ofertadas"))
-                {
-                    offeredCardShow = true;
-                    viewHolder.typeCardText.setText(rideOffer.type);
-                    viewHolder.typeCard.setVisibility(View.VISIBLE);
-                }
-                else if(!pendingCardShow && rideOffer.type.equals("Pendentes"))
-                {
-                    pendingCardShow = true;
-                    viewHolder.typeCardText.setText(rideOffer.type);
-                    viewHolder.typeCard.setVisibility(View.VISIBLE);
+                else{
+                    viewHolder.typeCard.setVisibility(View.GONE);
                 }
 
                 int color = Util.getColors(rideOffer.getZone());

@@ -483,7 +483,7 @@ public class RideOfferFrag extends Fragment {
                         CustomDialogClass cdc = new CustomDialogClass(act,"ROFD", frag);;
                         cdc.show();
                         cdc.setTitleText( "Não foi possível validar sua carona");
-                        cdc.setMessageText("Houve um erro de comunicação com nosso servidor. Por favor, tente novamente."+t.getLocalizedMessage());
+                        cdc.setMessageText("Houve um erro de comunicação com nosso servidor. Por favor, tente novamente. "+t.getLocalizedMessage());
                         cdc.setPButtonText("OK");
                         cdc.enableOnePositiveOption();
                         pd.dismiss();

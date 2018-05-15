@@ -43,6 +43,8 @@ public class MyRidesFrag extends Fragment implements Callback
     SwipeRefreshLayout refreshLayout;
     @BindView(R.id.norides_tv)
     TextView noRides;
+    /*@BindView(R.id.finish_warning)
+    TextView finishText;*/
     LinearLayoutManager mLayoutManager;
 
     List<RideForJson> myRides;
@@ -83,7 +85,6 @@ public class MyRidesFrag extends Fragment implements Callback
 
         if(SharedPref.OPEN_MY_RIDES)
         {
-            noRides.setVisibility(View.GONE);
             if(!SharedPref.MY_RIDES_ACTIVE.isEmpty() || !SharedPref.MY_RIDES_OFFERED.isEmpty() || !SharedPref.MY_RIDES_PENDING.isEmpty())
             {
                 noRides.setVisibility(View.GONE);
@@ -134,7 +135,6 @@ public class MyRidesFrag extends Fragment implements Callback
                         List<RideForJson> activeRides = data.getActiveRides();
                         List<RideForJson> offeredRides = data.getOfferedRides();
                         List<RideForJson> pendingRides = data.getPendingRides();
-
                         SharedPref.OPEN_MY_RIDES = true;
                         SharedPref.MY_RIDES_ACTIVE = activeRides;
                         SharedPref.MY_RIDES_OFFERED = offeredRides;
@@ -172,35 +172,31 @@ public class MyRidesFrag extends Fragment implements Callback
     private void setMyRides(List<RideForJson> activeRides, List<RideForJson> offeredRides, List<RideForJson> pendingRides)
     {
         myRides = new ArrayList<>();
-        if (pendingRides != null && !pendingRides.isEmpty())
-        {
-            for(RideForJson pRide : pendingRides)
-            {
-                pRide.type = "Pendentes";
-                myRides.add(pRide);
-            }
+
+        if (pendingRides != null && !pendingRides.isEmpty()) {
+            pendingRides.get(0).type = "Pendentes";
+            myRides.addAll(pendingRides);
+            Util.debug(pendingRides.size() + " Pendentes");
         }
         if (activeRides != null && !activeRides.isEmpty())
         {
-            for(RideForJson aRide : activeRides)
-            {
-                aRide.type = "Ativas";
-                myRides.add(aRide);
-            }
+            activeRides.get(0).type = "Ativas";
+            myRides.addAll(activeRides);
+            Util.debug(activeRides.size()+" Ativas");
         }
         if (offeredRides != null && !offeredRides.isEmpty())
         {
-            for(RideForJson oRide : offeredRides)
-            {
-                oRide.type = "Ofertadas";
-                myRides.add(oRide);
-            }
+            offeredRides.get(0).type = "Ofertadas";
+            myRides.addAll(offeredRides);
+            Util.debug(offeredRides.size()+" Ofertadas");
         }
+
         if (myRides != null && !myRides.isEmpty()) {
             adapter.makeList(myRides);
             adapter.notifyDataSetChanged();
         }
         rvRides.setVisibility(View.VISIBLE);
+        //finishText.setVisibility(View.VISIBLE);
     }
 
     private void reloadMyRidesIfNecessary()

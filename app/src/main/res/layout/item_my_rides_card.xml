@@ -27,13 +27,18 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginLeft="10dp"
                 android:padding="5dp"
-                android:textSize="15sp"
+                android:textSize="17sp"
+                android:textStyle="bold"
                 android:text="Pendentes"/>
         </RelativeLayout>
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="14dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
             android:layout_below="@id/typeCard">
 
             <de.hdodenhof.circleimageview.CircleImageView

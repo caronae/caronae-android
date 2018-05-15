@@ -122,6 +122,10 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
         if (!startWithLink()) {
             rideWithUsers = getIntent().getExtras().getParcelable("ride");
             configureActivityWithRide(rideWithUsers, false);
+            if(rideWithUsers.getDriver().getDbId() == App.getUser().getDbId())
+            {
+                back_tv.setText(R.string.title_myrides);
+            }
         } else {
             configureActivityWithLink();
         }
@@ -185,17 +189,33 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
 
     @Override
     public void onBackPressed() {
-        if(fromWhere.equals("AllRides")) {
-            SharedPref.NAV_INDICATOR = "AllRides";
-            Intent intent = new Intent(this, MainAct.class);
-            startActivity(intent);
-            overridePendingTransition(R.anim.anim_left_slide_in, R.anim.anim_right_slide_out);
-        }
-        else if(fromWhere.equals("SearchRides")) {
-            Intent intent = new Intent(this, RideSearchAct.class);
-            intent.putExtra("isGoing", isGoing);
-            startActivity(intent);
-            overridePendingTransition(R.anim.anim_left_slide_in, R.anim.anim_right_slide_out);
+        Intent intent;
+        switch (back_tv.getText().toString())
+        {
+            case "Todas":
+                SharedPref.NAV_INDICATOR = "AllRides";
+                intent = new Intent(this, MainAct.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.anim_left_slide_in, R.anim.anim_right_slide_out);
+                break;
+            case "Pesquisa":
+                intent = new Intent(this, RideSearchAct.class);
+                intent.putExtra("isGoing", isGoing);
+                startActivity(intent);
+                overridePendingTransition(R.anim.anim_left_slide_in, R.anim.anim_right_slide_out);
+                break;
+            case "Minhas":
+                SharedPref.NAV_INDICATOR = "MyRides";
+                intent = new Intent(this, MainAct.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.anim_left_slide_in, R.anim.anim_right_slide_out);
+                break;
+            default:
+                SharedPref.NAV_INDICATOR = "AllRides";
+                intent = new Intent(this, MainAct.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.anim_left_slide_in, R.anim.anim_right_slide_out);
+                break;
         }
     }
 
@@ -482,18 +502,33 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
     @OnClick(R.id.back_bt)
     public void backToMain()
     {
-        if(fromWhere != null) {
-            if (fromWhere.equals("AllRides")) {
+        Intent intent;
+        switch (back_tv.getText().toString())
+        {
+            case "Todas":
                 SharedPref.NAV_INDICATOR = "AllRides";
-                Intent intent = new Intent(this, MainAct.class);
+                intent = new Intent(this, MainAct.class);
                 startActivity(intent);
                 overridePendingTransition(R.anim.anim_left_slide_in, R.anim.anim_right_slide_out);
-            } else if (fromWhere.equals("SearchRides")) {
-                Intent intent = new Intent(this, RideSearchAct.class);
+                break;
+            case "Pesquisa":
+                intent = new Intent(this, RideSearchAct.class);
                 intent.putExtra("isGoing", isGoing);
                 startActivity(intent);
                 overridePendingTransition(R.anim.anim_left_slide_in, R.anim.anim_right_slide_out);
-            }
+                break;
+            case "Minhas":
+                SharedPref.NAV_INDICATOR = "MyRides";
+                intent = new Intent(this, MainAct.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.anim_left_slide_in, R.anim.anim_right_slide_out);
+                break;
+            default:
+                SharedPref.NAV_INDICATOR = "AllRides";
+                intent = new Intent(this, MainAct.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.anim_left_slide_in, R.anim.anim_right_slide_out);
+                break;
         }
     }
 
