@@ -24,7 +24,7 @@ import br.ufrj.caronae.models.RideRequestSent;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.ViewHolder> {
+public class RidesAdapter extends RecyclerView.Adapter<RidesAdapter.ViewHolder> {
 
     private final int TYPE_HEADER = 0;
     private final int TYPE_BODY = 1;
@@ -35,7 +35,7 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
     private FragmentManager fm;
     private List<Object> mixedList;
 
-    public RideOfferAdapter(List<RideForJson> rideOffers, Context context, FragmentManager fm) {
+    public RidesAdapter(List<RideForJson> rideOffers, Context context, FragmentManager fm) {
         this.rideOffers = rideOffers;
         this.context = context;
         this.fm = fm;
@@ -44,7 +44,7 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
     }
 
     @Override
-    public RideOfferAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RidesAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
         View contactView;
@@ -52,7 +52,7 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
         if (viewType == TYPE_HEADER) {
             contactView = inflater.inflate(R.layout.separator_all_rides, parent, false);
         } else if (viewType == TYPE_BODY) {
-            contactView = inflater.inflate(R.layout.item_rideoffer_flat, parent, false);
+            contactView = inflater.inflate(R.layout.item_rides_card, parent, false);
         } else {
             contactView = inflater.inflate(R.layout.separator_all_rides, parent, false);
         }
@@ -75,7 +75,7 @@ public class RideOfferAdapter extends RecyclerView.Adapter<RideOfferAdapter.View
 
 
     @Override
-    public void onBindViewHolder(final RideOfferAdapter.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(final RidesAdapter.ViewHolder viewHolder, int position) {
         if (!(mixedList == null || mixedList.size() == 0)) {
             if (mixedList.get(position).getClass().equals(RideForJson.class)) {
                 final RideForJson rideOffer = (RideForJson) mixedList.get(position);

@@ -1,10 +1,9 @@
 package br.ufrj.caronae.adapters;
 
-import android.app.ProgressDialog;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.daimajia.swipe.SwipeLayout;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -21,72 +19,42 @@ import java.util.List;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.RoundedTransformation;
 import br.ufrj.caronae.Util;
-import br.ufrj.caronae.acts.ActiveRideAct;
-import br.ufrj.caronae.acts.MainAct;
-import br.ufrj.caronae.acts.RequestersListAct;
-import br.ufrj.caronae.httpapis.CaronaeAPI;
-import br.ufrj.caronae.models.NewChatMsgIndicator;
-import br.ufrj.caronae.models.Ride;
-import br.ufrj.caronae.models.RideRequestReceived;
-import br.ufrj.caronae.models.User;
+import br.ufrj.caronae.acts.RideOfferAct;
+import br.ufrj.caronae.models.RideRequestSent;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
 import de.hdodenhof.circleimageview.CircleImageView;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHolder> {
 
-    private int TYPE_MY_RIDE =                    0;
-    private int TYPE_ACTIVE_RIDE =                1;
-    private static final int TYPE_HEADER =                     2;
-    private static final int MY_OFFER_RIDES_HEADER_TAG =       1;
-    private static final int MY_ACTIVE_RIDES_HEADER_TAG  =     0;
-    private List<Object> rides;
-    private final MainAct activity;
-    private final List<RideRequestReceived> rideRequestReceivedList;
-    private final List<NewChatMsgIndicator> newChatMsgIndicatorList;
-    private static final int MY_ACTIVE_RIDE_HEADER_POSITION = 0;
+    private final int TYPE_HEADER = 0;
+    private final int TYPE_BODY = 1;
+    private final int TYPE_ZERO = 2;
 
-    public MyRidesAdapter(List<Object> rides, MainAct activity) {
-        this.activity = activity;
+    private final Context context;
+    private List<RideForJson> rideOffers;
+    private FragmentManager fm;
+    private List<Object> mixedList;
 
-        rideRequestReceivedList = RideRequestReceived.listAll(RideRequestReceived.class);
+    public MyRidesAdapter(List<RideForJson> rideOffers, Context context, FragmentManager fm) {
+        this.rideOffers = rideOffers;
+        this.context = context;
+        this.fm = fm;
+        this.mixedList = new ArrayList<>();
 
-        newChatMsgIndicatorList = NewChatMsgIndicator.listAll(NewChatMsgIndicator.class);
-
-
-        for (int rideCounter = 0; rideCounter < rides.size(); rideCounter++){
-            if (rides.get(rideCounter).getClass() == RideForJson.class){
-                rides.add(MY_ACTIVE_RIDE_HEADER_POSITION, MY_ACTIVE_RIDES_HEADER_TAG);
-                break;
-            }
-        }
-
-        for (int rideCounter = 0; rideCounter < rides.size(); rideCounter++){
-            if (rides.get(rideCounter).getClass() == Ride.class){
-                if (!offerHeaderTagAlreadyIn(rides))
-                    rides.add(rideCounter, MY_OFFER_RIDES_HEADER_TAG);
-                break;
-            }
-        }
-
-        this.rides = rides;
     }
 
     @Override
     public MyRidesAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
-
         View contactView;
 
-        if (viewType == TYPE_MY_RIDE) {
-            contactView = inflater.inflate(R.layout.item_myride, parent, false);
-        } else if (viewType == TYPE_ACTIVE_RIDE){
-            contactView = inflater.inflate(R.layout.item_myactiveride, parent, false);
+        if (viewType == TYPE_HEADER) {
+            contactView = inflater.inflate(R.layout.separator_all_rides, parent, false);
+        } else if (viewType == TYPE_BODY) {
+            contactView = inflater.inflate(R.layout.item_rides_card, parent, false);
         } else {
-            contactView = inflater.inflate(R.layout.list_separator, parent, false);
+            contactView = inflater.inflate(R.layout.separator_all_rides, parent, false);
         }
 
         return new ViewHolder(contactView);
@@ -94,339 +62,156 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
 
     @Override
     public int getItemViewType(int position) {
-        if (rides.get(position).getClass() == Ride.class){
-            return TYPE_MY_RIDE;
-        } else if(rides.get(position).getClass() == RideForJson.class) {
-            return TYPE_ACTIVE_RIDE;
-        } else
+        if (mixedList == null){
+            return TYPE_ZERO;
+        } else if (mixedList.size() == 0){
+            return TYPE_ZERO;
+        }
+        if (mixedList.get(position).getClass() == Integer.class) {
             return TYPE_HEADER;
+        }
+        return TYPE_BODY;
     }
 
+
     @Override
-    public void onBindViewHolder(final MyRidesAdapter.ViewHolder holder, final int position) {
+    public void onBindViewHolder(final MyRidesAdapter.ViewHolder viewHolder, int position) {
+        if (!(mixedList == null || mixedList.size() == 0)) {
+            if (mixedList.get(position).getClass().equals(RideForJson.class)) {
+                final RideForJson rideOffer = (RideForJson) mixedList.get(position);
 
-            if (rides.get(position).getClass() == Ride.class) {
+                int color = Util.getColors(rideOffer.getZone());
+                viewHolder.location_tv.setTextColor(color);
+                viewHolder.time_tv.setTextColor(color);
+                viewHolder.name_tv.setTextColor(color);
+                viewHolder.photo_iv.setBorderColor(color);
 
-                configureMyOfferRide(position, holder);
-
-            } else if (rides.get(position).getClass() == RideForJson.class) {
-                configureMyActiveRides(position, holder);
-
-            } else if (rides.get(position).getClass() == Integer.class) {
-                int type = (int) rides.get(position);
-                if (type == 1) {
-                    holder.list_separator_text.setText(activity.getResources().getString(R.string.frag_myrides_title));
+                String profilePicUrl = rideOffer.getDriver().getProfilePicUrl();
+                if (profilePicUrl != null && !profilePicUrl.isEmpty()) {
+                    Picasso.with(context).load(profilePicUrl)
+                            .placeholder(R.drawable.user_pic)
+                            .error(R.drawable.user_pic)
+                            .transform(new RoundedTransformation())
+                            .into(viewHolder.photo_iv);
                 } else {
-                    holder.list_separator_text.setText(activity.getResources().getString(R.string.frag_myactiverides_title));
+                    viewHolder.photo_iv.setImageResource(R.drawable.user_pic);
                 }
+
+                String timeText;
+                if (rideOffer.isGoing())
+                    timeText = context.getResources().getString(R.string.arrivingAt, Util.formatTime(rideOffer.getTime()));
+                else
+                    timeText = context.getResources().getString(R.string.leavingAt, Util.formatTime(rideOffer.getTime()));
+
+                timeText =  timeText + " | " + Util.getWeekDayFromDateWithoutTodayString(rideOffer.getDate()) + " | " +Util.formatBadDateWithoutYear(rideOffer.getDate());
+                viewHolder.time_tv.setText(timeText);
+
+                String name = rideOffer.getDriver().getName();
+                try {
+                    String[] split = name.split(" ");
+                    String shortName = split[0] + " " + split[split.length - 1];
+                    viewHolder.name_tv.setText(shortName);
+                } catch (Exception e) {
+                    viewHolder.name_tv.setText(name);
+                }
+
+                String location;
+                if (rideOffer.isGoing())
+                    location = rideOffer.getNeighborhood() + " ➜ " + rideOffer.getHub();
+                else
+                    location = rideOffer.getHub() + " ➜ " + rideOffer.getNeighborhood();
+
+                viewHolder.location_tv.setText(location);
+
+                List<RideRequestSent> rideRequests = RideRequestSent.find(RideRequestSent.class, "db_id = ?", rideOffer.getDbId() + "");
+                boolean requested = false;
+                if (rideRequests != null && !rideRequests.isEmpty())
+                    requested = true;
+
+                viewHolder.requestIndicator_iv.setVisibility(requested ? View.VISIBLE : View.INVISIBLE);
+
+                final boolean finalRequested = requested;
+                viewHolder.parentLayout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(context, RideOfferAct.class);
+                        intent.putExtra("fromWhere", rideOffer.fromWhere);
+                        intent.putExtra("ride", rideOffer);
+                        intent.putExtra("starting", true);
+                        intent.putExtra("requested", finalRequested);
+                        context.startActivity(intent);
+                    }
+                });
+            }
+        }
+    }
+
+    public void makeList(List<RideForJson> rideOffers) {
+        this.rideOffers = rideOffers;
+        List<Integer> headerPositions = getHeaderPositionsOnList(rideOffers);
+        mixedList.clear();
+        mixedList.addAll(rideOffers);
+        if (headerPositions != null && headerPositions.size() > 0) {
+            for (int headerCount = 0; headerCount < headerPositions.size(); headerCount++) {
+                mixedList.add(headerPositions.get(headerCount) + headerCount, headerPositions.get(headerCount));
+            }
+        }
+        notifyDataSetChanged();
+    }
+
+    public void addToList(List<RideForJson> rideOffers) {
+        this.rideOffers.addAll(rideOffers);
+        notifyDataSetChanged();
+    }
+
+    public void remove(int rideId) {
+        for (int i = 0; i < rideOffers.size(); i++)
+            if (rideOffers.get(i).getDbId() == rideId) {
+                rideOffers.remove(i);
+                notifyItemRemoved(i);
             }
     }
 
     @Override
     public int getItemCount() {
-            return rides.size();
+        if (mixedList == null || mixedList.size() == 0) {
+            return 1;
+        }
+        return mixedList.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
+        public CircleImageView photo_iv;
+        public ImageView requestIndicator_iv;
         public TextView time_tv;
         public TextView location_tv;
-        public TextView routine_tv;
-        public TextView slots_tv;
-        public android.widget.ImageButton delete_bt;
-        public android.widget.ImageButton share_bt;
-        public LinearLayout layout;
-        public SwipeLayout myRideLayout;
-        public ImageView newRequest_iv;
-
         public TextView name_tv;
-        public ImageView newMsgIndicator_iv;
-        public CircleImageView photo_iv;
-
-        public android.widget.FrameLayout card_list_separator;
-        public TextView list_separator_text;
-
+        public LinearLayout parentLayout;
 
         public ViewHolder(View itemView) {
             super(itemView);
-
+            photo_iv = (CircleImageView) itemView.findViewById(R.id.photo_iv);
+            requestIndicator_iv = (ImageView) itemView.findViewById(R.id.requestIndicator_iv);
             time_tv = (TextView) itemView.findViewById(R.id.time_tv);
             location_tv = (TextView) itemView.findViewById(R.id.location_tv);
-            routine_tv = (TextView) itemView.findViewById(R.id.routine_tv);
-            slots_tv = (TextView) itemView.findViewById(R.id.slots_tv);
-            delete_bt = (android.widget.ImageButton) itemView.findViewById(R.id.delete_bt);
-            share_bt = (android.widget.ImageButton) itemView.findViewById(R.id.share_bt);
-            layout = (LinearLayout) itemView.findViewById(R.id.cardView);
-            myRideLayout = (SwipeLayout) itemView.findViewById(R.id.card_view_my_ride);
-            newRequest_iv = (ImageView) itemView.findViewById(R.id.newRequest_iv);
-
             name_tv = (TextView) itemView.findViewById(R.id.name_tv);
-            photo_iv = (CircleImageView) itemView.findViewById(R.id.photo_iv);
-            newMsgIndicator_iv = (ImageView) itemView.findViewById(R.id.newMsgIndicator_iv);
-
-            card_list_separator = (android.widget.FrameLayout) itemView.findViewById(R.id.card_list_separator);
-            list_separator_text = (TextView) itemView.findViewById(R.id.list_separator_text);
+            parentLayout = (LinearLayout) itemView.findViewById(R.id.cardView);
         }
     }
 
-    private void configureMyOfferRide(int position, final MyRidesAdapter.ViewHolder holder){
-
-        final Ride ride = (Ride)rides.get(position);
-
-        int color = Util.getColors(ride.getZone());
-
-        holder.location_tv.setTextColor(color);
-
-        if (ride.isGoing())
-            holder.time_tv.setText(activity.getString(R.string.arrivingAt, Util.formatBadHour(ride.getTime())));
-        else
-            holder.time_tv.setText(activity.getString(R.string.leavingAt, Util.formatBadHour(ride.getTime())));
-        if (ride.getDate().contains("-")){
-            ride.setDate(Util.formatBadDateWithYear(ride.getDate()));
-        }
-        holder.slots_tv.setText(activity.getString(R.string.Xslots, ride.getSlots(), (Integer.parseInt(ride.getSlots()) > 1 ? "s" : "")));
-        String location;
-        if (ride.isGoing())
-            location = ride.getNeighborhood() + " ➜ " + ride.getHub();
-        else
-            location = ride.getHub() + " ➜ " + ride.getNeighborhood();
-        holder.location_tv.setText(location);
-
-        String s = activity.getString(R.string.repeats);
-        if (ride.isRoutine()) {
-            s += ride.getWeekDays().contains("7") ? activity.getString(R.string.sunday) : "";
-            s += ride.getWeekDays().contains("1") ? activity.getString(R.string.monday) : "";
-            s += ride.getWeekDays().contains("2") ? activity.getString(R.string.tuesday) : "";
-            s += ride.getWeekDays().contains("3") ? activity.getString(R.string.wednesday) : "";
-            s += ride.getWeekDays().contains("4") ? activity.getString(R.string.thursday) : "";
-            s += ride.getWeekDays().contains("5") ? activity.getString(R.string.friday) : "";
-            s += ride.getWeekDays().contains("6") ? activity.getString(R.string.saturday) : "";
-            s = s.substring(0, s.length() - 1);
-        } else {
-            s = activity.getString(R.string.notRoutine);
-        }
-        holder.routine_tv.setText(s);
-
-        holder.delete_bt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-
-            private void deleteSingleRide() {
-
-            }
-        });
-
-        final int colorToSend = color;
-
-        final boolean[] isOpen = {false, false};
-        holder.myRideLayout.setShowMode(SwipeLayout.ShowMode.LayDown);
-        holder.delete_bt.setBackgroundColor(color);
-
-        holder.myRideLayout.addSwipeListener(new SwipeLayout.SwipeListener() {
-            @Override
-            public void onStartOpen(SwipeLayout layout) {
-                isOpen[0] = true;
-                isOpen[1] = true;
-            }
-
-            @Override
-            public void onOpen(SwipeLayout layout) {
-            }
-
-            @Override
-            public void onStartClose(SwipeLayout layout) {
-
-            }
-
-            @Override
-            public void onClose(SwipeLayout layout) {
-                isOpen[1] = false;
-            }
-
-            @Override
-            public void onUpdate(SwipeLayout layout, int leftOffset, int topOffset) {
-
-            }
-
-            @Override
-            public void onHandRelease(SwipeLayout layout, float xvel, float yvel) {
-
-            }
-
-        });
-
-        holder.share_bt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_SEND);
-                intent.setType("text/plain");
-                intent.putExtra(Intent.EXTRA_TEXT, Util.getTextToShareRide(ride));
-                intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Check out this site!");
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                activity.startActivity(intent.createChooser(intent, "Compartilhar Carona"));
-            }
-        });
-
-        holder.myRideLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!isOpen[0]) {
-                    final ProgressDialog pd = ProgressDialog.show(activity, "", activity.getResources().getString(R.string.wait), true, true);
-
-                    RideRequestReceived.deleteAll(RideRequestReceived.class, "db_id = ?", ride.getDbId() + "");
-                    holder.newRequest_iv.setVisibility(View.INVISIBLE);
-
-                    CaronaeAPI.service(activity.getApplicationContext()).getRequesters(ride.getDbId() + "")
-                            .enqueue(new Callback<List<User>>() {
-                                @Override
-                                public void onResponse(Call<List<User>> call, Response<List<User>> response) {
-                                    if (response.isSuccessful()) {
-                                        pd.dismiss();
-                                        List<User> users = response.body();
-
-                                        if (users.isEmpty()) {
-                                            Util.toast(R.string.noRequesters);
-                                        } else {
-                                            Intent intent = new Intent(activity, RequestersListAct.class);
-                                            intent.putParcelableArrayListExtra("users", (ArrayList<User>) users);
-                                            intent.putExtra("rideId", ride.getDbId());
-                                            intent.putExtra("color", colorToSend);
-                                            activity.startActivity(intent);
-                                        }
-                                    } else {
-                                        Util.treatResponseFromServer(response);
-                                        pd.dismiss();
-                                        Util.toast(R.string.errorGetRequesters);
-                                        Log.e("getRequesters", response.message());
-                                    }
-                                }
-
-                                @Override
-                                public void onFailure(Call<List<User>> call, Throwable t) {
-                                    pd.dismiss();
-                                    Util.toast(R.string.errorGetRequesters);
-                                    Log.e("getRequesters", t.getMessage());
-                                }
-                            });
-                } else if (isOpen[0] && !isOpen[1]){
-                    isOpen[0] = false;
+    private List<Integer> getHeaderPositionsOnList(List<RideForJson> rides) {
+        List<Integer> headersPositions = new ArrayList<>();
+        if (rides != null) {
+            if (rides.size() > 0) {
+                headersPositions.add(0);
+                for (int rideIndex = 1; rideIndex < rides.size(); rideIndex++) {
+                    if (Util.getDayFromDate(rides.get(rideIndex).getDate()) > Util.getDayFromDate(rides.get(rideIndex - 1).getDate())) {
+                        headersPositions.add(rideIndex);
+                    }
                 }
-            }
-        });
-
-        boolean found = false;
-        for (RideRequestReceived requestReceived : rideRequestReceivedList) {
-            if (requestReceived.getDbId() == ride.getDbId()) {
-                holder.newRequest_iv.setVisibility(View.VISIBLE);
-                found = true;
-                break;
+                return headersPositions;
             }
         }
-        if (!found) {
-            CaronaeAPI.service(activity.getApplicationContext()).getRequesters(ride.getDbId() + "")
-                .enqueue(new Callback<List<User>>() {
-                    @Override
-                    public void onResponse(Call<List<User>> call, Response<List<User>> response) {
-                        if (response.isSuccessful()) {
-                            List<User> requesters = response.body();
-                            if (requesters.isEmpty()){
-                                holder.newRequest_iv.setVisibility(View.INVISIBLE);
-                            } else {
-                                holder.newRequest_iv.setVisibility(View.VISIBLE);
-                                new RideRequestReceived(Integer.valueOf(ride.getDbId())).save();
-                            }
-                        } else {
-                            Util.toast(R.string.errorGetRequesters);
-                            Log.e("getRequesters", response.message());
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<List<User>> call, Throwable t) {
-                        Util.toast(R.string.errorGetRequesters);
-                        Log.e("getRequesters", t.getMessage());
-                    }
-                });
-
-        }
-    }
-
-    private void configureMyActiveRides(int position, final MyRidesAdapter.ViewHolder holder){
-        final RideForJson rideOffer = (RideForJson) rides.get(position);
-
-        int color = Util.getColors(rideOffer.getZone());
-
-        holder.location_tv.setTextColor(color);
-        holder.photo_iv.setBorderColor(color);
-
-        String profilePicUrl = rideOffer.getDriver().getProfilePicUrl();
-        if (profilePicUrl != null && !profilePicUrl.isEmpty()) {
-            Picasso.with(activity).load(profilePicUrl)
-                    .placeholder(R.drawable.user_pic)
-                    .error(R.drawable.user_pic)
-                    .transform(new RoundedTransformation())
-                    .into(holder.photo_iv);
-        }
-
-        String timeText;
-        if (rideOffer.isGoing())
-            timeText = activity.getResources().getString(R.string.arrivingAt, Util.formatTime(rideOffer.getTime()));
-        else
-            timeText = activity.getResources().getString(R.string.leavingAt, Util.formatTime(rideOffer.getTime()));
-        holder.time_tv.setText(timeText);
-        holder.name_tv.setText(rideOffer.getDriver().getName());
-        String location;
-        if (rideOffer.isGoing())
-            location = rideOffer.getNeighborhood() + " ➜ " + rideOffer.getHub();
-        else
-            location = rideOffer.getHub() + " ➜ " + rideOffer.getNeighborhood();
-        holder.location_tv.setText(location);
-
-        holder.layout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                NewChatMsgIndicator.deleteAll(NewChatMsgIndicator.class, "db_id = ?", rideOffer.getDbId()+"");
-                holder.newMsgIndicator_iv.setVisibility(View.INVISIBLE);
-
-                Intent intent = new Intent(activity, ActiveRideAct.class);
-                intent.putExtra("ride", rideOffer);
-                activity.startActivity(intent);
-                activity.overridePendingTransition(R.anim.anim_right_slide_in, R.anim.anim_left_slide_out);
-            }
-        });
-
-        boolean found = false;
-        for (NewChatMsgIndicator newChatMsgIndicator : newChatMsgIndicatorList) {
-            if (newChatMsgIndicator.getDbId() == rideOffer.getDbId()) {
-                holder.newMsgIndicator_iv.setVisibility(View.VISIBLE);
-                found = true;
-                break;
-            }
-        }
-
-        if (!found)
-            holder.newMsgIndicator_iv.setVisibility(View.INVISIBLE);
-    }
-
-    private boolean offerHeaderTagAlreadyIn(List<Object> rides) {
-        for (int i  = 0; i < rides.size(); i++){
-            if (rides.get(i).getClass() == Integer.class){
-                int header = (int)rides.get(i);
-                if (header == 1)
-                    return true;
-            }
-        }
-        return false;
-    }
-
-    private boolean isListEmpty(){
-        for (int i  = 0; i < rides.size(); i++){
-            if (rides.get(i).getClass() == Ride.class
-                    && rides.get(i).getClass() == RideForJson.class)
-                return false;
-        }
-        rides.clear();
-        return true;
+        return null;
     }
 }

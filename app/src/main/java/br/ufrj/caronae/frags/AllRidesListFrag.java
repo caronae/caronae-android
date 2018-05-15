@@ -16,13 +16,9 @@ import android.widget.TextView;
 
 import com.squareup.otto.Subscribe;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -35,8 +31,7 @@ import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.adapters.AllRidesFragmentPagerAdapter;
-import br.ufrj.caronae.adapters.RideOfferAdapter;
-import br.ufrj.caronae.comparators.RideOfferComparatorByDateAndTime;
+import br.ufrj.caronae.adapters.RidesAdapter;
 import br.ufrj.caronae.httpapis.CaronaeAPI;
 import br.ufrj.caronae.models.RideRequestSent;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
@@ -57,7 +52,7 @@ public class AllRidesListFrag extends Fragment implements Callback {
 
     private final int FIRST_PAGE_TO_LOAD = 0;
 
-    RideOfferAdapter adapter;
+    RidesAdapter adapter;
 
     int pageCounter = FIRST_PAGE_TO_LOAD;
 
@@ -101,7 +96,7 @@ public class AllRidesListFrag extends Fragment implements Callback {
             }
         });
 
-        adapter = new RideOfferAdapter(new ArrayList<RideForJson>(), getContext(), getActivity().getFragmentManager());
+        adapter = new RidesAdapter(new ArrayList<>(), getContext(), getActivity().getFragmentManager());
         mLayoutManager = new LinearLayoutManager(getContext());
         rvRides.setLayoutManager(mLayoutManager);
 
@@ -326,33 +321,21 @@ public class AllRidesListFrag extends Fragment implements Callback {
     private void setRides(List<RideForJson> rideOffers)
     {
         if (rideOffers != null && !rideOffers.isEmpty()) {
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
-            Date todayDate = new Date();
-            String todayString = simpleDateFormat.format(todayDate);
-            simpleDateFormat = new SimpleDateFormat("HH:mm", Locale.US);
-            String time = simpleDateFormat.format(todayDate);
-
             Iterator<RideForJson> it = rideOffers.iterator();
             while (it.hasNext()) {
                 RideForJson rideOffer = it.next();
                 rideOffer.fromWhere = "AllRides";
-                if (Util.formatBadDateWithYear(rideOffer.getDate()).equals(todayString) && Util.formatTime(rideOffer.getTime()).compareTo(time) < 0)
-                    it.remove();
-                else {
-                    rideOffer.setDbId(rideOffer.getId().intValue());
-                    if (rideOffer.isGoing()) {
-                        if (!checkIfRideIsInList(goingRides, rideOffer)){
-                            goingRides.add(rideOffer);
-                        }
-                    } else {
-                        if (!checkIfRideIsInList(notGoingRides, rideOffer)) {
-                            notGoingRides.add(rideOffer);
-                        }
+                rideOffer.setDbId(rideOffer.getId().intValue());
+                if (rideOffer.isGoing()) {
+                    if (!checkIfRideIsInList(goingRides, rideOffer)){
+                        goingRides.add(rideOffer);
+                    }
+                } else {
+                    if (!checkIfRideIsInList(notGoingRides, rideOffer)) {
+                        notGoingRides.add(rideOffer);
                     }
                 }
             }
-            Collections.sort(goingRides, new RideOfferComparatorByDateAndTime());
-            Collections.sort(notGoingRides, new RideOfferComparatorByDateAndTime());
         }
 
         if (pageIdentifier == AllRidesFragmentPagerAdapter.PAGE_GOING) {

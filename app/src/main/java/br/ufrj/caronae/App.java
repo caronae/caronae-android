@@ -46,6 +46,8 @@ public class App extends SugarApp {
             @Override
             public void run () {
                 SharedPref.lastAllRidesUpdate += 1;
+                SharedPref.lastMyRidesUpdate += 1;
+                SharedPref.lastSearchRidesUpdate += 1;
             }
         };
         timer.schedule (hourlyTask, 0, 1000);

@@ -86,9 +86,6 @@ public class RideSearchAct extends AppCompatActivity {
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
                 transaction.setCustomAnimations(R.anim.anim_down_slide_in, R.anim.anim_up_slide_out);
                 transaction.replace(R.id.flContent, fragment).commit();
-                RelativeLayout.LayoutParams rlp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,RelativeLayout.LayoutParams.MATCH_PARENT);
-                rlp.addRule(RelativeLayout.BELOW, R.id.first_lay);
-                content.setLayoutParams(rlp);
             }
         });
     }
@@ -116,7 +113,5 @@ public class RideSearchAct extends AppCompatActivity {
             transaction.setCustomAnimations(R.anim.anim_up_slide_in, R.anim.anim_down_slide_out);
         }
         transaction.replace(R.id.flContent, fragment).commit();
-        RelativeLayout.LayoutParams rlp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,RelativeLayout.LayoutParams.MATCH_PARENT);
-        content.setLayoutParams(rlp);
     }
 }

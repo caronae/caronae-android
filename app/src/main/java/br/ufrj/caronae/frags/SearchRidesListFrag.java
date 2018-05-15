@@ -16,13 +16,9 @@ import android.widget.TextView;
 
 import com.squareup.otto.Subscribe;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -30,12 +26,10 @@ import javax.security.auth.callback.Callback;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.CustomDialogClass;
-import br.ufrj.caronae.EndlessRecyclerViewScrollListener;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.Util;
-import br.ufrj.caronae.adapters.RideOfferAdapter;
-import br.ufrj.caronae.comparators.RideOfferComparatorByDateAndTime;
+import br.ufrj.caronae.adapters.RidesAdapter;
 import br.ufrj.caronae.httpapis.CaronaeAPI;
 import br.ufrj.caronae.models.RideRequestSent;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
@@ -54,9 +48,8 @@ public class SearchRidesListFrag extends Fragment implements Callback {
     @BindView(R.id.norides_tv)
     TextView noRides;
 
-    RideOfferAdapter adapter;
+    RidesAdapter adapter;
     LinearLayoutManager mLayoutManager;
-    private EndlessRecyclerViewScrollListener scrollListener;
 
     private final int FIRST_PAGE_TO_LOAD = 0;
     int pageCounter = FIRST_PAGE_TO_LOAD;
@@ -82,7 +75,7 @@ public class SearchRidesListFrag extends Fragment implements Callback {
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                SharedPref.lastAllRidesUpdate = 0;
+                SharedPref.lastSearchRidesUpdate = 0;
                 pageCounter = FIRST_PAGE_TO_LOAD;
                 for (int counter = FIRST_PAGE_TO_LOAD; counter <= pageCounter; counter++) {
                     refreshRideList();
@@ -90,18 +83,9 @@ public class SearchRidesListFrag extends Fragment implements Callback {
             }
         });
 
-        adapter = new RideOfferAdapter(new ArrayList<RideForJson>(), getContext(), getActivity().getFragmentManager());
+        adapter = new RidesAdapter(new ArrayList<RideForJson>(), getContext(), getActivity().getFragmentManager());
         mLayoutManager = new LinearLayoutManager(getContext());
         rvRides.setLayoutManager(mLayoutManager);
-
-        scrollListener = new EndlessRecyclerViewScrollListener(mLayoutManager) {
-
-            @Override
-            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                loadOneMorePage();
-            }
-        };
-        rvRides.addOnScrollListener(scrollListener);
 
         rvRides.setAdapter(adapter);
 
@@ -118,13 +102,9 @@ public class SearchRidesListFrag extends Fragment implements Callback {
 
         App.getBus().register(this);
 
-        // After setting layout manager, adapter, etc...
-        float offsetBottonPx = getResources().getDimension(R.dimen.recycler_view_botton_offset);
-        float offsetTopPx = getResources().getDimension(R.dimen.recycler_view_top_offset);
-        Util.OffsetDecoration OffsetDecoration = new Util.OffsetDecoration((int) offsetBottonPx, (int) offsetTopPx);
-        rvRides.addItemDecoration(OffsetDecoration);
-
         animateListFadeIn();
+
+        SharedPref.lastSearchRidesUpdate = 300;
 
         reloadRidesIfNecessary();
         return view;
@@ -214,7 +194,6 @@ public class SearchRidesListFrag extends Fragment implements Callback {
                             refreshLayout.setRefreshing(false);
                             Log.e("listAllRides", response.message());
                         }
-                        scrollListener.resetState();
                     }
 
                     @Override
@@ -222,7 +201,6 @@ public class SearchRidesListFrag extends Fragment implements Callback {
                         refreshLayout.setRefreshing(false);
                         Log.e("listAllRides", t.getMessage());
                         noRides.setText(R.string.allrides_norides);
-                        scrollListener.resetState();
                     }
                 });
     }
@@ -254,39 +232,22 @@ public class SearchRidesListFrag extends Fragment implements Callback {
     private void setRides(List<RideForJson> rideOffers)
     {
         if (rideOffers != null && !rideOffers.isEmpty()) {
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
-            Date todayDate = new Date();
-            String todayString = simpleDateFormat.format(todayDate);
-            simpleDateFormat = new SimpleDateFormat("HH:mm", Locale.US);
-            String time = simpleDateFormat.format(todayDate);
-
             Iterator<RideForJson> it = rideOffers.iterator();
             while (it.hasNext()) {
                 RideForJson rideOffer = it.next();
-                if (Util.formatBadDateWithYear(rideOffer.getDate()).equals(todayString) && Util.formatTime(rideOffer.getTime()).compareTo(time) < 0)
-                    it.remove();
-                else {
-                    rideOffer.setDbId(rideOffer.getId().intValue());
-                    rideOffer.fromWhere = "SearchRides";
-                    if (!checkIfRideIsInList(rides, rideOffer)){
-                        rides.add(rideOffer);
-                    }
+                rideOffer.setDbId(rideOffer.getId().intValue());
+                rideOffer.fromWhere = "SearchRides";
+                if (!checkIfRideIsInList(rides, rideOffer)){
+                    rides.add(rideOffer);
                 }
             }
-            Collections.sort(rides, new RideOfferComparatorByDateAndTime());
         }
         if (rides != null && !rides.isEmpty()) {
             adapter.makeList(rides);
-            scrollListener.resetState();
             adapter.notifyDataSetChanged();
         }
         refreshLayout.setRefreshing(false);
         rvRides.setVisibility(View.VISIBLE);
-    }
-
-    private void loadOneMorePage() {
-        pageCounter++;
-        refreshRideList();
     }
 
     private void reloadRidesIfNecessary()
@@ -296,8 +257,9 @@ public class SearchRidesListFrag extends Fragment implements Callback {
         TimerTask hourlyTask = new TimerTask () {
             @Override
             public void run () {
-                if(SharedPref.lastAllRidesUpdate >= 300)
+                if(SharedPref.lastSearchRidesUpdate >= 300)
                 {
+                    SharedPref.lastSearchRidesUpdate = 0;
                     pageCounter = FIRST_PAGE_TO_LOAD;
                     for (int counter = FIRST_PAGE_TO_LOAD; counter <= pageCounter; counter++) {
                         refreshRideList();
