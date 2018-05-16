@@ -232,12 +232,12 @@ public class AllRidesListFrag extends Fragment implements Callback {
                             if(rideOffers.size() != 0) {
                                 noRides.setVisibility(View.GONE);
                                 if (isFiltering){
-                                    setRides(rideOffers);
+                                    setRides(rideOffers, isFiltering);
                                 }
                                 else
                                 {
                                     SharedPref.OPEN_ALL_RIDES = true;
-                                    setRides(rideOffers);
+                                    setRides(rideOffers, isFiltering);
                                 }
                             }
                             else
@@ -287,7 +287,7 @@ public class AllRidesListFrag extends Fragment implements Callback {
 
     }
 
-    private void setRides(List<RideForJson> rideOffers)
+    private void setRides(List<RideForJson> rideOffers, boolean isFiltering)
     {
         if (rideOffers != null && !rideOffers.isEmpty()) {
             Iterator<RideForJson> it = rideOffers.iterator();
@@ -306,14 +306,18 @@ public class AllRidesListFrag extends Fragment implements Callback {
 
         if (pageIdentifier == AllRidesFragmentPagerAdapter.PAGE_GOING) {
             if (goingRides != null && !goingRides.isEmpty()) {
-                SharedPref.ALL_RIDES_GOING = goingRides;
+                if(!isFiltering) {
+                    SharedPref.ALL_RIDES_GOING = goingRides;
+                }
                 adapter.makeList(goingRides);
                 scrollListener.resetState();
                 adapter.notifyDataSetChanged();
             }
         } else {
             if (notGoingRides != null && !notGoingRides.isEmpty()) {
-                SharedPref.ALL_RIDES_LEAVING = notGoingRides;
+                if(!isFiltering) {
+                    SharedPref.ALL_RIDES_LEAVING = notGoingRides;
+                }
                 adapter.makeList(notGoingRides);
                 scrollListener.resetState();
                 adapter.notifyDataSetChanged();
