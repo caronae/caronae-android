@@ -12,10 +12,12 @@
     <string name="title_activity_main">Caronaê</string>
     <string name="title_activity_login">Login</string>
     <string name="title_ride_search">Pesquisa</string>
+    <string name="title_activity_first_login">Primeiro Login</string>
 
     <string name="no_rides_found_title">Nenhuma carona encontrada :(</string>
     <string name="no_rides_found_msg">Você pode ampliar sua pesquisa selecionando vários bairros ou escolhendo um horário mais cedo.</string>
     <string name="ride_driver_finish_warning">Se você é motorista de alguma carona, não esqueça de concluí-la após o seu término. :)</string>
+    <string name="welcome_title">Bem vindo ao Caronaê!</string>
 
     <string name="tokenHint_et">Sua chave aqui</string>
     <string name="send_bt">Enviar</string>
@@ -131,7 +133,7 @@
     <string name="dashSeparator">-</string>
     <string name="chat_sendMsgHint">Digite sua mensagem</string>
     <string name="hello">Olá :)</string>
-    <string name="welcome">Bem vindo ao aplicativo de caronas para sua instituição. O acesso é restrito a usuários vinculados às universidades parceiras.</string>
+    <string name="welcome_text">Bem vindo ao aplicativo de caronas para sua instituição. O acesso é restrito a usuários vinculados às universidades parceiras.</string>
     <string name="act_profile_mutualFriends">Vocês tem %1$d amigo%2$s em comum no Facebook.\n%3$d deles usa%4$s o Caronaê.</string>
     <string name="frag_allrides_nointernettocharge">Não foi possível carregar as caronas.</string>
     <string name="frag_falae_messageHint">Conte pra gente. O que houve?</string>
@@ -210,10 +212,10 @@
     <string name="cancelCaps">CANCELAR</string>
     <string name="frag_allrides_errorGetRides">Erro ao pegar todas as caronas</string>
     <string name="allrides_norides">Não foi possível carregar as caronas.</string>
-    <string name="frag_myprofile_invalidFields">Perfil não salvo (Campos inválidos)</string>
-    <string name="frag_myprofile_invalidFieldsTelephone">Perfil não salvo (Telefone inválido)</string>
-    <string name="frag_myprofile_invalidFieldsEmail">Perfil não salvo (Email inválido)</string>
-    <string name="frag_myprofile_invalidFieldsPlate">Perfil não salvo (Placa do Veículo inválido)</string>
+    <string name="frag_myprofileedit_invaliddata">Dados incompletos</string>
+    <string name="frag_myprofileedit_invalidFieldsTelephone">Ops! Parece que o telefone que você inseriu não é válido. Ele deve estar no formato (0XX) XXXXX-XXXX.</string>
+    <string name="frag_myprofileedit_invalidFieldsEmail">Ops! Parece que o endereço de email que você inseriu não é válido.</string>
+    <string name="frag_myprofileedit_invalidFieldsPlate">Ops! Parece que preencheu incorretamente a placa do seu carro. Verifique se a preencheu no formato "ABC-1234".</string>
     <string name="myactiveride_openBt">Ver mais</string>
     <string name="act_activeride_rideNUll">Erro ao abrir carona</string>
     <string name="rideoffer_openBt">Ver mais</string>

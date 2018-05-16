@@ -437,13 +437,46 @@ public class MyProfileEditFrag extends Fragment {
 
         int validation = fieldsValidated();
         if (validation == 1) {
-            Util.toast(getString(R.string.frag_myprofile_invalidFieldsTelephone));
+            CustomDialogClass cdc = new CustomDialogClass(getActivity(), "MyProfileEdit", this);
+            cdc.show();
+            cdc.enableOnePositiveOption();
+            cdc.setTitleText(getResources().getString(R.string.frag_myprofileedit_invaliddata));
+            cdc.setPButtonText(getResources().getString(R.string.ok));
+            cdc.setMessageText(getResources().getString(R.string.frag_myprofileedit_invalidFieldsTelephone));
+            try {
+                ((MyProfileAct) getActivity()).progressBar.setVisibility(View.GONE);
+                ((MyProfileAct) getActivity()).edit_bt.setVisibility(View.VISIBLE);
+            }catch (Exception e) {
+                Log.e("Error:", "Getting null activity: " + e.toString());
+            }
             return;
         } else if (validation == 2) {
-            Util.toast(getString(R.string.frag_myprofile_invalidFieldsEmail));
+            CustomDialogClass cdc = new CustomDialogClass(getActivity(), "MyProfileEdit", this);
+            cdc.show();
+            cdc.enableOnePositiveOption();
+            cdc.setTitleText(getResources().getString(R.string.frag_myprofileedit_invaliddata));
+            cdc.setPButtonText(getResources().getString(R.string.ok));
+            cdc.setMessageText(getResources().getString(R.string.frag_myprofileedit_invalidFieldsEmail));
+            try {
+                ((MyProfileAct) getActivity()).progressBar.setVisibility(View.GONE);
+                ((MyProfileAct) getActivity()).edit_bt.setVisibility(View.VISIBLE);
+            }catch (Exception e) {
+                Log.e("Error:", "Getting null activity: " + e.toString());
+            }
             return;
         } else if (validation == 3) {
-            Util.toast(getString(R.string.frag_myprofile_invalidFieldsPlate));
+            CustomDialogClass cdc = new CustomDialogClass(getActivity(), "MyProfileEdit", this);
+            cdc.show();
+            cdc.enableOnePositiveOption();
+            cdc.setTitleText(getResources().getString(R.string.frag_myprofileedit_invaliddata));
+            cdc.setPButtonText(getResources().getString(R.string.ok));
+            cdc.setMessageText(getResources().getString(R.string.frag_myprofileedit_invalidFieldsPlate));
+            try {
+                ((MyProfileAct) getActivity()).progressBar.setVisibility(View.GONE);
+                ((MyProfileAct) getActivity()).edit_bt.setVisibility(View.VISIBLE);
+            }catch (Exception e) {
+                Log.e("Error:", "Getting null activity: " + e.toString());
+            }
             return;
         } else if (validation == 0) {
             if(Util.isNetworkAvailable(getContext())) {

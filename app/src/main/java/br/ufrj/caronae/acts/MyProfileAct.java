@@ -44,8 +44,23 @@ public class MyProfileAct extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_profile);
         ButterKnife.bind(this);
+        boolean firstLogin = false;
+        try {
+            firstLogin = getIntent().getBooleanExtra("firstLogin", false);
+        } catch (Exception e){}
+        if(firstLogin)
+        {
+            SharedPref.NAV_INDICATOR = "Menu";
+            edit_bt.setText(R.string.save);
+            back.setVisibility(View.GONE);
+            cancel.setVisibility(View.GONE);
+            fragmentClass = MyProfileEditFrag.class;
+        }
+        else
+        {
+            fragmentClass = MyProfileShowFrag.class;
+        }
         fragment = null;
-        fragmentClass = MyProfileShowFrag.class;
         try {
             fragment = (Fragment) fragmentClass.newInstance();
         } catch (Exception e) {

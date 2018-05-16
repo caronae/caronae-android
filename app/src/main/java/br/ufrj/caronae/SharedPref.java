@@ -38,7 +38,6 @@ public class SharedPref {
     public static final String RIDE_FILTER_PREF_KEY                  = "filter";
     public static final String MISSING_PREF                          = "missing";
     public static final String TOPIC_GERAL                           = "general";
-    public static final String MY_RIDE_LIST_KEY                      = "myRides";
     public static final String PLACE_KEY                             = "preloadedplaces";
     private static String CHAT_ACT_STATUS                            = "chatStatus";
     public static String NAV_INDICATOR                               = "AllRides";

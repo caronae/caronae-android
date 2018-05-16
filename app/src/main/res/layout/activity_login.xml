@@ -47,7 +47,7 @@
             android:layout_below="@id/textView"
             android:paddingTop="10dp"
             android:gravity="center"
-            android:text="@string/welcome"
+            android:text="@string/welcome_text"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView

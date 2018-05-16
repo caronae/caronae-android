@@ -1,5 +1,6 @@
 package br.ufrj.caronae.acts;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
@@ -66,7 +67,7 @@ public class LoginAct extends AppCompatActivity {
     public void sendBt() {
         loginButton.setEnabled(false);
         final ProgressDialog pd = ProgressDialog.show(this, "", getString(R.string.wait), true, true);
-
+        final Activity act = this;
         String tokenHolder = token_et.getText().toString();
         final String idUfrj = idUfrj_et.getText().toString();
         final String token = Util.fixBlankSpaces(tokenHolder).toUpperCase();
@@ -93,8 +94,16 @@ public class LoginAct extends AppCompatActivity {
                             ASYNC_IS_RUNNING = true;
                             new SaveRidesAsync(userWithRides).execute();
                         }
-                        startActivity(new Intent(LoginAct.this, MainAct.class));
-                        LoginAct.this.finish();
+                        if (userWithRides.getUser().getEmail() == null || userWithRides.getUser().getEmail().isEmpty() || userWithRides.getUser().getPhoneNumber() == null || userWithRides.getUser().getPhoneNumber().isEmpty() || userWithRides.getUser().getLocation() == null || userWithRides.getUser().getLocation().isEmpty()) {
+                            Intent firstLogin = new Intent(act, WelcomeAct.class);
+                            startActivity(firstLogin);
+                            LoginAct.this.finish();
+                        }
+                        else {
+                            Intent mainAct = new Intent(act, MainAct.class);
+                            startActivity(mainAct);
+                            LoginAct.this.finish();
+                        }
                     } else {
                         // Server Errors
                         pd.dismiss();

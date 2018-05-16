@@ -208,31 +208,28 @@ public class MainAct extends AppCompatActivity {
         super.onStart();
         User user = App.getUser();
         Fragment fragment;
-        if(!backToMain) {
-            boolean goToMyRides = getIntent().getBooleanExtra(SharedPref.MY_RIDE_LIST_KEY, false);
-            if (user.getEmail() == null || user.getEmail().isEmpty() ||
-                    user.getPhoneNumber() == null || user.getPhoneNumber().isEmpty() ||
-                    user.getLocation() == null || user.getLocation().isEmpty()) {
-                fragment = new MyProfileEditFrag();
-                Util.toast(getString(R.string.act_main_profileIncomplete));
-            } else if (goToMyRides) {
-                fragment = new MyRidesFrag();
-                backstack.add(new AllRidesFrag().getClass());
-            } else {
-                fragment = new AllRidesFrag();
-            }
-            navigation.getMenu().getItem(0).setChecked(false);
-            navigation.getMenu().getItem(1).setChecked(false);
-            navigation.getMenu().getItem(2).setChecked(false);
-            if (SharedPref.NAV_INDICATOR.equals("AllRides")) {
-                fragment = new AllRidesFrag();
-                navigation.getMenu().getItem(0).setChecked(true);
-            } else if (SharedPref.NAV_INDICATOR.equals("MyRides")) {
-                fragment = new MyRidesFrag();
-                navigation.getMenu().getItem(1).setChecked(true);
-            } else {
-                fragment = new OptionsMenuFrag();
-                navigation.getMenu().getItem(2).setChecked(true);
+        navigation.getMenu().getItem(0).setChecked(false);
+        navigation.getMenu().getItem(1).setChecked(false);
+        navigation.getMenu().getItem(2).setChecked(false);
+        if (user.getEmail() == null || user.getEmail().isEmpty() || user.getPhoneNumber() == null || user.getPhoneNumber().isEmpty() || user.getLocation() == null || user.getLocation().isEmpty()) {
+            Intent firstLogin = new Intent(this, WelcomeAct.class);
+            startActivity(firstLogin);
+        }
+        else if(!backToMain) {
+            switch (SharedPref.NAV_INDICATOR)
+            {
+                case "AllRides":
+                    fragment = new AllRidesFrag();
+                    navigation.getMenu().getItem(0).setChecked(true);
+                    break;
+                case "MyRides":
+                    fragment = new MyRidesFrag();
+                    navigation.getMenu().getItem(1).setChecked(true);
+                    break;
+                default:
+                    fragment = new OptionsMenuFrag();
+                    navigation.getMenu().getItem(2).setChecked(true);
+                    break;
             }
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();

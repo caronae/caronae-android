@@ -81,7 +81,6 @@ public class StartAct extends AppCompatActivity {
                     new RideRequestReceived(Integer.valueOf((String) bundle.get(RIDE_ID_BUNDLE_KEY))).save();
                 }
                 Intent intent = new Intent(this, MainAct.class);
-                intent.putExtra(SharedPref.MY_RIDE_LIST_KEY, true);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
             }

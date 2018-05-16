@@ -11,7 +11,6 @@ import android.view.WindowManager;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
-import br.ufrj.caronae.Util;
 
 public class OpeningAct extends AppCompatActivity {
 
