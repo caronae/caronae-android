@@ -10,14 +10,7 @@ public class RideRequestSent extends SugarRecord {
         this.dbId = dbId;
     }
 
-    public RideRequestSent() {
-    }
-
     public int getDbId() {
         return dbId;
-    }
-
-    public void setDbId(int dbId) {
-        this.dbId = dbId;
     }
 }

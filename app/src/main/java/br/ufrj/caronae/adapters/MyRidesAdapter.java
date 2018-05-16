@@ -7,7 +7,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -87,6 +86,13 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
                 else{
                     viewHolder.typeCard.setVisibility(View.GONE);
                 }
+                if(rideOffer.showWarningText)
+                {
+                    viewHolder.secondaryLay.setVisibility(View.VISIBLE);
+                }
+                else{
+                    viewHolder.secondaryLay.setVisibility(View.GONE);
+                }
 
                 int color = Util.getColors(rideOffer.getZone());
                 viewHolder.location_tv.setTextColor(color);
@@ -125,9 +131,9 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
 
                 String location;
                 if (rideOffer.isGoing())
-                    location = rideOffer.getNeighborhood() + " ➜ " + rideOffer.getHub();
+                    location = rideOffer.getNeighborhood().toUpperCase() + " ➜ " + rideOffer.getHub().toUpperCase();
                 else
-                    location = rideOffer.getHub() + " ➜ " + rideOffer.getNeighborhood();
+                    location = rideOffer.getHub().toUpperCase() + " ➜ " + rideOffer.getNeighborhood().toUpperCase();
 
                 viewHolder.location_tv.setText(location);
 
@@ -189,8 +195,7 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public CircleImageView photo_iv;
         public TextView time_tv, name_tv, location_tv, typeCardText;
-        public LinearLayout parentLayout;
-        public RelativeLayout typeCard;
+        public RelativeLayout typeCard, parentLayout, secondaryLay;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -201,6 +206,7 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
             parentLayout = itemView.findViewById(R.id.cardView);
             typeCard = itemView.findViewById(R.id.typeCard);
             typeCardText = itemView.findViewById(R.id.typeCardText);
+            secondaryLay = itemView.findViewById(R.id.secondary_lay);
         }
     }
 

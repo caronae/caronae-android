@@ -117,13 +117,13 @@ public class RidesAdapter extends RecyclerView.Adapter<RidesAdapter.ViewHolder> 
 
                 String location;
                 if (rideOffer.isGoing())
-                    location = rideOffer.getNeighborhood() + " ➜ " + rideOffer.getHub();
+                    location = rideOffer.getNeighborhood().toUpperCase() + " ➜ " + rideOffer.getHub().toUpperCase();
                 else
-                    location = rideOffer.getHub() + " ➜ " + rideOffer.getNeighborhood();
+                    location = rideOffer.getHub().toUpperCase() + " ➜ " + rideOffer.getNeighborhood().toUpperCase();
 
                 viewHolder.location_tv.setText(location);
 
-                List<RideRequestSent> rideRequests = RideRequestSent.find(RideRequestSent.class, "db_id = ?", rideOffer.getDbId() + "");
+                List<RideRequestSent> rideRequests = RideRequestSent.find(RideRequestSent.class, "db_id = ?", Integer.toString(rideOffer.getDbId()));
                 boolean requested = false;
                 if (rideRequests != null && !rideRequests.isEmpty())
                     requested = true;

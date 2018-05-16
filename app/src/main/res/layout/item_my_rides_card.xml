@@ -2,11 +2,8 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/cardView"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:clickable="true"
-    android:focusable="true">
+    android:layout_height="wrap_content">
     <RelativeLayout
         android:id="@+id/mainlayout"
         android:layout_width="match_parent"
@@ -27,17 +24,16 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginLeft="10dp"
                 android:padding="5dp"
-                android:textSize="17sp"
+                android:textSize="15sp"
                 android:text="Pendentes"/>
         </RelativeLayout>
         <RelativeLayout
+            android:id="@+id/cardView"
+            android:clickable="true"
+            android:focusable="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="14dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginStart="8dp"
             android:layout_below="@id/typeCard">
 
             <de.hdodenhof.circleimageview.CircleImageView
@@ -108,6 +104,29 @@
                 android:textSize="24sp"
                 android:tint="@android:color/darker_gray"
                 android:src="@drawable/ic_keyboard_arrow_right_black_24dp"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/secondary_lay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_centerHorizontal="true"
+            android:visibility="visible"
+            android:layout_below="@id/cardView">
+            <TextView
+                android:id="@+id/txt_warning"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:textSize="15sp"
+                android:layout_marginRight="40dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginEnd="40dp"
+                android:textColor="@color/dark_gray"
+                android:text="@string/ride_driver_finish_warning"/>
         </RelativeLayout>
     </RelativeLayout>
 </LinearLayout>

@@ -15,7 +15,7 @@
 
     <string name="no_rides_found_title">Nenhuma carona encontrada :(</string>
     <string name="no_rides_found_msg">Você pode ampliar sua pesquisa selecionando vários bairros ou escolhendo um horário mais cedo.</string>
-    <string name="ride_driver_finish_warning">Se você é motorista de alguma carona, não esqueça de concluí-la após seu término. :)</string>
+    <string name="ride_driver_finish_warning">Se você é motorista de alguma carona, não esqueça de concluí-la após o seu término. :)</string>
 
     <string name="tokenHint_et">Sua chave aqui</string>
     <string name="send_bt">Enviar</string>

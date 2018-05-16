@@ -12,6 +12,7 @@ public class RideForJson extends Ride implements Parcelable {
     private User driver;
     private List<User> riders;
     public String fromWhere, type;
+    public boolean showWarningText = false;
 
     public User getDriver() {
         return driver;

@@ -43,8 +43,6 @@ public class MyRidesFrag extends Fragment implements Callback
     SwipeRefreshLayout refreshLayout;
     @BindView(R.id.norides_tv)
     TextView noRides;
-    /*@BindView(R.id.finish_warning)
-    TextView finishText;*/
     LinearLayoutManager mLayoutManager;
 
     List<RideForJson> myRides;
@@ -92,17 +90,20 @@ public class MyRidesFrag extends Fragment implements Callback
             }
             else
             {
+                rvRides.setVisibility(View.INVISIBLE);
                 noRides.setText(R.string.frag_rideSearch_noRideFound);
                 noRides.setVisibility(View.VISIBLE);
             }
         }
         else if(!Util.isNetworkAvailable(getContext()))
         {
+            rvRides.setVisibility(View.INVISIBLE);
             noRides.setText(R.string.allrides_norides);
             noRides.setVisibility(View.VISIBLE);
         }
         else
         {
+            rvRides.setVisibility(View.INVISIBLE);
             noRides.setText(R.string.charging);
             noRides.setVisibility(View.VISIBLE);
         }
@@ -147,6 +148,7 @@ public class MyRidesFrag extends Fragment implements Callback
                         }
                         else
                         {
+                            rvRides.setVisibility(View.INVISIBLE);
                             noRides.setText(R.string.frag_myrides_noRideFound);
                             noRides.setVisibility(View.VISIBLE);
                         }
@@ -154,6 +156,7 @@ public class MyRidesFrag extends Fragment implements Callback
                     } else {
                         Util.treatResponseFromServer(response);
                         refreshLayout.setRefreshing(false);
+                        rvRides.setVisibility(View.INVISIBLE);
                         noRides.setText(R.string.allrides_norides);
                         noRides.setVisibility(View.VISIBLE);
                         Util.debug(response.message());
@@ -162,6 +165,7 @@ public class MyRidesFrag extends Fragment implements Callback
                 @Override
                 public void onFailure(Call<MyRidesForJson> call, Throwable t) {
                     refreshLayout.setRefreshing(false);
+                    rvRides.setVisibility(View.INVISIBLE);
                     noRides.setText(R.string.allrides_norides);
                     noRides.setVisibility(View.VISIBLE);
                     Util.debug(t.getMessage());
@@ -176,27 +180,28 @@ public class MyRidesFrag extends Fragment implements Callback
         if (pendingRides != null && !pendingRides.isEmpty()) {
             pendingRides.get(0).type = "Pendentes";
             myRides.addAll(pendingRides);
-            Util.debug(pendingRides.size() + " Pendentes");
         }
         if (activeRides != null && !activeRides.isEmpty())
         {
             activeRides.get(0).type = "Ativas";
             myRides.addAll(activeRides);
-            Util.debug(activeRides.size()+" Ativas");
         }
         if (offeredRides != null && !offeredRides.isEmpty())
         {
             offeredRides.get(0).type = "Ofertadas";
             myRides.addAll(offeredRides);
-            Util.debug(offeredRides.size()+" Ofertadas");
         }
 
-        if (myRides != null && !myRides.isEmpty()) {
+        if (myRides != null && !myRides.isEmpty())
+        {
+            if(activeRides != null && !activeRides.isEmpty())
+            {
+                myRides.get(myRides.size()-1).showWarningText = true;
+            }
             adapter.makeList(myRides);
             adapter.notifyDataSetChanged();
         }
         rvRides.setVisibility(View.VISIBLE);
-        //finishText.setVisibility(View.VISIBLE);
     }
 
     private void reloadMyRidesIfNecessary()
