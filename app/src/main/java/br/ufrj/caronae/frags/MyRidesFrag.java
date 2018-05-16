@@ -198,6 +198,10 @@ public class MyRidesFrag extends Fragment implements Callback
             {
                 myRides.get(myRides.size()-1).showWarningText = true;
             }
+            for(int i = 0; i < myRides.size(); i++)
+            {
+                myRides.get(i).fromWhere = "Minhas";
+            }
             adapter.makeList(myRides);
             adapter.notifyDataSetChanged();
         }

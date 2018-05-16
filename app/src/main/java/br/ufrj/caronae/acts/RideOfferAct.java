@@ -37,6 +37,7 @@ import br.ufrj.caronae.Util;
 import br.ufrj.caronae.httpapis.CaronaeAPI;
 import br.ufrj.caronae.models.ActiveRide;
 import br.ufrj.caronae.models.ChatAssets;
+import br.ufrj.caronae.models.Ride;
 import br.ufrj.caronae.models.RideRequestSent;
 import br.ufrj.caronae.models.User;
 import br.ufrj.caronae.models.modelsforjson.FacebookFriendForJson;
@@ -117,6 +118,10 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
             if (fromWhere.equals("SearchRides"))
             {
                 back_tv.setText(R.string.title_ride_search);
+            }
+            else if(fromWhere.equals(getResources().getString(R.string.title_myrides)))
+            {
+                back_tv.setText(R.string.title_myrides);
             }
         }
         if (!startWithLink()) {
@@ -444,16 +449,16 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
                 overridePendingTransition(R.anim.anim_left_slide_in, R.anim.anim_right_slide_out);
             }
         }
-        else
+        else {
             rideId = params.get(1);
-
-
+        }
         CaronaeAPI.service(this).getRide(rideId)
                 .enqueue(new Callback<RideForJson>() {
                     @Override
                     public void onResponse(Call<RideForJson> call, Response<RideForJson> response) {
                         if (response.isSuccessful()) {
                             RideForJson ride = response.body();
+                            rideWithUsers = ride;
                             if (Util.getStringDateInMillis(ride.getTime() + " " + ride.getDate()) < (new Date()).getTime()){
                                 showCustomDialog(getResources().getString(R.string.ride_in_past_header),
                                         getResources().getString(R.string.ride_in_past_body));
