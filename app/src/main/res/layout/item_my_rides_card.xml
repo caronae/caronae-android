@@ -28,7 +28,6 @@
                 android:layout_marginLeft="10dp"
                 android:padding="5dp"
                 android:textSize="17sp"
-                android:textStyle="bold"
                 android:text="Pendentes"/>
         </RelativeLayout>
         <RelativeLayout

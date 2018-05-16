@@ -40,8 +40,8 @@ public class SharedPref {
     public static final String TOPIC_GERAL                           = "general";
     public static final String MY_RIDE_LIST_KEY                      = "myRides";
     public static final String PLACE_KEY                             = "preloadedplaces";
-    public static String NAV_INDICATOR                               = "AllRides";
     private static String CHAT_ACT_STATUS                            = "chatStatus";
+    public static String NAV_INDICATOR                               = "AllRides";
     public static String FRAGMENT_INDICATOR                          = "";
     public static String LOCATION_INFO                               = "";
     public static String CAMPI_INFO                                  = "";
@@ -107,6 +107,21 @@ public class SharedPref {
         removePref(RIDE_FILTER_CENTER_KEY);
         removePref(RIDE_FILTER_LOCATION_KEY);
         NAV_INDICATOR = "AllRides";
+        CHAT_ACT_STATUS = "chatStatus";
+        FRAGMENT_INDICATOR = "";
+        LOCATION_INFO = "";
+        CAMPI_INFO = "";
+        isGoing = "1";
+        lastAllRidesUpdate = 0;
+        lastMyRidesUpdate = 0;
+        lastSearchRidesUpdate = 0;
+        OPEN_ALL_RIDES = false;
+        OPEN_MY_RIDES = false;
+        ALL_RIDES_GOING = new ArrayList<>();
+        ALL_RIDES_LEAVING = new ArrayList<>();
+        MY_RIDES_PENDING = new ArrayList<>();
+        MY_RIDES_ACTIVE = new ArrayList<>();
+        MY_RIDES_OFFERED = new ArrayList<>();
     }
 
     public static void setChatActIsForeground(boolean isForeground){
@@ -150,11 +165,6 @@ public class SharedPref {
     public static void setIsGoingPref(String isGoing)
     {
         putPref(IS_GOING_PREF_KEY, isGoing);
-    }
-
-    public static String getIsGoingPref()
-    {
-        return getPref(IS_GOING_PREF_KEY);
     }
 
     public static void setPlace(PlacesForJson place)
@@ -221,10 +231,6 @@ public class SharedPref {
 
     public static String getUserPref() {
         return getPref(USER_PREF_KEY);
-    }
-
-    public static String getLastRideSearchFiltersPref() {
-        return getPref(LAST_RIDE_SEARCH_FILTERS_PREF_KEY);
     }
 
     public static void setFilterPref(boolean filtering){

@@ -27,7 +27,7 @@ public class RideRountine {
         protected String routineId;
         protected String campus;
 
-        public RideRountine(String zone, String neighborhood, String place, String route, String date, String time, String slots, String hub, String campus, String description, boolean going, boolean routine, String weekDays, RepeatisUntil repeatsUntil) {
+        public RideRountine(String zone, String neighborhood, String place, String route, String date, String time, String slots, String hub, String campus, String description, boolean going, String weekDays, RepeatisUntil repeatsUntil) {
                 this.zone = zone;
                 this.neighborhood = neighborhood;
                 this.place = place;

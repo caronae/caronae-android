@@ -17,16 +17,8 @@ public class RideForJson extends Ride implements Parcelable {
         return driver;
     }
 
-    public void setDriver(User driver) {
-        this.driver = driver;
-    }
-
     public List<User> getRiders() {
         return riders;
-    }
-
-    public void setRiders(List<User> riders) {
-        this.riders = riders;
     }
 
     public RideForJson(Parcel in) {

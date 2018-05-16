@@ -136,6 +136,9 @@ public class MainAct extends AppCompatActivity {
         secondary = (RelativeLayout)findViewById(R.id.secondaryitems);
         logo = (ImageView) findViewById(R.id.header_image);
         title = (TextView) findViewById(R.id.title);
+        navigation.getMenu().getItem(0).setChecked(false);
+        navigation.getMenu().getItem(1).setChecked(false);
+        navigation.getMenu().getItem(2).setChecked(false);
         cancel_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -144,18 +147,22 @@ public class MainAct extends AppCompatActivity {
                     case "AllRides":
                         backToMain = false;
                         selectDrawerItem(navigation.getMenu().getItem(0), true);
+                        navigation.getMenu().getItem(0).setChecked(true);
                         break;
                     case "MyRides":
                         backToMain = false;
                         selectDrawerItem(navigation.getMenu().getItem(1), true);
+                        navigation.getMenu().getItem(1).setChecked(true);
                         break;
                     case "Menu":
                         backToMain = false;
                         selectDrawerItem(navigation.getMenu().getItem(2), true);
+                        navigation.getMenu().getItem(2).setChecked(true);
                         break;
                     default:
                         backToMain = false;
                         selectDrawerItem(navigation.getMenu().getItem(0), true);
+                        navigation.getMenu().getItem(2).setChecked(true);
                         break;
                 }
             }
@@ -214,12 +221,18 @@ public class MainAct extends AppCompatActivity {
             } else {
                 fragment = new AllRidesFrag();
             }
+            navigation.getMenu().getItem(0).setChecked(false);
+            navigation.getMenu().getItem(1).setChecked(false);
+            navigation.getMenu().getItem(2).setChecked(false);
             if (SharedPref.NAV_INDICATOR.equals("AllRides")) {
                 fragment = new AllRidesFrag();
+                navigation.getMenu().getItem(0).setChecked(true);
             } else if (SharedPref.NAV_INDICATOR.equals("MyRides")) {
                 fragment = new MyRidesFrag();
+                navigation.getMenu().getItem(1).setChecked(true);
             } else {
                 fragment = new OptionsMenuFrag();
+                navigation.getMenu().getItem(2).setChecked(true);
             }
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
@@ -243,7 +256,9 @@ public class MainAct extends AppCompatActivity {
     private void selectDrawerItem(MenuItem menuItem, boolean slideVertical) {
         Fragment fragment = null;
         Class fragmentClass;
-
+        navigation.getMenu().getItem(0).setChecked(false);
+        navigation.getMenu().getItem(1).setChecked(false);
+        navigation.getMenu().getItem(2).setChecked(false);
         switch (menuItem.getItemId()) {
             case R.id.navigation_allrides:
                 if(!filterText.getText().equals(""))
@@ -255,14 +270,17 @@ public class MainAct extends AppCompatActivity {
                     hideFilterCard(getBaseContext());
                 }
                 fragmentClass = AllRidesFrag.class;
+                navigation.getMenu().getItem(0).setChecked(true);
                 break;
             case R.id.navigation_myrides:
                 hideFilterCard(getBaseContext());
                 fragmentClass = MyRidesFrag.class;
+                navigation.getMenu().getItem(1).setChecked(true);
                 break;
             case R.id.navigation_menu:
                 fragmentClass = OptionsMenuFrag.class;
                 hideFilterCard(getBaseContext());
+                navigation.getMenu().getItem(2).setChecked(true);
                 break;
             default:
                 if(!filterText.getText().equals(""))
@@ -382,7 +400,6 @@ public class MainAct extends AppCompatActivity {
                 finish();
             } else {
                 Class fragmentClass = backstack.get(backstack.size() - 1);
-
                 Fragment fragment = null;
                 try {
                     if (!filterText.getText().equals("") && fragmentClass.equals(AllRidesFrag.class)) {
@@ -395,6 +412,9 @@ public class MainAct extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 BottomNavigationView bNavView = (BottomNavigationView) findViewById(R.id.navigation);
+                navigation.getMenu().getItem(0).setChecked(false);
+                navigation.getMenu().getItem(1).setChecked(false);
+                navigation.getMenu().getItem(2).setChecked(false);
                 if (fragmentClass.equals(AllRidesFrag.class)) {
                     if (!bNavView.getMenu().getItem(0).isChecked()) {
                         SharedPref.NAV_INDICATOR = "AllRides";

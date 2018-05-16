@@ -7,17 +7,12 @@ import java.util.List;
 
 public class MyRidesForJson {
 
-    @SerializedName("pending_rides")
-    private List<RideForJson> pendingRides;
     @SerializedName("active_rides")
     private List<RideForJson> activeRides;
     @SerializedName("offered_rides")
     private List<RideForJson> offeredRides;
-
-    public List<RideForJson> getPendingRides()
-    {
-        return pendingRides;
-    }
+    @SerializedName("pending_rides")
+    private List<RideForJson> pendingRides;
 
     public List<RideForJson> getActiveRides()
     {
@@ -28,4 +23,10 @@ public class MyRidesForJson {
     {
         return offeredRides;
     }
+
+    public List<RideForJson> getPendingRides()
+    {
+        return pendingRides;
+    }
+
 }

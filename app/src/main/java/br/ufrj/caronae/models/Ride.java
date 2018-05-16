@@ -106,24 +106,12 @@ public class Ride extends SugarRecord{
         return neighborhood;
     }
 
-    public void setNeighborhood(String neighborhood) {
-        this.neighborhood = neighborhood;
-    }
-
     public String getPlace() {
         return place;
     }
 
-    public void setPlace(String place) {
-        this.place = place;
-    }
-
     public String getRoute() {
         return route;
-    }
-
-    public void setRoute(String route) {
-        this.route = route;
     }
 
     public String getDate() {
@@ -154,10 +142,6 @@ public class Ride extends SugarRecord{
         return hub;
     }
 
-    public void setHub(String hub) {
-        this.hub = hub;
-    }
-
     public String getDescription() {
         return description;
     }
@@ -178,24 +162,12 @@ public class Ride extends SugarRecord{
         return routine;
     }
 
-    public void setRoutine(boolean routine) {
-        this.routine = routine;
-    }
-
     public String getWeekDays() {
         return weekDays;
     }
 
-    public void setWeekDays(String weekDays) {
-        this.weekDays = weekDays;
-    }
-
     public String getRepeatsUntil() {
         return repeatsUntil;
-    }
-
-    public void setRepeatsUntil(String repeatsUntil) {
-        this.repeatsUntil = repeatsUntil;
     }
 
     public int getDbId() {
@@ -210,19 +182,7 @@ public class Ride extends SugarRecord{
         return routineId;
     }
 
-    public void setRoutineId(String routineId) {
-        this.routineId = routineId;
-    }
-
     public int getAvailableSlots() {
         return availableSlots;
-    }
-
-    public String getCampus() {
-        return campus;
-    }
-
-    public void setCampus(String campus) {
-        this.campus = campus;
     }
 }
