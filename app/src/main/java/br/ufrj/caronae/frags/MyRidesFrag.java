@@ -147,7 +147,7 @@ public class MyRidesFrag extends Fragment implements Callback
                         }
                         else
                         {
-                            noRides.setText(R.string.frag_rideSearch_noRideFound);
+                            noRides.setText(R.string.frag_myrides_noRideFound);
                             noRides.setVisibility(View.VISIBLE);
                         }
                         refreshLayout.setRefreshing(false);
