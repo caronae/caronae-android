@@ -11,14 +11,9 @@ import br.ufrj.caronae.httpapis.CaronaeAPI;
 import br.ufrj.caronae.models.Ride;
 import br.ufrj.caronae.models.modelsforjson.MyRidesForJson;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
-import br.ufrj.caronae.models.modelsforjson.RideForJsonDeserializer;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-/**
- * Created by Luis on 6/8/2017.
- */
 
 public class FetchMyOfferedRidesService extends IntentService {
 

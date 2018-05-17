@@ -29,7 +29,6 @@ import com.google.gson.Gson;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -46,8 +45,7 @@ import br.ufrj.caronae.acts.PlaceAct;
 import br.ufrj.caronae.firebase.FirebaseTopicsHandler;
 import br.ufrj.caronae.httpapis.CaronaeAPI;
 import br.ufrj.caronae.models.ModelValidateDuplicate;
-import br.ufrj.caronae.models.Ride;
-import br.ufrj.caronae.models.RideRountine;
+import br.ufrj.caronae.models.RideOffer;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -136,7 +134,7 @@ public class RideOfferFrag extends Fragment {
     private boolean[] checked;
     public String time;
     ProgressDialog pd;
-    public Ride ride;
+    public RideOffer ride;
 
     public RideOfferFrag() {
         // Required empty public constructor
@@ -204,7 +202,7 @@ public class RideOfferFrag extends Fragment {
     }
 
     private void loadLastRide(String lastRideOffer) {
-        ride = new Gson().fromJson(lastRideOffer, Ride.class);
+        ride = new Gson().fromJson(lastRideOffer, RideOffer.class);
         zone = ride.getZone();
         neighborhood_et.setText(ride.getNeighborhood());
         place_et.setText(ride.getPlace());
@@ -325,7 +323,7 @@ public class RideOfferFrag extends Fragment {
         {
             String lastRideOffer = going ? SharedPref.getLastRideGoingPref() : SharedPref.getLastRideNotGoingPref();
             if (!lastRideOffer.equals(SharedPref.MISSING_PREF)) {
-                ride = new Gson().fromJson(lastRideOffer, Ride.class);
+                ride = new Gson().fromJson(lastRideOffer, RideOffer.class);
                 if(ride.isRoutine())
                 {
                     for(int i = 0; i < 7; i++)
@@ -353,6 +351,7 @@ public class RideOfferFrag extends Fragment {
         }
         String neighborhood = neighborhood_et.getText().toString();
         String hubCenter = center_et.getText().toString();
+        String zone = Util.whichZone(neighborhood);
         if(hubCenter.isEmpty() || neighborhood.isEmpty() || hubCenter.equals("Centro Universitário") || hubCenter.equals("Escolha o hub de encontro") || neighborhood.equals("Bairro"))
         {
             CustomDialogClass cdc = new CustomDialogClass(act,"ROFD", frag);
@@ -367,11 +366,26 @@ public class RideOfferFrag extends Fragment {
         String way = way_et.getText().toString();
         //39/19/9999 24:69
         //0123456789012345
-        String time = time_et.getText().toString().substring(11);
+        String time = time_et.getText().toString().substring(11)+":00";
         String date = time_et.getText().toString().substring(0,10);
         String description = description_et.getText().toString();
 
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.US);
+        Date currentDate = new Date(System.currentTimeMillis()+4*60*1000);
+        String getCurrentDateTime = simpleDateFormat.format(currentDate);
+        Util.debug(getCurrentDateTime);
+        String dateToCompare = date + " " + time.substring(0,time.length()-3);
+        Util.debug(dateToCompare);
+        if (getCurrentDateTime.compareTo(dateToCompare) >= 0)
+        {
+            CustomDialogClass cdc = new CustomDialogClass(act,"ROFD", frag);
+            cdc.show();
+            cdc.setTitleText( "Não foi possível validar sua carona");
+            cdc.setMessageText("Houve um erro ao criar sua carona. Não é possível criar caronas no passado ou com menos de 5 minutos de antecedência. Por favor, selecione outra data e tente novamente.");
+            cdc.setPButtonText("OK");
+            cdc.enableOnePositiveOption();
+            return;
+        }
 
         boolean routine = routine_cb.isChecked();
         String weekDays = "", repeatsUntil = "";
@@ -417,7 +431,7 @@ public class RideOfferFrag extends Fragment {
             repeatsUntil = simpleDateFormat.format(c.getTime());
         }
 
-        ride = new Ride(zone, neighborhood, place, way, date, time, Integer.toString(slots), hubCenter, "", description, going, routine, weekDays, repeatsUntil);
+        ride = new RideOffer(time, neighborhood, repeatsUntil, description, place, going, date, 0, slots, zone, weekDays, hubCenter, way);
 
         checkAndCreateRide();
 
@@ -430,7 +444,7 @@ public class RideOfferFrag extends Fragment {
         }
     }
 
-    private void createChatAssets(Ride ride) {
+    private void createChatAssets(RideOffer ride) {
         Util.createChatAssets(ride);
     }
 
@@ -438,7 +452,7 @@ public class RideOfferFrag extends Fragment {
         Activity act = getActivity();
         Fragment frag = this;
         pd = ProgressDialog.show(getContext(), "", getString(R.string.wait), true, true);
-        CaronaeAPI.service(getContext()).validateDuplicates(ride.getDate(), ride.getTime() + ":00", ride.isGoing() ? 1 : 0)
+        CaronaeAPI.service(getContext()).validateDuplicates(ride.getDate(), ride.getTime(), ride.isGoing() ? 1 : 0)
                 .enqueue(new Callback<ModelValidateDuplicate>() {
                     @Override
                     public void onResponse(Call<ModelValidateDuplicate> call, Response<ModelValidateDuplicate> response) {
@@ -492,45 +506,51 @@ public class RideOfferFrag extends Fragment {
     }
 
     public void createRide() {
+        final Activity activity = getActivity();
+        final Fragment fragment = this;
         CaronaeAPI.service(getContext()).offerRide(ride)
-                .enqueue(new Callback<List<RideRountine>>() {
+                .enqueue(new Callback<List<RideOffer>>() {
                     @Override
-                    public void onResponse(Call<List<RideRountine>> call, Response<List<RideRountine>> response) {
+                    public void onResponse(Call<List<RideOffer>> call, Response<List<RideOffer>> response) {
                         if (response.isSuccessful()) {
-                            List<RideRountine> rideRountines = response.body();
-                            List<Ride> rides = new ArrayList<>();
-                            for (RideRountine rideRountine : rideRountines) {
-                                rides.add(new Ride(rideRountine));
-                            }
-                            for (Ride ride : rides) {
-                                Ride ride2 = new Ride(ride);
-                                ride2.setDbId(ride.getId().intValue());
-                                FirebaseTopicsHandler.subscribeFirebaseTopic(String.valueOf(ride.getId().intValue()));
-                                ride2.save();
-                                createChatAssets(ride2);
-                            }
+                            List<RideOffer> createdRide = response.body();
+                            RideOffer newRide = createdRide.get(createdRide.size()-1);
+                            FirebaseTopicsHandler.subscribeFirebaseTopic(Integer.toString(newRide.getId().intValue()));
+                            newRide.save();
+                            createChatAssets(newRide);
                             pd.dismiss();
-                            ((MainAct) getActivity()).removeFromBackstack(RideOfferFrag.class);
-                            ((MainAct) getActivity()).showActiveRidesFrag();
                             SharedPref.lastAllRidesUpdate = 300;
-                            Util.toast(R.string.frag_rideOffer_rideSaved);
+                            SharedPref.lastMyRidesUpdate = 300;
+                            ((MainAct) getActivity()).showActiveRidesFrag();
                         } else {
                             Util.treatResponseFromServer(response);
                             pd.dismiss();
+                            CustomDialogClass cdc = new CustomDialogClass(activity,"ROFD", fragment);;
+                            cdc.show();
                             if (response.code() == 403) {
-                                Util.toast(R.string.past_ride_creation);
+                                cdc.setTitleText( "Não foi possível validar sua carona");
+                                cdc.setMessageText("Houve um erro ao criar sua carona. Não é possível criar caronas no passado. Por favor, tente novamente.");
+                                cdc.setPButtonText("OK");
+                                cdc.enableOnePositiveOption();
                             } else {
-                                Util.toast(R.string.frag_rideOffer_errorRideSaved);
-                                Log.e("offerRide", response.message());
+                                cdc.show();
+                                cdc.setTitleText( "Não foi possível validar sua carona");
+                                cdc.setMessageText("Houve um erro de comunicação com nosso servidor. Por favor, tente novamente." + response.message());
+                                cdc.setPButtonText("OK");
+                                cdc.enableOnePositiveOption();
                             }
                         }
                     }
 
                     @Override
-                    public void onFailure(Call<List<RideRountine>> call, Throwable t) {
+                    public void onFailure(Call<List<RideOffer>> call, Throwable t) {
+                        CustomDialogClass cdc = new CustomDialogClass(activity,"ROFD", fragment);;
+                        cdc.show();
+                        cdc.setTitleText( "Não foi possível validar sua carona");
+                        cdc.setMessageText("Houve um erro de comunicação com nosso servidor. Por favor, tente novamente. "+t.getLocalizedMessage());
+                        cdc.setPButtonText("OK");
+                        cdc.enableOnePositiveOption();
                         pd.dismiss();
-                        Util.toast(R.string.frag_rideOffer_errorRideSaved);
-                        Log.e("offerRide", t.getMessage());
                     }
                 });
     }
@@ -592,7 +612,7 @@ public class RideOfferFrag extends Fragment {
         String lastRideOffer = going ? SharedPref.getLastRideGoingPref() : SharedPref.getLastRideNotGoingPref();
 
         if (!lastRideOffer.equals(SharedPref.MISSING_PREF)) {
-            ride = new Gson().fromJson(lastRideOffer, Ride.class);
+            ride = new Gson().fromJson(lastRideOffer, RideOffer.class);
             center_et.setText(ride.getHub());
         }
         else

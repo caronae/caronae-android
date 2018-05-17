@@ -5,8 +5,7 @@ import java.util.List;
 import br.ufrj.caronae.models.ChatMessageSendResponse;
 import br.ufrj.caronae.models.ModelReceivedFromChat;
 import br.ufrj.caronae.models.ModelValidateDuplicate;
-import br.ufrj.caronae.models.Ride;
-import br.ufrj.caronae.models.RideRountine;
+import br.ufrj.caronae.models.RideOffer;
 import br.ufrj.caronae.models.User;
 import br.ufrj.caronae.models.modelsforjson.ChatSendMessageForJson;
 import br.ufrj.caronae.models.modelsforjson.FacebookFriendForJson;
@@ -61,7 +60,7 @@ public interface CaronaeAPIService {
     Call<ChatMessageSendResponse> sendChatMsg(@Path("rideId") String rideId, @Body ChatSendMessageForJson message);
 
     @POST("api/v1/rides")
-    Call<List<RideRountine>> offerRide(@Body Ride ride);
+    Call<List<RideOffer>    > offerRide(@Body RideOffer ride);
 
     @POST("api/v1/rides/{rideId}/requests")
     Call<ResponseBody> requestJoin(@Path("rideId") String rideId);
@@ -83,12 +82,6 @@ public interface CaronaeAPIService {
 
     @DELETE("ride/allFromRoutine/{routineId}")
     Call<ResponseBody> deleteAllRidesFromRoutine(@Path("routineId") String routineId);
-
-    @GET("user/signup/{name}/{token}")
-    Call<User> signUp(@Path("name") String name, @Path("token") String token);
-
-    @GET("user/signup/intranet/{id}/{token}")
-    Call<User> signUpIntranet(@Path("id") String id, @Path("token") String token);
 
     @GET("user/{id}/mutualFriends")
     Call<FacebookFriendForJson> getMutualFriends(@Header("Facebook-Token") String faceToken, @Path("id") String faceId);

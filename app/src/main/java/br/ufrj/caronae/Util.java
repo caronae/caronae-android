@@ -25,7 +25,7 @@ import java.util.TreeMap;
 
 import br.ufrj.caronae.httpapis.CaronaeAPI;
 import br.ufrj.caronae.models.ChatAssets;
-import br.ufrj.caronae.models.Ride;
+import br.ufrj.caronae.models.RideOffer;
 import br.ufrj.caronae.models.modelsforjson.PlacesForJson;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
 import retrofit2.Call;
@@ -38,6 +38,7 @@ public class Util {
     private static Map<String, Integer> colorZone = new TreeMap<>();
     private static ArrayList<String> zones = new ArrayList<>();
     private static ArrayList<String> campus = new ArrayList<>();
+    private static Map<String, String> findNeigh = new TreeMap<>();
     private static boolean colorsSaved;
 
     public static void setColors()
@@ -97,6 +98,31 @@ public class Util {
             }
         }
         return zones.contains(location);
+    }
+
+    public static String whichZone(String neighborhood)
+    {
+
+        if(findNeigh.isEmpty())
+        {
+            if (SharedPref.checkExistence(SharedPref.PLACE_KEY)) {
+                PlacesForJson places = SharedPref.getPlace();
+                for(int i = 0; i < places.getZones().size(); i++)
+                {
+                    for(int j = 0; j < places.getZones().get(i).getNeighborhoods().size(); j++)
+                    {
+                        findNeigh.put(places.getZones().get(i).getNeighborhoods().get(j), places.getZones().get(i).getName());
+                    }
+                }
+            }
+        }
+        if(findNeigh.containsKey(neighborhood)) {
+            return findNeigh.get(neighborhood);
+        }
+        else
+        {
+            return "Outros";
+        }
     }
 
     public static boolean isCampus(String campi)
@@ -344,7 +370,7 @@ public class Util {
 
     }
 
-    static public void createChatAssets(Ride ride) {
+    static public void createChatAssets(RideOffer ride) {
         final String location;
         if (ride.isGoing())
             location = ride.getNeighborhood() + " ➜ " + ride.getHub();
@@ -422,33 +448,6 @@ public class Util {
                 break;
         }
         return dayOfWeek;
-    }
-
-    public static String getTextToShareRide(Ride ride) {
-        String text;
-        String dayMonth;
-
-        if (ride.getDate().contains("/")){
-            dayMonth = formatDateRemoveYear(ride.getDate());
-        } else {
-            dayMonth = formatBadDateWithYear(ride.getDate());
-        }
-
-        if (ride.isGoing()) {
-            text = "Carona: " + ride.getNeighborhood() + " → " + ride.getHub() + "\n"
-                    + "Chegando às " + formatTime(ride.getTime())
-                    + " | " + Util.getWeekDayFromDateWithoutTodayString(ride.getDate())
-                    + " | " + dayMonth + "\n"
-                    + Constants.SHARE_LINK + ride.getDbId();
-        } else {
-            text = "Carona: " + ride.getHub() + " → " + ride.getNeighborhood() + "\n"
-                    + "Saíndo às " + formatTime(ride.getTime())
-                    + " | " + Util.getWeekDayFromDateWithoutTodayString(ride.getDate())
-                    + " | " + dayMonth + "\n"
-                    + Constants.SHARE_LINK + ride.getDbId();
-        }
-
-        return text;
     }
 
     public static long getStringDateInMillis(String date){
