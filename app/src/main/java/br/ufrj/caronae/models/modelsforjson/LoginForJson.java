@@ -10,12 +10,4 @@ public class LoginForJson extends TokenForJson {
         super(token);
         this.idUfrj = idUfrj;
     }
-
-    public String getIdUfrj() {
-        return idUfrj;
-    }
-
-    public void setIdUfrj(String idUfrj) {
-        this.idUfrj = idUfrj;
-    }
 }

@@ -17,15 +17,8 @@ public class FacebookFriendForJson {
         return mutualFriends;
     }
 
-    public void setMutualFriends(List<User> mutualFriends) {
-        this.mutualFriends = mutualFriends;
-    }
-
     public int getTotalCount() {
         return totalCount;
     }
 
-    public void setTotalCount(int totalCount) {
-        this.totalCount = totalCount;
-    }
 }

@@ -8,12 +8,4 @@ public class JoinRequestIDsForJson {
         this.userId = userId;
         this.accepted = accepted;
     }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public boolean isAccepted() {
-        return accepted;
-    }
 }

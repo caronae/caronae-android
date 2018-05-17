@@ -12,7 +12,6 @@ import br.ufrj.caronae.models.modelsforjson.ChatSendMessageForJson;
 import br.ufrj.caronae.models.modelsforjson.FacebookFriendForJson;
 import br.ufrj.caronae.models.modelsforjson.FalaeMsgForJson;
 import br.ufrj.caronae.models.modelsforjson.HistoryRideCountForJson;
-import br.ufrj.caronae.models.modelsforjson.IdForJson;
 import br.ufrj.caronae.models.modelsforjson.JoinRequestIDsForJson;
 import br.ufrj.caronae.models.modelsforjson.LoginForJson;
 import br.ufrj.caronae.models.modelsforjson.MyRidesForJson;
@@ -20,7 +19,6 @@ import br.ufrj.caronae.models.modelsforjson.PlacesForJson;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
 import br.ufrj.caronae.models.modelsforjson.RideForJsonDeserializer;
 import br.ufrj.caronae.models.modelsforjson.RideHistoryForJson;
-import br.ufrj.caronae.models.modelsforjson.UrlForJson;
 import br.ufrj.caronae.models.modelsforjson.UserForJson;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -83,23 +81,17 @@ public interface CaronaeAPIService {
     @PUT("api/v1/rides/{rideId}/requests")
     Call<ResponseBody> answerJoinRequest(@Path("rideId") String rideId, @Body JoinRequestIDsForJson joinRequestIDsForJson);
 
+    @DELETE("ride/allFromRoutine/{routineId}")
+    Call<ResponseBody> deleteAllRidesFromRoutine(@Path("routineId") String routineId);
+
     @GET("user/signup/{name}/{token}")
     Call<User> signUp(@Path("name") String name, @Path("token") String token);
 
     @GET("user/signup/intranet/{id}/{token}")
     Call<User> signUpIntranet(@Path("id") String id, @Path("token") String token);
 
-    @PUT("user/saveFaceId")
-    Call<ResponseBody> saveFaceId(@Body IdForJson id);
-
-    @PUT("user/saveProfilePicUrl")
-    Call<ResponseBody> saveProfilePicUrl(@Body UrlForJson url);
-
     @GET("user/{id}/mutualFriends")
     Call<FacebookFriendForJson> getMutualFriends(@Header("Facebook-Token") String faceToken, @Path("id") String faceId);
-
-    @DELETE("ride/allFromRoutine/{routineId}")
-    Call<ResponseBody> deleteAllRidesFromRoutine(@Path("routineId") String routineId);
 
     @GET("ride/getRidesHistory")
     Call<List<RideHistoryForJson>> getRidesHistory();

@@ -53,8 +53,6 @@ import br.ufrj.caronae.acts.ProfileAct;
 import br.ufrj.caronae.httpapis.CaronaeAPI;
 import br.ufrj.caronae.models.User;
 import br.ufrj.caronae.models.modelsforjson.HistoryRideCountForJson;
-import br.ufrj.caronae.models.modelsforjson.IdForJson;
-import br.ufrj.caronae.models.modelsforjson.UrlForJson;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -102,7 +100,7 @@ public class MyProfileEditFrag extends Fragment {
     ImageView user_pic;
 
     private CallbackManager callbackManager;
-    private String course, profile, profileUrlPic;
+    private String course, profile, profileUrlPic, faceId;
 
     public MyProfileEditFrag() {
         // Required empty public constructor
@@ -133,30 +131,29 @@ public class MyProfileEditFrag extends Fragment {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 Log.i("face", "onSuccess = " + loginResult.toString());
-
                 Profile profile = Profile.getCurrentProfile();
                 if (profile != null) {
-                    final String faceId = profile.getId();
-                    CaronaeAPI.service(getContext()).saveFaceId(new IdForJson(faceId))
+                    faceId = profile.getId();
+                    User user = App.getUser();
+                    user.setFaceId(faceId);
+                    CaronaeAPI.service(getContext()).updateUser(Integer.toString(App.getUser().getDbId()), user)
                             .enqueue(new Callback<ResponseBody>() {
                                 @Override
                                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                                     if (response.isSuccessful()) {
-                                        Log.i("saveFaceId", "face id saved");
-                                        User user = App.getUser();
-                                        user.setFaceId(faceId);
+                                        Util.debug("SUCESS");
                                         SharedPref.saveUser(user);
                                     } else {
                                         Util.treatResponseFromServer(response);
                                         Util.toast(R.string.frag_myprofile_errorSaveFaceId);
-                                        Log.e("saveFaceId", response.message());
+                                        Util.debug("saveFaceId" + response.message());
                                     }
                                 }
 
                                 @Override
                                 public void onFailure(Call<ResponseBody> call, Throwable t) {
                                     Util.toast(R.string.frag_myprofile_errorSaveFaceId);
-                                    Log.e("saveFaceId", t.getMessage());
+                                    Util.debug("saveFaceId" + t.getMessage());
                                 }
                             });
 
@@ -588,7 +585,9 @@ public class MyProfileEditFrag extends Fragment {
     }
 
     public void saveProfilePicUrl(String profilePicUrl) {
-        CaronaeAPI.service(getContext()).saveProfilePicUrl(new UrlForJson(profilePicUrl))
+        User editedUser = App.getUser();
+        editedUser.setProfilePicUrl(profilePicUrl);
+        CaronaeAPI.service(getContext()).updateUser(Integer.toString(App.getUser().getDbId()), editedUser)
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

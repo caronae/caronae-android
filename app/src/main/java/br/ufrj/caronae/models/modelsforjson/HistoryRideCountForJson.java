@@ -7,15 +7,7 @@ public class HistoryRideCountForJson {
         return offeredCount;
     }
 
-    public void setOfferedCount(int offeredCount) {
-        this.offeredCount = offeredCount;
-    }
-
     public int getTakenCount() {
         return takenCount;
-    }
-
-    public void setTakenCount(int takenCount) {
-        this.takenCount = takenCount;
     }
 }
