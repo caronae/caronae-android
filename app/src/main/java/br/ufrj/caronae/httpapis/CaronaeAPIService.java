@@ -21,7 +21,7 @@ import br.ufrj.caronae.models.modelsforjson.RideForJson;
 import br.ufrj.caronae.models.modelsforjson.RideForJsonDeserializer;
 import br.ufrj.caronae.models.modelsforjson.RideHistoryForJson;
 import br.ufrj.caronae.models.modelsforjson.UrlForJson;
-import br.ufrj.caronae.models.modelsforjson.UserWithRidesForJson;
+import br.ufrj.caronae.models.modelsforjson.UserForJson;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -74,6 +74,9 @@ public interface CaronaeAPIService {
     @POST("api/v1/rides/{rideId}/finish")
     Call<ResponseBody> finishRide(@Path("rideId") String rideId);
 
+    @POST("api/v1/users/login")
+    Call<UserForJson> login(@Body LoginForJson token);
+
     @PUT("api/v1/users/{userId}")
     Call<ResponseBody> updateUser(@Path("userId") String userId, @Body User user);
 
@@ -85,9 +88,6 @@ public interface CaronaeAPIService {
 
     @GET("user/signup/intranet/{id}/{token}")
     Call<User> signUpIntranet(@Path("id") String id, @Path("token") String token);
-
-    @POST("user/login")
-    Call<UserWithRidesForJson> login(@Body LoginForJson token);
 
     @PUT("user/saveFaceId")
     Call<ResponseBody> saveFaceId(@Body IdForJson id);

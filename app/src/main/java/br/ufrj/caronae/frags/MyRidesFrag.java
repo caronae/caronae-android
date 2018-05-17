@@ -49,6 +49,8 @@ public class MyRidesFrag extends Fragment implements Callback
 
     MyRidesAdapter adapter;
 
+    boolean userRequestedUpdate;
+
     public MyRidesFrag() {
     }
 
@@ -69,6 +71,7 @@ public class MyRidesFrag extends Fragment implements Callback
             @Override
             public void onRefresh() {
                 SharedPref.lastMyRidesUpdate = 0;
+                userRequestedUpdate = true;
                 refreshRideList();
             }
         });
@@ -91,7 +94,7 @@ public class MyRidesFrag extends Fragment implements Callback
             else
             {
                 rvRides.setVisibility(View.INVISIBLE);
-                noRides.setText(R.string.frag_rideSearch_noRideFound);
+                noRides.setText(R.string.frag_myrides_noRideFound);
                 noRides.setVisibility(View.VISIBLE);
             }
         }
@@ -156,18 +159,34 @@ public class MyRidesFrag extends Fragment implements Callback
                     } else {
                         Util.treatResponseFromServer(response);
                         refreshLayout.setRefreshing(false);
-                        rvRides.setVisibility(View.INVISIBLE);
-                        noRides.setText(R.string.allrides_norides);
-                        noRides.setVisibility(View.VISIBLE);
+                        if(userRequestedUpdate) {
+                            userRequestedUpdate = false;
+                            rvRides.setVisibility(View.INVISIBLE);
+                            noRides.setText(R.string.allrides_norides);
+                            noRides.setVisibility(View.VISIBLE);
+                        }else if(!SharedPref.OPEN_MY_RIDES)
+                        {
+                            rvRides.setVisibility(View.INVISIBLE);
+                            noRides.setText(R.string.frag_myrides_noRideFound);
+                            noRides.setVisibility(View.VISIBLE);
+                        }
                         Util.debug(response.message());
                     }
                 }
                 @Override
                 public void onFailure(Call<MyRidesForJson> call, Throwable t) {
                     refreshLayout.setRefreshing(false);
-                    rvRides.setVisibility(View.INVISIBLE);
-                    noRides.setText(R.string.allrides_norides);
-                    noRides.setVisibility(View.VISIBLE);
+                    if(userRequestedUpdate) {
+                        userRequestedUpdate = false;
+                        rvRides.setVisibility(View.INVISIBLE);
+                        noRides.setText(R.string.allrides_norides);
+                        noRides.setVisibility(View.VISIBLE);
+                    }else if(!SharedPref.OPEN_MY_RIDES)
+                    {
+                        rvRides.setVisibility(View.INVISIBLE);
+                        noRides.setText(R.string.frag_myrides_noRideFound);
+                        noRides.setVisibility(View.VISIBLE);
+                    }
                     Util.debug(t.getMessage());
                 }
             });

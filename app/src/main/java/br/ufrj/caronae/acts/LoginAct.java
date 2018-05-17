@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -15,17 +14,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.httpapis.CaronaeAPI;
-import br.ufrj.caronae.models.Ride;
 import br.ufrj.caronae.models.modelsforjson.LoginForJson;
-import br.ufrj.caronae.models.modelsforjson.UserWithRidesForJson;
+import br.ufrj.caronae.models.modelsforjson.UserForJson;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -42,7 +37,6 @@ public class LoginAct extends AppCompatActivity {
     @BindView(R.id.send_bt)
     Button loginButton;
 
-    public boolean ASYNC_IS_RUNNING = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,29 +66,25 @@ public class LoginAct extends AppCompatActivity {
         final String idUfrj = idUfrj_et.getText().toString();
         final String token = Util.fixBlankSpaces(tokenHolder).toUpperCase();
 
-            Call<UserWithRidesForJson> loginCall = CaronaeAPI.service(getApplicationContext()).login(new LoginForJson(token, idUfrj));
-            loginCall.enqueue(new Callback<UserWithRidesForJson>() {
+            Call<UserForJson> loginCall = CaronaeAPI.service(getApplicationContext()).login(new LoginForJson(token, idUfrj));
+            loginCall.enqueue(new Callback<UserForJson>() {
                 @Override
-                public void onResponse(Call<UserWithRidesForJson> call, Response<UserWithRidesForJson> response) {
+                public void onResponse(Call<UserForJson> call, Response<UserForJson> response) {
                     // response.isSuccessful() is true if the response code is 2xx
                     if (response.isSuccessful()) {
-                        UserWithRidesForJson userWithRides = response.body();
+                        UserForJson user = response.body();
 
-                        if (userWithRides == null || userWithRides.getUser() == null) {
+                        if (user == null || user.getUser() == null) {
                             Util.toast(R.string.act_login_invalidLogin);
                             return;
                         }
                         pd.dismiss();
-                        SharedPref.saveUser(userWithRides.getUser());
+                        SharedPref.saveUser(user.getUser());
                         SharedPref.saveUserToken(token);
                         SharedPref.saveUserIdUfrj(idUfrj);
                         SharedPref.saveNotifPref("true");
-
-                        if (!ASYNC_IS_RUNNING) {
-                            ASYNC_IS_RUNNING = true;
-                            new SaveRidesAsync(userWithRides).execute();
-                        }
-                        if (userWithRides.getUser().getEmail() == null || userWithRides.getUser().getEmail().isEmpty() || userWithRides.getUser().getPhoneNumber() == null || userWithRides.getUser().getPhoneNumber().isEmpty() || userWithRides.getUser().getLocation() == null || userWithRides.getUser().getLocation().isEmpty()) {
+                        
+                        if (user.getUser().getEmail() == null || user.getUser().getEmail().isEmpty() || user.getUser().getPhoneNumber() == null || user.getUser().getPhoneNumber().isEmpty() || user.getUser().getLocation() == null || user.getUser().getLocation().isEmpty()) {
                             Intent firstLogin = new Intent(act, WelcomeAct.class);
                             startActivity(firstLogin);
                             LoginAct.this.finish();
@@ -131,7 +121,7 @@ public class LoginAct extends AppCompatActivity {
                 }
 
                 @Override
-                public void onFailure(Call<UserWithRidesForJson> call, Throwable t) {
+                public void onFailure(Call<UserForJson> call, Throwable t) {
                     // handle execution failures like no internet connectivity
                     Log.e("Login", "Failure: " + t.getMessage());
                     Util.toast(R.string.act_login_loginFail);
@@ -144,28 +134,5 @@ public class LoginAct extends AppCompatActivity {
     @OnClick(R.id.getToken_tv)
     public void getTokenBt() {
         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(CaronaeAPI.BASE_URL + "login")));
-    }
-
-    private class SaveRidesAsync extends AsyncTask<Void, Void, Void> {
-        private final UserWithRidesForJson userWithRides;
-
-        public SaveRidesAsync(UserWithRidesForJson userWithRides) {
-            this.userWithRides = userWithRides;
-        }
-
-        @Override
-        protected Void doInBackground(Void... arg0) {
-            for (Ride ride : userWithRides.getRides()) {
-                ride.setTime(Util.formatTime(ride.getTime()));
-                String format = new SimpleDateFormat("yyyy-MM-dd", Locale.US).format(new Date());
-                int c = ride.getDate().compareTo(format);
-                if (c >= 0)
-                    if (Ride.findById(Ride.class, ride.getDbId()) == null) {
-                        new Ride(ride).save();
-                    }
-            }
-
-            return null;
-        }
     }
 }
