@@ -1,7 +1,6 @@
 package br.ufrj.caronae.acts;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
@@ -17,6 +16,7 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -37,7 +37,6 @@ import br.ufrj.caronae.Util;
 import br.ufrj.caronae.httpapis.CaronaeAPI;
 import br.ufrj.caronae.models.ActiveRide;
 import br.ufrj.caronae.models.ChatAssets;
-import br.ufrj.caronae.models.Ride;
 import br.ufrj.caronae.models.RideRequestSent;
 import br.ufrj.caronae.models.User;
 import br.ufrj.caronae.models.modelsforjson.FacebookFriendForJson;
@@ -51,7 +50,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class RideOfferAct extends SwipeDismissBaseActivity {
+public class RideDetailAct extends SwipeDismissBaseActivity {
 
     @BindView(R.id.user_pic)
     public ImageView user_pic;
@@ -82,6 +81,16 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
     public TextView requested_dt;
     @BindView(R.id.mutual_friends_tv)
     TextView mFriends_tv;
+    @BindView(R.id.cancel_ride)
+    TextView cancelRide_bt;
+    @BindView(R.id.chat_bt)
+    TextView chat_bt;
+    @BindView(R.id.plate_tv)
+    TextView plate_tv;
+    @BindView(R.id.car_model_tv)
+    TextView carModel_tv;
+    @BindView(R.id.car_color_tv)
+    TextView carColor_tv;
 
     @BindView(R.id.join_bt)
     public Button join_bt;
@@ -90,10 +99,15 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
     RelativeLayout shareButton;
     @BindView(R.id.title_lay)
     RelativeLayout locationBackground;
+    @BindView(R.id.car_detail)
+    RelativeLayout carDetails;
+
+    @BindView(R.id.loading_in_progress)
+    ProgressBar progressBar;
 
     RideForJson rideWithUsers;
 
-    int zoneColorInt;
+    int zoneColorInt, idRide;
     boolean requested;
     String fromWhere = "", isGoing;
 
@@ -106,7 +120,7 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
             overridePendingTransition(R.anim.anim_right_slide_in, R.anim.anim_left_slide_out);
         }
         getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.activity_ride_offer);
+        setContentView(R.layout.activity_ride_detail);
         ButterKnife.bind(this);
         isGoing = "1";
         try {
@@ -391,8 +405,7 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
         }
 
         if (isDriver) {
-            join_bt.setVisibility(View.GONE);
-
+            configureOfferedRide(rideWithUsers);
         } else {
             if (requested) {
                 join_bt.setVisibility(View.GONE);
@@ -403,7 +416,6 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
                     join_bt.setClickable(false);
                 } else {
                     join_bt.setClickable(true);
-                    final Context context = this;
                     final Activity activity = this;
                     join_bt.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -415,7 +427,7 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
                             else
                             {
                                 CustomDialogClass customDialogClass;
-                                customDialogClass = new CustomDialogClass(activity, "RideOfferAct", null);
+                                customDialogClass = new CustomDialogClass(activity, "RideDetailAct", null);
                                 customDialogClass.show();
                                 int colorInt = getResources().getColor(R.color.darkblue2);
                                 customDialogClass.setNegativeButtonColor(colorInt);
@@ -429,7 +441,6 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
                 }
             }
         }
-
         configureShareButton();
     }
 
@@ -452,6 +463,7 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
         else {
             rideId = params.get(1);
         }
+        idRide = Integer.parseInt(rideId);
         CaronaeAPI.service(this).getRide(rideId)
                 .enqueue(new Callback<RideForJson>() {
                     @Override
@@ -507,6 +519,96 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
     @OnClick(R.id.back_bt)
     public void backToMain()
     {
+        backToLast();
+    }
+
+    public void joinAction() {
+        CaronaeAPI.service(this).requestJoin(String.valueOf(rideWithUsers.getDbId()))
+                .enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        if (response.isSuccessful()) {
+                            RideRequestSent rideRequest = new RideRequestSent(rideWithUsers.getDbId(), rideWithUsers.isGoing(), rideWithUsers.getDate());
+                            rideRequest.save();
+                            createChatAssets(rideWithUsers);
+                            join_bt.startAnimation(getAnimationForSendButton());
+                            requested_dt.startAnimation(getAnimationForResquestedText());
+                            App.getBus().post(rideRequest);
+                        } else {
+                            Util.treatResponseFromServer(response);
+                            Log.e("requestJoin", response.message());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        Log.e("requestJoin", t.getMessage());
+                    }
+                });
+    }
+
+    private void configureOfferedRide(RideForJson ride)
+    {
+        rideWithUsers = ride;
+        plate_tv.setText(ride.getDriver().getCarPlate());
+        carModel_tv.setText(ride.getDriver().getCarModel());
+        carColor_tv.setText(ride.getDriver().getCarColor());
+        join_bt.setVisibility(View.GONE);
+        cancelRide_bt.setVisibility(View.VISIBLE);
+        chat_bt.setVisibility(View.VISIBLE);
+        carDetails.setVisibility(View.VISIBLE);
+    }
+
+    @OnClick(R.id.cancel_ride)
+    public void cancelRide()
+    {
+        CustomDialogClass cdc = new CustomDialogClass(this, "CancelRide", null);
+        cdc.show();
+        cdc.setTitleText("Deseja mesmo desistir da carona?");
+        cdc.setMessageText("Você é livre para cancelar caronas caso não possa participar, mas é importante fazer isso com responsabilidade. Caso haja outros usuários na carona, eles serão notificados.");
+        cdc.setNButtonText("Desistir");
+        cdc.setPButtonText("Voltar");
+    }
+
+    public void cancel()
+    {
+        Activity act = this;
+        progressBar.setVisibility(View.VISIBLE);
+        CaronaeAPI.service(this).leaveRide(Integer.toString(rideWithUsers.getDbId())).
+                enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    progressBar.setVisibility(View.GONE);
+                } else {
+                    progressBar.setVisibility(View.GONE);
+                    CustomDialogClass cdc = new CustomDialogClass(act, "", null);
+                    cdc.show();
+                    cdc.setTitleText("Algo deu errado.");
+                    cdc.setMessageText("Não foi possível cancelar sua carona. (A conexão à internet talvez esteja inativa.)");
+                    cdc.setPButtonText("OK");
+                    cdc.enableOnePositiveOption();
+                    Util.treatResponseFromServer(response);
+                    Log.e("Error ", response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                progressBar.setVisibility(View.GONE);
+                CustomDialogClass cdc = new CustomDialogClass(act, "", null);
+                cdc.show();
+                cdc.setTitleText("Algo deu errado.");
+                cdc.setMessageText("Não foi possível cancelar sua carona. (A conexão à internet talvez esteja inativa.)");
+                cdc.setPButtonText("OK");
+                cdc.enableOnePositiveOption();
+                Log.e("Error ", t.getLocalizedMessage());
+            }
+        });
+    }
+
+    public void backToLast()
+    {
         Intent intent;
         switch (back_tv.getText().toString())
         {
@@ -535,34 +637,5 @@ public class RideOfferAct extends SwipeDismissBaseActivity {
                 overridePendingTransition(R.anim.anim_left_slide_in, R.anim.anim_right_slide_out);
                 break;
         }
-    }
-
-    public void joinAction() {
-        CaronaeAPI.service(this).requestJoin(String.valueOf(rideWithUsers.getDbId()))
-                .enqueue(new Callback<ResponseBody>() {
-                    @Override
-                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                        if (response.isSuccessful()) {
-                            RideRequestSent rideRequest = new RideRequestSent(rideWithUsers.getDbId(), rideWithUsers.isGoing(), rideWithUsers.getDate());
-                            rideRequest.save();
-
-                            createChatAssets(rideWithUsers);
-
-                            join_bt.startAnimation(getAnimationForSendButton());
-
-                            requested_dt.startAnimation(getAnimationForResquestedText());
-
-                            App.getBus().post(rideRequest);
-                        } else {
-                            Util.treatResponseFromServer(response);
-                            Log.e("requestJoin", response.message());
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-                        Log.e("requestJoin", t.getMessage());
-                    }
-                });
     }
 }

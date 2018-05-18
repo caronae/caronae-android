@@ -19,7 +19,7 @@ import java.util.List;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.RoundedTransformation;
 import br.ufrj.caronae.Util;
-import br.ufrj.caronae.acts.RideOfferAct;
+import br.ufrj.caronae.acts.RideDetailAct;
 import br.ufrj.caronae.models.RideRequestSent;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -134,7 +134,7 @@ public class RidesAdapter extends RecyclerView.Adapter<RidesAdapter.ViewHolder> 
                 viewHolder.parentLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent intent = new Intent(context, RideOfferAct.class);
+                        Intent intent = new Intent(context, RideDetailAct.class);
                         intent.putExtra("fromWhere", rideOffer.fromWhere);
                         intent.putExtra("ride", rideOffer);
                         intent.putExtra("starting", true);

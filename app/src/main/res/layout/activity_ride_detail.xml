@@ -30,7 +30,6 @@
                     android:text="@string/ride"
                     android:textColor="@color/black"
                     android:textSize="20sp"/>
-
             </RelativeLayout>
 
             <RelativeLayout
@@ -47,6 +46,7 @@
                         android:id="@+id/arrow"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
+                        android:tint="@color/dark_gray"
                         android:background="@drawable/ic_keyboard_arrow_left_24dp"
                         android:layout_centerVertical="true"/>
                     <TextView
@@ -61,6 +61,21 @@
                         android:layout_marginLeft="-15dp"
                         android:layout_marginStart="-15dp"
                         android:textSize="20sp"/>
+                    <TextView
+                        android:id="@+id/chat_bt"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
+                        android:textColor="@color/dark_gray"
+                        android:text="@string/chat"
+                        android:textSize="20sp"
+                        android:visibility="gone"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginRight="10dp"/>
                 </RelativeLayout>
             </RelativeLayout>
         </android.support.v7.widget.CardView>
@@ -126,14 +141,28 @@
                         android:layout_marginLeft="10dp"
                         android:layout_marginStart="10dp"
                         android:gravity="center"
-                        android:textSize="18sp"
+                        android:textSize="17sp"
                         android:layout_centerVertical="true"
                         android:layout_toRightOf="@id/clock"
                         android:layout_toEndOf="@id/clock"
                         android:text="Chegando às 00:00 | Seg | 25/12"
                         android:textColor="@color/zone_centro"/>
 
-
+                    <TextView
+                        android:id="@+id/cancel_ride"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginEnd="15dp"
+                        android:layout_marginRight="15dp"
+                        android:visibility="gone"
+                        android:textSize="17sp"
+                        android:textColor="@color/red"
+                        android:layout_centerVertical="true"
+                        android:text="@string/cancel_uppercase"/>
 
                 </RelativeLayout>
 
@@ -339,10 +368,64 @@
                                 android:textSize="14sp"
                                 android:textColor="@color/dark_gray"/>
                         </RelativeLayout>
+                        <RelativeLayout
+                            android:id="@+id/car_detail"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/description_text_frame"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp">
+                            <TextView
+                                android:id="@+id/car_title"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/myactiveride_carTv"
+                                android:textSize="16sp"
+                                android:textStyle="bold"
+                                android:textColor="@color/dark_gray"/>
+
+                            <TextView
+                                android:id="@+id/plate_tv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="ABC-1234"
+                                android:drawableLeft="@drawable/ic_plate_24dp"
+                                android:drawableStart="@drawable/ic_plate_24dp"
+                                android:layout_marginTop="10dp"
+                                android:drawablePadding="5dp"
+                                android:layout_below="@id/car_title"
+                                android:textSize="14sp"
+                                android:textColor="@color/dark_gray"/>
+
+                            <TextView
+                                android:id="@+id/car_model_tv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Honda Civic"
+                                android:drawableLeft="@drawable/ic_directions_car_24dp"
+                                android:drawableStart="@drawable/ic_directions_car_24dp"
+                                android:layout_marginTop="10dp"
+                                android:drawablePadding="5dp"
+                                android:layout_below="@id/plate_tv"
+                                android:textSize="14sp"
+                                android:textColor="@color/dark_gray"/>
+
+                            <TextView
+                                android:id="@+id/car_color_tv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Preto"
+                                android:drawableLeft="@drawable/ic_color_24dp"
+                                android:drawableStart="@drawable/ic_color_24dp"
+                                android:drawablePadding="5dp"
+                                android:layout_marginTop="10dp"
+                                android:layout_below="@id/car_model_tv"
+                                android:textSize="14sp"
+                                android:textColor="@color/dark_gray"/>
+                        </RelativeLayout>
 
                     </RelativeLayout>
                 </RelativeLayout>
-
 
                 <RelativeLayout
                     android:id="@+id/invite_lay"
@@ -363,6 +446,7 @@
                 </RelativeLayout>
 
                 <RelativeLayout
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/drive_info"
@@ -383,5 +467,10 @@
         </ScrollView>
 
     </RelativeLayout>
-
+    <ProgressBar
+        android:id="@+id/loading_in_progress"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:visibility="gone"
+        android:layout_centerInParent="true"/>
 </RelativeLayout>

@@ -13,10 +13,9 @@ import android.widget.TextView;
 import br.ufrj.caronae.acts.FalaeAct;
 import br.ufrj.caronae.acts.MyProfileAct;
 import br.ufrj.caronae.acts.PlaceAct;
-import br.ufrj.caronae.acts.RideOfferAct;
+import br.ufrj.caronae.acts.RideDetailAct;
 import br.ufrj.caronae.frags.MyProfileShowFrag;
 import br.ufrj.caronae.frags.RideOfferFrag;
-import br.ufrj.caronae.frags.SearchRidesListFrag;
 
 public class CustomDialogClass extends Dialog implements android.view.View.OnClickListener {
 
@@ -65,7 +64,7 @@ public class CustomDialogClass extends Dialog implements android.view.View.OnCli
                 }
                 else if(currentFrag.equals("RideOfferActError"))
                 {
-                    RideOfferAct act = (RideOfferAct) activity;
+                    RideDetailAct act = (RideDetailAct) activity;
                     act.customDialogAction();
                 }
                 else if(currentFrag.equals("ROFINCO"))
@@ -93,17 +92,22 @@ public class CustomDialogClass extends Dialog implements android.view.View.OnCli
                     myProfileShowFrag.setActionExit();
                     dismiss();
                 }
-                else if(currentFrag.equals("RideOfferAct"))
+                else if(currentFrag.equals("RideDetailAct"))
                 {
-                    RideOfferAct rideOfferAct;
-                    rideOfferAct = (RideOfferAct) activity;
-                    rideOfferAct.joinAction();
+                    RideDetailAct rideDetailAct;
+                    rideDetailAct = (RideDetailAct) activity;
+                    rideDetailAct.joinAction();
                     dismiss();
                 }
                 else if(currentFrag.equals("ROFPD"))
                 {
                     ((RideOfferFrag)fragment).createRide();
                     ((RideOfferFrag)fragment).changeFragment();
+                    dismiss();
+                }
+                else if(currentFrag.equals("CancelRide"))
+                {
+                    ((RideDetailAct)activity).cancel();
                     dismiss();
                 }
                 break;

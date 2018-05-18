@@ -107,7 +107,7 @@
             android:label="@string/title_activity_place"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".acts.RideOfferAct"
+            android:name=".acts.RideDetailAct"
             android:label="@string/app_name"
             android:screenOrientation="portrait">
             <intent-filter>

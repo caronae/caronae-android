@@ -276,7 +276,7 @@ public class ProfileAct extends AppCompatActivity {
     @OnClick(R.id.back_bt)
     public void backToRide()
     {
-        Intent intent = new Intent(this, RideOfferAct.class);
+        Intent intent = new Intent(this, RideDetailAct.class);
         intent.putExtra("ride", rideOffer);
         intent.putExtra("requested", requested);
         intent.putExtra("fromWhere", fromWhere);
@@ -287,7 +287,7 @@ public class ProfileAct extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         if(fromAnother) {
-            Intent intent = new Intent(this, RideOfferAct.class);
+            Intent intent = new Intent(this, RideDetailAct.class);
             intent.putExtra("ride", rideOffer);
             intent.putExtra("requested", requested);
             intent.putExtra("fromWhere", fromWhere);

@@ -373,9 +373,7 @@ public class RideOfferFrag extends Fragment {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.US);
         Date currentDate = new Date(System.currentTimeMillis()+4*60*1000);
         String getCurrentDateTime = simpleDateFormat.format(currentDate);
-        Util.debug(getCurrentDateTime);
         String dateToCompare = date + " " + time.substring(0,time.length()-3);
-        Util.debug(dateToCompare);
         if (getCurrentDateTime.compareTo(dateToCompare) >= 0)
         {
             CustomDialogClass cdc = new CustomDialogClass(act,"ROFD", frag);
@@ -431,7 +429,7 @@ public class RideOfferFrag extends Fragment {
             repeatsUntil = simpleDateFormat.format(c.getTime());
         }
 
-        ride = new RideOffer(time, neighborhood, repeatsUntil, description, place, going, date, 0, slots, zone, weekDays, hubCenter, way);
+        ride = new RideOffer(time, neighborhood, repeatsUntil, description, place, going, date, slots, zone, weekDays, hubCenter, way);
 
         checkAndCreateRide();
 

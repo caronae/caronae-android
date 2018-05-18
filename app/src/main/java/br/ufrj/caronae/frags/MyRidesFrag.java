@@ -220,6 +220,7 @@ public class MyRidesFrag extends Fragment implements Callback
             for(int i = 0; i < myRides.size(); i++)
             {
                 myRides.get(i).fromWhere = "Minhas";
+                Util.debug(""+myRides.get(i).getDbId());
             }
             adapter.makeList(myRides);
             adapter.notifyDataSetChanged();

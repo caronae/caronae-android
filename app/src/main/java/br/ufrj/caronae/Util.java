@@ -102,7 +102,6 @@ public class Util {
 
     public static String whichZone(String neighborhood)
     {
-
         if(findNeigh.isEmpty())
         {
             if (SharedPref.checkExistence(SharedPref.PLACE_KEY)) {
