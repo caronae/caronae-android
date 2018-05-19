@@ -16,6 +16,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.RoundedTransformation;
 import br.ufrj.caronae.Util;
@@ -79,7 +80,6 @@ public class RidesAdapter extends RecyclerView.Adapter<RidesAdapter.ViewHolder> 
         if (!(mixedList == null || mixedList.size() == 0)) {
             if (mixedList.get(position).getClass().equals(RideForJson.class)) {
                 final RideForJson rideOffer = (RideForJson) mixedList.get(position);
-
                 int color = Util.getColors(rideOffer.getZone());
                 viewHolder.location_tv.setTextColor(color);
                 viewHolder.time_tv.setTextColor(color);
@@ -139,6 +139,7 @@ public class RidesAdapter extends RecyclerView.Adapter<RidesAdapter.ViewHolder> 
                         intent.putExtra("ride", rideOffer);
                         intent.putExtra("starting", true);
                         intent.putExtra("requested", finalRequested);
+                        intent.putExtra("rideId", rideOffer.getId().intValue());
                         context.startActivity(intent);
                     }
                 });

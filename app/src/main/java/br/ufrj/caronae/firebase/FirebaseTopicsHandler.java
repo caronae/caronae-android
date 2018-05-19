@@ -8,9 +8,6 @@ import java.util.List;
 
 import br.ufrj.caronae.models.ActiveRideId;
 
-/**
- * Created by Luis-DELL on 10/28/2016.
- */
 public class FirebaseTopicsHandler {
 
     public static void subscribeFirebaseTopic(String rideId) {

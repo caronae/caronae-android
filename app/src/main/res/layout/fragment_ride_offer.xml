@@ -504,18 +504,10 @@
                 android:layout_alignParentRight="true"
                 android:layout_below="@id/description_et"
                 android:layout_marginTop="30dp"
+                android:layout_marginBottom="10dp"
                 android:background="@drawable/btn_color"
                 android:text="@string/create_bt"
                 android:textColor="@color/dark_gray" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="10dp"
-                android:layout_below="@id/send_bt"
-                android:background="@color/white">
-
-            </RelativeLayout>
         </RelativeLayout>
     </RelativeLayout>
 </ScrollView>

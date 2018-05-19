@@ -37,6 +37,7 @@ import br.ufrj.caronae.Util;
 import br.ufrj.caronae.httpapis.CaronaeAPI;
 import br.ufrj.caronae.models.ActiveRide;
 import br.ufrj.caronae.models.ChatAssets;
+import br.ufrj.caronae.models.Ride;
 import br.ufrj.caronae.models.RideRequestSent;
 import br.ufrj.caronae.models.User;
 import br.ufrj.caronae.models.modelsforjson.FacebookFriendForJson;
@@ -140,13 +141,14 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
         }
         if (!startWithLink()) {
             rideWithUsers = getIntent().getExtras().getParcelable("ride");
+            idRide = getIntent().getIntExtra("rideId", 0);
             configureActivityWithRide(rideWithUsers, false);
+        } else {
+            configureActivityWithLink();
             if(rideWithUsers.getDriver().getDbId() == App.getUser().getDbId())
             {
                 back_tv.setText(R.string.title_myrides);
             }
-        } else {
-            configureActivityWithLink();
         }
     }
 
@@ -257,7 +259,6 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
             Util.toast(getString(R.string.act_activeride_rideNUll));
             finish();
         }
-
         final User driver = rideWithUsers.getDriver();
 
         try {
@@ -550,7 +551,7 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
     private void configureOfferedRide(RideForJson ride)
     {
         rideWithUsers = ride;
-        plate_tv.setText(ride.getDriver().getCarPlate());
+        plate_tv.setText(ride.getDriver().getCarPlate().substring(0,3)+"-"+ride.getDriver().getCarPlate().substring(3));
         carModel_tv.setText(ride.getDriver().getCarModel());
         carColor_tv.setText(ride.getDriver().getCarColor());
         join_bt.setVisibility(View.GONE);
@@ -574,12 +575,15 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
     {
         Activity act = this;
         progressBar.setVisibility(View.VISIBLE);
-        CaronaeAPI.service(this).leaveRide(Integer.toString(rideWithUsers.getDbId())).
+        CaronaeAPI.service(this).leaveRide(Integer.toString(idRide)).
                 enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
                     progressBar.setVisibility(View.GONE);
+                    SharedPref.lastAllRidesUpdate = 300;
+                    SharedPref.lastMyRidesUpdate = 300;
+                    backToLast();
                 } else {
                     progressBar.setVisibility(View.GONE);
                     CustomDialogClass cdc = new CustomDialogClass(act, "", null);

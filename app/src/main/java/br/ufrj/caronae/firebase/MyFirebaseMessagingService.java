@@ -26,9 +26,6 @@ import br.ufrj.caronae.models.ChatMessageReceived;
 import br.ufrj.caronae.models.RideEndedEvent;
 import br.ufrj.caronae.models.RideRequestReceived;
 
-/**
- * Created by Luis-DELL on 10/28/2016.
- */
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private static final int MESSAGE_NOTIFICATION_ID = 435345;

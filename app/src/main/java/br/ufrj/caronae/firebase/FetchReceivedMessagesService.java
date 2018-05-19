@@ -18,9 +18,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-/**
- * Created by Luis on 1/12/2017.
- */
 public class FetchReceivedMessagesService extends IntentService {
 
     private static List<ChatMessageReceived> chatMsgsList;

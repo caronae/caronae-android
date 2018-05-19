@@ -75,7 +75,6 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
         if (!(mixedList == null || mixedList.size() == 0)) {
             if (mixedList.get(position).getClass().equals(RideForJson.class)) {
                 final RideForJson rideOffer = (RideForJson) mixedList.get(position);
-                Util.debug(""+rideOffer.getDbId());
                 if(rideOffer.type != null) {
                     if (rideOffer.type.equals("Ativas") || rideOffer.type.equals("Ofertadas") || rideOffer.type.equals("Pendentes")) {
                         viewHolder.typeCardText.setText(rideOffer.type);
@@ -150,6 +149,7 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
                         Intent intent = new Intent(context, RideDetailAct.class);
                         intent.putExtra("fromWhere", rideOffer.fromWhere);
                         intent.putExtra("ride", rideOffer);
+                        intent.putExtra("rideId", rideOffer.getId().intValue());
                         intent.putExtra("starting", true);
                         intent.putExtra("requested", finalRequested);
                         context.startActivity(intent);
