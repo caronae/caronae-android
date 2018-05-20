@@ -442,12 +442,13 @@
                         android:gravity="center"
                         android:text="@string/act_rideoffer_requested"
                         android:textColor="@color/green"
-                        android:visibility="invisible" />
+                        android:visibility="gone" />
 
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:visibility="gone"
+                    android:id="@+id/can_join"
+                    android:visibility="visible"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/drive_info"

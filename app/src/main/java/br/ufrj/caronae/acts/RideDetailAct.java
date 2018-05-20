@@ -1,6 +1,9 @@
 package br.ufrj.caronae.acts;
 
 import android.app.Activity;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
@@ -9,9 +12,13 @@ import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.Button;
@@ -96,6 +103,8 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
     @BindView(R.id.join_bt)
     public Button join_bt;
 
+    @BindView(R.id.can_join)
+    RelativeLayout joinLayout;
     @BindView(R.id.share_bt)
     RelativeLayout shareButton;
     @BindView(R.id.title_lay)
@@ -554,7 +563,7 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
         plate_tv.setText(ride.getDriver().getCarPlate().substring(0,3)+"-"+ride.getDriver().getCarPlate().substring(3));
         carModel_tv.setText(ride.getDriver().getCarModel());
         carColor_tv.setText(ride.getDriver().getCarColor());
-        join_bt.setVisibility(View.GONE);
+        joinLayout.setVisibility(View.GONE);
         cancelRide_bt.setVisibility(View.VISIBLE);
         chat_bt.setVisibility(View.VISIBLE);
         carDetails.setVisibility(View.VISIBLE);
@@ -573,18 +582,68 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
 
     public void cancel()
     {
-        Activity act = this;
         progressBar.setVisibility(View.VISIBLE);
-        CaronaeAPI.service(this).leaveRide(Integer.toString(idRide)).
-                enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if (response.isSuccessful()) {
-                    progressBar.setVisibility(View.GONE);
-                    SharedPref.lastAllRidesUpdate = 300;
-                    SharedPref.lastMyRidesUpdate = 300;
-                    backToLast();
-                } else {
+        if( rideWithUsers.getRoutineId() == null || rideWithUsers.getRoutineId().isEmpty() || rideWithUsers.getDriver().getDbId() != App.getUser().getDbId()) {
+            leaveRide(idRide);
+        }
+        else
+        {
+            progressBar.setVisibility(View.GONE);
+            CharSequence options[] = new CharSequence[] {"Desistir somente desta", "Desistir da rotina"};
+            final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Esta carona pertence a uma rotina.");
+            builder.setCancelable(true);
+            builder.setItems(options, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    switch (which)
+                    {
+                        case 0:
+                            progressBar.setVisibility(View.VISIBLE);
+                            leaveRide(idRide);
+                            break;
+                        case 1:
+                            progressBar.setVisibility(View.VISIBLE);
+                            leaveRide(Integer.parseInt(rideWithUsers.getRoutineId()));
+                            break;
+                    }
+                }
+            });
+            AlertDialog dialog = builder.create();
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            WindowManager.LayoutParams wmlp = dialog.getWindow().getAttributes();
+            wmlp.gravity = Gravity.BOTTOM;
+            dialog.show();
+        }
+    }
+
+    private void leaveRide(int rideId)
+    {
+        Activity act = this;
+        CaronaeAPI.service(this).leaveRide(Integer.toString(rideId)).
+            enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    if (response.isSuccessful()) {
+                        progressBar.setVisibility(View.GONE);
+                        SharedPref.lastAllRidesUpdate = 300;
+                        SharedPref.lastMyRidesUpdate = 300;
+                        backToLast();
+                    } else {
+                        progressBar.setVisibility(View.GONE);
+                        CustomDialogClass cdc = new CustomDialogClass(act, "", null);
+                        cdc.show();
+                        cdc.setTitleText("Algo deu errado.");
+                        cdc.setMessageText("Não foi possível cancelar sua carona. (A conexão à internet talvez esteja inativa.)");
+                        cdc.setPButtonText("OK");
+                        cdc.enableOnePositiveOption();
+                        Util.treatResponseFromServer(response);
+                        Log.e("Error ", response.message());
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
                     progressBar.setVisibility(View.GONE);
                     CustomDialogClass cdc = new CustomDialogClass(act, "", null);
                     cdc.show();
@@ -592,23 +651,9 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
                     cdc.setMessageText("Não foi possível cancelar sua carona. (A conexão à internet talvez esteja inativa.)");
                     cdc.setPButtonText("OK");
                     cdc.enableOnePositiveOption();
-                    Util.treatResponseFromServer(response);
-                    Log.e("Error ", response.message());
+                    Log.e("Error ", t.getLocalizedMessage());
                 }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                progressBar.setVisibility(View.GONE);
-                CustomDialogClass cdc = new CustomDialogClass(act, "", null);
-                cdc.show();
-                cdc.setTitleText("Algo deu errado.");
-                cdc.setMessageText("Não foi possível cancelar sua carona. (A conexão à internet talvez esteja inativa.)");
-                cdc.setPButtonText("OK");
-                cdc.enableOnePositiveOption();
-                Log.e("Error ", t.getLocalizedMessage());
-            }
-        });
+            });
     }
 
     public void backToLast()

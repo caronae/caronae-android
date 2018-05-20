@@ -32,11 +32,6 @@ public class RideOffer extends SugarRecord{
     @SerializedName("route")
     protected String route;
 
-    private boolean isRoutine;
-
-    public RideOffer() {
-    }
-
     public RideOffer(String time, String neighborhood, String repeatsUntil, String description, String place, boolean going,
                 String date, int slots, String zone, String weekDays, String hub, String route) {
         this.zone = zone;
@@ -65,7 +60,6 @@ public class RideOffer extends SugarRecord{
         description = ride.getDescription();
         going = ride.isGoing();
         weekDays = ride.getWeekDays();
-        isRoutine = weekDays != null && !weekDays.isEmpty();
         repeatsUntil = ride.getRepeatsUntil();
         dbId = ride.getId().intValue();
     }
@@ -134,10 +128,6 @@ public class RideOffer extends SugarRecord{
         this.going = going;
     }
 
-    public boolean isRoutine() {
-        return isRoutine;
-    }
-
     public String getWeekDays() {
         return weekDays;
     }
@@ -148,9 +138,5 @@ public class RideOffer extends SugarRecord{
 
     public int getDbId() {
         return dbId;
-    }
-
-    public void setDbId(int dbId) {
-        this.dbId = dbId;
     }
 }

@@ -2,6 +2,7 @@ package br.ufrj.caronae;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.View;
@@ -155,5 +156,6 @@ public class CustomDialogClass extends Dialog implements android.view.View.OnCli
     public void setNegativeButtonColor(int color)
     {
         this.negative_bt.setTextColor(color);
+        this.negative_bt.setTypeface(negative_bt.getTypeface(), Typeface.BOLD);
     }
 }

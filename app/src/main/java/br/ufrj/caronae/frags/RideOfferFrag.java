@@ -209,8 +209,9 @@ public class RideOfferFrag extends Fragment {
         way_et.setText(ride.getRoute());
         center_et.setText(ride.getHub());
         description_et.setText(ride.getDescription());
-        boolean isRoutine = ride.isRoutine();
-        routine_cb.setChecked(isRoutine);
+        routine_cb.setChecked(false);
+        //boolean isRoutine = ride.isRoutine();
+        /*routine_cb.setChecked(isRoutine);
         if (isRoutine) {
             days_lo.setVisibility(View.VISIBLE);
             for(int i = 0; i < 7; i++)
@@ -220,9 +221,9 @@ public class RideOfferFrag extends Fragment {
             }
         }
         else
-        {
+        {*/
             days_lo.setVisibility(View.GONE);
-        }
+        //}
     }
 
     @Override
@@ -319,21 +320,7 @@ public class RideOfferFrag extends Fragment {
     @OnClick(R.id.routine_cb)
     public void routineCb() {
         days_lo.setVisibility(routine_cb.isChecked() ? View.VISIBLE : View.GONE);
-        if(routine_cb.isChecked())
-        {
-            String lastRideOffer = going ? SharedPref.getLastRideGoingPref() : SharedPref.getLastRideNotGoingPref();
-            if (!lastRideOffer.equals(SharedPref.MISSING_PREF)) {
-                ride = new Gson().fromJson(lastRideOffer, RideOffer.class);
-                if(ride.isRoutine())
-                {
-                    for(int i = 0; i < 7; i++)
-                    {
-                        checked[i] = (ride.getWeekDays().contains(Integer.toString(i+1)));
-                        setChecked(i);
-                    }
-                }
-            }
-        }
+
         new Handler().post(new Runnable() {
             @Override
             public void run() {
@@ -370,7 +357,7 @@ public class RideOfferFrag extends Fragment {
         String date = time_et.getText().toString().substring(0,10);
         String description = description_et.getText().toString();
 
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.US);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
         Date currentDate = new Date(System.currentTimeMillis()+4*60*1000);
         String getCurrentDateTime = simpleDateFormat.format(currentDate);
         String dateToCompare = date + " " + time.substring(0,time.length()-3);
@@ -420,13 +407,17 @@ public class RideOfferFrag extends Fragment {
             }
 
             Calendar c = Calendar.getInstance();
+            Util.debug(""+date);
+            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
             try {
-                c.setTime(simpleDateFormat.parse(date));
+                Date d = format.parse(date);
+                c.setTime(d);
             } catch (ParseException e) {
                 e.printStackTrace();
             }
             c.add(Calendar.MONTH, months);
-            repeatsUntil = simpleDateFormat.format(c.getTime());
+            repeatsUntil = Util.formatBadDateWithYear(simpleDateFormat.format(c.getTime()));
+            Util.debug(repeatsUntil);
         }
 
         ride = new RideOffer(time, neighborhood, repeatsUntil, description, place, going, date, slots, zone, weekDays, hubCenter, way);
@@ -468,7 +459,7 @@ public class RideOfferFrag extends Fragment {
                                     cdc.setMessageText("Você pode cancelar e verificar as suas caronas ou continuar e criar a carona mesmo assim.");
                                     cdc.setNButtonText("Criar");
                                     cdc.setPButtonText("Cancelar");
-                                    cdc.setNegativeButtonColor(R.color.darkblue2);
+                                    cdc.setNegativeButtonColor(getResources().getColor(R.color.darkblue2));
 
                                 } else{
                                     cdc = new CustomDialogClass(act,"ROFD", frag);
@@ -535,6 +526,7 @@ public class RideOfferFrag extends Fragment {
                                 cdc.setTitleText( "Não foi possível validar sua carona");
                                 cdc.setMessageText("Houve um erro de comunicação com nosso servidor. Por favor, tente novamente." + response.message());
                                 cdc.setPButtonText("OK");
+                                Log.e("error " , response.message());
                                 cdc.enableOnePositiveOption();
                             }
                         }
