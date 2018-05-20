@@ -38,13 +38,14 @@ public class MyProfileAct extends AppCompatActivity {
     RelativeLayout cancel;
     @BindView(R.id.progress_bar)
     public ProgressBar progressBar;
+    boolean firstLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_profile);
         ButterKnife.bind(this);
-        boolean firstLogin = false;
+        firstLogin = false;
         try {
             firstLogin = getIntent().getBooleanExtra("firstLogin", false);
         } catch (Exception e){}
@@ -107,12 +108,17 @@ public class MyProfileAct extends AppCompatActivity {
     @Override
     public void onBackPressed()
     {
-        if(fragmentClass.equals(MyProfileShowFrag.class)) {
-            backToMenu();
-        }
-        else
-        {
-            showAlert();
+        if(!firstLogin) {
+            if (fragmentClass.equals(MyProfileShowFrag.class)) {
+                backToMenu();
+            } else {
+                showAlert();
+            }
+        }else{
+            Intent firstLogin = new Intent(this, WelcomeAct.class);
+            startActivity(firstLogin);
+            overridePendingTransition(R.anim.anim_left_slide_in, R.anim.anim_right_slide_out);
+            MyProfileAct.this.finish();
         }
     }
 
@@ -183,6 +189,7 @@ public class MyProfileAct extends AppCompatActivity {
     public void onSuccessSave()
     {
         edit_bt.setText(R.string.edit_bt);
+        firstLogin = false;
         fragment = null;
         fragmentClass = MyProfileShowFrag.class;
         try {

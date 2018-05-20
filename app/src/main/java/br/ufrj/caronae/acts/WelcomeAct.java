@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
+import br.ufrj.caronae.SharedPref;
+import br.ufrj.caronae.asyncs.LogOut;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -43,5 +45,14 @@ public class WelcomeAct extends AppCompatActivity {
         profileAct.putExtra("firstLogin", true);
         startActivity(profileAct);
         overridePendingTransition(R.anim.anim_right_slide_in, R.anim.anim_left_slide_out);
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        new LogOut(this).execute();
+        startActivity(new Intent(this, LoginAct.class));
+        finish();
+        SharedPref.NAV_INDICATOR = "AllRides";
     }
 }
