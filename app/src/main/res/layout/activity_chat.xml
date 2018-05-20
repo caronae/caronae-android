@@ -14,31 +14,31 @@
         android:elevation="4dp"
         android:background="@color/white">
 
-        <android.support.v7.widget.Toolbar
+        <RelativeLayout
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:theme="@style/ToolbarColoredBackArrow">
 
             <RelativeLayout
                 android:id="@+id/lay1"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/zone_sul">
+                android:layout_height="wrap_content"
+                android:background="@color/zone_oeste">
 
                 <TextView
+                    android:padding="10dp"
                     android:id="@+id/chat_header_text"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:textColor="@color/white"
                     android:textStyle="bold"
-                    android:gravity="center_vertical"
-                    android:textSize="15sp"
-                    android:layout_margin="8dp"/>
+                    android:textSize="18sp"
+                    android:text="BARRA DA TIJUCA ➜ CSS - 25/12 - 12:00" />
 
             </RelativeLayout>
 
-        </android.support.v7.widget.Toolbar>
+        </RelativeLayout>
 
     </android.support.design.widget.AppBarLayout>
 
@@ -46,7 +46,7 @@
         android:id="@+id/card_loading_menssages_sign"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/app_bar_layout"
+        android:layout_below="@id/app_bar_layout"
         android:minHeight="24dp"
         app:cardCornerRadius="6dp"
         app:cardElevation="2dp">
@@ -56,7 +56,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:gravity="center_vertical"
             android:text="Carregando mensagens..." />
     </android.support.v7.widget.CardView>
@@ -64,13 +63,11 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/app_bar_layout"
-        android:layout_gravity="bottom">
+        android:layout_below="@id/card_loading_menssages_sign">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="bottom"
             android:orientation="vertical">
 
             <android.support.v7.widget.RecyclerView
@@ -78,13 +75,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="12dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
                 android:layout_marginRight="12dp"
-                android:paddingBottom="@dimen/chat_list_botton_padding"
+                android:layout_marginTop="50dp"
+                android:layout_marginBottom="20dp"
                 android:clipToPadding="false"
-                android:layout_weight="1"
-                android:elevation="0dp" />
+                android:layout_above="@id/writeLayout"/>
 
             <LinearLayout
+                android:id="@+id/writeLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
@@ -121,7 +121,8 @@
                     android:gravity="center"
                     android:src="@drawable/ic_send_white_24dp"
                     android:text="@string/send_bt"
-                    android:textColor="@color/white"/>
+                    android:textColor="@color/white"
+                    app:fab_colorNormal="@color/zone_oeste"/>
             </LinearLayout>
 
         </RelativeLayout>

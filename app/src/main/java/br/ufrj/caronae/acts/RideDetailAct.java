@@ -23,6 +23,7 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -99,6 +100,8 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
     TextView carModel_tv;
     @BindView(R.id.car_color_tv)
     TextView carColor_tv;
+    @BindView(R.id.no_riders)
+    TextView noRiders;
 
     @BindView(R.id.join_bt)
     public Button join_bt;
@@ -111,6 +114,11 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
     RelativeLayout locationBackground;
     @BindView(R.id.car_detail)
     RelativeLayout carDetails;
+    @BindView(R.id.riders_layout)
+    RelativeLayout ridersLayout;
+
+    @BindView(R.id.riders_profile)
+    LinearLayout ridersProfile;
 
     @BindView(R.id.loading_in_progress)
     ProgressBar progressBar;
@@ -560,13 +568,77 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
     private void configureOfferedRide(RideForJson ride)
     {
         rideWithUsers = ride;
-        plate_tv.setText(ride.getDriver().getCarPlate().substring(0,3)+"-"+ride.getDriver().getCarPlate().substring(3));
+        final String location;
+        if (rideWithUsers.isGoing())
+            location = rideWithUsers.getNeighborhood() + " ➜ " + rideWithUsers.getHub();
+        else
+            location = rideWithUsers.getHub() + " ➜ " + rideWithUsers.getNeighborhood();
+        String plate = ride.getDriver().getCarPlate().substring(0,3)+"-"+ride.getDriver().getCarPlate().substring(3);
+        plate_tv.setText(plate);
         carModel_tv.setText(ride.getDriver().getCarModel());
         carColor_tv.setText(ride.getDriver().getCarColor());
         joinLayout.setVisibility(View.GONE);
+        ridersLayout.setVisibility(View.VISIBLE);
         cancelRide_bt.setVisibility(View.VISIBLE);
+        int color = Util.getColors(ride.getZone());
+        chat_bt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                List<ChatAssets> l = ChatAssets.find(ChatAssets.class, "ride_id = ?", Integer.toString(idRide));
+                if (l == null || l.isEmpty())
+                    new ChatAssets(Integer.toString(idRide), location, color, color,
+                            Util.formatBadDateWithoutYear(ride.getDate()),
+                            Util.formatTime(ride.getTime())).save();
+
+                Intent intent = new Intent(RideDetailAct.this, ChatAct.class);
+                intent.putExtra("rideId", Integer.toString(idRide));
+                startActivity(intent);
+                overridePendingTransition(R.anim.anim_right_slide_in, R.anim.anim_left_slide_out);
+            }
+        });
         chat_bt.setVisibility(View.VISIBLE);
         carDetails.setVisibility(View.VISIBLE);
+        if(ride.getRiders() != null && ride.getRiders().size() > 0)
+        {
+            ridersProfile.setVisibility(View.VISIBLE);
+            noRiders.setVisibility(View.GONE);
+            CircleImageView[] riderPhoto = {findViewById(R.id.rider_0), findViewById(R.id.rider_1), findViewById(R.id.rider_2), findViewById(R.id.rider_3), findViewById(R.id.rider_4), findViewById(R.id.rider_5)};
+            for(int i = 0; i < ride.getRiders().size(); i++)
+            {
+                if (ride.getRiders().get(i).getProfilePicUrl() != null && !ride.getRiders().get(i).getProfilePicUrl().isEmpty()) {
+                    Picasso.with(getBaseContext()).load(ride.getRiders().get(i).getProfilePicUrl())
+                            .placeholder(R.drawable.user_pic)
+                            .error(R.drawable.user_pic)
+                            .transform(new RoundedTransformation())
+                            .into(riderPhoto[i]);
+                } else {
+                    riderPhoto[i].setImageResource(R.drawable.user_pic);
+                }
+                riderPhoto[i].setVisibility(View.VISIBLE);
+                final User currentRider = ride.getRiders().get(i);
+                riderPhoto[i].setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (currentRider.getDbId() != App.getUser().getDbId()) { //dont allow user to open own profile
+                            Intent intent = new Intent(getApplicationContext(), ProfileAct.class);
+                            intent.putExtra("user", new Gson().toJson(currentRider));
+                            intent.putExtra("from", "rideoffer");
+                            intent.putExtra("fromAnother", true);
+                            intent.putExtra("requested", requested);
+                            intent.putExtra("ride", rideWithUsers);
+                            intent.putExtra("fromWhere", fromWhere);
+                            startActivity(intent);
+                            overridePendingTransition(R.anim.anim_right_slide_in, R.anim.anim_left_slide_out);
+                        }
+                    }
+                });
+            }
+        }
+        else
+        {
+            noRiders.setVisibility(View.VISIBLE);
+            ridersProfile.setVisibility(View.GONE);
+        }
     }
 
     @OnClick(R.id.cancel_ride)

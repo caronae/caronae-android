@@ -77,7 +77,6 @@ public class ChatAct extends AppCompatActivity {
     static int color;
     Context context;
     static ChatMsgsAdapter chatMsgsAdapter;
-    Toolbar toolbar;
 
     Animation translate;
 
@@ -89,9 +88,6 @@ public class ChatAct extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
         ButterKnife.bind(this);
-
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
         App.getBus().register(this);
 
@@ -120,7 +116,6 @@ public class ChatAct extends AppCompatActivity {
         color = chatAssets.getColor();
         int colorPressed = color;
         lay1.setBackgroundColor(color);
-        toolbar.setBackgroundColor(color);
         send_bt.setColorNormal(color);
         send_bt.setColorPressed(colorPressed);
         String neighborhood = chatAssets.getLocation();
@@ -146,7 +141,6 @@ public class ChatAct extends AppCompatActivity {
 
         if (!chatMsgsList.isEmpty())
             chatMsgs_rv.scrollToPosition(chatMsgsList.size() - 1);
-
     }
 
     @OnClick(R.id.send_bt)
@@ -158,7 +152,7 @@ public class ChatAct extends AppCompatActivity {
         if (message.isEmpty())
             return;
 
-        String time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US).format(new Date());
+        String time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
         final ChatMessageReceived msg = new ChatMessageReceived(App.getUser().getName(), App.getUser().getDbId() + "", message, rideId, time);
         msg.setId((long) -1);
 
@@ -241,6 +235,7 @@ public class ChatAct extends AppCompatActivity {
 
         if (translate.hasEnded()) {
             translate = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim_loading_messages_up);
+            cardLoadingMessages.setVisibility(View.VISIBLE);
             cardLoadingMessages.startAnimation(translate);
         } else {
             translate.setAnimationListener(new Animation.AnimationListener() {
@@ -252,6 +247,7 @@ public class ChatAct extends AppCompatActivity {
                 public void onAnimationEnd(Animation animation) {
                     translate = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim_loading_messages_up);
                     cardLoadingMessages.startAnimation(translate);
+                    cardLoadingMessages.setVisibility(View.GONE);
                 }
 
                 @Override
@@ -265,6 +261,7 @@ public class ChatAct extends AppCompatActivity {
     public void updateMsgsListWithServer(final String rideId) {
 
         translate = AnimationUtils.loadAnimation(this, R.anim.anim_loading_messages_down);
+        cardLoadingMessages.setVisibility(View.VISIBLE);
         cardLoadingMessages.startAnimation(translate);
 
 
