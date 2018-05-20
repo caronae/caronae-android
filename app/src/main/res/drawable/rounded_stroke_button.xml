@@ -7,7 +7,7 @@
     <solid android:color="@color/light_gray_transparency"/>
 
     <stroke android:width="2dp"
-        android:color="@color/zone_centro"/>
+        android:color="@color/dark_gray"/>
 
     <padding android:left="1dp"
         android:top="1dp"

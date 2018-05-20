@@ -1,8 +1,6 @@
 package br.ufrj.caronae.acts;
 
 import android.app.Activity;
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.PorterDuff;
@@ -12,7 +10,6 @@ import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.Gravity;
@@ -32,8 +29,11 @@ import com.facebook.AccessToken;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.CustomDialogClass;
@@ -45,7 +45,6 @@ import br.ufrj.caronae.Util;
 import br.ufrj.caronae.httpapis.CaronaeAPI;
 import br.ufrj.caronae.models.ActiveRide;
 import br.ufrj.caronae.models.ChatAssets;
-import br.ufrj.caronae.models.Ride;
 import br.ufrj.caronae.models.RideRequestSent;
 import br.ufrj.caronae.models.User;
 import br.ufrj.caronae.models.modelsforjson.FacebookFriendForJson;
@@ -67,6 +66,8 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
     public ImageView share_ic;
     @BindView(R.id.clock)
     public ImageView clock;
+    @BindView(R.id.requester_photo)
+    CircleImageView requesterPhoto;
 
     @BindView(R.id.back_title)
     public TextView back_tv;
@@ -102,6 +103,8 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
     TextView carColor_tv;
     @BindView(R.id.no_riders)
     TextView noRiders;
+    @BindView(R.id.accept_tv)
+    TextView accept_tv;
 
     @BindView(R.id.join_bt)
     public Button join_bt;
@@ -116,6 +119,12 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
     RelativeLayout carDetails;
     @BindView(R.id.riders_layout)
     RelativeLayout ridersLayout;
+    @BindView(R.id.invite_lay)
+    RelativeLayout inviteLay;
+    @BindView(R.id.remove_request)
+    RelativeLayout removeRequest;
+    @BindView(R.id.accept_request)
+    RelativeLayout acceptRequest;
 
     @BindView(R.id.riders_profile)
     LinearLayout ridersProfile;
@@ -144,7 +153,6 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
         try {
             fromWhere = getIntent().getStringExtra("fromWhere");
         }catch(Exception e){}
-
 
         if(fromWhere != null) {
             if (fromWhere.equals("SearchRides"))
@@ -341,6 +349,7 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
         }
         locationBackground.setBackgroundColor(zoneColorInt);
         photo_iv.setBorderColor(zoneColorInt);
+        requesterPhoto.setBorderColor(zoneColorInt);
 
         final String location;
         if (rideWithUsers.isGoing()) {
@@ -412,8 +421,14 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
         clock.setColorFilter(zoneColorInt, PorterDuff.Mode.SRC_IN);
         share_ic.setColorFilter(zoneColorInt, PorterDuff.Mode.SRC_IN);
         share_tv.setTextColor(zoneColorInt);
+
+        accept_tv.setTextColor(zoneColorInt);
         GradientDrawable strokeShare_bt = (GradientDrawable)shareButton.getBackground();
         strokeShare_bt.setStroke(2, zoneColorInt);
+        GradientDrawable strokeRemove_bt = (GradientDrawable)removeRequest.getBackground();
+        strokeRemove_bt.setStroke(2, zoneColorInt);
+        GradientDrawable strokeAccept_bt = (GradientDrawable)acceptRequest.getBackground();
+        strokeAccept_bt.setStroke(2, zoneColorInt);
         time_dt.setText(dateDescription);
         time_dt.setTextColor(zoneColorInt);
         if (rideWithUsers.getDescription().equals("")) {
@@ -421,13 +436,13 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
         } else {
             description_dt.setText(rideWithUsers.getDescription());
         }
-
         if (isDriver) {
             configureOfferedRide(rideWithUsers);
-        } else {
+        }else{
             if (requested) {
                 join_bt.setVisibility(View.GONE);
                 requested_dt.setVisibility(View.VISIBLE);
+                inviteLay.setVisibility(View.VISIBLE);
             } else {
                 if (isFull) {
                     join_bt.setText(R.string.full_ride);
@@ -463,7 +478,6 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
     }
 
     private void configureActivityWithLink() {
-
         Uri uri = getIntent().getData();
         final String rideId;
         List<String> params = uri.getPathSegments();
@@ -550,7 +564,10 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
                             rideRequest.save();
                             createChatAssets(rideWithUsers);
                             join_bt.startAnimation(getAnimationForSendButton());
+                            inviteLay.setVisibility(View.VISIBLE);
                             requested_dt.startAnimation(getAnimationForResquestedText());
+                            SharedPref.lastMyRidesUpdate = 300;
+                            SharedPref.lastAllRidesUpdate = 300;
                             App.getBus().post(rideRequest);
                         } else {
                             Util.treatResponseFromServer(response);
@@ -568,32 +585,34 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
     private void configureOfferedRide(RideForJson ride)
     {
         rideWithUsers = ride;
-        final String location;
-        if (rideWithUsers.isGoing())
-            location = rideWithUsers.getNeighborhood() + " ➜ " + rideWithUsers.getHub();
-        else
-            location = rideWithUsers.getHub() + " ➜ " + rideWithUsers.getNeighborhood();
+
         String plate = ride.getDriver().getCarPlate().substring(0,3)+"-"+ride.getDriver().getCarPlate().substring(3);
         plate_tv.setText(plate);
         carModel_tv.setText(ride.getDriver().getCarModel());
         carColor_tv.setText(ride.getDriver().getCarColor());
         joinLayout.setVisibility(View.GONE);
         ridersLayout.setVisibility(View.VISIBLE);
-        cancelRide_bt.setVisibility(View.VISIBLE);
-        int color = Util.getColors(ride.getZone());
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
+        String getCurrentDateTime = sdf.format(calendar.getTime());
+        String time = ride.getDate()+" "+ride.getTime().substring(0,ride.getTime().length()-3);
+        Util.debug(getCurrentDateTime);
+        Util.debug(time);
+        if (getCurrentDateTime.compareTo(time) < 0)
+        {
+            //Future
+            cancelRide_bt.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            //Past
+            cancelRide_bt.setVisibility(View.GONE);
+        }
+
         chat_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                List<ChatAssets> l = ChatAssets.find(ChatAssets.class, "ride_id = ?", Integer.toString(idRide));
-                if (l == null || l.isEmpty())
-                    new ChatAssets(Integer.toString(idRide), location, color, color,
-                            Util.formatBadDateWithoutYear(ride.getDate()),
-                            Util.formatTime(ride.getTime())).save();
-
-                Intent intent = new Intent(RideDetailAct.this, ChatAct.class);
-                intent.putExtra("rideId", Integer.toString(idRide));
-                startActivity(intent);
-                overridePendingTransition(R.anim.anim_right_slide_in, R.anim.anim_left_slide_out);
+                openChat();
             }
         });
         chat_bt.setVisibility(View.VISIBLE);
@@ -797,5 +816,26 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
                 overridePendingTransition(R.anim.anim_left_slide_in, R.anim.anim_right_slide_out);
                 break;
         }
+    }
+
+    private void openChat()
+    {
+        final String location;
+        if (rideWithUsers.isGoing())
+            location = rideWithUsers.getNeighborhood() + " ➜ " + rideWithUsers.getHub();
+        else
+            location = rideWithUsers.getHub() + " ➜ " + rideWithUsers.getNeighborhood();
+
+        int color = Util.getColors(rideWithUsers.getZone());
+        List<ChatAssets> l = ChatAssets.find(ChatAssets.class, "ride_id = ?", Integer.toString(idRide));
+        if (l == null || l.isEmpty())
+            new ChatAssets(Integer.toString(idRide), location, color, color,
+                    Util.formatBadDateWithoutYear(rideWithUsers.getDate()),
+                    Util.formatTime(rideWithUsers.getTime())).save();
+
+        Intent intent = new Intent(RideDetailAct.this, ChatAct.class);
+        intent.putExtra("rideId", Integer.toString(idRide));
+        startActivity(intent);
+        overridePendingTransition(R.anim.anim_right_slide_in, R.anim.anim_left_slide_out);
     }
 }

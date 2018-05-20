@@ -99,7 +99,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/title_lay"
-                    android:background="@color/zone_centro">
+                    android:background="@color/dark_gray">
 
                     <TextView
                         android:id="@+id/location_dt"
@@ -112,7 +112,7 @@
                         android:layout_marginLeft="15dp"
                         android:layout_marginStart="15dp"
                         android:textStyle="bold"
-                        android:text="BENFICA ➜ CCS"/>
+                        android:text="ILHA DO GOVERNADOR ➜ CCS"/>
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -133,7 +133,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="15dp"
                         android:layout_marginStart="15dp"
-                        android:tint="@color/zone_centro"/>
+                        android:tint="@color/dark_gray"/>
                     <TextView
                         android:id="@+id/time_dt"
                         android:layout_width="wrap_content"
@@ -148,7 +148,7 @@
                         android:layout_toRightOf="@id/clock"
                         android:layout_toEndOf="@id/clock"
                         android:text="Chegando às 00:00 | Seg | 25/12"
-                        android:textColor="@color/zone_centro"/>
+                        android:textColor="@color/dark_gray"/>
 
                     <TextView
                         android:id="@+id/cancel_ride"
@@ -167,12 +167,100 @@
                         android:text="@string/cancel_uppercase"/>
 
                 </RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/request"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/time_lay"
+                    android:background="@color/light_gray">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/requester_photo"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:src="@drawable/user_pic"
+                        android:layout_margin="15dp"
+                        app:civ_border_width="2dp"
+                        app:civ_border_color="@color/dark_gray"/>
+                    <TextView
+                        android:id="@+id/requester_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@id/requester_photo"
+                        android:textColor="@color/dark_gray"
+                        android:layout_toEndOf="@id/requester_photo"
+                        android:layout_toRightOf="@id/requester_photo"
+                        android:textStyle="bold"
+                        android:textSize="15sp"
+                        android:text="Breno Ferreira Rocha"/>
+                    <TextView
+                        android:id="@+id/requester_status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/requester_name"
+                        android:textSize="15sp"
+                        android:textColor="@color/dark_gray"
+                        android:layout_toEndOf="@id/requester_photo"
+                        android:layout_toRightOf="@id/requester_photo"
+                        android:text="Graduação | Medicina"/>
+
+                    <RelativeLayout
+                        android:id="@+id/remove_request"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/requester_photo"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:background="@drawable/rounded_stroke_button">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/dark_gray"
+                            android:paddingEnd="20dp"
+                            android:paddingLeft="20dp"
+                            android:paddingRight="20dp"
+                            android:paddingStart="20dp"
+                            android:paddingTop="3dp"
+                            android:paddingBottom="3dp"
+                            android:gravity="center"
+                            android:textSize="12sp"
+                            android:text="@string/refuseRriderBtn"/>
+                    </RelativeLayout>
+                    <RelativeLayout
+                        android:id="@+id/accept_request"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/requester_photo"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:background="@drawable/rounded_stroke_button">
+                        <TextView
+                            android:id="@+id/accept_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/dark_gray"
+                            android:paddingEnd="20dp"
+                            android:paddingLeft="20dp"
+                            android:paddingRight="20dp"
+                            android:paddingStart="20dp"
+                            android:paddingTop="3dp"
+                            android:paddingBottom="3dp"
+                            android:gravity="center"
+                            android:textSize="12sp"
+                            android:text="@string/acceptRiderBtn"/>
+                    </RelativeLayout>
+                </RelativeLayout>
 
                 <RelativeLayout
                     android:id="@+id/share_lay"
                     android:layout_width="wrap_content"
                     android:layout_height="35dp"
-                    android:layout_below="@id/time_lay"
+                    android:layout_below="@id/request"
                     android:layout_marginTop="10dp"
                     android:layout_marginStart="20dp"
                     android:layout_marginLeft="20dp"
@@ -192,12 +280,12 @@
                             android:layout_height="wrap_content"
                             android:text="@string/ride_share"
                             android:layout_centerInParent="true"
-                            android:textColor="@color/zone_centro"
+                            android:textColor="@color/dark_gray"
                             android:textSize="16sp"
                             android:gravity="center"/>
                         <ImageView
                             android:id="@+id/share_ic"
-                            android:tint="@color/zone_centro"
+                            android:tint="@color/dark_gray"
                             android:layout_width="15dp"
                             android:layout_height="15dp"
                             android:src="@drawable/ic_share_24dp"
@@ -475,7 +563,7 @@
                                     android:layout_height="75dp"
                                     android:layout_weight="1"
                                     android:src="@drawable/user_pic"
-                                    app:civ_border_width="3dp"
+                                    app:civ_border_width="2dp"
                                     app:civ_border_color="@color/dark_gray"/>
 
                                 <de.hdodenhof.circleimageview.CircleImageView
@@ -485,7 +573,7 @@
                                     android:layout_height="75dp"
                                     android:layout_weight="1"
                                     android:src="@drawable/user_pic"
-                                    app:civ_border_width="3dp"
+                                    app:civ_border_width="2dp"
                                     app:civ_border_color="@color/dark_gray"/>
 
                                 <de.hdodenhof.circleimageview.CircleImageView
@@ -495,7 +583,7 @@
                                     android:layout_height="75dp"
                                     android:layout_weight="1"
                                     android:src="@drawable/user_pic"
-                                    app:civ_border_width="3dp"
+                                    app:civ_border_width="2dp"
                                     app:civ_border_color="@color/dark_gray"/>
 
                                 <de.hdodenhof.circleimageview.CircleImageView
@@ -505,7 +593,7 @@
                                     android:layout_height="75dp"
                                     android:layout_weight="1"
                                     android:src="@drawable/user_pic"
-                                    app:civ_border_width="3dp"
+                                    app:civ_border_width="2dp"
                                     app:civ_border_color="@color/dark_gray"/>
 
                                 <de.hdodenhof.circleimageview.CircleImageView
@@ -515,7 +603,7 @@
                                     android:layout_height="75dp"
                                     android:layout_weight="1"
                                     android:src="@drawable/user_pic"
-                                    app:civ_border_width="3dp"
+                                    app:civ_border_width="2dp"
                                     app:civ_border_color="@color/dark_gray"/>
 
                                 <de.hdodenhof.circleimageview.CircleImageView
@@ -525,7 +613,7 @@
                                     android:layout_height="75dp"
                                     android:layout_weight="1"
                                     android:src="@drawable/user_pic"
-                                    app:civ_border_width="3dp"
+                                    app:civ_border_width="2dp"
                                     app:civ_border_color="@color/dark_gray"/>
 
                             </LinearLayout>
@@ -541,6 +629,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
+                    android:visibility="gone"
                     android:layout_below="@id/drive_info">
 
                     <TextView
@@ -549,8 +638,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="@string/act_rideoffer_requested"
-                        android:textColor="@color/green"
-                        android:visibility="gone" />
+                        android:textColor="@color/green" />
 
                 </RelativeLayout>
 

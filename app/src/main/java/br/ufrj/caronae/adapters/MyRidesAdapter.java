@@ -19,7 +19,6 @@ import br.ufrj.caronae.R;
 import br.ufrj.caronae.RoundedTransformation;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.RideDetailAct;
-import br.ufrj.caronae.models.RideRequestSent;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -137,12 +136,6 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
 
                 viewHolder.location_tv.setText(location);
 
-                List<RideRequestSent> rideRequests = RideRequestSent.find(RideRequestSent.class, "db_id = ?", rideOffer.getDbId() + "");
-                boolean requested = false;
-                if (rideRequests != null && !rideRequests.isEmpty())
-                    requested = true;
-
-                final boolean finalRequested = requested;
                 viewHolder.parentLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -151,7 +144,7 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
                         intent.putExtra("ride", rideOffer);
                         intent.putExtra("rideId", rideOffer.getId().intValue());
                         intent.putExtra("starting", true);
-                        intent.putExtra("requested", finalRequested);
+                        intent.putExtra("requested", true);
                         context.startActivity(intent);
                     }
                 });
