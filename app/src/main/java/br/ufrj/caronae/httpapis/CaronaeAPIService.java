@@ -60,13 +60,16 @@ public interface CaronaeAPIService {
     Call<ChatMessageSendResponse> sendChatMsg(@Path("rideId") String rideId, @Body ChatSendMessageForJson message);
 
     @POST("api/v1/rides")
-    Call<List<RideOffer>    > offerRide(@Body RideOffer ride);
+    Call<List<RideOffer>> offerRide(@Body RideOffer ride);
 
     @POST("api/v1/rides/{rideId}/requests")
     Call<ResponseBody> requestJoin(@Path("rideId") String rideId);
 
     @POST("api/v1/rides/{rideId}/leave")
     Call<ResponseBody> leaveRide(@Path("rideId") String rideId);
+
+    @DELETE("ride/allFromRoutine/{routineId}")
+    Call<ResponseBody> deleteAllRidesFromRoutine(@Path("routineId") String routineId);
 
     @POST("api/v1/rides/{rideId}/finish")
     Call<ResponseBody> finishRide(@Path("rideId") String rideId);
@@ -79,9 +82,6 @@ public interface CaronaeAPIService {
 
     @PUT("api/v1/rides/{rideId}/requests")
     Call<ResponseBody> answerJoinRequest(@Path("rideId") String rideId, @Body JoinRequestIDsForJson joinRequestIDsForJson);
-
-    @DELETE("ride/allFromRoutine/{routineId}")
-    Call<ResponseBody> deleteAllRidesFromRoutine(@Path("routineId") String routineId);
 
     @GET("user/{id}/mutualFriends")
     Call<FacebookFriendForJson> getMutualFriends(@Header("Facebook-Token") String faceToken, @Path("id") String faceId);

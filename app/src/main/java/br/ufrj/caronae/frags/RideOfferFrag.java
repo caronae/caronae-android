@@ -420,7 +420,7 @@ public class RideOfferFrag extends Fragment {
             Util.debug(repeatsUntil);
         }
 
-        ride = new RideOffer(time, neighborhood, repeatsUntil, description, place, going, date, slots, zone, weekDays, hubCenter, way);
+        ride = new RideOffer(time, neighborhood, repeatsUntil, description, place, going, date, 0, slots, zone, weekDays, hubCenter, way);
 
         checkAndCreateRide();
 
@@ -503,10 +503,12 @@ public class RideOfferFrag extends Fragment {
                     public void onResponse(Call<List<RideOffer>> call, Response<List<RideOffer>> response) {
                         if (response.isSuccessful()) {
                             List<RideOffer> createdRide = response.body();
-                            RideOffer newRide = createdRide.get(createdRide.size()-1);
-                            FirebaseTopicsHandler.subscribeFirebaseTopic(Integer.toString(newRide.getId().intValue()));
-                            newRide.save();
-                            createChatAssets(newRide);
+                            for(int i = 0;  i < createdRide.size(); i++)
+                            {
+                                FirebaseTopicsHandler.subscribeFirebaseTopic(Integer.toString(createdRide.get(i).getId().intValue()));
+                                createdRide.get(i).save();
+                                createChatAssets(createdRide.get(i));
+                            }
                             pd.dismiss();
                             SharedPref.lastAllRidesUpdate = 300;
                             SharedPref.lastMyRidesUpdate = 300;
@@ -540,6 +542,7 @@ public class RideOfferFrag extends Fragment {
                         cdc.setMessageText("Houve um erro de comunicação com nosso servidor. Por favor, tente novamente. "+t.getLocalizedMessage());
                         cdc.setPButtonText("OK");
                         cdc.enableOnePositiveOption();
+                        Log.e("error " , t.getMessage());
                         pd.dismiss();
                     }
                 });

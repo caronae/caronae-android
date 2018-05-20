@@ -604,7 +604,7 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
                             break;
                         case 1:
                             progressBar.setVisibility(View.VISIBLE);
-                            leaveRide(Integer.parseInt(rideWithUsers.getRoutineId()));
+                            cancelRoutine(rideWithUsers.getRoutineId());
                             break;
                     }
                 }
@@ -615,6 +615,45 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
             wmlp.gravity = Gravity.BOTTOM;
             dialog.show();
         }
+    }
+
+    private void cancelRoutine(String routineId)
+    {
+        Activity act = this;
+        CaronaeAPI.service(this).deleteAllRidesFromRoutine(routineId).
+            enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    if (response.isSuccessful()) {
+                        progressBar.setVisibility(View.GONE);
+                        SharedPref.lastAllRidesUpdate = 300;
+                        SharedPref.lastMyRidesUpdate = 300;
+                        backToLast();
+                    } else {
+                        progressBar.setVisibility(View.GONE);
+                        CustomDialogClass cdc = new CustomDialogClass(act, "", null);
+                        cdc.show();
+                        cdc.setTitleText("Algo deu errado.");
+                        cdc.setMessageText("Não foi possível cancelar sua carona. (A conexão à internet talvez esteja inativa.)");
+                        cdc.setPButtonText("OK");
+                        cdc.enableOnePositiveOption();
+                        Util.treatResponseFromServer(response);
+                        Log.e("Error ", response.message());
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    progressBar.setVisibility(View.GONE);
+                    CustomDialogClass cdc = new CustomDialogClass(act, "", null);
+                    cdc.show();
+                    cdc.setTitleText("Algo deu errado.");
+                    cdc.setMessageText("Não foi possível cancelar sua carona. (A conexão à internet talvez esteja inativa.)");
+                    cdc.setPButtonText("OK");
+                    cdc.enableOnePositiveOption();
+                    Log.e("Error ", t.getLocalizedMessage());
+                }
+            });
     }
 
     private void leaveRide(int rideId)

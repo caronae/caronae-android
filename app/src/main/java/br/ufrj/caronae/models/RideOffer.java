@@ -20,6 +20,7 @@ public class RideOffer extends SugarRecord{
     protected boolean going;
     @SerializedName("mydate")
     protected String date;
+    @SerializedName("dbId")
     protected int dbId;
     @SerializedName("slots")
     protected int slots;
@@ -33,7 +34,7 @@ public class RideOffer extends SugarRecord{
     protected String route;
 
     public RideOffer(String time, String neighborhood, String repeatsUntil, String description, String place, boolean going,
-                String date, int slots, String zone, String weekDays, String hub, String route) {
+                String date, int dbId, int slots, String zone, String weekDays, String hub, String route) {
         this.zone = zone;
         this.neighborhood = neighborhood;
         this.place = place;
@@ -41,6 +42,7 @@ public class RideOffer extends SugarRecord{
         this.date = date;
         this.time = time;
         this.hub = hub;
+        this.dbId = dbId;
         this.description = description;
         this.going = going;
         this.weekDays = weekDays;
