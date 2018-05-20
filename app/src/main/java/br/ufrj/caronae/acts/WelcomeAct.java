@@ -6,13 +6,17 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.TextView;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class WelcomeAct extends AppCompatActivity {
+    @BindView(R.id.welcome_title)
+    TextView welcometv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +27,12 @@ public class WelcomeAct extends AppCompatActivity {
         {
             startActivity(new Intent(WelcomeAct.this, LoginAct.class));
             WelcomeAct.this.finish();
+        }
+        else
+        {
+            String[] namePart = App.getUser().getName().split(" ");
+            String welcometxt = "Olá, "+ namePart[0] +"!";
+            welcometv.setText(welcometxt);
         }
     }
 
