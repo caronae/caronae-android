@@ -142,7 +142,7 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
                         Intent intent = new Intent(context, RideDetailAct.class);
                         intent.putExtra("fromWhere", rideOffer.fromWhere);
                         intent.putExtra("ride", rideOffer);
-                        intent.putExtra("rideId", rideOffer.getId().intValue());
+                        intent.putExtra("id", rideOffer.getId().intValue());
                         intent.putExtra("starting", true);
                         intent.putExtra("requested", true);
                         context.startActivity(intent);

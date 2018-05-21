@@ -57,64 +57,50 @@ public class CustomDialogClass extends Dialog implements android.view.View.OnCli
         {
             case R.id.positive_bt:
                 dismiss();
-                if(currentFrag.equals("PlaceAct"))
+                switch (currentFrag)
                 {
-                    PlaceAct act = (PlaceAct) activity;
-                    act.finish();
-                    act.overridePendingTransition(R.anim.anim_left_slide_in, R.anim.anim_right_slide_out);
-                }
-                else if(currentFrag.equals("RideOfferActError"))
-                {
-                    RideDetailAct act = (RideDetailAct) activity;
-                    act.customDialogAction();
-                }
-                else if(currentFrag.equals("ROFINCO"))
-                {
-                    ((RideOfferFrag)fragment).changeFragment();
-                }
-                else if(currentFrag.equals("Falae"))
-                {
-                    ((FalaeAct)activity).backToMenu();
+                    case "PlaceAct":
+                        ((PlaceAct)activity).finish();
+                        ((PlaceAct)activity).overridePendingTransition(R.anim.anim_left_slide_in, R.anim.anim_right_slide_out);
+                        break;
+                    case "RideOfferActError":
+                        ((RideDetailAct)activity).customDialogAction();
+                        break;
+                    case "ROFINCO":
+                        ((RideOfferFrag)fragment).changeFragment();
+                        break;
+                    case "Falae":
+                        ((FalaeAct)activity).backToMenu();
+                        break;
+                    case "RIDA":
+                        ((RideDetailAct)activity).onRequestAction(((RideDetailAct)activity).answerRequest);
+                        break;
                 }
                 break;
 
             case R.id.negative_bt:
-                if(currentFrag.equals("MyProfileEdit"))
+                dismiss();
+                switch (currentFrag)
                 {
-                    MyProfileAct profileAct;
-                    profileAct = (MyProfileAct) activity;
-                    profileAct.negativeDialogAction();
-                    dismiss();
-                }
-                else if(currentFrag.equals("MyProfileShow"))
-                {
-                    MyProfileShowFrag myProfileShowFrag;
-                    myProfileShowFrag = (MyProfileShowFrag) fragment;
-                    myProfileShowFrag.setActionExit();
-                    dismiss();
-                }
-                else if(currentFrag.equals("RideDetailAct"))
-                {
-                    RideDetailAct rideDetailAct;
-                    rideDetailAct = (RideDetailAct) activity;
-                    rideDetailAct.joinAction();
-                    dismiss();
-                }
-                else if(currentFrag.equals("ROFPD"))
-                {
-                    ((RideOfferFrag)fragment).createRide();
-                    ((RideOfferFrag)fragment).changeFragment();
-                    dismiss();
-                }
-                else if(currentFrag.equals("CancelRide"))
-                {
-                    ((RideDetailAct)activity).cancel();
-                    dismiss();
+                    case "MyProfileEdit":
+                        ((MyProfileAct)activity).negativeDialogAction();
+                        break;
+                    case "MyProfileShow":
+                        ((MyProfileShowFrag)fragment).setActionExit();
+                        break;
+                    case "RideDetailAct":
+                        ((RideDetailAct)activity).joinAction();
+                        break;
+                    case "ROFPD":
+                        ((RideOfferFrag)fragment).createRide();
+                        ((RideOfferFrag)fragment).changeFragment();
+                        break;
+                    case "CancelRide":
+                        ((RideDetailAct)activity).cancel();
+                        break;
                 }
                 break;
-
             default:
-
                 break;
         }
     }

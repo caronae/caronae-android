@@ -28,7 +28,6 @@ public class Ride extends SugarRecord{
     @SerializedName("routine_id")
     protected String routineId;
     protected String campus;
-    protected int availableSlots;
 
     public Ride() {
     }
@@ -66,7 +65,6 @@ public class Ride extends SugarRecord{
         repeatsUntil = ride.getRepeatsUntil();
         dbId = ride.getId().intValue();
         routineId = ride.getRoutineId();
-        availableSlots = ride.availableSlots;
         campus = ride.campus;
     }
 
@@ -182,7 +180,4 @@ public class Ride extends SugarRecord{
         return routineId;
     }
 
-    public int getAvailableSlots() {
-        return availableSlots;
-    }
 }
