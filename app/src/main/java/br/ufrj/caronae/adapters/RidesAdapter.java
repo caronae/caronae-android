@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -86,6 +87,14 @@ public class RidesAdapter extends RecyclerView.Adapter<RidesAdapter.ViewHolder> 
                 viewHolder.name_tv.setTextColor(color);
                 viewHolder.photo_iv.setBorderColor(color);
 
+                if(rideOffer.type != null && rideOffer.type.equals("final"))
+                {
+                    viewHolder.secondaryLayout.setVisibility(View.VISIBLE);
+                }
+                else
+                {
+                    viewHolder.secondaryLayout.setVisibility(View.GONE);
+                }
                 String profilePicUrl = rideOffer.getDriver().getProfilePicUrl();
                 if (profilePicUrl != null && !profilePicUrl.isEmpty()) {
                     Picasso.with(context).load(profilePicUrl)
@@ -188,15 +197,17 @@ public class RidesAdapter extends RecyclerView.Adapter<RidesAdapter.ViewHolder> 
         public TextView location_tv;
         public TextView name_tv;
         public LinearLayout parentLayout;
+        public RelativeLayout secondaryLayout;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            photo_iv = (CircleImageView) itemView.findViewById(R.id.photo_iv);
-            requestIndicator_iv = (ImageView) itemView.findViewById(R.id.requestIndicator_iv);
-            time_tv = (TextView) itemView.findViewById(R.id.time_tv);
-            location_tv = (TextView) itemView.findViewById(R.id.location_tv);
-            name_tv = (TextView) itemView.findViewById(R.id.name_tv);
-            parentLayout = (LinearLayout) itemView.findViewById(R.id.cardView);
+            photo_iv = itemView.findViewById(R.id.photo_iv);
+            requestIndicator_iv = itemView.findViewById(R.id.requestIndicator_iv);
+            time_tv = itemView.findViewById(R.id.time_tv);
+            location_tv = itemView.findViewById(R.id.location_tv);
+            name_tv = itemView.findViewById(R.id.name_tv);
+            parentLayout = itemView.findViewById(R.id.cardView);
+            secondaryLayout = itemView.findViewById(R.id.secondary_lay);
         }
     }
 

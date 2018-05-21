@@ -426,7 +426,7 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
         GradientDrawable strokeShare_bt = (GradientDrawable)shareButton.getBackground();
         strokeShare_bt.setStroke(2, zoneColorInt);
         GradientDrawable strokeRemove_bt = (GradientDrawable)removeRequest.getBackground();
-        strokeRemove_bt.setStroke(2, zoneColorInt);
+        strokeRemove_bt.setStroke(2, getResources().getColor(R.color.dark_gray));
         GradientDrawable strokeAccept_bt = (GradientDrawable)acceptRequest.getBackground();
         strokeAccept_bt.setStroke(2, zoneColorInt);
         time_dt.setText(dateDescription);

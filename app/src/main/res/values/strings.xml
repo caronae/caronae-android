@@ -20,6 +20,7 @@
     <string name="welcome_title">Bem vindo ao Caronaê!</string>
     <string name="first_login">Parece que esta é a primeira vez que você usa o Caronaê. \n Para continuar, por favor complete seu perfil.</string>
     <string name="continue_txt">Continuar</string>
+    <string name="last_ride_text">Quer encontrar mais caronas? Use a pesquisa!</string>
 
     <string name="tokenHint_et">Sua chave aqui</string>
     <string name="send_bt">Enviar</string>
