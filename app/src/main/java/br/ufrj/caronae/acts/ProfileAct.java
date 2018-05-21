@@ -66,6 +66,7 @@ public class ProfileAct extends AppCompatActivity {
     private boolean requested;
     private RideForJson rideOffer;
     private String from, user2, fromWhere = "";
+    private int idRide;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +81,7 @@ public class ProfileAct extends AppCompatActivity {
             rideOffer = getIntent().getExtras().getParcelable("ride");
             requested = getIntent().getBooleanExtra("requested", false);
         }
+        idRide = getIntent().getExtras().getInt("id");
         user2 = getIntent().getExtras().getString("user");
         user = new Gson().fromJson(user2, User.class);
         title_tv.setText(user.getName());
@@ -211,6 +213,7 @@ public class ProfileAct extends AppCompatActivity {
         intent.putExtra("driver", name_tv.getText());
         intent.putExtra("ride", rideOffer);
         intent.putExtra("fromWhere", fromWhere);
+        intent.putExtra("id",  idRide);
         startActivity(intent);
         overridePendingTransition(R.anim.anim_right_slide_in, R.anim.anim_left_slide_out);
     }
@@ -280,6 +283,7 @@ public class ProfileAct extends AppCompatActivity {
         intent.putExtra("ride", rideOffer);
         intent.putExtra("requested", requested);
         intent.putExtra("fromWhere", fromWhere);
+        intent.putExtra("id",  idRide);
         startActivity(intent);
         overridePendingTransition(R.anim.anim_left_slide_in, R.anim.anim_right_slide_out);
     }
@@ -291,6 +295,7 @@ public class ProfileAct extends AppCompatActivity {
             intent.putExtra("ride", rideOffer);
             intent.putExtra("requested", requested);
             intent.putExtra("fromWhere", fromWhere);
+            intent.putExtra("id",  idRide);
             startActivity(intent);
             overridePendingTransition(R.anim.anim_left_slide_in, R.anim.anim_right_slide_out);
         }

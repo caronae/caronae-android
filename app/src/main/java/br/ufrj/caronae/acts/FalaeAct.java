@@ -50,6 +50,7 @@ public class FalaeAct extends AppCompatActivity {
     private String from, user2;
 
     boolean requested, fromAnother;
+    private int idRide;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +63,7 @@ public class FalaeAct extends AppCompatActivity {
         }catch(Exception e){}
         fromProfile = getIntent().getBooleanExtra("fromProfile", false);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+        idRide = getIntent().getExtras().getInt("id");
         Fragment fragment = null;
         Class fragmentClass;
         fragmentClass = FalaeFrag.class;
@@ -134,6 +136,7 @@ public class FalaeAct extends AppCompatActivity {
         profileAct.putExtra("requested", requested);
         profileAct.putExtra("ride", rideOffer);
         profileAct.putExtra("fromWhere", fromWhere);
+        profileAct.putExtra("id",  idRide);
         startActivity(profileAct);
         this.overridePendingTransition(R.anim.anim_left_slide_in,R.anim.anim_right_slide_out);
     }

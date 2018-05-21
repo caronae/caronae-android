@@ -1,6 +1,7 @@
 package br.ufrj.caronae.acts;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.PorterDuff;
@@ -48,6 +49,7 @@ import br.ufrj.caronae.models.ChatAssets;
 import br.ufrj.caronae.models.RideRequestSent;
 import br.ufrj.caronae.models.User;
 import br.ufrj.caronae.models.modelsforjson.FacebookFriendForJson;
+import br.ufrj.caronae.models.modelsforjson.JoinRequestIDsForJson;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -105,6 +107,10 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
     TextView noRiders;
     @BindView(R.id.accept_tv)
     TextView accept_tv;
+    @BindView(R.id.requester_name)
+    TextView requesterName;
+    @BindView(R.id.requester_status)
+    TextView requesterStatus;
 
     @BindView(R.id.join_bt)
     public Button join_bt;
@@ -125,6 +131,8 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
     RelativeLayout removeRequest;
     @BindView(R.id.accept_request)
     RelativeLayout acceptRequest;
+    @BindView(R.id.request)
+    RelativeLayout requestLay;
 
     @BindView(R.id.riders_profile)
     LinearLayout ridersProfile;
@@ -133,6 +141,7 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
     ProgressBar progressBar;
 
     RideForJson rideWithUsers;
+    User currentRequester;
 
     int zoneColorInt, idRide;
     boolean requested;
@@ -146,6 +155,10 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
         {
             overridePendingTransition(R.anim.anim_right_slide_in, R.anim.anim_left_slide_out);
         }
+        try
+        {
+            idRide = getIntent().getExtras().getInt("id");
+        }catch(Exception e){}
         getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_ride_detail);
         ButterKnife.bind(this);
@@ -166,7 +179,9 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
         }
         if (!startWithLink()) {
             rideWithUsers = getIntent().getExtras().getParcelable("ride");
-            idRide = getIntent().getIntExtra("rideId", 0);
+            if(idRide == 0) {
+                idRide = getIntent().getIntExtra("rideId", 0);
+            }
             configureActivityWithRide(rideWithUsers, false);
         } else {
             configureActivityWithLink();
@@ -382,6 +397,7 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
                     intent.putExtra("requested", requested);
                     intent.putExtra("ride", rideWithUsers);
                     intent.putExtra("fromWhere", fromWhere);
+                    intent.putExtra("id", idRide);
                     startActivity(intent);
                     overridePendingTransition(R.anim.anim_right_slide_in, R.anim.anim_left_slide_out);
                 }
@@ -585,7 +601,6 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
     private void configureOfferedRide(RideForJson ride)
     {
         rideWithUsers = ride;
-
         String plate = ride.getDriver().getCarPlate().substring(0,3)+"-"+ride.getDriver().getCarPlate().substring(3);
         plate_tv.setText(plate);
         carModel_tv.setText(ride.getDriver().getCarModel());
@@ -596,8 +611,6 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
         String getCurrentDateTime = sdf.format(calendar.getTime());
         String time = ride.getDate()+" "+ride.getTime().substring(0,ride.getTime().length()-3);
-        Util.debug(getCurrentDateTime);
-        Util.debug(time);
         if (getCurrentDateTime.compareTo(time) < 0)
         {
             //Future
@@ -609,6 +622,7 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
             cancelRide_bt.setVisibility(View.GONE);
         }
 
+
         chat_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -617,47 +631,8 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
         });
         chat_bt.setVisibility(View.VISIBLE);
         carDetails.setVisibility(View.VISIBLE);
-        if(ride.getRiders() != null && ride.getRiders().size() > 0)
-        {
-            ridersProfile.setVisibility(View.VISIBLE);
-            noRiders.setVisibility(View.GONE);
-            CircleImageView[] riderPhoto = {findViewById(R.id.rider_0), findViewById(R.id.rider_1), findViewById(R.id.rider_2), findViewById(R.id.rider_3), findViewById(R.id.rider_4), findViewById(R.id.rider_5)};
-            for(int i = 0; i < ride.getRiders().size(); i++)
-            {
-                if (ride.getRiders().get(i).getProfilePicUrl() != null && !ride.getRiders().get(i).getProfilePicUrl().isEmpty()) {
-                    Picasso.with(getBaseContext()).load(ride.getRiders().get(i).getProfilePicUrl())
-                            .placeholder(R.drawable.user_pic)
-                            .error(R.drawable.user_pic)
-                            .transform(new RoundedTransformation())
-                            .into(riderPhoto[i]);
-                } else {
-                    riderPhoto[i].setImageResource(R.drawable.user_pic);
-                }
-                riderPhoto[i].setVisibility(View.VISIBLE);
-                final User currentRider = ride.getRiders().get(i);
-                riderPhoto[i].setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (currentRider.getDbId() != App.getUser().getDbId()) { //dont allow user to open own profile
-                            Intent intent = new Intent(getApplicationContext(), ProfileAct.class);
-                            intent.putExtra("user", new Gson().toJson(currentRider));
-                            intent.putExtra("from", "rideoffer");
-                            intent.putExtra("fromAnother", true);
-                            intent.putExtra("requested", requested);
-                            intent.putExtra("ride", rideWithUsers);
-                            intent.putExtra("fromWhere", fromWhere);
-                            startActivity(intent);
-                            overridePendingTransition(R.anim.anim_right_slide_in, R.anim.anim_left_slide_out);
-                        }
-                    }
-                });
-            }
-        }
-        else
-        {
-            noRiders.setVisibility(View.VISIBLE);
-            ridersProfile.setVisibility(View.GONE);
-        }
+        verifyRiders(ride);
+        verifyRequesters();
     }
 
     @OnClick(R.id.cancel_ride)
@@ -837,5 +812,225 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
         intent.putExtra("rideId", Integer.toString(idRide));
         startActivity(intent);
         overridePendingTransition(R.anim.anim_right_slide_in, R.anim.anim_left_slide_out);
+    }
+
+    private void verifyRiders(RideForJson ride)
+    {
+        Util.debug("Chegou aqui 1");
+        if(ride.getRiders() != null && ride.getRiders().size() > 0)
+        {
+            Util.debug("Chegou aqui 2");
+            ridersProfile.setVisibility(View.VISIBLE);
+            noRiders.setVisibility(View.GONE);
+            CircleImageView[] riderPhoto = {findViewById(R.id.rider_0), findViewById(R.id.rider_1), findViewById(R.id.rider_2), findViewById(R.id.rider_3), findViewById(R.id.rider_4), findViewById(R.id.rider_5)};
+            for(int i = 0; i < ride.getRiders().size(); i++)
+            {
+                if (ride.getRiders().get(i).getProfilePicUrl() != null && !ride.getRiders().get(i).getProfilePicUrl().isEmpty()) {
+                    Picasso.with(getBaseContext()).load(ride.getRiders().get(i).getProfilePicUrl())
+                            .placeholder(R.drawable.user_pic)
+                            .error(R.drawable.user_pic)
+                            .transform(new RoundedTransformation())
+                            .into(riderPhoto[i]);
+                } else {
+                    riderPhoto[i].setImageResource(R.drawable.user_pic);
+                }
+                riderPhoto[i].setVisibility(View.VISIBLE);
+                final User currentRider = ride.getRiders().get(i);
+                riderPhoto[i].setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (currentRider.getDbId() != App.getUser().getDbId()) { //dont allow user to open own profile
+                            Intent intent = new Intent(getApplicationContext(), ProfileAct.class);
+                            intent.putExtra("user", new Gson().toJson(currentRider));
+                            intent.putExtra("from", "rideoffer");
+                            intent.putExtra("fromAnother", true);
+                            intent.putExtra("requested", requested);
+                            intent.putExtra("ride", rideWithUsers);
+                            intent.putExtra("fromWhere", fromWhere);
+                            intent.putExtra("id", idRide);
+                            startActivity(intent);
+                            overridePendingTransition(R.anim.anim_right_slide_in, R.anim.anim_left_slide_out);
+                        }
+                    }
+                });
+            }
+        }
+        else
+        {
+            noRiders.setVisibility(View.VISIBLE);
+            ridersProfile.setVisibility(View.GONE);
+        }
+    }
+
+    private void verifyRequesters()
+    {
+        final Activity act = this;
+        final Context ctx = this;
+        CaronaeAPI.service(this).getRequesters(Integer.toString(idRide)).
+            enqueue(new Callback<List<User>>() {
+                @Override
+                public void onResponse(Call<List<User>> call, Response<List<User>> response) {
+                    if (response.isSuccessful()) {
+                        List<User> requesters = response.body();
+                        if(requesters != null && !requesters.isEmpty())
+                        {
+                            currentRequester = requesters.get(0);
+                            requesterName.setText(requesters.get(0).getName());
+                            String status;
+                            status = requesters.get(0).getProfile() + " | " + requesters.get(0).getCourse();
+                            requesterStatus.setText(status);
+                            if (requesters.get(0).getProfilePicUrl() == null || requesters.get(0).getProfilePicUrl().isEmpty()) {
+                                Picasso.with(ctx).load(R.drawable.user_pic)
+                                        .into(requesterPhoto);
+                            } else {
+                                Picasso.with(ctx).load(requesters.get(0).getProfilePicUrl())
+                                        .placeholder(R.drawable.user_pic)
+                                        .error(R.drawable.user_pic)
+                                        .transform(new RoundedTransformation())
+                                        .into(requesterPhoto);
+                            }
+                            requesterPhoto.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Intent intent = new Intent(getApplicationContext(), ProfileAct.class);
+                                    intent.putExtra("user", new Gson().toJson(requesters.get(0)));
+                                    intent.putExtra("from", "rideoffer");
+                                    intent.putExtra("fromAnother", true);
+                                    intent.putExtra("requested", requested);
+                                    intent.putExtra("ride", rideWithUsers);
+                                    intent.putExtra("fromWhere", fromWhere);
+                                    startActivity(intent);
+                                    overridePendingTransition(R.anim.anim_right_slide_in, R.anim.anim_left_slide_out);
+                                }
+                            });
+                            requestLay.setVisibility(View.VISIBLE);
+                        }
+                    } else {
+                        progressBar.setVisibility(View.GONE);
+                        CustomDialogClass cdc = new CustomDialogClass(act, "", null);
+                        cdc.show();
+                        cdc.setTitleText("Algo deu errado.");
+                        cdc.setMessageText("Não foi possível cancelar sua carona. (A conexão à internet talvez esteja inativa.)");
+                        cdc.setPButtonText("OK");
+                        cdc.enableOnePositiveOption();
+                        Util.treatResponseFromServer(response);
+                        Log.e("Error ", response.message());
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<List<User>> call, Throwable t) {
+                    progressBar.setVisibility(View.GONE);
+                    CustomDialogClass cdc = new CustomDialogClass(act, "", null);
+                    cdc.show();
+                    cdc.setTitleText("Algo deu errado.");
+                    cdc.setMessageText("Não foi possível cancelar sua carona. (A conexão à internet talvez esteja inativa.)");
+                    cdc.setPButtonText("OK");
+                    cdc.enableOnePositiveOption();
+                    Log.e("Error ", t.getLocalizedMessage());
+                }
+            });
+    }
+
+    @OnClick(R.id.accept_request)
+    public void aRequest()
+    {
+        final Activity act = this;
+        JoinRequestIDsForJson answerRequest = new JoinRequestIDsForJson(currentRequester.getDbId(), true);
+        CaronaeAPI.service(this).answerJoinRequest(Integer.toString(idRide), answerRequest).
+                enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        if (response.isSuccessful()) {
+                            requestLay.setVisibility(View.GONE);
+                            updateRide("AfterAnswerRequest");
+                        } else {
+                            progressBar.setVisibility(View.GONE);
+                            CustomDialogClass cdc = new CustomDialogClass(act, "", null);
+                            cdc.show();
+                            cdc.setTitleText("Algo deu errado.");
+                            cdc.setMessageText("Não foi possível cancelar sua carona. (A conexão à internet talvez esteja inativa.)");
+                            cdc.setPButtonText("OK");
+                            cdc.enableOnePositiveOption();
+                            Util.treatResponseFromServer(response);
+                            Log.e("Error ", response.message());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        progressBar.setVisibility(View.GONE);
+                        CustomDialogClass cdc = new CustomDialogClass(act, "", null);
+                        cdc.show();
+                        cdc.setTitleText("Algo deu errado.");
+                        cdc.setMessageText("Não foi possível cancelar sua carona. (A conexão à internet talvez esteja inativa.)");
+                        cdc.setPButtonText("OK");
+                        cdc.enableOnePositiveOption();
+                        Log.e("Error ", t.getLocalizedMessage());
+                    }
+                });
+    }
+
+    @OnClick(R.id.remove_request)
+    public void rRequest()
+    {
+        final Activity act = this;
+        JoinRequestIDsForJson answerRequest = new JoinRequestIDsForJson(currentRequester.getDbId(), false);
+        CaronaeAPI.service(this).answerJoinRequest(Integer.toString(idRide), answerRequest).
+                enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        if (response.isSuccessful()) {
+                            requestLay.setVisibility(View.GONE);
+                            updateRide("AfterAnswerRequest");
+                        } else {
+                            progressBar.setVisibility(View.GONE);
+                            CustomDialogClass cdc = new CustomDialogClass(act, "", null);
+                            cdc.show();
+                            cdc.setTitleText("Algo deu errado.");
+                            cdc.setMessageText("Não foi possível cancelar sua carona. (A conexão à internet talvez esteja inativa.)");
+                            cdc.setPButtonText("OK");
+                            cdc.enableOnePositiveOption();
+                            Util.treatResponseFromServer(response);
+                            Log.e("Error ", response.message());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        progressBar.setVisibility(View.GONE);
+                        CustomDialogClass cdc = new CustomDialogClass(act, "", null);
+                        cdc.show();
+                        cdc.setTitleText("Algo deu errado.");
+                        cdc.setMessageText("Não foi possível cancelar sua carona. (A conexão à internet talvez esteja inativa.)");
+                        cdc.setPButtonText("OK");
+                        cdc.enableOnePositiveOption();
+                        Log.e("Error ", t.getLocalizedMessage());
+                    }
+                });
+    }
+
+    private void updateRide(String action)
+    {
+        CaronaeAPI.service(this).getRide(Integer.toString(idRide))
+            .enqueue(new Callback<RideForJson>() {
+                @Override
+                public void onResponse(Call<RideForJson> call, Response<RideForJson> response) {
+                    if (response.isSuccessful()) {
+                        rideWithUsers = response.body();
+                        if(action.equals("AfterAnswerRequest"))
+                        {
+                            configureOfferedRide(rideWithUsers);
+                        }
+                    } else {
+
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<RideForJson> call, Throwable t) {
+
+                }
+            });
     }
 }

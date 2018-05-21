@@ -130,11 +130,6 @@
                 <category android:name="android.intent.category.BROWSABLE" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".acts.RequestersListAct"
-            android:exported="true"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait" />
 
         <service android:name=".firebase.MyFirebaseMessagingService">
             <intent-filter>

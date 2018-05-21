@@ -522,6 +522,7 @@ public class MainAct extends AppCompatActivity {
 
     public void showActiveRidesFrag() {
         backstackSafeCheck();
+        SharedPref.NAV_INDICATOR = "MyRides";
         backstack.remove(MyRidesFrag.class);
         backstack.add(MyRidesFrag.class);
         FragmentManager fragmentManager = getSupportFragmentManager();
