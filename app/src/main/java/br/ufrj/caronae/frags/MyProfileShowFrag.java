@@ -1,21 +1,16 @@
 package br.ufrj.caronae.frags;
 
-import android.app.ProgressDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -24,16 +19,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.redmadrobot.inputmask.helper.Mask;
 import com.redmadrobot.inputmask.model.CaretString;
 import com.squareup.picasso.Picasso;
-
-import java.util.Collections;
-import java.util.List;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.CustomDialogClass;
@@ -43,14 +34,9 @@ import br.ufrj.caronae.RoundedTransformation;
 import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.LoginAct;
-import br.ufrj.caronae.acts.MainAct;
-import br.ufrj.caronae.adapters.RidesHistoryAdapter;
 import br.ufrj.caronae.asyncs.LogOut;
-import br.ufrj.caronae.comparators.RideComparatorByDateAndTimeReverse;
 import br.ufrj.caronae.httpapis.CaronaeAPI;
 import br.ufrj.caronae.models.User;
-import br.ufrj.caronae.models.modelsforjson.HistoryRideCountForJson;
-import br.ufrj.caronae.models.modelsforjson.RideForJson;
 import br.ufrj.caronae.models.modelsforjson.RideHistoryForJson;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -60,7 +46,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static android.content.Context.CLIPBOARD_SERVICE;
-import static android.content.Context.CONNECTIVITY_SERVICE;
 
 public class MyProfileShowFrag extends Fragment {
 
@@ -103,17 +88,17 @@ public class MyProfileShowFrag extends Fragment {
         user = App.getUser();
         if (user != null) {
             fillUserFields(user);
-                CaronaeAPI.service(getContext()).getRidesHistoryCount(user.getDbId() + "")
-                        .enqueue(new Callback<HistoryRideCountForJson>() {
+                CaronaeAPI.service(getContext()).getRidesHistory(Integer.toString(user.getDbId()))
+                        .enqueue(new Callback<RideHistoryForJson>() {
                             @Override
-                            public void onResponse(Call<HistoryRideCountForJson> call, Response<HistoryRideCountForJson> response) {
+                            public void onResponse(Call<RideHistoryForJson> call, Response<RideHistoryForJson> response) {
 
                                 if (response.isSuccessful()) {
-                                    HistoryRideCountForJson historyRideCountForJson = response.body();
-                                    ridesOffered_tv.setText(String.valueOf(historyRideCountForJson.getOfferedCount()));
-                                    ridesTaken_tv.setText(String.valueOf(historyRideCountForJson.getTakenCount()));
-                                    SharedPref.setRidesTaken(String.valueOf(historyRideCountForJson.getTakenCount()));
-                                    SharedPref.setRidesOffered(String.valueOf(historyRideCountForJson.getOfferedCount()));
+                                    RideHistoryForJson historyRide = response.body();
+                                    ridesOffered_tv.setText(String.valueOf(historyRide.getRidesHistoryOfferedCount()));
+                                    ridesTaken_tv.setText(String.valueOf(historyRide.getRidesHistoryTakenCount()));
+                                    SharedPref.setRidesTaken(String.valueOf(historyRide.getRidesHistoryTakenCount()));
+                                    SharedPref.setRidesOffered(String.valueOf(historyRide.getRidesHistoryOfferedCount()));
                                     fillUserFields(user);
                                 } else {
                                     if(!SharedPref.getRidesOffered().isEmpty() && !SharedPref.getRidesOffered().equals("missing")) {
@@ -126,7 +111,7 @@ public class MyProfileShowFrag extends Fragment {
                             }
 
                             @Override
-                            public void onFailure(Call<HistoryRideCountForJson> call, Throwable t) {
+                            public void onFailure(Call<RideHistoryForJson> call, Throwable t) {
                                 if(!SharedPref.getRidesOffered().isEmpty() && !SharedPref.getRidesOffered().equals("missing")) {
                                     ridesOffered_tv.setText(SharedPref.getRidesOffered());
                                     ridesTaken_tv.setText(SharedPref.getRidesTaken());

@@ -28,8 +28,8 @@ import br.ufrj.caronae.Util;
 import br.ufrj.caronae.httpapis.CaronaeAPI;
 import br.ufrj.caronae.models.User;
 import br.ufrj.caronae.models.modelsforjson.FacebookFriendForJson;
-import br.ufrj.caronae.models.modelsforjson.HistoryRideCountForJson;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
+import br.ufrj.caronae.models.modelsforjson.RideHistoryForJson;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -113,14 +113,14 @@ public class ProfileAct extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        CaronaeAPI.service(getApplicationContext()).getRidesHistoryCount(user.getDbId() + "")
-                .enqueue(new Callback<HistoryRideCountForJson>() {
+        CaronaeAPI.service(getApplicationContext()).getRidesHistory(Integer.toString(user.getDbId()))
+                .enqueue(new Callback<RideHistoryForJson>() {
                              @Override
-                             public void onResponse(Call<HistoryRideCountForJson> call, Response<HistoryRideCountForJson> response) {
+                             public void onResponse(Call<RideHistoryForJson> call, Response<RideHistoryForJson> response) {
                                  if (response.isSuccessful()) {
-                                     HistoryRideCountForJson historyRideCountForJson = response.body();
-                                     ridesOffered_tv.setText(String.valueOf(historyRideCountForJson.getOfferedCount()));
-                                     ridesTaken_tv.setText(String.valueOf(historyRideCountForJson.getTakenCount()));
+                                     RideHistoryForJson historyRide = response.body();
+                                     ridesOffered_tv.setText(String.valueOf(historyRide.getRidesHistoryOfferedCount()));
+                                     ridesTaken_tv.setText(String.valueOf(historyRide.getRidesHistoryTakenCount()));
                                  } else {
                                      Util.treatResponseFromServer(response);
                                      Util.toast(R.string.act_profile_errorCountRidesHistory);
@@ -130,7 +130,7 @@ public class ProfileAct extends AppCompatActivity {
                              }
 
                              @Override
-                             public void onFailure(Call<HistoryRideCountForJson> call, Throwable t) {
+                             public void onFailure(Call<RideHistoryForJson> call, Throwable t) {
                                  Util.toast(R.string.act_profile_errorCountRidesHistory);
                                  Log.e("getRidesHistoryCount", t.getMessage());
                              }

@@ -1,27 +1,44 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/all_rides_list_coordinator_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    tools:context="br.ufrj.caronae.frags.RidesHistoryFrag"
-    android:layout_margin="20dp">
+    android:background="@android:color/transparent">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/myRidesList"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rvRides"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="invisible"
+                android:background="@color/list_white_transparency"/>
+        </RelativeLayout>
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="8dp" />
-
-    <TextView
-        android:id="@+id/norides_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:gravity="center"
-        android:textColor="@color/gray"
-        android:text="@string/frag_ridehistory_noRides"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:visibility="gone" />
-
-</RelativeLayout>
+        android:layout_margin="50dp">
+        <TextView
+            android:id="@+id/norides_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:gravity="center"
+            android:textColor="@color/gray"
+            android:text="@string/charging"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:visibility="visible" />
+    </RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>

@@ -10,7 +10,6 @@ import br.ufrj.caronae.models.User;
 import br.ufrj.caronae.models.modelsforjson.ChatSendMessageForJson;
 import br.ufrj.caronae.models.modelsforjson.FacebookFriendForJson;
 import br.ufrj.caronae.models.modelsforjson.FalaeMsgForJson;
-import br.ufrj.caronae.models.modelsforjson.HistoryRideCountForJson;
 import br.ufrj.caronae.models.modelsforjson.JoinRequestIDsForJson;
 import br.ufrj.caronae.models.modelsforjson.LoginForJson;
 import br.ufrj.caronae.models.modelsforjson.MyRidesForJson;
@@ -31,6 +30,9 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface CaronaeAPIService {
+
+    @GET("api/v1/users/{userId}/rides/history")
+    Call<RideHistoryForJson> getRidesHistory(@Path("userId") String userId);
 
     @GET("api/v1/rides/{rideId}/messages")
     Call<ModelReceivedFromChat> requestChatMsgs(@Path("rideId") String rideId, @Query("since") String since);
@@ -68,9 +70,6 @@ public interface CaronaeAPIService {
     @POST("api/v1/rides/{rideId}/leave")
     Call<ResponseBody> leaveRide(@Path("rideId") String rideId);
 
-    @DELETE("ride/allFromRoutine/{routineId}")
-    Call<ResponseBody> deleteAllRidesFromRoutine(@Path("routineId") String routineId);
-
     @POST("api/v1/rides/{rideId}/finish")
     Call<ResponseBody> finishRide(@Path("rideId") String rideId);
 
@@ -86,9 +85,6 @@ public interface CaronaeAPIService {
     @GET("user/{id}/mutualFriends")
     Call<FacebookFriendForJson> getMutualFriends(@Header("Facebook-Token") String faceToken, @Path("id") String faceId);
 
-    @GET("ride/getRidesHistory")
-    Call<List<RideHistoryForJson>> getRidesHistory();
-
-    @GET("ride/getRidesHistoryCount/{userId}")
-    Call<HistoryRideCountForJson> getRidesHistoryCount(@Path("userId") String userId);
+    @DELETE("ride/allFromRoutine/{routineId}")
+    Call<ResponseBody> deleteAllRidesFromRoutine(@Path("routineId") String routineId);
 }

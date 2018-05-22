@@ -99,10 +99,6 @@
             android:label="@string/title_activity_my_profile"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".acts.ActiveRideAct"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".acts.PlaceAct"
             android:label="@string/title_activity_place"
             android:screenOrientation="portrait" />

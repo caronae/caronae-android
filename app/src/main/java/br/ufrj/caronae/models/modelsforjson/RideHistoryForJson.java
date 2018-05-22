@@ -1,22 +1,32 @@
 package br.ufrj.caronae.models.modelsforjson;
 
-import android.os.Parcel;
-import android.os.Parcelable;
 
-public class RideHistoryForJson extends RideForJson {
+import com.google.gson.annotations.SerializedName;
 
-    public RideHistoryForJson(Parcel in) {
-        super(in);
+import java.util.List;
+
+import br.ufrj.caronae.models.RideHistory;
+
+public class RideHistoryForJson{
+    @SerializedName("rides")
+    private List<RideHistory> rides;
+    @SerializedName("taken_rides_count")
+    private int ridesHistoryTakenCount;
+    @SerializedName("offered_rides_count")
+    private int ridesHistoryOfferedCount;
+
+    public List<RideHistory> getRides() {
+        return rides;
     }
 
-    //useless, only to avoid compilation error
-    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
-        public RideForJson createFromParcel(Parcel in) {
-            return new RideForJson(in);
-        }
+    public int getRidesHistoryTakenCount()
+    {
+        return ridesHistoryTakenCount;
+    }
 
-        public RideForJson[] newArray(int size) {
-            return new RideForJson[size];
-        }
-    };
+    public int getRidesHistoryOfferedCount()
+    {
+        return ridesHistoryOfferedCount;
+    }
+
 }

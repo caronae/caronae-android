@@ -52,7 +52,7 @@ import br.ufrj.caronae.acts.PlaceAct;
 import br.ufrj.caronae.acts.ProfileAct;
 import br.ufrj.caronae.httpapis.CaronaeAPI;
 import br.ufrj.caronae.models.User;
-import br.ufrj.caronae.models.modelsforjson.HistoryRideCountForJson;
+import br.ufrj.caronae.models.modelsforjson.RideHistoryForJson;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -178,17 +178,17 @@ public class MyProfileEditFrag extends Fragment {
         if (user != null) {
             fillUserFields(user);
 
-            CaronaeAPI.service(getContext()).getRidesHistoryCount(user.getDbId() + "")
-                    .enqueue(new Callback<HistoryRideCountForJson>() {
+            CaronaeAPI.service(getContext()).getRidesHistory(Integer.toString(user.getDbId()))
+                    .enqueue(new Callback<RideHistoryForJson>() {
                         @Override
-                        public void onResponse(Call<HistoryRideCountForJson> call, Response<HistoryRideCountForJson> response) {
+                        public void onResponse(Call<RideHistoryForJson> call, Response<RideHistoryForJson> response) {
 
                             if (response.isSuccessful()) {
-                                HistoryRideCountForJson historyRideCountForJson = response.body();
-                                ridesOffered_tv.setText(String.valueOf(historyRideCountForJson.getOfferedCount()));
-                                ridesTaken_tv.setText(String.valueOf(historyRideCountForJson.getTakenCount()));
-                                SharedPref.setRidesTaken(String.valueOf(historyRideCountForJson.getTakenCount()));
-                                SharedPref.setRidesOffered(String.valueOf(historyRideCountForJson.getOfferedCount()));
+                                RideHistoryForJson historyRide = response.body();
+                                ridesOffered_tv.setText(String.valueOf(historyRide.getRidesHistoryOfferedCount()));
+                                ridesTaken_tv.setText(String.valueOf(historyRide.getRidesHistoryTakenCount()));
+                                SharedPref.setRidesTaken(String.valueOf(historyRide.getRidesHistoryTakenCount()));
+                                SharedPref.setRidesOffered(String.valueOf(historyRide.getRidesHistoryOfferedCount()));
                             } else {
                                 if(!SharedPref.getRidesOffered().isEmpty() && !SharedPref.getRidesOffered().equals("missing")) {
                                     ridesOffered_tv.setText(SharedPref.getRidesOffered());
@@ -200,7 +200,7 @@ public class MyProfileEditFrag extends Fragment {
                         }
 
                         @Override
-                        public void onFailure(Call<HistoryRideCountForJson> call, Throwable t) {
+                        public void onFailure(Call<RideHistoryForJson> call, Throwable t) {
                             if(!SharedPref.getRidesOffered().isEmpty() && !SharedPref.getRidesOffered().equals("missing")) {
                                 ridesOffered_tv.setText(SharedPref.getRidesOffered());
                                 ridesTaken_tv.setText(SharedPref.getRidesTaken());

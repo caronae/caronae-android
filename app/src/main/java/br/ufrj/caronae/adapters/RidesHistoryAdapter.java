@@ -1,104 +1,172 @@
 package br.ufrj.caronae.adapters;
 
 import android.content.Context;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.RoundedTransformation;
 import br.ufrj.caronae.Util;
-import br.ufrj.caronae.acts.MainAct;
-import br.ufrj.caronae.models.User;
-import br.ufrj.caronae.models.modelsforjson.RideHistoryForJson;
+import br.ufrj.caronae.models.RideHistory;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class RidesHistoryAdapter extends RecyclerView.Adapter<RidesHistoryAdapter.ViewHolder> {
 
-    private final List<RideHistoryForJson> historyRides;
-    private final MainAct activity;
+    private final int TYPE_HEADER = 0;
+    private final int TYPE_BODY = 1;
+    private final int TYPE_ZERO = 2;
 
-    public RidesHistoryAdapter(List<RideHistoryForJson> historyRides, MainAct activity) {
-        this.historyRides = historyRides;
-        this.activity = activity;
+    private final Context context;
+
+    private List<RideHistory> rideHistory;
+    private List<Object> mixedList;
+
+    public RidesHistoryAdapter(List<RideHistory> rideHistory, Context ctx) {
+        this.rideHistory = rideHistory;
+        this.context = ctx;
+        this.mixedList = new ArrayList<>();
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RidesHistoryAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
-
-        View contactView = inflater.inflate(R.layout.item_ridehistory, parent, false);
-
+        View contactView;
+        if (viewType == TYPE_HEADER) {
+            contactView = inflater.inflate(R.layout.separator_all_rides, parent, false);
+        } else if (viewType == TYPE_BODY) {
+            contactView = inflater.inflate(R.layout.item_ridehistory, parent, false);
+        } else {
+            contactView = inflater.inflate(R.layout.separator_all_rides, parent, false);
+        }
         return new ViewHolder(contactView);
     }
 
+
+
     @Override
-    public void onBindViewHolder(final RidesHistoryAdapter.ViewHolder holder, int position) {
-        final RideHistoryForJson historyRide = historyRides.get(position);
-
-        int color = Util.getColors(historyRide.getZone());
-
-        if (historyRide.isGoing())
-            holder.time_tv.setText(activity.getString(R.string.arrivedAt, historyRide.getTime() + " | "));
-        else
-            holder.time_tv.setText(activity.getString(R.string.leftAt, historyRide.getTime() + " | "));
-        holder.time_tv.setTextColor(color);
-        holder.date_tv.setText(Util.formatDateRemoveYear(historyRide.getDate()));
-        holder.date_tv.setTextColor(color);
-        holder.name_tv.setTextColor(color);
-        String location;
-        if (historyRide.isGoing()) {
-            location = historyRide.getNeighborhood() + " ➜ " + historyRide.getHub();
-        } else {
-            location = historyRide.getHub() + " ➜ " + historyRide.getNeighborhood();
+    public int getItemViewType(int position) {
+        if (mixedList == null){
+            return TYPE_ZERO;
+        } else if (mixedList.size() == 0){
+            return TYPE_ZERO;
         }
-        holder.location_tv.setText(location);
-        holder.location_tv.setTextColor(color);
+        if (mixedList.get(position).getClass() == Integer.class) {
+            return TYPE_HEADER;
+        }
+        return TYPE_BODY;
+    }
 
-        User driver = historyRide.getDriver();
-        if (driver != null) {
-            holder.name_tv.setText(driver.getName());
-            String driverPic = driver.getProfilePicUrl();
-            if (driverPic != null && !driverPic.isEmpty()) {
-                Picasso.with(activity).load(driverPic)
-                        .placeholder(R.drawable.user_pic)
-                        .error(R.drawable.user_pic)
-                        .transform(new RoundedTransformation())
-                        .into(holder.photo_iv);
-            } else {
-                holder.photo_iv.setImageResource(R.drawable.user_pic);
+    @Override
+    public void onBindViewHolder(final RidesHistoryAdapter.ViewHolder viewHolder, int position) {
+        if (!(mixedList == null || mixedList.size() == 0)) {
+            if (mixedList.get(position).getClass().equals(RideHistory.class)) {
+                final RideHistory rideHistory = (RideHistory) mixedList.get(position);
+                int color = Util.getColors(rideHistory.getZone());
+                viewHolder.location_tv.setTextColor(color);
+                viewHolder.time_tv.setTextColor(color);
+                viewHolder.name_tv.setTextColor(color);
+                viewHolder.photo_iv.setBorderColor(color);
+                String profilePicUrl = rideHistory.getDriver().getProfilePicUrl();
+                if (profilePicUrl != null && !profilePicUrl.isEmpty()) {
+                    Picasso.with(context).load(profilePicUrl)
+                            .placeholder(R.drawable.user_pic)
+                            .error(R.drawable.user_pic)
+                            .transform(new RoundedTransformation())
+                            .into(viewHolder.photo_iv);
+                } else {
+                    viewHolder.photo_iv.setImageResource(R.drawable.user_pic);
+                }
+
+                String timeText;
+                if (rideHistory.isGoing())
+                    timeText = context.getResources().getString(R.string.arrivingAt, Util.formatTime(rideHistory.getTime()));
+                else
+                    timeText = context.getResources().getString(R.string.leavingAt, Util.formatTime(rideHistory.getTime()));
+
+                timeText =  timeText + " | " + Util.getWeekDayFromDateWithoutTodayString(rideHistory.getDate()) + " | " +Util.formatBadDateWithoutYear(rideHistory.getDate());
+                viewHolder.time_tv.setText(timeText);
+
+                String name = rideHistory.getDriver().getName();
+
+                try {
+                    String[] split = name.split(" ");
+                    String shortName = split[0] + " " + split[split.length - 1];
+                    viewHolder.name_tv.setText(shortName);
+                } catch (Exception e) {
+                    viewHolder.name_tv.setText(name);
+                }
+
+                String location;
+                if (rideHistory.isGoing())
+                    location = rideHistory.getNeighborhood().toUpperCase() + " ➜ " + rideHistory.getHub().toUpperCase();
+                else
+                    location = rideHistory.getHub().toUpperCase() + " ➜ " + rideHistory.getNeighborhood().toUpperCase();
+
+                viewHolder.location_tv.setText(location);
             }
         }
     }
 
+    public void makeList(List<RideHistory> rideHistory) {
+        this.rideHistory = rideHistory;
+        List<Integer> headerPositions = getHeaderPositionsOnList(rideHistory);
+        if(mixedList != null) {
+            mixedList.clear();
+        }
+        mixedList.addAll(rideHistory);
+        if (headerPositions != null && headerPositions.size() > 0) {
+            for (int headerCount = 0; headerCount < headerPositions.size(); headerCount++) {
+                mixedList.add(headerPositions.get(headerCount) + headerCount, headerPositions.get(headerCount));
+            }
+        }
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getItemCount() {
-        return historyRides.size();
+        if (mixedList == null || mixedList.size() == 0) {
+            return 1;
+        }
+        return mixedList.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
+        public CircleImageView photo_iv;
         public TextView time_tv;
         public TextView location_tv;
         public TextView name_tv;
-        public TextView date_tv;
-        public ImageView photo_iv;
 
         public ViewHolder(View itemView) {
             super(itemView);
-
-            time_tv = (TextView) itemView.findViewById(R.id.time_tv);
-            location_tv = (TextView) itemView.findViewById(R.id.location_tv);
-            name_tv = (TextView) itemView.findViewById(R.id.name_tv);
-            date_tv = (TextView) itemView.findViewById(R.id.date_tv);
-            photo_iv = (ImageView) itemView.findViewById(R.id.photo_iv);
+            photo_iv = itemView.findViewById(R.id.photo_iv);
+            time_tv = itemView.findViewById(R.id.time_tv);
+            location_tv = itemView.findViewById(R.id.location_tv);
+            name_tv = itemView.findViewById(R.id.name_tv);
         }
+    }
+
+    private List<Integer> getHeaderPositionsOnList(List<RideHistory> rides) {
+        List<Integer> headersPositions = new ArrayList<>();
+        if (rides != null) {
+            if (rides.size() > 0) {
+                headersPositions.add(0);
+                for (int rideIndex = 1; rideIndex < rides.size(); rideIndex++) {
+                    if (Util.getDayFromDate(rides.get(rideIndex).getDate()) > Util.getDayFromDate(rides.get(rideIndex - 1).getDate())) {
+                        headersPositions.add(rideIndex);
+                    }
+                }
+                return headersPositions;
+            }
+        }
+        return null;
     }
 }
