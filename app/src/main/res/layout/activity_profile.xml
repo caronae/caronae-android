@@ -44,7 +44,7 @@
                         android:textColor="@color/dark_gray"
                         android:layout_marginLeft="-10dp"
                         android:layout_marginStart="-10dp"
-                        android:textSize="20sp"/>
+                        android:textSize="18sp"/>
                 </RelativeLayout>
                 <TextView
                     android:id="@+id/title_ride"
@@ -59,7 +59,7 @@
                     android:ellipsize="end"
                     android:text="Paula Silva"
                     android:textColor="@color/black"
-                    android:textSize="20sp"/>
+                    android:textSize="18sp"/>
             </RelativeLayout>
         </FrameLayout>
     </android.support.v7.widget.CardView>
@@ -102,7 +102,7 @@
                     android:layout_height="wrap_content"
                     android:text="Paula Silva"
                     android:textStyle="bold"
-                    android:textSize="20sp"
+                    android:textSize="18sp"
                     android:maxLines="1"
                     android:ellipsize="end"
                     android:textColor="@color/dark_gray"/>
@@ -114,7 +114,7 @@
                     android:layout_below="@+id/name_tv"
                     android:textColor="@color/dark_gray"
                     android:ellipsize="end"
-                    android:textSize="19sp"
+                    android:textSize="16sp"
                     android:maxLines="1"
                     android:text="Graduação | Ciência da Computação" />
                 <ImageView

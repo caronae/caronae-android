@@ -62,7 +62,7 @@
                             android:layout_centerInParent="true"
                             android:text="Criar carona"
                             android:textColor="@color/black"
-                            android:textSize="20sp"/>
+                            android:textSize="18sp"/>
                         <TextView
                             android:id="@+id/cancel_bt"
                             android:layout_width="wrap_content"
@@ -74,7 +74,7 @@
                             android:textColor="@color/dark_gray"
                             android:clickable="true"
                             android:focusable="true"
-                            android:textSize="20sp"/>
+                            android:textSize="18sp"/>
                     </RelativeLayout>
                 </FrameLayout>
                 <ImageView

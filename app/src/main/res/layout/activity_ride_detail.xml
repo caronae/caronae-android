@@ -29,7 +29,7 @@
                     android:gravity="center"
                     android:text="@string/ride"
                     android:textColor="@color/black"
-                    android:textSize="20sp"/>
+                    android:textSize="18sp"/>
             </RelativeLayout>
 
             <RelativeLayout
@@ -60,7 +60,7 @@
                         android:textColor="@color/dark_gray"
                         android:layout_marginLeft="-15dp"
                         android:layout_marginStart="-15dp"
-                        android:textSize="20sp"/>
+                        android:textSize="18sp"/>
                 </RelativeLayout>
                 <TextView
                     android:id="@+id/chat_bt"
@@ -72,7 +72,7 @@
                     android:layout_alignParentEnd="true"
                     android:textColor="@color/dark_gray"
                     android:text="@string/chat"
-                    android:textSize="20sp"
+                    android:textSize="18sp"
                     android:visibility="gone"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="10dp"
@@ -358,7 +358,7 @@
                                 android:layout_below="@+id/name_dt"
                                 android:textColor="@color/dark_gray"
                                 android:ellipsize="end"
-                                android:textSize="18sp"
+                                android:textSize="16sp"
                                 android:maxLines="1"
                                 android:text="Graduação | Ciência da Computação" />
 

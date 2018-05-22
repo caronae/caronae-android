@@ -38,7 +38,7 @@
                         android:id="@+id/header_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="20sp"
+                        android:textSize="18sp"
                         android:layout_centerInParent="true"
                         android:textColor="@color/black"
                         android:text="@string/title_ride_search" />

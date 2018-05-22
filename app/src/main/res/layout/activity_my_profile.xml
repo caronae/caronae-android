@@ -42,7 +42,7 @@
                             android:id="@+id/header_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="20sp"
+                            android:textSize="18sp"
                             android:layout_centerInParent="true"
                             android:textColor="@color/black"
                             android:text="@string/title_myprofile_frag" />
@@ -70,7 +70,7 @@
                             android:textColor="@color/dark_gray"
                             android:clickable="true"
                             android:focusable="true"
-                            android:textSize="20sp"/>
+                            android:textSize="18sp"/>
                     </RelativeLayout>
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -100,7 +100,7 @@
                                 android:textColor="@color/dark_gray"
                                 android:layout_marginLeft="-10dp"
                                 android:layout_marginStart="-10dp"
-                                android:textSize="20sp"/>
+                                android:textSize="18sp"/>
                         </RelativeLayout>
                         <RelativeLayout
                             android:id="@+id/cancel_bt"
@@ -118,7 +118,7 @@
                                 android:textColor="@color/dark_gray"
                                 android:layout_marginLeft="10dp"
                                 android:layout_marginStart="10dp"
-                                android:textSize="20sp"/>
+                                android:textSize="18sp"/>
                         </RelativeLayout>
                     </RelativeLayout>
                 </FrameLayout>
