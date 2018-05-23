@@ -5,10 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 
-/**
- * Created by Luis-DELL on 3/18/2017.
- */
-
 public abstract class SwipeDismissBaseActivity extends AppCompatActivity {
     private static final int SWIPE_MIN_DISTANCE = 120;
     private static final int SWIPE_MAX_OFF_PATH = 250;

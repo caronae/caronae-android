@@ -22,9 +22,12 @@ import br.ufrj.caronae.R;
 import br.ufrj.caronae.RoundedTransformation;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.RideDetailAct;
-import br.ufrj.caronae.models.RideRequestSent;
+import br.ufrj.caronae.httpapis.CaronaeAPI;
+import br.ufrj.caronae.models.modelsforjson.MyRidesForJson;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
 import de.hdodenhof.circleimageview.CircleImageView;
+import retrofit2.Call;
+import retrofit2.Response;
 
 public class RidesAdapter extends RecyclerView.Adapter<RidesAdapter.ViewHolder> {
 
@@ -36,6 +39,7 @@ public class RidesAdapter extends RecyclerView.Adapter<RidesAdapter.ViewHolder> 
     private List<RideForJson> rideOffers;
     private FragmentManager fm;
     private List<Object> mixedList;
+    private String status;
 
     public RidesAdapter(List<RideForJson> rideOffers, Context context, FragmentManager fm) {
         this.rideOffers = rideOffers;
@@ -81,6 +85,32 @@ public class RidesAdapter extends RecyclerView.Adapter<RidesAdapter.ViewHolder> 
         if (!(mixedList == null || mixedList.size() == 0)) {
             if (mixedList.get(position).getClass().equals(RideForJson.class)) {
                 final RideForJson rideOffer = (RideForJson) mixedList.get(position);
+                status = "";
+                CaronaeAPI.service(context).getMyRides(Integer.toString(App.getUser().getDbId()))
+                    .enqueue(new retrofit2.Callback<MyRidesForJson>() {
+                        @Override
+                        public void onResponse(Call<MyRidesForJson> call, Response<MyRidesForJson> response) {
+                            if (response.isSuccessful()) {
+                                MyRidesForJson data = response.body();
+                                List<RideForJson> pendingRides = data.getPendingRides();
+                                if(pendingRides != null && !pendingRides.isEmpty())
+                                {
+                                    for(int i = 0; i < pendingRides.size(); i++) {
+                                        if (pendingRides.get(i).getId().intValue() == rideOffer.getId().intValue()) {
+                                            status = "pending";
+                                        }
+                                    }
+                                }
+                            } else {
+                                Util.treatResponseFromServer(response);
+                                Util.debug(response.message());
+                            }
+                        }
+                        @Override
+                        public void onFailure(Call<MyRidesForJson> call, Throwable t) {
+                        }
+                    });
+
                 int color = Util.getColors(rideOffer.getZone());
                 viewHolder.location_tv.setTextColor(color);
                 viewHolder.time_tv.setTextColor(color);
@@ -132,22 +162,18 @@ public class RidesAdapter extends RecyclerView.Adapter<RidesAdapter.ViewHolder> 
 
                 viewHolder.location_tv.setText(location);
 
-                List<RideRequestSent> rideRequests = RideRequestSent.find(RideRequestSent.class, "db_id = ?", Integer.toString(rideOffer.getDbId()));
                 boolean requested = false;
-                if (rideRequests != null && !rideRequests.isEmpty())
-                    requested = true;
 
                 viewHolder.requestIndicator_iv.setVisibility(requested ? View.VISIBLE : View.INVISIBLE);
 
-                final boolean finalRequested = requested;
                 viewHolder.parentLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         Intent intent = new Intent(context, RideDetailAct.class);
+                        intent.putExtra("status", status);
                         intent.putExtra("fromWhere", rideOffer.fromWhere);
                         intent.putExtra("ride", rideOffer);
                         intent.putExtra("starting", true);
-                        intent.putExtra("requested", finalRequested);
                         intent.putExtra("rideId", rideOffer.getId().intValue());
                         context.startActivity(intent);
                     }

@@ -1,11 +1,8 @@
 package br.ufrj.caronae.acts;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.view.WindowManager;
 import android.widget.TextView;
 
 import br.ufrj.caronae.App;

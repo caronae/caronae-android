@@ -392,17 +392,17 @@ public class Util {
         }
     }
 
-    public static String getTextToShareRide(RideForJson ride) {
+    public static String getTextToShareRide(RideForJson ride, int id) {
         String text;
 
         if (ride.isGoing()) {
             text = "Carona: " + ride.getNeighborhood() + " → " + ride.getHub() + "\n"
                     + "Chegando às " + formatTime(ride.getTime()) + " | " + Util.getWeekDayFromDateWithoutTodayString(ride.getDate()) + " | " + formatDateRemoveYear(formatBadDateWithYear(ride.getDate())) + "\n"
-                    + Constants.SHARE_LINK + ride.getDbId();
+                    + Constants.SHARE_LINK + id;
         } else {
             text = "Carona: " + ride.getHub() + " → " + ride.getNeighborhood() + "\n"
                     + "Saíndo às " + formatTime(ride.getTime()) + " | " + Util.getWeekDayFromDateWithoutTodayString(ride.getDate()) + " | " + formatDateRemoveYear(formatBadDateWithYear(ride.getDate())) + "\n"
-                    + Constants.SHARE_LINK + ride.getDbId();
+                    + Constants.SHARE_LINK + id;
         }
 
         return text;

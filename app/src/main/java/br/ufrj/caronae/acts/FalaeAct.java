@@ -47,9 +47,9 @@ public class FalaeAct extends AppCompatActivity {
     public String fromWhere = "";
 
     private RideForJson rideOffer;
-    private String from, user2;
+    private String from, user2, status;
 
-    boolean requested, fromAnother;
+    boolean fromAnother;
     private int idRide;
 
     @Override
@@ -60,6 +60,7 @@ public class FalaeAct extends AppCompatActivity {
         boolean fromProfile;
         try {
             fromWhere = getIntent().getStringExtra("fromWhere");
+            status = getIntent().getStringExtra("status");
         }catch(Exception e){}
         fromProfile = getIntent().getBooleanExtra("fromProfile", false);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
@@ -83,7 +84,6 @@ public class FalaeAct extends AppCompatActivity {
             user2 = getIntent().getExtras().getString("user");
             from = getIntent().getExtras().getString("from");
             fromAnother = getIntent().getBooleanExtra("fromAnother", false);
-            requested = getIntent().getBooleanExtra("requested", false);
             rideOffer = getIntent().getExtras().getParcelable("ride");
             driverName = getIntent().getStringExtra("driver");
             ((FalaeFrag)fragment).reason_txt = getResources().getString(R.string.frag_falae_report_rb);
@@ -130,10 +130,10 @@ public class FalaeAct extends AppCompatActivity {
     {
         finish();
         Intent profileAct = new Intent(this, ProfileAct.class);
+        profileAct.putExtra("status", status);
         profileAct.putExtra("user", user2);
         profileAct.putExtra("from", from);
         profileAct.putExtra("fromAnother", true);
-        profileAct.putExtra("requested", requested);
         profileAct.putExtra("ride", rideOffer);
         profileAct.putExtra("fromWhere", fromWhere);
         profileAct.putExtra("id",  idRide);

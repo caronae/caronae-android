@@ -63,9 +63,8 @@ public class ProfileAct extends AppCompatActivity {
     User user;
 
     private boolean fromAnother;
-    private boolean requested;
     private RideForJson rideOffer;
-    private String from, user2, fromWhere = "";
+    private String from, user2, fromWhere = "", status;
     private int idRide;
 
     @Override
@@ -75,11 +74,11 @@ public class ProfileAct extends AppCompatActivity {
         ButterKnife.bind(this);
         try {
             fromWhere = getIntent().getStringExtra("fromWhere");
+            status = getIntent().getStringExtra("status");
         }catch(Exception e){}
         fromAnother = getIntent().getBooleanExtra("fromAnother", false);
         if(fromAnother) {
             rideOffer = getIntent().getExtras().getParcelable("ride");
-            requested = getIntent().getBooleanExtra("requested", false);
         }
         idRide = getIntent().getExtras().getInt("id");
         user2 = getIntent().getExtras().getString("user");
@@ -206,10 +205,10 @@ public class ProfileAct extends AppCompatActivity {
         finish();
         Intent intent = new Intent(this, FalaeAct.class);
         intent.putExtra("user", user2);
+        intent.putExtra("status", status);
         intent.putExtra("from", "rideoffer");
         intent.putExtra("fromAnother", true);
         intent.putExtra("fromProfile", true);
-        intent.putExtra("requested", requested);
         intent.putExtra("driver", name_tv.getText());
         intent.putExtra("ride", rideOffer);
         intent.putExtra("fromWhere", fromWhere);
@@ -281,7 +280,7 @@ public class ProfileAct extends AppCompatActivity {
     {
         Intent intent = new Intent(this, RideDetailAct.class);
         intent.putExtra("ride", rideOffer);
-        intent.putExtra("requested", requested);
+        intent.putExtra("status", status);
         intent.putExtra("fromWhere", fromWhere);
         intent.putExtra("id",  idRide);
         startActivity(intent);
@@ -293,8 +292,8 @@ public class ProfileAct extends AppCompatActivity {
         if(fromAnother) {
             Intent intent = new Intent(this, RideDetailAct.class);
             intent.putExtra("ride", rideOffer);
-            intent.putExtra("requested", requested);
             intent.putExtra("fromWhere", fromWhere);
+            intent.putExtra("status", status);
             intent.putExtra("id",  idRide);
             startActivity(intent);
             overridePendingTransition(R.anim.anim_left_slide_in, R.anim.anim_right_slide_out);

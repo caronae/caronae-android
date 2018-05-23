@@ -109,10 +109,12 @@
                         android:paddingBottom="15dp"
                         android:textSize="24sp"
                         android:textColor="@color/white"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginStart="15dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginRight="10dp"
                         android:textStyle="bold"
-                        android:text="ILHA DO GOVERNADOR ➜ CCS"/>
+                        android:text=""/>
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -147,7 +149,7 @@
                         android:layout_centerVertical="true"
                         android:layout_toRightOf="@id/clock"
                         android:layout_toEndOf="@id/clock"
-                        android:text="Chegando às 00:00 | Seg | 25/12"
+                        android:text=""
                         android:textColor="@color/dark_gray"/>
 
                     <TextView
@@ -344,7 +346,7 @@
                                 android:id="@+id/name_dt"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Paula Silva"
+                                android:text=""
                                 android:textStyle="bold"
                                 android:textSize="18sp"
                                 android:maxLines="1"
@@ -360,7 +362,7 @@
                                 android:ellipsize="end"
                                 android:textSize="16sp"
                                 android:maxLines="1"
-                                android:text="Graduação | Ciência da Computação" />
+                                android:text="" />
 
                         </RelativeLayout>
                     </RelativeLayout>
@@ -669,6 +671,23 @@
                         android:background="@drawable/rounded_button"
                         android:src="@drawable/ic_done_white_24dp"
                         android:text="@string/take_ride"
+                        android:textColor="@android:color/white" />
+                </RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/can_finish"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/drive_info"
+                    android:layout_marginBottom="50dp">
+                    <Button
+                        android:id="@+id/finish_bt"
+                        android:layout_width="150dp"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:background="@drawable/rounded_button"
+                        android:src="@drawable/ic_done_white_24dp"
+                        android:text="@string/myactiveride_finishrideBt"
                         android:textColor="@android:color/white" />
                 </RelativeLayout>
 
