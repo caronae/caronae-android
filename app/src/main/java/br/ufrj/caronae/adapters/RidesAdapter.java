@@ -4,6 +4,7 @@ import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,10 +24,12 @@ import br.ufrj.caronae.RoundedTransformation;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.RideDetailAct;
 import br.ufrj.caronae.httpapis.CaronaeAPI;
+import br.ufrj.caronae.models.User;
 import br.ufrj.caronae.models.modelsforjson.MyRidesForJson;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.Response;
 
 public class RidesAdapter extends RecyclerView.Adapter<RidesAdapter.ViewHolder> {
@@ -198,6 +201,36 @@ public class RidesAdapter extends RecyclerView.Adapter<RidesAdapter.ViewHolder> 
     public void addToList(List<RideForJson> rideOffers) {
         this.rideOffers.addAll(rideOffers);
         notifyDataSetChanged();
+    }
+
+    private void verifyRequesters(String idRide, final RidesAdapter.ViewHolder viewHolder)
+    {
+        CaronaeAPI.service(context).getRequesters(idRide).enqueue(new Callback<List<User>>()
+        {
+            @Override
+            public void onResponse(Call<List<User>> call, Response<List<User>> response)
+            {
+                if (response.isSuccessful())
+                {
+                    List<User> requesters = response.body();
+                    if(requesters != null && !requesters.isEmpty())
+                    {
+                        //Action that shows to the user that there are requests in this ride.
+                    }
+                }
+                else
+                {
+                    Util.treatResponseFromServer(response);
+                    Log.e("Error ", response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<User>> call, Throwable t)
+            {
+                Log.e("Error ", t.getLocalizedMessage());
+            }
+        });
     }
 
     public void remove(int rideId) {
