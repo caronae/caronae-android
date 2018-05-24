@@ -38,6 +38,8 @@ public class Util {
     private static Map<String, Integer> colorZone = new TreeMap<>();
     private static ArrayList<String> zones = new ArrayList<>();
     private static ArrayList<String> campus = new ArrayList<>();
+    private static ArrayList<String> activeRidesId = new ArrayList<>();
+    private static ArrayList<String> pendingRidesId = new ArrayList<>();
     private static Map<String, String> findNeigh = new TreeMap<>();
     private static boolean colorsSaved;
 
@@ -165,6 +167,11 @@ public class Util {
     public static void debug(String msg)
     {
         Log.e("DEBUG: ", msg);
+    }
+
+    public static void debug(int msg)
+    {
+        Log.e("DEBUG: ", Integer.toString(msg));
     }
 
     public static String formatTime(String time) {
@@ -457,6 +464,11 @@ public class Util {
             e.printStackTrace();
         }
         return 0;
+    }
+
+    public static void setPendingAndActiveRidesId()
+    {
+
     }
 
     public static boolean isNetworkAvailable(Context context) {

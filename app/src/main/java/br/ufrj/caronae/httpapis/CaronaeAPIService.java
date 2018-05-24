@@ -31,6 +31,12 @@ import retrofit2.http.Query;
 
 public interface CaronaeAPIService {
 
+    @GET("api/v1/users/{userId}")
+    Call<UserForJson> getUser(@Path("userId") String userId);
+
+    @GET("api/v1/users/{userId}/token")
+    Call<String> getToken(@Path("userId") String userId);
+
     @GET("api/v1/users/{userId}/rides/history")
     Call<RideHistoryForJson> getRidesHistory(@Path("userId") String userId);
 

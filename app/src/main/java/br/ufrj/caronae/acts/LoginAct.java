@@ -8,14 +8,18 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.io.IOException;
 
+import br.ufrj.caronae.Constants;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.Util;
@@ -35,9 +39,22 @@ public class LoginAct extends AppCompatActivity {
     EditText token_et;
     @BindView(R.id.idUfrj_et)
     EditText idUfrj_et;
+
     @BindView(R.id.send_bt)
     Button loginButton;
 
+    @BindView(R.id.left_back_v3)
+    RelativeLayout lBackV3;
+    @BindView(R.id.right_back_v3)
+    RelativeLayout rBackV3;
+    @BindView(R.id.login_bt_v3)
+    RelativeLayout loginBtV3;
+
+    @BindView(R.id.loading_login)
+    ProgressBar onLoading;
+
+    boolean startLink;
+    private String id, token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +62,16 @@ public class LoginAct extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+
+        if(!Constants.BUILD_TYPE.equals("prod"))
+        {
+            lBackV3.setVisibility(View.GONE);
+            rBackV3.setVisibility(View.GONE);
+            loginBtV3.setVisibility(View.GONE);
+            idUfrj_et.setVisibility(View.VISIBLE);
+            token_et.setVisibility(View.VISIBLE);
+            loginButton.setVisibility(View.VISIBLE);
+        }
         token_et.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -56,6 +83,16 @@ public class LoginAct extends AppCompatActivity {
                 return handled;
             }
         });
+        startLink = getIntent().getBooleanExtra("startLink", false);
+        if(startLink)
+        {
+            loginBtV3.setClickable(false);
+            loginBtV3.setFocusable(false);
+            onLoading.setVisibility(View.VISIBLE);
+            id = getIntent().getStringExtra("id");
+            token = getIntent().getStringExtra("token");
+            startLogin();
+        }
     }
 
     @OnClick(R.id.send_bt)
@@ -132,8 +169,49 @@ public class LoginAct extends AppCompatActivity {
             });
     }
 
-    @OnClick(R.id.getToken_tv)
-    public void getTokenBt() {
-        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(CaronaeAPI.BASE_URL + "login")));
+    private void startLogin()
+    {
+        Call<UserForJson> loginCall = CaronaeAPI.service(getApplicationContext()).getUser(id);
+        loginCall.enqueue(new Callback<UserForJson>() {
+            @Override
+            public void onResponse(Call<UserForJson> call, Response<UserForJson> response) {
+                if (response.isSuccessful()) {
+                    UserForJson user = response.body();
+                    Util.debug(user.getUser().getName());
+                } else {
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserForJson> call, Throwable t) {
+
+            }
+        });
+        Call<String> getToken = CaronaeAPI.service(getApplicationContext()).getToken(token);
+        getToken.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if (response.isSuccessful()) {
+                    String user = response.body();
+                    Util.debug(user);
+                } else {
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+
+            }
+        });
     }
+
+
+    @OnClick(R.id.login_bt_v3)
+    public void loginV3()
+    {
+        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.API_BASE_URL + "login?type=app_jwt")));
+    }
+
 }

@@ -151,7 +151,7 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
     public JoinRequestIDsForJson answerRequest;
 
     int zoneColorInt, idRide;
-    boolean isFull;
+    boolean isFull, startLink;
     String fromWhere = "", isGoing, status = "";
 
     @Override
@@ -184,7 +184,8 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
                 back_tv.setText(R.string.title_myrides);
             }
         }
-        if (!startWithLink()) {
+        startLink = getIntent().getBooleanExtra("startLink", false);
+        if (!startLink) {
             rideWithUsers = getIntent().getExtras().getParcelable("ride");
             if(idRide == 0) {
                 idRide = rideWithUsers.getDbId();
@@ -199,11 +200,6 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
         } else {
             configureActivityWithLink();
         }
-    }
-
-    private boolean startWithLink() {
-        Uri uri = getIntent().getData();
-        return uri != null;
     }
 
     private void createChatAssets(RideForJson rideWithUsers) {
@@ -520,24 +516,17 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
     }
 
     private void configureActivityWithLink() {
-        Uri uri = getIntent().getData();
-        final String rideId;
+        final String rideId = getIntent().getStringExtra("rideLinkId");
         final Context ctx = this;
-        List<String> params = uri.getPathSegments();
 
-        if (params.size() == 1) {
-            rideId = params.get(0);
-            if (rideId.equals("carona")){
-                SharedPref.NAV_INDICATOR = "AllRides";
-                Intent intent = new Intent(App.getInst(), MainAct.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-                overridePendingTransition(R.anim.anim_left_slide_in, R.anim.anim_right_slide_out);
-            }
+        if (rideId.equals("carona")){
+            SharedPref.NAV_INDICATOR = "AllRides";
+            Intent intent = new Intent(App.getInst(), MainAct.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            overridePendingTransition(R.anim.anim_left_slide_in, R.anim.anim_right_slide_out);
         }
-        else {
-            rideId = params.get(1);
-        }
+
         idRide = Integer.parseInt(rideId);
         ProgressDialog pd = ProgressDialog.show(this, "", getString(R.string.wait), true, true);
         CaronaeAPI.service(this).getRide(rideId)
