@@ -79,7 +79,7 @@ public class MyRidesFrag extends Fragment implements Callback
         setHasOptionsMenu(true);
         MainAct.showMainItems();
 
-        adapter = new MyRidesAdapter(new ArrayList<>(), getContext(), getActivity().getFragmentManager());
+        adapter = new MyRidesAdapter(getContext());
         mLayoutManager = new LinearLayoutManager(getContext());
         rvRides.setLayoutManager(mLayoutManager);
         rvRides.setAdapter(adapter);

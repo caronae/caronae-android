@@ -56,6 +56,7 @@ public class AllRidesListFrag extends Fragment implements Callback {
     RidesAdapter adapter;
 
     int pageCounter = FIRST_PAGE_TO_LOAD;
+    boolean isLoadingPage = false;
 
     private EndlessRecyclerViewScrollListener scrollListener;
 
@@ -100,7 +101,7 @@ public class AllRidesListFrag extends Fragment implements Callback {
             }
         });
 
-        adapter = new RidesAdapter(new ArrayList<>(), getContext(), getActivity().getFragmentManager());
+        adapter = new RidesAdapter(getContext());
         mLayoutManager = new LinearLayoutManager(getContext());
         rvRides.setLayoutManager(mLayoutManager);
 
@@ -187,6 +188,7 @@ public class AllRidesListFrag extends Fragment implements Callback {
     }
 
     void refreshRideList(final int pageNumber) {
+        isLoadingPage = true;
         String going;
         final Context ctx = getContext();
         if (pageIdentifier == AllRidesFragmentPagerAdapter.PAGE_GOING)
@@ -258,12 +260,14 @@ public class AllRidesListFrag extends Fragment implements Callback {
                                             else
                                             {
                                                 noRides.setText(R.string.frag_rideSearch_noRideFound);
+                                                isLoadingPage = false;
                                             }
                                         } else {
                                             Util.treatResponseFromServer(response);
                                             noRides.setText(R.string.allrides_norides);
                                             refreshLayout.setRefreshing(false);
                                             Log.e("listAllRides", response.message());
+                                            isLoadingPage = false;
                                         }
                                         scrollListener.resetState();
                                     }
@@ -276,6 +280,7 @@ public class AllRidesListFrag extends Fragment implements Callback {
                                             noRides.setText(R.string.allrides_norides);
                                         }
                                         scrollListener.resetState();
+                                        isLoadingPage = false;
                                     }
                                 });
 
@@ -284,6 +289,7 @@ public class AllRidesListFrag extends Fragment implements Callback {
                         noRides.setText(R.string.allrides_norides);
                         refreshLayout.setRefreshing(false);
                         Log.e("listAllRides", response.message());
+                        isLoadingPage = false;
                     }
                     scrollListener.resetState();
                 }
@@ -295,6 +301,7 @@ public class AllRidesListFrag extends Fragment implements Callback {
                         noRides.setText(R.string.allrides_norides);
                     }
                     scrollListener.resetState();
+                    isLoadingPage = false;
                 }
             });
     }
@@ -326,12 +333,14 @@ public class AllRidesListFrag extends Fragment implements Callback {
                         goingRides.get(i).type = "";
                     }
                 }
-                if(!isFiltering) {
-                    SharedPref.ALL_RIDES_GOING = goingRides;
+                if(SharedPref.ALL_RIDES_GOING == goingRides) {
+                    if (!isFiltering) {
+                        SharedPref.ALL_RIDES_GOING = goingRides;
+                    }
+                    adapter.makeList(goingRides);
+                    scrollListener.resetState();
+                    adapter.notifyDataSetChanged();
                 }
-                adapter.makeList(goingRides);
-                scrollListener.resetState();
-                adapter.notifyDataSetChanged();
             }
         } else {
             if (notGoingRides != null && !notGoingRides.isEmpty()) {
@@ -344,17 +353,20 @@ public class AllRidesListFrag extends Fragment implements Callback {
                         notGoingRides.get(i).type = "";
                     }
                 }
-                if(!isFiltering) {
-                    SharedPref.ALL_RIDES_LEAVING = notGoingRides;
+                if(SharedPref.ALL_RIDES_LEAVING != notGoingRides) {
+                    if (!isFiltering) {
+                        SharedPref.ALL_RIDES_LEAVING = notGoingRides;
+                    }
+                    adapter.makeList(notGoingRides);
+                    scrollListener.resetState();
+                    adapter.notifyDataSetChanged();
                 }
-                adapter.makeList(notGoingRides);
-                scrollListener.resetState();
-                adapter.notifyDataSetChanged();
             }
         }
         SharedPref.lastAllRidesUpdate = 0;
         refreshLayout.setRefreshing(false);
         rvRides.setVisibility(View.VISIBLE);
+        isLoadingPage = false;
     }
 
     private void reloadRidesIfNecessary()
@@ -377,8 +389,10 @@ public class AllRidesListFrag extends Fragment implements Callback {
     }
 
     private void loadOneMorePage() {
-        pageCounter++;
-        refreshRideList(pageCounter);
+        if(!isLoadingPage && !refreshLayout.isRefreshing()) {
+            pageCounter++;
+            refreshRideList(pageCounter);
+        }
     }
 
     private void animateListFadeIn() {

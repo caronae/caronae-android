@@ -22,15 +22,12 @@ public class RidesHistoryAdapter extends RecyclerView.Adapter<RidesHistoryAdapte
 
     private final int TYPE_HEADER = 0;
     private final int TYPE_BODY = 1;
-    private final int TYPE_ZERO = 2;
 
     private final Context context;
 
-    private List<RideHistory> rideHistory;
     private List<Object> mixedList;
 
-    public RidesHistoryAdapter(List<RideHistory> rideHistory, Context ctx) {
-        this.rideHistory = rideHistory;
+    public RidesHistoryAdapter(Context ctx) {
         this.context = ctx;
         this.mixedList = new ArrayList<>();
     }
@@ -54,6 +51,8 @@ public class RidesHistoryAdapter extends RecyclerView.Adapter<RidesHistoryAdapte
 
     @Override
     public int getItemViewType(int position) {
+        final int TYPE_ZERO = 2;
+
         if (mixedList == null){
             return TYPE_ZERO;
         } else if (mixedList.size() == 0){
@@ -117,17 +116,10 @@ public class RidesHistoryAdapter extends RecyclerView.Adapter<RidesHistoryAdapte
     }
 
     public void makeList(List<RideHistory> rideHistory) {
-        this.rideHistory = rideHistory;
-        List<Integer> headerPositions = getHeaderPositionsOnList(rideHistory);
         if(mixedList != null) {
             mixedList.clear();
         }
         mixedList.addAll(rideHistory);
-        if (headerPositions != null && headerPositions.size() > 0) {
-            for (int headerCount = 0; headerCount < headerPositions.size(); headerCount++) {
-                mixedList.add(headerPositions.get(headerCount) + headerCount, headerPositions.get(headerCount));
-            }
-        }
         notifyDataSetChanged();
     }
 
@@ -145,28 +137,12 @@ public class RidesHistoryAdapter extends RecyclerView.Adapter<RidesHistoryAdapte
         public TextView location_tv;
         public TextView name_tv;
 
-        public ViewHolder(View itemView) {
+        private ViewHolder(View itemView) {
             super(itemView);
             photo_iv = itemView.findViewById(R.id.photo_iv);
             time_tv = itemView.findViewById(R.id.time_tv);
             location_tv = itemView.findViewById(R.id.location_tv);
             name_tv = itemView.findViewById(R.id.name_tv);
         }
-    }
-
-    private List<Integer> getHeaderPositionsOnList(List<RideHistory> rides) {
-        List<Integer> headersPositions = new ArrayList<>();
-        if (rides != null) {
-            if (rides.size() > 0) {
-                headersPositions.add(0);
-                for (int rideIndex = 1; rideIndex < rides.size(); rideIndex++) {
-                    if (Util.getDayFromDate(rides.get(rideIndex).getDate()) > Util.getDayFromDate(rides.get(rideIndex - 1).getDate())) {
-                        headersPositions.add(rideIndex);
-                    }
-                }
-                return headersPositions;
-            }
-        }
-        return null;
     }
 }

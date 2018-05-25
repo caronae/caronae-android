@@ -64,7 +64,7 @@ public class RidesHistoryFrag extends Fragment {
             }
         });
 
-        adapter = new RidesHistoryAdapter(new ArrayList<>(), getContext());
+        adapter = new RidesHistoryAdapter(getContext());
         mLayoutManager = new LinearLayoutManager(getContext());
         rvRides.setLayoutManager(mLayoutManager);
         rvRides.setAdapter(adapter);

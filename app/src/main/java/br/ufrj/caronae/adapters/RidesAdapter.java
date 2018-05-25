@@ -1,6 +1,5 @@
 package br.ufrj.caronae.adapters;
 
-import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
@@ -18,14 +17,12 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.RoundedTransformation;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.RideDetailAct;
 import br.ufrj.caronae.httpapis.CaronaeAPI;
 import br.ufrj.caronae.models.User;
-import br.ufrj.caronae.models.modelsforjson.MyRidesForJson;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
@@ -36,19 +33,13 @@ public class RidesAdapter extends RecyclerView.Adapter<RidesAdapter.ViewHolder> 
 
     private final int TYPE_HEADER = 0;
     private final int TYPE_BODY = 1;
-    private final int TYPE_ZERO = 2;
 
     private final Context context;
-    private List<RideForJson> rideOffers;
-    private FragmentManager fm;
     private List<Object> mixedList;
 
-    public RidesAdapter(List<RideForJson> rideOffers, Context context, FragmentManager fm) {
-        this.rideOffers = rideOffers;
+    public RidesAdapter(Context context) {
         this.context = context;
-        this.fm = fm;
         this.mixedList = new ArrayList<>();
-
     }
 
     @Override
@@ -70,6 +61,8 @@ public class RidesAdapter extends RecyclerView.Adapter<RidesAdapter.ViewHolder> 
 
     @Override
     public int getItemViewType(int position) {
+        final int TYPE_ZERO = 2;
+
         if (mixedList == null){
             return TYPE_ZERO;
         } else if (mixedList.size() == 0){
@@ -159,59 +152,33 @@ public class RidesAdapter extends RecyclerView.Adapter<RidesAdapter.ViewHolder> 
     }
 
     public void makeList(List<RideForJson> rideOffers) {
-        this.rideOffers = rideOffers;
-        List<Integer> headerPositions = getHeaderPositionsOnList(rideOffers);
-        mixedList.clear();
-        mixedList.addAll(rideOffers);
-        if (headerPositions != null && headerPositions.size() > 0) {
-            for (int headerCount = 0; headerCount < headerPositions.size(); headerCount++) {
-                mixedList.add(headerPositions.get(headerCount) + headerCount, headerPositions.get(headerCount));
-            }
+        if(mixedList != null) {
+            mixedList.clear();
         }
+        mixedList.addAll(rideOffers);
         notifyDataSetChanged();
     }
 
-    public void addToList(List<RideForJson> rideOffers) {
-        this.rideOffers.addAll(rideOffers);
-        notifyDataSetChanged();
-    }
-
-    private void verifyRequesters(String idRide, final RidesAdapter.ViewHolder viewHolder)
-    {
-        CaronaeAPI.service(context).getRequesters(idRide).enqueue(new Callback<List<User>>()
-        {
+    private void verifyRequesters(String idRide, final RidesAdapter.ViewHolder viewHolder) {
+        CaronaeAPI.service(context).getRequesters(idRide).enqueue(new Callback<List<User>>() {
             @Override
-            public void onResponse(Call<List<User>> call, Response<List<User>> response)
-            {
-                if (response.isSuccessful())
-                {
+            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
+                if (response.isSuccessful()) {
                     List<User> requesters = response.body();
-                    if(requesters != null && !requesters.isEmpty())
-                    {
+                    if (requesters != null && !requesters.isEmpty()) {
                         //Action that shows to the user that there are requests in this ride.
                     }
-                }
-                else
-                {
+                } else {
                     Util.treatResponseFromServer(response);
                     Log.e("Error ", response.message());
                 }
             }
 
             @Override
-            public void onFailure(Call<List<User>> call, Throwable t)
-            {
+            public void onFailure(Call<List<User>> call, Throwable t) {
                 Log.e("Error ", t.getLocalizedMessage());
             }
         });
-    }
-
-    public void remove(int rideId) {
-        for (int i = 0; i < rideOffers.size(); i++)
-            if (rideOffers.get(i).getDbId() == rideId) {
-                rideOffers.remove(i);
-                notifyItemRemoved(i);
-            }
     }
 
     @Override
@@ -228,10 +195,10 @@ public class RidesAdapter extends RecyclerView.Adapter<RidesAdapter.ViewHolder> 
         public TextView time_tv;
         public TextView location_tv;
         public TextView name_tv;
-        public LinearLayout parentLayout;
-        public RelativeLayout secondaryLayout;
+        private LinearLayout parentLayout;
+        private RelativeLayout secondaryLayout;
 
-        public ViewHolder(View itemView) {
+        private ViewHolder(View itemView) {
             super(itemView);
             photo_iv = itemView.findViewById(R.id.photo_iv);
             requestIndicator_iv = itemView.findViewById(R.id.requestIndicator_iv);
@@ -241,21 +208,5 @@ public class RidesAdapter extends RecyclerView.Adapter<RidesAdapter.ViewHolder> 
             parentLayout = itemView.findViewById(R.id.cardView);
             secondaryLayout = itemView.findViewById(R.id.secondary_lay);
         }
-    }
-
-    private List<Integer> getHeaderPositionsOnList(List<RideForJson> rides) {
-        List<Integer> headersPositions = new ArrayList<>();
-        if (rides != null) {
-            if (rides.size() > 0) {
-                headersPositions.add(0);
-                for (int rideIndex = 1; rideIndex < rides.size(); rideIndex++) {
-                    if (Util.getDayFromDate(rides.get(rideIndex).getDate()) > Util.getDayFromDate(rides.get(rideIndex - 1).getDate())) {
-                        headersPositions.add(rideIndex);
-                    }
-                }
-                return headersPositions;
-            }
-        }
-        return null;
     }
 }

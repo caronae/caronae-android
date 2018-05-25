@@ -72,6 +72,7 @@ public class LoginAct extends AppCompatActivity {
             token_et.setVisibility(View.VISIBLE);
             loginButton.setVisibility(View.VISIBLE);
         }
+
         token_et.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -83,6 +84,7 @@ public class LoginAct extends AppCompatActivity {
                 return handled;
             }
         });
+
         startLink = getIntent().getBooleanExtra("startLink", false);
         if(startLink)
         {
@@ -95,8 +97,11 @@ public class LoginAct extends AppCompatActivity {
         }
     }
 
+
+    //DEV Login
     @OnClick(R.id.send_bt)
-    public void sendBt() {
+    public void sendBt()
+    {
         loginButton.setEnabled(false);
         final ProgressDialog pd = ProgressDialog.show(this, "", getString(R.string.wait), true, true);
         final Activity act = this;
@@ -104,7 +109,7 @@ public class LoginAct extends AppCompatActivity {
         final String idUfrj = idUfrj_et.getText().toString();
         final String token = Util.fixBlankSpaces(tokenHolder).toUpperCase();
 
-            Call<UserForJson> loginCall = CaronaeAPI.service(getApplicationContext()).login(new LoginForJson(token, idUfrj));
+        Call<UserForJson> loginCall = CaronaeAPI.service(getApplicationContext()).login(new LoginForJson(token, idUfrj));
             loginCall.enqueue(new Callback<UserForJson>() {
                 @Override
                 public void onResponse(Call<UserForJson> call, Response<UserForJson> response) {
@@ -169,49 +174,43 @@ public class LoginAct extends AppCompatActivity {
             });
     }
 
+
+    //PROD Login
     private void startLogin()
     {
-        Call<UserForJson> loginCall = CaronaeAPI.service(getApplicationContext()).getUser(id);
-        loginCall.enqueue(new Callback<UserForJson>() {
+        CaronaeAPI.service(getApplicationContext()).getUser(id).enqueue(new Callback<UserForJson>()
+        {
             @Override
-            public void onResponse(Call<UserForJson> call, Response<UserForJson> response) {
-                if (response.isSuccessful()) {
+            public void onResponse(Call<UserForJson> call, Response<UserForJson> response)
+            {
+                if (response.isSuccessful())
+                {
                     UserForJson user = response.body();
-                    Util.debug(user.getUser().getName());
-                } else {
 
+                }
+                else
+                {
+                    Log.e("Login", "Failure: "+response.message());
+                    loginBtV3.setClickable(true);
+                    loginBtV3.setFocusable(true);
+                    onLoading.setVisibility(View.GONE);
                 }
             }
 
             @Override
             public void onFailure(Call<UserForJson> call, Throwable t) {
-
-            }
-        });
-        Call<String> getToken = CaronaeAPI.service(getApplicationContext()).getToken(token);
-        getToken.enqueue(new Callback<String>() {
-            @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                if (response.isSuccessful()) {
-                    String user = response.body();
-                    Util.debug(user);
-                } else {
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call<String> call, Throwable t) {
-
+                // handle execution failures like no internet connectivity
+                Log.e("Login", "Failure: " + t.getMessage());
+                loginBtV3.setClickable(true);
+                loginBtV3.setFocusable(true);
+                onLoading.setVisibility(View.GONE);
             }
         });
     }
-
 
     @OnClick(R.id.login_bt_v3)
     public void loginV3()
     {
         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.API_BASE_URL + "login?type=app_jwt")));
     }
-
 }

@@ -1,6 +1,5 @@
 package br.ufrj.caronae.adapters;
 
-import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
@@ -15,31 +14,23 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.RoundedTransformation;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.RideDetailAct;
-import br.ufrj.caronae.httpapis.CaronaeAPI;
-import br.ufrj.caronae.models.modelsforjson.MyRidesForJson;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
 import de.hdodenhof.circleimageview.CircleImageView;
-import retrofit2.Call;
-import retrofit2.Response;
 
 public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHolder> {
 
     private final int TYPE_HEADER = 0;
     private final int TYPE_BODY = 1;
-    private final int TYPE_ZERO = 2;
 
     private final Context context;
-    private List<RideForJson> rideOffers;
     private List<Object> mixedList;
 
 
-    public MyRidesAdapter(List<RideForJson> rideOffers, Context context, FragmentManager fm) {
-        this.rideOffers = rideOffers;
+    public MyRidesAdapter(Context context) {
         this.context = context;
         this.mixedList = new ArrayList<>();
     }
@@ -63,6 +54,8 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
 
     @Override
     public int getItemViewType(int position) {
+        final int TYPE_ZERO = 2;
+
         if (mixedList == null){
             return TYPE_ZERO;
         } else if (mixedList.size() == 0){
@@ -159,29 +152,11 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
     }
 
     public void makeList(List<RideForJson> rideOffers) {
-        this.rideOffers = rideOffers;
-        List<Integer> headerPositions = getHeaderPositionsOnList(rideOffers);
-        mixedList.clear();
-        mixedList.addAll(rideOffers);
-        if (headerPositions != null && headerPositions.size() > 0) {
-            for (int headerCount = 0; headerCount < headerPositions.size(); headerCount++) {
-                mixedList.add(headerPositions.get(headerCount) + headerCount, headerPositions.get(headerCount));
-            }
+        if(mixedList != null) {
+            mixedList.clear();
         }
+        mixedList.addAll(rideOffers);
         notifyDataSetChanged();
-    }
-
-    public void addToList(List<RideForJson> rideOffers) {
-        this.rideOffers.addAll(rideOffers);
-        notifyDataSetChanged();
-    }
-
-    public void remove(int rideId) {
-        for (int i = 0; i < rideOffers.size(); i++)
-            if (rideOffers.get(i).getDbId() == rideId) {
-                rideOffers.remove(i);
-                notifyItemRemoved(i);
-            }
     }
 
     @Override
@@ -195,9 +170,9 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public CircleImageView photo_iv;
         public TextView time_tv, name_tv, location_tv, typeCardText;
-        public RelativeLayout typeCard, parentLayout, secondaryLay;
+        private RelativeLayout typeCard, parentLayout, secondaryLay;
 
-        public ViewHolder(View itemView) {
+        private ViewHolder(View itemView) {
             super(itemView);
             photo_iv = itemView.findViewById(R.id.photo_iv);
             time_tv = itemView.findViewById(R.id.time_tv);
@@ -208,21 +183,5 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
             typeCardText = itemView.findViewById(R.id.typeCardText);
             secondaryLay = itemView.findViewById(R.id.secondary_lay);
         }
-    }
-
-    private List<Integer> getHeaderPositionsOnList(List<RideForJson> rides) {
-        List<Integer> headersPositions = new ArrayList<>();
-        if (rides != null) {
-            if (rides.size() > 0) {
-                headersPositions.add(0);
-                for (int rideIndex = 1; rideIndex < rides.size(); rideIndex++) {
-                    if (Util.getDayFromDate(rides.get(rideIndex).getDate()) > Util.getDayFromDate(rides.get(rideIndex - 1).getDate())) {
-                        headersPositions.add(rideIndex);
-                    }
-                }
-                return headersPositions;
-            }
-        }
-        return null;
     }
 }

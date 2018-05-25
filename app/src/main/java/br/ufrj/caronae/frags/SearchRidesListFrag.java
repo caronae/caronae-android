@@ -83,7 +83,7 @@ public class SearchRidesListFrag extends Fragment implements Callback {
             }
         });
 
-        adapter = new RidesAdapter(new ArrayList<RideForJson>(), getContext(), getActivity().getFragmentManager());
+        adapter = new RidesAdapter(getContext());
         mLayoutManager = new LinearLayoutManager(getContext());
         rvRides.setLayoutManager(mLayoutManager);
 
