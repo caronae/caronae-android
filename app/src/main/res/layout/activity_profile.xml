@@ -100,7 +100,7 @@
                     android:id="@+id/name_tv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Paula Silva"
+                    android:text=""
                     android:textStyle="bold"
                     android:textSize="18sp"
                     android:maxLines="1"
@@ -116,7 +116,7 @@
                     android:ellipsize="end"
                     android:textSize="16sp"
                     android:maxLines="1"
-                    android:text="Graduação | Ciência da Computação" />
+                    android:text="" />
                 <ImageView
                     android:id="@+id/phone_icon"
                     android:layout_width="wrap_content"
@@ -137,6 +137,7 @@
                     android:layout_toRightOf="@+id/phone_icon"
                     android:clickable="true"
                     android:focusable="true"
+                    android:textSize="16sp"
                     android:text="(021) 12345-6543"
                     android:visibility="gone"
                     android:textColor="@color/textBcolor" />

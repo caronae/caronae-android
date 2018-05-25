@@ -26,6 +26,7 @@ import java.util.TreeMap;
 import br.ufrj.caronae.httpapis.CaronaeAPI;
 import br.ufrj.caronae.models.ChatAssets;
 import br.ufrj.caronae.models.RideOffer;
+import br.ufrj.caronae.models.modelsforjson.MyRidesForJson;
 import br.ufrj.caronae.models.modelsforjson.PlacesForJson;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
 import retrofit2.Call;
@@ -38,8 +39,8 @@ public class Util {
     private static Map<String, Integer> colorZone = new TreeMap<>();
     private static ArrayList<String> zones = new ArrayList<>();
     private static ArrayList<String> campus = new ArrayList<>();
-    private static ArrayList<String> activeRidesId = new ArrayList<>();
-    private static ArrayList<String> pendingRidesId = new ArrayList<>();
+    private static ArrayList<Integer> activeRidesId = new ArrayList<>();
+    private static ArrayList<Integer> pendingRidesId = new ArrayList<>();
     private static Map<String, String> findNeigh = new TreeMap<>();
     private static boolean colorsSaved;
 
@@ -466,9 +467,34 @@ public class Util {
         return 0;
     }
 
-    public static void setPendingAndActiveRidesId()
+    public static void setMyPARidesId()
     {
+        pendingRidesId.clear();
+        activeRidesId.clear();
+        if(SharedPref.MY_RIDES_PENDING != null && !SharedPref.MY_RIDES_PENDING.isEmpty())
+        {
+            for(int i = 0; i < SharedPref.MY_RIDES_PENDING.size(); i++)
+            {
+                pendingRidesId.add(SharedPref.MY_RIDES_PENDING.get(i).getId().intValue());
+            }
+        }
+        if(SharedPref.MY_RIDES_ACTIVE != null && !SharedPref.MY_RIDES_ACTIVE.isEmpty())
+        {
+            for(int i = 0; i < SharedPref.MY_RIDES_ACTIVE.size(); i++)
+            {
+                activeRidesId.add(SharedPref.MY_RIDES_ACTIVE.get(i).getId().intValue());
+            }
+        }
+    }
 
+    public static boolean isActive(int id)
+    {
+        return activeRidesId.contains(id);
+    }
+
+    public static boolean isPending(int id)
+    {
+        return pendingRidesId.contains(id);
     }
 
     public static boolean isNetworkAvailable(Context context) {

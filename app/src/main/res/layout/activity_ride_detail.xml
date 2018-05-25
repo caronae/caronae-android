@@ -105,9 +105,9 @@
                         android:id="@+id/location_dt"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingTop="15dp"
-                        android:paddingBottom="15dp"
-                        android:textSize="24sp"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:textSize="20sp"
                         android:textColor="@color/white"
                         android:layout_marginLeft="10dp"
                         android:layout_marginStart="10dp"
@@ -166,7 +166,24 @@
                         android:textSize="14sp"
                         android:textColor="@color/red"
                         android:layout_centerVertical="true"
+                        android:textStyle="bold"
                         android:text="@string/cancel_uppercase"/>
+                    <TextView
+                        android:id="@+id/leave_ride"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginEnd="15dp"
+                        android:layout_marginRight="15dp"
+                        android:visibility="gone"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/red"
+                        android:layout_centerVertical="true"
+                        android:text="@string/act_activeride_quitBtn"/>
 
                 </RelativeLayout>
                 <RelativeLayout
@@ -195,7 +212,7 @@
                         android:layout_toRightOf="@id/requester_photo"
                         android:textStyle="bold"
                         android:textSize="15sp"
-                        android:text="Breno Ferreira Rocha"
+                        android:text=""
                         android:singleLine="true"
                         android:ellipsize="end"
                         android:layout_marginEnd="10dp"
@@ -209,7 +226,7 @@
                         android:textColor="@color/dark_gray"
                         android:layout_toEndOf="@id/requester_photo"
                         android:layout_toRightOf="@id/requester_photo"
-                        android:text="Graduação | Medicina"
+                        android:text=""
                         android:singleLine="true"
                         android:ellipsize="end"
                         android:layout_marginEnd="10dp"
@@ -317,7 +334,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/share_lay"
-                    android:layout_margin="20dp">
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginBottom="10dp">
                     <RelativeLayout
                         android:id="@+id/profile_info"
                         android:layout_width="match_parent"
@@ -363,6 +385,32 @@
                                 android:textSize="16sp"
                                 android:maxLines="1"
                                 android:text="" />
+                            <ImageView
+                                android:id="@+id/phone_icon"
+                                android:visibility="gone"
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_below="@+id/profile_dt"
+                                android:layout_marginTop="2dp"
+                                android:src="@drawable/ic_phone_24dp" />
+                            <TextView
+                                android:id="@+id/phone_tv"
+                                android:visibility="visible"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/profile_dt"
+                                android:layout_marginLeft="5dp"
+                                android:gravity="center"
+                                android:layout_alignParentTop="@id/phone_icon"
+                                android:layout_alignTop="@id/phone_icon"
+                                android:layout_marginStart="5dp"
+                                android:layout_toEndOf="@+id/phone_icon"
+                                android:layout_toRightOf="@+id/phone_icon"
+                                android:clickable="true"
+                                android:textSize="14sp"
+                                android:focusable="true"
+                                android:text=""
+                                android:textColor="@color/textBcolor" />
 
                         </RelativeLayout>
                     </RelativeLayout>
@@ -567,71 +615,160 @@
                                 android:layout_below="@id/riders_title"
                                 android:orientation="horizontal"
                                 android:layout_marginTop="10dp"
-                                android:gravity="center"
                                 android:weightSum="6">
 
-                                <de.hdodenhof.circleimageview.CircleImageView
-                                    android:id="@+id/rider_0"
-                                    android:visibility="gone"
+                                <RelativeLayout
                                     android:layout_width="0dp"
-                                    android:layout_height="50dp"
-                                    android:layout_weight="1"
-                                    android:src="@drawable/user_pic"
-                                    app:civ_border_width="2dp"
-                                    app:civ_border_color="@color/dark_gray"/>
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1">
 
-                                <de.hdodenhof.circleimageview.CircleImageView
-                                    android:id="@+id/rider_1"
-                                    android:visibility="gone"
-                                    android:layout_width="0dp"
-                                    android:layout_height="50dp"
-                                    android:layout_weight="1"
-                                    android:src="@drawable/user_pic"
-                                    app:civ_border_width="2dp"
-                                    app:civ_border_color="@color/dark_gray"/>
+                                    <de.hdodenhof.circleimageview.CircleImageView
+                                        android:id="@+id/rider_0"
+                                        android:visibility="gone"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="60dp"
+                                        android:src="@drawable/user_pic"
+                                        app:civ_border_width="2dp"
+                                        app:civ_border_color="@color/dark_gray"/>
+                                    <TextView
+                                        android:id="@+id/rider_0_name"
+                                        android:visibility="gone"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_below="@id/rider_0"
+                                        android:layout_centerHorizontal="true"
+                                        android:textColor="@color/dark_gray"
+                                        android:textStyle="bold"
+                                        android:text=""/>
+                                </RelativeLayout>
 
-                                <de.hdodenhof.circleimageview.CircleImageView
-                                    android:id="@+id/rider_2"
-                                    android:visibility="gone"
-                                    android:layout_width="0dp"
-                                    android:layout_height="50dp"
-                                    android:layout_weight="1"
-                                    android:src="@drawable/user_pic"
-                                    app:civ_border_width="2dp"
-                                    app:civ_border_color="@color/dark_gray"/>
 
-                                <de.hdodenhof.circleimageview.CircleImageView
-                                    android:id="@+id/rider_3"
-                                    android:visibility="gone"
+                                <RelativeLayout
                                     android:layout_width="0dp"
-                                    android:layout_height="50dp"
-                                    android:layout_weight="1"
-                                    android:src="@drawable/user_pic"
-                                    app:civ_border_width="2dp"
-                                    app:civ_border_color="@color/dark_gray"/>
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1">
 
-                                <de.hdodenhof.circleimageview.CircleImageView
-                                    android:id="@+id/rider_4"
-                                    android:visibility="gone"
-                                    android:layout_width="0dp"
-                                    android:layout_height="50dp"
-                                    android:layout_weight="1"
-                                    android:src="@drawable/user_pic"
-                                    app:civ_border_width="2dp"
-                                    app:civ_border_color="@color/dark_gray"/>
+                                    <de.hdodenhof.circleimageview.CircleImageView
+                                        android:id="@+id/rider_1"
+                                        android:visibility="gone"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="60dp"
+                                        android:src="@drawable/user_pic"
+                                        app:civ_border_width="2dp"
+                                        app:civ_border_color="@color/dark_gray"/>
+                                    <TextView
+                                        android:id="@+id/rider_1_name"
+                                        android:visibility="gone"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_below="@id/rider_1"
+                                        android:layout_centerHorizontal="true"
+                                        android:textColor="@color/dark_gray"
+                                        android:textStyle="bold"
+                                        android:text=""/>
+                                </RelativeLayout>
 
-                                <de.hdodenhof.circleimageview.CircleImageView
-                                    android:id="@+id/rider_5"
-                                    android:visibility="gone"
+                                <RelativeLayout
                                     android:layout_width="0dp"
-                                    android:layout_height="50dp"
-                                    android:layout_weight="1"
-                                    android:src="@drawable/user_pic"
-                                    app:civ_border_width="2dp"
-                                    app:civ_border_color="@color/dark_gray"/>
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1">
+
+                                    <de.hdodenhof.circleimageview.CircleImageView
+                                        android:id="@+id/rider_2"
+                                        android:visibility="gone"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="60dp"
+                                        android:src="@drawable/user_pic"
+                                        app:civ_border_width="2dp"
+                                        app:civ_border_color="@color/dark_gray"/>
+                                    <TextView
+                                        android:id="@+id/rider_2_name"
+                                        android:visibility="gone"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_below="@id/rider_2"
+                                        android:layout_centerHorizontal="true"
+                                        android:textColor="@color/dark_gray"
+                                        android:textStyle="bold"
+                                        android:text=""/>
+                                </RelativeLayout>
+
+                                <RelativeLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1">
+
+                                    <de.hdodenhof.circleimageview.CircleImageView
+                                        android:id="@+id/rider_3"
+                                        android:visibility="gone"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="60dp"
+                                        android:src="@drawable/user_pic"
+                                        app:civ_border_width="2dp"
+                                        app:civ_border_color="@color/dark_gray"/>
+                                    <TextView
+                                        android:id="@+id/rider_3_name"
+                                        android:visibility="gone"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_below="@id/rider_3"
+                                        android:layout_centerHorizontal="true"
+                                        android:textColor="@color/dark_gray"
+                                        android:textStyle="bold"
+                                        android:text=""/>
+                                </RelativeLayout>
+
+                                <RelativeLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1">
+
+                                    <de.hdodenhof.circleimageview.CircleImageView
+                                        android:id="@+id/rider_4"
+                                        android:visibility="gone"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="60dp"
+                                        android:src="@drawable/user_pic"
+                                        app:civ_border_width="2dp"
+                                        app:civ_border_color="@color/dark_gray"/>
+                                    <TextView
+                                        android:id="@+id/rider_4_name"
+                                        android:visibility="gone"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_below="@id/rider_4"
+                                        android:layout_centerHorizontal="true"
+                                        android:textColor="@color/dark_gray"
+                                        android:textStyle="bold"
+                                        android:text=""/>
+                                </RelativeLayout>
+
+                                <RelativeLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1">
+
+                                    <de.hdodenhof.circleimageview.CircleImageView
+                                        android:id="@+id/rider_5"
+                                        android:visibility="gone"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="60dp"
+                                        android:src="@drawable/user_pic"
+                                        app:civ_border_width="2dp"
+                                        app:civ_border_color="@color/dark_gray"/>
+                                    <TextView
+                                        android:id="@+id/rider_5_name"
+                                        android:visibility="gone"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_below="@id/rider_5"
+                                        android:layout_centerHorizontal="true"
+                                        android:textColor="@color/dark_gray"
+                                        android:textStyle="bold"
+                                        android:text=""/>
+                                </RelativeLayout>
 
                             </LinearLayout>
-
 
                         </RelativeLayout>
 
@@ -640,19 +777,23 @@
 
                 <RelativeLayout
                     android:id="@+id/invite_lay"
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:visibility="gone"
-                    android:layout_below="@id/drive_info">
+                    android:layout_below="@id/drive_info"
+                    android:layout_marginBottom="20dp">
 
-                    <TextView
+                    <Button
                         android:id="@+id/requested_dt"
-                        android:layout_width="match_parent"
+                        android:layout_width="200dp"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
+                        android:clickable="false"
+                        android:focusable="false"
+                        android:layout_centerHorizontal="true"
+                        android:background="@drawable/rounded_button"
+                        android:src="@drawable/ic_done_white_24dp"
                         android:text="@string/act_rideoffer_requested"
-                        android:textColor="@color/green" />
+                        android:textColor="@android:color/white" />
 
                 </RelativeLayout>
 
@@ -662,10 +803,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/drive_info"
-                    android:layout_marginBottom="50dp">
+                    android:layout_marginBottom="20dp">
                     <Button
                         android:id="@+id/join_bt"
-                        android:layout_width="150dp"
+                        android:layout_width="200dp"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
                         android:background="@drawable/rounded_button"
@@ -679,10 +820,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/drive_info"
-                    android:layout_marginBottom="50dp">
+                    android:layout_marginBottom="20dp">
                     <Button
                         android:id="@+id/finish_bt"
-                        android:layout_width="150dp"
+                        android:layout_width="200dp"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
                         android:background="@drawable/rounded_button"

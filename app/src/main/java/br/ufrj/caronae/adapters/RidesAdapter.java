@@ -42,7 +42,6 @@ public class RidesAdapter extends RecyclerView.Adapter<RidesAdapter.ViewHolder> 
     private List<RideForJson> rideOffers;
     private FragmentManager fm;
     private List<Object> mixedList;
-    private String status;
 
     public RidesAdapter(List<RideForJson> rideOffers, Context context, FragmentManager fm) {
         this.rideOffers = rideOffers;
@@ -88,31 +87,6 @@ public class RidesAdapter extends RecyclerView.Adapter<RidesAdapter.ViewHolder> 
         if (!(mixedList == null || mixedList.size() == 0)) {
             if (mixedList.get(position).getClass().equals(RideForJson.class)) {
                 final RideForJson rideOffer = (RideForJson) mixedList.get(position);
-                status = "";
-                CaronaeAPI.service(context).getMyRides(Integer.toString(App.getUser().getDbId()))
-                    .enqueue(new retrofit2.Callback<MyRidesForJson>() {
-                        @Override
-                        public void onResponse(Call<MyRidesForJson> call, Response<MyRidesForJson> response) {
-                            if (response.isSuccessful()) {
-                                MyRidesForJson data = response.body();
-                                List<RideForJson> pendingRides = data.getPendingRides();
-                                if(pendingRides != null && !pendingRides.isEmpty())
-                                {
-                                    for(int i = 0; i < pendingRides.size(); i++) {
-                                        if (pendingRides.get(i).getId().intValue() == rideOffer.getId().intValue()) {
-                                            status = "pending";
-                                        }
-                                    }
-                                }
-                            } else {
-                                Util.treatResponseFromServer(response);
-                                Util.debug(response.message());
-                            }
-                        }
-                        @Override
-                        public void onFailure(Call<MyRidesForJson> call, Throwable t) {
-                        }
-                    });
 
                 int color = Util.getColors(rideOffer.getZone());
                 viewHolder.location_tv.setTextColor(color);
@@ -173,7 +147,6 @@ public class RidesAdapter extends RecyclerView.Adapter<RidesAdapter.ViewHolder> 
                     @Override
                     public void onClick(View view) {
                         Intent intent = new Intent(context, RideDetailAct.class);
-                        intent.putExtra("status", status);
                         intent.putExtra("fromWhere", rideOffer.fromWhere);
                         intent.putExtra("ride", rideOffer);
                         intent.putExtra("starting", true);

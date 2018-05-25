@@ -20,6 +20,8 @@ import android.widget.TextView;
 
 import com.facebook.AccessToken;
 import com.google.gson.Gson;
+import com.redmadrobot.inputmask.helper.Mask;
+import com.redmadrobot.inputmask.model.CaretString;
 import com.squareup.picasso.Picasso;
 
 import br.ufrj.caronae.R;
@@ -66,6 +68,7 @@ public class ProfileAct extends AppCompatActivity {
     private RideForJson rideOffer;
     private String from, user2, fromWhere = "", status;
     private int idRide;
+    boolean showPhone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +83,7 @@ public class ProfileAct extends AppCompatActivity {
         if(fromAnother) {
             rideOffer = getIntent().getExtras().getParcelable("ride");
         }
+        showPhone = getIntent().getBooleanExtra("showPhone", false);
         idRide = getIntent().getExtras().getInt("id");
         user2 = getIntent().getExtras().getString("user");
         user = new Gson().fromJson(user2, User.class);
@@ -95,7 +99,6 @@ public class ProfileAct extends AppCompatActivity {
             profileInfo = user.getProfile() + " | " + user.getCourse();
         }
         profile_tv.setText(profileInfo);
-        phone_tv.setText(user.getPhoneNumber());
         String profilePicUrl = user.getProfilePicUrl();
         if (profilePicUrl != null && !profilePicUrl.isEmpty())
             Picasso.with(this).load(profilePicUrl)
@@ -185,7 +188,11 @@ public class ProfileAct extends AppCompatActivity {
         }
 
         from = getIntent().getExtras().getString("from");
-        if (from != null && (from.equals("activeRides"))) {
+        if (showPhone) {
+            phone_icon.setVisibility(View.VISIBLE);
+            String phone = getFormatedNumber(user.getPhoneNumber());
+            phone_tv.setText(phone);
+            phone_tv.setVisibility(View.VISIBLE);
             //Controls the options that appears on app when user touch (short or long) on phone number
             phone_tv.setOnClickListener((View v) -> {
                 actionNumberTouch(0);
@@ -204,6 +211,7 @@ public class ProfileAct extends AppCompatActivity {
     public void reportBt() {
         finish();
         Intent intent = new Intent(this, FalaeAct.class);
+        intent.putExtra("showPhone", showPhone);
         intent.putExtra("user", user2);
         intent.putExtra("status", status);
         intent.putExtra("from", "rideoffer");
@@ -301,5 +309,21 @@ public class ProfileAct extends AppCompatActivity {
         else{
             super.onBackPressed();
         }
+    }
+
+    //Use this function to get user phone number correctly formated
+    String getFormatedNumber(String phone)
+    {
+        final Mask mask = new Mask("({0}[00]) [00000]-[0000]");
+        final String input = phone;
+        final Mask.Result result = mask.apply(
+                new CaretString(
+                        input,
+                        input.length()
+                ),
+                true // you may consider disabling autocompletion for your case
+        );
+        final String output = result.getFormattedText().getString();
+        return output;
     }
 }

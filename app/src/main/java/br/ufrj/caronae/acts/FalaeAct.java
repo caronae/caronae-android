@@ -49,7 +49,7 @@ public class FalaeAct extends AppCompatActivity {
     private RideForJson rideOffer;
     private String from, user2, status;
 
-    boolean fromAnother;
+    boolean fromAnother, showPhone;
     private int idRide;
 
     @Override
@@ -58,6 +58,7 @@ public class FalaeAct extends AppCompatActivity {
         setContentView(R.layout.activity_falae);
         ButterKnife.bind(this);
         boolean fromProfile;
+        showPhone = getIntent().getBooleanExtra("showPhone", false);
         try {
             fromWhere = getIntent().getStringExtra("fromWhere");
             status = getIntent().getStringExtra("status");
@@ -130,6 +131,7 @@ public class FalaeAct extends AppCompatActivity {
     {
         finish();
         Intent profileAct = new Intent(this, ProfileAct.class);
+        profileAct.putExtra("showPhone", showPhone);
         profileAct.putExtra("status", status);
         profileAct.putExtra("user", user2);
         profileAct.putExtra("from", from);

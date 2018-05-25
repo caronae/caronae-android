@@ -252,8 +252,8 @@
     <string name="frag_rideoffer_nullDate">Escolha a data</string>
     <string name="frag_rideoffer_nullTime">Escolha a hora</string>
     <string name="frag_rideoffer_nullLocation">Ops! Parece que você esqueceu de preencher o local da sua carona.</string>
-    <string name="act_rideoffer_requested">Solicitação Enviada!</string>
-    <string name="act_activeride_quitBtn">Desistir</string>
+    <string name="act_rideoffer_requested">SOLICITAÇÃO ENVIADA</string>
+    <string name="act_activeride_quitBtn">DESISTIR</string>
     <string name="act_activeride_seeProfile">Ver perfil</string>
     <string name="frag_myrides_errorDeleteAllRIdes">Erro ao deletar todas as caronas</string>
     <string name="errorDeleteRide">Erro ao excluir carona</string>

@@ -562,10 +562,10 @@ public class MyProfileEditFrag extends Fragment {
         }
         editedUser.setName(name_tv.getText().toString());
         editedUser.setPhoneNumber(userPhoneNumber);//(0XX) XXXXX-XXXX
-        if(!course.isEmpty()) {
+        if(course != null && !course.isEmpty()) {
             editedUser.setCourse(course);
         }
-        if(!profile.isEmpty())
+        if(profile != null && !profile.isEmpty())
         {
             editedUser.setProfile(profile);
         }

@@ -2,6 +2,8 @@ package br.ufrj.caronae.acts;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,6 +14,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.Gravity;
@@ -29,6 +32,8 @@ import android.widget.TextView;
 
 import com.facebook.AccessToken;
 import com.google.gson.Gson;
+import com.redmadrobot.inputmask.helper.Mask;
+import com.redmadrobot.inputmask.model.CaretString;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
@@ -70,6 +75,8 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
     public ImageView share_ic;
     @BindView(R.id.clock)
     public ImageView clock;
+    @BindView(R.id.phone_icon)
+    ImageView phone_ic;
     @BindView(R.id.requester_photo)
     CircleImageView requesterPhoto;
 
@@ -91,12 +98,12 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
     public TextView place_dt;
     @BindView(R.id.description_dt)
     public TextView description_dt;
-    @BindView(R.id.requested_dt)
-    public TextView requested_dt;
     @BindView(R.id.mutual_friends_tv)
     TextView mFriends_tv;
     @BindView(R.id.cancel_ride)
     TextView cancelRide_bt;
+    @BindView(R.id.leave_ride)
+    TextView leaveRide_bt;
     @BindView(R.id.chat_bt)
     TextView chat_bt;
     @BindView(R.id.plate_tv)
@@ -113,11 +120,15 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
     TextView requesterName;
     @BindView(R.id.requester_status)
     TextView requesterStatus;
+    @BindView(R.id.phone_tv)
+    TextView phone_tv;
 
     @BindView(R.id.join_bt)
     public Button join_bt;
     @BindView(R.id.finish_bt)
     public Button finish_bt;
+    @BindView(R.id.requested_dt)
+    Button requested_dt;
 
     @BindView(R.id.can_join)
     RelativeLayout joinLayout;
@@ -191,11 +202,11 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
                 idRide = rideWithUsers.getDbId();
             }
             if(rideWithUsers.getRiders() != null) {
-                configureActivityWithRide(rideWithUsers, Integer.parseInt(rideWithUsers.getSlots()) - rideWithUsers.getRiders().size() <= 0);
+                configureActivityWithRide(rideWithUsers, Integer.parseInt(rideWithUsers.getSlots()) - rideWithUsers.getRiders().size() <= 0, false);
             }
             else
             {
-                configureActivityWithRide(rideWithUsers, false);
+                configureActivityWithRide(rideWithUsers, false, false);
             }
         } else {
             configureActivityWithLink();
@@ -298,13 +309,17 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
         });
     }
 
-    private void configureActivityWithRide(final RideForJson rideWithUsers, boolean fully) {
-        if(getIntent().getStringExtra("status") != null && status.isEmpty()) {
-            this.status = getIntent().getStringExtra("status");
-        }
+    private void configureActivityWithRide(final RideForJson rideWithUsers, boolean fully, boolean withLink) {
         if (rideWithUsers == null) {
             Util.toast(getString(R.string.act_activeride_rideNUll));
             finish();
+        }
+        if(!withLink) {
+            if (Util.isActive(idRide)) {
+                this.status = "active";
+            } else if (Util.isPending(idRide)) {
+                this.status = "pending";
+            }
         }
         final User driver = rideWithUsers.getDriver();
 
@@ -369,6 +384,14 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
         } else if (background instanceof ColorDrawable) {
             ((ColorDrawable)background).setColor(zoneColorInt);
         }
+        Drawable backR = requested_dt.getBackground();
+        if (backR instanceof ShapeDrawable) {
+            ((ShapeDrawable)backR).getPaint().setColor(zoneColorInt);
+        } else if (backR instanceof GradientDrawable) {
+            ((GradientDrawable)backR).setColor(zoneColorInt);
+        } else if (backR instanceof ColorDrawable) {
+            ((ColorDrawable)backR).setColor(zoneColorInt);
+        }
         locationBackground.setBackgroundColor(zoneColorInt);
         photo_iv.setBorderColor(zoneColorInt);
         requesterPhoto.setBorderColor(zoneColorInt);
@@ -398,6 +421,10 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
             public void onClick(View view) {
                 if (!isDriver) {//dont allow user to open own profile
                     Intent intent = new Intent(getApplicationContext(), ProfileAct.class);
+                    if(status.equals("active"))
+                    {
+                        intent.putExtra("showPhone", true);
+                    }
                     intent.putExtra("user", new Gson().toJson(driver));
                     intent.putExtra("status", status);
                     intent.putExtra("from", "rideoffer");
@@ -462,6 +489,7 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
         if (isDriver)
         {
             configureOfferedRide();
+            this.status = "offered";
         }
         else
         {
@@ -473,9 +501,39 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
             }
             else if(status.equals("active"))
             {
+                Calendar calendar = Calendar.getInstance();
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
+                String getCurrentDateTime = sdf.format(calendar.getTime());
+                String time = rideWithUsers.getDate()+" "+rideWithUsers.getTime().substring(0,rideWithUsers.getTime().length()-3);
+                if (getCurrentDateTime.compareTo(time) < 0)
+                {
+                    //Future
+                    leaveRide_bt.setVisibility(View.VISIBLE);
+                }
+                else
+                {
+                    //Past
+                    leaveRide_bt.setVisibility(View.GONE);
+                }
+                joinLayout.setVisibility(View.GONE);
                 join_bt.setVisibility(View.GONE);
                 requested_dt.setVisibility(View.GONE);
                 inviteLay.setVisibility(View.GONE);
+                String phone = getFormatedNumber(rideWithUsers.getDriver().getPhoneNumber());
+                phone_tv.setText(phone);
+                phone_ic.setVisibility(View.VISIBLE);
+                phone_tv.setVisibility(View.VISIBLE);
+                setNumberClickedAction(rideWithUsers.getDriver());
+                chat_bt.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        openChat();
+                    }
+                });
+                chat_bt.setVisibility(View.VISIBLE);
+                carDetails.setVisibility(View.VISIBLE);
+                ridersLayout.setVisibility(View.VISIBLE);
+                verifyRiders();
             }
             else
             {
@@ -483,10 +541,12 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
                 {
                     join_bt.setText(R.string.full_ride);
                     join_bt.setClickable(false);
+                    join_bt.setFocusable(false);
                 }
                 else
                 {
                     join_bt.setClickable(true);
+                    join_bt.setFocusable(true);
                     final Activity activity = this;
                     join_bt.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -568,11 +628,11 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
                                         } else {
                                             rideWithUsers.setDbId(Integer.parseInt(rideId));
                                             if (rideWithUsers.getRiders() != null) {
-                                                configureActivityWithRide(rideWithUsers, Integer.parseInt(rideWithUsers.getSlots()) - rideWithUsers.getRiders().size() <= 0);
+                                                configureActivityWithRide(rideWithUsers, Integer.parseInt(rideWithUsers.getSlots()) - rideWithUsers.getRiders().size() <= 0, true);
                                             }
                                             else
                                             {
-                                                configureActivityWithRide(rideWithUsers, false);
+                                                configureActivityWithRide(rideWithUsers, false, true);
                                             }
                                         }
                                         if(rideWithUsers.getDriver().getDbId() == App.getUser().getDbId() || isActive)
@@ -671,6 +731,11 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
     {
         String plate = rideWithUsers.getDriver().getCarPlate().substring(0,3)+"-"+rideWithUsers.getDriver().getCarPlate().substring(3);
         plate_tv.setText(plate);
+        String phone = getFormatedNumber(rideWithUsers.getDriver().getPhoneNumber());
+        phone_tv.setText(phone);
+        phone_ic.setVisibility(View.VISIBLE);
+        phone_tv.setVisibility(View.VISIBLE);
+        setNumberClickedAction(rideWithUsers.getDriver());
         carModel_tv.setText(rideWithUsers.getDriver().getCarModel());
         carColor_tv.setText(rideWithUsers.getDriver().getCarColor());
         joinLayout.setVisibility(View.GONE);
@@ -700,7 +765,6 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
             canFinishLay.setVisibility(View.VISIBLE);
         }
 
-
         chat_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -724,13 +788,24 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
         cdc.setPButtonText("Voltar");
     }
 
+    @OnClick(R.id.leave_ride)
+    public void leavingRide()
+    {
+        CustomDialogClass cdc = new CustomDialogClass(this, "CancelRide", null);
+        cdc.show();
+        cdc.setTitleText("Deseja mesmo desistir da carona?");
+        cdc.setMessageText("Você é livre para desistir da carona caso não possa participar, mas é importante fazer isso com responsabilidade. O motorista da carona será notificado.");
+        cdc.setNButtonText("Desistir");
+        cdc.setPButtonText("Voltar");
+    }
+
     public void cancel()
     {
         progressBar.setVisibility(View.VISIBLE);
         if( rideWithUsers.getRoutineId() == null || rideWithUsers.getRoutineId().isEmpty() || rideWithUsers.getDriver().getDbId() != App.getUser().getDbId()) {
             leaveRide(idRide);
         }
-        else
+        else if(status.equals("offered"))
         {
             progressBar.setVisibility(View.GONE);
             CharSequence options[] = new CharSequence[] {"Desistir somente desta", "Desistir da rotina"};
@@ -770,8 +845,8 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                     if (response.isSuccessful()) {
                         progressBar.setVisibility(View.GONE);
-                        SharedPref.lastAllRidesUpdate = 300;
-                        SharedPref.lastMyRidesUpdate = 300;
+                        SharedPref.lastAllRidesUpdate = 350;
+                        SharedPref.lastMyRidesUpdate = 350;
                         backToLast();
                     } else {
                         progressBar.setVisibility(View.GONE);
@@ -809,8 +884,8 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                     if (response.isSuccessful()) {
                         progressBar.setVisibility(View.GONE);
-                        SharedPref.lastAllRidesUpdate = 300;
-                        SharedPref.lastMyRidesUpdate = 300;
+                        SharedPref.lastAllRidesUpdate = 350;
+                        SharedPref.lastMyRidesUpdate = 350;
                         backToLast();
                     } else {
                         progressBar.setVisibility(View.GONE);
@@ -899,6 +974,7 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
             ridersProfile.setVisibility(View.VISIBLE);
             noRiders.setVisibility(View.GONE);
             CircleImageView[] riderPhoto = {findViewById(R.id.rider_0), findViewById(R.id.rider_1), findViewById(R.id.rider_2), findViewById(R.id.rider_3), findViewById(R.id.rider_4), findViewById(R.id.rider_5)};
+            TextView[] riderName = {findViewById(R.id.rider_0_name), findViewById(R.id.rider_1_name), findViewById(R.id.rider_2_name), findViewById(R.id.rider_3_name), findViewById(R.id.rider_4_name), findViewById(R.id.rider_5_name)};
             for(int i = 0; i < rideWithUsers.getRiders().size(); i++)
             {
                 if (rideWithUsers.getRiders().get(i).getProfilePicUrl() != null && !rideWithUsers.getRiders().get(i).getProfilePicUrl().isEmpty()) {
@@ -912,11 +988,15 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
                 }
                 riderPhoto[i].setVisibility(View.VISIBLE);
                 final User currentRider = rideWithUsers.getRiders().get(i);
+                String[] name = currentRider.getName().split(" ");
+                riderName[i].setText(name[0]);
+                riderName[i].setVisibility(View.VISIBLE);
                 riderPhoto[i].setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         if (currentRider.getDbId() != App.getUser().getDbId()) { //dont allow user to open own profile
                             Intent intent = new Intent(getApplicationContext(), ProfileAct.class);
+                            intent.putExtra("showPhone", true);
                             intent.putExtra("user", new Gson().toJson(currentRider));
                             intent.putExtra("status", status);
                             intent.putExtra("from", "rideoffer");
@@ -1122,5 +1202,79 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
 
                     }
                 });
+    }
+
+    private void setNumberClickedAction(User user)
+    {
+        phone_tv.setOnClickListener((View v) -> {
+            actionNumberTouch(0, user);
+        });
+        phone_tv.setOnLongClickListener((View v) ->{
+            actionNumberTouch(1, user);
+            return true;
+        });
+    }
+
+    //Define actions when the user holds or touch the number on Profile Activity
+    private void actionNumberTouch(int action, User user)
+    {
+        if(action == 0)
+        {
+            Intent callIntent = new Intent(Intent.ACTION_DIAL);
+            callIntent.setData(Uri.parse("tel:" + phone_tv.getText()));
+            startActivity(callIntent);
+        }
+        else
+        {
+            CharSequence options[] = new CharSequence[] {"Ligar para "+user.getPhoneNumber(), "Adicionar aos Contatos", "Copiar"};
+            final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setCancelable(true);
+            builder.setItems(options, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    switch (which)
+                    {
+                        case 0:
+                            Intent callIntent = new Intent(Intent.ACTION_DIAL);
+                            callIntent.setData(Uri.parse("tel:" + phone_tv.getText()));
+                            startActivity(callIntent);
+                            break;
+                        case 1:
+                            Intent intent = new Intent(Intent.ACTION_INSERT);
+                            intent.setType(ContactsContract.Contacts.CONTENT_TYPE);
+                            intent.putExtra(ContactsContract.Intents.Insert.NAME, user.getName());
+                            intent.putExtra(ContactsContract.Intents.Insert.PHONE, user.getPhoneNumber());
+                            startActivity(intent);
+                            break;
+                        case 2:
+                            ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+                            ClipData clip = ClipData.newPlainText("PhoneNumber", user.getPhoneNumber());
+                            clipboard.setPrimaryClip(clip);
+                            break;
+                    }
+                }
+            });
+            AlertDialog dialog = builder.create();
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            WindowManager.LayoutParams wmlp = dialog.getWindow().getAttributes();
+            wmlp.gravity = Gravity.BOTTOM;
+            dialog.show();
+        }
+    }
+
+    //Use this function to get user phone number correctly formated
+    String getFormatedNumber(String phone)
+    {
+        final Mask mask = new Mask("({0}[00]) [00000]-[0000]");
+        final String input = phone;
+        final Mask.Result result = mask.apply(
+                new CaretString(
+                        input,
+                        input.length()
+                ),
+                true // you may consider disabling autocompletion for your case
+        );
+        final String output = result.getFormattedText().getString();
+        return output;
     }
 }

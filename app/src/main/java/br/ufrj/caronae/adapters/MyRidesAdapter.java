@@ -37,7 +37,6 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
     private List<RideForJson> rideOffers;
     private List<Object> mixedList;
 
-    private String status;
 
     public MyRidesAdapter(List<RideForJson> rideOffers, Context context, FragmentManager fm) {
         this.rideOffers = rideOffers;
@@ -80,41 +79,7 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
     public void onBindViewHolder(final MyRidesAdapter.ViewHolder viewHolder, int position) {
         if (!(mixedList == null || mixedList.size() == 0)) {
             if (mixedList.get(position).getClass().equals(RideForJson.class)) {
-                status = "";
                 final RideForJson rideOffer = (RideForJson) mixedList.get(position);
-                CaronaeAPI.service(context).getMyRides(Integer.toString(App.getUser().getDbId()))
-                        .enqueue(new retrofit2.Callback<MyRidesForJson>() {
-                            @Override
-                            public void onResponse(Call<MyRidesForJson> call, Response<MyRidesForJson> response) {
-                                if (response.isSuccessful()) {
-                                    MyRidesForJson data = response.body();
-                                    List<RideForJson> pendingRides = data.getPendingRides();
-                                    List<RideForJson> activeRides = data.getActiveRides();
-                                    if(pendingRides != null && !pendingRides.isEmpty())
-                                    {
-                                        for(int i = 0; i < pendingRides.size(); i++) {
-                                            if (pendingRides.get(i).getId().intValue() == rideOffer.getId().intValue()) {
-                                                status = "pending";
-                                            }
-                                        }
-                                    }
-                                    if(activeRides != null && !activeRides.isEmpty())
-                                    {
-                                        for(int i = 0; i < activeRides.size(); i++) {
-                                            if (activeRides.get(i).getId().intValue() == rideOffer.getId().intValue()) {
-                                                status = "active";
-                                            }
-                                        }
-                                    }
-                                } else {
-                                    Util.treatResponseFromServer(response);
-                                    Util.debug(response.message());
-                                }
-                            }
-                            @Override
-                            public void onFailure(Call<MyRidesForJson> call, Throwable t) {
-                            }
-                        });
                 if(rideOffer.type != null) {
                     if (rideOffer.type.equals("Ativas") || rideOffer.type.equals("Ofertadas") || rideOffer.type.equals("Pendentes")) {
                         viewHolder.typeCardText.setText(rideOffer.type);
@@ -181,7 +146,6 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
                     @Override
                     public void onClick(View view) {
                         Intent intent = new Intent(context, RideDetailAct.class);
-                        intent.putExtra("status", status);
                         intent.putExtra("fromWhere", rideOffer.fromWhere);
                         intent.putExtra("ride", rideOffer);
                         intent.putExtra("id", rideOffer.getId().intValue());

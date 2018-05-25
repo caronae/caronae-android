@@ -143,7 +143,7 @@ public class MyRidesFrag extends Fragment implements Callback
                         SharedPref.MY_RIDES_ACTIVE = activeRides;
                         SharedPref.MY_RIDES_OFFERED = offeredRides;
                         SharedPref.MY_RIDES_PENDING = pendingRides;
-
+                        Util.setMyPARidesId();
                         if(!activeRides.isEmpty() || !offeredRides.isEmpty() || !pendingRides.isEmpty())
                         {
                             setMyRides(activeRides, offeredRides, pendingRides);
