@@ -92,7 +92,7 @@ public class RideFilterFrag extends Fragment {
             act.updateFilterCard(getContext());
             act.startFilterCard();
         }
-        SharedPref.lastAllRidesUpdate = 300;
+        SharedPref.lastAllRidesUpdate = 350;
     }
 
     @Override

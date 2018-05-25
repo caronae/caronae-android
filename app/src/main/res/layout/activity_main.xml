@@ -96,9 +96,12 @@
                         android:layout_height="match_parent"
                         android:layout_marginLeft="@dimen/activity_horizontal_margin"
                         android:layout_marginStart="@dimen/activity_horizontal_margin"
+                        android:layout_marginRight="40dp"
+                        android:layout_marginEnd="40dp"
                         android:background="@color/light_gray"
                         android:gravity="center_vertical"
                         android:singleLine="true"
+                        android:ellipsize="middle"
                         android:text=""
                         android:textColor="@color/dark_gray" />
 
