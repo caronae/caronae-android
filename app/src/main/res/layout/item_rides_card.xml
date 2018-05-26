@@ -87,7 +87,7 @@
                 android:paddingRight="16dp"
                 android:paddingEnd="16dp"
                 android:textSize="24sp"
-                android:tint="@android:color/darker_gray"
+                android:tint="@color/dark_gray"
                 android:src="@drawable/ic_keyboard_arrow_right_black_24dp"/>
 
             <ImageView

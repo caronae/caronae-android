@@ -36,7 +36,6 @@ import android.widget.ImageButton;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
-import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -49,7 +48,6 @@ import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.firebase.FirebaseTopicsHandler;
 import br.ufrj.caronae.frags.AllRidesFrag;
-import br.ufrj.caronae.frags.MyProfileEditFrag;
 import br.ufrj.caronae.frags.MyRidesFrag;
 import br.ufrj.caronae.frags.OptionsMenuFrag;
 import br.ufrj.caronae.frags.RideFilterFrag;
@@ -67,14 +65,14 @@ public class MainAct extends AppCompatActivity {
 
     private CallbackManager callbackManager;
 
-    static ImageButton dissmissFilter;
-    static CardView filterCard;
-    public static RelativeLayout secondary;
-    public static TextView filterText;
-    public static BottomNavigationView navigation;
-    static TextView cancel_bt;
-    public static ImageView logo;
-    public static TextView title;
+    ImageButton dissmissFilter;
+    CardView filterCard;
+    public RelativeLayout secondary;
+    public TextView filterText;
+    public BottomNavigationView navigation;
+    TextView cancel_bt;
+    public ImageView logo;
+    public TextView title;
     boolean backToMain;
 
     private ArrayList<Class> backstack;
@@ -130,12 +128,12 @@ public class MainAct extends AppCompatActivity {
         }
         setTitle("");
 
-        navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        cancel_bt = (TextView)findViewById(R.id.cancel_bt);
-        secondary = (RelativeLayout)findViewById(R.id.secondaryitems);
-        logo = (ImageView) findViewById(R.id.header_image);
-        title = (TextView) findViewById(R.id.title);
+        cancel_bt = findViewById(R.id.cancel_bt);
+        secondary = findViewById(R.id.secondaryitems);
+        logo = findViewById(R.id.header_image);
+        title = findViewById(R.id.title);
         navigation.getMenu().getItem(0).setChecked(false);
         navigation.getMenu().getItem(1).setChecked(false);
         navigation.getMenu().getItem(2).setChecked(false);
@@ -442,7 +440,7 @@ public class MainAct extends AppCompatActivity {
             backstack = new ArrayList<>();
     }
 
-    public static void showMainItems()
+    public void showMainItems()
     {
         if(navigation.getVisibility() == View.INVISIBLE) {
             navigation.setVisibility(View.VISIBLE);
@@ -530,10 +528,6 @@ public class MainAct extends AppCompatActivity {
         transaction.setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out);
         transaction.replace(R.id.flContent, new MyRidesFrag()).commit();
         hideFilterCard(getBaseContext());
-    }
-
-    public void removeFromBackstack(Object o){
-        backstack.remove(o.getClass());
     }
 
     private void configureDissmissFilterButton(){

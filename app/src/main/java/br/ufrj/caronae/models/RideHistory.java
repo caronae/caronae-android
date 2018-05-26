@@ -3,8 +3,6 @@ package br.ufrj.caronae.models;
 import com.google.gson.annotations.SerializedName;
 import com.orm.SugarRecord;
 
-import br.ufrj.caronae.Util;
-
 public class RideHistory extends SugarRecord{
 
     @SerializedName("neighborhood")
@@ -13,8 +11,6 @@ public class RideHistory extends SugarRecord{
     private User driver;
     @SerializedName("going")
     private boolean going;
-    @SerializedName("done")
-    private boolean done;
     @SerializedName("mydate")
     private String date;
     @SerializedName("hub")
@@ -34,10 +30,6 @@ public class RideHistory extends SugarRecord{
 
     public boolean isGoing() {
         return going;
-    }
-
-    public boolean isDone() {
-        return done;
     }
 
     public String getDate() {

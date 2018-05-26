@@ -20,7 +20,8 @@ public class AboutFrag extends Fragment {
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
 
-    public AboutFrag() {
+    public AboutFrag(){
+        // Required empty public constructor
     }
 
     @Override

@@ -7,6 +7,7 @@ public class NewChatMsgIndicator extends SugarRecord {
     private int dbId;
 
     public NewChatMsgIndicator() {
+        // Required empty public constructor
     }
 
     public NewChatMsgIndicator(int dbId) {

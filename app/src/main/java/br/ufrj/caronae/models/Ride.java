@@ -30,6 +30,7 @@ public class Ride extends SugarRecord{
     protected String campus;
 
     public Ride() {
+        // Required empty public constructor
     }
 
     public Ride(String zone, String neighborhood, String place, String route, String date, String time, String slots, String hub, String campus, String description, boolean going, boolean routine, String weekDays, String repeatsUntil) {
@@ -66,30 +67,6 @@ public class Ride extends SugarRecord{
         dbId = ride.getId().intValue();
         routineId = ride.getRoutineId();
         campus = ride.campus;
-    }
-
-    public Ride(RideRountine ride) {
-        zone = ride.getZone();
-        neighborhood = ride.getNeighborhood();
-        place = ride.getPlace();
-        route = ride.getRoute();
-        date = Util.formatBadDateWithYear(ride.getDate());
-        time = ride.getTime();
-        slots = ride.getSlots();
-        hub = ride.getHub();
-        description = ride.getDescription();
-        going = ride.isGoing();
-        weekDays = ride.getWeekDays();
-        campus = ride.getCampus();
-        routine = weekDays != null && !weekDays.isEmpty();
-        if (ride.getRepeatsUntil() == null) {
-            repeatsUntil = "null";
-        } else {
-            repeatsUntil = ride.getRepeatsUntil().getDate();
-        }
-        dbId = ride.getDbId();
-        setId(Long.valueOf(ride.getDbId()));
-        routineId = ride.getRoutineId();
     }
 
     public String getZone() {
@@ -154,10 +131,6 @@ public class Ride extends SugarRecord{
 
     public void setGoing(boolean going) {
         this.going = going;
-    }
-
-    public boolean isRoutine() {
-        return routine;
     }
 
     public String getWeekDays() {

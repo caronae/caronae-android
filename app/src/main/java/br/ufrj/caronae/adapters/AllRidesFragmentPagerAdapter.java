@@ -11,9 +11,8 @@ import br.ufrj.caronae.frags.AllRidesListFrag;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
 
 public class AllRidesFragmentPagerAdapter extends FragmentPagerAdapter {
-    final int PAGE_COUNT = 2;
     final public static int PAGE_GOING = 0;
-    final public static int PAGE_NOT_GOING = 1;
+    final private static int PAGE_NOT_GOING = 1;
     private String tabTitles[];
     private Fragment frags[];
 
@@ -35,7 +34,7 @@ public class AllRidesFragmentPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return PAGE_COUNT;
+        return 2;
     }
 
     @Override

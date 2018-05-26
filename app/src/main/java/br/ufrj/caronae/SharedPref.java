@@ -180,14 +180,6 @@ public class SharedPref {
         return gson.fromJson(placeToObject, PlacesForJson.class);
     }
 
-    public static String getInstitution()
-    {
-        if(getSharedPreferences().contains(PLACE_KEY))
-            return getPlace().getInstitutions().getName();
-        else
-            return null;
-    }
-
     public static String getGoingLabel()
     {
         if(getSharedPreferences().contains(PLACE_KEY))

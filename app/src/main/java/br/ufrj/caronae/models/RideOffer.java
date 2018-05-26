@@ -3,8 +3,6 @@ package br.ufrj.caronae.models;
 import com.google.gson.annotations.SerializedName;
 import com.orm.SugarRecord;
 
-import br.ufrj.caronae.Util;
-
 public class RideOffer extends SugarRecord{
     @SerializedName("mytime")
     protected String time;
@@ -48,22 +46,6 @@ public class RideOffer extends SugarRecord{
         this.weekDays = weekDays;
         this.repeatsUntil = repeatsUntil;
         this.slots = slots;
-    }
-
-    public RideOffer(RideOffer ride) {
-        zone = ride.getZone();
-        neighborhood = ride.getNeighborhood();
-        place = ride.getPlace();
-        route = ride.getRoute();
-        date = Util.formatBadDateWithYear(ride.getDate());
-        time = ride.getTime();
-        slots = ride.getSlots();
-        hub = ride.getHub();
-        description = ride.getDescription();
-        going = ride.isGoing();
-        weekDays = ride.getWeekDays();
-        repeatsUntil = ride.getRepeatsUntil();
-        dbId = ride.getId().intValue();
     }
 
     public String getZone() {
@@ -128,14 +110,6 @@ public class RideOffer extends SugarRecord{
 
     public void setGoing(boolean going) {
         this.going = going;
-    }
-
-    public String getWeekDays() {
-        return weekDays;
-    }
-
-    public String getRepeatsUntil() {
-        return repeatsUntil;
     }
 
     public int getDbId() {

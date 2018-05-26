@@ -38,7 +38,6 @@ public class FirebaseTopicsHandler {
             if (activeRideId == null || activeRideId.isEmpty()) {
                     Log.i("CheckSubGcmTopic", "i'll subscribe to ride " + dbId);
 
-//                   GcmPubSub.getInstance(App.getInst()).subscribe(SharedPref.getUserGcmToken(), "/topics/" + dbId, null);
                     subscribeFirebaseTopic(dbId);
                     new ActiveRideId(dbId).save();
 

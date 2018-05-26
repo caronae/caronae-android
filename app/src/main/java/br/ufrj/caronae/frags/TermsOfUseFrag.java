@@ -21,6 +21,7 @@ public class TermsOfUseFrag extends Fragment {
     ProgressBar progressBar;
 
     public TermsOfUseFrag() {
+        // Required empty public constructor
     }
 
     @Override

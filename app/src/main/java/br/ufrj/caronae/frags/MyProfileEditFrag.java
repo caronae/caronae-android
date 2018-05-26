@@ -671,6 +671,7 @@ public class MyProfileEditFrag extends Fragment {
         final String output = result.getFormattedText().getString();
         return output;
     }
+
     //Use this function to get user car plate correctly formated
     String getFormatedPlate(String plate)
     {

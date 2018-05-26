@@ -2,9 +2,6 @@ package br.ufrj.caronae.models;
 
 import com.google.gson.annotations.SerializedName;
 
-/**
- * Created by Luis on 1/12/2017.
- */
 public class ChatMessageReceivedFromJson {
 
     @SerializedName("body")
@@ -44,10 +41,6 @@ public class ChatMessageReceivedFromJson {
 
     public void setMessage(String message) {
         this.message = message;
-    }
-
-    public void setMessageId(String messageId) {
-        this.messageId = messageId;
     }
 
     public void setTime(String time) {

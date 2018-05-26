@@ -50,8 +50,8 @@ import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.SwipeDismissBaseActivity;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.httpapis.CaronaeAPI;
-import br.ufrj.caronae.models.ActiveRide;
 import br.ufrj.caronae.models.ChatAssets;
+import br.ufrj.caronae.models.Ride;
 import br.ufrj.caronae.models.RideRequestSent;
 import br.ufrj.caronae.models.User;
 import br.ufrj.caronae.models.modelsforjson.FacebookFriendForJson;
@@ -225,7 +225,7 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
 
         List<ChatAssets> l = ChatAssets.find(ChatAssets.class, "ride_id = ?", Integer.toString(idRide));
         if (l == null || l.isEmpty())
-            new ChatAssets(Integer.toString(idRide), location, zoneColorInt, zoneColorInt,
+            new ChatAssets(Integer.toString(idRide), location, zoneColorInt,
                     Util.formatBadDateWithoutYear(rideWithUsers.getDate()),
                     Util.formatTime(rideWithUsers.getTime())).save();
     }
@@ -551,7 +551,7 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
                     join_bt.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            List<ActiveRide> list = ActiveRide.find(ActiveRide.class, "date = ? and going = ?", rideWithUsers.getDate(), rideWithUsers.isGoing() ? "1" : "0");
+                            List<Ride> list = Ride.find(Ride.class, "date = ? and going = ?", rideWithUsers.getDate(), rideWithUsers.isGoing() ? "1" : "0");
                             if (list != null && !list.isEmpty()) {
                                 Util.toast(getString(R.string.act_rideOffer_rideConflict));
                             }
@@ -957,7 +957,7 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
         int color = Util.getColors(rideWithUsers.getZone());
         List<ChatAssets> l = ChatAssets.find(ChatAssets.class, "ride_id = ?", Integer.toString(idRide));
         if (l == null || l.isEmpty())
-            new ChatAssets(Integer.toString(idRide), location, color, color,
+            new ChatAssets(Integer.toString(idRide), location, color,
                     Util.formatBadDateWithoutYear(rideWithUsers.getDate()),
                     Util.formatTime(rideWithUsers.getTime())).save();
 

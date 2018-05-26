@@ -26,7 +26,6 @@ import java.util.TreeMap;
 import br.ufrj.caronae.httpapis.CaronaeAPI;
 import br.ufrj.caronae.models.ChatAssets;
 import br.ufrj.caronae.models.RideOffer;
-import br.ufrj.caronae.models.modelsforjson.MyRidesForJson;
 import br.ufrj.caronae.models.modelsforjson.PlacesForJson;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
 import retrofit2.Call;
@@ -202,10 +201,6 @@ public class Util {
         return formattedTime;
     }
 
-    public static String formatBadHour(String hour) {
-        return hour.substring(0, hour.length() - 3);
-    }
-
     public static String formatBadDateWithoutYear(String date) {
         String formattedTime = "";
         try {
@@ -219,11 +214,6 @@ public class Util {
 
     public static String formatDateRemoveYear(String date) {
         return date.substring(0, 5);
-    }
-
-    // Input Date Format: "YYYY-MM-DD"
-    public static int getDayFromDate(String date) {
-        return Integer.parseInt(date.substring(8, 10));
     }
 
     public static String getWeekDayFromBRDate(String dateString) {
@@ -388,7 +378,7 @@ public class Util {
 
         List<ChatAssets> l = ChatAssets.find(ChatAssets.class, "ride_id = ?", ride.getDbId() + "");
         if (l == null || l.isEmpty())
-            new ChatAssets(ride.getDbId() + "", location, finalColor, finalColor,
+            new ChatAssets(ride.getDbId() + "", location, finalColor,
                     Util.formatBadDateWithoutYear(ride.getDate()),
                     Util.formatTime(ride.getTime())).save();
     }

@@ -25,12 +25,10 @@ public class FetchReceivedMessagesService extends IntentService {
 
     public FetchReceivedMessagesService() {
         super("MyFirebaseMessagingService");
-
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-
         rideId = intent.getExtras().getString("rideId");
 
         chatMsgsList = ChatMessageReceived.find(ChatMessageReceived.class, "ride_id = ?", rideId);

@@ -4,15 +4,10 @@ import java.util.List;
 
 public class RideForJsonDeserializer {
 
+    private List<RideForJson> data;
+
     public List<RideForJson> getData() {
         return data;
     }
 
-    private List<RideForJson> data;
-
-    private List<RideForJson> rides;
-
-    public List<RideForJson> getRides(){
-        return rides;
-    }
 }

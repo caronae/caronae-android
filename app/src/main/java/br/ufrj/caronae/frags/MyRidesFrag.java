@@ -52,6 +52,7 @@ public class MyRidesFrag extends Fragment implements Callback
     boolean userRequestedUpdate;
 
     public MyRidesFrag() {
+        // Required empty public constructor
     }
 
     @Override
@@ -77,7 +78,7 @@ public class MyRidesFrag extends Fragment implements Callback
         });
 
         setHasOptionsMenu(true);
-        MainAct.showMainItems();
+        ((MainAct)getActivity()).showMainItems();
 
         adapter = new MyRidesAdapter(getContext());
         mLayoutManager = new LinearLayoutManager(getContext());

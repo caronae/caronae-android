@@ -6,6 +6,7 @@ public class ActiveRideId extends SugarRecord {
     private String rideId;
 
     public ActiveRideId() {
+        // Required empty public constructor
     }
 
     public ActiveRideId(String rideId) {

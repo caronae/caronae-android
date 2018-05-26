@@ -53,7 +53,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:tint="@android:color/darker_gray"
+                android:tint="@color/dark_gray"
                 android:src="@drawable/ic_keyboard_arrow_right_black_24dp"/>
         </RelativeLayout>
 

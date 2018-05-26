@@ -10,11 +10,9 @@ import java.util.List;
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.firebase.FirebaseTopicsHandler;
-import br.ufrj.caronae.models.ActiveRide;
 import br.ufrj.caronae.models.ActiveRideId;
 import br.ufrj.caronae.models.ChatAssets;
 import br.ufrj.caronae.models.Ride;
-import br.ufrj.caronae.models.RideRequestReceived;
 import br.ufrj.caronae.models.RideRequestSent;
 
 public class LogOut extends AsyncTask<Void, Void, Void> {
@@ -41,8 +39,6 @@ public class LogOut extends AsyncTask<Void, Void, Void> {
 
         Ride.deleteAll(Ride.class);
         RideRequestSent.deleteAll(RideRequestSent.class);
-        ActiveRide.deleteAll(ActiveRide.class);
-        RideRequestReceived.deleteAll(RideRequestReceived.class);
         ActiveRideId.deleteAll(ActiveRideId.class);
         ChatAssets.deleteAll(ChatAssets.class);
 

@@ -45,6 +45,7 @@ public class AllRidesFrag extends Fragment {
     String isGoing;
 
     public AllRidesFrag() {
+        // Required empty public constructor
     }
 
     @Override
@@ -98,7 +99,7 @@ public class AllRidesFrag extends Fragment {
         }
 
         setHasOptionsMenu(true);
-        MainAct.showMainItems();
+        ((MainAct)getActivity()).showMainItems();
 
         viewPager.setAdapter(new AllRidesFragmentPagerAdapter(getChildFragmentManager(), goingRides, notGoingRides, getResources().getStringArray(R.array.tab_tags)));
 

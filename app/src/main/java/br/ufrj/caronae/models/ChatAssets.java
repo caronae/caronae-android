@@ -6,18 +6,13 @@ public class ChatAssets extends SugarRecord{
     private String rideId;
     private String location;
     private int color;
-    private int bgres;
     private String date;
     private String time;
 
-    public ChatAssets() {
-    }
-
-    public ChatAssets(String rideId, String location, int color, int bgres, String date, String time) {
+    public ChatAssets(String rideId, String location, int color, String date, String time) {
         this.rideId = rideId;
         this.location = location;
         this.color = color;
-        this.bgres = bgres;
         this.date = date;
         this.time = time;
     }
@@ -32,10 +27,6 @@ public class ChatAssets extends SugarRecord{
 
     public int getColor() {
         return color;
-    }
-
-    public int getBgRes() {
-        return bgres;
     }
 
     public String getDate() {

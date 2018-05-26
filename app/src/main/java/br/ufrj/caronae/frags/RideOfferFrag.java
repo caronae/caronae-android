@@ -128,7 +128,6 @@ public class RideOfferFrag extends Fragment {
     @BindView(R.id.scrollView)
     ScrollView scrollView;
 
-    private String zone;
     private int slots;
     private boolean going;
     private boolean[] checked;
@@ -203,7 +202,7 @@ public class RideOfferFrag extends Fragment {
 
     private void loadLastRide(String lastRideOffer) {
         ride = new Gson().fromJson(lastRideOffer, RideOffer.class);
-        zone = ride.getZone();
+        String zone = ride.getZone();
         neighborhood_et.setText(ride.getNeighborhood());
         place_et.setText(ride.getPlace());
         way_et.setText(ride.getRoute());
@@ -510,9 +509,9 @@ public class RideOfferFrag extends Fragment {
                                 createChatAssets(createdRide.get(i));
                             }
                             pd.dismiss();
-                            SharedPref.lastAllRidesUpdate = 300;
-                            SharedPref.lastMyRidesUpdate = 300;
-                            ((MainAct) getActivity()).showActiveRidesFrag();
+                            SharedPref.lastAllRidesUpdate = 350;
+                            SharedPref.lastMyRidesUpdate = 350;
+                            changeFragment();
                         } else {
                             Util.treatResponseFromServer(response);
                             pd.dismiss();
@@ -562,6 +561,7 @@ public class RideOfferFrag extends Fragment {
         transaction.setCustomAnimations(R.anim.anim_up_slide_in, R.anim.anim_down_slide_out);
         transaction.replace(R.id.flContent, fragment).commit();
         SharedPref.NAV_INDICATOR = "MyRides";
+        ((MainAct)getActivity()).navigation.getMenu().getItem(1).setChecked(true);
     }
 
     private void setInitialDate()

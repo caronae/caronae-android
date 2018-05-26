@@ -39,10 +39,6 @@ public class ChatMessageReceived extends SugarRecord {
         return senderName;
     }
 
-    public void setSenderName(String senderName) {
-        this.senderName = senderName;
-    }
-
     public String getMessage() {
         return message;
     }
@@ -53,10 +49,6 @@ public class ChatMessageReceived extends SugarRecord {
 
     public String getSenderId() {
         return senderId;
-    }
-
-    public void setSenderId(String senderId) {
-        this.senderId = senderId;
     }
 
     public void setRideId(String rideId) {

@@ -102,8 +102,7 @@
                 android:drawableStart="@drawable/ic_calendar_24dp"
                 android:gravity="center_vertical"
                 android:textStyle="bold"
-                android:drawablePadding="10dp"
-                android:layout_below="@id/course_tv"/>
+                android:drawablePadding="10dp"/>
 
             <TextView
                 android:id="@+id/ridesOffered_tv"
@@ -116,7 +115,6 @@
                 android:text="0"
                 android:gravity="center"
                 android:textStyle="bold"
-                android:layout_below="@id/course_tv"
                 android:layout_centerHorizontal="true"/>
 
             <TextView
@@ -130,8 +128,7 @@
                 android:textStyle="bold"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:drawablePadding="10dp"
-                android:layout_below="@id/course_tv"/>
+                android:drawablePadding="10dp"/>
             <ImageView
                 android:id="@+id/color_bar"
                 android:layout_width="match_parent"

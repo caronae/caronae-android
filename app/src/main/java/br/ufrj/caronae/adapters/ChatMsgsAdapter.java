@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -91,30 +90,27 @@ public class ChatMsgsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         public TextView sender_name_tv;
         public TextView time_tv;
 
-        public ViewHolderLeft(View itemView) {
+        private ViewHolderLeft(View itemView) {
             super(itemView);
 
-            msg_tv = (TextView) itemView.findViewById(R.id.msg_tv);
-            sender_name_tv = (TextView) itemView.findViewById(R.id.sender_name_tv);
-            time_tv = (TextView) itemView.findViewById(R.id.time_tv);
+            msg_tv = itemView.findViewById(R.id.msg_tv);
+            sender_name_tv = itemView.findViewById(R.id.sender_name_tv);
+            time_tv = itemView.findViewById(R.id.time_tv);
         }
     }
 
     public static class ViewHolderRight extends RecyclerView.ViewHolder {
         public TextView msg_tv;
         public TextView time_tv;
-        public ImageView sent_tv;
 
-        public ViewHolderRight(View itemView) {
+        private ViewHolderRight(View itemView) {
             super(itemView);
-
-            msg_tv = (TextView) itemView.findViewById(R.id.msg_tv);
-            time_tv = (TextView) itemView.findViewById(R.id.time_tv);
+            msg_tv = itemView.findViewById(R.id.msg_tv);
+            time_tv = itemView.findViewById(R.id.time_tv);
         }
     }
 
     public void updateList(List<ChatMessageReceived> newList){
         chatMsgsList = newList;
-
     }
 }

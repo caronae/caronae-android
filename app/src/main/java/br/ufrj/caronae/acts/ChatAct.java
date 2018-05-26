@@ -2,7 +2,6 @@ package br.ufrj.caronae.acts;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,7 +10,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -386,7 +384,6 @@ public class ChatAct extends AppCompatActivity {
                                         else
                                             location = ride[0].getHub() + " -> " + ride[0].getNeighborhood();
                                         ChatAssets chatAssets = new ChatAssets(rideId, location,
-                                                Util.getColors(ride[0].getZone()),
                                                 Util.getColors(ride[0].getZone()),
                                                 Util.formatBadDateWithoutYear(ride[0].getDate()),
                                                 Util.formatTime(ride[0].getTime()));

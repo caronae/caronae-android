@@ -28,11 +28,11 @@ public class CustomPlaceBar extends LinearLayout {
     {
         super(context);
         LayoutInflater.from(getContext()).inflate(R.layout.custom_placebar, this);
-        LinearLayout mainLayout = (LinearLayout) findViewById(R.id.main_layout);
-        RelativeLayout arrow = (RelativeLayout) findViewById(R.id.lay_3);
-        bar_iv = (ImageView) findViewById(R.id.bar_iv);
-        checked_iv = (ImageView) findViewById(R.id.checked);
-        bar_tv = (TextView) findViewById(R.id.bar_tv);
+        LinearLayout mainLayout = findViewById(R.id.main_layout);
+        RelativeLayout arrow = findViewById(R.id.lay_3);
+        bar_iv = findViewById(R.id.bar_iv);
+        checked_iv = findViewById(R.id.checked);
+        bar_tv = findViewById(R.id.bar_tv);
 
         setText(text);
         setBarColor(color);

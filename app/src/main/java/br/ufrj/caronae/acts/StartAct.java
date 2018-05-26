@@ -7,8 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import br.ufrj.caronae.App;
-import br.ufrj.caronae.SharedPref;
-import br.ufrj.caronae.Util;
 import br.ufrj.caronae.asyncs.FetchMyOfferedRidesService;
 import br.ufrj.caronae.models.RideRequestReceived;
 

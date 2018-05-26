@@ -2,9 +2,6 @@ package br.ufrj.caronae.models;
 
 import com.google.gson.annotations.SerializedName;
 
-/**
- * Created by Luis on 1/12/2017.
- */
 public class UserChatMessageReceived {
 
     @SerializedName("id")

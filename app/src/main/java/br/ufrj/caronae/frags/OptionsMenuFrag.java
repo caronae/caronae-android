@@ -1,16 +1,11 @@
 package br.ufrj.caronae.frags;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,18 +20,14 @@ import br.ufrj.caronae.ImageSaver;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.RoundedTransformation;
 import br.ufrj.caronae.SharedPref;
-import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.FalaeAct;
 import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.acts.MenuOptionsAct;
 import br.ufrj.caronae.acts.MyProfileAct;
-import br.ufrj.caronae.acts.ProfileAct;
 import br.ufrj.caronae.models.User;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
-import static android.content.Context.CONNECTIVITY_SERVICE;
 
 public class OptionsMenuFrag extends Fragment {
 
@@ -77,7 +68,8 @@ public class OptionsMenuFrag extends Fragment {
             InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
         }
-        MainAct.showMainItems();
+        ((MainAct)getActivity()).showMainItems();
+
         User user = App.getUser();
         if (user != null) {
             fillUserFields(user);

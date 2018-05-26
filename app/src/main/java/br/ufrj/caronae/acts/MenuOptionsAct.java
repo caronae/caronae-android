@@ -13,10 +13,8 @@ import br.ufrj.caronae.R;
 import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.frags.AboutFrag;
 import br.ufrj.caronae.frags.FAQFrag;
-import br.ufrj.caronae.frags.FalaeFrag;
 import br.ufrj.caronae.frags.RidesHistoryFrag;
 import br.ufrj.caronae.frags.TermsOfUseFrag;
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 

@@ -37,6 +37,7 @@ public class User implements Parcelable {
     private String faceId;
 
     public User() {
+        // Required empty public constructor
     }
 
     public String getName() {
@@ -115,16 +116,8 @@ public class User implements Parcelable {
         return dbId;
     }
 
-    public void setDbId(int dbId) {
-        this.dbId = dbId;
-    }
-
     public String getCreatedAt() {
         return createdAt;
-    }
-
-    public void setCreatedAt(String createdAt) {
-        this.createdAt = createdAt;
     }
 
     public String getLocation() {

@@ -24,6 +24,7 @@ public class FAQFrag extends Fragment {
 
 
     public FAQFrag() {
+        // Required empty public constructor
     }
 
     @Override

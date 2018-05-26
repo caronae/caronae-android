@@ -2,9 +2,6 @@ package br.ufrj.caronae.models;
 
 import com.google.gson.annotations.SerializedName;
 
-/**
- * Created by Luis on 1/11/2017.
- */
 public class ChatMessageSendResponse {
 
     @SerializedName("message")
@@ -18,14 +15,7 @@ public class ChatMessageSendResponse {
         this.messageId = messageId;
     }
 
-    public ChatMessageSendResponse() {
-    }
-
     public String getMessageId() {
         return messageId;
-    }
-
-    public String getResponseMessage() {
-        return message;
     }
 }

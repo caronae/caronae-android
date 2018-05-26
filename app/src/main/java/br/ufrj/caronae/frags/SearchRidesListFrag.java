@@ -59,6 +59,7 @@ public class SearchRidesListFrag extends Fragment implements Callback {
 
 
     public SearchRidesListFrag() {
+        // Required empty public constructor
     }
 
     @Override

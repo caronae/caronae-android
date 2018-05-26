@@ -76,6 +76,7 @@ public class AllRidesListFrag extends Fragment implements Callback {
 
 
     public AllRidesListFrag() {
+        // Required empty public constructor
     }
 
     @Override
@@ -333,7 +334,7 @@ public class AllRidesListFrag extends Fragment implements Callback {
                         goingRides.get(i).type = "";
                     }
                 }
-                if(SharedPref.ALL_RIDES_GOING == goingRides) {
+                if(SharedPref.ALL_RIDES_GOING != goingRides) {
                     if (!isFiltering) {
                         SharedPref.ALL_RIDES_GOING = goingRides;
                     }
