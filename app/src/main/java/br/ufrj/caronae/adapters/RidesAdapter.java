@@ -87,7 +87,7 @@ public class RidesAdapter extends RecyclerView.Adapter<RidesAdapter.ViewHolder> 
                 viewHolder.name_tv.setTextColor(color);
                 viewHolder.photo_iv.setBorderColor(color);
 
-                if(rideOffer.type != null && rideOffer.type.equals("final"))
+                if(rideOffer.type != null && !rideOffer.type.isEmpty() && rideOffer.type.equals("final"))
                 {
                     viewHolder.secondaryLayout.setVisibility(View.VISIBLE);
                 }
@@ -153,7 +153,17 @@ public class RidesAdapter extends RecyclerView.Adapter<RidesAdapter.ViewHolder> 
 
     public void makeList(List<RideForJson> rideOffers) {
         mixedList.clear();
-        mixedList.addAll(rideOffers);
+        ArrayList<Integer> ridesId = new ArrayList<>();
+        //Verifies if there are rides repeated
+        for(int i = 0; i < rideOffers.size(); i++) {
+            if(!ridesId.contains(rideOffers.get(i).getId().intValue()))
+            {
+                rideOffers.get(i).type = "";
+                ridesId.add(rideOffers.get(i).getId().intValue());
+                mixedList.add(rideOffers.get(i));
+            }
+        }
+        ((RideForJson)mixedList.get(mixedList.size()-1)).type = "final";
         notifyDataSetChanged();
     }
 
