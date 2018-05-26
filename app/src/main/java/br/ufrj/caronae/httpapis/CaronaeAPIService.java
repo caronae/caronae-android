@@ -68,7 +68,7 @@ public interface CaronaeAPIService {
     Call<ChatMessageSendResponse> sendChatMsg(@Path("rideId") String rideId, @Body ChatSendMessageForJson message);
 
     @POST("api/v1/rides")
-    Call<List<RideOffer>> offerRide(@Body RideOffer ride);
+    Call<ResponseBody> offerRide(@Body RideOffer ride);
 
     @POST("api/v1/rides/{rideId}/requests")
     Call<ResponseBody> requestJoin(@Path("rideId") String rideId);

@@ -68,11 +68,10 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginLeft="10dp"
                     android:text="Paula Silva"
-                    android:textSize="18sp"
+                    android:textSize="16sp"
                     android:textStyle="bold" />
                 <TextView
                     android:id="@+id/profile_tv"
-                    android:layout_marginTop="5dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
@@ -250,6 +249,7 @@
             android:theme="@style/WidgetSC"/>
 
         <RelativeLayout
+            android:visibility="gone"
             android:id="@+id/car_lay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

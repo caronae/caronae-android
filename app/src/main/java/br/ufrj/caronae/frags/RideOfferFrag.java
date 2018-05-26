@@ -31,7 +31,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 import br.ufrj.caronae.App;
@@ -42,13 +41,13 @@ import br.ufrj.caronae.SharedPref;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.acts.PlaceAct;
-import br.ufrj.caronae.firebase.FirebaseTopicsHandler;
 import br.ufrj.caronae.httpapis.CaronaeAPI;
 import br.ufrj.caronae.models.ModelValidateDuplicate;
 import br.ufrj.caronae.models.RideOffer;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -202,27 +201,15 @@ public class RideOfferFrag extends Fragment {
 
     private void loadLastRide(String lastRideOffer) {
         ride = new Gson().fromJson(lastRideOffer, RideOffer.class);
-        String zone = ride.getZone();
         neighborhood_et.setText(ride.getNeighborhood());
         place_et.setText(ride.getPlace());
         way_et.setText(ride.getRoute());
         center_et.setText(ride.getHub());
         description_et.setText(ride.getDescription());
-        routine_cb.setChecked(false);
-        //boolean isRoutine = ride.isRoutine();
-        /*routine_cb.setChecked(isRoutine);
-        if (isRoutine) {
-            days_lo.setVisibility(View.VISIBLE);
-            for(int i = 0; i < 7; i++)
-            {
-                checked[i] = (ride.getWeekDays().contains(Integer.toString(i+1)));
-                setChecked(i);
-            }
+        routine_cb.setChecked(true);
+        for(int i = 0; i < 7; i++) {
+            setChecked(i);
         }
-        else
-        {*/
-            days_lo.setVisibility(View.GONE);
-        //}
     }
 
     @Override
@@ -406,7 +393,6 @@ public class RideOfferFrag extends Fragment {
             }
 
             Calendar c = Calendar.getInstance();
-            Util.debug(""+date);
             SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
             try {
                 Date d = format.parse(date);
@@ -416,7 +402,6 @@ public class RideOfferFrag extends Fragment {
             }
             c.add(Calendar.MONTH, months);
             repeatsUntil = Util.formatBadDateWithYear(simpleDateFormat.format(c.getTime()));
-            Util.debug(repeatsUntil);
         }
 
         ride = new RideOffer(time, neighborhood, repeatsUntil, description, place, going, date, 0, slots, zone, weekDays, hubCenter, way);
@@ -430,10 +415,6 @@ public class RideOfferFrag extends Fragment {
         else {
             SharedPref.saveLastRideNotGoingPref(lastRideOffer);
         }
-    }
-
-    private void createChatAssets(RideOffer ride) {
-        Util.createChatAssets(ride);
     }
 
     private void checkAndCreateRide() {
@@ -497,17 +478,10 @@ public class RideOfferFrag extends Fragment {
         final Activity activity = getActivity();
         final Fragment fragment = this;
         CaronaeAPI.service(getContext()).offerRide(ride)
-                .enqueue(new Callback<List<RideOffer>>() {
+                .enqueue(new Callback<ResponseBody>() {
                     @Override
-                    public void onResponse(Call<List<RideOffer>> call, Response<List<RideOffer>> response) {
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                         if (response.isSuccessful()) {
-                            List<RideOffer> createdRide = response.body();
-                            for(int i = 0;  i < createdRide.size(); i++)
-                            {
-                                FirebaseTopicsHandler.subscribeFirebaseTopic(Integer.toString(createdRide.get(i).getId().intValue()));
-                                createdRide.get(i).save();
-                                createChatAssets(createdRide.get(i));
-                            }
                             pd.dismiss();
                             SharedPref.lastAllRidesUpdate = 350;
                             SharedPref.lastMyRidesUpdate = 350;
@@ -534,7 +508,7 @@ public class RideOfferFrag extends Fragment {
                     }
 
                     @Override
-                    public void onFailure(Call<List<RideOffer>> call, Throwable t) {
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
                         CustomDialogClass cdc = new CustomDialogClass(activity,"ROFD", fragment);;
                         cdc.show();
                         cdc.setTitleText( "Não foi possível validar sua carona");
