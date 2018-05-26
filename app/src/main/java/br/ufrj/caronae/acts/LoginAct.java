@@ -21,7 +21,7 @@ import java.io.IOException;
 
 import br.ufrj.caronae.Constants;
 import br.ufrj.caronae.R;
-import br.ufrj.caronae.SharedPref;
+import br.ufrj.caronae.data.SharedPref;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.httpapis.CaronaeAPI;
 import br.ufrj.caronae.models.modelsforjson.LoginForJson;

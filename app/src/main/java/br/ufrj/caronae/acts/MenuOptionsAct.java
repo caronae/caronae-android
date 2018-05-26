@@ -10,7 +10,7 @@ import android.util.Log;
 import android.widget.TextView;
 
 import br.ufrj.caronae.R;
-import br.ufrj.caronae.SharedPref;
+import br.ufrj.caronae.data.SharedPref;
 import br.ufrj.caronae.frags.AboutFrag;
 import br.ufrj.caronae.frags.FAQFrag;
 import br.ufrj.caronae.frags.RidesHistoryFrag;

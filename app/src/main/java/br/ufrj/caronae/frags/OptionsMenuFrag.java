@@ -16,10 +16,10 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import br.ufrj.caronae.App;
-import br.ufrj.caronae.ImageSaver;
+import br.ufrj.caronae.data.ImageSaver;
 import br.ufrj.caronae.R;
-import br.ufrj.caronae.RoundedTransformation;
-import br.ufrj.caronae.SharedPref;
+import br.ufrj.caronae.customizedviews.RoundedTransformation;
+import br.ufrj.caronae.data.SharedPref;
 import br.ufrj.caronae.acts.FalaeAct;
 import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.acts.MenuOptionsAct;

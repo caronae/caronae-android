@@ -17,9 +17,9 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import br.ufrj.caronae.CustomDialogClass;
+import br.ufrj.caronae.customizedviews.CustomDialogClass;
 import br.ufrj.caronae.R;
-import br.ufrj.caronae.SharedPref;
+import br.ufrj.caronae.data.SharedPref;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.frags.FalaeFrag;
 import br.ufrj.caronae.httpapis.CaronaeAPI;

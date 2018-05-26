@@ -15,9 +15,9 @@ import android.widget.TextView;
 
 import com.facebook.CallbackManager;
 
-import br.ufrj.caronae.CustomDialogClass;
+import br.ufrj.caronae.customizedviews.CustomDialogClass;
 import br.ufrj.caronae.R;
-import br.ufrj.caronae.SharedPref;
+import br.ufrj.caronae.data.SharedPref;
 import br.ufrj.caronae.frags.MyProfileEditFrag;
 import br.ufrj.caronae.frags.MyProfileShowFrag;
 import butterknife.BindView;

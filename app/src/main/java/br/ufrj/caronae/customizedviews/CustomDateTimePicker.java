@@ -1,4 +1,4 @@
-package br.ufrj.caronae;
+package br.ufrj.caronae.customizedviews;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -15,6 +15,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import br.ufrj.caronae.R;
+import br.ufrj.caronae.Util;
 import br.ufrj.caronae.frags.RideOfferFrag;
 import br.ufrj.caronae.frags.RideSearchFrag;
 

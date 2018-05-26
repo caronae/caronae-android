@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.ufrj.caronae.R;
-import br.ufrj.caronae.RoundedTransformation;
+import br.ufrj.caronae.customizedviews.RoundedTransformation;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.RideDetailAct;
 import br.ufrj.caronae.httpapis.CaronaeAPI;

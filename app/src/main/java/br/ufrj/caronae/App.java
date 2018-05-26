@@ -19,6 +19,8 @@ import java.util.TimerTask;
 import br.ufrj.caronae.ACRAreport.CrashReportFactory;
 import br.ufrj.caronae.acts.LoginAct;
 import br.ufrj.caronae.asyncs.LogOut;
+import br.ufrj.caronae.data.MainThreadBus;
+import br.ufrj.caronae.data.SharedPref;
 import br.ufrj.caronae.models.User;
 
 

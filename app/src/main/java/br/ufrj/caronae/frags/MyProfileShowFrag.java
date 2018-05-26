@@ -27,11 +27,11 @@ import com.redmadrobot.inputmask.model.CaretString;
 import com.squareup.picasso.Picasso;
 
 import br.ufrj.caronae.App;
-import br.ufrj.caronae.CustomDialogClass;
-import br.ufrj.caronae.ImageSaver;
+import br.ufrj.caronae.customizedviews.CustomDialogClass;
+import br.ufrj.caronae.data.ImageSaver;
 import br.ufrj.caronae.R;
-import br.ufrj.caronae.RoundedTransformation;
-import br.ufrj.caronae.SharedPref;
+import br.ufrj.caronae.customizedviews.RoundedTransformation;
+import br.ufrj.caronae.data.SharedPref;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.LoginAct;
 import br.ufrj.caronae.asyncs.LogOut;

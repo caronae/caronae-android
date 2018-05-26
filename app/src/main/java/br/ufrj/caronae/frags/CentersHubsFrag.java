@@ -10,9 +10,9 @@ import android.widget.LinearLayout;
 
 import java.util.List;
 
-import br.ufrj.caronae.CustomPlaceBar;
+import br.ufrj.caronae.customizedviews.CustomPlaceBar;
 import br.ufrj.caronae.R;
-import br.ufrj.caronae.SharedPref;
+import br.ufrj.caronae.data.SharedPref;
 import br.ufrj.caronae.acts.PlaceAct;
 import br.ufrj.caronae.models.Campi;
 import butterknife.BindView;

@@ -1,4 +1,4 @@
-package br.ufrj.caronae;
+package br.ufrj.caronae.customizedviews;
 
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;

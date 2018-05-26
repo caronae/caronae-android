@@ -20,9 +20,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-import br.ufrj.caronae.CustomDateTimePicker;
+import br.ufrj.caronae.customizedviews.CustomDateTimePicker;
 import br.ufrj.caronae.R;
-import br.ufrj.caronae.SharedPref;
+import br.ufrj.caronae.data.SharedPref;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.PlaceAct;
 import br.ufrj.caronae.acts.RideSearchAct;

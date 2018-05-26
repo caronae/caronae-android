@@ -1,4 +1,4 @@
-package br.ufrj.caronae;
+package br.ufrj.caronae.customizedviews;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;

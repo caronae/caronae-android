@@ -12,7 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import br.ufrj.caronae.R;
-import br.ufrj.caronae.SharedPref;
+import br.ufrj.caronae.data.SharedPref;
 import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.acts.PlaceAct;
 import butterknife.BindView;

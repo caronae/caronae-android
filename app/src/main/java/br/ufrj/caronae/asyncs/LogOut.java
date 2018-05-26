@@ -8,7 +8,7 @@ import com.facebook.login.LoginManager;
 import java.util.List;
 
 import br.ufrj.caronae.App;
-import br.ufrj.caronae.SharedPref;
+import br.ufrj.caronae.data.SharedPref;
 import br.ufrj.caronae.firebase.FirebaseTopicsHandler;
 import br.ufrj.caronae.models.ActiveRideId;
 import br.ufrj.caronae.models.ChatAssets;

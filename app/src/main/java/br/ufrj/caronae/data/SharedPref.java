@@ -1,4 +1,4 @@
-package br.ufrj.caronae;
+package br.ufrj.caronae.data;
 
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -8,6 +8,7 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.ufrj.caronae.App;
 import br.ufrj.caronae.models.User;
 import br.ufrj.caronae.models.modelsforjson.PlacesForJson;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;

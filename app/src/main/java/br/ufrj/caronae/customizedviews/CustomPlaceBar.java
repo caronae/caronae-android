@@ -1,4 +1,4 @@
-package br.ufrj.caronae;
+package br.ufrj.caronae.customizedviews;
 
 import android.app.Activity;
 import android.content.Context;
@@ -11,6 +11,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import br.ufrj.caronae.R;
+import br.ufrj.caronae.data.SharedPref;
 import br.ufrj.caronae.acts.PlaceAct;
 import br.ufrj.caronae.frags.CampiFrag;
 import br.ufrj.caronae.frags.CentersHubsFrag;

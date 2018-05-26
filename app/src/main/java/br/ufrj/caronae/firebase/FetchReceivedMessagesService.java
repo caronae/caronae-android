@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.ufrj.caronae.App;
-import br.ufrj.caronae.SharedPref;
+import br.ufrj.caronae.data.SharedPref;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.httpapis.CaronaeAPI;
 import br.ufrj.caronae.models.ChatMessageReceived;

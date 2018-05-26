@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
-import br.ufrj.caronae.SharedPref;
+import br.ufrj.caronae.data.SharedPref;
 import br.ufrj.caronae.asyncs.LogOut;
 import butterknife.BindView;
 import butterknife.ButterKnife;

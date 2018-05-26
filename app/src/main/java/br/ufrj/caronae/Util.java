@@ -23,6 +23,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
 
+import br.ufrj.caronae.data.SharedPref;
 import br.ufrj.caronae.httpapis.CaronaeAPI;
 import br.ufrj.caronae.models.ChatAssets;
 import br.ufrj.caronae.models.RideOffer;

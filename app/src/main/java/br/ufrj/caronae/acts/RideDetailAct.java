@@ -43,11 +43,11 @@ import java.util.List;
 import java.util.Locale;
 
 import br.ufrj.caronae.App;
-import br.ufrj.caronae.CustomDialogClass;
+import br.ufrj.caronae.customizedviews.CustomDialogClass;
 import br.ufrj.caronae.R;
-import br.ufrj.caronae.RoundedTransformation;
-import br.ufrj.caronae.SharedPref;
-import br.ufrj.caronae.SwipeDismissBaseActivity;
+import br.ufrj.caronae.customizedviews.RoundedTransformation;
+import br.ufrj.caronae.data.SharedPref;
+import br.ufrj.caronae.customizedviews.SwipeDismissBaseActivity;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.httpapis.CaronaeAPI;
 import br.ufrj.caronae.models.ChatAssets;

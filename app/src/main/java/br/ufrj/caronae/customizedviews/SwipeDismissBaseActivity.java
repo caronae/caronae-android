@@ -1,9 +1,11 @@
-package br.ufrj.caronae;
+package br.ufrj.caronae.customizedviews;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
+
+import br.ufrj.caronae.R;
 
 public abstract class SwipeDismissBaseActivity extends AppCompatActivity {
     private static final int SWIPE_MIN_DISTANCE = 120;

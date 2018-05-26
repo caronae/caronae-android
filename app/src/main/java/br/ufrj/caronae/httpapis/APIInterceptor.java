@@ -6,7 +6,7 @@ import android.util.Log;
 import java.io.IOException;
 
 import br.ufrj.caronae.App;
-import br.ufrj.caronae.SharedPref;
+import br.ufrj.caronae.data.SharedPref;
 import br.ufrj.caronae.Util;
 import okhttp3.Interceptor;
 import okhttp3.Request;

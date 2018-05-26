@@ -25,7 +25,7 @@ import com.redmadrobot.inputmask.model.CaretString;
 import com.squareup.picasso.Picasso;
 
 import br.ufrj.caronae.R;
-import br.ufrj.caronae.RoundedTransformation;
+import br.ufrj.caronae.customizedviews.RoundedTransformation;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.httpapis.CaronaeAPI;
 import br.ufrj.caronae.models.User;

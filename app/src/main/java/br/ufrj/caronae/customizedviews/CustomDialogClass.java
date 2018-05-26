@@ -1,4 +1,4 @@
-package br.ufrj.caronae;
+package br.ufrj.caronae.customizedviews;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import br.ufrj.caronae.R;
 import br.ufrj.caronae.acts.FalaeAct;
 import br.ufrj.caronae.acts.MyProfileAct;
 import br.ufrj.caronae.acts.PlaceAct;

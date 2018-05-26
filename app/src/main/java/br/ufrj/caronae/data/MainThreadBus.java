@@ -1,4 +1,4 @@
-package br.ufrj.caronae;
+package br.ufrj.caronae.data;
 
 import android.os.Handler;
 import android.os.Looper;

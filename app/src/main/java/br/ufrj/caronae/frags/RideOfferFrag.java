@@ -34,10 +34,10 @@ import java.util.Date;
 import java.util.Locale;
 
 import br.ufrj.caronae.App;
-import br.ufrj.caronae.CustomDateTimePicker;
-import br.ufrj.caronae.CustomDialogClass;
+import br.ufrj.caronae.customizedviews.CustomDateTimePicker;
+import br.ufrj.caronae.customizedviews.CustomDialogClass;
 import br.ufrj.caronae.R;
-import br.ufrj.caronae.SharedPref;
+import br.ufrj.caronae.data.SharedPref;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.acts.PlaceAct;
