@@ -116,9 +116,7 @@ public class RidesHistoryAdapter extends RecyclerView.Adapter<RidesHistoryAdapte
     }
 
     public void makeList(List<RideHistory> rideHistory) {
-        if(mixedList != null) {
-            mixedList.clear();
-        }
+        mixedList.clear();
         mixedList.addAll(rideHistory);
         notifyDataSetChanged();
     }

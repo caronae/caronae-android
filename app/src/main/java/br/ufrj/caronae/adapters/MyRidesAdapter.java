@@ -152,9 +152,7 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
     }
 
     public void makeList(List<RideForJson> rideOffers) {
-        if(mixedList != null) {
-            mixedList.clear();
-        }
+        mixedList.clear();
         mixedList.addAll(rideOffers);
         notifyDataSetChanged();
     }

@@ -334,14 +334,11 @@ public class AllRidesListFrag extends Fragment implements Callback {
                         goingRides.get(i).type = "";
                     }
                 }
-                if(SharedPref.ALL_RIDES_GOING != goingRides) {
-                    if (!isFiltering) {
-                        SharedPref.ALL_RIDES_GOING = goingRides;
-                    }
-                    adapter.makeList(goingRides);
-                    scrollListener.resetState();
-                    adapter.notifyDataSetChanged();
+                if (!isFiltering) {
+                    SharedPref.ALL_RIDES_GOING = goingRides;
                 }
+                scrollListener.resetState();
+                adapter.makeList(goingRides);
             }
         } else {
             if (notGoingRides != null && !notGoingRides.isEmpty()) {
@@ -354,14 +351,11 @@ public class AllRidesListFrag extends Fragment implements Callback {
                         notGoingRides.get(i).type = "";
                     }
                 }
-                if(SharedPref.ALL_RIDES_LEAVING != notGoingRides) {
-                    if (!isFiltering) {
-                        SharedPref.ALL_RIDES_LEAVING = notGoingRides;
-                    }
-                    adapter.makeList(notGoingRides);
-                    scrollListener.resetState();
-                    adapter.notifyDataSetChanged();
+                if (!isFiltering) {
+                    SharedPref.ALL_RIDES_LEAVING = notGoingRides;
                 }
+                scrollListener.resetState();
+                adapter.makeList(notGoingRides);
             }
         }
         SharedPref.lastAllRidesUpdate = 0;
