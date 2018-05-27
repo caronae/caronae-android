@@ -137,32 +137,11 @@ public class MainAct extends AppCompatActivity {
         navigation.getMenu().getItem(0).setChecked(false);
         navigation.getMenu().getItem(1).setChecked(false);
         navigation.getMenu().getItem(2).setChecked(false);
+        verifyItem();
         cancel_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switch(SharedPref.NAV_INDICATOR)
-                {
-                    case "AllRides":
-                        backToMain = false;
-                        selectDrawerItem(navigation.getMenu().getItem(0), true);
-                        navigation.getMenu().getItem(0).setChecked(true);
-                        break;
-                    case "MyRides":
-                        backToMain = false;
-                        selectDrawerItem(navigation.getMenu().getItem(1), true);
-                        navigation.getMenu().getItem(1).setChecked(true);
-                        break;
-                    case "Menu":
-                        backToMain = false;
-                        selectDrawerItem(navigation.getMenu().getItem(2), true);
-                        navigation.getMenu().getItem(2).setChecked(true);
-                        break;
-                    default:
-                        backToMain = false;
-                        selectDrawerItem(navigation.getMenu().getItem(0), true);
-                        navigation.getMenu().getItem(2).setChecked(true);
-                        break;
-                }
+                verifyItem();
             }
         });
 
@@ -224,9 +203,13 @@ public class MainAct extends AppCompatActivity {
                     fragment = new MyRidesFrag();
                     navigation.getMenu().getItem(1).setChecked(true);
                     break;
-                default:
+                case "Menu":
                     fragment = new OptionsMenuFrag();
                     navigation.getMenu().getItem(2).setChecked(true);
+                    break;
+                default:
+                    fragment = new AllRidesFrag();
+                    navigation.getMenu().getItem(0).setChecked(true);
                     break;
             }
             FragmentManager fragmentManager = getSupportFragmentManager();
@@ -768,5 +751,30 @@ public class MainAct extends AppCompatActivity {
         catch(Exception e){}
     }
 
-
+    public void verifyItem()
+    {
+        switch(SharedPref.NAV_INDICATOR)
+        {
+            case "AllRides":
+                backToMain = false;
+                selectDrawerItem(navigation.getMenu().getItem(0), true);
+                navigation.getMenu().getItem(0).setChecked(true);
+                break;
+            case "MyRides":
+                backToMain = false;
+                selectDrawerItem(navigation.getMenu().getItem(1), true);
+                navigation.getMenu().getItem(1).setChecked(true);
+                break;
+            case "Menu":
+                backToMain = false;
+                selectDrawerItem(navigation.getMenu().getItem(2), true);
+                navigation.getMenu().getItem(2).setChecked(true);
+                break;
+            default:
+                backToMain = false;
+                selectDrawerItem(navigation.getMenu().getItem(0), true);
+                navigation.getMenu().getItem(0).setChecked(true);
+                break;
+        }
+    }
 }

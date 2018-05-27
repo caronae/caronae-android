@@ -87,13 +87,15 @@ public class RidesAdapter extends RecyclerView.Adapter<RidesAdapter.ViewHolder> 
                 viewHolder.name_tv.setTextColor(color);
                 viewHolder.photo_iv.setBorderColor(color);
 
-                if(rideOffer.type != null && !rideOffer.type.isEmpty() && rideOffer.type.equals("final"))
-                {
-                    viewHolder.secondaryLayout.setVisibility(View.VISIBLE);
-                }
-                else
-                {
+                if(rideOffer.fromWhere.equals("SearchRides")) {
                     viewHolder.secondaryLayout.setVisibility(View.GONE);
+                }
+                else {
+                    if (rideOffer.type != null && !rideOffer.type.isEmpty() && rideOffer.type.equals("final")) {
+                        viewHolder.secondaryLayout.setVisibility(View.VISIBLE);
+                    } else {
+                        viewHolder.secondaryLayout.setVisibility(View.GONE);
+                    }
                 }
                 String profilePicUrl = rideOffer.getDriver().getProfilePicUrl();
                 if (profilePicUrl != null && !profilePicUrl.isEmpty()) {

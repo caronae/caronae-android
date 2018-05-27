@@ -14,7 +14,7 @@
     <string name="title_ride_search">Pesquisa</string>
     <string name="title_activity_first_login">Primeiro Login</string>
 
-    <string name="no_rides_found_title">Nenhuma carona encontrada :(</string>
+    <string name="no_rides_found_title">Nenhuma carona encontrada\n:(</string>
     <string name="no_rides_found_msg">Você pode ampliar sua pesquisa selecionando vários bairros ou escolhendo um horário mais cedo.</string>
     <string name="ride_driver_finish_warning">Se você é motorista de alguma carona, não esqueça de concluí-la após o seu término. :)</string>
     <string name="welcome_title">Bem vindo ao Caronaê!</string>

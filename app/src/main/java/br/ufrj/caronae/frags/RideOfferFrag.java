@@ -27,6 +27,7 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -344,10 +345,21 @@ public class RideOfferFrag extends Fragment {
         String description = description_et.getText().toString();
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
-        Date currentDate = new Date(System.currentTimeMillis()+4*60*1000);
+        Date currentDate = new Date(System.currentTimeMillis()+5*60*1000);
         String getCurrentDateTime = simpleDateFormat.format(currentDate);
         String dateToCompare = date + " " + time.substring(0,time.length()-3);
-        if (getCurrentDateTime.compareTo(dateToCompare) >= 0)
+        Date time1 = new Date(), time2 = new Date();
+        try
+        {
+            time1 = simpleDateFormat.parse(getCurrentDateTime);
+            time2 = simpleDateFormat.parse(dateToCompare);
+        }
+        catch (Exception e)
+        {
+            Util.debug("Error while setting date");
+        }
+
+        if (time1.after(time2))
         {
             CustomDialogClass cdc = new CustomDialogClass(act,"ROFD", frag);
             cdc.show();

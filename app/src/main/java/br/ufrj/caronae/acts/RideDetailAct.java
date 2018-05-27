@@ -266,33 +266,34 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
 
     @Override
     public void onBackPressed() {
-        Intent intent;
-        switch (back_tv.getText().toString())
-        {
-            case "Todas":
-                SharedPref.NAV_INDICATOR = "AllRides";
-                intent = new Intent(this, MainAct.class);
-                startActivity(intent);
-                overridePendingTransition(R.anim.anim_left_slide_in, R.anim.anim_right_slide_out);
-                break;
-            case "Pesquisa":
-                intent = new Intent(this, RideSearchAct.class);
-                intent.putExtra("isGoing", isGoing);
-                startActivity(intent);
-                overridePendingTransition(R.anim.anim_left_slide_in, R.anim.anim_right_slide_out);
-                break;
-            case "Minhas":
-                SharedPref.NAV_INDICATOR = "MyRides";
-                intent = new Intent(this, MainAct.class);
-                startActivity(intent);
-                overridePendingTransition(R.anim.anim_left_slide_in, R.anim.anim_right_slide_out);
-                break;
-            default:
-                SharedPref.NAV_INDICATOR = "AllRides";
-                intent = new Intent(this, MainAct.class);
-                startActivity(intent);
-                overridePendingTransition(R.anim.anim_left_slide_in, R.anim.anim_right_slide_out);
-                break;
+        if(progressBar.getVisibility() != View.VISIBLE) {
+            Intent intent;
+            switch (back_tv.getText().toString()) {
+                case "Todas":
+                    SharedPref.NAV_INDICATOR = "AllRides";
+                    intent = new Intent(this, MainAct.class);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.anim_left_slide_in, R.anim.anim_right_slide_out);
+                    break;
+                case "Pesquisa":
+                    intent = new Intent(this, RideSearchAct.class);
+                    intent.putExtra("isGoing", isGoing);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.anim_left_slide_in, R.anim.anim_right_slide_out);
+                    break;
+                case "Minhas":
+                    SharedPref.NAV_INDICATOR = "MyRides";
+                    intent = new Intent(this, MainAct.class);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.anim_left_slide_in, R.anim.anim_right_slide_out);
+                    break;
+                default:
+                    SharedPref.NAV_INDICATOR = "AllRides";
+                    intent = new Intent(this, MainAct.class);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.anim_left_slide_in, R.anim.anim_right_slide_out);
+                    break;
+            }
         }
     }
 
@@ -801,13 +802,13 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
 
     public void cancel()
     {
-        progressBar.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.GONE);
         if( rideWithUsers.getRoutineId() == null || rideWithUsers.getRoutineId().isEmpty() || rideWithUsers.getDriver().getDbId() != App.getUser().getDbId()) {
+            progressBar.setVisibility(View.VISIBLE);
             leaveRide(idRide);
         }
         else if(status.equals("offered"))
         {
-            progressBar.setVisibility(View.GONE);
             CharSequence options[] = new CharSequence[] {"Desistir somente desta", "Desistir da rotina"};
             final AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Esta carona pertence a uma rotina.");
@@ -916,33 +917,34 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
 
     public void backToLast()
     {
-        Intent intent;
-        switch (back_tv.getText().toString())
-        {
-            case "Todas":
-                SharedPref.NAV_INDICATOR = "AllRides";
-                intent = new Intent(this, MainAct.class);
-                startActivity(intent);
-                overridePendingTransition(R.anim.anim_left_slide_in, R.anim.anim_right_slide_out);
-                break;
-            case "Pesquisa":
-                intent = new Intent(this, RideSearchAct.class);
-                intent.putExtra("isGoing", isGoing);
-                startActivity(intent);
-                overridePendingTransition(R.anim.anim_left_slide_in, R.anim.anim_right_slide_out);
-                break;
-            case "Minhas":
-                SharedPref.NAV_INDICATOR = "MyRides";
-                intent = new Intent(this, MainAct.class);
-                startActivity(intent);
-                overridePendingTransition(R.anim.anim_left_slide_in, R.anim.anim_right_slide_out);
-                break;
-            default:
-                SharedPref.NAV_INDICATOR = "AllRides";
-                intent = new Intent(this, MainAct.class);
-                startActivity(intent);
-                overridePendingTransition(R.anim.anim_left_slide_in, R.anim.anim_right_slide_out);
-                break;
+        if(progressBar.getVisibility() != View.VISIBLE) {
+            Intent intent;
+            switch (back_tv.getText().toString()) {
+                case "Todas":
+                    SharedPref.NAV_INDICATOR = "AllRides";
+                    intent = new Intent(this, MainAct.class);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.anim_left_slide_in, R.anim.anim_right_slide_out);
+                    break;
+                case "Pesquisa":
+                    intent = new Intent(this, RideSearchAct.class);
+                    intent.putExtra("isGoing", isGoing);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.anim_left_slide_in, R.anim.anim_right_slide_out);
+                    break;
+                case "Minhas":
+                    SharedPref.NAV_INDICATOR = "MyRides";
+                    intent = new Intent(this, MainAct.class);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.anim_left_slide_in, R.anim.anim_right_slide_out);
+                    break;
+                default:
+                    SharedPref.NAV_INDICATOR = "AllRides";
+                    intent = new Intent(this, MainAct.class);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.anim_left_slide_in, R.anim.anim_right_slide_out);
+                    break;
+            }
         }
     }
 
@@ -1184,6 +1186,7 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
 
     private void finishRide()
     {
+        progressBar.setVisibility(View.VISIBLE);
         CaronaeAPI.service(this).finishRide(Integer.toString(idRide))
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
@@ -1191,15 +1194,16 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
                         if (response.isSuccessful()) {
                             SharedPref.lastAllRidesUpdate = 350;
                             SharedPref.lastMyRidesUpdate = 350;
+                            progressBar.setVisibility(View.GONE);
                             backToLast();
                         } else {
-
+                            progressBar.setVisibility(View.GONE);
                         }
                     }
 
                     @Override
                     public void onFailure(Call<ResponseBody> call, Throwable t) {
-
+                        progressBar.setVisibility(View.GONE);
                     }
                 });
     }

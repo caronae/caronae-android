@@ -189,6 +189,7 @@ public class AllRidesListFrag extends Fragment implements Callback {
     }
 
     void refreshRideList(final int pageNumber) {
+        if(App.getUser() == null)
         isLoadingPage = true;
         String going;
         final Context ctx = getContext();

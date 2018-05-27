@@ -15,6 +15,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -23,6 +24,7 @@ import javax.security.auth.callback.Callback;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.R;
+import br.ufrj.caronae.comparators.SortRides;
 import br.ufrj.caronae.data.SharedPref;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.MainAct;
@@ -198,16 +200,19 @@ public class MyRidesFrag extends Fragment implements Callback
         myRides = new ArrayList<>();
 
         if (pendingRides != null && !pendingRides.isEmpty()) {
+            Collections.sort(pendingRides, new SortRides());
             pendingRides.get(0).type = "Pendentes";
             myRides.addAll(pendingRides);
         }
         if (activeRides != null && !activeRides.isEmpty())
         {
+            Collections.sort(activeRides, new SortRides());
             activeRides.get(0).type = "Ativas";
             myRides.addAll(activeRides);
         }
         if (offeredRides != null && !offeredRides.isEmpty())
         {
+            Collections.sort(offeredRides, new SortRides());
             offeredRides.get(0).type = "Ofertadas";
             myRides.addAll(offeredRides);
         }

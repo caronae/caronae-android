@@ -61,6 +61,7 @@ public class RideFilterFrag extends Fragment {
         SharedPref.setLocationFilter(location);
         if(center_et.getText().toString().isEmpty() && location_et.getText().toString().isEmpty() || center_et.getText().toString().equals("Todos os Campi") && location_et.getText().toString().equals("Todos os Bairros"))
         {
+            SharedPref.NAV_INDICATOR = "AllRides";
             SharedPref.setFilterPref(false);
             fragment = null;
             fragmentClass = AllRidesFrag.class;
@@ -73,6 +74,8 @@ public class RideFilterFrag extends Fragment {
             FragmentTransaction transaction = fragmentManager.beginTransaction();
             transaction.setCustomAnimations(R.anim.anim_up_slide_in, R.anim.anim_down_slide_out);
             transaction.replace(R.id.flContent, fragment).commit();
+            SharedPref.NAV_INDICATOR = "AllRides";
+            ((MainAct) getActivity()).verifyItem();
         }
         else
         {
@@ -91,6 +94,8 @@ public class RideFilterFrag extends Fragment {
             transaction.replace(R.id.flContent, fragment).commit();
             act.updateFilterCard(getContext());
             act.startFilterCard();
+            SharedPref.NAV_INDICATOR = "AllRides";
+            act.verifyItem();
         }
         SharedPref.lastAllRidesUpdate = 350;
     }

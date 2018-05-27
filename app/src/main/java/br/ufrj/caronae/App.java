@@ -74,7 +74,6 @@ public class App extends SugarApp {
             if (!userJson.equals(SharedPref.MISSING_PREF))
                 user = new Gson().fromJson(userJson, User.class);
         }
-
         return user;
     }
 
