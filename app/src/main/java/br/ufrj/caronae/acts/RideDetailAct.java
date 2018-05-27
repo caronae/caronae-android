@@ -701,6 +701,7 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
     }
 
     public void joinAction() {
+        final ProgressDialog pd = ProgressDialog.show(this, "", getString(R.string.wait), true, true);
         CaronaeAPI.service(this).requestJoin(String.valueOf(idRide))
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
@@ -712,18 +713,21 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
                             join_bt.startAnimation(getAnimationForSendButton());
                             inviteLay.setVisibility(View.VISIBLE);
                             requested_dt.startAnimation(getAnimationForResquestedText());
-                            SharedPref.lastMyRidesUpdate = 300;
-                            SharedPref.lastAllRidesUpdate = 300;
+                            SharedPref.lastMyRidesUpdate = 350;
+                            SharedPref.lastAllRidesUpdate = 350;
                             App.getBus().post(rideRequest);
+                            pd.dismiss();
                         } else {
                             Util.treatResponseFromServer(response);
                             Log.e("requestJoin", response.message());
+                            pd.dismiss();
                         }
                     }
 
                     @Override
                     public void onFailure(Call<ResponseBody> call, Throwable t) {
                         Log.e("requestJoin", t.getMessage());
+                        pd.dismiss();
                     }
                 });
     }
