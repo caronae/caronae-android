@@ -1,16 +1,15 @@
 package br.ufrj.caronae.frags;
 
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.SwitchCompat;
 import android.text.InputFilter;
 import android.text.TextUtils;
@@ -21,7 +20,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -42,6 +40,7 @@ import com.squareup.picasso.Picasso;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.customizedviews.CustomDialogClass;
+import br.ufrj.caronae.customizedviews.CustomBottomDialogClass;
 import br.ufrj.caronae.data.ImageSaver;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.customizedviews.RoundedTransformation;
@@ -690,7 +689,12 @@ public class MyProfileEditFrag extends Fragment {
 
     private void showPhotoOptions()
     {
-        final User user = App.getUser();
+        CustomBottomDialogClass  dialog = new CustomBottomDialogClass(getActivity(), "MyProfileEdit", this);
+        WindowManager.LayoutParams wmlp = dialog.getWindow().getAttributes();
+        wmlp.gravity = Gravity.BOTTOM;
+        dialog.show();
+
+        /*
         CharSequence options[] = new CharSequence[] {"Usar foto do Facebook", "Remover minha foto"};
         final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setCancelable(true);
@@ -743,7 +747,7 @@ public class MyProfileEditFrag extends Fragment {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         WindowManager.LayoutParams wmlp = dialog.getWindow().getAttributes();
         wmlp.gravity = Gravity.BOTTOM;
-        dialog.show();
+        dialog.show();*/
     }
 
     public void onFacebookPhotoChangeFailed()

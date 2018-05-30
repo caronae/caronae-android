@@ -41,12 +41,13 @@ public class CustomDialogClass extends Dialog implements android.view.View.OnCli
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.custom_dialog);
-        buttons = (LinearLayout) findViewById(R.id.buttons);
-        title = (TextView) findViewById(R.id.title);
-        message = (TextView) findViewById(R.id.message);
-        positive_bt = (TextView) findViewById(R.id.positive_bt);
-        negative_bt = (TextView) findViewById(R.id.negative_bt);
-        separator = (ImageView) findViewById(R.id.separator);
+        this.getWindow().setBackgroundDrawable(new android.graphics.drawable.ColorDrawable(android.graphics.Color.TRANSPARENT));
+        buttons = findViewById(R.id.buttons);
+        title = findViewById(R.id.title);
+        message = findViewById(R.id.message);
+        positive_bt = findViewById(R.id.positive_bt);
+        negative_bt = findViewById(R.id.negative_bt);
+        separator = findViewById(R.id.separator);
         positive_bt.setOnClickListener(this);
         negative_bt.setOnClickListener(this);
     }
