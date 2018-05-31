@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import br.ufrj.caronae.R;
@@ -24,9 +25,9 @@ public class CustomDialogClass extends Dialog implements android.view.View.OnCli
     private Activity activity;
     private Fragment fragment;
     private TextView title, message, positive_bt, negative_bt;
+    private RelativeLayout pBtn, nBtn;
     private String currentFrag;
     private ImageView separator;
-    LinearLayout buttons;
 
     public CustomDialogClass(Activity activity, String currentFrag, Fragment fragment) {
         super(activity);
@@ -42,14 +43,15 @@ public class CustomDialogClass extends Dialog implements android.view.View.OnCli
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.custom_dialog);
         this.getWindow().setBackgroundDrawable(new android.graphics.drawable.ColorDrawable(android.graphics.Color.TRANSPARENT));
-        buttons = findViewById(R.id.buttons);
         title = findViewById(R.id.title);
         message = findViewById(R.id.message);
+        pBtn = findViewById(R.id.pBtn);
+        nBtn = findViewById(R.id.nBtn);
         positive_bt = findViewById(R.id.positive_bt);
         negative_bt = findViewById(R.id.negative_bt);
         separator = findViewById(R.id.separator);
-        positive_bt.setOnClickListener(this);
-        negative_bt.setOnClickListener(this);
+        pBtn.setOnClickListener(this);
+        nBtn.setOnClickListener(this);
     }
 
     @Override
@@ -57,7 +59,7 @@ public class CustomDialogClass extends Dialog implements android.view.View.OnCli
     {
         switch (view.getId())
         {
-            case R.id.positive_bt:
+            case R.id.pBtn:
                 dismiss();
                 switch (currentFrag)
                 {
@@ -80,7 +82,7 @@ public class CustomDialogClass extends Dialog implements android.view.View.OnCli
                 }
                 break;
 
-            case R.id.negative_bt:
+            case R.id.nBtn:
                 dismiss();
                 switch (currentFrag)
                 {
@@ -134,11 +136,11 @@ public class CustomDialogClass extends Dialog implements android.view.View.OnCli
 
     public void enableOnePositiveOption()
     {
-        LinearLayout.LayoutParams llp = (LinearLayout.LayoutParams) positive_bt.getLayoutParams();
-        this.negative_bt.setVisibility(View.GONE);
+        LinearLayout.LayoutParams llp = (LinearLayout.LayoutParams) pBtn.getLayoutParams();
+        this.nBtn.setVisibility(View.GONE);
         separator.setVisibility(View.GONE);
         llp.weight = 2;
-        this.positive_bt.setLayoutParams(llp);
+        this.pBtn.setLayoutParams(llp);
     }
 
     public void setNegativeButtonColor(int color)
