@@ -144,7 +144,7 @@
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/center_et"
                 android:layout_marginTop="10dp"
-                android:textSize="17sp"
+                android:textSize="16sp"
                 android:text="@string/routine_cb"
                 android:textColor="@color/dark_gray"
                 android:textStyle="bold"/>
@@ -351,6 +351,7 @@
                         android:layout_height="wrap_content"
                         android:checked="true"
                         android:layout_weight="1"
+                        android:singleLine="true"
                         android:layout_marginStart="10dp"
                         android:layout_marginLeft="10dp"
                         android:textColor="@color/dark_gray"
@@ -361,6 +362,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:singleLine="true"
                         android:layout_marginStart="10dp"
                         android:layout_marginLeft="10dp"
                         android:textColor="@color/dark_gray"
@@ -372,6 +374,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
+                        android:singleLine="true"
                         android:layout_marginStart="10dp"
                         android:layout_marginLeft="10dp"
                         android:textColor="@color/dark_gray"
@@ -408,21 +411,25 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:textSize="19sp"
+                    android:textSize="16sp"
                     android:text="@string/frag_rideoffer_slots"
                     android:textColor="@color/dark_gray" />
                 <RelativeLayout
-                    android:layout_width="140dp"
+                    android:layout_width="match_parent"
                     android:layout_height="35dp"
-                    android:layout_alignTop="@id/slots_tv"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentEnd="true">
+                    android:layout_toEndOf="@id/slots_tv"
+                    android:layout_toRightOf="@id/slots_tv"
+                    android:layout_alignTop="@id/slots_tv">
                     <TextView
                         android:id="@+id/slots_n"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/dark_gray"
                         android:layout_centerVertical="true"
+                        android:layout_toLeftOf="@id/slots"
+                        android:layout_toStartOf="@id/slots"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginEnd="10dp"
                         android:text="1"/>
                     <LinearLayout
                         android:id="@+id/slots"
@@ -431,7 +438,7 @@
                         android:weightSum="2"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
-                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
                         android:orientation="horizontal">
 
                         <RelativeLayout
