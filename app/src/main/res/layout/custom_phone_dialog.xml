@@ -10,59 +10,47 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp">
+
         <LinearLayout
-            android:id="@+id/title"
+            android:id="@+id/call_option"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@drawable/btn_top"
             android:gravity="center">
             <TextView
+                android:id="@+id/user_phone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/media_choose_title"
-                android:textColor="@color/dark_gray"
+                android:text="Ligar para (0XX) XXXXX-XXXX"
+                android:textColor="@color/darkblue2"
                 android:textSize="16sp"/>
         </LinearLayout>
         <LinearLayout
-            android:id="@+id/facebook_option"
+            android:id="@+id/add_option"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_below="@id/title"
+            android:layout_below="@id/call_option"
             android:background="@color/light_gray"
             android:gravity="center">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/facebook_choose"
+                android:text="@string/add_contact"
                 android:textColor="@color/darkblue2"
                 android:textSize="16sp"/>
         </LinearLayout>
         <LinearLayout
-            android:id="@+id/phone_option"
+            android:id="@+id/copy_option"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_below="@id/facebook_option"
-            android:background="@color/light_gray"
-            android:gravity="center">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/phone_choose"
-                android:textColor="@color/darkblue2"
-                android:textSize="16sp"/>
-        </LinearLayout>
-        <LinearLayout
-            android:id="@+id/remove_option"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_below="@id/phone_option"
+            android:layout_below="@id/add_option"
             android:background="@drawable/btn_bottom"
             android:gravity="center">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/remove_choose"
-                android:textColor="@color/red"
+                android:text="@string/copy"
+                android:textColor="@color/darkblue2"
                 android:textSize="16sp"/>
         </LinearLayout>
     </RelativeLayout>

@@ -25,6 +25,8 @@
     <string name="facebook_choose">Usar foto do Facebook</string>
     <string name="phone_choose">Selecionar foto do celular</string>
     <string name="remove_choose">Remover minha foto</string>
+    <string name="add_contact">Adicionar aos Contatos</string>
+    <string name="copy">Copiar</string>
 
 
     <string name="tokenHint_et">Sua chave aqui</string>

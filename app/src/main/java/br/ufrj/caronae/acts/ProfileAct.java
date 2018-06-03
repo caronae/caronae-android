@@ -2,12 +2,10 @@ package br.ufrj.caronae.acts;
 
 import android.content.ClipData;
 import android.content.ClipboardManager;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
@@ -25,6 +23,7 @@ import com.redmadrobot.inputmask.model.CaretString;
 import com.squareup.picasso.Picasso;
 
 import br.ufrj.caronae.R;
+import br.ufrj.caronae.customizedviews.CustomPhoneDialogClass;
 import br.ufrj.caronae.customizedviews.RoundedTransformation;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.httpapis.CaronaeAPI;
@@ -230,46 +229,39 @@ public class ProfileAct extends AppCompatActivity {
     {
         if(action == 0)
         {
-            Intent callIntent = new Intent(Intent.ACTION_DIAL);
-            callIntent.setData(Uri.parse("tel:" + phone_tv.getText()));
-            startActivity(callIntent);
+            callUserPhone();
         }
         else
         {
-            CharSequence options[] = new CharSequence[] {"Ligar para "+user.getPhoneNumber(), "Adicionar aos Contatos", "Copiar"};
-            final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setCancelable(true);
-            builder.setItems(options, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    switch (which)
-                    {
-                        case 0:
-                            Intent callIntent = new Intent(Intent.ACTION_DIAL);
-                            callIntent.setData(Uri.parse("tel:" + phone_tv.getText()));
-                            startActivity(callIntent);
-                            break;
-                        case 1:
-                            Intent intent = new Intent(Intent.ACTION_INSERT);
-                            intent.setType(ContactsContract.Contacts.CONTENT_TYPE);
-                            intent.putExtra(ContactsContract.Intents.Insert.NAME, user.getName());
-                            intent.putExtra(ContactsContract.Intents.Insert.PHONE, user.getPhoneNumber());
-                            startActivity(intent);
-                            break;
-                        case 2:
-                            ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-                            ClipData clip = ClipData.newPlainText("PhoneNumber", user.getPhoneNumber());
-                            clipboard.setPrimaryClip(clip);
-                            break;
-                    }
-                }
-            });
-            AlertDialog dialog = builder.create();
+            CustomPhoneDialogClass dialog = new CustomPhoneDialogClass(this, "ProfileAct", null, user.getPhoneNumber());
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             WindowManager.LayoutParams wmlp = dialog.getWindow().getAttributes();
             wmlp.gravity = Gravity.BOTTOM;
             dialog.show();
         }
+    }
+
+    public void callUserPhone()
+    {
+        Intent callIntent = new Intent(Intent.ACTION_DIAL);
+        callIntent.setData(Uri.parse("tel:" + user.getPhoneNumber()));
+        startActivity(callIntent);
+    }
+
+    public void addUserPhone()
+    {
+        Intent intent = new Intent(Intent.ACTION_INSERT);
+        intent.setType(ContactsContract.Contacts.CONTENT_TYPE);
+        intent.putExtra(ContactsContract.Intents.Insert.NAME, user.getName());
+        intent.putExtra(ContactsContract.Intents.Insert.PHONE, user.getPhoneNumber());
+        startActivity(intent);
+    }
+
+    public void copyUserPhone()
+    {
+        ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+        ClipData clip = ClipData.newPlainText("PhoneNumber", user.getPhoneNumber());
+        clipboard.setPrimaryClip(clip);
     }
 
     @Override
