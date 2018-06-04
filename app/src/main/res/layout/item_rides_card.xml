@@ -90,14 +90,6 @@
                 android:tint="@color/dark_gray"
                 android:src="@drawable/ic_keyboard_arrow_right_black_24dp"/>
 
-            <ImageView
-                android:id="@+id/requestIndicator_iv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignTop="@id/photo_iv"
-                android:layout_alignParentRight="true"
-                android:src="@drawable/requested" />
         </RelativeLayout>
         <RelativeLayout
             android:id="@+id/secondary_lay"

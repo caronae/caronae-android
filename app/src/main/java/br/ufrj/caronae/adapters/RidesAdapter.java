@@ -134,10 +134,6 @@ public class RidesAdapter extends RecyclerView.Adapter<RidesAdapter.ViewHolder> 
 
                 viewHolder.location_tv.setText(location);
 
-                boolean requested = false;
-
-                viewHolder.requestIndicator_iv.setVisibility(requested ? View.VISIBLE : View.INVISIBLE);
-
                 viewHolder.parentLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -201,7 +197,6 @@ public class RidesAdapter extends RecyclerView.Adapter<RidesAdapter.ViewHolder> 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public CircleImageView photo_iv;
-        public ImageView requestIndicator_iv;
         public TextView time_tv;
         public TextView location_tv;
         public TextView name_tv;
@@ -211,7 +206,6 @@ public class RidesAdapter extends RecyclerView.Adapter<RidesAdapter.ViewHolder> 
         private ViewHolder(View itemView) {
             super(itemView);
             photo_iv = itemView.findViewById(R.id.photo_iv);
-            requestIndicator_iv = itemView.findViewById(R.id.requestIndicator_iv);
             time_tv = itemView.findViewById(R.id.time_tv);
             location_tv = itemView.findViewById(R.id.location_tv);
             name_tv = itemView.findViewById(R.id.name_tv);
