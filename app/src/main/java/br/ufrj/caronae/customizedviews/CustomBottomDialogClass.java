@@ -17,7 +17,7 @@ public class CustomBottomDialogClass extends Dialog implements View.OnClickListe
     private Activity activity;
     private Fragment fragment;
     private String currentFrag;
-    private LinearLayout cancel_bt, remove_bt, facebook_bt;
+    private LinearLayout cancel_bt, remove_bt, facebook_bt, phone_bt;
 
     public CustomBottomDialogClass(Activity activity, String currentFrag, Fragment fragment) {
         super(activity);
@@ -36,9 +36,11 @@ public class CustomBottomDialogClass extends Dialog implements View.OnClickListe
         facebook_bt = findViewById(R.id.facebook_option);
         cancel_bt = findViewById(R.id.cancel_option);
         remove_bt = findViewById(R.id.remove_option);
+        phone_bt = findViewById(R.id.phone_option);
         facebook_bt.setOnClickListener(this);
         cancel_bt.setOnClickListener(this);
         remove_bt.setOnClickListener(this);
+        phone_bt.setOnClickListener(this);
     }
 
     @Override
@@ -46,6 +48,18 @@ public class CustomBottomDialogClass extends Dialog implements View.OnClickListe
     {
         switch (view.getId())
         {
+            case R.id.phone_option:
+                dismiss();
+                switch (currentFrag)
+                {
+                    case "MyProfileEdit":
+                        ((MyProfileEditFrag)fragment).changeToMediaAct();
+                        break;
+                    default:
+
+                        break;
+                }
+                break;
             case R.id.facebook_option:
                 dismiss();
                 switch (currentFrag)

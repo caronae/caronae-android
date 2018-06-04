@@ -38,6 +38,7 @@ import com.redmadrobot.inputmask.model.CaretString;
 import com.squareup.picasso.Picasso;
 
 import br.ufrj.caronae.App;
+import br.ufrj.caronae.acts.MediaAct;
 import br.ufrj.caronae.customizedviews.CustomDialogClass;
 import br.ufrj.caronae.customizedviews.CustomBottomDialogClass;
 import br.ufrj.caronae.data.ImageSaver;
@@ -716,6 +717,14 @@ public class MyProfileEditFrag extends Fragment {
         Bitmap removedPhoto = bmpDrawable.getBitmap();
         user_pic.setImageBitmap(removedPhoto);
         profileUrlPic = "";
+    }
+
+    public void changeToMediaAct()
+    {
+        Intent intent = new Intent(getActivity(), MediaAct.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        getActivity().overridePendingTransition(R.anim.anim_down_slide_in, R.anim.anim_up_slide_out);
     }
 
     public void useFacebookPhoto()

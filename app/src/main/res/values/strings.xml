@@ -309,4 +309,8 @@
     <string name="title_activity_menu_options">MenuOptionsAct</string>
     <string name="title_activity_falae">FalaeAct</string>
 
+    <string name="tab_gallery">Biblioteca</string>
+    <string name="tab_photo">Foto</string>
+
+    <string name="bt_next">Avançar</string>
 </resources>

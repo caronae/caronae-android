@@ -68,4 +68,10 @@
     <color name="gray_transparency" type="color">#CC949499</color>
     <color name="dark_gray2" type="color">#CCCCCC</color>
     <color name="light_gray" type="color">#EEEEEE</color>
+
+    <color name="green_camera">#A8B32C</color>
+    <color name="egg_shell_camera">#EFEEED</color>
+    <color name="white_60_camera">#99FFFFFF</color>
+    <color name="red_error_camera">#C86A6A</color>
+    <color name="red_record_camera">#CE0B24</color>
 </resources>
