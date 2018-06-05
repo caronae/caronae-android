@@ -13,7 +13,7 @@
         <LinearLayout
             android:id="@+id/title"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="40dp"
             android:background="@drawable/btn_top"
             android:gravity="center">
             <TextView
@@ -21,13 +21,20 @@
                 android:layout_height="wrap_content"
                 android:text="@string/media_choose_title"
                 android:textColor="@color/dark_gray"
-                android:textSize="16sp"/>
+                android:textSize="12sp"/>
         </LinearLayout>
+        <LinearLayout
+            android:id="@+id/separator1"
+            android:layout_width="match_parent"
+            android:layout_height="0.1dp"
+            android:background="@color/gray_transparency"
+            android:layout_below="@id/title"
+            android:orientation="horizontal"/>
         <LinearLayout
             android:id="@+id/facebook_option"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_below="@id/title"
+            android:layout_below="@id/separator1"
             android:background="@color/light_gray"
             android:gravity="center">
             <TextView
@@ -38,10 +45,17 @@
                 android:textSize="16sp"/>
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/separator2"
+            android:layout_width="match_parent"
+            android:layout_height="0.1dp"
+            android:background="@color/gray_transparency"
+            android:layout_below="@id/facebook_option"
+            android:orientation="horizontal"/>
+        <LinearLayout
             android:id="@+id/phone_option"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_below="@id/facebook_option"
+            android:layout_below="@id/separator2"
             android:background="@color/light_gray"
             android:gravity="center">
             <TextView
@@ -52,10 +66,17 @@
                 android:textSize="16sp"/>
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/separator3"
+            android:layout_width="match_parent"
+            android:layout_height="0.1dp"
+            android:background="@color/gray_transparency"
+            android:layout_below="@id/phone_option"
+            android:orientation="horizontal"/>
+        <LinearLayout
             android:id="@+id/remove_option"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_below="@id/phone_option"
+            android:layout_below="@id/separator3"
             android:background="@drawable/btn_bottom"
             android:gravity="center">
             <TextView
