@@ -4,14 +4,15 @@
     <TextView
         android:id="@+id/mIconBack"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="45dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_centerVertical="true"
+        android:gravity="center"
         android:layout_marginLeft="10dp"
         android:layout_marginStart="10dp"
         android:text="@string/cancel"
-        android:textColor="@color/dark_gray"
+        android:textColor="@color/black"
         android:textSize="18sp"/>
 
     <TextView
@@ -21,12 +22,13 @@
         android:layout_centerInParent="true"
         android:text="@string/app_name"
         android:gravity="center"
-        android:textColor="@color/dark_gray"
+        android:textColor="@color/black"
+        android:textStyle="bold"
         android:textSize="18sp"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="45dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_marginRight="10dp"
@@ -37,9 +39,10 @@
         <TextView
             android:id="@+id/mIconNext"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:text="@string/bt_next"
-            android:textColor="@color/green_camera"
+            android:gravity="center"
+            android:textColor="@color/darkblue2"
             android:textSize="18sp" />
 
     </LinearLayout>
