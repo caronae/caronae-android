@@ -22,6 +22,7 @@ import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.adapters.AllRidesFragmentPagerAdapter;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
+import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -43,6 +44,7 @@ public class AllRidesFrag extends Fragment {
     ArrayList<RideForJson> notGoingRides = new ArrayList<>();
 
     String isGoing;
+    String[] tabsText;
 
     public AllRidesFrag() {
         // Required empty public constructor
@@ -52,6 +54,8 @@ public class AllRidesFrag extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_all_rides, container, false);
         ButterKnife.bind(this, view);
+
+        tabsText = new String[2];
 
         Util.setColors();
 
@@ -101,7 +105,10 @@ public class AllRidesFrag extends Fragment {
         setHasOptionsMenu(true);
         ((MainAct)getActivity()).showMainItems();
 
-        viewPager.setAdapter(new AllRidesFragmentPagerAdapter(getChildFragmentManager(), goingRides, notGoingRides, getResources().getStringArray(R.array.tab_tags)));
+        tabsText[0] = getResources().getString(R.string.arriving_ufrj);
+        tabsText[1] = getResources().getString(R.string.leaving_ufrj);
+
+        viewPager.setAdapter(new AllRidesFragmentPagerAdapter(getChildFragmentManager(), goingRides, notGoingRides, tabsText));
 
         isGoing = SharedPref.isGoing;
 

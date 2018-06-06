@@ -45,7 +45,7 @@
                             android:textSize="18sp"
                             android:layout_centerInParent="true"
                             android:textColor="@color/black"
-                            android:text="@string/title_myprofile_frag" />
+                            android:text="@string/fragment_myprofile_title" />
                     </RelativeLayout>
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -64,7 +64,7 @@
                             android:layout_height="match_parent"
                             android:gravity="center"
                             android:visibility="visible"
-                            android:text="@string/edit_bt"
+                            android:text="@string/edit"
                             android:layout_marginEnd="10dp"
                             android:layout_marginRight="10dp"
                             android:textColor="@color/dark_gray"
@@ -95,7 +95,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:gravity="center"
-                                android:text="@string/title_menu"
+                                android:text="@string/fragment_menu_title"
                                 android:layout_toRightOf="@id/arrow"
                                 android:layout_toEndOf="@id/arrow"
                                 android:textColor="@color/dark_gray"

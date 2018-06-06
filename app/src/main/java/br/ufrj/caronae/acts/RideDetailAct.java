@@ -188,11 +188,11 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
         if(fromWhere != null) {
             if (fromWhere.equals("SearchRides"))
             {
-                back_tv.setText(R.string.title_ride_search);
+                back_tv.setText("Pesquisa");
             }
-            else if(fromWhere.equals(getResources().getString(R.string.title_myrides)))
+            else if(fromWhere.equals(getResources().getString(R.string.fragment_myrides_title)))
             {
-                back_tv.setText(R.string.title_myrides);
+                back_tv.setText(R.string.fragment_myrides_title);
             }
         }
         startLink = getIntent().getBooleanExtra("startLink", false);
@@ -312,7 +312,7 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
 
     private void configureActivityWithRide(final RideForJson rideWithUsers, boolean fully, boolean withLink) {
         if (rideWithUsers == null) {
-            Util.toast(getString(R.string.act_activeride_rideNUll));
+            Util.toast(getString(R.string.activity_ridedetail_ride_error));
             finish();
         }
         if(!withLink) {
@@ -464,9 +464,9 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
         }
         String dateDescription;
         if (rideWithUsers.isGoing())
-            dateDescription = getString(R.string.arrivingAt, Util.formatTime(rideWithUsers.getTime()));
+            dateDescription = getString(R.string.arriving_at, Util.formatTime(rideWithUsers.getTime()));
         else
-            dateDescription = getString(R.string.leavingAt, Util.formatTime(rideWithUsers.getTime()));
+            dateDescription = getString(R.string.leaving_at, Util.formatTime(rideWithUsers.getTime()));
 
         dateDescription = dateDescription + " | " + Util.getWeekDayFromDate(rideWithUsers.getDate()) + " | " +Util.formatBadDateWithoutYear(rideWithUsers.getDate());
         clock.setColorFilter(zoneColorInt, PorterDuff.Mode.SRC_IN);
@@ -540,7 +540,7 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
             {
                 if (fully)
                 {
-                    join_bt.setText(R.string.full_ride);
+                    join_bt.setText(R.string.full_ride_uppercase);
                     join_bt.setClickable(false);
                     join_bt.setFocusable(false);
                 }
@@ -554,7 +554,7 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
                         public void onClick(View view) {
                             List<Ride> list = Ride.find(Ride.class, "date = ? and going = ?", rideWithUsers.getDate(), rideWithUsers.isGoing() ? "1" : "0");
                             if (list != null && !list.isEmpty()) {
-                                Util.toast(getString(R.string.act_rideOffer_rideConflict));
+                                Util.toast(getString(R.string.fragment_rideoffer_ride_conflict_message));
                             }
                             else
                             {
@@ -563,9 +563,9 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
                                 customDialogClass.show();
                                 int colorInt = getResources().getColor(R.color.darkblue2);
                                 customDialogClass.setNegativeButtonColor(colorInt);
-                                customDialogClass.setTitleText(getString(R.string.act_rideOffer_request_warning_title));
+                                customDialogClass.setTitleText(getString(R.string.activity_ridedetail_request_warning_title));
                                 customDialogClass.setMessageText(getString(R.string.act_rideOffer_request_warning_message));
-                                customDialogClass.setNButtonText(getString(R.string.act_rideOffer_request_warning_positive_button));
+                                customDialogClass.setNButtonText(getString(R.string.request));
                                 customDialogClass.setPButtonText(getString(R.string.cancel));
                             }
                         }
@@ -624,8 +624,8 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
                                             }
                                         }
                                         if (!isActive && Util.getStringDateInMillis(rideWithUsers.getTime() + " " + rideWithUsers.getDate()) < (new Date()).getTime()){
-                                            showCustomDialog(getResources().getString(R.string.ride_in_past_header),
-                                                    getResources().getString(R.string.ride_in_past_body));
+                                            showCustomDialog(getResources().getString(R.string.ride_finished_title),
+                                                    getResources().getString(R.string.ride_finished_message));
                                         } else {
                                             rideWithUsers.setDbId(Integer.parseInt(rideId));
                                             if (rideWithUsers.getRiders() != null) {
@@ -638,7 +638,7 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
                                         }
                                         if(rideWithUsers.getDriver().getDbId() == App.getUser().getDbId() || isActive)
                                         {
-                                            back_tv.setText(R.string.title_myrides);
+                                            back_tv.setText(R.string.fragment_myrides_title);
                                         }
                                         pd.dismiss();
                                     } else {
@@ -651,15 +651,15 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
                                 }
                             });
                     } else {
-                        showCustomDialog(getResources().getString(R.string.ride_failure_header),
-                                getResources().getString(R.string.ride_failure_non_exist_body));
+                        showCustomDialog(getResources().getString(R.string.ride_failure_title),
+                                getResources().getString(R.string.ride_failure_not_find_message));
                     }
                 }
 
                 @Override
                 public void onFailure(Call<RideForJson> call, Throwable t) {
-                    showCustomDialog(getResources().getString(R.string.ride_failure_header),
-                            getResources().getString(R.string.ride_failure_fail_body));
+                    showCustomDialog(getResources().getString(R.string.ride_failure_title),
+                            getResources().getString(R.string.ride_failure_fail_message));
                 }
             });
     }

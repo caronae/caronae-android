@@ -92,7 +92,7 @@ public class SearchRidesListFrag extends Fragment implements Callback {
 
         if(!Util.isNetworkAvailable(ctx))
         {
-            noRides.setText(R.string.allrides_norides);
+            noRides.setText(R.string.fragment_allrides_norides);
             noRides.setVisibility(View.VISIBLE);
         }
         else
@@ -183,15 +183,15 @@ public class SearchRidesListFrag extends Fragment implements Callback {
                                     CustomDialogClass cdc = new CustomDialogClass(getActivity(), "searchList", frag);
                                     cdc.show();
                                     cdc.enableOnePositiveOption();
-                                    cdc.setPButtonText(getResources().getString(R.string.ok));
+                                    cdc.setPButtonText(getResources().getString(R.string.ok_uppercase));
                                     cdc.setTitleText(getResources().getString(R.string.no_rides_found_title));
                                     cdc.setMessageText(getResources().getString(R.string.no_rides_found_msg));
                                 }catch (Exception e){}
-                                noRides.setText(R.string.frag_rideSearch_noRideFound);
+                                noRides.setText(R.string.fragment_ridesearch_no_ride_found);
                             }
                         } else {
                             Util.treatResponseFromServer(response);
-                            noRides.setText(R.string.allrides_norides);
+                            noRides.setText(R.string.fragment_allrides_norides);
                             refreshLayout.setRefreshing(false);
                             Log.e("listAllRides", response.message());
                         }
@@ -201,7 +201,7 @@ public class SearchRidesListFrag extends Fragment implements Callback {
                     public void onFailure(Call<RideForJsonDeserializer> call, Throwable t) {
                         refreshLayout.setRefreshing(false);
                         Log.e("listAllRides", t.getMessage());
-                        noRides.setText(R.string.allrides_norides);
+                        noRides.setText(R.string.fragment_allrides_norides);
                     }
                 });
     }

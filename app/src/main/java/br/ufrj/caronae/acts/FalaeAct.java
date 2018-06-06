@@ -87,7 +87,7 @@ public class FalaeAct extends AppCompatActivity {
             fromAnother = getIntent().getBooleanExtra("fromAnother", false);
             rideOffer = getIntent().getExtras().getParcelable("ride");
             driverName = getIntent().getStringExtra("driver");
-            ((FalaeFrag)fragment).reason_txt = getResources().getString(R.string.frag_falae_report_rb);
+            ((FalaeFrag)fragment).reason_txt = getResources().getString(R.string.report);
             ((FalaeFrag)fragment).subject_txt = "Denúncia sobre usuário " + driverName;
         }
     }
@@ -154,7 +154,7 @@ public class FalaeAct extends AppCompatActivity {
             cdc.show();
             cdc.setTitleText("Ops!");
             cdc.setMessageText("Parece que você esqueceu de preencher sua mensagem.");
-            cdc.setPButtonText(getResources().getString(R.string.ok));
+            cdc.setPButtonText(getResources().getString(R.string.ok_uppercase));
             cdc.enableOnePositiveOption();
             return;
         }
@@ -175,7 +175,7 @@ public class FalaeAct extends AppCompatActivity {
                             cdc.show();
                             cdc.setTitleText("Mensagem enviada!");
                             cdc.setMessageText("Obrigado por nos mandar uma mensagem. Nossa equipe irá entrar em contato em breve.");
-                            cdc.setPButtonText(getResources().getString(R.string.ok));
+                            cdc.setPButtonText(getResources().getString(R.string.ok_uppercase));
                             cdc.enableOnePositiveOption();
                             SharedPref.NAV_INDICATOR = "Menu";
                         } else {
@@ -185,7 +185,7 @@ public class FalaeAct extends AppCompatActivity {
                             cdc.show();
                             cdc.setTitleText("Mensagem não enviada");
                             cdc.setMessageText("Ocorreu um erro enviando sua mensagem. Verifique sua conexão e tente novamente.");
-                            cdc.setPButtonText(getResources().getString(R.string.ok));
+                            cdc.setPButtonText(getResources().getString(R.string.ok_uppercase));
                             cdc.enableOnePositiveOption();
                         }
                     }
@@ -197,7 +197,7 @@ public class FalaeAct extends AppCompatActivity {
                         cdc.show();
                         cdc.setTitleText("Mensagem não enviada");
                         cdc.setMessageText("Ocorreu um erro enviando sua mensagem. Verifique sua conexão e tente novamente.");
-                        cdc.setPButtonText(getResources().getString(R.string.ok));
+                        cdc.setPButtonText(getResources().getString(R.string.ok_uppercase));
                         cdc.enableOnePositiveOption();
                     }
                 });

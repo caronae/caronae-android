@@ -37,7 +37,7 @@
                 android:textSize="18sp"
                 android:textColor="@color/black"
                 android:layout_centerHorizontal="true"
-                android:text="@string/go_rb" />
+                android:text="@string/arriving_ufrj" />
 
             <TextView
                 android:id="@+id/positive_bt"
@@ -50,7 +50,7 @@
                 android:focusable="true"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:text="@string/ok" />
+                android:text="@string/ok_uppercase" />
         </RelativeLayout>
         
         <LinearLayout

@@ -27,7 +27,6 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -175,8 +174,8 @@ public class RideOfferFrag extends Fragment {
         }
         else
         {
-            neighborhood_et.setText(R.string.frag_rideoffer_neighborHint);
-            center_et.setText(going ? R.string.frag_ridesearch_campiHint : R.string.frag_rideOffer_hintPickHub);
+            neighborhood_et.setText(R.string.neighborhood);
+            center_et.setText(going ? R.string.fragment_ridesearch_campi_hint : R.string.fragment_rideoffer_hub_hint);
         }
         if(going) {
             checkCarOwnerDialog();
@@ -281,13 +280,13 @@ public class RideOfferFrag extends Fragment {
         CustomDateTimePicker cdtp;
         if(going) {
             if(SharedPref.getGoingLabel() == null)
-                cdtp = new CustomDateTimePicker(activity, getResources().getString(R.string.go_rb), time, this, "Offer");
+                cdtp = new CustomDateTimePicker(activity, getResources().getString(R.string.arriving_ufrj), time, this, "Offer");
             else
                 cdtp = new CustomDateTimePicker(activity, SharedPref.getGoingLabel(), time, this, "Offer");
         }else
         {
             if(SharedPref.getLeavingLabel() == null)
-                cdtp = new CustomDateTimePicker(activity, getResources().getString(R.string.back_rb), time, this, "Offer");
+                cdtp = new CustomDateTimePicker(activity, getResources().getString(R.string.leaving_ufrj), time, this, "Offer");
             else
                 cdtp = new CustomDateTimePicker(activity, SharedPref.getLeavingLabel(), time, this, "Offer");
         }

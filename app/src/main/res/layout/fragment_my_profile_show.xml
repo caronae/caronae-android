@@ -140,7 +140,7 @@
             android:layout_height="wrap_content"
             android:paddingTop="10dp"
             android:textSize="15sp"
-            android:text="@string/frag_myprofile_aboutYourCar"
+            android:text="@string/car_about_uppercase"
             android:textStyle="bold" />
 
         <TextView
@@ -148,7 +148,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/car_tv"
-            android:text="@string/frag_myprofile_carText"
+            android:text="@string/fragment_myprofile_car_text"
             android:textSize="12sp" />
 
         <TextView

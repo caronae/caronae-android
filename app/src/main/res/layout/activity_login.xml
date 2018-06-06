@@ -74,7 +74,7 @@
             android:layout_marginStart="10dp"
             android:gravity="center"
             android:textColor="@color/dark_gray"
-            android:text="@string/welcome_text"
+            android:text="@string/welcome_message"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <EditText
@@ -87,7 +87,7 @@
             android:layout_centerVertical="true"
             android:ems="8"
             android:gravity="center"
-            android:hint="@string/idUfrjHint_et"
+            android:hint="@string/id_hint"
             android:maxLines="1"
             android:paddingTop="10dp"
             android:singleLine="true" />
@@ -102,8 +102,8 @@
             android:layout_centerVertical="true"
             android:ems="8"
             android:gravity="center"
-            android:hint="@string/tokenHint_et"
-            android:imeActionLabel="@string/send_bt"
+            android:hint="@string/token_hint"
+            android:imeActionLabel="@string/send"
             android:imeOptions="actionSend"
             android:maxLines="1"
             android:paddingTop="10dp"
@@ -118,7 +118,7 @@
         android:layout_below="@id/login_lay1"
         android:background="@drawable/btn_color"
         android:layout_centerHorizontal="true"
-        android:text="@string/acess_bt"
+        android:text="@string/acess"
         android:visibility="gone"/>
 
     <RelativeLayout

@@ -40,7 +40,7 @@
                     android:maxLines="1"
                     android:gravity="center"
                     android:textColor="@color/white"
-                    android:text="@string/go_rb"/>
+                    android:text="@string/arriving_ufrj"/>
             </RelativeLayout>
             <RelativeLayout
                 android:id="@+id/tab2"
@@ -59,7 +59,7 @@
                     android:textSize="12sp"
                     android:maxLines="1"
                     android:gravity="center"
-                    android:text="@string/back_rb"
+                    android:text="@string/leaving_ufrj"
                     android:textColor="@color/dark_gray"/>
 
             </RelativeLayout>
@@ -90,7 +90,7 @@
                 android:ellipsize="end"
                 android:singleLine="true"
                 android:editable="false"
-                android:text="@string/frag_ridefilter_centerHint" />
+                android:text="@string/fragment_ridefilter_center_hint" />
             <EditText
                 android:id="@+id/location_et"
                 android:layout_width="match_parent"
@@ -105,7 +105,7 @@
                 android:editable="false"
                 android:drawableStart="@drawable/ic_location_on_24dp"
                 android:focusable="false"
-                android:text="@string/frag_ridefilter_locationHint" />
+                android:text="@string/fragment_ridefilter_location_hint" />
 
             <EditText
                 android:id="@+id/time_et"
@@ -132,7 +132,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_below="@id/time_et"
                 android:background="@drawable/btn_color"
-                android:text="@string/frag_ridesearch_searchBt"
+                android:text="@string/search_uppercase"
                 android:textColor="@color/dark_gray" />
 
         </RelativeLayout>

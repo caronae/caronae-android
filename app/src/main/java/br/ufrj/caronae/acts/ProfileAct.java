@@ -125,7 +125,7 @@ public class ProfileAct extends AppCompatActivity {
                                      ridesTaken_tv.setText(String.valueOf(historyRide.getRidesHistoryTakenCount()));
                                  } else {
                                      Util.treatResponseFromServer(response);
-                                     Util.toast(R.string.act_profile_errorCountRidesHistory);
+                                     Util.toast(R.string.ridecount_error);
                                      Log.e("getRidesHistoryCount", response.message());
                                  }
 
@@ -133,7 +133,7 @@ public class ProfileAct extends AppCompatActivity {
 
                              @Override
                              public void onFailure(Call<RideHistoryForJson> call, Throwable t) {
-                                 Util.toast(R.string.act_profile_errorCountRidesHistory);
+                                 Util.toast(R.string.ridecount_error);
                                  Log.e("getRidesHistoryCount", t.getMessage());
                              }
                          }

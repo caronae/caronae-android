@@ -126,7 +126,7 @@
                 android:layout_marginLeft="40dp"
                 android:layout_marginEnd="40dp"
                 android:textColor="@color/dark_gray"
-                android:text="@string/ride_driver_finish_warning"/>
+                android:text="@string/fragment_myrides_warning"/>
         </RelativeLayout>
     </RelativeLayout>
 </LinearLayout>

@@ -45,7 +45,7 @@
                 android:maxLines="1"
                 android:gravity="center"
                 android:textColor="@color/white"
-                android:text="@string/go_rb"/>
+                android:text="@string/arriving_ufrj"/>
         </RelativeLayout>
         <RelativeLayout
             android:id="@+id/tab2"
@@ -64,7 +64,7 @@
                 android:textSize="12sp"
                 android:maxLines="1"
                 android:gravity="center"
-                android:text="@string/back_rb"
+                android:text="@string/leaving_ufrj"
                 android:textColor="@color/dark_gray"/>
 
         </RelativeLayout>

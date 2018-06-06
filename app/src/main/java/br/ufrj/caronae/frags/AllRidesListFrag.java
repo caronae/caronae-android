@@ -138,7 +138,7 @@ public class AllRidesListFrag extends Fragment implements Callback {
         }
         else if(!Util.isNetworkAvailable(ctx))
         {
-            noRides.setText(R.string.allrides_norides);
+            noRides.setText(R.string.fragment_allrides_norides);
             noRides.setVisibility(View.VISIBLE);
         }
         else
@@ -261,12 +261,12 @@ public class AllRidesListFrag extends Fragment implements Callback {
                                             }
                                             else
                                             {
-                                                noRides.setText(R.string.frag_rideSearch_noRideFound);
+                                                noRides.setText(R.string.fragment_ridesearch_no_ride_found);
                                                 isLoadingPage = false;
                                             }
                                         } else {
                                             Util.treatResponseFromServer(response);
-                                            noRides.setText(R.string.allrides_norides);
+                                            noRides.setText(R.string.fragment_allrides_norides);
                                             refreshLayout.setRefreshing(false);
                                             Log.e("listAllRides", response.message());
                                             isLoadingPage = false;
@@ -279,7 +279,7 @@ public class AllRidesListFrag extends Fragment implements Callback {
                                         refreshLayout.setRefreshing(false);
                                         Log.e("listAllRides", t.getMessage());
                                         if(!SharedPref.OPEN_ALL_RIDES) {
-                                            noRides.setText(R.string.allrides_norides);
+                                            noRides.setText(R.string.fragment_allrides_norides);
                                         }
                                         scrollListener.resetState();
                                         isLoadingPage = false;
@@ -288,7 +288,7 @@ public class AllRidesListFrag extends Fragment implements Callback {
 
                     } else {
                         Util.treatResponseFromServer(response);
-                        noRides.setText(R.string.allrides_norides);
+                        noRides.setText(R.string.fragment_allrides_norides);
                         refreshLayout.setRefreshing(false);
                         Log.e("listAllRides", response.message());
                         isLoadingPage = false;
@@ -300,7 +300,7 @@ public class AllRidesListFrag extends Fragment implements Callback {
                     refreshLayout.setRefreshing(false);
                     Log.e("listAllRides", t.getMessage());
                     if(!SharedPref.OPEN_ALL_RIDES) {
-                        noRides.setText(R.string.allrides_norides);
+                        noRides.setText(R.string.fragment_allrides_norides);
                     }
                     scrollListener.resetState();
                     isLoadingPage = false;

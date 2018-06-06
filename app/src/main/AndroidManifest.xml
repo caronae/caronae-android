@@ -50,7 +50,7 @@
             android:screenOrientation="portrait" />
 
         <activity android:name=".acts.RideSearchAct"
-            android:label="@string/title_ride_search"
+            android:label="@string/title_activity_ride_search"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
 

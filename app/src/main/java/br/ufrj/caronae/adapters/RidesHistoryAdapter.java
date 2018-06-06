@@ -87,9 +87,9 @@ public class RidesHistoryAdapter extends RecyclerView.Adapter<RidesHistoryAdapte
 
                 String timeText;
                 if (rideHistory.isGoing())
-                    timeText = context.getResources().getString(R.string.arrivingAt, Util.formatTime(rideHistory.getTime()));
+                    timeText = context.getResources().getString(R.string.arriving_at, Util.formatTime(rideHistory.getTime()));
                 else
-                    timeText = context.getResources().getString(R.string.leavingAt, Util.formatTime(rideHistory.getTime()));
+                    timeText = context.getResources().getString(R.string.leaving_at, Util.formatTime(rideHistory.getTime()));
 
                 timeText =  timeText + " | " + Util.getWeekDayFromDateWithoutTodayString(rideHistory.getDate()) + " | " +Util.formatBadDateWithoutYear(rideHistory.getDate());
                 viewHolder.time_tv.setText(timeText);

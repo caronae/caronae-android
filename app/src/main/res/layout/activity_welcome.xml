@@ -34,7 +34,7 @@
         android:layout_marginEnd="60dp"
         android:layout_marginStart="60dp"
         android:layout_marginRight="60dp"
-        android:text="@string/first_login"
+        android:text="@string/first_login_msg"
         android:layout_below="@id/logo"
         android:textAlignment="center"
         android:textSize="16sp"
@@ -55,7 +55,7 @@
             android:layout_centerInParent="true"
             android:textSize="20sp"
             android:textColor="@color/darkblue2"
-            android:text="@string/continue_txt"/>
+            android:text="@string/continue_word"/>
 
     </RelativeLayout>
 

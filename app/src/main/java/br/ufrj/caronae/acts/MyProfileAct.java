@@ -180,7 +180,7 @@ public class MyProfileAct extends AppCompatActivity {
         if(progressBar.getVisibility() == View.VISIBLE) {
             progressBar.setVisibility(View.GONE);
         }
-        edit_bt.setText(R.string.edit_bt);
+        edit_bt.setText(R.string.edit);
         edit_bt.setVisibility(View.VISIBLE);
         back.setVisibility(View.VISIBLE);
         cancel.setVisibility(View.GONE);
@@ -188,7 +188,7 @@ public class MyProfileAct extends AppCompatActivity {
 
     public void onSuccessSave()
     {
-        edit_bt.setText(R.string.edit_bt);
+        edit_bt.setText(R.string.edit);
         firstLogin = false;
         fragment = null;
         fragmentClass = MyProfileShowFrag.class;
