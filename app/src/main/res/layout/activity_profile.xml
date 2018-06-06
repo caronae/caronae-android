@@ -141,7 +141,7 @@
                     android:textSize="16sp"
                     android:text="(021) 12345-6543"
                     android:visibility="gone"
-                    android:textColor="@color/textBcolor" />
+                    android:textColor="@color/phone_text_color" />
             </RelativeLayout>
 
 
@@ -184,7 +184,6 @@
 
             <TextView
                 android:id="@+id/ridesTaken_tv"
-                style="@style/bold_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_person_24dp"
@@ -232,7 +231,7 @@
                 android:background="@drawable/report_button"
                 android:gravity="center"
                 android:text="@string/report_uppercase"
-                android:textColor="@color/reportred"/>
+                android:textColor="@color/report_button_red"/>
         </RelativeLayout>
     </RelativeLayout>
 </RelativeLayout>

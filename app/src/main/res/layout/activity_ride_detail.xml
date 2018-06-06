@@ -410,7 +410,7 @@
                                 android:textSize="14sp"
                                 android:focusable="true"
                                 android:text=""
-                                android:textColor="@color/textBcolor" />
+                                android:textColor="@color/phone_text_color" />
 
                         </RelativeLayout>
                     </RelativeLayout>

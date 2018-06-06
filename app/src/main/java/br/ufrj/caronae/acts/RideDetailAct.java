@@ -561,7 +561,7 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
                                 CustomDialogClass customDialogClass;
                                 customDialogClass = new CustomDialogClass(activity, "RideDetailAct", null);
                                 customDialogClass.show();
-                                int colorInt = getResources().getColor(R.color.darkblue2);
+                                int colorInt = getResources().getColor(R.color.darkblue);
                                 customDialogClass.setNegativeButtonColor(colorInt);
                                 customDialogClass.setTitleText(getString(R.string.activity_ridedetail_request_warning_title));
                                 customDialogClass.setMessageText(getString(R.string.act_rideOffer_request_warning_message));

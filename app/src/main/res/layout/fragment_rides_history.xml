@@ -18,7 +18,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:visibility="invisible"
-                android:background="@color/list_white_transparency"/>
+                android:background="@color/white_transparency"/>
         </RelativeLayout>
     </android.support.v4.widget.SwipeRefreshLayout>
 

@@ -14,7 +14,7 @@
                 android:id="@+id/lay1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/dark_gray2">
+                android:background="@color/menu_profile_background">
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/user_pic"

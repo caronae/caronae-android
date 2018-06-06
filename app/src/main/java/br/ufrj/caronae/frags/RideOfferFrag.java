@@ -450,7 +450,7 @@ public class RideOfferFrag extends Fragment {
                                     cdc.setMessageText("Você pode cancelar e verificar as suas caronas ou continuar e criar a carona mesmo assim.");
                                     cdc.setNButtonText("Criar");
                                     cdc.setPButtonText("Cancelar");
-                                    cdc.setNegativeButtonColor(getResources().getColor(R.color.darkblue2));
+                                    cdc.setNegativeButtonColor(getResources().getColor(R.color.darkblue));
 
                                 } else{
                                     cdc = new CustomDialogClass(act,"ROFD", frag);

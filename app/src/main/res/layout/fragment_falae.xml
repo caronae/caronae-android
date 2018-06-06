@@ -82,7 +82,7 @@
             android:cursorVisible="true"
             android:layout_marginStart="3dp"
             android:layout_marginLeft="3dp"
-            android:background="@color/default_white_transparency"
+            android:background="@color/transparency"
             android:gravity="top|start"
             android:inputType="textMultiLine"
             android:minLines="5"

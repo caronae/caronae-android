@@ -1,30 +1,12 @@
 <resources>
-    <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_horizontal_margin">16dp</dimen>
+
+    <dimen name="card_list_margin">4dp</dimen>
     <dimen name="refresher_offset">35dp</dimen>
     <dimen name="refresher_offset_end">70dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
-    <dimen name="fab_margin">16dp</dimen>
-    <dimen name="chat_ride_info_size">46dp</dimen>
-    <dimen name="search_list_bar">36dp</dimen>
-    <dimen name="tab_indicator_height">64dp</dimen>
-    <dimen name="card_list_margin">4dp</dimen>
-    <!-- padding botton is connected to tab height because of gradient -->
-    <dimen name="tab_indicator_padding_botton">32dp</dimen>
-    <dimen name="recycler_view_botton_offset">30dp</dimen>
     <dimen name="recycler_view_top_offset">40dp</dimen>
-    <dimen name="recycler_my_rides_botton_offset">70dp</dimen>
-
-    <dimen name="recycler_view_botton_offset_my_rides">64dp</dimen>
-
-    <dimen name="card_stroke_thickness">2dip</dimen>
-    <dimen name="card_stroke_radius">20dip</dimen>
-
-    <dimen name="post_it_height">200dp</dimen>
-    <dimen name="post_it_width">180dp</dimen>
-
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="recycler_view_botton_offset">30dp</dimen>
     <dimen name="chat_input_text_field_height">48dp</dimen>
-    <dimen name="chat_list_botton_padding">72dp</dimen>
-    <dimen name="hello_text_size">25dp</dimen>
+    <dimen name="recycler_my_rides_botton_offset">70dp</dimen>
 
 </resources>
