@@ -300,7 +300,7 @@ public class PlaceAct extends AppCompatActivity {
     {
         if(optionsSelected > 0 && !finish_tv.getText().toString().equals("OK"))
         {
-            finish_tv.setText(R.string.ok);
+            finish_tv.setText(R.string.ok_uppercase);
         }
         else if(optionsSelected == 0)
         {

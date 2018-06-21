@@ -1,313 +1,170 @@
 <resources>
+
+    <!-- App Name -->
     <string name="app_name">Caronaê</string>
 
-    <string name="gcm_defaultSenderIdOnValues">1012033032693</string>
+    <!-- Facebook -->
     <string name="facebook_app_id">933455893356973</string>
-
-    <string name="topic_geral">1</string>
-
-    <string name="drawer_open">Open navigation drawer</string>
-    <string name="drawer_close">Close navigation drawer</string>
-
-    <string name="title_activity_main">Caronaê</string>
-    <string name="title_activity_login">Login</string>
-    <string name="title_ride_search">Pesquisa</string>
-    <string name="title_activity_first_login">Primeiro Login</string>
-
-    <string name="no_rides_found_title">Nenhuma carona encontrada\n:(</string>
-    <string name="no_rides_found_msg">Você pode ampliar sua pesquisa selecionando vários bairros ou escolhendo um horário mais cedo.</string>
-    <string name="ride_driver_finish_warning">Se você é motorista de alguma carona, não esqueça de concluí-la após o seu término. :)</string>
-    <string name="welcome_title">Bem vindo ao Caronaê!</string>
-    <string name="first_login">Parece que esta é a primeira vez que você usa o Caronaê. \n Para continuar, por favor complete seu perfil.</string>
-    <string name="continue_txt">Continuar</string>
-    <string name="last_ride_text">Quer encontrar mais caronas? Use a pesquisa!</string>
-    <string name="media_choose_title">De onde deseja importar sua foto?</string>
-    <string name="facebook_choose">Usar foto do Facebook</string>
-    <string name="phone_choose">Selecionar foto do celular</string>
-    <string name="remove_choose">Remover minha foto</string>
-    <string name="add_contact">Adicionar aos Contatos</string>
-    <string name="copy">Copiar</string>
-
-
-    <string name="tokenHint_et">Sua chave aqui</string>
-    <string name="send_bt">Enviar</string>
-    <string name="create_bt">CRIAR</string>
-    <string name="acess_bt">Acessar</string>
-    <string name="edit_bt">Editar</string>
-    <string name="edit_profile_bt">Editar Perfil</string>
-    <string name="ride">Carona</string>
-    <string name="take_ride">PEGAR CARONA</string>
-    <string name="full_ride">CARONA CHEIA</string>
-    <string name="ride_share">Compartilhar carona</string>
-    <string name="mutual_friends">Amigos em comum: - </string>
-    <string name="facebook_error_title">Conta do Facebook não autorizada.</string>
+    <string name="facebook_mutual_friends">Amigos em comum: - </string>
+    <string name="facebook_login_error">Erro ao logar no Facebook</string>
+    <string name="facebook_saveid_error">Erro ao enviar Facebook ID</string>
     <string name="facebook_error_message">Você precisa ter feito login com sua conta do Facebook</string>
-    <string name="saving_profile_error_title">Erro atualizando perfil</string>
-    <string name="saving_profile_error_message">Ocorreu um erro salvando as alterações no seu perfil.</string>
-    <string name="frag_ridesearch_filterBt">FILTRAR</string>
-    <string name="go_rb">Chegando na UFRJ</string>
-    <string name="back_rb">Saindo da UFRJ</string>
-    <string name="routine_cb">Gerar Rotina</string>
-    <string name="no_riders_yet">Nenhum caronista ainda</string>
 
-    <string-array name="tab_tags">
-        <item>Chegando na UFRJ</item>
-        <item>Saindo da UFRJ</item>
-    </string-array>
-
-    <string name="title_activity_opening">OpeningAct</string>
+    <!-- Activities titles -->
+    <string name="title_activity_main">MainAct</string>
+    <string name="title_activity_login">LoginAct</string>
     <string name="title_activity_place">PlaceAct</string>
-    <string name="title_activity_my_profile">MyProfileAct</string>
-
-    <string name="gplay_unavailable">Sem o Google Play Services você não poderá receber notificações ou mensagens de bate-papo =(</string>
-    <string name="notCarOwner">Parece que você marcou no seu perfil que não possui um carro. Para criar uma carona, preencha os dados do seu carro no perfil.</string>
-    <string name="title_activity_chat">ChatAct</string>
-    <string name="title_activity_profile">Perfil do usuário</string>
-    <string name="title_myprofile_frag">Meu Perfil</string>
-
-    <string name="wait">Aguarde</string>
-    <string name="charging">Carregando...</string>
-    <string name="act_login_notFound">Usuário não encontrado</string>
-    <string name="act_login_invalidLogin">CPF ou chave inválida</string>
-    <string name="invalidToken">Chave inválida. Por favor logar novamente</string>
-    <string name="act_login_loginFail">Erro ao fazer login</string>
-    <string name="act_main_oknogplay">OK</string>
-    <string name="act_main_setRideOfferFragTitle">Oferecer carona</string>
-    <string name="arrivingAt">"Chegando às %1$s"</string>
-    <string name="leavingAt">"Saindo às %1$s"</string>
-    <string name="leftAt">"Saiu às %1$s"</string>
-    <string name="rideDeleted">Carona excluída</string>
-    <string name="ridesDeleted">Caronas excluídas</string>
-    <string name="errorRideDeleted">Erro ao desistir de carona</string>
-    <string name="Xslots">"%1$s vaga%2$s"</string>
-    <string name="notRoutine">Não é rotina</string>
-    <string name="repeats">"Repete "</string>
-    <string name="sunday">Dom-</string>
-    <string name="monday">Seg-</string>
-    <string name="tuesday">Ter-</string>
-    <string name="wednesday">Qua-</string>
-    <string name="thursday">Qui-</string>
-    <string name="friday">Sex-</string>
-    <string name="saturday">Sab-</string>
-    <string name="noRequesters">Nenhuma solicitação para esse anúncio</string>
-    <string name="requestAccepted">Solicitação aceita</string>
-    <string name="errorAnsweRequest">Erro ao responder solicitação</string>
-    <string name="requestRejected">Solicitação rejeitada</string>
-    <string name="requestSent">Solicitação enviada</string>
-    <string name="errorRequestSent">Erro no envio da solicitação</string>
-    <string name="errorGetRequesters">Erro ao obter solicitações</string>
-    <string name="errorFinishRide">Erro ao concluir carona</string>
-    <string name="finishFutureRide">Não é possível concluir caronas no futuro</string>
-    <string name="rideFinished">Carona concluída</string>
-    <string name="arrivedAt">Chegou às %1$s</string>
-    <string name="Xriders">%1$s caronista%2$s</string>
-    <string name="act_profile_errorCountRidesHistory">Erro ao obter contagem de caronas</string>
-    <string name="frag_myactiverides_errorGetActiveRides">Erro ao obter caronas ativas</string>
-    <string name="frag_myprofile_errorSaveFaceId">Erro ao enviar Facebook ID</string>
-    <string name="frag_myprofile_errorFaceLogin">Erro ao logar no Facebook</string>
-    <string name="frag_myprofile_SigaPicChoice">Foto do SIGA</string>
-    <string name="frag_myprofile_facePicChoice">Foto do Facebook</string>
-    <string name="frag_myprofile_picChoice">Qual foto você prefere usar?</string>
-    <string name="ok">OK</string>
-    <string name="cancel">Cancelar</string>
-    <string name="cancel_uppercase">CANCELAR</string>
-    <string name="chat">Chat</string>
-    <string name="save">Salvar</string>
-    <string name="discard">Descartar</string>
-    <string name="all">Todos</string>
-    <string name="days_of_the_week">Dias da semana</string>
-    <string name="back">Voltar</string>
-    <string name="zone">Zona</string>
-    <string name="continue_edit">Continuar editando</string>
-    <string name="cancel_profile_edit">Cancelar edição do perfil?</string>
-    <string name="frag_myrides_ridesDeleted">Caronas excluídas</string>
-    <string name="frag_myrides_noRideFound">Você ainda não possui nenhuma carona.</string>
-    <string name="frag_rideshistory_errorGetRides">Erro ao obter histórico de caronas</string>
-    <string name="frag_rideSearch_pickZones">Escolha a zona</string>
-    <string name="frag_rideSearch_pickNeighborhood">Escolha o(s) bairro(s)</string>
-    <string name="frag_rideSearch_hintPickCenter">Escolha o centro</string>
-    <string name="frag_rideSearch_hintPickCampi">Escolha o campus</string>
-    <string name="frag_rideSearch_noRideFound">Nenhuma carona encontrada.</string>
-    <string name="frag_rideSearch_errorListFiltered">Erro ao obter caronas</string>
-    <string name="frag_rideOffer_hintPickHub">Escolha o hub de encontro</string>
-    <string name="frag_rideOffer_pickZone">Escolha a zona</string>
-    <string name="frag_rideOffer_pickNeighborhood">Escolha o bairro</string>
-    <string name="frag_rideOffer_pickCenter">Escolha o centro</string>
-    <string name="frag_rideOffer_pickCampi">Escolha o campus</string>
-    <string name="frag_rideOffer_pickHub">Escolha o hub de encontro</string>
-    <string name="frag_rideOffer_noRoutineDays">Nenhum dia selecionado para rotina</string>
-    <string name="frag_rideOffer_rideSaved">Carona salva</string>
-    <string name="frag_rideOffer_ridesCreated">Caronas criadas</string>
-    <string name="frag_rideOffer_errorRideSaved">Erro ao oferecer carona</string>
-    <string name="past_ride_creation">Não é possível criar uma carona no passado</string>
-    <string name="frag_myprofile_updated">Perfil atualizado</string>
-    <string name="frag_myprofile_errorUpdated">Erro ao atualizar usuário</string>
-    <string name="frag_myprofile_facePickChoiceNotOnFace">Você não está conectado ao Facebook</string>
-    <string name="dashSeparator">-</string>
-    <string name="chat_sendMsgHint">Digite sua mensagem</string>
-    <string name="hello">Olá :)</string>
-    <string name="welcome_text">Bem vindo ao aplicativo de caronas para sua instituição. O acesso é restrito a usuários vinculados às universidades parceiras.</string>
-    <string name="act_profile_mutualFriends">Vocês tem %1$d amigo%2$s em comum no Facebook.\n%3$d deles usa%4$s o Caronaê.</string>
-    <string name="frag_allrides_nointernettocharge">Não foi possível carregar as caronas.</string>
-    <string name="frag_falae_messageHint">Conte pra gente. O que houve?</string>
-    <string name="frag_falae_subjectHint">Assunto (opcional)</string>
-    <string name="frag_falae_subject">ASSUNTO</string>
-    <string name="frag_falae_message">MENSAGEM</string>
-    <string name="frag_falae_suggestion_rb">Sugestão</string>
-    <string name="frag_falae_question_rb">Dúvida</string>
-    <string name="frag_falae_critique_rb">Crítica</string>
-    <string name="frag_falae_report_rb">Denúncia</string>
-    <string name="frag_falae_rb">Reclamação</string>
-    <string name="frag_falae_msgblank">Campo de mensagem vazio</string>
-    <string name="frag_falae_thanksSent">Mensagem enviada. Obrigado por entrar em contato!</string>
-    <string name="frag_falae_errorSent">Erro ao enviar mensagem</string>
-    <string name="frag_falae_suggestionRb">"[SUGESTÃO] "</string>
-    <string name="frag_falae_questionRb">"[DÚVIDA] "</string>
-    <string name="frag_falae_critiqueRb">"[CRÍTICA] "</string>
-    <string name="frag_falae_reason_tv">MOTIVO DO CONTATO</string>
-    <string name="frag_falae_reportRb">"[DENÚNCIA] "</string>
-    <string name="act_profile_report_bt">REPORTAR</string>
-    <string name="act_profile_reportOk">Usuário reportado, obrigado por entrar em contato.</string>
-    <string name="act_profile_openFbProfile">Veja o perfil de %1$s no Facebook</string>
-    <string name="act_profile_openProfile">Veja o perfil de Fulano no Facebook</string>
-    <string name="frag_myrides_noRides">Nenhuma carona encontrada</string>
-    <string name="frag_rideoffer_neighborHint">Bairro</string>
-    <string name="frag_rideoffer_placeHint">Referência Ex: Shopping Tijuca</string>
-    <string name="frag_rideoffer_wayhint">Rota Ex: Maracanã, Leopoldina, Linha Vermelha</string>
-    <string name="frag_rideoffer_centerHint">Escolha o centro</string>
-    <string name="frag_rideoffer_dateHint">Escolha a data (Obrigatório)</string>
-    <string name="frag_rideoffer_timeHint">Escolha a hora (Obrigatório)</string>
-    <string name="frag_rideoffer_slots">Vagas disponíveis</string>
-    <string name="frag_rideoffer_description">Notas adicionais. Ex: Não fumo, pode trazer o cachorro etc.</string>
-    <string name="frag_ridesearch_locationHint">Escolha o bairro (Obrigatório)</string>
-    <string name="frag_ridefilter_locationHint">Todos os Bairros</string>
-    <string name="frag_ridesearch_dateHint">Escolha a data</string>
-    <string name="frag_ridesearch_timeHint">Escolha a hora</string>
-    <string name="frag_ridesearch_centerHint">Escolha o centro</string>
-    <string name="frag_ridefilter_centerHint">Todos os Campi</string>
-    <string name="frag_ridesearch_campiHint">Centro Universitário</string>
-    <string name="frag_ridesearch_searchBt">BUSCAR</string>
-
-    <string name="frag_ridesearch_anotherSearchBt">Outra busca</string>
-    <string name="frag_ridehistory_noRides">Você ainda não concluiu nenhuma carona.</string>
-    <string name="frag_myprofile_changePic">MUDAR\nFOTO</string>
-    <string name="frag_myprofile_notif">Alertas e notificações</string>
-    <string name="frag_myprofile_contacts">CONTATO</string>
-    <string name="frag_myprofile_contactsText">As suas informações de contato só aparecem para os usuários que estiverem na mesma carona que você!</string>
-    <string name="frag_myprofile_emailHint">E-mail</string>
-    <string name="frag_myprofile_phoneHint">Telefone celular</string>
-    <string name="frag_myprofile_locationText">Sua localidade não será exibida para outros usuários.</string>
-    <string name="frag_myprofile_locationHint">Bairro</string>
-    <string name="frag_myprofile_carOwner">Possui carro?</string>
-    <string name="frag_myprofile_aboutYourCar">SOBRE SEU CARRO</string>
-    <string name="frag_myprofile_carText">Estas informações também só aparecem para os usuários que estiverem na mesma carona que você!</string>
-    <string name="frag_myprofile_carPlateHint">Placa</string>
-    <string name="frag_myprofile_carModelHint">Modelo</string>
-    <string name="frag_myprofile_carColorHint">Cor</string>
-    <string name="acceptRiderBtn">Aceitar caronista</string>
-    <string name="refuseRriderBtn">Remover pedido</string>
-    <string name="rideoffer_joinBt">Participar</string>
-    <string name="myactiveride_openchatBt">Bate-papo</string>
-    <string name="myactiveride_finishrideBt">Concluir carona</string>
-    <string name="myactiveride_wayTv">Passando por:</string>
-    <string name="myactiveride_placeTv">Ponto de referência:</string>
-    <string name="myactiveride_carTv">DETALHES DO CARRO</string>
-    <string name="myactiveride_descriptionTv">RECADO DO MOTORISTA</string>
-    <string name="myactiveride_ridersTv">CARONISTAS</string>
-    <string name="frag_ridesearch_typeNeighborhood">Digite o nome do bairro</string>
-    <string name="frag_rideoffersearch_pastdate">Data da carona anterior ao dia atual</string>
-    <string name="frag_myprofile_invalidPhone">Telefone inválido</string>
-    <string name="frag_myprofile_invalidMail">E-mail inválido</string>
-    <string name="frag_myprofile_emailHelper">Exemplo: nome@ufrj.br</string>
-    <string name="fragmyprofile_carmodelHelper">Exemplo: Fusca</string>
-    <string name="frag_myprofile_carcolorHelper">Exemplo: Vermelho</string>
-    <string name="frag_myprofile_invalidPlate">Placa inválida</string>
-    <string name="cancelCaps">CANCELAR</string>
-    <string name="frag_allrides_errorGetRides">Erro ao pegar todas as caronas</string>
-    <string name="allrides_norides">Não foi possível carregar as caronas.</string>
-    <string name="frag_myprofileedit_invaliddata">Dados incompletos</string>
-    <string name="frag_myprofileedit_invalidFieldsTelephone">Ops! Parece que o telefone que você inseriu não é válido. Ele deve estar no formato (0XX) XXXXX-XXXX.</string>
-    <string name="frag_myprofileedit_invalidFieldsEmail">Ops! Parece que o endereço de email que você inseriu não é válido.</string>
-    <string name="frag_myprofileedit_invalidFieldsPlate">Ops! Parece que preencheu incorretamente a placa do seu carro. Verifique se a preencheu no formato "ABC-1234".</string>
-    <string name="myactiveride_openBt">Ver mais</string>
-    <string name="act_activeride_rideNUll">Erro ao abrir carona</string>
-    <string name="rideoffer_openBt">Ver mais</string>
-    <string name="act_main_profileIncomplete">Por favor, complete seu perfil</string>
-    <string name="frag_profile_title">Perfil</string>
-    <string name="frag_allrides_title">Todas as caronas</string>
-    <string name="frag_myrides_title">Minhas Ofertas</string>
-    <string name="frag_myactiverides_title">Minhas Caronas</string>
-    <string name="frag_history_title">Histórico</string>
-    <string name="frag_faq_title">FAQ</string>
-    <string name="frag_falae_title">Falaê</string>
-    <string name="frag_searchride_title">Buscar carona</string>
-    <string name="frag_filterride_title">Filtrar caronas</string>
-    <string name="frag_rideOffer_title">Nova carona</string>
-    <string name="frag_termsofuse_title">Termos de Uso</string>
-    <string name="frag_filterride_description">Adicionando um filtro você pode visualizar apenas as caronas de seu interesse.</string>
-    <string name="frag_about_title">Sobre o Caronaê</string>
-    <string name="about_tab">Sobre</string>
-    <string name="frag_logout_title">Sair</string>
-    <string name="confirm_logout">Você deseja mesmo sair da sua conta?</string>
-    <string name="frag_myprofile_errorGetIntranetPhoto">Erro ao pegar foto do SIGA</string>
-    <string name="idUfrjHint_et">Identificação (CPF ou Passaporte)</string>
-    <string name="frag_myrides_deleteAllBt">Excluir todas</string>
-    <string name="frag_rideSearch_locationEmpty">Escolha o local</string>
-    <string name="act_activeride_cancelledRide">Carona cancelada</string>
-    <string name="act_activeride_quitRide">Você saiu da carona</string>
-    <string name="frag_myrides_helpText">Toque nas caronas para verificar solicitações</string>
-    <string name="frag_rideoffer_nullDate">Escolha a data</string>
-    <string name="frag_rideoffer_nullTime">Escolha a hora</string>
-    <string name="frag_rideoffer_nullLocation">Ops! Parece que você esqueceu de preencher o local da sua carona.</string>
-    <string name="act_rideoffer_requested">SOLICITAÇÃO ENVIADA</string>
-    <string name="act_activeride_quitBtn">DESISTIR</string>
-    <string name="act_activeride_seeProfile">Ver perfil</string>
-    <string name="frag_myrides_errorDeleteAllRIdes">Erro ao deletar todas as caronas</string>
-    <string name="errorDeleteRide">Erro ao excluir carona</string>
-    <string name="warnDeleteRidesCouldBeActive">Se alguma dessas caronas estiver ativa ela será cancelada.\nDeseja mesmo excluir?</string>
-    <string name="warnDeleteRideCouldBeActive">Se essa carona estiver ativa ela será cancelada.\nDeseja mesmo excluir?</string>
-    <string name="attention">Atenção</string>
-    <string name="act_activeride_sureWantToFinish">Deseja mesmo concluir da carona?</string>
-    <string name="act_activeRide_sureWantToCancel">Deseja mesmo cancelar carona?</string>
-    <string name="act_activeRide_sureWantToQuit">Deseja mesmo desistir da carona?</string>
-    <string name="act_rideOffer_rideConflict">Você já possui uma carona ativa nesse dia e sentido!</string>
-    <string name="frag_myprofile_SameFieldsState">Nenhum campo alterado</string>
-    <string name="act_rideOffer_request_warning_positive_button">Solicitar</string>
-    <string name="act_rideOffer_request_warning_title">Deseja mesmo solicitar a carona?</string>
-    <string name="act_rideOffer_request_warning_message">Ao confirmar, o motorista receberá uma notificação e poderá aceitar ou recusar a carona.</string>
-    <string name="act_activeRide_cancelRideMsg">Você é livre para cancelar caronas caso não possa participar, mas é importante fazer isso com responsabilidade. Caso haja outros usuários na carona, eles serão notificados.</string>
-    <string name="act_login_tokenBtn">Obtenha sua chave de acesso aqui</string>
-    <string name="act_login_getTokenBtn"><u>OBTENHA SUA CHAVE AQUI</u></string>
-    <string name="load_more_rides">Carregando mais Caronas</string>
-    <string name="no_conexion">Sem Conexão</string>
-    <string name="crash_notifcation_text">Uma mensagem foi enviada à nossa equipe com este erro para que possamos melhorar nosso serviço, nos desculpe pelo incoveniente</string>
-    <string name="crash_notifcation_title">Caronaê parou</string>
-    <string name="crash_notifcation_ticker_text">Caronaê parou</string>
-    <string name="possible_duplicate_main_text">Parece que você já ofereceu uma carona para este dia</string>
-    <string name="possible_duplicate_sub_text">Você pode cancelar e verificar as suas caronas ou continuar e criar a carona mesmo assim</string>
-    <string name="duplicate_ride_main_text">Você já ofereceu uma carona muito parecida com essa</string>
-    <string name="duplicate_ride_sub_text">Você pode verificar as suas caronas na seção "Minhas Caronas"</string>
-    <string name="dialog_ride_detail_reference_point">PONTO DE REFERÊNCIA</string>
-    <string name="dialog_ride_detail_driver_route">ROTA DO MOTORISTA</string>
-    <string name="dialog_ride_detail_driver_message">RECADO DO MOTORISTA</string>
-    <!-- Dialog Texts -->
-
-    <string name="ride_in_past_header">Carona Encerrada</string>
-    <string name="ride_in_past_body">A carona que você tentou abrir já foi encerrada. Você pode encontrar novas caronas através da busca.</string>
-
-    <string name="ride_failure_header">Falha ao carregar carona</string>
-
-    <string name="ride_failure_non_exist_body">Talvez a carona que você está prourando não exista mais.</string>
-
-    <string name="ride_failure_fail_body">Ocorreu um erro ao tentar carregar a carona. Por favor, tente novamente.</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_allrides">Todas</string>
-    <string name="title_myrides">Minhas</string>
-    <string name="title_menu">Menu</string>
-    <string name="title_activity_menu_options">MenuOptionsAct</string>
     <string name="title_activity_falae">FalaeAct</string>
+    <string name="title_activity_opening">OpeningAct</string>
+    <string name="title_activity_profile">ProfileAct</string>
+    <string name="title_activity_ride_search">SearchAct</string>
+    <string name="title_activity_my_profile">MyProfileAct</string>
+    <string name="title_activity_first_login">FirstLoginAct</string>
+    <string name="title_activity_menu_options">MenuOptionsAct</string>
+
+    <!-- Fragments titles -->
+    <string name="fragment_menu_title">Menu</string>
+    <string name="fragment_falae_title">Falaê</string>
+    <string name="fragment_allrides_title">Todas</string>
+    <string name="fragment_myrides_title">Minhas</string>
+    <string name="fragment_myprofile_title">Meu Perfil</string>
+    <string name="fragment_rideoffer_title">Nova carona</string>
+    <string name="fragment_about_title">Sobre o Caronaê</string>
+    <string name="fragment_searchride_title">Buscar carona</string>
+    <string name="fragment_termsofuse_title">Termos de Uso</string>
+    <string name="fragment_filterride_title">Filtrar caronas</string>
+
+    <!-- Words -->
+    <string name="chat">Chat</string>
+    <string name="all">Todos</string>
+    <string name="exit">Sair</string>
+    <string name="zone">Zona</string>
+    <string name="color">Cor</string>
+    <string name="about">Sobre</string>
+    <string name="back">Voltar</string>
+    <string name="save">Salvar</string>
+    <string name="send">Enviar</string>
+    <string name="edit">Editar</string>
+    <string name="ride">Carona</string>
+    <string name="plate">Placa</string>
+    <string name="hello">Olá :)</string>
+    <string name="email">E-mail</string>
+    <string name="model">Modelo</string>
+    <string name="wait">Aguarde</string>
+    <string name="acess">Acessar</string>
+    <string name="report">Denúncia</string>
+    <string name="cancel">Cancelar</string>
+    <string name="request">Solicitar</string>
+    <string name="faq_uppercase">FAQ</string>
+    <string name="historic">Histórico</string>
+    <string name="neighborhood">Bairro</string>
+    <string name="complaint">Reclamação</string>
+    <string name="charging">Carregando...</string>
+    <string name="continue_word">Continuar</string>
+
+    <!-- Capitalized words -->
+    <string name="ok_uppercase">OK</string>
+    <string name="create_uppercase">CRIAR</string>
+    <string name="search_uppercase">BUSCAR</string>
+    <string name="filter_uppercase">FILTRAR</string>
+    <string name="contact_uppercase">CONTATO</string>
+    <string name="cancel_uppercase">CANCELAR</string>
+    <string name="subject_uppercase">ASSUNTO</string>
+    <string name="report_uppercase">REPORTAR</string>
+    <string name="message_uppercase">MENSAGEM</string>
+    <string name="give_up_uppercase">DESISTIR</string>
+    <string name="riders_uppercase">CARONISTAS</string>
+
+    <!-- Phrases -->
+    <string name="no_conexion">Sem Conexão</string>
+    <string name="edit_profile">Editar Perfil</string>
+    <string name="refuse_rider">Remover pedido</string>
+    <string name="finish_ride">Concluir carona</string>
+    <string name="leaving_ufrj">Saindo da UFRJ</string>
+    <string name="leaving_at">"Saindo às %1$s"</string>
+    <string name="generate_routine">Gerar Rotina</string>
+    <string name="arriving_at">"Chegando às %1$s"</string>
+    <string name="ride_share">Compartilhar carona</string>
+    <string name="arriving_ufrj">Chegando na UFRJ</string>
+    <string name="accept_rider">Aceitar caronista</string>
+    <string name="days_of_the_week">Dias da semana</string>
+    <string name="no_riders_yet">Nenhum caronista ainda</string>
+    <string name="fragment_rideoffer_slots">Vagas disponíveis</string>
+    <string name="fragment_myprofile_car_owner">Possui carro?</string>
+    <string name="loginactivity_login_fail">Erro ao fazer login</string>
+    <string name="fragment_myprofile_invalid_plate">Placa inválida</string>
+    <string name="fragment_myprofile_invalid_email">E-mail inválido</string>
+    <string name="ridecount_error">Erro ao obter contagem de caronas</string>
+    <string name="loginactivity_invalid_login">CPF ou chave inválida</string>
+    <string name="fragment_myprofile_invalid_phone">Telefone inválido</string>
+    <string name="confirm_logout">Você deseja mesmo sair da sua conta?</string>
+    <string name="activity_ridedetail_ride_error">Erro ao abrir carona</string>
+    <string name="fragment_myprofileedit_invalid_data">Dados incompletos</string>
+    <string name="invalid_token">Chave inválida. Por favor logar novamente</string>
+    <string name="fragment_ridesearch_no_ride_found">Nenhuma carona encontrada.</string>
+    <string name="fragment_allrides_norides">Não foi possível carregar as caronas.</string>
+    <string name="fragment_myrides_no_ride_found">Você ainda não possui nenhuma carona.</string>
+    <string name="fragment_ridesearch_warning">Quer encontrar mais caronas? Use a pesquisa!</string>
+    <string name="fragment_myprofile_location_text">Sua localidade não será exibida para outros usuários.</string>
+    <string name="fragment_rideoffer_description">Notas adicionais. Ex: Não fumo, pode trazer o cachorro etc.</string>
+    <string name="fragment_myprofileedit_invalid_email">Ops! Parece que o endereço de email que você inseriu não é válido.</string>
+    <string name="fragment_filterride_description">Adicionando um filtro você pode visualizar apenas as caronas de seu interesse.</string>
+    <string name="gplay_unavailable">Sem o Google Play Services você não poderá receber notificações ou mensagens de bate-papo =(</string>
+    <string name="fragment_myrides_warning">Se você é motorista de alguma carona, não esqueça de concluí-la após o seu término. :)</string>
+    <string name="no_rides_found_msg">Você pode ampliar sua pesquisa selecionando vários bairros ou escolhendo um horário mais cedo.</string>
+    <string name="fragment_myprofile_car_text">Estas informações também só aparecem para os usuários que estiverem na mesma carona que você!</string>
+    <string name="fragment_myprofile_contacts_text">As suas informações de contato só aparecem para os usuários que estiverem na mesma carona que você!</string>
+    <string name="fragment_myprofileedit_invalid_phone">Ops! Parece que o telefone que você inseriu não é válido. Ele deve estar no formato (0XX) XXXXX-XXXX.</string>
+    <string name="fragment_myprofileedit_invalid_plate">Ops! Parece que preencheu incorretamente a placa do seu carro. Verifique se a preencheu no formato "ABC-1234".</string>
+
+    <!-- Capitalized phrases -->
+    <string name="take_ride_uppercase">PEGAR CARONA</string>
+    <string name="full_ride_uppercase">CARONA CHEIA</string>
+    <string name="car_about_uppercase">SOBRE SEU CARRO</string>
+    <string name="change_picture_uppercase">MUDAR\nFOTO</string>
+    <string name="car_detail_uppercase">DETALHES DO CARRO</string>
+    <string name="driver_route_uppercase">ROTA DO MOTORISTA</string>
+    <string name="request_sent_uppercase">SOLICITAÇÃO ENVIADA</string>
+    <string name="driver_message_uppercase">RECADO DO MOTORISTA</string>
+    <string name="reason_of_contact_uppercase">MOTIVO DO CONTATO</string>
+    <string name="reference_point_uppercase">PONTO DE REFERÊNCIA</string>
+
+    <!-- Messages -->
+    <string name="crash_notifcation_ticker_message">Caronaê parou</string>
+    <string name="duplicate_ride_message">Você já ofereceu uma carona muito parecida com essa</string>
+    <string name="saving_profile_error_message">Ocorreu um erro salvando as alterações no seu perfil.</string>
+    <string name="ride_failure_not_find_message">Talvez a carona que você está prourando não exista mais.</string>
+    <string name="fragment_rideoffer_ride_conflict_message">Você já possui uma carona ativa nesse dia e sentido!</string>
+    <string name="ride_failure_fail_message">Ocorreu um erro ao tentar carregar a carona. Por favor, tente novamente.</string>
+    <string name="ride_finished_message">A carona que você tentou abrir já foi encerrada. Você pode encontrar novas caronas através da busca.</string>
+    <string name="first_login_msg">Parece que esta é a primeira vez que você usa o Caronaê. \n Para continuar, por favor complete seu perfil.</string>
+    <string name="act_rideOffer_request_warning_message">Ao confirmar, o motorista receberá uma notificação e poderá aceitar ou recusar a carona.</string>
+    <string name="welcome_message">Bem vindo ao aplicativo de caronas para sua instituição. O acesso é restrito a usuários vinculados às universidades parceiras.</string>
+    <string name="crash_notifcation_message">Uma mensagem foi enviada à nossa equipe com este erro para que possamos melhorar nosso serviço, nos desculpe pelo incoveniente.</string>
+
+    <!-- Titles -->
+    <string name="ride_finished_title">Carona Encerrada</string>
+    <string name="crash_notifcation_title">Caronaê parou</string>
+    <string name="ride_failure_title">Falha ao carregar carona</string>
+    <string name="saving_profile_error_title">Erro atualizando perfil</string>
+    <string name="no_rides_found_title">Nenhuma carona encontrada\n:(</string>
+    <string name="facebook_error_title">Conta do Facebook não autorizada.</string>
+    <string name="activity_ridedetail_request_warning_title">Deseja mesmo solicitar a carona?</string>
+
+    <!-- Hints -->
+    <string name="token_hint">Sua chave aqui</string>
+    <string name="chat_message_hint">Digite sua mensagem</string>
+    <string name="falae_subject_hint">Assunto (opcional)</string>
+    <string name="id_hint">Identificação (CPF ou Passaporte)</string>
+    <string name="fragment_ridefilter_center_hint">Todos os Campi</string>
+    <string name="fragment_myprofile_phone_hint">Telefone celular</string>
+    <string name="falae_message_hint">Conte pra gente. O que houve?</string>
+    <string name="fragment_ridefilter_location_hint">Todos os Bairros</string>
+    <string name="fragment_ridesearch_campi_hint">Centro Universitário</string>
+    <string name="fragment_rideoffer_hub_hint">Escolha o hub de encontro</string>
+    <string name="fragment_otherzone_edittext_hint">Digite o nome do bairro</string>
+    <string name="fragment_rideoffer_place_hint">Referência Ex: Shopping Tijuca</string>
+    <string name="fragment_rideoffer_way_hint">Rota Ex: Maracanã, Leopoldina, Linha Vermelha</string>
 
     <string name="tab_gallery">Biblioteca</string>
     <string name="tab_photo">Foto</string>

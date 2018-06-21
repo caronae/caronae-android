@@ -55,7 +55,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center"
-                        android:text="@string/ok"
+                        android:text="@string/ok_uppercase"
                         android:layout_marginEnd="10dp"
                         android:layout_marginRight="10dp"
                         android:textColor="@color/dark_gray"
@@ -84,7 +84,7 @@
                             android:layout_height="match_parent"
                             android:gravity="center"
                             android:layout_centerVertical="true"
-                            android:text="@string/edit_profile_bt"
+                            android:text="@string/edit_profile"
                             android:layout_toRightOf="@id/arrow"
                             android:layout_toEndOf="@id/arrow"
                             android:textColor="@color/dark_gray"
@@ -105,7 +105,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true"
-                            android:text="@string/ok"
+                            android:text="@string/ok_uppercase"
                             android:textColor="@color/dark_gray"
                             android:textSize="18sp"/>
                     </RelativeLayout>
@@ -124,7 +124,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
                 android:inputType="textCapWords"
-                android:hint="@string/frag_ridesearch_typeNeighborhood"
+                android:hint="@string/fragment_otherzone_edittext_hint"
                 android:visibility="visible"/>
         </RelativeLayout>
 

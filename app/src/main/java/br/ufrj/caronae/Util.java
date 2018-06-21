@@ -386,7 +386,7 @@ public class Util {
 
     public static void treatResponseFromServer(Response response) {
         if (response.code() == 401) {
-            Util.toast(R.string.invalidToken);
+            Util.toast(R.string.invalid_token);
             App.LogOut();
         }
     }

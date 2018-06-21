@@ -9,7 +9,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/list_white_transparency">
+        android:background="@color/white_transparency">
 
         <LinearLayout
             android:id="@+id/tabs"
@@ -43,7 +43,7 @@
                     android:maxLines="1"
                     android:gravity="center"
                     android:textColor="@color/white"
-                    android:text="@string/go_rb"/>
+                    android:text="@string/arriving_ufrj"/>
             </RelativeLayout>
             <RelativeLayout
                 android:id="@+id/tab2"
@@ -62,7 +62,7 @@
                     android:textSize="12sp"
                     android:maxLines="1"
                     android:gravity="center"
-                    android:text="@string/back_rb"
+                    android:text="@string/leaving_ufrj"
                     android:textColor="@color/dark_gray"/>
 
             </RelativeLayout>
@@ -87,7 +87,7 @@
                 android:ellipsize="end"
                 android:focusable="false"
                 android:textColor="@color/black"
-                android:text="@string/frag_myprofile_locationHint"
+                android:text="@string/neighborhood"
                 android:maxLines="1" />
 
             <EditText
@@ -101,7 +101,7 @@
                 android:focusable="true"
                 android:textColor="@color/black"
                 android:focusableInTouchMode="true"
-                android:hint="@string/frag_rideoffer_placeHint"
+                android:hint="@string/fragment_rideoffer_place_hint"
                 android:inputType="textCapSentences"
                 android:maxLines="1"
                 android:singleLine="true" />
@@ -117,7 +117,7 @@
                 android:focusable="true"
                 android:textColor="@color/black"
                 android:focusableInTouchMode="true"
-                android:hint="@string/frag_rideoffer_wayhint"
+                android:hint="@string/fragment_rideoffer_way_hint"
                 android:inputType="textCapSentences"
                 android:maxLines="1"
                 android:singleLine="true" />
@@ -131,9 +131,9 @@
                 android:drawablePadding="5dp"
                 android:drawableStart="@drawable/ic_location_on_24dp"
                 android:ellipsize="end"
-                android:hint="@string/frag_ridesearch_campiHint"
+                android:hint="@string/fragment_ridesearch_campi_hint"
                 android:focusable="false"
-                android:text="@string/frag_ridesearch_campiHint"
+                android:text="@string/fragment_ridesearch_campi_hint"
                 android:textColor="@color/black"
                 android:maxLines="1" />
 
@@ -144,8 +144,8 @@
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/center_et"
                 android:layout_marginTop="10dp"
-                android:textSize="16sp"
-                android:text="@string/routine_cb"
+                android:textSize="17sp"
+                android:text="@string/generate_routine"
                 android:textColor="@color/dark_gray"
                 android:textStyle="bold"/>
 
@@ -411,8 +411,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:textSize="16sp"
-                    android:text="@string/frag_rideoffer_slots"
+                    android:textSize="19sp"
+                    android:text="@string/fragment_rideoffer_slots"
                     android:textColor="@color/dark_gray" />
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -498,7 +498,7 @@
                 android:focusableInTouchMode="true"
                 android:gravity="top"
                 android:textColor="@color/black"
-                android:hint="@string/frag_rideoffer_description"
+                android:hint="@string/fragment_rideoffer_description"
                 android:inputType="textMultiLine|textCapSentences"
                 android:minLines="10"
                 android:padding="5dp" />
@@ -513,7 +513,7 @@
                 android:layout_marginTop="30dp"
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/btn_color"
-                android:text="@string/create_bt"
+                android:text="@string/create_uppercase"
                 android:textColor="@color/dark_gray" />
         </RelativeLayout>
     </RelativeLayout>

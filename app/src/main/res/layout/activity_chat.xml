@@ -24,7 +24,7 @@
                 android:id="@+id/lay1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/zone_oeste">
+                android:background="@color/dark_gray">
 
                 <TextView
                     android:padding="10dp"
@@ -109,7 +109,7 @@
                         android:layout_margin="5dp"
                         android:paddingLeft="16dp"
                         android:background="@android:color/transparent"
-                        android:hint="@string/chat_sendMsgHint" />
+                        android:hint="@string/chat_message_hint" />
                 </android.support.v7.widget.CardView>
 
 
@@ -120,9 +120,9 @@
                     android:layout_gravity="end|center_vertical"
                     android:gravity="center"
                     android:src="@drawable/ic_send_white_24dp"
-                    android:text="@string/send_bt"
+                    android:text="@string/send"
                     android:textColor="@color/white"
-                    app:fab_colorNormal="@color/zone_oeste"/>
+                    app:fab_colorNormal="@color/dark_gray"/>
             </LinearLayout>
 
         </RelativeLayout>

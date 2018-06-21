@@ -34,12 +34,12 @@
                     android:id="@+id/alpha"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@color/picchange"/>
+                    android:src="@color/picture_change_green"/>
                 <TextView
                     android:id="@+id/changePhotoText"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="@string/frag_myprofile_changePic"
+                    android:text="@string/change_picture_uppercase"
                     android:textColor="@color/white"
                     android:minLines="2"
                     android:gravity="center"
@@ -92,7 +92,6 @@
             android:layout_marginTop="15dp">
             <TextView
                 android:id="@+id/createdAt_tv"
-                style="@style/bold_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
@@ -105,7 +104,6 @@
 
             <TextView
                 android:id="@+id/ridesOffered_tv"
-                style="@style/bold_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_directions_car_24dp"
@@ -118,7 +116,6 @@
 
             <TextView
                 android:id="@+id/ridesTaken_tv"
-                style="@style/bold_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_person_24dp"
@@ -158,7 +155,7 @@
             android:layout_below="@+id/login_button"
             android:paddingTop="5dp"
             android:layout_marginTop="10dp"
-            android:text="@string/frag_myprofile_contacts"
+            android:text="@string/contact_uppercase"
             android:textStyle="bold" />
 
         <TextView
@@ -166,7 +163,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/contact_tv"
-            android:text="@string/frag_myprofile_contactsText"
+            android:text="@string/fragment_myprofile_contacts_text"
             android:textSize="12sp" />
 
         <android.support.v7.widget.AppCompatEditText
@@ -180,9 +177,9 @@
             android:drawableLeft="@drawable/ic_email_24dp"
             android:drawablePadding="5dp"
             android:drawableStart="@drawable/ic_email_24dp"
-            android:hint="@string/frag_myprofile_emailHint"
+            android:hint="@string/email"
             android:inputType="textEmailAddress"
-            app:backgroundTint="@color/black_overlay" />
+            app:backgroundTint="@color/black_overlay_background" />
 
         <android.support.v7.widget.AppCompatEditText
             android:id="@+id/phoneNumber_et"
@@ -195,9 +192,9 @@
             android:drawableLeft="@drawable/ic_phone_24dp"
             android:drawablePadding="5dp"
             android:drawableStart="@drawable/ic_phone_24dp"
-            android:hint="@string/frag_myprofile_phoneHint"
+            android:hint="@string/fragment_myprofile_phone_hint"
             android:inputType="phone|textNoSuggestions|textVisiblePassword"
-            app:backgroundTint="@color/black_overlay" />
+            app:backgroundTint="@color/black_overlay_background" />
 
         <TextView
             android:id="@+id/location_tv"
@@ -213,7 +210,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/location_tv"
-            android:text="@string/frag_myprofile_locationText"
+            android:text="@string/fragment_myprofile_location_text"
             android:textSize="12sp" />
 
         <android.support.v7.widget.AppCompatEditText
@@ -228,7 +225,7 @@
             android:drawablePadding="5dp"
             android:drawableStart="@drawable/ic_location_on_24dp"
             android:focusable="false"
-            android:hint="@string/frag_myprofile_locationHint" />
+            android:hint="@string/neighborhood" />
 
         <TextView
             android:id="@+id/carOwner_tv"
@@ -236,7 +233,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/location_et"
             android:paddingTop="15dp"
-            android:text="@string/frag_myprofile_carOwner"
+            android:text="@string/fragment_myprofile_car_owner"
             android:textStyle="bold" />
 
         <android.support.v7.widget.SwitchCompat
@@ -260,7 +257,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingTop="10dp"
-                android:text="@string/frag_myprofile_aboutYourCar"
+                android:text="@string/car_about_uppercase"
                 android:textStyle="bold" />
 
             <TextView
@@ -268,7 +265,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/car_tv"
-                android:text="@string/frag_myprofile_carText"
+                android:text="@string/fragment_myprofile_car_text"
                 android:textSize="12sp" />
 
             <android.support.v7.widget.AppCompatEditText
@@ -279,9 +276,9 @@
                 android:drawableLeft="@drawable/ic_plate_24dp"
                 android:drawablePadding="5dp"
                 android:drawableStart="@drawable/ic_plate_24dp"
-                android:hint="@string/frag_myprofile_carPlateHint"
+                android:hint="@string/plate"
                 android:inputType="textNoSuggestions|textVisiblePassword"
-                app:backgroundTint="@color/black_overlay" />
+                app:backgroundTint="@color/black_overlay_background" />
 
             <android.support.v7.widget.AppCompatEditText
                 android:id="@+id/carModel_et"
@@ -291,9 +288,9 @@
                 android:drawableLeft="@drawable/ic_directions_car_24dp"
                 android:drawablePadding="5dp"
                 android:drawableStart="@drawable/ic_directions_car_24dp"
-                android:hint="@string/frag_myprofile_carModelHint"
+                android:hint="@string/model"
                 android:singleLine="true"
-                app:backgroundTint="@color/black_overlay"/>
+                app:backgroundTint="@color/black_overlay_background"/>
 
             <android.support.v7.widget.AppCompatEditText
                 android:id="@+id/carColor_et"
@@ -303,9 +300,9 @@
                 android:drawableLeft="@drawable/ic_color_24dp"
                 android:drawablePadding="5dp"
                 android:drawableStart="@drawable/ic_color_24dp"
-                android:hint="@string/frag_myprofile_carColorHint"
+                android:hint="@string/color"
                 android:singleLine="true"
-                app:backgroundTint="@color/black_overlay" />
+                app:backgroundTint="@color/black_overlay_background" />
         </RelativeLayout>
     </RelativeLayout>
 </ScrollView>

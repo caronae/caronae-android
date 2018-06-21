@@ -4,13 +4,13 @@
     <item
         android:id="@+id/filter_frag_bt"
         android:icon="@drawable/ic_filter"
-        android:title="@string/frag_filterride_title"
+        android:title="@string/fragment_filterride_title"
         app:showAsAction="always">
     </item>
 
     <item
         android:id="@+id/search_frag_bt"
         android:icon="@drawable/ic_search_24dp"
-        android:title="@string/frag_searchride_title"
+        android:title="@string/fragment_searchride_title"
         app:showAsAction="always" />
 </menu>

@@ -111,9 +111,9 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
 
                 String timeText;
                 if (rideOffer.isGoing())
-                    timeText = context.getResources().getString(R.string.arrivingAt, Util.formatTime(rideOffer.getTime()));
+                    timeText = context.getResources().getString(R.string.arriving_at, Util.formatTime(rideOffer.getTime()));
                 else
-                    timeText = context.getResources().getString(R.string.leavingAt, Util.formatTime(rideOffer.getTime()));
+                    timeText = context.getResources().getString(R.string.leaving_at, Util.formatTime(rideOffer.getTime()));
 
                 timeText =  timeText + " | " + Util.getWeekDayFromDateWithoutTodayString(rideOffer.getDate()) + " | " +Util.formatBadDateWithoutYear(rideOffer.getDate());
                 viewHolder.time_tv.setText(timeText);

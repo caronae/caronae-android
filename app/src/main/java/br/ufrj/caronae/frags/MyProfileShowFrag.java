@@ -200,7 +200,7 @@ public class MyProfileShowFrag extends Fragment {
         customDialogClass.show();
         customDialogClass.setTitleText(getActivity().getResources().getString(R.string.confirm_logout));
         customDialogClass.setPButtonText(getActivity().getResources().getString(R.string.cancel));
-        customDialogClass.setNButtonText(getActivity().getResources().getString(R.string.frag_logout_title));
+        customDialogClass.setNButtonText(getActivity().getResources().getString(R.string.exit));
         customDialogClass.setMessageVisibility(View.GONE);
     }
 

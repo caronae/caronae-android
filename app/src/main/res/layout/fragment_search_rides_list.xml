@@ -19,7 +19,7 @@
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginStart="8dp"
-            android:background="@color/list_white_transparency"/>
+            android:background="@color/white_transparency"/>
 
     </android.support.v4.widget.SwipeRefreshLayout>
 

@@ -28,10 +28,10 @@ import br.ufrj.caronae.models.User;
 @ReportsCrashes(
         reportSenderFactoryClasses = {CrashReportFactory.class},
         mode = ReportingInteractionMode.NOTIFICATION,
-        resNotifText = R.string.crash_notifcation_text,
+        resNotifText = R.string.crash_notifcation_message,
         resNotifTitle = R.string.crash_notifcation_title,
-        resNotifTickerText = R.string.crash_notifcation_ticker_text,
-        resDialogText = R.string.crash_notifcation_text
+        resNotifTickerText = R.string.crash_notifcation_ticker_message,
+        resDialogText = R.string.crash_notifcation_message
 )
 /******/
 

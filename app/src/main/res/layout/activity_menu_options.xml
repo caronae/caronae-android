@@ -45,7 +45,7 @@
                             android:layout_height="wrap_content"
                             android:textSize="18sp"
                             android:textColor="@color/black"
-                            android:text="@string/about_tab" />
+                            android:text="@string/about" />
 
                     </RelativeLayout>
 
@@ -70,7 +70,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:gravity="center"
-                                android:text="@string/title_menu"
+                                android:text="@string/fragment_menu_title"
                                 android:layout_toRightOf="@id/arrow"
                                 android:layout_toEndOf="@id/arrow"
                                 android:textColor="@color/dark_gray"

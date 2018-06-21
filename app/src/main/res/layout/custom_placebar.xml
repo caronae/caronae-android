@@ -22,7 +22,7 @@
                 android:layout_height="match_parent"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:background="@color/zone_baixada"/>
+                android:background="@color/dark_gray"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -37,8 +37,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:text="Baixada"
-                android:textColor="@color/zone_baixada"
+                android:text="Outros"
+                android:textColor="@color/dark_gray"
                 android:textSize="18sp" />
         </RelativeLayout>
         <RelativeLayout
@@ -67,7 +67,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:visibility="gone"
-            android:tint="@color/darkblue2"
+            android:tint="@color/darkblue"
             android:src="@drawable/ic_check_black_24dp"/>
 
     </RelativeLayout>

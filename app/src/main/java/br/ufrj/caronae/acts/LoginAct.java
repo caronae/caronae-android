@@ -118,7 +118,7 @@ public class LoginAct extends AppCompatActivity {
                         UserForJson user = response.body();
 
                         if (user == null || user.getUser() == null) {
-                            Util.toast(R.string.act_login_invalidLogin);
+                            Util.toast(R.string.loginactivity_invalid_login);
                             return;
                         }
                         pd.dismiss();
@@ -144,12 +144,12 @@ public class LoginAct extends AppCompatActivity {
                         int statusCode = response.code();
                         ResponseBody errorBody = response.errorBody();
                         if (statusCode == 401) {
-                            Util.toast(R.string.act_login_invalidLogin);
+                            Util.toast(R.string.loginactivity_invalid_login);
                         } else try {
                             if (errorBody.string().equals("timeout")) {
                                 Util.toast(R.string.no_conexion);
                             } else {
-                                Util.toast(R.string.act_login_loginFail);
+                                Util.toast(R.string.loginactivity_login_fail);
                                 try {
                                     Log.e("Login", "Code: " + statusCode
                                             + "\n Body: " + errorBody.string());
@@ -167,7 +167,7 @@ public class LoginAct extends AppCompatActivity {
                 public void onFailure(Call<UserForJson> call, Throwable t) {
                     // handle execution failures like no internet connectivity
                     Log.e("Login", "Failure: " + t.getMessage());
-                    Util.toast(R.string.act_login_loginFail);
+                    Util.toast(R.string.loginactivity_login_fail);
                     pd.dismiss();
                     loginButton.setEnabled(true);
                 }

@@ -171,13 +171,13 @@ public class RideSearchFrag extends Fragment {
         CustomDateTimePicker cdtp;
         if(going) {
             if(SharedPref.getGoingLabel() == null)
-                cdtp = new CustomDateTimePicker(activity, getResources().getString(R.string.go_rb), time, this, "Search");
+                cdtp = new CustomDateTimePicker(activity, getResources().getString(R.string.arriving_ufrj), time, this, "Search");
             else
                 cdtp = new CustomDateTimePicker(activity, SharedPref.getGoingLabel(), time, this, "Search");
         }else
         {
             if(SharedPref.getLeavingLabel() == null)
-                cdtp = new CustomDateTimePicker(activity, getResources().getString(R.string.back_rb), time, this, "Search");
+                cdtp = new CustomDateTimePicker(activity, getResources().getString(R.string.leaving_ufrj), time, this, "Search");
             else
                 cdtp = new CustomDateTimePicker(activity, SharedPref.getLeavingLabel(), time, this, "Search");
         }

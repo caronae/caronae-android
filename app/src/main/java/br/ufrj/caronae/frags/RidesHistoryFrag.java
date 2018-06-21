@@ -72,7 +72,7 @@ public class RidesHistoryFrag extends Fragment {
         if(!Util.isNetworkAvailable(getContext()))
         {
             rvRides.setVisibility(View.INVISIBLE);
-            noRides.setText(R.string.allrides_norides);
+            noRides.setText(R.string.fragment_allrides_norides);
             noRides.setVisibility(View.VISIBLE);
         }
         else
@@ -105,7 +105,7 @@ public class RidesHistoryFrag extends Fragment {
                             else
                             {
                                 rvRides.setVisibility(View.INVISIBLE);
-                                noRides.setText(R.string.frag_myrides_noRideFound);
+                                noRides.setText(R.string.fragment_myrides_no_ride_found);
                                 noRides.setVisibility(View.VISIBLE);
                             }
                             refreshLayout.setRefreshing(false);
@@ -113,7 +113,7 @@ public class RidesHistoryFrag extends Fragment {
                             Util.treatResponseFromServer(response);
                             refreshLayout.setRefreshing(false);
                             rvRides.setVisibility(View.INVISIBLE);
-                            noRides.setText(R.string.frag_myrides_noRideFound);
+                            noRides.setText(R.string.fragment_myrides_no_ride_found);
                             noRides.setVisibility(View.VISIBLE);
                             Util.debug(response.message());
                         }
@@ -122,7 +122,7 @@ public class RidesHistoryFrag extends Fragment {
                     public void onFailure(Call<RideHistoryForJson> call, Throwable t) {
                         refreshLayout.setRefreshing(false);
                         rvRides.setVisibility(View.INVISIBLE);
-                        noRides.setText(R.string.frag_myrides_noRideFound);
+                        noRides.setText(R.string.fragment_myrides_no_ride_found);
                         noRides.setVisibility(View.VISIBLE);
                     }
                 });

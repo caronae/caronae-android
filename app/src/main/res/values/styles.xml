@@ -9,32 +9,11 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
-
-    <style name="MyCustomTextAppearance" parent="TextAppearance.Design.Tab">
-        <item name="textAllCaps">false</item>
-        <item name="android:textAllCaps">false</item>
-    </style>
-
-    <style name="Widget.CameraView" parent="android:Widget">
-        <item name="android:adjustViewBounds">false</item>
-        <item name="facing">back</item>
-        <item name="aspectRatio">4:3</item>
-        <item name="autoFocus">true</item>
-        <item name="flash">auto</item>
-    </style>
-
+  
     <style name="DisabledEditText" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorControlNormal">@color/gray</item>
         <item name="colorControlActivated">@color/gray</item>
         <item name="colorControlHighlight">@color/gray</item>
-    </style>
-
-    <style name="AlertDialog" parent="Theme.AppCompat.Dialog">
-        <item name="android:windowNoTitle">true</item>
-    </style>
-
-    <style name="CustomDialog" parent="@style/Theme.AppCompat.Light.Dialog">
-        <item name="android:windowNoTitle">false</item>
     </style>
 
     <style name="FullscreenTheme" parent="AppTheme">
@@ -46,58 +25,7 @@
     </style>
 
     <style name="FullscreenActionBarStyle" parent="Widget.AppCompat.ActionBar">
-        <item name="android:background">@color/black_overlay</item>
-    </style>
-
-
-
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
-
-
-    <style name="TabLayoutTextAppearance" parent="TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse">
-        <item name="android:textSize">24sp</item>
-        <item name="android:textColor">@color/black</item>
-    </style>
-
-    <style name="item_circle_image">
-        <item name="android:layout_height">64dp</item>
-        <item name="android:layout_width">64dp</item>
-        <item name="android:paddingLeft">16dp</item>
-    </style>
-
-    <style name="item_card">
-        <item name="android:height">88dp</item>
-        <item name="android:paddingBottom">10dp</item>
-    </style>
-
-    <style name="item_card_swiper">
-        <item name="android:height">88dp</item>
-    </style>
-
-    <style name="item_header_text">
-        <item name="android:textSize">16sp</item>
-        <item name="android:layout_marginLeft">72dp</item>
-        <item name="android:layout_marginRight">16dp</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
-    <style name="bold_text">
-        <item name="android:textStyle">bold</item>
-    </style>
-
-    <style name="item_sub_text">
-        <item name="android:textSize">14sp</item>
-        <item name="android:layout_marginLeft">72dp</item>
-        <item name="android:layout_marginRight">16dp</item>
-    </style>
-
-    <style name="separator_text">
-        <item name="android:textSize">14sp</item>
-        <item name="android:layout_marginLeft">16dp</item>
-        <item name="android:fontFamily" tools:targetApi="16">sans-serif-medium</item>
-        <item name="android:textColor">@android:color/darker_gray</item>
+        <item name="android:background">@color/black_overlay_background</item>
     </style>
 
     <style name="ToolbarColoredBackArrow" parent="AppTheme">
@@ -114,4 +42,5 @@
         <!-- inactive track color (30% transparency) -->
         <item name="android:colorForeground">@color/black</item>
     </style>
+
 </resources>

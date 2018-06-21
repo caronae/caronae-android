@@ -13,7 +13,7 @@
             android:id="@+id/reason_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/frag_falae_reason_tv"
+            android:text="@string/reason_of_contact_uppercase"
             android:layout_marginStart="3dp"
             android:layout_marginLeft="3dp"
             android:textColor="@color/black"
@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:cursorVisible="false"
             android:layout_below="@+id/reason_tv"
-            android:hint="@string/frag_falae_rb"
+            android:hint="@string/complaint"
             android:textColorHint="@color/black"
             android:singleLine="true"
             android:clickable="true"
@@ -36,7 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/reason_et"
-            android:text="@string/frag_falae_subject"
+            android:text="@string/subject_uppercase"
             android:layout_marginStart="3dp"
             android:layout_marginLeft="3dp"
             android:textColor="@color/black"
@@ -52,7 +52,7 @@
             android:focusableInTouchMode="true"
             android:theme="@style/DisabledEditText"
             android:cursorVisible="true"
-            android:hint="@string/frag_falae_subjectHint"
+            android:hint="@string/falae_subject_hint"
             android:ellipsize="end"
             android:lines="1"
             android:scrollHorizontally="true"
@@ -66,7 +66,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/subject_et"
-            android:text="@string/frag_falae_message"
+            android:text="@string/message_uppercase"
             android:textColor="@color/black"
             android:textStyle="bold"
             android:textSize="20sp" />
@@ -82,10 +82,10 @@
             android:cursorVisible="true"
             android:layout_marginStart="3dp"
             android:layout_marginLeft="3dp"
-            android:background="@color/default_white_transparency"
+            android:background="@color/transparency"
             android:gravity="top|start"
             android:inputType="textMultiLine"
             android:minLines="5"
-            android:hint="@string/frag_falae_messageHint" />
+            android:hint="@string/falae_message_hint" />
     </RelativeLayout>
 </ScrollView>

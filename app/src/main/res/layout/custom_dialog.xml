@@ -86,20 +86,14 @@
                 android:layout_height="match_parent"
                 android:clickable="true"
                 android:focusable="true"
-                android:layout_weight="1">
-                <TextView
-                    android:id="@+id/positive_bt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:layout_centerInParent="true"
-                    android:text="Cont. editando"
-                    android:textAlignment="center"
-                    android:textColor="@color/darkblue2"
-                    android:textSize="19sp" />
-            </RelativeLayout>
-            <RelativeLayout
-                android:id="@+id/nBtn"
+                android:gravity="center"
+                android:text="Cont. editando"
+                android:textAlignment="center"
+                android:textColor="@color/darkblue"
+                android:textSize="19sp" />
+
+            <TextView
+                android:id="@+id/negative_bt"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:clickable="true"

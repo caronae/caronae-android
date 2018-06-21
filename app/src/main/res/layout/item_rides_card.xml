@@ -103,7 +103,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:text="@string/last_ride_text"
+                android:text="@string/fragment_ridesearch_warning"
                 android:drawableRight="@drawable/ic_search_24dp"
                 android:drawableEnd="@drawable/ic_search_24dp"
                 android:drawablePadding="5dp"/>

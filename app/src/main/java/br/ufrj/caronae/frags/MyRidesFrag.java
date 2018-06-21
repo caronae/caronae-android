@@ -97,14 +97,14 @@ public class MyRidesFrag extends Fragment implements Callback
             else
             {
                 rvRides.setVisibility(View.INVISIBLE);
-                noRides.setText(R.string.frag_myrides_noRideFound);
+                noRides.setText(R.string.fragment_myrides_no_ride_found);
                 noRides.setVisibility(View.VISIBLE);
             }
         }
         else if(!Util.isNetworkAvailable(getContext()))
         {
             rvRides.setVisibility(View.INVISIBLE);
-            noRides.setText(R.string.allrides_norides);
+            noRides.setText(R.string.fragment_allrides_norides);
             noRides.setVisibility(View.VISIBLE);
         }
         else
@@ -155,7 +155,7 @@ public class MyRidesFrag extends Fragment implements Callback
                         else
                         {
                             rvRides.setVisibility(View.INVISIBLE);
-                            noRides.setText(R.string.frag_myrides_noRideFound);
+                            noRides.setText(R.string.fragment_myrides_no_ride_found);
                             noRides.setVisibility(View.VISIBLE);
                         }
                         refreshLayout.setRefreshing(false);
@@ -165,12 +165,12 @@ public class MyRidesFrag extends Fragment implements Callback
                         if(userRequestedUpdate) {
                             userRequestedUpdate = false;
                             rvRides.setVisibility(View.INVISIBLE);
-                            noRides.setText(R.string.allrides_norides);
+                            noRides.setText(R.string.fragment_allrides_norides);
                             noRides.setVisibility(View.VISIBLE);
                         }else if(!SharedPref.OPEN_MY_RIDES)
                         {
                             rvRides.setVisibility(View.INVISIBLE);
-                            noRides.setText(R.string.frag_myrides_noRideFound);
+                            noRides.setText(R.string.fragment_myrides_no_ride_found);
                             noRides.setVisibility(View.VISIBLE);
                         }
                         Util.debug(response.message());
@@ -182,12 +182,12 @@ public class MyRidesFrag extends Fragment implements Callback
                     if(userRequestedUpdate) {
                         userRequestedUpdate = false;
                         rvRides.setVisibility(View.INVISIBLE);
-                        noRides.setText(R.string.allrides_norides);
+                        noRides.setText(R.string.fragment_allrides_norides);
                         noRides.setVisibility(View.VISIBLE);
                     }else if(!SharedPref.OPEN_MY_RIDES)
                     {
                         rvRides.setVisibility(View.INVISIBLE);
-                        noRides.setText(R.string.frag_myrides_noRideFound);
+                        noRides.setText(R.string.fragment_myrides_no_ride_found);
                         noRides.setVisibility(View.VISIBLE);
                     }
                     Util.debug(t.getMessage());

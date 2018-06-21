@@ -45,16 +45,16 @@ public class MenuOptionsAct extends AppCompatActivity {
         header_tv = (TextView)findViewById(R.id.header_text);
         switch (fragId) {
             case 1:
-                header_tv.setText(R.string.frag_history_title);
+                header_tv.setText(R.string.historic);
                 break;
             case 2:
-                header_tv.setText(R.string.frag_faq_title);
+                header_tv.setText(R.string.faq_uppercase);
                 break;
             case 4:
-                header_tv.setText(R.string.frag_termsofuse_title);
+                header_tv.setText(R.string.fragment_termsofuse_title);
                 break;
             case 5:
-                header_tv.setText(R.string.about_tab);
+                header_tv.setText(R.string.about);
                 break;
         }
     }

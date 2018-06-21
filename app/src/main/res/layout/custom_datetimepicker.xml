@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="320dp"
     android:layout_alignParentBottom="true"
-    android:background="@color/transparent"
+    android:background="@color/transparency"
     android:orientation="vertical">
     <RelativeLayout
         android:id="@+id/main_layout"
@@ -23,7 +23,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
-                android:textColor="@color/darkblue2"
+                android:textColor="@color/darkblue"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentLeft="true"
                 android:clickable="true"
@@ -37,20 +37,20 @@
                 android:textSize="18sp"
                 android:textColor="@color/black"
                 android:layout_centerHorizontal="true"
-                android:text="@string/go_rb" />
+                android:text="@string/arriving_ufrj" />
 
             <TextView
                 android:id="@+id/positive_bt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
-                android:textColor="@color/darkblue2"
+                android:textColor="@color/darkblue"
                 android:textStyle="bold"
                 android:clickable="true"
                 android:focusable="true"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:text="@string/ok" />
+                android:text="@string/ok_uppercase" />
         </RelativeLayout>
         
         <LinearLayout

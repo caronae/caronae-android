@@ -4,10 +4,10 @@
 
     <corners android:radius="10dp"/>
 
-    <solid android:color="@color/default_white_transparency"/>
+    <solid android:color="@color/transparency"/>
 
     <stroke android:width="2dp"
-        android:color="@color/reportred"/>
+        android:color="@color/report_button_red"/>
 
 
 </shape>

@@ -144,14 +144,14 @@ public class MyProfileEditFrag extends Fragment {
                                         SharedPref.saveUser(user);
                                     } else {
                                         Util.treatResponseFromServer(response);
-                                        Util.toast(R.string.frag_myprofile_errorSaveFaceId);
+                                        Util.toast(R.string.facebook_saveid_error);
                                         Util.debug("saveFaceId" + response.message());
                                     }
                                 }
 
                                 @Override
                                 public void onFailure(Call<ResponseBody> call, Throwable t) {
-                                    Util.toast(R.string.frag_myprofile_errorSaveFaceId);
+                                    Util.toast(R.string.facebook_saveid_error);
                                     Util.debug("saveFaceId" + t.getMessage());
                                 }
                             });
@@ -166,7 +166,7 @@ public class MyProfileEditFrag extends Fragment {
 
             @Override
             public void onError(FacebookException exception) {
-                Util.toast(R.string.frag_myprofile_errorFaceLogin);
+                Util.toast(R.string.facebook_login_error);
                 Log.e("face", "onError = " + exception.toString());
             }
         });
@@ -241,7 +241,7 @@ public class MyProfileEditFrag extends Fragment {
                 if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP) {
                     String phone = phoneNumber_et.getText().toString();
                     if (!validatePhone(phone))
-                        phoneNumber_et.setError(getString(R.string.frag_myprofile_invalidPhone));
+                        phoneNumber_et.setError(getString(R.string.fragment_myprofile_invalid_phone));
                 }
 
                 return false;
@@ -256,7 +256,7 @@ public class MyProfileEditFrag extends Fragment {
                 } else {
                     String phone = phoneNumber_et.getText().toString();
                     if (!validatePhone(phone))
-                        phoneNumber_et.setError(getString(R.string.frag_myprofile_invalidPhone));
+                        phoneNumber_et.setError(getString(R.string.fragment_myprofile_invalid_phone));
                 }
             }
         });
@@ -267,7 +267,7 @@ public class MyProfileEditFrag extends Fragment {
                 if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP) {
                     String phone = email_et.getText().toString();
                     if (!validateMail(phone))
-                        email_et.setError(getString(R.string.frag_myprofile_invalidMail));
+                        email_et.setError(getString(R.string.fragment_myprofile_invalid_email));
                 }
 
                 return false;
@@ -282,7 +282,7 @@ public class MyProfileEditFrag extends Fragment {
                 } else {
                     String phone = email_et.getText().toString();
                     if (!validateMail(phone))
-                        email_et.setError(getString(R.string.frag_myprofile_invalidMail));
+                        email_et.setError(getString(R.string.fragment_myprofile_invalid_email));
                 }
             }
         });
@@ -293,7 +293,7 @@ public class MyProfileEditFrag extends Fragment {
                 if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP) {
                     String plate = carPlate_et.getText().toString();
                     if (!validatePlate(plate))
-                        carPlate_et.setError(getString(R.string.frag_myprofile_invalidPlate));
+                        carPlate_et.setError(getString(R.string.fragment_myprofile_invalid_plate));
                 }
 
                 return false;
@@ -308,7 +308,7 @@ public class MyProfileEditFrag extends Fragment {
                 } else {
                     String plate = carPlate_et.getText().toString();
                     if (!validatePlate(plate))
-                        carPlate_et.setError(getString(R.string.frag_myprofile_invalidPlate));
+                        carPlate_et.setError(getString(R.string.fragment_myprofile_invalid_plate));
                 }
             }
         });
@@ -436,9 +436,9 @@ public class MyProfileEditFrag extends Fragment {
             CustomDialogClass cdc = new CustomDialogClass(getActivity(), "MyProfileEdit", this);
             cdc.show();
             cdc.enableOnePositiveOption();
-            cdc.setTitleText(getResources().getString(R.string.frag_myprofileedit_invaliddata));
-            cdc.setPButtonText(getResources().getString(R.string.ok));
-            cdc.setMessageText(getResources().getString(R.string.frag_myprofileedit_invalidFieldsTelephone));
+            cdc.setTitleText(getResources().getString(R.string.fragment_myprofileedit_invalid_data));
+            cdc.setPButtonText(getResources().getString(R.string.ok_uppercase));
+            cdc.setMessageText(getResources().getString(R.string.fragment_myprofileedit_invalid_phone));
             try {
                 ((MyProfileAct) getActivity()).progressBar.setVisibility(View.GONE);
                 ((MyProfileAct) getActivity()).edit_bt.setVisibility(View.VISIBLE);
@@ -450,9 +450,9 @@ public class MyProfileEditFrag extends Fragment {
             CustomDialogClass cdc = new CustomDialogClass(getActivity(), "MyProfileEdit", this);
             cdc.show();
             cdc.enableOnePositiveOption();
-            cdc.setTitleText(getResources().getString(R.string.frag_myprofileedit_invaliddata));
-            cdc.setPButtonText(getResources().getString(R.string.ok));
-            cdc.setMessageText(getResources().getString(R.string.frag_myprofileedit_invalidFieldsEmail));
+            cdc.setTitleText(getResources().getString(R.string.fragment_myprofileedit_invalid_data));
+            cdc.setPButtonText(getResources().getString(R.string.ok_uppercase));
+            cdc.setMessageText(getResources().getString(R.string.fragment_myprofileedit_invalid_email));
             try {
                 ((MyProfileAct) getActivity()).progressBar.setVisibility(View.GONE);
                 ((MyProfileAct) getActivity()).edit_bt.setVisibility(View.VISIBLE);
@@ -464,9 +464,9 @@ public class MyProfileEditFrag extends Fragment {
             CustomDialogClass cdc = new CustomDialogClass(getActivity(), "MyProfileEdit", this);
             cdc.show();
             cdc.enableOnePositiveOption();
-            cdc.setTitleText(getResources().getString(R.string.frag_myprofileedit_invaliddata));
-            cdc.setPButtonText(getResources().getString(R.string.ok));
-            cdc.setMessageText(getResources().getString(R.string.frag_myprofileedit_invalidFieldsPlate));
+            cdc.setTitleText(getResources().getString(R.string.fragment_myprofileedit_invalid_data));
+            cdc.setPButtonText(getResources().getString(R.string.ok_uppercase));
+            cdc.setMessageText(getResources().getString(R.string.fragment_myprofileedit_invalid_plate));
             try {
                 ((MyProfileAct) getActivity()).progressBar.setVisibility(View.GONE);
                 ((MyProfileAct) getActivity()).edit_bt.setVisibility(View.VISIBLE);
@@ -766,7 +766,7 @@ public class MyProfileEditFrag extends Fragment {
         customDialogClass.show();
         customDialogClass.setTitleText(getActivity().getResources().getString(R.string.facebook_error_title));
         customDialogClass.setMessageText(getActivity().getResources().getString(R.string.facebook_error_message));
-        customDialogClass.setPButtonText(getActivity().getResources().getString(R.string.ok));
+        customDialogClass.setPButtonText(getActivity().getResources().getString(R.string.ok_uppercase));
         customDialogClass.enableOnePositiveOption();
     }
 
@@ -783,7 +783,7 @@ public class MyProfileEditFrag extends Fragment {
         customDialogClass.show();
         customDialogClass.setTitleText(getActivity().getResources().getString(R.string.saving_profile_error_title));
         customDialogClass.setMessageText(getActivity().getResources().getString(R.string.saving_profile_error_message));
-        customDialogClass.setPButtonText(getActivity().getResources().getString(R.string.ok));
+        customDialogClass.setPButtonText(getActivity().getResources().getString(R.string.ok_uppercase));
         customDialogClass.enableOnePositiveOption();
     }
 
