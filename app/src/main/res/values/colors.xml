@@ -23,15 +23,4 @@
 
     <!-- Light Colors -->
     <color name="light_gray" type="color">#EEEEEE</color>
-
-    <!-- Dark Colors -->
-    <item name="darkblue" type="color">#1E61FF</item>
-    <item name="dark_gray" type="color">#565658</item>
-
-    <!-- Transparencies -->
-    <color name="transparency">#00FFFFFF</color>
-    <color name="white_transparency">#EEFFFFFF</color>
-    <color name="gray_transparency" type="color">#CC949499</color>
-    <color name="light_gray_transparency" type="color">#CCEEEEEE</color>
-
 </resources>

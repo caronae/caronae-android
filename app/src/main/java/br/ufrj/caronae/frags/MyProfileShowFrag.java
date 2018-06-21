@@ -2,7 +2,6 @@ package br.ufrj.caronae.frags;
 
 import android.content.ClipData;
 import android.content.ClipboardManager;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -10,14 +9,12 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -28,6 +25,7 @@ import com.squareup.picasso.Picasso;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.customizedviews.CustomDialogClass;
+import br.ufrj.caronae.customizedviews.CustomPhoneDialogClass;
 import br.ufrj.caronae.data.ImageSaver;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.customizedviews.RoundedTransformation;
@@ -242,45 +240,37 @@ public class MyProfileShowFrag extends Fragment {
     {
         if(action == 0)
         {
-            Intent callIntent = new Intent(Intent.ACTION_DIAL);
-            callIntent.setData(Uri.parse("tel:" + phone_tv.getText()));
-            startActivity(callIntent);
+            callUserPhone();
         }
         else
         {
-            CharSequence options[] = new CharSequence[] {"Ligar para "+user.getPhoneNumber(), "Adicionar aos Contatos", "Copiar"};
-            final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-            builder.setCancelable(true);
-            builder.setItems(options, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    switch (which)
-                    {
-                        case 0:
-                            Intent callIntent = new Intent(Intent.ACTION_DIAL);
-                            callIntent.setData(Uri.parse("tel:" + phone_tv.getText()));
-                            startActivity(callIntent);
-                            break;
-                        case 1:
-                            Intent intent = new Intent(Intent.ACTION_INSERT);
-                            intent.setType(ContactsContract.Contacts.CONTENT_TYPE);
-                            intent.putExtra(ContactsContract.Intents.Insert.NAME, user.getName());
-                            intent.putExtra(ContactsContract.Intents.Insert.PHONE, user.getPhoneNumber());
-                            startActivity(intent);
-                            break;
-                        case 2:
-                            ClipboardManager clipboard = (ClipboardManager) getActivity().getSystemService(CLIPBOARD_SERVICE);
-                            ClipData clip = ClipData.newPlainText("PhoneNumber", user.getPhoneNumber());
-                            clipboard.setPrimaryClip(clip);
-                            break;
-                    }
-                }
-            });
-            AlertDialog dialog = builder.create();
-            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-            WindowManager.LayoutParams wmlp = dialog.getWindow().getAttributes();
+            CustomPhoneDialogClass cpdc = new CustomPhoneDialogClass(getActivity(), "MyProfileShow", this, user.getPhoneNumber());
+            WindowManager.LayoutParams wmlp = cpdc.getWindow().getAttributes();
             wmlp.gravity = Gravity.BOTTOM;
-            dialog.show();
+            cpdc.show();
         }
+    }
+
+    public void callUserPhone()
+    {
+        Intent callIntent = new Intent(Intent.ACTION_DIAL);
+        callIntent.setData(Uri.parse("tel:" + user.getPhoneNumber()));
+        startActivity(callIntent);
+    }
+
+    public void addUserPhone()
+    {
+        Intent intent = new Intent(Intent.ACTION_INSERT);
+        intent.setType(ContactsContract.Contacts.CONTENT_TYPE);
+        intent.putExtra(ContactsContract.Intents.Insert.NAME, user.getName());
+        intent.putExtra(ContactsContract.Intents.Insert.PHONE, user.getPhoneNumber());
+        startActivity(intent);
+    }
+
+    public void copyUserPhone()
+    {
+        ClipboardManager clipboard = (ClipboardManager) getActivity().getSystemService(CLIPBOARD_SERVICE);
+        ClipData clip = ClipData.newPlainText("PhoneNumber", user.getPhoneNumber());
+        clipboard.setPrimaryClip(clip);
     }
 }

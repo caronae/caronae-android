@@ -166,4 +166,8 @@
     <string name="fragment_rideoffer_place_hint">Referência Ex: Shopping Tijuca</string>
     <string name="fragment_rideoffer_way_hint">Rota Ex: Maracanã, Leopoldina, Linha Vermelha</string>
 
+    <string name="tab_gallery">Biblioteca</string>
+    <string name="tab_photo">Foto</string>
+
+    <string name="bt_next">Avançar</string>
 </resources>

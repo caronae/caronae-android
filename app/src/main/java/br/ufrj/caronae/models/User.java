@@ -44,24 +44,12 @@ public class User implements Parcelable {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getProfile() {
         return profile;
     }
 
-    public void setProfile(String profile) {
-        this.profile = profile;
-    }
-
     public String getCourse() {
         return course;
-    }
-
-    public void setCourse(String course) {
-        this.course = course;
     }
 
     public String getPhoneNumber() {
@@ -168,9 +156,6 @@ public class User implements Parcelable {
     }
 
     public void setUser(User editedUser) {
-        setName(editedUser.getName());
-        setProfile(editedUser.getProfile());
-        setCourse(editedUser.getCourse());
         setPhoneNumber(editedUser.getPhoneNumber());
         setEmail(editedUser.getEmail());
         setLocation(editedUser.getLocation());

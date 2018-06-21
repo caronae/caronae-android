@@ -188,7 +188,12 @@ public class MainAct extends AppCompatActivity {
         navigation.getMenu().getItem(0).setChecked(false);
         navigation.getMenu().getItem(1).setChecked(false);
         navigation.getMenu().getItem(2).setChecked(false);
-        if (user.getEmail() == null || user.getEmail().isEmpty() || user.getPhoneNumber() == null || user.getPhoneNumber().isEmpty() || user.getLocation() == null || user.getLocation().isEmpty()) {
+        if(user == null)
+        {
+            Intent login = new Intent(this, LoginAct.class);
+            startActivity(login);
+        }
+        else if (user.getEmail() == null || user.getEmail().isEmpty() || user.getPhoneNumber() == null || user.getPhoneNumber().isEmpty() || user.getLocation() == null || user.getLocation().isEmpty()) {
             Intent firstLogin = new Intent(this, WelcomeAct.class);
             startActivity(firstLogin);
         }

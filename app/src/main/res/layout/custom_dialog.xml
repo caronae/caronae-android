@@ -32,8 +32,8 @@
                 android:textAlignment="center"
                 android:text="Cancelar edição do perfil?"
                 android:textColor="@color/black"
-                android:textSize="18sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:textSize="20sp"/>
         </LinearLayout>
         <LinearLayout
             android:id="@+id/linearM"
@@ -46,7 +46,7 @@
                 android:layout_height="wrap_content"
                 android:textAlignment="center"
                 android:gravity="center"
-                android:textSize="14sp"
+                android:textSize="16sp"
                 android:textColor="@color/black"
                 android:text="Quaisquer mudanças serão descartadas."/>
         </LinearLayout>
@@ -68,7 +68,6 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/color_bar"/>
         </LinearLayout>
-
     </RelativeLayout>
 
     <RelativeLayout
@@ -79,18 +78,12 @@
         <LinearLayout
             android:id="@+id/buttons"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:weightSum="2"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="15dp"
-            android:background="@drawable/custom_dialog_shape">
-
-            <TextView
-                android:id="@+id/positive_bt"
+            android:layout_height="56dp"
+            android:weightSum="2">
+            <RelativeLayout
+                android:id="@+id/pBtn"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/custom_dialog_shape"
                 android:clickable="true"
                 android:focusable="true"
                 android:gravity="center"
@@ -103,21 +96,26 @@
                 android:id="@+id/negative_bt"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/custom_dialog_shape"
                 android:clickable="true"
                 android:focusable="true"
-                android:gravity="center"
-                android:text="Descartar"
-                android:textAlignment="center"
-                android:textColor="@color/red"
-                android:textSize="19sp" />
+                android:layout_weight="1">
+                <TextView
+                    android:id="@+id/negative_bt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:text="Descartar"
+                    android:textAlignment="center"
+                    android:textColor="@color/red"
+                    android:textSize="19sp" />
+            </RelativeLayout>
         </LinearLayout>
     </RelativeLayout>
     <ImageView
         android:id="@+id/separator"
         android:layout_width="1dp"
-        android:layout_height="56dp"
+        android:layout_height="50dp"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/lay2"
         android:background="@color/gray"/>

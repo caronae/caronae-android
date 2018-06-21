@@ -1,7 +1,6 @@
 package br.ufrj.caronae.frags;
 
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -10,7 +9,6 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.SwitchCompat;
 import android.text.InputFilter;
 import android.text.TextUtils;
@@ -21,7 +19,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -41,7 +38,9 @@ import com.redmadrobot.inputmask.model.CaretString;
 import com.squareup.picasso.Picasso;
 
 import br.ufrj.caronae.App;
+import br.ufrj.caronae.acts.MediaAct;
 import br.ufrj.caronae.customizedviews.CustomDialogClass;
+import br.ufrj.caronae.customizedviews.CustomBottomDialogClass;
 import br.ufrj.caronae.data.ImageSaver;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.customizedviews.RoundedTransformation;
@@ -560,15 +559,7 @@ public class MyProfileEditFrag extends Fragment {
         {
             userPlate = carPlate_et.getText().toString();
         }
-        editedUser.setName(name_tv.getText().toString());
         editedUser.setPhoneNumber(userPhoneNumber);//(0XX) XXXXX-XXXX
-        if(course != null && !course.isEmpty()) {
-            editedUser.setCourse(course);
-        }
-        if(profile != null && !profile.isEmpty())
-        {
-            editedUser.setProfile(profile);
-        }
         editedUser.setEmail(email_et.getText().toString());
         editedUser.setLocation(location_et.getText().toString());
         editedUser.setCarOwner(carOwner_sw.isChecked());
@@ -690,7 +681,12 @@ public class MyProfileEditFrag extends Fragment {
 
     private void showPhotoOptions()
     {
-        final User user = App.getUser();
+        CustomBottomDialogClass  dialog = new CustomBottomDialogClass(getActivity(), "MyProfileEdit", this);
+        WindowManager.LayoutParams wmlp = dialog.getWindow().getAttributes();
+        wmlp.gravity = Gravity.BOTTOM;
+        dialog.show();
+
+        /*
         CharSequence options[] = new CharSequence[] {"Usar foto do Facebook", "Remover minha foto"};
         final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setCancelable(true);
@@ -700,41 +696,10 @@ public class MyProfileEditFrag extends Fragment {
                 switch (which)
                 {
                     case 0:
-                        Profile profile = Profile.getCurrentProfile();
-                        if (profile != null) {
-                            String faceId = profile.getId();
-                            String profilePicUrl = "https://graph.facebook.com/" + faceId + "/picture?type=large";
-                            profileUrlPic = profilePicUrl;
-
-                            Picasso.with(getContext()).load(profilePicUrl)
-                                    .error(R.drawable.user_pic)
-                                    .transform(new RoundedTransformation())
-                                    .into(user_pic, new com.squareup.picasso.Callback() {
-                                        @Override
-                                        public void onSuccess() {
-                                            BitmapDrawable bmpDrawable = (BitmapDrawable)user_pic.getDrawable();
-                                            Bitmap bitmap = bmpDrawable.getBitmap();
-                                            new ImageSaver(getContext()).
-                                                    setFileName("myProfile.png").
-                                                    setDirectoryName("images").
-                                                    save(bitmap);
-                                            SharedPref.setSavedPic(true);
-                                        }
-
-                                        @Override
-                                        public void onError() {
-                                        }
-                                    });
-                        }
-                        else {
-                            onFacebookPhotoChangeFailed();
-                        }
+                        useFacebookPhoto();
                         break;
                     case 1:
-                        BitmapDrawable bmpDrawable = (BitmapDrawable)getResources().getDrawable(R.drawable.user_pic);
-                        Bitmap removedPhoto = bmpDrawable.getBitmap();
-                        user_pic.setImageBitmap(removedPhoto);
-                        profileUrlPic = "";
+                        removePhoto();
                         break;
                 }
             }
@@ -743,7 +708,56 @@ public class MyProfileEditFrag extends Fragment {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         WindowManager.LayoutParams wmlp = dialog.getWindow().getAttributes();
         wmlp.gravity = Gravity.BOTTOM;
-        dialog.show();
+        dialog.show();*/
+    }
+
+    public void removePhoto()
+    {
+        BitmapDrawable bmpDrawable = (BitmapDrawable)getResources().getDrawable(R.drawable.user_pic);
+        Bitmap removedPhoto = bmpDrawable.getBitmap();
+        user_pic.setImageBitmap(removedPhoto);
+        profileUrlPic = "";
+    }
+
+    public void changeToMediaAct()
+    {
+        Intent intent = new Intent(getActivity(), MediaAct.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        getActivity().overridePendingTransition(R.anim.anim_down_slide_in, R.anim.anim_up_slide_out);
+    }
+
+    public void useFacebookPhoto()
+    {
+        Profile profile = Profile.getCurrentProfile();
+        if (profile != null) {
+            String faceId = profile.getId();
+            String profilePicUrl = "https://graph.facebook.com/" + faceId + "/picture?type=large";
+            profileUrlPic = profilePicUrl;
+
+            Picasso.with(getContext()).load(profilePicUrl)
+                    .error(R.drawable.user_pic)
+                    .transform(new RoundedTransformation())
+                    .into(user_pic, new com.squareup.picasso.Callback() {
+                        @Override
+                        public void onSuccess() {
+                            BitmapDrawable bmpDrawable = (BitmapDrawable)user_pic.getDrawable();
+                            Bitmap bitmap = bmpDrawable.getBitmap();
+                            new ImageSaver(getContext()).
+                                    setFileName("myProfile.png").
+                                    setDirectoryName("images").
+                                    save(bitmap);
+                            SharedPref.setSavedPic(true);
+                        }
+
+                        @Override
+                        public void onError() {
+                        }
+                    });
+        }
+        else {
+            onFacebookPhotoChangeFailed();
+        }
     }
 
     public void onFacebookPhotoChangeFailed()
