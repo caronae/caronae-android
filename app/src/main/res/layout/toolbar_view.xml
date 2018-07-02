@@ -40,9 +40,9 @@
             android:id="@+id/mIconNext"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="@string/bt_next"
+            android:text="@string/next"
             android:gravity="center"
-            android:textColor="@color/darkblue2"
+            android:textColor="@color/darkblue"
             android:textSize="18sp" />
 
     </LinearLayout>

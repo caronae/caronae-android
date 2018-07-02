@@ -97,7 +97,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
                     android:layout_weight="1"
-                    android:background="@android:color/transparent"
+                    android:background="@color/transparency"
                     card_view:cardCornerRadius="16dp"
                     card_view:cardElevation="@dimen/cardview_default_elevation"
                     card_view:cardUseCompatPadding="true">
@@ -108,7 +108,7 @@
                         android:layout_height="@dimen/chat_input_text_field_height"
                         android:layout_margin="5dp"
                         android:paddingLeft="16dp"
-                        android:background="@android:color/transparent"
+                        android:background="@color/transparency"
                         android:hint="@string/chat_message_hint" />
                 </android.support.v7.widget.CardView>
 

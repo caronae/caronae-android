@@ -32,9 +32,9 @@ public class MediaAct extends AppCompatActivity implements ToolbarView.OnClickTi
     @BindView(R.id.mToolbar)
     ToolbarView mToolbar;
 
-    @BindString(R.string.tab_gallery)
+    @BindString(R.string.library)
     String _tabGallery;
-    @BindString(R.string.tab_photo)
+    @BindString(R.string.photo)
     String _tabPhoto;
 
     private Session mSession = Session.getInstance();

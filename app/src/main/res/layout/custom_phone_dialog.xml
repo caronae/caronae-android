@@ -4,7 +4,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginBottom="10dp"
-    android:background="@color/transparent">
+    android:background="@color/transparency">
     <RelativeLayout
         android:id="@+id/choose_lay"
         android:layout_width="wrap_content"
@@ -22,7 +22,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Ligar para (0XX) XXXXX-XXXX"
-                android:textColor="@color/darkblue2"
+                android:textColor="@color/darkblue"
                 android:textSize="16sp"/>
         </LinearLayout>
         <LinearLayout
@@ -43,7 +43,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/add_contact"
-                android:textColor="@color/darkblue2"
+                android:textColor="@color/darkblue"
                 android:textSize="16sp"/>
         </LinearLayout>
         <LinearLayout
@@ -64,7 +64,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/copy"
-                android:textColor="@color/darkblue2"
+                android:textColor="@color/darkblue"
                 android:textSize="16sp"/>
         </LinearLayout>
     </RelativeLayout>
@@ -84,7 +84,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/cancel"
-                android:textColor="@color/darkblue2"
+                android:textColor="@color/darkblue"
                 android:textStyle="bold"
                 android:textSize="16sp"/>
         </LinearLayout>

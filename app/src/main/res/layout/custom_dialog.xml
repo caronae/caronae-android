@@ -95,7 +95,7 @@
                     android:gravity="center"
                     android:text="Cont. Editando"
                     android:textAlignment="center"
-                    android:textColor="@color/blue"
+                    android:textColor="@color/darkblue"
                     android:textSize="19sp" />
             </RelativeLayout>
 

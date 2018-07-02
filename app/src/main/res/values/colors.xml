@@ -23,4 +23,22 @@
 
     <!-- Light Colors -->
     <color name="light_gray" type="color">#EEEEEE</color>
+
+    <!-- Dark Colors -->
+    <item name="darkblue" type="color">#1E61FF</item>
+    <item name="dark_gray" type="color">#565658</item>
+
+    <!-- Transparencies -->
+    <color name="transparency">#00FFFFFF</color>
+    <color name="white_transparency">#EEFFFFFF</color>
+    <color name="gray_transparency" type="color">#CC949499</color>
+    <color name="light_gray_transparency" type="color">#CCEEEEEE</color>
+
+    <!-- Camera Colors -->
+    <color name="green_camera">#A8B32C</color>
+    <color name="egg_shell_camera">#EFEEED</color>
+    <color name="white_60_camera">#99FFFFFF</color>
+    <color name="red_error_camera">#C86A6A</color>
+    <color name="red_record_camera">#CE0B24</color>
+
 </resources>

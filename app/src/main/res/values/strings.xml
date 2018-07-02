@@ -40,6 +40,8 @@
     <string name="exit">Sair</string>
     <string name="zone">Zona</string>
     <string name="color">Cor</string>
+    <string name="photo">Foto</string>
+    <string name="copy">Copiar</string>
     <string name="about">Sobre</string>
     <string name="back">Voltar</string>
     <string name="save">Salvar</string>
@@ -51,12 +53,14 @@
     <string name="email">E-mail</string>
     <string name="model">Modelo</string>
     <string name="wait">Aguarde</string>
+    <string name="next">Avançar</string>
     <string name="acess">Acessar</string>
     <string name="report">Denúncia</string>
     <string name="cancel">Cancelar</string>
     <string name="request">Solicitar</string>
     <string name="faq_uppercase">FAQ</string>
     <string name="historic">Histórico</string>
+    <string name="library">Biblioteca</string>
     <string name="neighborhood">Bairro</string>
     <string name="complaint">Reclamação</string>
     <string name="charging">Carregando...</string>
@@ -88,7 +92,11 @@
     <string name="arriving_ufrj">Chegando na UFRJ</string>
     <string name="accept_rider">Aceitar caronista</string>
     <string name="days_of_the_week">Dias da semana</string>
+    <string name="remove_choose">Remover minha foto</string>
+    <string name="add_contact">Adicionar aos Contatos</string>
     <string name="no_riders_yet">Nenhum caronista ainda</string>
+    <string name="facebook_choose">Usar foto do Facebook</string>
+    <string name="phone_choose">Selecionar foto do celular</string>
     <string name="fragment_rideoffer_slots">Vagas disponíveis</string>
     <string name="fragment_myprofile_car_owner">Possui carro?</string>
     <string name="loginactivity_login_fail">Erro ao fazer login</string>
@@ -99,6 +107,7 @@
     <string name="fragment_myprofile_invalid_phone">Telefone inválido</string>
     <string name="confirm_logout">Você deseja mesmo sair da sua conta?</string>
     <string name="activity_ridedetail_ride_error">Erro ao abrir carona</string>
+    <string name="media_choose_title">De onde deseja importar sua foto?</string>
     <string name="fragment_myprofileedit_invalid_data">Dados incompletos</string>
     <string name="invalid_token">Chave inválida. Por favor logar novamente</string>
     <string name="fragment_ridesearch_no_ride_found">Nenhuma carona encontrada.</string>
@@ -166,8 +175,4 @@
     <string name="fragment_rideoffer_place_hint">Referência Ex: Shopping Tijuca</string>
     <string name="fragment_rideoffer_way_hint">Rota Ex: Maracanã, Leopoldina, Linha Vermelha</string>
 
-    <string name="tab_gallery">Biblioteca</string>
-    <string name="tab_photo">Foto</string>
-
-    <string name="bt_next">Avançar</string>
 </resources>
