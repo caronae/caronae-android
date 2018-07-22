@@ -99,11 +99,33 @@
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:paddingRight="16dp"
-                android:paddingEnd="16dp"
                 android:textSize="24sp"
                 android:tint="@color/dark_gray"
                 android:src="@drawable/ic_keyboard_arrow_right_black_24dp"/>
+
+            <RelativeLayout
+                android:id="@+id/notification"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:layout_marginEnd="25dp"
+                android:layout_marginRight="25dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true">
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:src="@color/red" />
+                <TextView
+                    android:id="@+id/notification_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:text="0"/>
+            </RelativeLayout>
         </RelativeLayout>
         <RelativeLayout
             android:id="@+id/secondary_lay"

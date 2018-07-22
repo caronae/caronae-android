@@ -29,7 +29,6 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
     private final Context context;
     private List<Object> mixedList;
 
-
     public MyRidesAdapter(Context context) {
         this.context = context;
         this.mixedList = new ArrayList<>();
@@ -167,8 +166,8 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public CircleImageView photo_iv;
-        public TextView time_tv, name_tv, location_tv, typeCardText;
-        private RelativeLayout typeCard, parentLayout, secondaryLay;
+        public TextView time_tv, name_tv, location_tv, typeCardText, notificationCounter;
+        private RelativeLayout typeCard, parentLayout, secondaryLay, notificationLay;
 
         private ViewHolder(View itemView) {
             super(itemView);
@@ -180,6 +179,8 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
             typeCard = itemView.findViewById(R.id.typeCard);
             typeCardText = itemView.findViewById(R.id.typeCardText);
             secondaryLay = itemView.findViewById(R.id.secondary_lay);
+            notificationLay = itemView.findViewById(R.id.notification);
+            notificationCounter = itemView.findViewById(R.id.notification_count);
         }
     }
 }

@@ -18,15 +18,12 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
 
 import br.ufrj.caronae.data.SharedPref;
 import br.ufrj.caronae.httpapis.CaronaeAPI;
-import br.ufrj.caronae.models.ChatAssets;
-import br.ufrj.caronae.models.RideOffer;
 import br.ufrj.caronae.models.modelsforjson.PlacesForJson;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
 import retrofit2.Call;
@@ -366,22 +363,6 @@ public class Util {
             }
         }
 
-    }
-
-    static public void createChatAssets(RideOffer ride) {
-        final String location;
-        if (ride.isGoing())
-            location = ride.getNeighborhood() + " ➜ " + ride.getHub();
-        else
-            location = ride.getHub() + " ➜ " + ride.getNeighborhood();
-
-        final int finalColor = getColors(ride.getZone());
-
-        List<ChatAssets> l = ChatAssets.find(ChatAssets.class, "ride_id = ?", ride.getDbId() + "");
-        if (l == null || l.isEmpty())
-            new ChatAssets(ride.getDbId() + "", location, finalColor,
-                    Util.formatBadDateWithoutYear(ride.getDate()),
-                    Util.formatTime(ride.getTime())).save();
     }
 
     public static void treatResponseFromServer(Response response) {
