@@ -40,6 +40,9 @@ public class LoginAct extends AppCompatActivity {
     @BindView(R.id.idUfrj_et)
     EditText idUfrj_et;
 
+    @BindView(R.id.key)
+    TextView getKey;
+
     @BindView(R.id.send_bt)
     Button loginButton;
 
@@ -62,8 +65,17 @@ public class LoginAct extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-
-        if(!Constants.BUILD_TYPE.equals("prod"))
+        if(Constants.BUILD_TYPE.equals("prod"))
+        {
+            lBackV3.setVisibility(View.GONE);
+            rBackV3.setVisibility(View.GONE);
+            loginBtV3.setVisibility(View.GONE);
+            idUfrj_et.setVisibility(View.VISIBLE);
+            token_et.setVisibility(View.VISIBLE);
+            loginButton.setVisibility(View.VISIBLE);
+            getKey.setVisibility(View.VISIBLE);
+        }
+        else
         {
             lBackV3.setVisibility(View.GONE);
             rBackV3.setVisibility(View.GONE);
@@ -212,5 +224,10 @@ public class LoginAct extends AppCompatActivity {
     public void loginV3()
     {
         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.API_BASE_URL + "login?type=app_jwt")));
+    }
+
+    @OnClick(R.id.key)
+    public void getTokenBt() {
+        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(CaronaeAPI.BASE_URL + "login")));
     }
 }

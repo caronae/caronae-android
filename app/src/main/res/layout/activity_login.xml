@@ -77,12 +77,27 @@
             android:text="@string/welcome_message"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
+        <TextView
+            android:id="@+id/key"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textView2"
+            android:layout_marginTop="10dp"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:textColor="@android:color/holo_blue_dark"
+            android:textStyle="bold"
+            android:text="@string/prod_caronae_key"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
         <EditText
             android:visibility="gone"
             android:id="@+id/idUfrj_et"
             android:layout_width="285dp"
             android:layout_height="wrap_content"
-            android:layout_below="@id/textView2"
+            android:layout_below="@id/key"
+            android:layout_marginTop="25dp"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:ems="8"

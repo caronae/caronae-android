@@ -137,6 +137,7 @@
     <string name="driver_message_uppercase">RECADO DO MOTORISTA</string>
     <string name="reason_of_contact_uppercase">MOTIVO DO CONTATO</string>
     <string name="reference_point_uppercase">PONTO DE REFERÊNCIA</string>
+    <string name="prod_caronae_key"><u>OBTENHA SUA CHAVE AQUI</u></string>
 
     <!-- Messages -->
     <string name="crash_notifcation_ticker_message">Caronaê parou</string>
