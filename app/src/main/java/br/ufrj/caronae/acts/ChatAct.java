@@ -55,6 +55,8 @@ import retrofit2.Response;
 
 public class ChatAct extends AppCompatActivity {
 
+    @BindView(R.id.back_bt)
+    RelativeLayout backBtn;
     @BindView(R.id.chatMsgs_rv)
     RecyclerView chatMsgs_rv;
     @BindView(R.id.send_bt)
@@ -63,8 +65,6 @@ public class ChatAct extends AppCompatActivity {
     EditText msg_et;
     @BindView(R.id.chat_header_text)
     TextView headerText;
-    @BindView(R.id.lay1)
-    RelativeLayout lay1;
     @BindView(R.id.card_loading_menssages_sign)
     CardView cardLoadingMessages;
     @BindView(R.id.loading_message_text)
@@ -75,6 +75,10 @@ public class ChatAct extends AppCompatActivity {
     static int color;
     Context context;
     static ChatMsgsAdapter chatMsgsAdapter;
+    private RideForJson rideOffer;
+    private String fromWhere = "", status;
+    private int idRide;
+
 
     Animation translate;
 
@@ -88,6 +92,13 @@ public class ChatAct extends AppCompatActivity {
         ButterKnife.bind(this);
 
         App.getBus().register(this);
+
+        try {
+            fromWhere = getIntent().getStringExtra("fromWhere");
+            status = getIntent().getStringExtra("status");
+        }catch(Exception e){}
+        rideOffer = getIntent().getExtras().getParcelable("ride");
+        idRide = getIntent().getExtras().getInt("id");
 
         SharedPref.setChatActIsForeground(true);
 
@@ -113,7 +124,6 @@ public class ChatAct extends AppCompatActivity {
         context = this;
         color = chatAssets.getColor();
         int colorPressed = color;
-        lay1.setBackgroundColor(color);
         send_bt.setColorNormal(color);
         send_bt.setColorPressed(colorPressed);
         String neighborhood = chatAssets.getLocation();
@@ -380,9 +390,9 @@ public class ChatAct extends AppCompatActivity {
                                     if (ride[0] != null){
                                         String location;
                                         if (ride[0].isGoing())
-                                            location = ride[0].getNeighborhood() + " -> " + ride[0].getHub();
+                                            location = ride[0].getNeighborhood() + " ➜ " + ride[0].getHub();
                                         else
-                                            location = ride[0].getHub() + " -> " + ride[0].getNeighborhood();
+                                            location = ride[0].getHub() + " ➜ " + ride[0].getNeighborhood();
                                         ChatAssets chatAssets = new ChatAssets(rideId, location,
                                                 Util.getColors(ride[0].getZone()),
                                                 Util.formatBadDateWithoutYear(ride[0].getDate()),
@@ -413,5 +423,28 @@ public class ChatAct extends AppCompatActivity {
             }
         });
         return ride[0];
+    }
+
+
+    @OnClick(R.id.back_bt)
+    public void backRide()
+    {
+        Intent intent = new Intent(this, RideDetailAct.class);
+        intent.putExtra("ride", rideOffer);
+        intent.putExtra("fromWhere", fromWhere);
+        intent.putExtra("status", status);
+        intent.putExtra("id",  idRide);
+        startActivity(intent);
+        overridePendingTransition(R.anim.anim_left_slide_in, R.anim.anim_right_slide_out);
+    }
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, RideDetailAct.class);
+        intent.putExtra("ride", rideOffer);
+        intent.putExtra("fromWhere", fromWhere);
+        intent.putExtra("status", status);
+        intent.putExtra("id", idRide);
+        startActivity(intent);
+        overridePendingTransition(R.anim.anim_left_slide_in, R.anim.anim_right_slide_out);
     }
 }

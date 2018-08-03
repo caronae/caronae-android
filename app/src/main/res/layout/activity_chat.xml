@@ -7,46 +7,68 @@
     android:orientation="vertical"
     tools:context="br.ufrj.caronae.acts.ChatAct">
 
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/app_bar_layout"
+    <android.support.v7.widget.CardView
+        android:id="@+id/toolbar_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:elevation="4dp"
-        android:background="@color/white">
-
-        <RelativeLayout
-            android:id="@+id/toolbar"
+        app:cardElevation="4dp">
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:theme="@style/ToolbarColoredBackArrow">
+            android:layout_height="45dp"
+            android:background="@color/light_gray">
 
             <RelativeLayout
-                android:id="@+id/lay1"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/dark_gray">
-
-                <TextView
-                    android:padding="10dp"
-                    android:id="@+id/chat_header_text"
-                    android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="start">
+                <RelativeLayout
+                    android:id="@+id/back_bt"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/white"
-                    android:textStyle="bold"
-                    android:textSize="18sp"
-                    android:text="BARRA DA TIJUCA ➜ CSS - 25/12 - 12:00" />
-
+                    android:layout_centerVertical="true"
+                    android:clickable="true"
+                    android:focusable="true">
+                    <ImageView
+                        android:id="@+id/arrow"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:tint="@color/dark_gray"
+                        android:src="@drawable/ic_keyboard_arrow_left_24dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/ride"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@id/arrow"
+                        android:layout_toEndOf="@id/arrow"
+                        android:textColor="@color/dark_gray"
+                        android:layout_marginLeft="-10dp"
+                        android:layout_marginStart="-10dp"
+                        android:textSize="18sp"/>
+                </RelativeLayout>
+                <TextView
+                    android:id="@+id/chat_header_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/back_bt"
+                    android:layout_toEndOf="@id/back_bt"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_centerVertical="true"
+                    android:text="BARRA DA TIJUCA ➜ CSS - 25/12 - 12:00"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"/>
             </RelativeLayout>
-
-        </RelativeLayout>
-
-    </android.support.design.widget.AppBarLayout>
+        </FrameLayout>
+    </android.support.v7.widget.CardView>
 
     <android.support.v7.widget.CardView
         android:id="@+id/card_loading_menssages_sign"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/app_bar_layout"
+        android:layout_below="@id/toolbar_layout"
         android:minHeight="24dp"
         app:cardCornerRadius="6dp"
         app:cardElevation="2dp">

@@ -970,6 +970,10 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
 
         Intent intent = new Intent(RideDetailAct.this, ChatAct.class);
         intent.putExtra("rideId", Integer.toString(idRide));
+        intent.putExtra("status", status);
+        intent.putExtra("ride", rideWithUsers);
+        intent.putExtra("fromWhere", fromWhere);
+        intent.putExtra("id", idRide);
         startActivity(intent);
         overridePendingTransition(R.anim.anim_right_slide_in, R.anim.anim_left_slide_out);
     }
