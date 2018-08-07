@@ -146,7 +146,6 @@ public class MyRidesFrag extends Fragment implements Callback
                         SharedPref.MY_RIDES_ACTIVE = activeRides;
                         SharedPref.MY_RIDES_OFFERED = offeredRides;
                         SharedPref.MY_RIDES_PENDING = pendingRides;
-                        Util.setMyPARidesId();
                         if(!activeRides.isEmpty() || !offeredRides.isEmpty() || !pendingRides.isEmpty())
                         {
                             setMyRides(activeRides, offeredRides, pendingRides);
@@ -235,7 +234,7 @@ public class MyRidesFrag extends Fragment implements Callback
 
     private void reloadMyRidesIfNecessary()
     {
-        //Verifies every half second if a reload is necessary
+        //Verifies every second if a reload is necessary
         Timer timer = new Timer ();
         TimerTask hourlyTask = new TimerTask () {
             @Override
@@ -247,6 +246,6 @@ public class MyRidesFrag extends Fragment implements Callback
                 }
             }
         };
-        timer.schedule (hourlyTask, 0, 500);
+        timer.schedule (hourlyTask, 0, 1000);
     }
 }

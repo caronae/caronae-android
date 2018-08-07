@@ -317,11 +317,7 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
             finish();
         }
         if(!withLink) {
-            if (Util.isActive(idRide)) {
-                this.status = "active";
-            } else if (Util.isPending(idRide)) {
-                this.status = "pending";
-            }
+            //ativa ou pendente?
         }
         final User driver = rideWithUsers.getDriver();
 
