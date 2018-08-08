@@ -40,6 +40,8 @@ public class SharedPref {
     public static final String MISSING_PREF                          = "missing";
     public static final String TOPIC_GERAL                           = "general";
     public static final String PLACE_KEY                             = "preloadedplaces";
+    public static final String MYPENDINGRIDESID_KEY                  = "preloadedmypendingridesid";
+    public static final String MYACTIVERIDESID_KEY                   = "preloadedmyactiveridesid";
     private static String CHAT_ACT_STATUS                            = "chatStatus";
     public static String NAV_INDICATOR                               = "AllRides";
     public static String FRAGMENT_INDICATOR                          = "";
@@ -106,6 +108,8 @@ public class SharedPref {
         removePref(RIDE_FILTER_PREF_KEY);
         removePref(RIDE_FILTER_CENTER_KEY);
         removePref(RIDE_FILTER_LOCATION_KEY);
+        removePref(MYPENDINGRIDESID_KEY);
+        removePref(MYACTIVERIDESID_KEY);
         NAV_INDICATOR = "AllRides";
         CHAT_ACT_STATUS = "chatStatus";
         FRAGMENT_INDICATOR = "";
@@ -307,5 +311,59 @@ public class SharedPref {
     public static String getTimeSearch()
     {
         return getPref(RIDE_SEARCH_TIME_KEY);
+    }
+
+    public static void setMyPendingRidesId(int[] myPendingRidesId)
+    {
+        String formatedIds = "";
+        for(int i = 0; i < myPendingRidesId.length; i++)
+        {
+            if(i != myPendingRidesId.length-1)
+            {
+                formatedIds = formatedIds.concat(myPendingRidesId[i] + ",");
+            }
+            else
+            {
+                formatedIds = formatedIds.concat(Integer.toString(myPendingRidesId[i]));
+            }
+        }
+        putPref(MYPENDINGRIDESID_KEY, formatedIds);
+    }
+
+    public int[] getMyPendingRidesId()
+    {
+        String[] listTextIds = getPref(MYPENDINGRIDESID_KEY).split(",");
+        int[] ids = new int[listTextIds.length];
+        for(int i = 0; i < listTextIds.length; i++) {
+            ids[i] = Integer.parseInt(listTextIds[i]);
+        }
+        return ids;
+    }
+
+    public static void setMyActiveRidesId(int[] myActiveRidesId)
+    {
+        String formatedIds = "";
+        for(int i = 0; i < myActiveRidesId.length; i++)
+        {
+            if(i != myActiveRidesId.length-1)
+            {
+                formatedIds = formatedIds.concat(myActiveRidesId[i] + ",");
+            }
+            else
+            {
+                formatedIds = formatedIds.concat(Integer.toString(myActiveRidesId[i]));
+            }
+        }
+        putPref(MYACTIVERIDESID_KEY, formatedIds);
+    }
+
+    public int[] getMyActiveRidesId()
+    {
+        String[] listTextIds = getPref(MYACTIVERIDESID_KEY).split(",");
+        int[] ids = new int[listTextIds.length];
+        for(int i = 0; i < listTextIds.length; i++) {
+            ids[i] = Integer.parseInt(listTextIds[i]);
+        }
+        return ids;
     }
 }
