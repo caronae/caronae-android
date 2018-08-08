@@ -19,12 +19,14 @@ import android.widget.TextView;
 
 import java.io.IOException;
 
+import br.ufrj.caronae.App;
 import br.ufrj.caronae.Constants;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.data.SharedPref;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.httpapis.CaronaeAPI;
 import br.ufrj.caronae.models.modelsforjson.LoginForJson;
+import br.ufrj.caronae.models.modelsforjson.PlacesForJson;
 import br.ufrj.caronae.models.modelsforjson.UserForJson;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -109,7 +111,6 @@ public class LoginAct extends AppCompatActivity {
         }
     }
 
-
     //DEV Login
     @OnClick(R.id.send_bt)
     public void sendBt()
@@ -128,26 +129,56 @@ public class LoginAct extends AppCompatActivity {
                     // response.isSuccessful() is true if the response code is 2xx
                     if (response.isSuccessful()) {
                         UserForJson user = response.body();
-
-                        if (user == null || user.getUser() == null) {
+                        if (user == null || user.getUser() == null)
+                        {
                             Util.toast(R.string.loginactivity_invalid_login);
                             return;
                         }
-                        pd.dismiss();
-                        SharedPref.saveUser(user.getUser());
-                        SharedPref.saveUserToken(token);
-                        SharedPref.saveUserIdUfrj(idUfrj);
-                        SharedPref.saveNotifPref("true");
-                        
-                        if (user.getUser().getEmail() == null || user.getUser().getEmail().isEmpty() || user.getUser().getPhoneNumber() == null || user.getUser().getPhoneNumber().isEmpty() || user.getUser().getLocation() == null || user.getUser().getLocation().isEmpty()) {
-                            Intent firstLogin = new Intent(act, WelcomeAct.class);
-                            startActivity(firstLogin);
-                            LoginAct.this.finish();
+                        if(SharedPref.checkExistence(SharedPref.PLACE_KEY))
+                        {
+                            pd.dismiss();
+                            logIn(user,idUfrj,token,act);
                         }
-                        else {
-                            Intent mainAct = new Intent(act, MainAct.class);
-                            startActivity(mainAct);
-                            LoginAct.this.finish();
+                        else
+                        {
+                            CaronaeAPI.service(App.getInst()).getPlaces()
+                                .enqueue(new Callback<PlacesForJson>() {
+                                    @Override
+                                    public void onResponse(Call<PlacesForJson> call, Response<PlacesForJson> response) {
+                                        if (response.isSuccessful()) {
+                                            pd.dismiss();
+                                            PlacesForJson places = response.body();
+                                            SharedPref.setPlace(places);
+                                            logIn(user,idUfrj,token,act);
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<PlacesForJson> call, Throwable t) {
+                                        Log.e("ERROR: ", t.getMessage());
+                                        pd.dismiss();
+                                        loginButton.setEnabled(true);
+                                        int statusCode = response.code();
+                                        ResponseBody errorBody = response.errorBody();
+                                        if (statusCode == 401) {
+                                            Util.toast(R.string.loginactivity_invalid_login);
+                                        } else try {
+                                            if (errorBody.string().equals("timeout")) {
+                                                Util.toast(R.string.no_conexion);
+                                            } else {
+                                                Util.toast(R.string.loginactivity_login_fail);
+                                                try {
+                                                    Log.e("Login", "Code: " + statusCode
+                                                            + "\n Body: " + errorBody.string());
+                                                } catch (IOException e) {
+                                                    e.printStackTrace();
+                                                }
+                                            }
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                });
                         }
                     } else {
                         // Server Errors
@@ -186,7 +217,6 @@ public class LoginAct extends AppCompatActivity {
             });
     }
 
-
     //PROD Login
     private void startLogin()
     {
@@ -198,7 +228,6 @@ public class LoginAct extends AppCompatActivity {
                 if (response.isSuccessful())
                 {
                     UserForJson user = response.body();
-
                 }
                 else
                 {
@@ -229,5 +258,23 @@ public class LoginAct extends AppCompatActivity {
     @OnClick(R.id.key)
     public void getTokenBt() {
         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(CaronaeAPI.BASE_URL + "login")));
+    }
+
+    private void logIn(UserForJson user, String idUfrj, String token, Activity act)
+    {
+        SharedPref.saveUser(user.getUser());
+        SharedPref.saveUserToken(token);
+        SharedPref.saveUserIdUfrj(idUfrj);
+        SharedPref.saveNotifPref("true");
+
+        if (user.getUser().getEmail() == null || user.getUser().getEmail().isEmpty() || user.getUser().getPhoneNumber() == null || user.getUser().getPhoneNumber().isEmpty() || user.getUser().getLocation() == null || user.getUser().getLocation().isEmpty()) {
+            Intent firstLogin = new Intent(act, WelcomeAct.class);
+            startActivity(firstLogin);
+            LoginAct.this.finish();
+        } else {
+            Intent mainAct = new Intent(act, MainAct.class);
+            startActivity(mainAct);
+            LoginAct.this.finish();
+        }
     }
 }
