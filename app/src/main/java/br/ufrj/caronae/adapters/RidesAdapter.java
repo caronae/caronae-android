@@ -161,7 +161,8 @@ public class RidesAdapter extends RecyclerView.Adapter<RidesAdapter.ViewHolder> 
                 mixedList.add(rideOffers.get(i));
             }
         }
-        ((RideForJson)mixedList.get(mixedList.size()-1)).type = "final";
+        if(mixedList.size() % 20 == 0)
+            ((RideForJson)mixedList.get(mixedList.size()-1)).type = "final";
         notifyDataSetChanged();
     }
 
