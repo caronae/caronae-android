@@ -336,7 +336,7 @@ public class AllRidesListFrag extends Fragment implements Callback {
     }
 
     private void loadOneMorePage() {
-        if(!isLoadingPage && !refreshLayout.isRefreshing()) {
+        if (!isLoadingPage && !refreshLayout.isRefreshing()) {
             pageCounter++;
             refreshRideList(pageCounter);
         }

@@ -313,56 +313,56 @@ public class SharedPref {
         return getPref(RIDE_SEARCH_TIME_KEY);
     }
 
-    public static void setMyPendingRidesId(int[] myPendingRidesId)
+    public static void setMyPendingRidesId(List<Integer> myPendingRidesId)
     {
         String formatedIds = "";
-        for(int i = 0; i < myPendingRidesId.length; i++)
+        for(int i = 0; i < myPendingRidesId.size(); i++)
         {
-            if(i != myPendingRidesId.length-1)
+            if(i != myPendingRidesId.size()-1)
             {
-                formatedIds = formatedIds.concat(myPendingRidesId[i] + ",");
+                formatedIds = formatedIds.concat(myPendingRidesId.get(i) + ",");
             }
             else
             {
-                formatedIds = formatedIds.concat(Integer.toString(myPendingRidesId[i]));
+                formatedIds = formatedIds.concat(Integer.toString(myPendingRidesId.get(i)));
             }
         }
         putPref(MYPENDINGRIDESID_KEY, formatedIds);
     }
 
-    public int[] getMyPendingRidesId()
+    public static List<Integer> getMyPendingRidesId()
     {
         String[] listTextIds = getPref(MYPENDINGRIDESID_KEY).split(",");
-        int[] ids = new int[listTextIds.length];
+        List<Integer> ids = new ArrayList<>();
         for(int i = 0; i < listTextIds.length; i++) {
-            ids[i] = Integer.parseInt(listTextIds[i]);
+            ids.add(Integer.parseInt(listTextIds[i]));
         }
         return ids;
     }
 
-    public static void setMyActiveRidesId(int[] myActiveRidesId)
+    public static void setMyActiveRidesId(List<Integer> myActiveRidesId)
     {
         String formatedIds = "";
-        for(int i = 0; i < myActiveRidesId.length; i++)
+        for(int i = 0; i < myActiveRidesId.size(); i++)
         {
-            if(i != myActiveRidesId.length-1)
+            if(i != myActiveRidesId.size()-1)
             {
-                formatedIds = formatedIds.concat(myActiveRidesId[i] + ",");
+                formatedIds = formatedIds.concat(myActiveRidesId.get(i) + ",");
             }
             else
             {
-                formatedIds = formatedIds.concat(Integer.toString(myActiveRidesId[i]));
+                formatedIds = formatedIds.concat(Integer.toString(myActiveRidesId.get(i)));
             }
         }
         putPref(MYACTIVERIDESID_KEY, formatedIds);
     }
 
-    public int[] getMyActiveRidesId()
+    public static List<Integer> getMyActiveRidesId()
     {
         String[] listTextIds = getPref(MYACTIVERIDESID_KEY).split(",");
-        int[] ids = new int[listTextIds.length];
+        List<Integer> ids = new ArrayList<>();
         for(int i = 0; i < listTextIds.length; i++) {
-            ids[i] = Integer.parseInt(listTextIds[i]);
+            ids.add(Integer.parseInt(listTextIds[i]));
         }
         return ids;
     }

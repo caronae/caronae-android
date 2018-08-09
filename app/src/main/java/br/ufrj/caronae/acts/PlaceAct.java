@@ -87,69 +87,80 @@ public class PlaceAct extends AppCompatActivity {
                 overridePendingTransition(R.anim.anim_left_slide_in, R.anim.anim_right_slide_out);
             }
         });
-        if(!SharedPref.checkExistence(SharedPref.PLACE_KEY))
+        if(Util.isNetworkAvailable(getBaseContext()))
         {
-            if(Util.isNetworkAvailable(getBaseContext())) {
-                CaronaeAPI.service(getApplicationContext()).getPlaces()
-                        .enqueue(new Callback<PlacesForJson>() {
-                            @Override
-                            public void onResponse(Call<PlacesForJson> call, Response<PlacesForJson> response) {
-                                if (response.isSuccessful()) {
-                                    PlacesForJson places = response.body();
-                                    SharedPref.setPlace(places);
-                                    progressBar.setVisibility(View.GONE);
-                                    Util.setColors();
-                                    if(fragType.equals("center"))
-                                    {
-                                        goToCampi();
-                                    }
-                                    else {
-                                        goToZone();
-                                    }
-                                } else {
-                                    progressBar.setVisibility(View.GONE);
-                                    CustomDialogClass cdc = new CustomDialogClass(a, "PlaceAct", null);
-                                    cdc.show();
-                                    cdc.setTitleText("Não foi possível carregar as localidades");
-                                    cdc.setMessageText("Por favor, tente novamente. Esgotou-se o tempo limite da solicitação...");
-                                    cdc.setPButtonText("OK");
-                                    cdc.enableOnePositiveOption();
-                                }
+            CaronaeAPI.service(getApplicationContext()).getPlaces()
+                .enqueue(new Callback<PlacesForJson>() {
+                    @Override
+                    public void onResponse(Call<PlacesForJson> call, Response<PlacesForJson> response) {
+                        if (response.isSuccessful()) {
+                            PlacesForJson places = response.body();
+                            SharedPref.setPlace(places);
+                            progressBar.setVisibility(View.GONE);
+                            Util.setColors();
+                            if(fragType.equals("center"))
+                            {
+                                goToCampi();
                             }
+                            else {
+                                goToZone();
+                            }
+                        } else {
+                            progressBar.setVisibility(View.GONE);
+                            CustomDialogClass cdc = new CustomDialogClass(a, "PlaceAct", null);
+                            cdc.show();
+                            cdc.setTitleText("Não foi possível carregar as localidades");
+                            cdc.setMessageText("Por favor, tente novamente. Esgotou-se o tempo limite da solicitação...");
+                            cdc.setPButtonText("OK");
+                            cdc.enableOnePositiveOption();
+                        }
+                    }
 
-                            @Override
-                            public void onFailure(Call<PlacesForJson> call, Throwable t) {
-                                progressBar.setVisibility(View.GONE);
-                                CustomDialogClass cdc = new CustomDialogClass(a, "PlaceAct", null);
-                                cdc.show();
-                                cdc.setTitleText("Não foi possível carregar as localidades");
-                                cdc.setMessageText("Por favor, tente novamente. Esgotou-se o tempo limite da solicitação...");
-                                cdc.setPButtonText("OK");
-                                cdc.enableOnePositiveOption();
+                    @Override
+                    public void onFailure(Call<PlacesForJson> call, Throwable t) {
+                        progressBar.setVisibility(View.GONE);
+                        if(SharedPref.checkExistence(SharedPref.PLACE_KEY))
+                        {
+                            if(fragType.equals("center") || fragType.equals("hub")) {
+                                goToCampi();
                             }
-                        });
+                            else {
+                                goToZone();
+                            }
+                        }
+                        else {
+                            CustomDialogClass cdc = new CustomDialogClass(a, "PlaceAct", null);
+                            cdc.show();
+                            cdc.setTitleText("Não foi possível carregar as localidades");
+                            cdc.setMessageText("Por favor, tente novamente. Esgotou-se o tempo limite da solicitação...");
+                            cdc.setPButtonText("OK");
+                            cdc.enableOnePositiveOption();
+                        }
+                    }
+                });
             }
             else
             {
                 progressBar.setVisibility(View.GONE);
-                CustomDialogClass cdc = new CustomDialogClass(a, "PlaceAct", null);
-                cdc.show();
-                cdc.setTitleText("Não foi possível carregar as localidades");
-                cdc.setMessageText("Por favor, tente novamente. Sem conexão com a internet...");
-                cdc.setPButtonText("OK");
-                cdc.enableOnePositiveOption();
+                if(SharedPref.checkExistence(SharedPref.PLACE_KEY))
+                {
+                    if(fragType.equals("center") || fragType.equals("hub")) {
+                        goToCampi();
+                    }
+                    else {
+                        goToZone();
+                    }
+                }
+                else {
+                    CustomDialogClass cdc = new CustomDialogClass(a, "PlaceAct", null);
+                    cdc.show();
+                    cdc.setTitleText("Não foi possível carregar as localidades");
+                    cdc.setMessageText("Por favor, tente novamente. Sem conexão com a internet...");
+                    cdc.setPButtonText("OK");
+                    cdc.enableOnePositiveOption();
+                }
             }
-        }
-        else
-        {
-            progressBar.setVisibility(View.GONE);
-            if(fragType.equals("center") || fragType.equals("hub")) {
-                goToCampi();
-            }
-            else {
-                goToZone();
-            }
-        }
+
     }
 
     public void goToZone()

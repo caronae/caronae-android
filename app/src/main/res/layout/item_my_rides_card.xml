@@ -38,8 +38,8 @@
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/photo_iv"
-                android:layout_width="65dp"
-                android:layout_height="65dp"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
                 android:src="@drawable/user_pic"
                 card_view:civ_border_color="@color/dark_gray"
                 android:layout_centerVertical="true"

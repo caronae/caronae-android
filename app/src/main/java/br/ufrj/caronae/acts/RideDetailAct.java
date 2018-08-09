@@ -37,6 +37,7 @@ import com.redmadrobot.inputmask.model.CaretString;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -317,7 +318,14 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
             finish();
         }
         if(!withLink) {
-            //ativa ou pendente?
+            if(SharedPref.checkExistence(SharedPref.MYACTIVERIDESID_KEY) && SharedPref.getMyActiveRidesId().contains(idRide))
+            {
+                this.status = "active";
+            }
+            else if(SharedPref.checkExistence(SharedPref.MYPENDINGRIDESID_KEY) && SharedPref.getMyPendingRidesId().contains(idRide))
+            {
+                this.status = "pending";
+            }
         }
         final User driver = rideWithUsers.getDriver();
 
@@ -707,6 +715,18 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
                             RideRequestSent rideRequest = new RideRequestSent(idRide, rideWithUsers.isGoing(), rideWithUsers.getDate());
                             rideRequest.save();
                             createChatAssets(rideWithUsers);
+                            if(SharedPref.checkExistence(SharedPref.MYPENDINGRIDESID_KEY))
+                            {
+                                List<Integer> ids = SharedPref.getMyPendingRidesId();
+                                ids.add(idRide);
+                                SharedPref.setMyPendingRidesId(ids);
+                            }
+                            else
+                            {
+                                List<Integer> ids = new ArrayList<>();
+                                ids.add(idRide);
+                                SharedPref.setMyPendingRidesId(ids);
+                            }
                             join_bt.startAnimation(getAnimationForSendButton());
                             inviteLay.setVisibility(View.VISIBLE);
                             requested_dt.startAnimation(getAnimationForResquestedText());

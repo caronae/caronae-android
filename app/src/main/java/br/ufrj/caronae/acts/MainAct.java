@@ -39,6 +39,7 @@ import com.facebook.FacebookSdk;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.data.ImageSaver;
@@ -54,7 +55,12 @@ import br.ufrj.caronae.frags.RideFilterFrag;
 import br.ufrj.caronae.frags.RideOfferFrag;
 import br.ufrj.caronae.frags.RideSearchFrag;
 import br.ufrj.caronae.frags.RidesHistoryFrag;
+import br.ufrj.caronae.httpapis.CaronaeAPI;
 import br.ufrj.caronae.models.User;
+import br.ufrj.caronae.models.modelsforjson.MyRidesForJson;
+import br.ufrj.caronae.models.modelsforjson.RideForJson;
+import retrofit2.Call;
+import retrofit2.Response;
 
 import static br.ufrj.caronae.acts.StartAct.MSG_TYPE_ALERT;
 import static br.ufrj.caronae.acts.StartAct.MSG_TYPE_ALERT_HEADER;
@@ -127,6 +133,50 @@ public class MainAct extends AppCompatActivity {
             }
         }
         setTitle("");
+
+        if(!SharedPref.checkExistence(SharedPref.MYACTIVERIDESID_KEY) || !SharedPref.checkExistence(SharedPref.MYPENDINGRIDESID_KEY))
+        {
+            CaronaeAPI.service(this).getMyRides(Integer.toString(App.getUser().getDbId()))
+                .enqueue(new retrofit2.Callback<MyRidesForJson>() {
+                    @Override
+                    public void onResponse(Call<MyRidesForJson> call, Response<MyRidesForJson> response) {
+                        if (response.isSuccessful()) {
+                            MyRidesForJson data = response.body();
+                            List<RideForJson> activeRides = data.getActiveRides();
+                            List<RideForJson> offeredRides = data.getOfferedRides();
+                            List<RideForJson> pendingRides = data.getPendingRides();
+                            SharedPref.OPEN_MY_RIDES = true;
+                            SharedPref.MY_RIDES_ACTIVE = activeRides;
+                            SharedPref.MY_RIDES_OFFERED = offeredRides;
+                            SharedPref.MY_RIDES_PENDING = pendingRides;
+                            if(!activeRides.isEmpty()) {
+                                List<Integer> aRideId = new ArrayList<>();
+                                for(int i = 0; i < activeRides.size(); i++)
+                                {
+                                    aRideId.add(activeRides.get(i).getId().intValue());
+                                }
+                                SharedPref.setMyActiveRidesId(aRideId);
+                            }
+                            if(!pendingRides.isEmpty())
+                            {
+                                List<Integer> pRideId = new ArrayList<>();
+                                for(int i = 0; i < pendingRides.size(); i++)
+                                {
+                                    pRideId.add(pendingRides.get(i).getId().intValue());
+                                }
+                                SharedPref.setMyPendingRidesId(pRideId);
+                            }
+                        } else {
+                            Util.treatResponseFromServer(response);
+                            Util.debug(response.message());
+                        }
+                    }
+                    @Override
+                    public void onFailure(Call<MyRidesForJson> call, Throwable t) {
+                        Util.debug(t.getMessage());
+                    }
+                });
+        }
 
         navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);

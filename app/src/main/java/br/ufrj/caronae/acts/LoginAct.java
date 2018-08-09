@@ -128,16 +128,20 @@ public class LoginAct extends AppCompatActivity {
                 public void onResponse(Call<UserForJson> call, Response<UserForJson> response) {
                     // response.isSuccessful() is true if the response code is 2xx
                     if (response.isSuccessful()) {
-                        UserForJson user = response.body();
+                        final UserForJson user = response.body();
                         if (user == null || user.getUser() == null)
                         {
                             Util.toast(R.string.loginactivity_invalid_login);
                             return;
                         }
+                        SharedPref.saveUser(user.getUser());
+                        SharedPref.saveUserToken(token);
+                        SharedPref.saveUserIdUfrj(idUfrj);
+                        SharedPref.saveNotifPref("true");
                         if(SharedPref.checkExistence(SharedPref.PLACE_KEY))
                         {
                             pd.dismiss();
-                            logIn(user,idUfrj,token,act);
+                            logIn(user,act);
                         }
                         else
                         {
@@ -149,7 +153,7 @@ public class LoginAct extends AppCompatActivity {
                                             pd.dismiss();
                                             PlacesForJson places = response.body();
                                             SharedPref.setPlace(places);
-                                            logIn(user,idUfrj,token,act);
+                                            logIn(user,act);
                                         }
                                     }
 
@@ -260,13 +264,8 @@ public class LoginAct extends AppCompatActivity {
         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(CaronaeAPI.BASE_URL + "login")));
     }
 
-    private void logIn(UserForJson user, String idUfrj, String token, Activity act)
+    private void logIn(UserForJson user, Activity act)
     {
-        SharedPref.saveUser(user.getUser());
-        SharedPref.saveUserToken(token);
-        SharedPref.saveUserIdUfrj(idUfrj);
-        SharedPref.saveNotifPref("true");
-
         if (user.getUser().getEmail() == null || user.getUser().getEmail().isEmpty() || user.getUser().getPhoneNumber() == null || user.getUser().getPhoneNumber().isEmpty() || user.getUser().getLocation() == null || user.getUser().getLocation().isEmpty()) {
             Intent firstLogin = new Intent(act, WelcomeAct.class);
             startActivity(firstLogin);
