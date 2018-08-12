@@ -98,7 +98,7 @@ public class PlaceAct extends AppCompatActivity {
                             SharedPref.setPlace(places);
                             progressBar.setVisibility(View.GONE);
                             Util.setColors();
-                            if(fragType.equals("center"))
+                            if(fragType.equals("center") || fragType.equals("hub"))
                             {
                                 goToCampi();
                             }
