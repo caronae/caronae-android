@@ -24,7 +24,7 @@ android {
         minSdkVersion 15
         targetSdkVersion 27
         versionCode buildVersionCode() ?: 37
-        versionName "3.0.1"
+        versionName "3.0.2"
         renderscriptTargetApi 15
         renderscriptSupportModeEnabled true
         multiDexEnabled true

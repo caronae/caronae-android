@@ -55,6 +55,7 @@ public class AllRidesListFrag extends Fragment implements Callback {
     RidesAdapter adapter;
 
     int pageCounter = FIRST_PAGE_TO_LOAD;
+    int ridesCounter = 20;
     boolean isLoadingPage = false;
 
     private EndlessRecyclerViewScrollListener scrollListener;
@@ -237,6 +238,8 @@ public class AllRidesListFrag extends Fragment implements Callback {
 
                         RideForJsonDeserializer data = response.body();
                         List<RideForJson> rideOffers = data.getData();
+                        Util.debug(rideOffers.size());
+                        ridesCounter = rideOffers.size();
                         if(rideOffers.size() != 0) {
                             noRides.setVisibility(View.GONE);
                             if (isFiltering){
@@ -337,8 +340,10 @@ public class AllRidesListFrag extends Fragment implements Callback {
 
     private void loadOneMorePage() {
         if (!isLoadingPage && !refreshLayout.isRefreshing()) {
-            pageCounter++;
-            refreshRideList(pageCounter);
+            if(ridesCounter%20 == 0 && ridesCounter != 0) {
+                pageCounter++;
+                refreshRideList(pageCounter);
+            }
         }
     }
 

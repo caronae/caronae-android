@@ -96,18 +96,22 @@ public class MyRidesAdapter extends RecyclerView.Adapter<MyRidesAdapter.ViewHold
                 viewHolder.time_tv.setTextColor(color);
                 viewHolder.name_tv.setTextColor(color);
                 viewHolder.photo_iv.setBorderColor(color);
-
-                String profilePicUrl = rideOffer.getDriver().getProfilePicUrl();
-                if (profilePicUrl != null && !profilePicUrl.isEmpty()) {
-                    Picasso.with(context).load(profilePicUrl)
-                            .placeholder(R.drawable.user_pic)
-                            .error(R.drawable.user_pic)
-                            .transform(new RoundedTransformation())
-                            .into(viewHolder.photo_iv);
-                } else {
-                    viewHolder.photo_iv.setImageResource(R.drawable.user_pic);
+                try {
+                    String profilePicUrl = rideOffer.getDriver().getProfilePicUrl();
+                    if (profilePicUrl != null && !profilePicUrl.isEmpty()) {
+                        Picasso.with(context).load(profilePicUrl)
+                                .placeholder(R.drawable.user_pic)
+                                .error(R.drawable.user_pic)
+                                .transform(new RoundedTransformation())
+                                .into(viewHolder.photo_iv);
+                    } else {
+                        viewHolder.photo_iv.setImageResource(R.drawable.user_pic);
+                    }
                 }
-
+                catch (Exception e)
+                {
+                    Util.debug("Loading failled.");
+                }
                 String timeText;
                 if (rideOffer.isGoing())
                     timeText = context.getResources().getString(R.string.arriving_at, Util.formatTime(rideOffer.getTime()));
