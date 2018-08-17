@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.data.SharedPref;
