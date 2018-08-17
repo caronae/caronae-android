@@ -172,7 +172,7 @@ public class SearchRidesListFrag extends Fragment implements Callback {
                                 rides = new ArrayList<>();
                             }
                             RideForJsonDeserializer data = response.body();
-                            List<RideForJson> rideOffers = data.getData();
+                            List<RideForJson> rideOffers = data.getRides();
                             if(rideOffers.size() != 0) {
                                 noRides.setVisibility(View.GONE);
                                 setRides(rideOffers);

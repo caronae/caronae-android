@@ -50,12 +50,8 @@ public class AllRidesListFrag extends Fragment implements Callback {
     @BindView(R.id.norides_tv)
     TextView noRides;
 
-    private final int FIRST_PAGE_TO_LOAD = 0;
-
     RidesAdapter adapter;
 
-    int pageCounter = FIRST_PAGE_TO_LOAD;
-    int ridesCounter = 20;
     boolean isLoadingPage = false;
 
     private EndlessRecyclerViewScrollListener scrollListener;
@@ -69,9 +65,9 @@ public class AllRidesListFrag extends Fragment implements Callback {
     String hub = null;
     String campus = null;
 
+    private RideForJsonDeserializer lastRidesResponse;
     ArrayList<RideForJson> goingRides = new ArrayList<>();
     ArrayList<RideForJson> notGoingRides = new ArrayList<>();
-
 
 
     public AllRidesListFrag() {
@@ -94,8 +90,7 @@ public class AllRidesListFrag extends Fragment implements Callback {
             @Override
             public void onRefresh() {
                 Log.d("allRides", "refresh listener");
-                pageCounter = FIRST_PAGE_TO_LOAD;
-                refreshRideList(pageCounter);
+                refreshRideList(1);
             }
         });
 
@@ -104,7 +99,6 @@ public class AllRidesListFrag extends Fragment implements Callback {
         rvRides.setLayoutManager(mLayoutManager);
 
         scrollListener = new EndlessRecyclerViewScrollListener(mLayoutManager) {
-
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
                 loadOneMorePage();
@@ -186,7 +180,7 @@ public class AllRidesListFrag extends Fragment implements Callback {
         super.onStart();
     }
 
-    void refreshRideList(final int pageNumber) {
+    void refreshRideList(final int page) {
         if(App.getUser() == null)
             return;
         isLoadingPage = true;
@@ -224,35 +218,24 @@ public class AllRidesListFrag extends Fragment implements Callback {
             }
         }
 
-        Log.d("allRides", "Refreshing from refreshRideList with page " + pageNumber);
-        CaronaeAPI.service(ctx).listAllRides(pageNumber + "", going, neighborhoods, zone, hub,  "", campus, "", "")
+        Log.d("allRides", "Refreshing from refreshRideList with page " + page);
+        CaronaeAPI.service(ctx).listAllRides(page + "", going, neighborhoods, zone, hub, "", campus, "", "")
             .enqueue(new retrofit2.Callback<RideForJsonDeserializer>() {
                 @Override
                 public void onResponse(Call<RideForJsonDeserializer> call, Response<RideForJsonDeserializer> response) {
                     if (response.isSuccessful()) {
                         SharedPref.lastAllRidesUpdate = new Date();
-                        if (pageCounter == FIRST_PAGE_TO_LOAD) {
+                        if (page == 0) {
                             goingRides = new ArrayList<>();
                             notGoingRides = new ArrayList<>();
                         }
 
-                        RideForJsonDeserializer data = response.body();
-                        List<RideForJson> rideOffers = data.getData();
-                        Util.debug(rideOffers.size());
-                        ridesCounter = rideOffers.size();
-                        if(rideOffers.size() != 0) {
+                        RideForJsonDeserializer ridesResponse = response.body();
+                        if (ridesResponse.hasRides()) {
                             noRides.setVisibility(View.GONE);
-                            if (isFiltering){
-                                setRides(rideOffers, isFiltering);
-                            }
-                            else
-                            {
-                                SharedPref.OPEN_ALL_RIDES = true;
-                                setRides(rideOffers, isFiltering);
-                            }
-                        }
-                        else
-                        {
+                            SharedPref.OPEN_ALL_RIDES = !isFiltering;
+                            setRides(ridesResponse, isFiltering);
+                        } else {
                             noRides.setText(R.string.fragment_ridesearch_no_ride_found);
                             isLoadingPage = false;
                         }
@@ -279,8 +262,10 @@ public class AllRidesListFrag extends Fragment implements Callback {
             });
     }
 
-    private void setRides(List<RideForJson> rideOffers, boolean isFiltering)
+    private void setRides(RideForJsonDeserializer ridesResponse, boolean isFiltering)
     {
+        lastRidesResponse = ridesResponse;
+        List<RideForJson> rideOffers = ridesResponse.getRides();
         if (rideOffers != null && !rideOffers.isEmpty()) {
             Iterator<RideForJson> it = rideOffers.iterator();
             while (it.hasNext()) {
@@ -325,19 +310,17 @@ public class AllRidesListFrag extends Fragment implements Callback {
         if (lastUpdate == null || now.getTime() - lastUpdate.getTime() >= RIDES_UPDATE_THRESHOLD_MILLISECONDS)
         {
             Log.d("allRides", "reloadRidesIfNecessary will update");
-            pageCounter = FIRST_PAGE_TO_LOAD;
-            refreshRideList(pageCounter);
+            refreshRideList(1);
         }
     }
 
     private void loadOneMorePage() {
-        if (!isLoadingPage && !refreshLayout.isRefreshing()) {
-            if(ridesCounter%20 == 0 && ridesCounter != 0) {
-                pageCounter++;
-                Log.d("allRides", "loadOneMorePage");
-                refreshRideList(pageCounter);
-            }
+        if (lastRidesResponse == null || !lastRidesResponse.hasMorePages() || isLoadingPage || refreshLayout.isRefreshing()) {
+            return;
         }
+
+        Log.d("allRides", "loadOneMorePage");
+        refreshRideList(lastRidesResponse.getNextPage());
     }
 
     private void animateListFadeIn() {
