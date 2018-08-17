@@ -95,9 +95,7 @@ public class AllRidesListFrag extends Fragment implements Callback {
             public void onRefresh() {
                 pageCounter = FIRST_PAGE_TO_LOAD;
                 SharedPref.lastAllRidesUpdate = 0;
-                for (int counter = FIRST_PAGE_TO_LOAD; counter <= pageCounter; counter++) {
-                    refreshRideList(counter);
-                }
+                refreshRideList(pageCounter);
             }
         });
 
