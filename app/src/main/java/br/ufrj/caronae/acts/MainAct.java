@@ -121,7 +121,7 @@ public class MainAct extends AppCompatActivity {
         filterCard = (CardView) findViewById(R.id.filter_card);
         filterText = (TextView) findViewById(R.id.filter_text);
         startFilterCard();
-        configureDissmissFilterButton();
+        configureDismissFilterButton();
 
         Util.setColors();
 
@@ -568,7 +568,7 @@ public class MainAct extends AppCompatActivity {
         hideFilterCard(getBaseContext());
     }
 
-    private void configureDissmissFilterButton(){
+    private void configureDismissFilterButton(){
         dissmissFilter.setOnClickListener((View v) -> {
             SharedPref.setFilterPref(false);
             SharedPref.lastAllRidesUpdate = null;
