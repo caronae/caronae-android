@@ -250,10 +250,6 @@ public class MainAct extends AppCompatActivity {
         else if(!backToMain) {
             switch (SharedPref.NAV_INDICATOR)
             {
-                case "AllRides":
-                    fragment = new AllRidesFrag();
-                    navigation.getMenu().getItem(0).setChecked(true);
-                    break;
                 case "MyRides":
                     fragment = new MyRidesFrag();
                     navigation.getMenu().getItem(1).setChecked(true);
@@ -265,7 +261,6 @@ public class MainAct extends AppCompatActivity {
                 default:
                     fragment = new AllRidesFrag();
                     navigation.getMenu().getItem(0).setChecked(true);
-                    break;
             }
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
