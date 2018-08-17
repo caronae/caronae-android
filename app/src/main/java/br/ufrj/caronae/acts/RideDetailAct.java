@@ -731,7 +731,7 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
                             inviteLay.setVisibility(View.VISIBLE);
                             requested_dt.startAnimation(getAnimationForResquestedText());
                             SharedPref.lastMyRidesUpdate = 350;
-                            SharedPref.lastAllRidesUpdate = 350;
+                            SharedPref.lastAllRidesUpdate = null;
                             App.getBus().post(rideRequest);
                             pd.dismiss();
                         } else {
@@ -867,7 +867,7 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                     if (response.isSuccessful()) {
                         progressBar.setVisibility(View.GONE);
-                        SharedPref.lastAllRidesUpdate = 350;
+                        SharedPref.lastAllRidesUpdate = null;
                         SharedPref.lastMyRidesUpdate = 350;
                         backToLast();
                     } else {
@@ -906,7 +906,7 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                     if (response.isSuccessful()) {
                         progressBar.setVisibility(View.GONE);
-                        SharedPref.lastAllRidesUpdate = 350;
+                        SharedPref.lastAllRidesUpdate = null;
                         SharedPref.lastMyRidesUpdate = 350;
                         backToLast();
                     } else {
@@ -1217,7 +1217,7 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                         if (response.isSuccessful()) {
-                            SharedPref.lastAllRidesUpdate = 350;
+                            SharedPref.lastAllRidesUpdate = null;
                             SharedPref.lastMyRidesUpdate = 350;
                             progressBar.setVisibility(View.GONE);
                             backToLast();

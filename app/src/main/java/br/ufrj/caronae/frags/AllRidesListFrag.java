@@ -17,10 +17,9 @@ import android.widget.TextView;
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import javax.security.auth.callback.Callback;
 
@@ -43,6 +42,7 @@ import retrofit2.Response;
 
 public class AllRidesListFrag extends Fragment implements Callback {
 
+    private static final int RIDES_UPDATE_THRESHOLD_MILLISECONDS = 5 * 60 * 1000;
     @BindView(R.id.rvRides)
     RecyclerView rvRides;
     @BindView(R.id.swipeRefreshLayout)
@@ -93,8 +93,8 @@ public class AllRidesListFrag extends Fragment implements Callback {
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                Log.d("allRides", "refresh listener");
                 pageCounter = FIRST_PAGE_TO_LOAD;
-                SharedPref.lastAllRidesUpdate = 0;
                 refreshRideList(pageCounter);
             }
         });
@@ -158,6 +158,7 @@ public class AllRidesListFrag extends Fragment implements Callback {
 
         animateListFadeIn();
 
+        Log.d("allRides", "onCreateView");
         reloadRidesIfNecessary();
 
         return view;
@@ -223,12 +224,13 @@ public class AllRidesListFrag extends Fragment implements Callback {
             }
         }
 
+        Log.d("allRides", "Refreshing from refreshRideList with page " + pageNumber);
         CaronaeAPI.service(ctx).listAllRides(pageNumber + "", going, neighborhoods, zone, hub,  "", campus, "", "")
             .enqueue(new retrofit2.Callback<RideForJsonDeserializer>() {
                 @Override
                 public void onResponse(Call<RideForJsonDeserializer> call, Response<RideForJsonDeserializer> response) {
                     if (response.isSuccessful()) {
-
+                        SharedPref.lastAllRidesUpdate = new Date();
                         if (pageCounter == FIRST_PAGE_TO_LOAD) {
                             goingRides = new ArrayList<>();
                             notGoingRides = new ArrayList<>();
@@ -311,7 +313,6 @@ public class AllRidesListFrag extends Fragment implements Callback {
                 adapter.makeList(notGoingRides);
             }
         }
-        SharedPref.lastAllRidesUpdate = 0;
         refreshLayout.setRefreshing(false);
         rvRides.setVisibility(View.VISIBLE);
         isLoadingPage = false;
@@ -319,27 +320,21 @@ public class AllRidesListFrag extends Fragment implements Callback {
 
     private void reloadRidesIfNecessary()
     {
-        //Verifies every second if a reload is necessary
-        Timer timer = new Timer ();
-        TimerTask hourlyTask = new TimerTask () {
-            @Override
-            public void run () {
-                if(SharedPref.lastAllRidesUpdate >= 300)
-                {
-                    pageCounter = FIRST_PAGE_TO_LOAD;
-                    for (int counter = FIRST_PAGE_TO_LOAD; counter <= pageCounter; counter++) {
-                        refreshRideList(counter);
-                    }
-                }
-            }
-        };
-        timer.schedule (hourlyTask, 0, 1000);
+        Date now = new Date();
+        Date lastUpdate = SharedPref.lastAllRidesUpdate;
+        if (lastUpdate == null || now.getTime() - lastUpdate.getTime() >= RIDES_UPDATE_THRESHOLD_MILLISECONDS)
+        {
+            Log.d("allRides", "reloadRidesIfNecessary will update");
+            pageCounter = FIRST_PAGE_TO_LOAD;
+            refreshRideList(pageCounter);
+        }
     }
 
     private void loadOneMorePage() {
         if (!isLoadingPage && !refreshLayout.isRefreshing()) {
             if(ridesCounter%20 == 0 && ridesCounter != 0) {
                 pageCounter++;
+                Log.d("allRides", "loadOneMorePage");
                 refreshRideList(pageCounter);
             }
         }

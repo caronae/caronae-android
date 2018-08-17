@@ -162,6 +162,7 @@ public class SearchRidesListFrag extends Fragment implements Callback {
             }
         }
         time = time.replace(" ", "");
+        Log.d("allRides", "Refreshing from search");
         CaronaeAPI.service(getContext()).listAllRides("", going, neighborhoods, zone, hub,  "", campus, date, time)
                 .enqueue(new retrofit2.Callback<RideForJsonDeserializer>() {
                     @Override

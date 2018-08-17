@@ -571,7 +571,7 @@ public class MainAct extends AppCompatActivity {
     private void configureDissmissFilterButton(){
         dissmissFilter.setOnClickListener((View v) -> {
             SharedPref.setFilterPref(false);
-            SharedPref.lastAllRidesUpdate = 300;
+            SharedPref.lastAllRidesUpdate = null;
             filterText.setText("");
             hideFilterCard(getApplicationContext());
         });

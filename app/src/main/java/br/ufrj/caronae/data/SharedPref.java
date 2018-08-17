@@ -6,6 +6,7 @@ import android.preference.PreferenceManager;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import br.ufrj.caronae.App;
@@ -48,7 +49,7 @@ public class SharedPref {
     public static String LOCATION_INFO                               = "";
     public static String CAMPI_INFO                                  = "";
     public static String isGoing                                     = "1";
-    public static int lastAllRidesUpdate                             = 0;
+    public static Date lastAllRidesUpdate                            = null;
     public static int lastMyRidesUpdate                              = 0;
     public static int lastSearchRidesUpdate                          = 0;
     public static boolean OPEN_ALL_RIDES                             = false;
@@ -116,7 +117,7 @@ public class SharedPref {
         LOCATION_INFO = "";
         CAMPI_INFO = "";
         isGoing = "1";
-        lastAllRidesUpdate = 0;
+        lastAllRidesUpdate = null;
         lastMyRidesUpdate = 0;
         lastSearchRidesUpdate = 0;
         OPEN_ALL_RIDES = false;

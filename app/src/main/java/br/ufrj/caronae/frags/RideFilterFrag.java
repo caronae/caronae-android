@@ -97,7 +97,7 @@ public class RideFilterFrag extends Fragment {
             SharedPref.NAV_INDICATOR = "AllRides";
             act.verifyItem();
         }
-        SharedPref.lastAllRidesUpdate = 350;
+        SharedPref.lastAllRidesUpdate = null;
     }
 
     @Override

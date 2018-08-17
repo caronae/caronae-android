@@ -494,7 +494,7 @@ public class RideOfferFrag extends Fragment {
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                         if (response.isSuccessful()) {
                             pd.dismiss();
-                            SharedPref.lastAllRidesUpdate = 350;
+                            SharedPref.lastAllRidesUpdate = null;
                             SharedPref.lastMyRidesUpdate = 350;
                             changeFragment();
                         } else {
