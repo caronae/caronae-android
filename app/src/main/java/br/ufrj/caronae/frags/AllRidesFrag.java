@@ -21,13 +21,13 @@ import br.ufrj.caronae.data.SharedPref;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.adapters.AllRidesFragmentPagerAdapter;
+import br.ufrj.caronae.interfaces.Updatable;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
-import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class AllRidesFrag extends Fragment {
+public class AllRidesFrag extends Fragment implements Updatable {
 
     @BindView(R.id.viewpager)
     ViewPager viewPager;
@@ -45,6 +45,7 @@ public class AllRidesFrag extends Fragment {
 
     String isGoing;
     String[] tabsText;
+    private AllRidesFragmentPagerAdapter pagerAdapter;
 
     public AllRidesFrag() {
         // Required empty public constructor
@@ -108,7 +109,8 @@ public class AllRidesFrag extends Fragment {
         tabsText[0] = getResources().getString(R.string.arriving_ufrj);
         tabsText[1] = getResources().getString(R.string.leaving_ufrj);
 
-        viewPager.setAdapter(new AllRidesFragmentPagerAdapter(getChildFragmentManager(), goingRides, notGoingRides, tabsText));
+        pagerAdapter = new AllRidesFragmentPagerAdapter(getChildFragmentManager(), goingRides, notGoingRides, tabsText);
+        viewPager.setAdapter(pagerAdapter);
 
         isGoing = SharedPref.isGoing;
 
@@ -175,6 +177,11 @@ public class AllRidesFrag extends Fragment {
         bt2Shape.setColor(getResources().getColor(R.color.dark_gray));
         bt1_tv.setTextColor(getResources().getColor(R.color.dark_gray));
         bt2_tv.setTextColor(getResources().getColor(R.color.white));
+    }
+
+    @Override
+    public void needsUpdating() {
+        pagerAdapter.needsUpdating();
     }
 }
 

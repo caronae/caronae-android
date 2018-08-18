@@ -70,6 +70,7 @@ public class MainAct extends AppCompatActivity {
     private static final int GPLAY_UNAVAILABLE = 123;
 
     private CallbackManager callbackManager;
+    private AllRidesFrag allRidesFrag;
 
     ImageButton dissmissFilter;
     CardView filterCard;
@@ -259,7 +260,8 @@ public class MainAct extends AppCompatActivity {
                     navigation.getMenu().getItem(2).setChecked(true);
                     break;
                 default:
-                    fragment = new AllRidesFrag();
+                    allRidesFrag = new AllRidesFrag();
+                    fragment = allRidesFrag;
                     navigation.getMenu().getItem(0).setChecked(true);
             }
             FragmentManager fragmentManager = getSupportFragmentManager();
@@ -566,9 +568,9 @@ public class MainAct extends AppCompatActivity {
     private void configureDismissFilterButton(){
         dissmissFilter.setOnClickListener((View v) -> {
             SharedPref.setFilterPref(false);
-            SharedPref.lastAllRidesUpdate = null;
             filterText.setText("");
             hideFilterCard(getApplicationContext());
+            allRidesFrag.needsUpdating();
         });
     }
 

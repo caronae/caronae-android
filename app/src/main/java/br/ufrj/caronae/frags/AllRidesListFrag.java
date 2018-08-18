@@ -32,6 +32,7 @@ import br.ufrj.caronae.acts.MainAct;
 import br.ufrj.caronae.adapters.AllRidesFragmentPagerAdapter;
 import br.ufrj.caronae.adapters.RidesAdapter;
 import br.ufrj.caronae.httpapis.CaronaeAPI;
+import br.ufrj.caronae.interfaces.Updatable;
 import br.ufrj.caronae.models.RideRequestSent;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
 import br.ufrj.caronae.models.modelsforjson.RideForJsonDeserializer;
@@ -40,7 +41,7 @@ import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Response;
 
-public class AllRidesListFrag extends Fragment implements Callback {
+public class AllRidesListFrag extends Fragment implements Callback, Updatable {
 
     private static final int RIDES_UPDATE_THRESHOLD_MILLISECONDS = 5 * 60 * 1000;
     @BindView(R.id.rvRides)
@@ -329,5 +330,11 @@ public class AllRidesListFrag extends Fragment implements Callback {
         anim.setFillEnabled(true);
         anim.setFillAfter(true);
         rvRides.startAnimation(anim);
+    }
+
+    @Override
+    public void needsUpdating() {
+        Log.d("allRides", "needsUpdating");
+        refreshRideList(1);
     }
 }
