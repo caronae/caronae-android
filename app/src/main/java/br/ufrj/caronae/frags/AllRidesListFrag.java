@@ -225,7 +225,7 @@ public class AllRidesListFrag extends Fragment implements Callback {
                 public void onResponse(Call<RideForJsonDeserializer> call, Response<RideForJsonDeserializer> response) {
                     if (response.isSuccessful()) {
                         SharedPref.lastAllRidesUpdate = new Date();
-                        if (page == 0) {
+                        if (page == 1) {
                             goingRides = new ArrayList<>();
                             notGoingRides = new ArrayList<>();
                         }
