@@ -166,28 +166,6 @@ public class RidesAdapter extends RecyclerView.Adapter<RidesAdapter.ViewHolder> 
         notifyDataSetChanged();
     }
 
-    private void verifyRequesters(String idRide, final RidesAdapter.ViewHolder viewHolder) {
-        CaronaeAPI.service(context).getRequesters(idRide).enqueue(new Callback<List<User>>() {
-            @Override
-            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
-                if (response.isSuccessful()) {
-                    List<User> requesters = response.body();
-                    if (requesters != null && !requesters.isEmpty()) {
-                        //Action that shows to the user that there are requests in this ride.
-                    }
-                } else {
-                    Util.treatResponseFromServer(response);
-                    Log.e("Error ", response.message());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<User>> call, Throwable t) {
-                Log.e("Error ", t.getLocalizedMessage());
-            }
-        });
-    }
-
     @Override
     public int getItemCount() {
         if (mixedList == null || mixedList.size() == 0) {
