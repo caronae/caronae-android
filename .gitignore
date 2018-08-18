@@ -37,8 +37,10 @@ captures/
 .idea/workspace.xml
 .idea/tasks.xml
 .idea/gradle.xml
+.idea/assetWizardSettings.xml
 .idea/dictionaries
 .idea/libraries
+.idea/caches
 
 # Keystore files
 *.jks
@@ -63,4 +65,3 @@ fastlane/readme.md
 
 google-play-developer-key*.json
 build_number.txt
-.idea/caches/build_file_checksums.ser
