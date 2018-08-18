@@ -5,6 +5,8 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
+import static android.text.TextUtils.isEmpty;
+
 public class User implements Parcelable {
 
     @SerializedName("name")
@@ -222,4 +224,8 @@ public class User implements Parcelable {
             return new User[size];
         }
     };
+
+    public boolean hasIncompleteProfile() {
+        return isEmpty(email) || isEmpty(phoneNumber) || isEmpty(location);
+    }
 }

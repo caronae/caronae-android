@@ -243,7 +243,7 @@ public class MainAct extends AppCompatActivity {
             Intent login = new Intent(this, LoginAct.class);
             startActivity(login);
         }
-        else if (user.getEmail() == null || user.getEmail().isEmpty() || user.getPhoneNumber() == null || user.getPhoneNumber().isEmpty() || user.getLocation() == null || user.getLocation().isEmpty()) {
+        else if (user.hasIncompleteProfile()) {
             Intent firstLogin = new Intent(this, WelcomeAct.class);
             startActivity(firstLogin);
         }
