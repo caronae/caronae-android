@@ -117,7 +117,7 @@ public class MainAct extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        dissmissFilter = (ImageButton) findViewById(R.id.dissmiss_filter);
+        dissmissFilter = (ImageButton) findViewById(R.id.dismiss_filter);
         filterCard = (CardView) findViewById(R.id.filter_card);
         filterText = (TextView) findViewById(R.id.filter_text);
         startFilterCard();
