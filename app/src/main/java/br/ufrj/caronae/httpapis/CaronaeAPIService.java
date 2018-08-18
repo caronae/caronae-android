@@ -50,7 +50,7 @@ public interface CaronaeAPIService {
     Call<RideForJson> getRide(@Path("rideId") String rideId);
 
     @GET("api/v1/rides")
-    Call<RideForJsonDeserializer> listAllRides(@Query("page") String pageNum, @Query("going") String going, @Query("neighborhoods") String neighborhoods, @Query("zone") String zone, @Query("hubs") String hub, @Query("place") String place, @Query("campus") String campus, @Query("date") String date, @Query("time") String time);
+    Call<RideForJsonDeserializer> listAllRides(@Query("page") int pageNum, @Query("going") String going, @Query("neighborhoods") String neighborhoods, @Query("zone") String zone, @Query("hubs") String hub, @Query("place") String place, @Query("campus") String campus, @Query("date") String date, @Query("time") String time);
 
     @GET("api/v1/places")
     Call<PlacesForJson> getPlaces();

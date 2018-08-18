@@ -219,7 +219,7 @@ public class AllRidesListFrag extends Fragment implements Callback {
         }
 
         Log.d("allRides", "Refreshing from refreshRideList with page " + page);
-        CaronaeAPI.service(ctx).listAllRides(page + "", going, neighborhoods, zone, hub, "", campus, "", "")
+        CaronaeAPI.service(ctx).listAllRides(page, going, neighborhoods, zone, hub, "", campus, "", "")
             .enqueue(new retrofit2.Callback<RideForJsonDeserializer>() {
                 @Override
                 public void onResponse(Call<RideForJsonDeserializer> call, Response<RideForJsonDeserializer> response) {
