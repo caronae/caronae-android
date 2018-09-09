@@ -44,7 +44,6 @@ public class AllRidesFrag extends Fragment implements Updatable {
     ArrayList<RideForJson> notGoingRides = new ArrayList<>();
 
     String isGoing;
-    String[] tabsText;
     private AllRidesFragmentPagerAdapter pagerAdapter;
 
     public AllRidesFrag() {
@@ -55,8 +54,6 @@ public class AllRidesFrag extends Fragment implements Updatable {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_all_rides, container, false);
         ButterKnife.bind(this, view);
-
-        tabsText = new String[2];
 
         Util.setColors();
 
@@ -106,10 +103,7 @@ public class AllRidesFrag extends Fragment implements Updatable {
         setHasOptionsMenu(true);
         ((MainAct)getActivity()).showMainItems();
 
-        tabsText[0] = getResources().getString(R.string.arriving_ufrj);
-        tabsText[1] = getResources().getString(R.string.leaving_ufrj);
-
-        pagerAdapter = new AllRidesFragmentPagerAdapter(getChildFragmentManager(), goingRides, notGoingRides, tabsText);
+        pagerAdapter = new AllRidesFragmentPagerAdapter(getChildFragmentManager(), getContext(), goingRides, notGoingRides);
         viewPager.setAdapter(pagerAdapter);
 
         isGoing = SharedPref.isGoing;
