@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.widget.EditText;
@@ -117,7 +118,7 @@ public class MainAct extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        allRidesFrag = new AllRidesFrag();
         dissmissFilter = (ImageButton) findViewById(R.id.dismiss_filter);
         filterCard = (CardView) findViewById(R.id.filter_card);
         filterText = (TextView) findViewById(R.id.filter_text);
@@ -260,7 +261,6 @@ public class MainAct extends AppCompatActivity {
                     navigation.getMenu().getItem(2).setChecked(true);
                     break;
                 default:
-                    allRidesFrag = new AllRidesFrag();
                     fragment = allRidesFrag;
                     navigation.getMenu().getItem(0).setChecked(true);
             }
@@ -284,11 +284,14 @@ public class MainAct extends AppCompatActivity {
     }
 
     private void selectDrawerItem(MenuItem menuItem, boolean slideVertical) {
+        Menu menu = navigation.getMenu();
         Fragment fragment = null;
+        int selectedIndex;
         Class fragmentClass;
-        navigation.getMenu().getItem(0).setChecked(false);
-        navigation.getMenu().getItem(1).setChecked(false);
-        navigation.getMenu().getItem(2).setChecked(false);
+        menu.getItem(0).setChecked(false);
+        menu.getItem(1).setChecked(false);
+        menu.getItem(2).setChecked(false);
+        
         switch (menuItem.getItemId()) {
             case R.id.navigation_allrides:
                 if(!filterText.getText().equals(""))
@@ -300,37 +303,32 @@ public class MainAct extends AppCompatActivity {
                     hideFilterCard(getBaseContext());
                 }
                 fragmentClass = AllRidesFrag.class;
-                navigation.getMenu().getItem(0).setChecked(true);
+                fragment = allRidesFrag;
+                selectedIndex = 0;
                 break;
             case R.id.navigation_myrides:
                 hideFilterCard(getBaseContext());
                 fragmentClass = MyRidesFrag.class;
-                navigation.getMenu().getItem(1).setChecked(true);
-                break;
-            case R.id.navigation_menu:
-                fragmentClass = OptionsMenuFrag.class;
-                hideFilterCard(getBaseContext());
-                navigation.getMenu().getItem(2).setChecked(true);
+                selectedIndex = 1;
                 break;
             default:
-                if(!filterText.getText().equals(""))
-                {
-                    showFilterCard(getBaseContext());
-                }
-                else
-                {
-                    hideFilterCard(getBaseContext());
-                }
-                fragmentClass = AllRidesFrag.class;
+                fragmentClass = OptionsMenuFrag.class;
+                hideFilterCard(getBaseContext());
+                selectedIndex = 2;
+                break;
         }
+
+        menu.getItem(selectedIndex).setChecked(true);
 
         if (fragmentClass == null)
             finish();
         else {
-            try {
-                fragment = (Fragment) fragmentClass.newInstance();
-            } catch (Exception e) {
-                e.printStackTrace();
+            if (fragment == null) {
+                try {
+                    fragment = (Fragment) fragmentClass.newInstance();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
 
             backstackSafeCheck();
@@ -338,11 +336,12 @@ public class MainAct extends AppCompatActivity {
             backstack.add(fragmentClass);
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction transaction = fragmentManager.beginTransaction();
-            fragmentManager.popBackStack();
             if(slideVertical) {
                 transaction.setCustomAnimations(R.anim.anim_up_slide_in, R.anim.anim_down_slide_out);
             }
-            transaction.replace(R.id.flContent, fragment).commit();
+            transaction.replace(R.id.flContent, fragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
         }
     }
 

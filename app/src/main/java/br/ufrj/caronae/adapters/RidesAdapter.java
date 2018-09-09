@@ -3,11 +3,9 @@ package br.ufrj.caronae.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -21,13 +19,8 @@ import br.ufrj.caronae.R;
 import br.ufrj.caronae.customizedviews.RoundedTransformation;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.acts.RideDetailAct;
-import br.ufrj.caronae.httpapis.CaronaeAPI;
-import br.ufrj.caronae.models.User;
 import br.ufrj.caronae.models.modelsforjson.RideForJson;
 import de.hdodenhof.circleimageview.CircleImageView;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class RidesAdapter extends RecyclerView.Adapter<RidesAdapter.ViewHolder> {
 
@@ -77,93 +70,99 @@ public class RidesAdapter extends RecyclerView.Adapter<RidesAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(final RidesAdapter.ViewHolder viewHolder, int position) {
-        if (!(mixedList == null || mixedList.size() == 0)) {
-            if (mixedList.get(position).getClass().equals(RideForJson.class)) {
-                final RideForJson rideOffer = (RideForJson) mixedList.get(position);
+        if (mixedList == null || mixedList.size() == 0) {
+            return;
+        }
 
-                int color = Util.getColors(rideOffer.getZone());
-                viewHolder.location_tv.setTextColor(color);
-                viewHolder.time_tv.setTextColor(color);
-                viewHolder.name_tv.setTextColor(color);
-                viewHolder.photo_iv.setBorderColor(color);
+        if (mixedList.get(position).getClass().equals(RideForJson.class)) {
+            final RideForJson rideOffer = (RideForJson) mixedList.get(position);
 
-                if(rideOffer.fromWhere.equals("SearchRides")) {
+            int color = Util.getColors(rideOffer.getZone());
+            viewHolder.location_tv.setTextColor(color);
+            viewHolder.time_tv.setTextColor(color);
+            viewHolder.name_tv.setTextColor(color);
+            viewHolder.photo_iv.setBorderColor(color);
+
+            if(rideOffer.fromWhere.equals("SearchRides")) {
+                viewHolder.secondaryLayout.setVisibility(View.GONE);
+            }
+            else {
+                if (rideOffer.type != null && !rideOffer.type.isEmpty() && rideOffer.type.equals("final")) {
+                    viewHolder.secondaryLayout.setVisibility(View.VISIBLE);
+                } else {
                     viewHolder.secondaryLayout.setVisibility(View.GONE);
                 }
-                else {
-                    if (rideOffer.type != null && !rideOffer.type.isEmpty() && rideOffer.type.equals("final")) {
-                        viewHolder.secondaryLayout.setVisibility(View.VISIBLE);
-                    } else {
-                        viewHolder.secondaryLayout.setVisibility(View.GONE);
-                    }
-                }
-                String profilePicUrl = rideOffer.getDriver().getProfilePicUrl();
-                if (profilePicUrl != null && !profilePicUrl.isEmpty()) {
-                    Picasso.with(context).load(profilePicUrl)
-                            .placeholder(R.drawable.user_pic)
-                            .error(R.drawable.user_pic)
-                            .transform(new RoundedTransformation())
-                            .into(viewHolder.photo_iv);
-                } else {
-                    viewHolder.photo_iv.setImageResource(R.drawable.user_pic);
-                }
-
-                String timeText;
-                if (rideOffer.isGoing())
-                    timeText = context.getResources().getString(R.string.arriving_at, Util.formatTime(rideOffer.getTime()));
-                else
-                    timeText = context.getResources().getString(R.string.leaving_at, Util.formatTime(rideOffer.getTime()));
-
-                timeText =  timeText + " | " + Util.getWeekDayFromDateWithoutTodayString(rideOffer.getDate()) + " | " +Util.formatBadDateWithoutYear(rideOffer.getDate());
-                viewHolder.time_tv.setText(timeText);
-
-                String name = rideOffer.getDriver().getName();
-                try {
-                    String[] split = name.split(" ");
-                    String shortName = split[0] + " " + split[split.length - 1];
-                    viewHolder.name_tv.setText(shortName);
-                } catch (Exception e) {
-                    viewHolder.name_tv.setText(name);
-                }
-
-                String location;
-                if (rideOffer.isGoing())
-                    location = rideOffer.getNeighborhood().toUpperCase() + " ➜ " + rideOffer.getHub().toUpperCase();
-                else
-                    location = rideOffer.getHub().toUpperCase() + " ➜ " + rideOffer.getNeighborhood().toUpperCase();
-
-                viewHolder.location_tv.setText(location);
-
-                viewHolder.parentLayout.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent intent = new Intent(context, RideDetailAct.class);
-                        intent.putExtra("fromWhere", rideOffer.fromWhere);
-                        intent.putExtra("ride", rideOffer);
-                        intent.putExtra("starting", true);
-                        intent.putExtra("rideId", rideOffer.getId().intValue());
-                        context.startActivity(intent);
-                    }
-                });
             }
+            String profilePicUrl = rideOffer.getDriver().getProfilePicUrl();
+            if (profilePicUrl != null && !profilePicUrl.isEmpty()) {
+                Picasso.with(context).load(profilePicUrl)
+                        .placeholder(R.drawable.user_pic)
+                        .error(R.drawable.user_pic)
+                        .transform(new RoundedTransformation())
+                        .into(viewHolder.photo_iv);
+            } else {
+                viewHolder.photo_iv.setImageResource(R.drawable.user_pic);
+            }
+
+            String timeText;
+            if (rideOffer.isGoing())
+                timeText = context.getResources().getString(R.string.arriving_at, Util.formatTime(rideOffer.getTime()));
+            else
+                timeText = context.getResources().getString(R.string.leaving_at, Util.formatTime(rideOffer.getTime()));
+
+            timeText =  timeText + " | " + Util.getWeekDayFromDateWithoutTodayString(rideOffer.getDate()) + " | " +Util.formatBadDateWithoutYear(rideOffer.getDate());
+            viewHolder.time_tv.setText(timeText);
+
+            String name = rideOffer.getDriver().getName();
+            try {
+                String[] split = name.split(" ");
+                String shortName = split[0] + " " + split[split.length - 1];
+                viewHolder.name_tv.setText(shortName);
+            } catch (Exception e) {
+                viewHolder.name_tv.setText(name);
+            }
+
+            String location;
+            if (rideOffer.isGoing())
+                location = rideOffer.getNeighborhood().toUpperCase() + " ➜ " + rideOffer.getHub().toUpperCase();
+            else
+                location = rideOffer.getHub().toUpperCase() + " ➜ " + rideOffer.getNeighborhood().toUpperCase();
+
+            viewHolder.location_tv.setText(location);
+
+            viewHolder.parentLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context, RideDetailAct.class);
+                    intent.putExtra("fromWhere", rideOffer.fromWhere);
+                    intent.putExtra("ride", rideOffer);
+                    intent.putExtra("starting", true);
+                    intent.putExtra("rideId", rideOffer.getId().intValue());
+                    context.startActivity(intent);
+                }
+            });
         }
     }
 
-    public void makeList(List<RideForJson> rideOffers) {
+    public void setRides(List<RideForJson> rides) {
         mixedList.clear();
         ArrayList<Integer> ridesId = new ArrayList<>();
         //Verifies if there are rides repeated
-        for(int i = 0; i < rideOffers.size(); i++) {
-            if(!ridesId.contains(rideOffers.get(i).getId().intValue()))
+        for(int i = 0; i < rides.size(); i++) {
+            if(!ridesId.contains(rides.get(i).getId().intValue()))
             {
-                rideOffers.get(i).type = "";
-                ridesId.add(rideOffers.get(i).getId().intValue());
-                mixedList.add(rideOffers.get(i));
+                rides.get(i).type = "";
+                ridesId.add(rides.get(i).getId().intValue());
+                mixedList.add(rides.get(i));
             }
         }
         if(mixedList.size() % 20 == 0)
             ((RideForJson)mixedList.get(mixedList.size()-1)).type = "final";
         notifyDataSetChanged();
+    }
+
+    public boolean isEmpty() {
+        return mixedList == null || mixedList.isEmpty();
     }
 
     @Override

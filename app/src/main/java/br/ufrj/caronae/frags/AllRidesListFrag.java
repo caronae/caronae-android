@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -57,8 +56,6 @@ public class AllRidesListFrag extends Fragment implements Callback, Updatable {
 
     private EndlessRecyclerViewScrollListener scrollListener;
 
-    LinearLayoutManager mLayoutManager;
-
     int pageIdentifier;
 
     String neighborhoods = null;
@@ -73,6 +70,17 @@ public class AllRidesListFrag extends Fragment implements Callback, Updatable {
 
     public AllRidesListFrag() {
         // Required empty public constructor
+        Log.d("allRides", "Creating new AllRidesListFrag");
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Log.d("allRides", "onCreate AllRidesListFrag");
+
+        ButterKnife.bind(getActivity());
+        adapter = new RidesAdapter(getContext());
+        App.getBus().register(this);
     }
 
     @Override
@@ -80,33 +88,24 @@ public class AllRidesListFrag extends Fragment implements Callback, Updatable {
         View view = inflater.inflate(R.layout.fragment_all_rides_list, container, false);
         ButterKnife.bind(this, view);
 
-        Context ctx;
-        ctx = getContext();
-        refreshLayout.setProgressViewOffset(false, getResources().getDimensionPixelSize(R.dimen.refresher_offset), getResources().getDimensionPixelSize(R.dimen.refresher_offset_end));
         Bundle bundle = getArguments();
-        ArrayList<RideForJson> rideOffers = bundle.getParcelableArrayList("rides");
         pageIdentifier = bundle.getInt("ID");
 
-        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                Log.d("allRides", "refresh listener");
-                refreshRideList(1);
-            }
+        refreshLayout.setProgressViewOffset(false, getResources().getDimensionPixelSize(R.dimen.refresher_offset), getResources().getDimensionPixelSize(R.dimen.refresher_offset_end));
+        refreshLayout.setOnRefreshListener(() -> {
+            Log.d("allRides", "refresh listener");
+            refreshRideList(1);
         });
 
-        adapter = new RidesAdapter(getContext());
-        mLayoutManager = new LinearLayoutManager(getContext());
-        rvRides.setLayoutManager(mLayoutManager);
-
-        scrollListener = new EndlessRecyclerViewScrollListener(mLayoutManager) {
-            @Override
-            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                loadOneMorePage();
-            }
-        };
-        rvRides.addOnScrollListener(scrollListener);
-
+        if (scrollListener == null) {
+            scrollListener = new EndlessRecyclerViewScrollListener(rvRides.getLayoutManager()) {
+                @Override
+                public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                    loadOneMorePage();
+                }
+            };
+            rvRides.addOnScrollListener(scrollListener);
+        }
         rvRides.setAdapter(adapter);
 
         boolean isFiltering = SharedPref.checkExistence(SharedPref.RIDE_FILTER_PREF_KEY) ? SharedPref.getFiltersPref() : false;
@@ -117,18 +116,18 @@ public class AllRidesListFrag extends Fragment implements Callback, Updatable {
             if (pageIdentifier == AllRidesFragmentPagerAdapter.PAGE_GOING) {
                 if (SharedPref.ALL_RIDES_GOING != null && !SharedPref.ALL_RIDES_GOING.isEmpty()) {
                     noRides.setVisibility(View.GONE);
-                    adapter.makeList(SharedPref.ALL_RIDES_GOING);
+                    adapter.setRides(SharedPref.ALL_RIDES_GOING);
                     scrollListener.resetState();
                 }
             } else {
                 if (SharedPref.ALL_RIDES_LEAVING != null && !SharedPref.ALL_RIDES_LEAVING.isEmpty()) {
                     noRides.setVisibility(View.GONE);
-                    adapter.makeList(SharedPref.ALL_RIDES_LEAVING);
+                    adapter.setRides(SharedPref.ALL_RIDES_LEAVING);
                     scrollListener.resetState();
                 }
             }
         }
-        else if(!Util.isNetworkAvailable(ctx))
+        else if(!Util.isNetworkAvailable(getContext()))
         {
             noRides.setText(R.string.fragment_allrides_norides);
             noRides.setVisibility(View.VISIBLE);
@@ -139,11 +138,9 @@ public class AllRidesListFrag extends Fragment implements Callback, Updatable {
             noRides.setVisibility(View.VISIBLE);
         }
 
-        if (!(rideOffers == null || rideOffers.isEmpty())) {
-            adapter.makeList(rideOffers);
+        if (!adapter.isEmpty()) {
+            noRides.setVisibility(View.GONE);
         }
-
-        App.getBus().register(this);
 
         // After setting layout manager, adapter, etc...
         float offsetBottonPx = getResources().getDimension(R.dimen.recycler_view_botton_offset);
@@ -153,7 +150,7 @@ public class AllRidesListFrag extends Fragment implements Callback, Updatable {
 
         animateListFadeIn();
 
-        Log.d("allRides", "onCreateView");
+        Log.d("allRides", "onCreateView AllRidesListFrag");
         reloadRidesIfNecessary();
 
         return view;
@@ -288,7 +285,7 @@ public class AllRidesListFrag extends Fragment implements Callback, Updatable {
                     SharedPref.ALL_RIDES_GOING = goingRides;
                 }
                 scrollListener.resetState();
-                adapter.makeList(goingRides);
+                adapter.setRides(goingRides);
             }
         } else {
             if (notGoingRides != null && !notGoingRides.isEmpty()) {
@@ -296,7 +293,7 @@ public class AllRidesListFrag extends Fragment implements Callback, Updatable {
                     SharedPref.ALL_RIDES_LEAVING = notGoingRides;
                 }
                 scrollListener.resetState();
-                adapter.makeList(notGoingRides);
+                adapter.setRides(notGoingRides);
             }
         }
         refreshLayout.setRefreshing(false);
@@ -312,6 +309,8 @@ public class AllRidesListFrag extends Fragment implements Callback, Updatable {
         {
             Log.d("allRides", "reloadRidesIfNecessary will update");
             refreshRideList(1);
+        } else {
+            Log.d("allRides", "reloadRidesIfNecessary will NOT update");
         }
     }
 

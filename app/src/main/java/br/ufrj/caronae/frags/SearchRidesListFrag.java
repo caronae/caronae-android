@@ -245,7 +245,7 @@ public class SearchRidesListFrag extends Fragment implements Callback {
             }
         }
         if (rides != null && !rides.isEmpty()) {
-            adapter.makeList(rides);
+            adapter.setRides(rides);
             adapter.notifyDataSetChanged();
         }
         refreshLayout.setRefreshing(false);
