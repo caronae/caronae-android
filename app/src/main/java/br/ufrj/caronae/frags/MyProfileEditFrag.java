@@ -317,20 +317,10 @@ public class MyProfileEditFrag extends Fragment {
     }
 
     public boolean validatePlate(String plate) {
-        //AAA-0000
         String brazilianPlateRegex = "^[A-Z]{3}-[0-9]{4}$";
         String mercosulPlateRegex = "^(?=(?:.*[0-9]){3})(?=(?:.*[A-Z]){4})[A-Z0-9]{7}$";
 
         return Pattern.compile(brazilianPlateRegex).matcher(plate).matches() || Pattern.compile(mercosulPlateRegex).matcher(plate).matches();
-//        return plate.length() == 8 &&
-//                Character.isLetter(plate.charAt(0)) &&
-//                Character.isLetter(plate.charAt(1)) &&
-//                Character.isLetter(plate.charAt(2)) &&
-//                plate.charAt(3) == '-' &&
-//                Character.isDigit(plate.charAt(4)) &&
-//                Character.isDigit(plate.charAt(5)) &&
-//                Character.isDigit(plate.charAt(6)) &&
-//                Character.isDigit(plate.charAt(7));
     }
 
     private boolean validateMail(String mail) {
