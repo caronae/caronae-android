@@ -275,6 +275,7 @@
                 android:layout_below="@+id/car_text_tv"
                 android:drawableLeft="@drawable/ic_plate_24dp"
                 android:drawablePadding="5dp"
+                android:maxLength="7"
                 android:drawableStart="@drawable/ic_plate_24dp"
                 android:hint="@string/plate"
                 android:inputType="textNoSuggestions|textVisiblePassword"

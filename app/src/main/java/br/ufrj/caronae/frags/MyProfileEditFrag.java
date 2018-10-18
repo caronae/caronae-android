@@ -37,6 +37,8 @@ import com.redmadrobot.inputmask.helper.Mask;
 import com.redmadrobot.inputmask.model.CaretString;
 import com.squareup.picasso.Picasso;
 
+import java.util.regex.Pattern;
+
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.acts.MediaAct;
 import br.ufrj.caronae.customizedviews.CustomDialogClass;
@@ -123,7 +125,11 @@ public class MyProfileEditFrag extends Fragment {
                 carOwnerSw();
             }
         });
-        carPlate_et.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        InputFilter[] editFilters = carPlate_et.getFilters();
+        InputFilter[] newFilters = new InputFilter[editFilters.length + 1];
+        System.arraycopy(editFilters, 0, newFilters, 0, editFilters.length);
+        newFilters[editFilters.length] = new InputFilter.AllCaps();
+        carPlate_et.setFilters(newFilters);
         loginButton.setReadPermissions("user_friends");
         loginButton.setFragment(this);
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
@@ -189,7 +195,7 @@ public class MyProfileEditFrag extends Fragment {
                                 SharedPref.setRidesTaken(String.valueOf(historyRide.getRidesHistoryTakenCount()));
                                 SharedPref.setRidesOffered(String.valueOf(historyRide.getRidesHistoryOfferedCount()));
                             } else {
-                                if(!SharedPref.getRidesOffered().isEmpty() && !SharedPref.getRidesOffered().equals("missing")) {
+                                if (!SharedPref.getRidesOffered().isEmpty() && !SharedPref.getRidesOffered().equals("missing")) {
                                     ridesOffered_tv.setText(SharedPref.getRidesOffered());
                                     ridesTaken_tv.setText(SharedPref.getRidesTaken());
                                 }
@@ -200,7 +206,7 @@ public class MyProfileEditFrag extends Fragment {
 
                         @Override
                         public void onFailure(Call<RideHistoryForJson> call, Throwable t) {
-                            if(!SharedPref.getRidesOffered().isEmpty() && !SharedPref.getRidesOffered().equals("missing")) {
+                            if (!SharedPref.getRidesOffered().isEmpty() && !SharedPref.getRidesOffered().equals("missing")) {
                                 ridesOffered_tv.setText(SharedPref.getRidesOffered());
                                 ridesTaken_tv.setText(SharedPref.getRidesTaken());
                             }
@@ -213,10 +219,8 @@ public class MyProfileEditFrag extends Fragment {
     }
 
     @Override
-    public void onStart()
-    {
-        if(!SharedPref.LOCATION_INFO.isEmpty() && !SharedPref.LOCATION_INFO.equals(""))
-        {
+    public void onStart() {
+        if (!SharedPref.LOCATION_INFO.isEmpty() && !SharedPref.LOCATION_INFO.equals("")) {
             location_et.setText(SharedPref.LOCATION_INFO);
             SharedPref.LOCATION_INFO = "";
         }
@@ -224,10 +228,8 @@ public class MyProfileEditFrag extends Fragment {
     }
 
     @Override
-    public void onResume()
-    {
-        if(!SharedPref.LOCATION_INFO.isEmpty() && !SharedPref.LOCATION_INFO.equals(""))
-        {
+    public void onResume() {
+        if (!SharedPref.LOCATION_INFO.isEmpty() && !SharedPref.LOCATION_INFO.equals("")) {
             location_et.setText(SharedPref.LOCATION_INFO);
             SharedPref.LOCATION_INFO = "";
         }
@@ -314,17 +316,21 @@ public class MyProfileEditFrag extends Fragment {
         });
     }
 
-    private boolean validatePlate(String plate) {
+    public boolean validatePlate(String plate) {
         //AAA-0000
-        return plate.length() == 8 &&
-                Character.isLetter(plate.charAt(0)) &&
-                Character.isLetter(plate.charAt(1)) &&
-                Character.isLetter(plate.charAt(2)) &&
-                plate.charAt(3) == '-' &&
-                Character.isDigit(plate.charAt(4)) &&
-                Character.isDigit(plate.charAt(5)) &&
-                Character.isDigit(plate.charAt(6)) &&
-                Character.isDigit(plate.charAt(7));
+        String brazilianPlateRegex = "^[A-Z]{3}-[0-9]{4}$";
+        String mercosulPlateRegex = "^(?=(?:.*[0-9]){3})(?=(?:.*[A-Z]){4})[A-Z0-9]{7}$";
+
+        return Pattern.compile(brazilianPlateRegex).matcher(plate).matches() || Pattern.compile(mercosulPlateRegex).matcher(plate).matches();
+//        return plate.length() == 8 &&
+//                Character.isLetter(plate.charAt(0)) &&
+//                Character.isLetter(plate.charAt(1)) &&
+//                Character.isLetter(plate.charAt(2)) &&
+//                plate.charAt(3) == '-' &&
+//                Character.isDigit(plate.charAt(4)) &&
+//                Character.isDigit(plate.charAt(5)) &&
+//                Character.isDigit(plate.charAt(6)) &&
+//                Character.isDigit(plate.charAt(7));
     }
 
     private boolean validateMail(String mail) {
@@ -360,23 +366,19 @@ public class MyProfileEditFrag extends Fragment {
         carModel_et.setText(user.getCarModel());
         carColor_et.setText(user.getCarColor());
         if (!TextUtils.isEmpty(user.getCarPlate())) {
-            carPlate_et.setText(getFormatedPlate(user.getCarPlate()));
+            carPlate_et.setText(user.getCarPlate());
         }
         String date = user.getCreatedAt().split(" ")[0];
         date = Util.formatBadDateWithYear(date).substring(3);
         createdAt_tv.setText(date);
-        if(SharedPref.getSavedPic())
-        {
-                Bitmap bmp = new ImageSaver(getContext()).
+        if (SharedPref.getSavedPic()) {
+            Bitmap bmp = new ImageSaver(getContext()).
                     setFileName("myProfile.png").
                     setDirectoryName("images").
                     load();
-                user_pic.setImageBitmap(bmp);
-        }
-        else
-        {
-            if (user.getProfilePicUrl() != null && !user.getProfilePicUrl().isEmpty())
-            {
+            user_pic.setImageBitmap(bmp);
+        } else {
+            if (user.getProfilePicUrl() != null && !user.getProfilePicUrl().isEmpty()) {
                 Picasso.with(getContext()).load(user.getProfilePicUrl())
                         .placeholder(R.drawable.user_pic)
                         .error(R.drawable.user_pic)
@@ -388,7 +390,7 @@ public class MyProfileEditFrag extends Fragment {
 
     @OnClick(R.id.changePhotoText)
     public void userPic() {
-       showPhotoOptions();
+        showPhotoOptions();
     }
 
     @OnClick(R.id.carOwner_sw)
@@ -419,13 +421,15 @@ public class MyProfileEditFrag extends Fragment {
             ((MyProfileAct) getActivity()).progressBar.getIndeterminateDrawable().setColorFilter(0xFF000000, android.graphics.PorterDuff.Mode.MULTIPLY);
             ((MyProfileAct) getActivity()).edit_bt.setVisibility(View.GONE);
             ((MyProfileAct) getActivity()).progressBar.setVisibility(View.VISIBLE);
-        } catch (Exception e) { Log.e("Error:", "Getting null activity: " + e.toString());}
+        } catch (Exception e) {
+            Log.e("Error:", "Getting null activity: " + e.toString());
+        }
 
         if (App.getUser() == null) {
             return;
         }
 
-        BitmapDrawable bmpDrawable = (BitmapDrawable)user_pic.getDrawable();
+        BitmapDrawable bmpDrawable = (BitmapDrawable) user_pic.getDrawable();
         Bitmap bitmap = bmpDrawable.getBitmap();
 
         final User editedUser = new User();
@@ -442,7 +446,7 @@ public class MyProfileEditFrag extends Fragment {
             try {
                 ((MyProfileAct) getActivity()).progressBar.setVisibility(View.GONE);
                 ((MyProfileAct) getActivity()).edit_bt.setVisibility(View.VISIBLE);
-            }catch (Exception e) {
+            } catch (Exception e) {
                 Log.e("Error:", "Getting null activity: " + e.toString());
             }
             return;
@@ -456,7 +460,7 @@ public class MyProfileEditFrag extends Fragment {
             try {
                 ((MyProfileAct) getActivity()).progressBar.setVisibility(View.GONE);
                 ((MyProfileAct) getActivity()).edit_bt.setVisibility(View.VISIBLE);
-            }catch (Exception e) {
+            } catch (Exception e) {
                 Log.e("Error:", "Getting null activity: " + e.toString());
             }
             return;
@@ -470,12 +474,12 @@ public class MyProfileEditFrag extends Fragment {
             try {
                 ((MyProfileAct) getActivity()).progressBar.setVisibility(View.GONE);
                 ((MyProfileAct) getActivity()).edit_bt.setVisibility(View.VISIBLE);
-            }catch (Exception e) {
+            } catch (Exception e) {
                 Log.e("Error:", "Getting null activity: " + e.toString());
             }
             return;
         } else if (validation == 0) {
-            if(Util.isNetworkAvailable(getContext())) {
+            if (Util.isNetworkAvailable(getContext())) {
                 CaronaeAPI.service(getContext()).updateUser(String.valueOf(App.getUser().getDbId()), editedUser)
                         .enqueue(new Callback<ResponseBody>() {
                             @Override
@@ -515,9 +519,7 @@ public class MyProfileEditFrag extends Fragment {
                                 Log.e("updateUser", t.getMessage());
                             }
                         });
-            }
-            else
-            {
+            } else {
                 onErrorUpdatingProfile();
             }
         }
@@ -540,25 +542,15 @@ public class MyProfileEditFrag extends Fragment {
 
     private void prepEditedUser(User editedUser) {
         String userPhoneNumber, userPlate;
-        if(phoneNumber_et.getText().toString().length() == 16)
-        {
-            userPhoneNumber = (phoneNumber_et.getText().toString().substring(1,4)) +
-                    (phoneNumber_et.getText().toString().substring(6,11)) +
+        if (phoneNumber_et.getText().toString().length() == 16) {
+            userPhoneNumber = (phoneNumber_et.getText().toString().substring(1, 4)) +
+                    (phoneNumber_et.getText().toString().substring(6, 11)) +
                     (phoneNumber_et.getText().toString().substring(12));
-        }
-        else
-        {
+        } else {
             userPhoneNumber = phoneNumber_et.getText().toString();
         }
-        if(carPlate_et.getText().toString().length() == 8)
-        {
-            userPlate = (carPlate_et.getText().toString().substring(0,3).toUpperCase()) +
-                    (carPlate_et.getText().toString().substring(4));
-        }
-        else
-        {
-            userPlate = carPlate_et.getText().toString();
-        }
+        userPlate = carPlate_et.getText().toString();
+
         editedUser.setPhoneNumber(userPhoneNumber);//(0XX) XXXXX-XXXX
         editedUser.setEmail(email_et.getText().toString());
         editedUser.setLocation(location_et.getText().toString());
@@ -600,8 +592,7 @@ public class MyProfileEditFrag extends Fragment {
     }
 
     //Use this function to initialize the user input fields format.
-    void setETFormat()
-    {
+    void setETFormat() {
         final MaskedTextChangedListener phoneListener = new MaskedTextChangedListener(
                 "({0}[00]) [00000]-[0000]",
                 true,
@@ -618,8 +609,7 @@ public class MyProfileEditFrag extends Fragment {
         phoneNumber_et.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if(TextUtils.isEmpty(phoneNumber_et.getText().toString()))
-                {
+                if (TextUtils.isEmpty(phoneNumber_et.getText().toString())) {
                     phoneNumber_et.setText("(021) ");
                 }
                 return false;
@@ -629,27 +619,11 @@ public class MyProfileEditFrag extends Fragment {
         phoneNumber_et.setOnFocusChangeListener(phoneListener);
 
 
-        final MaskedTextChangedListener plateListener = new MaskedTextChangedListener(
-                "[AAA]{-}[0000]",
-                true,
-                carPlate_et,
-                null,
-                new MaskedTextChangedListener.ValueListener() {
-                    @Override
-                    public void onTextChanged(boolean maskFilled, @NonNull final String extractedValue) {
-                        Log.d(ProfileAct.class.getSimpleName(), extractedValue);
-                        Log.d(ProfileAct.class.getSimpleName(), String.valueOf(maskFilled));
-                    }
-                }
-        );
 
-        carPlate_et.addTextChangedListener(plateListener);
-        carPlate_et.setOnFocusChangeListener(plateListener);
     }
 
     //Use this function to get user phone number correctly formated
-    String getFormatedNumber(String phone)
-    {
+    String getFormatedNumber(String phone) {
         final Mask mask = new Mask("({0}[00]) [00000]-[0000]");
         final String input = phone;
         final Mask.Result result = mask.apply(
@@ -663,25 +637,8 @@ public class MyProfileEditFrag extends Fragment {
         return output;
     }
 
-    //Use this function to get user car plate correctly formated
-    String getFormatedPlate(String plate)
-    {
-        final Mask mask = new Mask("[AAA]-[0000]");
-        final String input = plate;
-        final Mask.Result result = mask.apply(
-                new CaretString(
-                        input,
-                        input.length()
-                ),
-                true // you may consider disabling autocompletion for your case
-        );
-        final String output = result.getFormattedText().getString();
-        return output;
-    }
-
-    private void showPhotoOptions()
-    {
-        CustomBottomDialogClass  dialog = new CustomBottomDialogClass(getActivity(), "MyProfileEdit", this);
+    private void showPhotoOptions() {
+        CustomBottomDialogClass dialog = new CustomBottomDialogClass(getActivity(), "MyProfileEdit", this);
         WindowManager.LayoutParams wmlp = dialog.getWindow().getAttributes();
         wmlp.gravity = Gravity.BOTTOM;
         dialog.show();
@@ -711,24 +668,21 @@ public class MyProfileEditFrag extends Fragment {
         dialog.show();*/
     }
 
-    public void removePhoto()
-    {
-        BitmapDrawable bmpDrawable = (BitmapDrawable)getResources().getDrawable(R.drawable.user_pic);
+    public void removePhoto() {
+        BitmapDrawable bmpDrawable = (BitmapDrawable) getResources().getDrawable(R.drawable.user_pic);
         Bitmap removedPhoto = bmpDrawable.getBitmap();
         user_pic.setImageBitmap(removedPhoto);
         profileUrlPic = "";
     }
 
-    public void changeToMediaAct()
-    {
+    public void changeToMediaAct() {
         Intent intent = new Intent(getActivity(), MediaAct.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         getActivity().overridePendingTransition(R.anim.anim_down_slide_in, R.anim.anim_up_slide_out);
     }
 
-    public void useFacebookPhoto()
-    {
+    public void useFacebookPhoto() {
         Profile profile = Profile.getCurrentProfile();
         if (profile != null) {
             String faceId = profile.getId();
@@ -741,7 +695,7 @@ public class MyProfileEditFrag extends Fragment {
                     .into(user_pic, new com.squareup.picasso.Callback() {
                         @Override
                         public void onSuccess() {
-                            BitmapDrawable bmpDrawable = (BitmapDrawable)user_pic.getDrawable();
+                            BitmapDrawable bmpDrawable = (BitmapDrawable) user_pic.getDrawable();
                             Bitmap bitmap = bmpDrawable.getBitmap();
                             new ImageSaver(getContext()).
                                     setFileName("myProfile.png").
@@ -754,14 +708,12 @@ public class MyProfileEditFrag extends Fragment {
                         public void onError() {
                         }
                     });
-        }
-        else {
+        } else {
             onFacebookPhotoChangeFailed();
         }
     }
 
-    public void onFacebookPhotoChangeFailed()
-    {
+    public void onFacebookPhotoChangeFailed() {
         CustomDialogClass customDialogClass = new CustomDialogClass(getActivity(), "MyProfileEdit", this);
         customDialogClass.show();
         customDialogClass.setTitleText(getActivity().getResources().getString(R.string.facebook_error_title));
@@ -770,13 +722,12 @@ public class MyProfileEditFrag extends Fragment {
         customDialogClass.enableOnePositiveOption();
     }
 
-    public void onErrorUpdatingProfile()
-    {
+    public void onErrorUpdatingProfile() {
         Activity activity = getActivity();
         try {
             ((MyProfileAct) activity).progressBar.setVisibility(View.GONE);
             ((MyProfileAct) activity).edit_bt.setVisibility(View.VISIBLE);
-        }catch (Exception e) {
+        } catch (Exception e) {
             Log.e("Error:", "Getting null activity: " + e.toString());
         }
         CustomDialogClass customDialogClass = new CustomDialogClass(activity, "MyProfileEdit", this);

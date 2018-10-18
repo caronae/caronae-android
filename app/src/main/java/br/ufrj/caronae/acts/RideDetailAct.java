@@ -751,7 +751,7 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
 
     private void configureOfferedRide()
     {
-        String plate = rideWithUsers.getDriver().getCarPlate().substring(0,3)+"-"+rideWithUsers.getDriver().getCarPlate().substring(3);
+        String plate = rideWithUsers.getDriver().getCarPlate();
         plate_tv.setText(plate);
         String phone = getFormatedNumber(rideWithUsers.getDriver().getPhoneNumber());
         phone_tv.setText(phone);
