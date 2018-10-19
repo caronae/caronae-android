@@ -24,6 +24,7 @@ import com.squareup.picasso.Picasso;
 
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.customizedviews.CustomPhoneDialogClass;
+import br.ufrj.caronae.customizedviews.ExpandPhotoDialogClass;
 import br.ufrj.caronae.customizedviews.RoundedTransformation;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.httpapis.CaronaeAPI;
@@ -65,7 +66,7 @@ public class ProfileAct extends AppCompatActivity {
 
     private boolean fromAnother;
     private RideForJson rideOffer;
-    private String from, user2, fromWhere = "", status;
+    private String from, user2, fromWhere = "", status, profilePhotoURL;
     private int idRide;
     boolean showPhone;
 
@@ -100,6 +101,7 @@ public class ProfileAct extends AppCompatActivity {
         profile_tv.setText(profileInfo);
         String profilePicUrl = user.getProfilePicUrl();
         if (profilePicUrl != null && !profilePicUrl.isEmpty())
+            profilePhotoURL = profilePicUrl;
             Picasso.with(this).load(profilePicUrl)
                     .placeholder(R.drawable.user_pic)
                     .error(R.drawable.user_pic)
@@ -222,6 +224,17 @@ public class ProfileAct extends AppCompatActivity {
         intent.putExtra("id",  idRide);
         startActivity(intent);
         overridePendingTransition(R.anim.anim_right_slide_in, R.anim.anim_left_slide_out);
+    }
+
+    @OnClick(R.id.user_pic_iv)
+    public void showProfilePhoto()
+    {
+        if(!profilePhotoURL.isEmpty())
+        {
+            ExpandPhotoDialogClass epdc = new ExpandPhotoDialogClass(this,this);
+            epdc.show();
+            epdc.setImage(profilePhotoURL);
+        }
     }
 
     //Define actions when the user holds or touch the number on Profile Activity
