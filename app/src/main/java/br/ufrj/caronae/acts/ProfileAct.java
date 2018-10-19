@@ -66,7 +66,7 @@ public class ProfileAct extends AppCompatActivity {
 
     private boolean fromAnother;
     private RideForJson rideOffer;
-    private String from, user2, fromWhere = "", status, profilePhotoURL;
+    private String from, user2, fromWhere = "", status, profilePhotoURL = "";
     private int idRide;
     boolean showPhone;
 
