@@ -13,7 +13,7 @@ public class LoginService {
     public void signIn(String id, String token, ServiceCallback<User> callback) {
         SharedPref.saveUserJWTToken(token);
 
-        CaronaeAPI.service(null).getUser(id).enqueue(new Callback<UserForJson>()
+        CaronaeAPI.service().getUser(id).enqueue(new Callback<UserForJson>()
         {
             @Override
             public void onResponse(Call<UserForJson> call, Response<UserForJson> response)

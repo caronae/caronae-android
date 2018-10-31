@@ -116,7 +116,7 @@ public class ProfileAct extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        CaronaeAPI.service(getApplicationContext()).getRidesHistory(Integer.toString(user.getDbId()))
+        CaronaeAPI.service().getRidesHistory(Integer.toString(user.getDbId()))
                 .enqueue(new Callback<RideHistoryForJson>() {
                              @Override
                              public void onResponse(Call<RideHistoryForJson> call, Response<RideHistoryForJson> response) {
@@ -145,7 +145,7 @@ public class ProfileAct extends AppCompatActivity {
             AccessToken token = AccessToken.getCurrentAccessToken();
             if (token != null) {
                 if (user.getFaceId() != null) {
-                    CaronaeAPI.service(getApplicationContext()).getMutualFriends(token.getToken(), user.getFaceId())
+                    CaronaeAPI.service().getMutualFriends(token.getToken(), user.getFaceId())
                             .enqueue(new Callback<FacebookFriendForJson>() {
                                 @Override
                                 public void onResponse(Call<FacebookFriendForJson> call, Response<FacebookFriendForJson> response) {

@@ -432,7 +432,7 @@ public class RideOfferFrag extends Fragment {
         Activity act = getActivity();
         Fragment frag = this;
         pd = ProgressDialog.show(getContext(), "", getString(R.string.wait), true, true);
-        CaronaeAPI.service(getContext()).validateDuplicates(ride.getDate(), ride.getTime(), ride.isGoing() ? 1 : 0)
+        CaronaeAPI.service().validateDuplicates(ride.getDate(), ride.getTime(), ride.isGoing() ? 1 : 0)
                 .enqueue(new Callback<ModelValidateDuplicate>() {
                     @Override
                     public void onResponse(Call<ModelValidateDuplicate> call, Response<ModelValidateDuplicate> response) {
@@ -488,7 +488,7 @@ public class RideOfferFrag extends Fragment {
     public void createRide() {
         final Activity activity = getActivity();
         final Fragment fragment = this;
-        CaronaeAPI.service(getContext()).offerRide(ride)
+        CaronaeAPI.service().offerRide(ride)
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

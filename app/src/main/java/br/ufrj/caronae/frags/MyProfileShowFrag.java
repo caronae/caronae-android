@@ -86,7 +86,7 @@ public class MyProfileShowFrag extends Fragment {
         user = App.getUser();
         if (user != null) {
             fillUserFields(user);
-                CaronaeAPI.service(getContext()).getRidesHistory(Integer.toString(user.getDbId()))
+                CaronaeAPI.service().getRidesHistory(Integer.toString(user.getDbId()))
                         .enqueue(new Callback<RideHistoryForJson>() {
                             @Override
                             public void onResponse(Call<RideHistoryForJson> call, Response<RideHistoryForJson> response) {

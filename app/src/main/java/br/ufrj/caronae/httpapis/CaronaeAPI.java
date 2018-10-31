@@ -1,6 +1,5 @@
 package br.ufrj.caronae.httpapis;
 
-import android.content.Context;
 import android.os.Build;
 import android.util.Log;
 
@@ -28,10 +27,10 @@ public class CaronaeAPI {
 
     private static CaronaeAPIService service;
 
-    public static CaronaeAPIService service(final Context context) {
+    public static CaronaeAPIService service() {
         if (service == null) {
             HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor().setLevel(BODY);
-            APIInterceptor apiInterceptor = new APIInterceptor(context);
+            APIInterceptor apiInterceptor = new APIInterceptor();
 
             Gson gson = new GsonBuilder()
                     .setLenient()

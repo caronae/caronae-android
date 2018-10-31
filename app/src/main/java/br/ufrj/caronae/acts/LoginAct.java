@@ -18,7 +18,6 @@ import android.widget.TextView;
 
 import java.io.IOException;
 
-import br.ufrj.caronae.App;
 import br.ufrj.caronae.Constants;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.data.SharedPref;
@@ -117,7 +116,7 @@ public class LoginAct extends AppCompatActivity {
         final String idUfrj = idUfrj_et.getText().toString();
         final String token = Util.fixBlankSpaces(tokenHolder).toUpperCase();
 
-        Call<UserForJson> loginCall = CaronaeAPI.service(getApplicationContext()).login(new LoginForJson(token, idUfrj));
+        Call<UserForJson> loginCall = CaronaeAPI.service().login(new LoginForJson(token, idUfrj));
             loginCall.enqueue(new Callback<UserForJson>() {
                 @Override
                 public void onResponse(Call<UserForJson> call, Response<UserForJson> response) {
@@ -140,7 +139,7 @@ public class LoginAct extends AppCompatActivity {
                         }
                         else
                         {
-                            CaronaeAPI.service(App.getInst()).getPlaces()
+                            CaronaeAPI.service().getPlaces()
                                 .enqueue(new Callback<PlacesForJson>() {
                                     @Override
                                     public void onResponse(Call<PlacesForJson> call, Response<PlacesForJson> response) {

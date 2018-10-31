@@ -1,6 +1,7 @@
 package br.ufrj.caronae.httpapis;
 
-import android.content.Context;
+import android.os.Build;
+
 import java.io.IOException;
 import br.ufrj.caronae.data.SharedPref;
 import br.ufrj.caronae.Util;
@@ -11,18 +12,12 @@ import okhttp3.Response;
 import static android.text.TextUtils.isEmpty;
 
 class APIInterceptor implements Interceptor {
-    private Context context;
-
-    public APIInterceptor(Context context) {
-        this.context = context;
-    }
-
     @Override
     public Response intercept(Chain chain) throws IOException {
         Request original = chain.request();
         Request.Builder builder = original.newBuilder()
                 .header("Content-Type", "application/json")
-                .header("User-Agent", Util.getHeaderForHttp(context))
+                .header("User-Agent", userAgent())
                 .method(original.method(), original.body());
 
         String jwtToken = SharedPref.getUserJWTToken();
@@ -33,5 +28,20 @@ class APIInterceptor implements Interceptor {
         }
 
         return chain.proceed(builder.build());
+    }
+
+    private String userAgent() {
+        String brand = Build.BRAND;
+        brand = brand.substring(0, 1).toUpperCase() + brand.substring(1, brand.length());
+        return "Caronae/"
+                + Util.getAppVersionName()
+                + " ("
+                + brand
+                + ": "
+                + Build.MODEL
+                + "; "
+                + "Android: "
+                + Build.VERSION.RELEASE
+                + ")";
     }
 }
