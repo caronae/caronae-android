@@ -20,14 +20,34 @@ class APIInterceptor implements Interceptor {
                 .header("User-Agent", userAgent())
                 .method(original.method(), original.body());
 
+        addAuthenticationHeaders(builder);
+
+        Response response = chain.proceed(builder.build());
+        parseAuthenticationHeaders(response);
+
+        return response;
+    }
+
+    private void addAuthenticationHeaders(Request.Builder builder) {
         String jwtToken = SharedPref.getUserJWTToken();
         if (!isEmpty(jwtToken)) {
             builder.header("Authorization", "Bearer " + jwtToken);
         } else {
             builder.header("token", SharedPref.getUserToken());
         }
+    }
 
-        return chain.proceed(builder.build());
+    private void parseAuthenticationHeaders(Response response) {
+        String authHeader = response.header("Authorization");
+        if (isEmpty(authHeader)) {
+            return;
+        }
+
+        String[] tokenParts = authHeader.split("Bearer ");
+        if (tokenParts.length > 1) {
+            String newToken = tokenParts[1];
+            SharedPref.saveUserJWTToken(newToken);
+        }
     }
 
     private String userAgent() {
