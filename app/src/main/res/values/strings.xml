@@ -124,7 +124,7 @@
     <string name="fragment_myprofile_car_text">Estas informações também só aparecem para os usuários que estiverem na mesma carona que você!</string>
     <string name="fragment_myprofile_contacts_text">As suas informações de contato só aparecem para os usuários que estiverem na mesma carona que você!</string>
     <string name="fragment_myprofileedit_invalid_phone">Ops! Parece que o telefone que você inseriu não é válido. Ele deve estar no formato (0XX) XXXXX-XXXX.</string>
-    <string name="fragment_myprofileedit_invalid_plate">Ops! Parece que preencheu incorretamente a placa do seu carro. Verifique se a preencheu no formato "ABC-1234".</string>
+    <string name="fragment_myprofileedit_invalid_plate">Ops! Parece que você preencheu incorretamente a placa do seu carro. Verifique se a preencheu no formato "ABC-1234" ou no formato Mercosul (com quatro letras e três números).</string>
 
     <!-- Capitalized phrases -->
     <string name="take_ride_uppercase">PEGAR CARONA</string>

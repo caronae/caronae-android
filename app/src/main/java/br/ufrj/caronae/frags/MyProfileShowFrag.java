@@ -166,8 +166,7 @@ public class MyProfileShowFrag extends Fragment {
             createdAt_tv.setText(date);
         }
         if(user.isCarOwner()) {
-            String plate;
-            plate = getFormatedPlate(user.getCarPlate());
+            String plate = user.getCarPlate();
             carPlate_tv.setText(plate);
             carModel_tv.setText(user.getCarModel());
             carColor_tv.setText(user.getCarColor());
@@ -220,20 +219,6 @@ public class MyProfileShowFrag extends Fragment {
         return output;
     }
     //Use this function to get user car plate correctly formated
-    String getFormatedPlate(String plate)
-    {
-        final Mask mask = new Mask("[AAA]-[0000]");
-        final String input = plate;
-        final Mask.Result result = mask.apply(
-                new CaretString(
-                        input,
-                        input.length()
-                ),
-                true // you may consider disabling autocompletion for your case
-        );
-        final String output = result.getFormattedText().getString();
-        return output;
-    }
 
     //Define actions when the user holds or touch the number on Profile Activity
     private void actionNumberTouch(int action, User user)
