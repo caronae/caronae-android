@@ -1,6 +1,5 @@
 package br.ufrj.caronae.acts;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
@@ -25,6 +24,9 @@ import br.ufrj.caronae.R;
 import br.ufrj.caronae.data.SharedPref;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.httpapis.CaronaeAPI;
+import br.ufrj.caronae.httpapis.LoginService;
+import br.ufrj.caronae.httpapis.ServiceCallback;
+import br.ufrj.caronae.models.User;
 import br.ufrj.caronae.models.modelsforjson.LoginForJson;
 import br.ufrj.caronae.models.modelsforjson.PlacesForJson;
 import br.ufrj.caronae.models.modelsforjson.UserForJson;
@@ -41,25 +43,19 @@ public class LoginAct extends AppCompatActivity {
     EditText token_et;
     @BindView(R.id.idUfrj_et)
     EditText idUfrj_et;
-
     @BindView(R.id.key)
-    TextView getKey;
-
+    TextView getKeyLink;
     @BindView(R.id.send_bt)
     Button loginButton;
-
     @BindView(R.id.left_back_v3)
-    RelativeLayout lBackV3;
+    RelativeLayout backgroundLeft;
     @BindView(R.id.right_back_v3)
-    RelativeLayout rBackV3;
-    @BindView(R.id.login_bt_v3)
-    RelativeLayout loginBtV3;
+    RelativeLayout backgroundRight;
+    @BindView(R.id.institution_login_button)
+    RelativeLayout institutionLoginButton;
 
     @BindView(R.id.loading_login)
     ProgressBar onLoading;
-
-    boolean startLink;
-    private String id, token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,19 +65,19 @@ public class LoginAct extends AppCompatActivity {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         if(Constants.BUILD_TYPE.equals("prod"))
         {
-            lBackV3.setVisibility(View.GONE);
-            rBackV3.setVisibility(View.GONE);
-            loginBtV3.setVisibility(View.GONE);
+            backgroundLeft.setVisibility(View.GONE);
+            backgroundRight.setVisibility(View.GONE);
+            institutionLoginButton.setVisibility(View.GONE);
             idUfrj_et.setVisibility(View.VISIBLE);
             token_et.setVisibility(View.VISIBLE);
             loginButton.setVisibility(View.VISIBLE);
-            getKey.setVisibility(View.VISIBLE);
+            getKeyLink.setVisibility(View.VISIBLE);
         }
         else
         {
-            lBackV3.setVisibility(View.GONE);
-            rBackV3.setVisibility(View.GONE);
-            loginBtV3.setVisibility(View.GONE);
+            backgroundLeft.setVisibility(View.GONE);
+            backgroundRight.setVisibility(View.GONE);
+            institutionLoginButton.setVisibility(View.GONE);
             idUfrj_et.setVisibility(View.VISIBLE);
             token_et.setVisibility(View.VISIBLE);
             loginButton.setVisibility(View.VISIBLE);
@@ -92,32 +88,31 @@ public class LoginAct extends AppCompatActivity {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 boolean handled = false;
                 if (actionId == EditorInfo.IME_ACTION_SEND) {
-                    sendBt();
+                    startLegacyLogin();
                     handled = true;
                 }
                 return handled;
             }
         });
 
-        startLink = getIntent().getBooleanExtra("startLink", false);
-        if(startLink)
+        if(getIntent().getBooleanExtra("startLink", false))
         {
-            loginBtV3.setClickable(false);
-            loginBtV3.setFocusable(false);
+            institutionLoginButton.setClickable(false);
+            institutionLoginButton.setFocusable(false);
             onLoading.setVisibility(View.VISIBLE);
-            id = getIntent().getStringExtra("id");
-            token = getIntent().getStringExtra("token");
-            startLogin();
+
+            String id = getIntent().getStringExtra("id");
+            String token = getIntent().getStringExtra("token");
+            startLogin(id, token);
         }
     }
 
     //DEV Login
     @OnClick(R.id.send_bt)
-    public void sendBt()
+    public void startLegacyLogin()
     {
         loginButton.setEnabled(false);
         final ProgressDialog pd = ProgressDialog.show(this, "", getString(R.string.wait), true, true);
-        final Activity act = this;
         String tokenHolder = token_et.getText().toString();
         final String idUfrj = idUfrj_et.getText().toString();
         final String token = Util.fixBlankSpaces(tokenHolder).toUpperCase();
@@ -141,7 +136,7 @@ public class LoginAct extends AppCompatActivity {
                         if(SharedPref.checkExistence(SharedPref.PLACE_KEY))
                         {
                             pd.dismiss();
-                            logIn(user,act);
+                            logIn(user.getUser());
                         }
                         else
                         {
@@ -153,7 +148,7 @@ public class LoginAct extends AppCompatActivity {
                                             pd.dismiss();
                                             PlacesForJson places = response.body();
                                             SharedPref.setPlace(places);
-                                            logIn(user,act);
+                                            logIn(user.getUser());
                                         }
                                     }
 
@@ -222,39 +217,30 @@ public class LoginAct extends AppCompatActivity {
     }
 
     //PROD Login
-    private void startLogin()
+    private void startLogin(String id, String token)
     {
-        CaronaeAPI.service(getApplicationContext()).getUser(id).enqueue(new Callback<UserForJson>()
+        LoginService loginService = new LoginService();
+        loginService.signIn(id, token, new ServiceCallback<User>()
         {
             @Override
-            public void onResponse(Call<UserForJson> call, Response<UserForJson> response)
-            {
-                if (response.isSuccessful())
-                {
-                    UserForJson user = response.body();
-                }
-                else
-                {
-                    Log.e("Login", "Failure: "+response.message());
-                    loginBtV3.setClickable(true);
-                    loginBtV3.setFocusable(true);
-                    onLoading.setVisibility(View.GONE);
-                }
+            public void success(User user) {
+                logIn(user);
             }
 
             @Override
-            public void onFailure(Call<UserForJson> call, Throwable t) {
-                // handle execution failures like no internet connectivity
-                Log.e("Login", "Failure: " + t.getMessage());
-                loginBtV3.setClickable(true);
-                loginBtV3.setFocusable(true);
+            public void fail(Throwable t) {
+                Log.e("Login", "Erro ao fazer login");
+                Util.toast(R.string.loginactivity_login_fail);
+
+                institutionLoginButton.setClickable(true);
+                institutionLoginButton.setFocusable(true);
                 onLoading.setVisibility(View.GONE);
             }
         });
     }
 
-    @OnClick(R.id.login_bt_v3)
-    public void loginV3()
+    @OnClick(R.id.institution_login_button)
+    public void openExternalLogin()
     {
         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.API_BASE_URL + "login?type=app_jwt")));
     }
@@ -264,14 +250,14 @@ public class LoginAct extends AppCompatActivity {
         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(CaronaeAPI.BASE_URL + "login")));
     }
 
-    private void logIn(UserForJson user, Activity act)
+    private void logIn(User user)
     {
-        if (user.getUser().getEmail() == null || user.getUser().getEmail().isEmpty() || user.getUser().getPhoneNumber() == null || user.getUser().getPhoneNumber().isEmpty() || user.getUser().getLocation() == null || user.getUser().getLocation().isEmpty()) {
-            Intent firstLogin = new Intent(act, WelcomeAct.class);
+        if (user.hasIncompleteProfile()) {
+            Intent firstLogin = new Intent(this, WelcomeAct.class);
             startActivity(firstLogin);
             LoginAct.this.finish();
         } else {
-            Intent mainAct = new Intent(act, MainAct.class);
+            Intent mainAct = new Intent(this, MainAct.class);
             startActivity(mainAct);
             LoginAct.this.finish();
         }
