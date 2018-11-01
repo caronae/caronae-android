@@ -16,26 +16,17 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import java.io.IOException;
-
 import br.ufrj.caronae.Constants;
 import br.ufrj.caronae.R;
-import br.ufrj.caronae.data.SharedPref;
 import br.ufrj.caronae.Util;
 import br.ufrj.caronae.httpapis.CaronaeAPI;
+import br.ufrj.caronae.httpapis.InvalidCredentialsException;
 import br.ufrj.caronae.httpapis.LoginService;
 import br.ufrj.caronae.httpapis.ServiceCallback;
 import br.ufrj.caronae.models.User;
-import br.ufrj.caronae.models.modelsforjson.LoginForJson;
-import br.ufrj.caronae.models.modelsforjson.PlacesForJson;
-import br.ufrj.caronae.models.modelsforjson.UserForJson;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class LoginAct extends AppCompatActivity {
     @BindView(R.id.token_et)
@@ -62,8 +53,8 @@ public class LoginAct extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-        if(Constants.BUILD_TYPE.equals("prod"))
-        {
+
+        if(Constants.BUILD_TYPE.equals("prod")) {
             backgroundLeft.setVisibility(View.GONE);
             backgroundRight.setVisibility(View.GONE);
             institutionLoginButton.setVisibility(View.GONE);
@@ -72,8 +63,7 @@ public class LoginAct extends AppCompatActivity {
             loginButton.setVisibility(View.VISIBLE);
             getKeyLink.setVisibility(View.VISIBLE);
         }
-        else
-        {
+        else {
             backgroundLeft.setVisibility(View.GONE);
             backgroundRight.setVisibility(View.GONE);
             institutionLoginButton.setVisibility(View.GONE);
@@ -94,8 +84,7 @@ public class LoginAct extends AppCompatActivity {
             }
         });
 
-        if(getIntent().getBooleanExtra("startLink", false))
-        {
+        if (getIntent().getBooleanExtra("startLink", false)) {
             institutionLoginButton.setClickable(false);
             institutionLoginButton.setFocusable(false);
             onLoading.setVisibility(View.VISIBLE);
@@ -108,111 +97,35 @@ public class LoginAct extends AppCompatActivity {
 
     //DEV Login
     @OnClick(R.id.send_bt)
-    public void startLegacyLogin()
-    {
+    public void startLegacyLogin() {
         loginButton.setEnabled(false);
-        final ProgressDialog pd = ProgressDialog.show(this, "", getString(R.string.wait), true, true);
+        final ProgressDialog pd = ProgressDialog.show(this, "", getString(R.string.wait), true, false);
         String tokenHolder = token_et.getText().toString();
-        final String idUfrj = idUfrj_et.getText().toString();
+        final String idUFRJ = idUfrj_et.getText().toString();
         final String token = Util.fixBlankSpaces(tokenHolder).toUpperCase();
 
-        Call<UserForJson> loginCall = CaronaeAPI.service().login(new LoginForJson(token, idUfrj));
-            loginCall.enqueue(new Callback<UserForJson>() {
-                @Override
-                public void onResponse(Call<UserForJson> call, Response<UserForJson> response) {
-                    // response.isSuccessful() is true if the response code is 2xx
-                    if (response.isSuccessful()) {
-                        final UserForJson user = response.body();
-                        if (user == null || user.getUser() == null)
-                        {
-                            Util.toast(R.string.loginactivity_invalid_login);
-                            return;
-                        }
-                        SharedPref.saveUser(user.getUser());
-                        SharedPref.saveUserToken(token);
-                        SharedPref.saveUserIdUfrj(idUfrj);
-                        SharedPref.saveNotifPref("true");
-                        if(SharedPref.checkExistence(SharedPref.PLACE_KEY))
-                        {
-                            pd.dismiss();
-                            logIn(user.getUser());
-                        }
-                        else
-                        {
-                            CaronaeAPI.service().getPlaces()
-                                .enqueue(new Callback<PlacesForJson>() {
-                                    @Override
-                                    public void onResponse(Call<PlacesForJson> call, Response<PlacesForJson> response) {
-                                        if (response.isSuccessful()) {
-                                            pd.dismiss();
-                                            PlacesForJson places = response.body();
-                                            SharedPref.setPlace(places);
-                                            logIn(user.getUser());
-                                        }
-                                    }
+        LoginService loginService = new LoginService();
+        loginService.signInLegacy(idUFRJ, token, new ServiceCallback<User>() {
+            @Override
+            public void success(User user) {
+                pd.dismiss();
+                logIn(user);
+            }
 
-                                    @Override
-                                    public void onFailure(Call<PlacesForJson> call, Throwable t) {
-                                        Log.e("ERROR: ", t.getMessage());
-                                        pd.dismiss();
-                                        loginButton.setEnabled(true);
-                                        int statusCode = response.code();
-                                        ResponseBody errorBody = response.errorBody();
-                                        if (statusCode == 401) {
-                                            Util.toast(R.string.loginactivity_invalid_login);
-                                        } else try {
-                                            if (errorBody.string().equals("timeout")) {
-                                                Util.toast(R.string.no_conexion);
-                                            } else {
-                                                Util.toast(R.string.loginactivity_login_fail);
-                                                try {
-                                                    Log.e("Login", "Code: " + statusCode
-                                                            + "\n Body: " + errorBody.string());
-                                                } catch (IOException e) {
-                                                    e.printStackTrace();
-                                                }
-                                            }
-                                        } catch (IOException e) {
-                                            e.printStackTrace();
-                                        }
-                                    }
-                                });
-                        }
-                    } else {
-                        // Server Errors
-                        pd.dismiss();
-                        loginButton.setEnabled(true);
-                        int statusCode = response.code();
-                        ResponseBody errorBody = response.errorBody();
-                        if (statusCode == 401) {
-                            Util.toast(R.string.loginactivity_invalid_login);
-                        } else try {
-                            if (errorBody.string().equals("timeout")) {
-                                Util.toast(R.string.no_conexion);
-                            } else {
-                                Util.toast(R.string.loginactivity_login_fail);
-                                try {
-                                    Log.e("Login", "Code: " + statusCode
-                                            + "\n Body: " + errorBody.string());
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
+            @Override
+            public void fail(Throwable t) {
+                Log.e("ERROR: ", t.getMessage());
+                pd.dismiss();
+                loginButton.setEnabled(true);
+
+                if (t instanceof InvalidCredentialsException) {
+                    Util.toast(R.string.loginactivity_invalid_login);
+                    return;
                 }
 
-                @Override
-                public void onFailure(Call<UserForJson> call, Throwable t) {
-                    // handle execution failures like no internet connectivity
-                    Log.e("Login", "Failure: " + t.getMessage());
-                    Util.toast(R.string.loginactivity_login_fail);
-                    pd.dismiss();
-                    loginButton.setEnabled(true);
-                }
-            });
+                Util.toast(R.string.loginactivity_login_fail);
+            }
+        });
     }
 
     //PROD Login
@@ -245,20 +158,19 @@ public class LoginAct extends AppCompatActivity {
     }
 
     @OnClick(R.id.key)
-    public void getTokenBt() {
+    public void openInstructionsToGeyKey() {
         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(CaronaeAPI.BASE_URL + "login")));
     }
 
-    private void logIn(User user)
-    {
+    private void logIn(User user) {
+        Class nextActivity;
         if (user.hasIncompleteProfile()) {
-            Intent firstLogin = new Intent(this, WelcomeAct.class);
-            startActivity(firstLogin);
-            LoginAct.this.finish();
+            nextActivity = WelcomeAct.class;
         } else {
-            Intent mainAct = new Intent(this, MainAct.class);
-            startActivity(mainAct);
-            LoginAct.this.finish();
+            nextActivity = MainAct.class;
         }
+
+        startActivity(new Intent(this, nextActivity));
+        LoginAct.this.finish();
     }
 }
