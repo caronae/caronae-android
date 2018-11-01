@@ -42,6 +42,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.regex.Pattern;
 
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.customizedviews.CustomDialogClass;
@@ -751,7 +752,8 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
 
     private void configureOfferedRide()
     {
-        String plate = rideWithUsers.getDriver().getCarPlate();
+        String brazilianPlateRegex = "^[A-Z]{3}[0-9]{4}$";
+        String plate = Pattern.compile(brazilianPlateRegex).matcher(rideWithUsers.getDriver().getCarPlate()).matches() ? rideWithUsers.getDriver().getCarPlate().substring(0,3)+"-"+rideWithUsers.getDriver().getCarPlate().substring(3):rideWithUsers.getDriver().getCarPlate();
         plate_tv.setText(plate);
         String phone = getFormatedNumber(rideWithUsers.getDriver().getPhoneNumber());
         phone_tv.setText(phone);

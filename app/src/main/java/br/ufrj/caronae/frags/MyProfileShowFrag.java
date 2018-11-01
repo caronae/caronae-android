@@ -23,6 +23,8 @@ import com.redmadrobot.inputmask.helper.Mask;
 import com.redmadrobot.inputmask.model.CaretString;
 import com.squareup.picasso.Picasso;
 
+import java.util.regex.Pattern;
+
 import br.ufrj.caronae.App;
 import br.ufrj.caronae.customizedviews.CustomDialogClass;
 import br.ufrj.caronae.customizedviews.CustomPhoneDialogClass;
@@ -166,7 +168,8 @@ public class MyProfileShowFrag extends Fragment {
             createdAt_tv.setText(date);
         }
         if(user.isCarOwner()) {
-            String plate = user.getCarPlate();
+            String brazilianPlateRegex = "^[A-Z]{3}[0-9]{4}$";
+            String plate = Pattern.compile(brazilianPlateRegex).matcher(user.getCarPlate()).matches() ? user.getCarPlate().substring(0,3) + "-" + user.getCarPlate().substring(3) : user.getCarPlate();
             carPlate_tv.setText(plate);
             carModel_tv.setText(user.getCarModel());
             carColor_tv.setText(user.getCarColor());

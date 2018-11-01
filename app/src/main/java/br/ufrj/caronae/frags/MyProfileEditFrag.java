@@ -293,9 +293,10 @@ public class MyProfileEditFrag extends Fragment {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP) {
-                    String plate = carPlate_et.getText().toString();
-                    if (!validatePlate(plate))
-                        carPlate_et.setError(getString(R.string.fragment_myprofile_invalid_plate));
+                    if(carPlate_et.getText() != null && !carPlate_et.getText().toString().isEmpty()) {
+                        if (!validatePlate(carPlate_et.getText().toString()))
+                            carPlate_et.setError(getString(R.string.fragment_myprofile_invalid_plate));
+                    }
                 }
 
                 return false;
@@ -308,16 +309,17 @@ public class MyProfileEditFrag extends Fragment {
                 if (hasFocus) {
                     carPlate_et.setError(null);
                 } else {
-                    String plate = carPlate_et.getText().toString();
-                    if (!validatePlate(plate))
-                        carPlate_et.setError(getString(R.string.fragment_myprofile_invalid_plate));
+                    if(carPlate_et.getText() != null && !carPlate_et.getText().toString().isEmpty()) {
+                        if (!validatePlate(carPlate_et.getText().toString()))
+                            carPlate_et.setError(getString(R.string.fragment_myprofile_invalid_plate));
+                    }
                 }
             }
         });
     }
 
     public boolean validatePlate(String plate) {
-        String brazilianPlateRegex = "^[A-Z]{3}-[0-9]{4}$";
+        String brazilianPlateRegex = "^[A-Z]{3}[0-9]{4}$";
         String mercosulPlateRegex = "^(?=(?:.*[0-9]){3})(?=(?:.*[A-Z]){4})[A-Z0-9]{7}$";
 
         return Pattern.compile(brazilianPlateRegex).matcher(plate).matches() || Pattern.compile(mercosulPlateRegex).matcher(plate).matches();
@@ -355,8 +357,10 @@ public class MyProfileEditFrag extends Fragment {
         carOwner_sw.setChecked(user.isCarOwner());
         carModel_et.setText(user.getCarModel());
         carColor_et.setText(user.getCarColor());
-        if (!TextUtils.isEmpty(user.getCarPlate())) {
-            carPlate_et.setText(user.getCarPlate());
+        if (user.getCarPlate() != null && !TextUtils.isEmpty(user.getCarPlate())) {
+            String bPR = "^[A-Z]{3}-[0-9]{4}$";
+            String plate = Pattern.compile(bPR).matcher(user.getCarPlate()).matches() ? user.getCarPlate().substring(0,3) + user.getCarPlate().substring(4) : user.getCarPlate();
+            carPlate_et.setText(plate);
         }
         String date = user.getCreatedAt().split(" ")[0];
         date = Util.formatBadDateWithYear(date).substring(3);
@@ -540,7 +544,8 @@ public class MyProfileEditFrag extends Fragment {
             userPhoneNumber = phoneNumber_et.getText().toString();
         }
         userPlate = carPlate_et.getText().toString();
-
+        String bPR = "^[A-Z]{3}-[0-9]{4}$";
+        String plate = Pattern.compile(bPR).matcher(userPlate).matches() ? userPlate.substring(0,3) + userPlate.substring(4) : userPlate;
         editedUser.setPhoneNumber(userPhoneNumber);//(0XX) XXXXX-XXXX
         editedUser.setEmail(email_et.getText().toString());
         editedUser.setLocation(location_et.getText().toString());
@@ -548,7 +553,7 @@ public class MyProfileEditFrag extends Fragment {
         editedUser.setCarModel(carModel_et.getText().toString());
         editedUser.setCarColor(carColor_et.getText().toString());
         editedUser.setProfilePicUrl(profileUrlPic);
-        editedUser.setCarPlate(userPlate);//AAA-0000
+        editedUser.setCarPlate(plate);//AAA-0000
     }
 
     @Override
