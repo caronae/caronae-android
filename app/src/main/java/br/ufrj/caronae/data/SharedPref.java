@@ -113,6 +113,7 @@ public class SharedPref {
         removePref(RIDE_FILTER_LOCATION_KEY);
         removePref(MYPENDINGRIDESID_KEY);
         removePref(MYACTIVERIDESID_KEY);
+        removePref(PLACE_KEY);
         NAV_INDICATOR = "AllRides";
         CHAT_ACT_STATUS = "chatStatus";
         FRAGMENT_INDICATOR = "";
