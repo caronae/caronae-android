@@ -2,10 +2,12 @@ package br.ufrj.caronae.httpapis;
 
 import android.util.Log;
 
+import br.ufrj.caronae.App;
 import br.ufrj.caronae.data.SharedPref;
 import br.ufrj.caronae.models.User;
 import br.ufrj.caronae.models.modelsforjson.LoginForJson;
 import br.ufrj.caronae.models.modelsforjson.UserForJson;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -53,7 +55,19 @@ public class LoginService {
                 SharedPref.saveUserToken(token);
                 SharedPref.saveUserIdUfrj(idUFRJ);
                 SharedPref.saveNotifPref("true");
-                callback.success(user);
+
+                migrateToJWT(new ServiceCallback() {
+                    @Override
+                    public void success(Object obj) {
+                        Log.i("Login", "Migrated to user to JWT");
+                        callback.success(user);
+                    }
+
+                    @Override
+                    public void fail(Throwable t) {
+                        callback.fail(new Exception("Failed to migrate user to JWT"));
+                    }
+                });
             }
 
             @Override
@@ -81,5 +95,21 @@ public class LoginService {
         }
 
         return userJson.getUser();
+    }
+
+    public void migrateToJWT(ServiceCallback callback) {
+        User user = App.getUser();
+
+        CaronaeAPI.service().getToken(String.valueOf(user.getDbId())).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                callback.success(null);
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                callback.fail(t);
+            }
+        });
     }
 }
