@@ -21,6 +21,8 @@ import br.ufrj.caronae.acts.LoginAct;
 import br.ufrj.caronae.asyncs.LogOut;
 import br.ufrj.caronae.data.MainThreadBus;
 import br.ufrj.caronae.data.SharedPref;
+import br.ufrj.caronae.httpapis.LoginService;
+import br.ufrj.caronae.httpapis.ServiceCallback;
 import br.ufrj.caronae.models.User;
 
 
@@ -53,6 +55,34 @@ public class App extends SugarApp {
         };
         timer.schedule (hourlyTask, 0, 1000);
         inst = this;
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        if (isUserLoggedIn()) {
+            checkIfUserNeedsToMigrateToJWT();
+        }
+    }
+
+    private void checkIfUserNeedsToMigrateToJWT() {
+        if (SharedPref.getUserJWTToken() != null) {
+            Log.i("Login", "User is already using JWT.");
+            return;
+        }
+
+        Log.i("Login", "User needs to migrate to JWT.");
+        LoginService.service().migrateToJWT(new ServiceCallback() {
+            @Override
+            public void success(Object obj) {
+                Log.i("Login", "User successfully migrated to JWT.");
+            }
+
+            @Override
+            public void fail(Throwable t) {
+                Log.e("Login", "Failed to migrate user to JWT.");
+            }
+        });
     }
 
     public static App getInst() {

@@ -26,6 +26,7 @@ public class SharedPref {
     private static final String LAST_RIDE_SEARCH_FILTERS_PREF_KEY    = "lastRideSearchFilters";
     private static final String USER_PIC_SAVED_KEY                   = "SavedImage";
     private static final String TOKEN_PREF_KEY                       = "token";
+    private static final String JWT_TOKEN_PREF_KEY                   = "jwtToken";
     private static final String IDUFRJ_PREF_KEY                      = "idUfrj";
     private static final String RIDESTAKEN_PREF_KEY                  = "taken";
     private static final String RIDESOFFERED_PREF_KEY                = "ridesOffered";
@@ -99,6 +100,7 @@ public class SharedPref {
         removePref(LAST_RIDE_OFFER_NOT_GOING_PREF_KEY);
         removePref(LAST_RIDE_SEARCH_FILTERS_PREF_KEY);
         removePref(TOKEN_PREF_KEY);
+        removePref(JWT_TOKEN_PREF_KEY);
         removePref(NOTIFICATIONS_ON_PREF_KEY);
         removePref(USER_PIC_SAVED_KEY);
         removePref(RM_RIDE_LIST);
@@ -246,8 +248,19 @@ public class SharedPref {
         return getPref(TOKEN_PREF_KEY);
     }
 
+    public static String getUserJWTToken() {
+        if (!checkExistence(JWT_TOKEN_PREF_KEY)) {
+            return null;
+        }
+        return getPref(JWT_TOKEN_PREF_KEY);
+    }
+
     public static void saveUserToken(String token) {
         putPref(TOKEN_PREF_KEY, token.toUpperCase());
+    }
+
+    public static void saveUserJWTToken(String token) {
+        putPref(JWT_TOKEN_PREF_KEY, token);
     }
 
     public static void saveUserIdUfrj(String idUfrj) {

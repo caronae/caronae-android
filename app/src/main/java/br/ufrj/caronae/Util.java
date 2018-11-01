@@ -1,13 +1,10 @@
 package br.ufrj.caronae;
 
 import android.content.Context;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -54,7 +51,7 @@ public class Util {
                 colorsSaved = true;
             }
             else {
-                CaronaeAPI.service(App.getInst()).getPlaces()
+                CaronaeAPI.service().getPlaces()
                         .enqueue(new Callback<PlacesForJson>() {
                             @Override
                             public void onResponse(Call<PlacesForJson> call, Response<PlacesForJson> response) {
@@ -303,39 +300,8 @@ public class Util {
         return word.replace(" ", "").trim();
     }
 
-    public static String getHeaderForHttp(Context context) {
-        PackageInfo pInfo = null;
-        try {
-            pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        String brand = Build.BRAND;
-        brand = brand.substring(0, 1).toUpperCase() + brand.substring(1, brand.length());
-        return "Caronae/"
-                + Util.getAppVersionName(context)
-                + " ("
-                + brand
-                + ": "
-                + android.os.Build.MODEL
-                + "; "
-                + "Android: "
-                + Build.VERSION.RELEASE
-                + ")";
-    }
-
-    public static String getAppVersionName(Context context) {
-        PackageManager manager = context.getPackageManager();
-        PackageInfo info;
-        try {
-            info = manager.getPackageInfo(
-                    context.getPackageName(), 0);
-            return info.versionName;
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-            return "Version Not Found";
-        }
+    public static String getAppVersionName() {
+        return BuildConfig.VERSION_NAME;
     }
 
     public static class OffsetDecoration extends RecyclerView.ItemDecoration {

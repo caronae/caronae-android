@@ -171,7 +171,7 @@ public class ChatAct extends AppCompatActivity {
 
         chatMsgs_rv.scrollToPosition(chatMsgsList.size() - 1);
 
-        CaronaeAPI.service(getApplicationContext()).sendChatMsg(rideId, new ChatSendMessageForJson(message))
+        CaronaeAPI.service().sendChatMsg(rideId, new ChatSendMessageForJson(message))
                 .enqueue(new Callback<ChatMessageSendResponse>() {
                     @Override
                     public void onResponse(Call<ChatMessageSendResponse> call, Response<ChatMessageSendResponse> response) {
@@ -366,7 +366,7 @@ public class ChatAct extends AppCompatActivity {
             @Override
             public void run() {
                 final ProgressDialog pd = ProgressDialog.show(activity, "", activity.getString(R.string.wait), true, true);
-                CaronaeAPI.service(activity).getMyRides(Integer.toString(App.getUser().getDbId()))
+                CaronaeAPI.service().getMyRides(Integer.toString(App.getUser().getDbId()))
                         .enqueue(new Callback<MyRidesForJson>() {
                             @Override
                             public void onResponse(Call<MyRidesForJson> call, Response<MyRidesForJson> response) {

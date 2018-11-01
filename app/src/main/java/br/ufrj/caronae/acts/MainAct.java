@@ -138,7 +138,7 @@ public class MainAct extends AppCompatActivity {
 
         if(!SharedPref.checkExistence(SharedPref.MYACTIVERIDESID_KEY) || !SharedPref.checkExistence(SharedPref.MYPENDINGRIDESID_KEY))
         {
-            CaronaeAPI.service(this).getMyRides(Integer.toString(App.getUser().getDbId()))
+            CaronaeAPI.service().getMyRides(Integer.toString(App.getUser().getDbId()))
                 .enqueue(new retrofit2.Callback<MyRidesForJson>() {
                     @Override
                     public void onResponse(Call<MyRidesForJson> call, Response<MyRidesForJson> response) {

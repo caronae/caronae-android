@@ -162,10 +162,10 @@ public class FalaeAct extends AppCompatActivity {
             message = message
                     + "\n\n--------------------------------\n"
                     + "Device: " + android.os.Build.MODEL + " (Android " + android.os.Build.VERSION.RELEASE + ")\n"
-                    + "Versão do app: " + Util.getAppVersionName(this);
+                    + "Versão do app: " + Util.getAppVersionName();
         }
         final ProgressDialog pd = ProgressDialog.show(FalaeAct.this, "", getString(R.string.wait), true, true);
-        CaronaeAPI.service(getBaseContext()).falaeSendMessage(new FalaeMsgForJson(subject, message))
+        CaronaeAPI.service().falaeSendMessage(new FalaeMsgForJson(subject, message))
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

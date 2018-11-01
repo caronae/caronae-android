@@ -89,7 +89,7 @@ public class PlaceAct extends AppCompatActivity {
         });
         if(Util.isNetworkAvailable(getBaseContext()))
         {
-            CaronaeAPI.service(getApplicationContext()).getPlaces()
+            CaronaeAPI.service().getPlaces()
                 .enqueue(new Callback<PlacesForJson>() {
                     @Override
                     public void onResponse(Call<PlacesForJson> call, Response<PlacesForJson> response) {

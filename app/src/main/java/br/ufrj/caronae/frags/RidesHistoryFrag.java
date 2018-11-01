@@ -89,7 +89,7 @@ public class RidesHistoryFrag extends Fragment {
 
     private void refreshRideList()
     {
-        CaronaeAPI.service(getContext()).getRidesHistory(Integer.toString(App.getUser().getDbId()))
+        CaronaeAPI.service().getRidesHistory(Integer.toString(App.getUser().getDbId()))
                 .enqueue(new retrofit2.Callback<RideHistoryForJson>() {
                     @Override
                     public void onResponse(Call<RideHistoryForJson> call, Response<RideHistoryForJson> response) {

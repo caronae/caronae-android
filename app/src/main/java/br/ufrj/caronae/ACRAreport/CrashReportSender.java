@@ -47,7 +47,7 @@ public class CrashReportSender implements ReportSender {
 
         String subject = "ANDROID CRASH REPORT";
 
-        CaronaeAPI.service(context).falaeSendMessage(new FalaeMsgForJson(subject, message))
+        CaronaeAPI.service().falaeSendMessage(new FalaeMsgForJson(subject, message))
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

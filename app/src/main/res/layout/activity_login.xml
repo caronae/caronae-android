@@ -137,7 +137,7 @@
         android:visibility="gone"/>
 
     <RelativeLayout
-        android:id="@+id/login_bt_v3"
+        android:id="@+id/institution_login_button"
         android:visibility="visible"
         android:layout_width="match_parent"
         android:layout_height="50dp"
