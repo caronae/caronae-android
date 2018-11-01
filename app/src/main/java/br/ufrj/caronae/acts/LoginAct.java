@@ -104,8 +104,7 @@ public class LoginAct extends AppCompatActivity {
         final String idUFRJ = idUfrj_et.getText().toString();
         final String token = Util.fixBlankSpaces(tokenHolder).toUpperCase();
 
-        LoginService loginService = new LoginService();
-        loginService.signInLegacy(idUFRJ, token, new ServiceCallback<User>() {
+        LoginService.service().signInLegacy(idUFRJ, token, new ServiceCallback<User>() {
             @Override
             public void success(User user) {
                 pd.dismiss();
@@ -131,8 +130,7 @@ public class LoginAct extends AppCompatActivity {
     //PROD Login
     private void startLogin(String id, String token)
     {
-        LoginService loginService = new LoginService();
-        loginService.signIn(id, token, new ServiceCallback<User>()
+        LoginService.service().signIn(id, token, new ServiceCallback<User>()
         {
             @Override
             public void success(User user) {

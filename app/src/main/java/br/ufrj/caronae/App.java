@@ -72,8 +72,7 @@ public class App extends SugarApp {
         }
 
         Log.i("Login", "User needs to migrate to JWT.");
-        LoginService loginService = new LoginService();
-        loginService.migrateToJWT(new ServiceCallback() {
+        LoginService.service().migrateToJWT(new ServiceCallback() {
             @Override
             public void success(Object obj) {
                 Log.i("Login", "User successfully migrated to JWT.");

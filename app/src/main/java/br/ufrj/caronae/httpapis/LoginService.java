@@ -13,6 +13,15 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class LoginService {
+    private static LoginService service;
+
+    public static LoginService service() {
+        if (service == null) {
+            service = new LoginService();
+        }
+        return service;
+    }
+
     public void signIn(String id, String token, ServiceCallback<User> callback) {
         SharedPref.saveUserJWTToken(token);
 
