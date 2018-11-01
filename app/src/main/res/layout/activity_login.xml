@@ -6,24 +6,6 @@
     tools:context="br.ufrj.caronae.acts.LoginAct">
 
     <RelativeLayout
-        android:id="@+id/left_back_v3"
-        android:visibility="visible"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="@drawable/back_left"/>
-
-    <RelativeLayout
-        android:id="@+id/right_back_v3"
-        android:visibility="visible"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/back_right"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"/>
-
-    <RelativeLayout
         android:id="@+id/login_lay1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -63,7 +45,7 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/welcomeText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/textView"
@@ -82,7 +64,7 @@
             android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/textView2"
+            android:layout_below="@id/welcomeText"
             android:layout_marginTop="10dp"
             android:layout_centerHorizontal="true"
             android:gravity="center"
@@ -137,6 +119,26 @@
         android:visibility="gone"/>
 
     <RelativeLayout
+        android:id="@+id/background_left"
+        android:visibility="visible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/login_lay1"
+        android:layout_marginTop="60dp"
+        android:background="@drawable/back_left"/>
+
+    <RelativeLayout
+        android:id="@+id/background_right"
+        android:visibility="visible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/back_right"
+        android:layout_marginTop="60dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@id/login_lay1"/>
+
+    <RelativeLayout
         android:id="@+id/institution_login_button"
         android:visibility="visible"
         android:layout_width="match_parent"
@@ -145,9 +147,10 @@
         android:layout_marginEnd="60dp"
         android:layout_marginStart="60dp"
         android:layout_marginLeft="60dp"
-        android:layout_marginBottom="175dp"
-        android:layout_alignParentBottom="true"
+        android:layout_marginTop="50dp"
+        android:layout_below="@id/login_lay1"
         android:background="@drawable/gradient">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -157,13 +160,23 @@
                 android:id="@+id/login_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Entrar com universidade"
+                android:text="@string/login_with_institution"
                 android:drawableLeft="@drawable/ic_account_balance_24dp"
                 android:drawableStart="@drawable/ic_account_balance_24dp"
                 android:drawablePadding="10dp"
-                android:textSize="17sp"
+                android:textSize="16sp"
                 android:layout_centerInParent="true"
                 android:textColor="@color/white"/>
         </RelativeLayout>
     </RelativeLayout>
+
+    <TextView
+        android:id="@+id/login_manually"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="25dp"
+        android:text="@string/login_manually"
+        android:visibility="gone"/>
 </RelativeLayout>

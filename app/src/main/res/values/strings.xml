@@ -99,6 +99,8 @@
     <string name="phone_choose">Selecionar foto do celular</string>
     <string name="fragment_rideoffer_slots">Vagas disponíveis</string>
     <string name="fragment_myprofile_car_owner">Possui carro?</string>
+    <string name="login_with_institution">Entrar com universidade</string>
+    <string name="login_manually">Entrar manualmente</string>
     <string name="loginactivity_login_fail">Erro ao fazer login</string>
     <string name="fragment_myprofile_invalid_plate">Placa inválida</string>
     <string name="fragment_myprofile_invalid_email">E-mail inválido</string>
@@ -162,10 +164,10 @@
     <string name="activity_ridedetail_request_warning_title">Deseja mesmo solicitar a carona?</string>
 
     <!-- Hints -->
+    <string name="id_hint">Sua identificação aqui</string>
     <string name="token_hint">Sua chave aqui</string>
     <string name="chat_message_hint">Digite sua mensagem</string>
     <string name="falae_subject_hint">Assunto (opcional)</string>
-    <string name="id_hint">Identificação (CPF ou Passaporte)</string>
     <string name="fragment_ridefilter_center_hint">Todos os Campi</string>
     <string name="fragment_myprofile_phone_hint">Telefone celular</string>
     <string name="falae_message_hint">Conte pra gente. O que houve?</string>

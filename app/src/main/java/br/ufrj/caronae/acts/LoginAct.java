@@ -19,7 +19,6 @@ import android.widget.TextView;
 import br.ufrj.caronae.Constants;
 import br.ufrj.caronae.R;
 import br.ufrj.caronae.Util;
-import br.ufrj.caronae.httpapis.CaronaeAPI;
 import br.ufrj.caronae.httpapis.InvalidCredentialsException;
 import br.ufrj.caronae.httpapis.LoginService;
 import br.ufrj.caronae.httpapis.ServiceCallback;
@@ -32,20 +31,21 @@ public class LoginAct extends AppCompatActivity {
     @BindView(R.id.token_et)
     EditText token_et;
     @BindView(R.id.idUfrj_et)
-    EditText idUfrj_et;
-    @BindView(R.id.key)
-    TextView getKeyLink;
+    EditText idUFRJ_et;
+    @BindView(R.id.login_manually)
+    TextView loginManually;
     @BindView(R.id.send_bt)
     Button loginButton;
-    @BindView(R.id.left_back_v3)
+    @BindView(R.id.background_left)
     RelativeLayout backgroundLeft;
-    @BindView(R.id.right_back_v3)
+    @BindView(R.id.background_right)
     RelativeLayout backgroundRight;
     @BindView(R.id.institution_login_button)
     RelativeLayout institutionLoginButton;
-
     @BindView(R.id.loading_login)
     ProgressBar onLoading;
+
+    private boolean loginWithInstitutionEnabled = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,22 +54,8 @@ public class LoginAct extends AppCompatActivity {
         ButterKnife.bind(this);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
-        if(Constants.BUILD_TYPE.equals("prod")) {
-            backgroundLeft.setVisibility(View.GONE);
-            backgroundRight.setVisibility(View.GONE);
-            institutionLoginButton.setVisibility(View.GONE);
-            idUfrj_et.setVisibility(View.VISIBLE);
-            token_et.setVisibility(View.VISIBLE);
-            loginButton.setVisibility(View.VISIBLE);
-            getKeyLink.setVisibility(View.VISIBLE);
-        }
-        else {
-            backgroundLeft.setVisibility(View.GONE);
-            backgroundRight.setVisibility(View.GONE);
-            institutionLoginButton.setVisibility(View.GONE);
-            idUfrj_et.setVisibility(View.VISIBLE);
-            token_et.setVisibility(View.VISIBLE);
-            loginButton.setVisibility(View.VISIBLE);
+        if (!Constants.BUILD_TYPE.equals("prod")) {
+            loginManually.setVisibility(View.VISIBLE);
         }
 
         token_et.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -101,7 +87,7 @@ public class LoginAct extends AppCompatActivity {
         loginButton.setEnabled(false);
         final ProgressDialog pd = ProgressDialog.show(this, "", getString(R.string.wait), true, false);
         String tokenHolder = token_et.getText().toString();
-        final String idUFRJ = idUfrj_et.getText().toString();
+        final String idUFRJ = idUFRJ_et.getText().toString();
         final String token = Util.fixBlankSpaces(tokenHolder).toUpperCase();
 
         LoginService.service().signInLegacy(idUFRJ, token, new ServiceCallback<User>() {
@@ -128,10 +114,8 @@ public class LoginAct extends AppCompatActivity {
     }
 
     //PROD Login
-    private void startLogin(String id, String token)
-    {
-        LoginService.service().signIn(id, token, new ServiceCallback<User>()
-        {
+    private void startLogin(String id, String token) {
+        LoginService.service().signIn(id, token, new ServiceCallback<User>() {
             @Override
             public void success(User user) {
                 logIn(user);
@@ -149,15 +133,34 @@ public class LoginAct extends AppCompatActivity {
         });
     }
 
-    @OnClick(R.id.institution_login_button)
-    public void openExternalLogin()
-    {
-        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.API_BASE_URL + "login?type=app_jwt")));
+    @OnClick(R.id.login_manually)
+    public void toggleLoginMode() {
+        if (loginWithInstitutionEnabled) {
+            backgroundLeft.setVisibility(View.GONE);
+            backgroundRight.setVisibility(View.GONE);
+            institutionLoginButton.setVisibility(View.GONE);
+            idUFRJ_et.setVisibility(View.VISIBLE);
+            token_et.setVisibility(View.VISIBLE);
+            loginButton.setVisibility(View.VISIBLE);
+
+            loginManually.setText(R.string.login_with_institution);
+            loginWithInstitutionEnabled = false;
+        } else {
+            backgroundLeft.setVisibility(View.VISIBLE);
+            backgroundRight.setVisibility(View.VISIBLE);
+            institutionLoginButton.setVisibility(View.VISIBLE);
+            idUFRJ_et.setVisibility(View.GONE);
+            token_et.setVisibility(View.GONE);
+            loginButton.setVisibility(View.GONE);
+
+            loginManually.setText(R.string.login_manually);
+            loginWithInstitutionEnabled = true;
+        }
     }
 
-    @OnClick(R.id.key)
-    public void openInstructionsToGeyKey() {
-        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(CaronaeAPI.BASE_URL + "login")));
+    @OnClick(R.id.institution_login_button)
+    public void openExternalLogin() {
+        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.API_BASE_URL + "login?type=app_jwt")));
     }
 
     private void logIn(User user) {
