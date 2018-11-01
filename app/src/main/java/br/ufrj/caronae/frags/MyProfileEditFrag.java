@@ -141,7 +141,7 @@ public class MyProfileEditFrag extends Fragment {
                     faceId = profile.getId();
                     User user = App.getUser();
                     user.setFaceId(faceId);
-                    CaronaeAPI.service(getContext()).updateUser(Integer.toString(App.getUser().getDbId()), user)
+                    CaronaeAPI.service().updateUser(Integer.toString(App.getUser().getDbId()), user)
                             .enqueue(new Callback<ResponseBody>() {
                                 @Override
                                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -183,7 +183,7 @@ public class MyProfileEditFrag extends Fragment {
         if (user != null) {
             fillUserFields(user);
 
-            CaronaeAPI.service(getContext()).getRidesHistory(Integer.toString(user.getDbId()))
+            CaronaeAPI.service().getRidesHistory(Integer.toString(user.getDbId()))
                     .enqueue(new Callback<RideHistoryForJson>() {
                         @Override
                         public void onResponse(Call<RideHistoryForJson> call, Response<RideHistoryForJson> response) {
@@ -474,7 +474,7 @@ public class MyProfileEditFrag extends Fragment {
             return;
         } else if (validation == 0) {
             if (Util.isNetworkAvailable(getContext())) {
-                CaronaeAPI.service(getContext()).updateUser(String.valueOf(App.getUser().getDbId()), editedUser)
+                CaronaeAPI.service().updateUser(String.valueOf(App.getUser().getDbId()), editedUser)
                         .enqueue(new Callback<ResponseBody>() {
                             @Override
                             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -565,7 +565,7 @@ public class MyProfileEditFrag extends Fragment {
     public void saveProfilePicUrl(String profilePicUrl) {
         User editedUser = App.getUser();
         editedUser.setProfilePicUrl(profilePicUrl);
-        CaronaeAPI.service(getContext()).updateUser(Integer.toString(App.getUser().getDbId()), editedUser)
+        CaronaeAPI.service().updateUser(Integer.toString(App.getUser().getDbId()), editedUser)
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

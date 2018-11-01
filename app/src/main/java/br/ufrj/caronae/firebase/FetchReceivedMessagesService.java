@@ -39,7 +39,7 @@ public class FetchReceivedMessagesService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         rideId = intent.getStringExtra("rideId");
         String since = intent.getStringExtra("since");
-        CaronaeAPI.service(getApplicationContext()).requestChatMsgs(rideId, since)
+        CaronaeAPI.service().requestChatMsgs(rideId, since)
                 .enqueue(new Callback<ModelReceivedFromChat>() {
                              @Override
                              public void onResponse(Call<ModelReceivedFromChat> call, Response<ModelReceivedFromChat> response) {

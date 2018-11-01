@@ -334,7 +334,7 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
             AccessToken token = AccessToken.getCurrentAccessToken();
             if (token != null) {
                 if (driver.getFaceId() != null) {
-                    CaronaeAPI.service(getApplicationContext()).getMutualFriends(token.getToken(), driver.getFaceId())
+                    CaronaeAPI.service().getMutualFriends(token.getToken(), driver.getFaceId())
                             .enqueue(new Callback<FacebookFriendForJson>() {
                                 @Override
                                 public void onResponse(Call<FacebookFriendForJson> call, Response<FacebookFriendForJson> response) {
@@ -596,13 +596,13 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
 
         idRide = Integer.parseInt(rideId);
         ProgressDialog pd = ProgressDialog.show(this, "", getString(R.string.wait), true, true);
-        CaronaeAPI.service(this).getRide(rideId)
+        CaronaeAPI.service().getRide(rideId)
             .enqueue(new Callback<RideForJson>() {
                 @Override
                 public void onResponse(Call<RideForJson> call, Response<RideForJson> response) {
                     if (response.isSuccessful()) {
                         rideWithUsers = response.body();
-                        CaronaeAPI.service(ctx).getMyRides(Integer.toString(App.getUser().getDbId()))
+                        CaronaeAPI.service().getMyRides(Integer.toString(App.getUser().getDbId()))
                             .enqueue(new retrofit2.Callback<MyRidesForJson>() {
                                 @Override
                                 public void onResponse(Call<MyRidesForJson> call, Response<MyRidesForJson> response) {
@@ -708,7 +708,7 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
 
     public void joinAction() {
         final ProgressDialog pd = ProgressDialog.show(this, "", getString(R.string.wait), true, true);
-        CaronaeAPI.service(this).requestJoin(String.valueOf(idRide))
+        CaronaeAPI.service().requestJoin(String.valueOf(idRide))
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -863,7 +863,7 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
     private void cancelRoutine(String routineId)
     {
         Activity act = this;
-        CaronaeAPI.service(this).deleteAllRidesFromRoutine(routineId).
+        CaronaeAPI.service().deleteAllRidesFromRoutine(routineId).
             enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -902,7 +902,7 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
     private void leaveRide(int rideId)
     {
         Activity act = this;
-        CaronaeAPI.service(this).leaveRide(Integer.toString(rideId)).
+        CaronaeAPI.service().leaveRide(Integer.toString(rideId)).
             enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -1050,7 +1050,7 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
     private void verifyRequesters()
     {
         final Context ctx = this;
-        CaronaeAPI.service(this).getRequesters(Integer.toString(idRide)).
+        CaronaeAPI.service().getRequesters(Integer.toString(idRide)).
             enqueue(new Callback<List<User>>() {
                 @Override
                 public void onResponse(Call<List<User>> call, Response<List<User>> response) {
@@ -1148,7 +1148,7 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
 
     private void updateRide(String action)
     {
-        CaronaeAPI.service(this).getRide(Integer.toString(idRide))
+        CaronaeAPI.service().getRide(Integer.toString(idRide))
             .enqueue(new Callback<RideForJson>() {
                 @Override
                 public void onResponse(Call<RideForJson> call, Response<RideForJson> response) {
@@ -1177,7 +1177,7 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
     public void onRequestAction(JoinRequestIDsForJson answerRequest)
     {
         final Activity act = this;
-        CaronaeAPI.service(this).answerJoinRequest(Integer.toString(idRide), answerRequest).
+        CaronaeAPI.service().answerJoinRequest(Integer.toString(idRide), answerRequest).
                 enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -1214,7 +1214,7 @@ public class RideDetailAct extends SwipeDismissBaseActivity {
     private void finishRide()
     {
         progressBar.setVisibility(View.VISIBLE);
-        CaronaeAPI.service(this).finishRide(Integer.toString(idRide))
+        CaronaeAPI.service().finishRide(Integer.toString(idRide))
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

@@ -133,7 +133,7 @@ public class MyRidesFrag extends Fragment implements Callback
 
     private void refreshRideList()
     {
-        CaronaeAPI.service(getContext()).getMyRides(Integer.toString(App.getUser().getDbId()))
+        CaronaeAPI.service().getMyRides(Integer.toString(App.getUser().getDbId()))
             .enqueue(new retrofit2.Callback<MyRidesForJson>() {
                 @Override
                 public void onResponse(Call<MyRidesForJson> call, Response<MyRidesForJson> response) {
