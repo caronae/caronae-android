@@ -1,10 +1,12 @@
 package br.ufrj.caronae.httpapis;
 
 import android.os.Build;
+import android.util.Log;
 
 import java.io.IOException;
-import br.ufrj.caronae.data.SharedPref;
+
 import br.ufrj.caronae.Util;
+import br.ufrj.caronae.data.SharedPref;
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -47,6 +49,7 @@ class APIInterceptor implements Interceptor {
         if (tokenParts.length > 1) {
             String newToken = tokenParts[1];
             SharedPref.saveUserJWTToken(newToken);
+            Log.d("API", "User token was refreshed.");
         }
     }
 
