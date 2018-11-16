@@ -339,13 +339,21 @@ public class Util {
         String text;
 
         if (ride.isGoing()) {
-            text = "Carona: " + ride.getNeighborhood() + " → " + ride.getHub() + "\n"
-                    + "Chegando às " + formatTime(ride.getTime()) + " | " + Util.getWeekDayFromDateWithoutTodayString(ride.getDate()) + " | " + formatDateRemoveYear(formatBadDateWithYear(ride.getDate())) + "\n"
-                    + Constants.SHARE_LINK + id;
+            text = "Vai uma Caronaê? Aqui estão os dados:\n" +
+                    "\uD83D\uDC64 " + ride.getDriver().getName() +"\n" +
+                    "\uD83D\uDCCD " + ride.getNeighborhood() + " → "+ ride.getHub() + "\n"+
+                    "\uD83D\uDD50\uD83D\uDCC5 Chegando às "+ formatTime(ride.getTime()) + " | " + Util.getWeekDayFromDateWithoutTodayString(ride.getDate()) + " | " + formatDateRemoveYear(formatBadDateWithYear(ride.getDate())) + "\n" +
+                    "Vagas: "+ (Integer.parseInt(ride.getSlots()) - ride.getRiders().size()) + "\n" +
+                    "Para solicitar uma vaga é só clicar nesse link aqui embaixo! \uD83D\uDE97\uD83C\uDF3F\uD83D\uDE42 \n" +
+                    Constants.SHARE_LINK + id;
         } else {
-            text = "Carona: " + ride.getHub() + " → " + ride.getNeighborhood() + "\n"
-                    + "Saíndo às " + formatTime(ride.getTime()) + " | " + Util.getWeekDayFromDateWithoutTodayString(ride.getDate()) + " | " + formatDateRemoveYear(formatBadDateWithYear(ride.getDate())) + "\n"
-                    + Constants.SHARE_LINK + id;
+            text = "Vai uma Caronaê? Aqui estão os dados:\n" +
+                    "\uD83D\uDC64 " + ride.getDriver().getName() +"\n" +
+                    "\uD83D\uDCCD " + ride.getNeighborhood() + " → "+ ride.getHub() + "\n"+
+                    "\uD83D\uDD50\uD83D\uDCC5 Saindo às "+ formatTime(ride.getTime()) + " | " + Util.getWeekDayFromDateWithoutTodayString(ride.getDate()) + " | " + formatDateRemoveYear(formatBadDateWithYear(ride.getDate())) + "\n" +
+                    "Vagas: "+ (Integer.parseInt(ride.getSlots()) - ride.getRiders().size()) + "\n" +
+                    "Para solicitar uma vaga é só clicar nesse link aqui embaixo! \uD83D\uDE97\uD83C\uDF3F\uD83D\uDE42 \n" +
+                    Constants.SHARE_LINK + id;
         }
 
         return text;
