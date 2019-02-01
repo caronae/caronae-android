@@ -75,12 +75,12 @@ public class CustomPlaceBar extends LinearLayout {
                             act.overridePendingTransition(R.anim.anim_left_slide_in, R.anim.anim_right_slide_out);
                             break;
                         case "center":
-                            if (bar_tv.getText().toString().equals("Praia Vermelha")) {
+                            if (bar_tv.getText().toString().equals("Cidade Universitária") || bar_tv.getText().toString().equals("Macaé")) {
+                                ((CampiFrag) frag).changeToCentersHubs(bar_tv.getText().toString());
+                            } else {
                                 SharedPref.CAMPI_INFO = bar_tv.getText().toString();
                                 act.finish();
                                 act.overridePendingTransition(R.anim.anim_left_slide_in, R.anim.anim_right_slide_out);
-                            } else {
-                                ((CampiFrag) frag).changeToCentersHubs(bar_tv.getText().toString());
                             }
                             break;
                         case "hub":
