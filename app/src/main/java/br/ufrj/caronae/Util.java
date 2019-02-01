@@ -337,21 +337,21 @@ public class Util {
 
     public static String getTextToShareRide(RideForJson ride, int id) {
         String text;
-
+        String name = ride.getDriver().getName();
+        String[] split = name.split(" ");
+        String shortName = split[0] + " " + split[split.length - 1];
         if (ride.isGoing()) {
-            text = "Vai uma Caronaê? Aqui estão os dados:\n" +
-                    "\uD83D\uDC64 " + ride.getDriver().getName() +"\n" +
+            text = "Vai uma Caronaê? \n \n" +
+                    "\uD83D\uDC64 " + shortName +"\n" +
                     "\uD83D\uDCCD " + ride.getNeighborhood() + " → "+ ride.getHub() + "\n"+
                     "\uD83D\uDD50\uD83D\uDCC5 Chegando às "+ formatTime(ride.getTime()) + " | " + Util.getWeekDayFromDateWithoutTodayString(ride.getDate()) + " | " + formatDateRemoveYear(formatBadDateWithYear(ride.getDate())) + "\n" +
-                    "Vagas: "+ (Integer.parseInt(ride.getSlots()) - ride.getRiders().size()) + "\n" +
                     "Para solicitar uma vaga é só clicar nesse link aqui embaixo! \uD83D\uDE97\uD83C\uDF3F\uD83D\uDE42 \n" +
                     Constants.SHARE_LINK + id;
         } else {
-            text = "Vai uma Caronaê? Aqui estão os dados:\n" +
-                    "\uD83D\uDC64 " + ride.getDriver().getName() +"\n" +
+            text = "Vai uma Caronaê? \n \n" +
+                    "\uD83D\uDC64 " + shortName +"\n" +
                     "\uD83D\uDCCD " + ride.getNeighborhood() + " → "+ ride.getHub() + "\n"+
                     "\uD83D\uDD50\uD83D\uDCC5 Saindo às "+ formatTime(ride.getTime()) + " | " + Util.getWeekDayFromDateWithoutTodayString(ride.getDate()) + " | " + formatDateRemoveYear(formatBadDateWithYear(ride.getDate())) + "\n" +
-                    "Vagas: "+ (Integer.parseInt(ride.getSlots()) - ride.getRiders().size()) + "\n" +
                     "Para solicitar uma vaga é só clicar nesse link aqui embaixo! \uD83D\uDE97\uD83C\uDF3F\uD83D\uDE42 \n" +
                     Constants.SHARE_LINK + id;
         }
