@@ -828,4 +828,23 @@ public class MainAct extends AppCompatActivity {
                 break;
         }
     }
+
+    public void setCheckedItem()
+    {
+        switch(SharedPref.NAV_INDICATOR)
+        {
+            case "AllRides":
+                navigation.getMenu().getItem(0).setChecked(true);
+                break;
+            case "MyRides":
+                navigation.getMenu().getItem(1).setChecked(true);
+                break;
+            case "Menu":
+                navigation.getMenu().getItem(2).setChecked(true);
+                break;
+            default:
+                navigation.getMenu().getItem(0).setChecked(true);
+                break;
+        }
+    }
 }

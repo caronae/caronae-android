@@ -91,6 +91,6 @@ public interface CaronaeAPIService {
     @GET("user/{id}/mutualFriends")
     Call<FacebookFriendForJson> getMutualFriends(@Header("Facebook-Token") String faceToken, @Path("id") String faceId);
 
-    @DELETE("ride/allFromRoutine/{routineId}")
+    @DELETE("api/v1/rides/allFromRoutine/{routineId}")
     Call<ResponseBody> deleteAllRidesFromRoutine(@Path("routineId") String routineId);
 }

@@ -48,6 +48,7 @@ public class CustomPlaceBar extends LinearLayout {
             @Override
             public void onClick(View v) {
                 if(!selectable) {
+                    SharedPref.NAV_INDICATOR = "MyRides";
                     switch (code)
                     {
                         case "zone":

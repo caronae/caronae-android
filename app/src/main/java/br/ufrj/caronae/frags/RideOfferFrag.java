@@ -215,6 +215,13 @@ public class RideOfferFrag extends Fragment {
     @Override
     public void onStart()
     {
+        try {
+            ((MainAct) getActivity()).setCheckedItem();
+        }
+        catch (Exception e)
+        {
+
+        }
         if(!SharedPref.LOCATION_INFO.isEmpty() && !SharedPref.LOCATION_INFO.equals(""))
         {
             neighborhood_et.setText(SharedPref.LOCATION_INFO);
@@ -231,6 +238,13 @@ public class RideOfferFrag extends Fragment {
     @Override
     public void onResume()
     {
+        try {
+            ((MainAct) getActivity()).setCheckedItem();
+        }
+        catch (Exception e)
+        {
+
+        }
         if(!SharedPref.LOCATION_INFO.isEmpty() && !SharedPref.LOCATION_INFO.equals(""))
         {
             neighborhood_et.setText(SharedPref.LOCATION_INFO);
